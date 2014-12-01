@@ -1,0 +1,45 @@
+<script type="text/javascript">
+
+Ext4.onReady(function (){
+    var webpart = <%=webpartContext%>;
+
+    Ext4.create('LDK.panel.NavPanel', {
+        renderTo: webpart.wrapperDivId,
+        width: '100%',
+        sections: [{
+            header: 'Admin',
+            items: [
+                {name: 'ETL Admin', url: '<%=contextPath%>/dataintegration<%=containerPath%>/begin.view?'},
+                {name: 'Genetics Calculations', url: '<%=contextPath%>/ehr<%=containerPath%>/geneticCalculationSettings.view?'},
+                {name: 'Manage EHR Study', url: '<%=contextPath%>/study<%=containerPath%>/manageStudy.view?'},
+                {name: 'Populate Initial Data', url: '<%=contextPath%>/SNPRC_EHR<%=containerPath%>/populateData.view?'},
+                {name: 'Populate Templates', url: '<%=contextPath%>/onprc_ehr<%=containerPath%>/populateTemplates.view?'},
+                {name: 'Populate Case History Column', url: '<%=contextPath%>/onprc_ehr<%=containerPath%>/populateCaseHistory.view?'},
+                {name: 'Record Delete Settings', url: '<%=contextPath%>/ehr<%=containerPath%>/recordDeleteSettings.view?'},
+                {name: 'Run Custom SQL', url: '<%=contextPath%>/ldk<%=containerPath%>/runCustomSql.view?schemaName=study'},
+                {name: 'Set EHR Module Properties', url: '<%=contextPath%>/core<%=containerPath%>/modulePropertyAdmin.view?moduleName=EHR'},
+                {name: 'Update Dataset Properties and Indexes', url: '<%=contextPath%>/ehr<%=containerPath%>/ensureDatasetProperties.view?'},
+                {name: 'Update Study QCStates', url: '<%=contextPath%>/ehr<%=containerPath%>/ensureQCStates.view?'},
+                {name: 'Verify Dataset Resources', url: '<%=contextPath%>/ehr<%=containerPath%>/verifyDatasetResources.view?'},
+                {name: 'Verify Dataset Columns', url: '<%=contextPath%>/onprc_ehr<%=containerPath%>/validateDataSetCols.view?'},
+                {name: 'Verify EHR Schema Indexes Are Compressed', url: '<%=contextPath%>/ehr<%=containerPath%>/ensureEHRSchemaIndexes.view?'},
+                {name: 'Cache Demographics On All Living Animals', url: '<%=contextPath%>/ehr<%=containerPath%>/cacheLivingAnimals.view?'},
+                {name: 'Prime/Refresh Data Entry Cache', url: '<%=contextPath%>/ehr<%=containerPath%>/primeDataEntryCache.view?'}
+            ]
+        },{
+            header: 'Logs',
+            items: [
+                {name: 'Labkey.log', url: '<%=contextPath%>/admin/showPrimaryLog.view'},
+                {name: 'Labkey-errors.log', url: '<%=contextPath%>/admin/showAllErrors.view'},
+                {name: 'ETL Log', url: '<%=contextPath%>/pipeline-status<%=containerPath%>/showList.view'}
+            ]
+        },{
+            header: 'Notifications',
+            items: [
+                {name: 'Notification Admin', url: '<%=contextPath%>/ldk<%=containerPath%>/notificationAdmin.view?'}
+            ]
+        }]
+    });
+});
+
+</script>
