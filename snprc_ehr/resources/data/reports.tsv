@@ -54,7 +54,7 @@ surgMedicationSchedule2	Surgery	js	Surgical Medication Schedule	true		study	surg
 surgMedicationSchedule	Daily Reports	js	Surgical Medication Schedule	true		study	surgMedicationSchedule			date	false	false		qcstate/publicdata	This report contains a list of daily treatments to be administered
 incompleteTreatments	Daily Reports	js	Meds/Diet - Incomplete	true		study	incompleteTreatments			date	false	false		qcstate/publicdata	This report contains a list of daily treatments not yet administered
 
-bloodSchedule	Daily Reports	js	Blood Schedule	true		study	bloodSchedule			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+bloodSchedule	Daily Reports	js	Blood Schedule	true		study	bloodSchedule			date	false	false		qcstate/publicdata	This report contains an overview of the animal's clinical history
 #behaviorRemarks	Colony Management	query	Behavior Remarks	true		study	Behavior Remarks			date	false	false		qcstate/publicdata	Contains remarks entered by Behavioral Management
 birth	Colony Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
 birth2	Reproductive Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
@@ -62,7 +62,7 @@ death	Colony Management	query	Death Records	true		study	deaths				false	false		q
 roommateHistory	Colony Management	query	Cagemate History	true		study	housingRoommates			StartDate	false	false		qcstate/publicdata	This report displays all animals that shared a cage, including the start date, stop date and days co-housed
 activeHousing	Colony Management	query	Housing - Active	true		study	housing	Active Housing		date	false	TRUE		qcstate/publicdata	This report shows the active housing record for each animal
 housing	Colony Management	query	Housing History	true		study	housing			date	false	TRUE		qcstate/publicdata	This report contains the housing history of each animal
-inbreeding	Genetics	query	Inbreeding Coefficients	true		study	Inbreeding Coefficients				false	false		qcstate/publicdata	This report shows the inbreeding coefficient of each animal, where pedigree data is available. The inbreeding coefficient is the kinship coefficient between the individual\'s parents. It measures the probability that the two alleles of a gene are identical by descent in the same individual (autozygosity). It is zero if the individual is not inbred.
+inbreeding	Genetics	query	Inbreeding Coefficients	true		study	Inbreeding Coefficients				false	false		qcstate/publicdata	This report shows the inbreeding coefficient of each animal, where pedigree data is available. The inbreeding coefficient is the kinship coefficient between the individual's parents. It measures the probability that the two alleles of a gene are identical by descent in the same individual (autozygosity). It is zero if the individual is not inbred.
 parentage	Genetics	query	Parentage	true		study	demographicsParents				false	false		qcstate/publicdata	This report shows information about the parentage of each animal, drawing from genetic data and observations
 potentialParents	Colony Management	js	Potential Parents	true		study	potentialParents				false	false		qcstate/publicdata	This report shows potential parents for the animal, which is based on housing at estimated time of conception
 citesReview	Colony Management	query	Cites Review	true		study	demographics	Cites Review		date	false	false		qcstate/publicdata	
@@ -75,7 +75,7 @@ siblings	Reproductive Management	query	Siblings	true		study	demographicsSiblings
 offspring	Reproductive Management	query	Offspring	true		study	demographicsOffspring				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 pedigreePlot	Genetics	report	Pedigree Plot	true		study	pedigree		module:EHR/schemas/study/Pedigree/Pedigree.r		false	false		qcstate/publicdata	This report will generate a pedigree plot for the selected animal
 #pregnancies	Colony Management	query	Pregnancies	true		study	Pregnancies			date	false	false		qcstate/publicdata	This report contains a list of known pregnancies, including conception dates and sire, where available
-#dnaBank	Genetics	query	DNA Bank	true		DNABank	Samples				false	false		qcstate/publicdata	This report shows the inbreeding coefficient of each animal, where pedigree data is available. The inbreeding coefficient is the kinship coefficient between the individual\'s parents. It measures the probability that the two alleles of a gene are identical by descent in the same individual (autozygosity). It is zero if the individual is not inbred.
+#dnaBank	Genetics	query	DNA Bank	true		DNABank	Samples				false	false		qcstate/publicdata	This report shows the inbreeding coefficient of each animal, where pedigree data is available. The inbreeding coefficient is the kinship coefficient between the individual's parents. It measures the probability that the two alleles of a gene are identical by descent in the same individual (autozygosity). It is zero if the individual is not inbred.
 
 TB	Lab Results	query	TB Test Dates	true		study	encounters	TB Tests		date	false	false		qcstate/publicdata	TB Test results
 snapshot	General	js	Snapshot	true		study	onprcSnapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
@@ -83,13 +83,13 @@ clinSnapshot	Clinical	js	Clinical Snapshot	true		study	onprcSnapshot				false	fa
 arrival	General	query	Arrivals	true		study	arrival			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 departure	General	query	Departures	true		study	departure			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 bloodDraws	General	query	Blood Draw History	true		study	Blood Draws			date	false	false			Contains records of blood draws.  
-#charges	General	query	Charges	true		study	Charges			date	false	false		qcstate/publicdata	This report contains a list of charges attached to the animal\'s record
+#charges	General	query	Charges	true		study	Charges			date	false	false		qcstate/publicdata	This report contains a list of charges attached to the animal's record
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
 deaths	General	query	Deaths	true		study	Deaths			date	false	false		qcstate/publicdata	Contains a list of animal deaths
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
 #extendedAbstract	General	query	Extended Abstract	false		study	animal	Extended Abstract			false	false		qcstate/publicdata	
 #majorEvents	General	query	Major Events	true		study	majorEvents			date	false	false			This report attempts to identify major events in the history of the animal, including births and major surgeries
-notes	General	query	Notes	true		study	notes	Active Notes		date	false	false		qcstate/publicdata	This report contains non-clinical notes entered into the animal\'s record
+notes	General	query	Notes	true		study	notes	Active Notes		date	false	false		qcstate/publicdata	This report contains non-clinical notes entered into the animal's record
 biopsies	Pathology	query	Biopsies	true		study	Clinical Encounters	Biopsies		date	false	false		qcstate/publicdata	Contains information about biopsies
 #histology	Pathology	query	Histology	true		study	histologyPublic			date	false	false		qcstate/publicdata	Histology records and associated diagnoses
 pathologyDiagnoses	Pathology	query	SNOMED Codes	true		study	pathologySnomeds			date	false	false		qcstate/publicdata	
@@ -107,7 +107,7 @@ tissueDistriutions	Pathology	query	Tissue Distributions	true		study	Tissue Distr
 #vitals	Physical Exam	query	Vitals	true		study	Vitals			date	false	false		qcstate/publicdata	Contains records of vitals, including heart rate and blood pressure
 #obs	Daily Reports	js	Irregular Observations	true		study	irregularObs			date	true	true	1		Displays irregular observations from today only
 #obsTreatment	Daily Reports	js	Obs/Treatment	true		study	irregularObsTreatment			date	true	true	2		Displays irregular observations and treatments for today
-#todaysHistory	Daily Reports	query	Today\'s History	true		study	StudyData	Full History		Date	true	false	3	qcstate/publicdata	This report contains the full history, filtered to show events that happened today only
+#todaysHistory	Daily Reports	query	Today's History	true		study	StudyData	Full History		Date	true	false	3	qcstate/publicdata	This report contains the full history, filtered to show events that happened today only
 #treatmentScheduleAM	Daily Reports	query	Treatments - Morning	true		study	treatmentSchedule	AM Treatments		date	true	false	4	qcstate/publicdata	The report displays all treatments scheduled for today
 #treatmentSchedulePM	Daily Reports	query	Treatments - Afternoon	true		study	treatmentSchedule	PM Treatments		date	true	false	5	qcstate/publicdata	The report displays all treatments scheduled for today
 #treatmentScheduleNight	Daily Reports	query	Treatments - Evening	true		study	treatmentSchedule	Night Treatments		date	true	false	6	qcstate/publicdata	The report displays all treatments scheduled for today
