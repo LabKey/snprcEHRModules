@@ -6,7 +6,7 @@
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
         <description>Copy to target</description>
         <source schemaName="snprcSrc" queryName="v_demographics" />
-        <destination schemaName="study" queryName="demographics" bulkLoad="true" />
+        <destination schemaName="study" queryName="demographics" bulkLoad="true" transactionSize="500" />
     </transform>
 </transforms>
 <incrementalFilter className="SelectAllFilterStrategy"/>
