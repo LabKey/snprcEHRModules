@@ -55,3 +55,14 @@ fecal_smear_score	Fecal Smear Scores	value
 problem_list_subcategory	Problem List Subcategory	value
 customer_affiliation	Customer Affiliation	value
 birth_date_type	Birth Date Type	value
+birth_type	Birth Type Field Values	value
+chemistry_method	Chemistry Method Field Values	value
+clinpath_sampletype	Clinpath Sample Type Field Values	value
+clinpath_types	Clinpath Type Field Values	value
+clinremarks_category	Clinremarks Category Field Values	value
+drug_categories	Drug Category Field Values	value
+hematology_method	Hematology Method Field Values	value
+problem_list_category	Problem List Category Field Values	value
+parasitology_method	Parasitology Method Field Values	value
+urinalysis_method	Urinalysis Method Field Values	value
+urinalysis_qualitative_results	Urinalysis Qualitative Result Field Values	value
