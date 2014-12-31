@@ -120,7 +120,7 @@ Ext4.onReady(function(){
                 scope: this,
                 handler: function(){
                     this.pendingDeletes = 0;
-
+                    document.getElementById('msgbox').innerHTML = '';
                     Ext4.each(this.tables, function(table){
                         if (!table.doSkip) {
                             document.getElementById('msgbox').innerHTML += '<div>Deleting ' + table.label + '...</div>';
