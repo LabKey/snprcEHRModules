@@ -13,8 +13,6 @@ Ext4.onReady(function (){
                 {name: 'Genetics Calculations', url: '<%=contextPath%>/ehr<%=containerPath%>/geneticCalculationSettings.view?'},
                 {name: 'Manage EHR Study', url: '<%=contextPath%>/study<%=containerPath%>/manageStudy.view?'},
                 {name: 'Populate Initial Data', url: '<%=contextPath%>/SNPRC_EHR<%=containerPath%>/populateData.view?'},
-                {name: 'Populate Templates', url: '<%=contextPath%>/onprc_ehr<%=containerPath%>/populateTemplates.view?'},
-                {name: 'Populate Case History Column', url: '<%=contextPath%>/onprc_ehr<%=containerPath%>/populateCaseHistory.view?'},
                 {name: 'Record Delete Settings', url: '<%=contextPath%>/ehr<%=containerPath%>/recordDeleteSettings.view?'},
                 {name: 'Run Custom SQL', url: '<%=contextPath%>/ldk<%=containerPath%>/runCustomSql.view?schemaName=study'},
                 {name: 'Set EHR Module Properties', url: '<%=contextPath%>/core<%=containerPath%>/modulePropertyAdmin.view?moduleName=EHR'},
@@ -30,8 +28,7 @@ Ext4.onReady(function (){
             header: 'Logs',
             items: [
                 {name: 'Labkey.log', url: '<%=contextPath%>/admin/showPrimaryLog.view'},
-                {name: 'Labkey-errors.log', url: '<%=contextPath%>/admin/showAllErrors.view'},
-                {name: 'ETL Log', url: '<%=contextPath%>/pipeline-status<%=containerPath%>/showList.view'}
+                {name: 'Labkey-errors.log', url: '<%=contextPath%>/admin/showAllErrors.view'}
             ]
         },{
             header: 'Notifications',
