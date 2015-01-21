@@ -1,0 +1,26 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" hidden="true">
+    <columns>
+        <column name="Id"/>
+        <column name="gender"/>
+        <column name="species"/>
+        <column name="birth"/>
+        <column name="offspring"/>
+        <column name="viralstatus"/>
+        <column name="viralantigenstatus"/>
+        <column name="Id/curLocation/room">
+            <properties>
+                <property name="columnTitle" value="Room"/>
+            </properties>
+        </column>
+        <column name="Id/curLocation/cage">
+            <properties>
+                <property name="columnTitle" value="Cage"/>
+            </properties>
+        </column>
+        <column name="Id/curLocation/cond">
+            <properties>
+                <property name="columnTitle" value="Condition"/>
+            </properties>
+        </column>
+    </columns>
+</customView>

@@ -99,7 +99,7 @@ public class SNPRC_EHRTest extends AbstractONPRC_EHRTest
     @Override
     protected void createProjectAndFolders()
     {
-        _containerHelper.createProject(getProjectName(), "ONPRC EHR");
+        _containerHelper.createProject(getProjectName(), "SNPRC EHR");
     }
 
     @Test

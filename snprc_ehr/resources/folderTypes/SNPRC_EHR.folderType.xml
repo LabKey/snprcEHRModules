@@ -70,7 +70,6 @@
         <moduleName>Study</moduleName>
         <moduleName>DataIntegration</moduleName>
         <moduleName>EHR</moduleName>
-        <moduleName>ONPRC_EHR</moduleName>
         <moduleName>SNPRC_EHR</moduleName>
     </modules>
     <defaultModule>Core</defaultModule>

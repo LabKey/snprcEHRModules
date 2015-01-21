@@ -25,7 +25,7 @@ function importFile(config) {
 
 Ext4.onReady(function(){
     var webpart = <%=webpartContext%>;
-    Ext4.define('ONPRC_EHR.panel.PopulateDataPanel', {
+    Ext4.define('SNPRC_EHR.panel.PopulateDataPanel', {
         extend: 'Ext.panel.Panel',
     
         initComponent: function(){
@@ -141,7 +141,7 @@ Ext4.onReady(function(){
             doSkip: true,
             populateFn: 'populateLookupSets',
             schemaName: 'ehr_lookups',
-            queryName: 'lookup_sets',
+            queryName: 'lookup_sets'
         },{
             label: 'Reports',
             populateFn: 'populateFromFile',
@@ -197,12 +197,12 @@ Ext4.onReady(function(){
             queryName: 'birth_type',
             pk: 'rowid'
         },{
-            label: 'Birth Condition',
+/*            label: 'Birth Condition',
             populateFn: 'populateFromFile',
-            schemaName: 'onprc_ehr',
-            queryName: 'birth_condition',
+            schemaName: 'snprc_ehr',
+            queryName: 'birth_condition',   // need to define in snprc_ehr.sql
             pk: 'rowid'
-        },{
+        },{          */
             label: 'Birth Date Type',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
@@ -215,12 +215,12 @@ Ext4.onReady(function(){
             queryName: 'urinalysis_tests',
             pk: 'rowid'
         },{
-            label: 'Observation Types',
+/*            label: 'Observation Types',
             populateFn: 'populateFromFile',
-            schemaName: 'onprc_ehr',
-            queryName: 'observation_types',
+            schemaName: 'snprc_ehr',
+            queryName: 'observation_types',     // need to define in snprc_ehr.sql
             pk: 'value'
-        },{
+        },{         */
             label: 'Ref Ranges',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
@@ -1911,7 +1911,7 @@ Ext4.onReady(function(){
         }
     });
     
-    Ext4.create('ONPRC_EHR.panel.PopulateDataPanel').render(webpart.wrapperDivId);
+    Ext4.create('SNPRC_EHR.panel.PopulateDataPanel').render(webpart.wrapperDivId);
 });
 
 </script>

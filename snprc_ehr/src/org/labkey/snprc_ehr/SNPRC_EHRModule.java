@@ -70,6 +70,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     protected void doStartupAfterSpringConfig(ModuleContext moduleContext)
     {
         EHRService.get().registerModule(this);
+
+        EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");
     }
 
     @Override
