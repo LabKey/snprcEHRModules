@@ -35,7 +35,6 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.External;
-import org.labkey.test.categories.ONPRC;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.EHRClientAPIHelper;

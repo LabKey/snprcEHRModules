@@ -11,7 +11,13 @@
                     <column columnName="demographics_folder">
                         <isHidden>true</isHidden>
                     </column>
-                    <column columnName="folder1">
+                    <column columnName="ageclass_folder">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="demographics_folder1">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="ageclass_folder1">
                         <isHidden>true</isHidden>
                     </column>
                 </columns>
