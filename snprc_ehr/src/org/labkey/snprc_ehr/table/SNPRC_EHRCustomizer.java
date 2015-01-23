@@ -4,7 +4,10 @@ import org.apache.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
+import org.labkey.api.query.QueryForeignKey;
+import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DataSetTable;
 
 /**
@@ -65,6 +68,10 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 customizeLabResults(ti);
             }
          */
+        if (matches(ti, "study", "Animal"))
+        {
+            customizeAnimalTable((AbstractTableInfo) ti);
+        }    
     }
 
     /**
@@ -78,4 +85,33 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         else
             return ti.getSchema().getName().equalsIgnoreCase(schema) && ti.getName().equalsIgnoreCase(query);
     }
+
+    private void customizeAnimalTable(AbstractTableInfo ds)
+    {
+        UserSchema us = getUserSchema(ds, "study");
+        if (us == null)
+        {
+            return;
+        }
+
+        if (ds.getColumn("parents") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "parents", "demographicsParents", "Id", "Id");
+            col.setLabel("Parents");
+            ds.addColumn(col);
+        }
+    }
+
+    private ColumnInfo getWrappedCol(UserSchema us, AbstractTableInfo ds, String name, String queryName, String colName, String targetCol)
+    {
+
+        WrappedColumn col = new WrappedColumn(ds.getColumn(colName), name);
+        col.setReadOnly(true);
+        col.setIsUnselectable(true);
+        col.setUserEditable(false);
+        col.setFk(new QueryForeignKey(us, null, queryName, targetCol, targetCol));
+
+        return col;
+    }
+
 }
