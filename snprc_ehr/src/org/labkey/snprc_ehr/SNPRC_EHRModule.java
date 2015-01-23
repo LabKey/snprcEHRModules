@@ -18,14 +18,13 @@ package org.labkey.snprc_ehr;
 
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
-import org.labkey.api.data.ContainerManager;
-import org.labkey.api.data.DbSchema;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ldk.ExtendedSimpleModule;
-import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
-import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.query.DetailsURL;
 import org.labkey.api.view.WebPartFactory;
+import org.labkey.snprc_ehr.history.LabResultsLabworkType;
+import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -72,6 +71,10 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerModule(this);
 
         EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");
+        EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
+        EHRService.get().registerLabworkType(new LabResultsLabworkType());
+
+        //EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Fertile Male Exposure", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
     }
 
     @Override
