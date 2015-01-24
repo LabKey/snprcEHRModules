@@ -4,9 +4,9 @@
         <column name="gender"/>
         <column name="species"/>
         <column name="birth"/>
-        <column name="offspring"/>
         <column name="viralstatus"/>
         <column name="viralantigenstatus"/>
+        <column name="Id/totalOffspring/TotalOffspring"/>
         <column name="Id/curLocation/room">
             <properties>
                 <property name="columnTitle" value="Room"/>
