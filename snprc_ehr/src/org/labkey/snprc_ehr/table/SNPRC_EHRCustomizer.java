@@ -23,7 +23,7 @@ import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
-import org.labkey.api.study.DataSetTable;
+import org.labkey.api.study.DatasetTable;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -95,7 +95,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
      */
     protected boolean matches(TableInfo ti, String schema, String query)
     {
-        if (ti instanceof DataSetTable)
+        if (ti instanceof DatasetTable)
             return ti.getSchema().getName().equalsIgnoreCase(schema) && (ti.getName().equalsIgnoreCase(query) || ti.getTitle().equalsIgnoreCase(query));
         else
             return ti.getSchema().getName().equalsIgnoreCase(schema) && ti.getName().equalsIgnoreCase(query);
