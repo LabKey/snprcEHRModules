@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+<name>clinpathruns</name>
+<description>Clinical Pathology OBR data</description>
+<transforms>
+    <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+        <description>Copy to target</description>
+        <source schemaName="snprcSrc" queryName="v_clinPathRuns" />
+        <destination schemaName="study" queryName="clinpathruns" bulkLoad="true" transactionSize="500" />
+    </transform>
+</transforms>
+<incrementalFilter className="SelectAllFilterStrategy"/>
+<schedule>
+    <poll interval="15s" />
+</schedule>
+</etl>

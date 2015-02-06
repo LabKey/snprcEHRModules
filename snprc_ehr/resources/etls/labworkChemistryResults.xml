@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+<name>Labwork Results</name>
+<description>Clinical Pathology Results</description>
+<transforms>
+    <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+        <description>Copy to target</description>
+        <source schemaName="snprcSrc" queryName="v_labwork_chemistry_results" />
+        <destination schemaName="study" queryName="labworkResults" bulkLoad="true" transactionSize="500" />
+    </transform>
+</transforms>
+<incrementalFilter className="SelectAllFilterStrategy"/>
+<schedule>
+    <poll interval="15s" />
+</schedule>
+</etl>
