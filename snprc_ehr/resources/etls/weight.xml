@@ -5,7 +5,7 @@
 <transforms>
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
         <description>Copy to target</description>
-        <source schemaName="snprcSrc" queryName="v_weight2" />
+        <source schemaName="snprcSrc" queryName="v_weight" />
         <destination schemaName="study" queryName="weight" bulkLoad="true" transactionSize="1000" />
     </transform>
 </transforms>
