@@ -45,6 +45,7 @@ import java.util.TreeMap;
  * 1/26/2015 Changed "Lab Results" to "LabworkResults".  tjh
  * 2/5/2015  Changes made to getLine() to improve format of results. tjh
  * 2/13/2015 Merged with SortingLabworkType.java. tjh
+ * 2/16/2015 Optimized _testType retrieval. tjh
  */
 public class LabResultsLabworkType extends DefaultLabworkType
 {
@@ -165,7 +166,10 @@ public class LabResultsLabworkType extends DefaultLabworkType
                            if (forceRefresh)
                            {
                                String assayType = rs.getString(FieldKey.fromString(_runid_typeField));
-                               _testType = assayType == null ? _default_testType : assayType;
+                               if (assayType != _testType )
+                                 _testType = assayType == null ? _default_testType : assayType;
+                               else
+                                   forceRefresh = false;
                            }
 
                            Map<Integer, List<String>> map = rows.get(runId);
@@ -185,7 +189,6 @@ public class LabResultsLabworkType extends DefaultLabworkType
 
                            map.put(sort, list);
                            rows.put(runId, map);
-
                        }
                    }
         );
