@@ -1,4 +1,46 @@
 servicename	outsidelab	chargetype	dataset	tissue	collectionmethod	method
+ADENOVIRUS, GRP SPEC	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+B VIRUS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+B VIRUS by PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+BABESIA BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+BABESIA MICROTI AB, 	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+COMPREHENSIVE UNKNOW	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+CULTURE, B VIRUS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+ENCEPHALOMYOCARDITIS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+FILOVIRUS AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEARTWORM ANTIGEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEP C ANTIBODY	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEPATIC PROFILE	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEPATITIS A, B, 	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEPATITIS B DNA QUAN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEPATITIS B SURFACE 	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HEPATITIS Be ANTIBOD	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HIV AG/AB COMBO	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HIV ANTIBODY	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HIV-1 RNA QUANT	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HIV-1 ULTRA	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+HSV-1, QUAL.	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+LYMPHOCRYPTOVIRUS BY	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+MEASLES (RUBEOLA)	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+MEASLES BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+MRSA SCREEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+REOVIRUS AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+SIMIAN BASIC + TB VI	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+SIMIAN BASIC VIRAL S	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+SIV AB PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+SPF VIRAL SCREEN I	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+SRL VIRUS PANEL	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+SRV PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+STLV-1 AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+STLV-1 BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+T. CRUZI AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+T.CRUZI BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+TB ELISA	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+TETANUS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+VIRAL ANTIBODY SCREE	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+VIRUS PANEL A1	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+VIRUS PANEL B	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+VIRUS PANEL I	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 CHEM PROFILE	false	Clinpath	Biochemistry	T-0X000
 WHOLE CHEM PROFILE	false	Clinpath	Biochemistry	T-0X000
 CHEM PROF WHOLE	false	Clinpath	Biochemistry	T-0X000
