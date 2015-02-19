@@ -89,6 +89,9 @@
         <dataset name="hematologyResults" id="1059" category="ClinPath" type="Standard">
             <tags/>
         </dataset>
+        <dataset name="labworkResults" id="1060" category="ClinPath" type="Standard">
+            <tags/>
+        </dataset>
         <dataset name="parasitologyResults" id="1052" category="ClinPath" type="Standard">
             <tags/>
         </dataset>
