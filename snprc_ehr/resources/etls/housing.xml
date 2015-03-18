@@ -9,7 +9,9 @@
         <destination schemaName="study" queryName="housing" bulkLoad="true" />
     </transform>
 </transforms>
-<incrementalFilter className="SelectAllFilterStrategy"/>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="TIMESTAMP">
+        <deletedRowsSource schemaName="snprcSrc" queryName="DELETED_HOUSING" timestampColumnName="audit_timestamp" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
 <schedule>
     <poll interval="15s" />
 </schedule>
