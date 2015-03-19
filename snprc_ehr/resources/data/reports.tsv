@@ -44,9 +44,9 @@ pairingHistory	Behavior	js	Pairing History	true		study	pairHistory			date	false	
 treatments	Clinical	query	Medication Orders	true		study	Treatment Orders			date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 drug	Clinical	query	Medications - All	true		study	drugsUnified			date	false	false		qcstate/publicdata	This report contains records of all medications administered to each animal
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
-clinicalHistory	Clinical	js	Clinical History	true		study	onprcClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
-behaviorHistory	Behavior	js	Full History	true		study	onprcClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
-fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	onprcFullClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+behaviorHistory	Behavior	js	Full History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 
 clinMedicationSchedule	Daily Reports	js	Clinical Medication Schedule	true		study	clinMedicationSchedule			date	false	false		qcstate/publicdata	This report contains a list of daily treatments to be administered
 dietSchedule	Daily Reports	js	Diets	true		study	dietSchedule			date	false	false		qcstate/publicdata	This report contains a list of daily treatments to be administered
