@@ -6,11 +6,11 @@
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
         <description>Copy to target</description>
         <source schemaName="snprcSrc" queryName="v_housing" />
-        <destination schemaName="study" queryName="housing" bulkLoad="true" />
+        <destination schemaName="study" queryName="housing" bulkLoad="true" targetOption="merge"/>
     </transform>
 </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="TIMESTAMP">
-        <deletedRowsSource schemaName="snprcSrc" queryName="DELETED_HOUSING" timestampColumnName="audit_timestamp" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+        <deletedRowsSource schemaName="snprcSrc" queryName="DELETED_HOUSING" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
 <schedule>
     <poll interval="15s" />
