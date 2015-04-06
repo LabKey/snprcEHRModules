@@ -155,6 +155,25 @@ Ext4.onReady(function(){
             queryName: 'chemistry_tests',
             pk: 'rowid'
         },{
+
+            label: 'Species',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'species',
+            pk: 'common'
+        },{
+            label: 'source',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'source',
+            pk: 'code'
+        },{
+            label: 'Acquistion Type',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'acquistionType',
+            pk: 'rowid'
+        },{
             label: 'Misc Tests',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
@@ -208,6 +227,11 @@ Ext4.onReady(function(){
             schemaName: 'ehr_lookups',
             queryName: 'birth_date_type',
             pk: 'rowid'
+        },{            label: 'Gender codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'gender_codes',
+            pk: 'code'
         },{
             label: 'Urinalysis Tests',
             populateFn: 'populateFromFile',

@@ -1,4 +1,4 @@
-value
-Estimated
-Actual
-Undetermined
+value	title	description
+0	Actual	Day/Month/Year OK
+1	Estimated	Month/Year OK
+2	Estimated	Year OK

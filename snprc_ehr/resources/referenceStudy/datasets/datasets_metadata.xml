@@ -2092,7 +2092,7 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
-        <tableTitle>Labwork Results</tableTitle>
+        <tableTitle>SNPRC Labwork Results</tableTitle>
     </table>
     <table tableName="parasitologyResults" tableDbType="TABLE">
         <columns>

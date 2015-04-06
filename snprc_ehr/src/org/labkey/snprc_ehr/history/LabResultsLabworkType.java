@@ -185,6 +185,7 @@ public class LabResultsLabworkType extends DefaultLabworkType
 
                            String line = getLine(rs, redacted);
                            if (line != null)
+
                                list.add(line);
 
                            map.put(sort, list);

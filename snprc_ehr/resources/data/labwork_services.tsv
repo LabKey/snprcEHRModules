@@ -4,7 +4,7 @@ B VIRUS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 B VIRUS by PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 BABESIA BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 BABESIA MICROTI AB, 	false	SPF Surveillance Lab	Serology/Virology	T-0X500
-COMPREHENSIVE UNKNOW	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+BABOON SPF SCREEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 CULTURE, B VIRUS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 ENCEPHALOMYOCARDITIS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 FILOVIRUS AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
@@ -25,6 +25,7 @@ MEASLES (RUBEOLA)	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 MEASLES BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 MRSA SCREEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 REOVIRUS AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+RHESUS SPF SCREEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 SIMIAN BASIC + TB VI	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 SIMIAN BASIC VIRAL S	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 SIV AB PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500

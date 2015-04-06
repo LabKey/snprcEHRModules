@@ -72,3 +72,60 @@ Biochemistry	633	direct_bilirubin	mg/dL	false	false	true	21
 Biochemistry	86	calcium	mg/dL	false	false	true	22
 Biochemistry	140	phosphorus	mg/dL	false	false	true	23
 Biochemistry	143	triglycerides	mg/dL	false	false	true	24
+Surveillance	118	HEARTWORM ANTIGEN		false	false	true	1
+Surveillance	691	HIV AG/AB		false	false	true	2
+Surveillance	692	HIV-1 ULTRA	copies/mL	false	false	true	3
+Surveillance	694	HEP C Ab		false	false	true	4
+Surveillance	695	HBsAb		false	false	true	5
+Surveillance	755	HEP B CORE ANTIBODY		false	false	true	6
+Surveillance	784	 VIRUS PANEL A1 - PE		false	false	true	7
+Surveillance	785	B VIRUS		false	false	true	8
+Surveillance	786	MEASLES		false	false	true	9
+Surveillance	787	SRV AB		false	false	true	10
+Surveillance	788	SIV AB		false	false	true	11
+Surveillance	789	STLV-1 AB		false	false	true	12
+Surveillance	792	SRL VIRUS PANEL		false	false	true	13
+Surveillance	793	STLV AB		false	false	true	141
+Surveillance	794	WESTERN BLOT		false	false	true	15
+Surveillance	797	SRV-1,3 TAQ		false	false	true	16
+Surveillance	798	SRV-2		false	false	true	17
+Surveillance	799	STLV ELISA		false	false	true	18
+Surveillance	800	STLV PCR		false	false	true	19
+Surveillance	815	 VIRUS PANEL I		false	false	true	20
+Surveillance	831	HEPATITIS A TOTAL AB		false	false	true	21
+Surveillance	832	HEPATITIS A IgM AB		false	false	true	22
+Surveillance	842	REOVIRUS AB		false	false	true	23
+Surveillance	850	T. CRUZI AB		false	false	true	24
+Surveillance	852	SIV PCR		false	false	true	25
+Surveillance	853	 VIRUS PANEL B - PER		false	false	true	26
+Surveillance	854	SA 8 AB		false	false	true	27
+Surveillance	855	HSV-1 AB		false	false	true	28
+Surveillance	856	SA-6 AB		false	false	true	29
+Surveillance	863	TETANUS Ab IgG	IU/mL	false	false	true	30
+Surveillance	875	SRV PCR		false	false	true	31
+Surveillance	876	T.CRUZI BY PCR		false	false	true	32
+Surveillance	883	BABESIA MICROTI IgG		false	false	true	33
+Surveillance	887	EMC Ab		false	false	true	34
+Surveillance	896	MRSA SCREEN		false	false	true	35
+Surveillance	898	STLV-1 BY PCR		false	false	true	36
+Surveillance	900	QUANTITATIVE HEPATIT		false	false	true	37
+Surveillance	901	METHODOLOGY, RESULTS		false	false	true	38
+Surveillance	906	BABESIA BY PCR		false	false	true	39
+Surveillance	907	FILOVIRUS AB		false	false	true	40
+Surveillance	909	HERPES B SURROGATE M		false	false	true	41
+Surveillance	913	ADENOVIRUS, GRP SPEC		false	false	true	42
+Surveillance	914	HTLV-1/2		false	false	true	43
+Surveillance	915	SIV gp130		false	false	true	44
+Surveillance	916	SIV mac		false	false	true	45
+Surveillance	917	HVP-2		false	false	true	46
+Surveillance	918	SRV gp-20		false	false	true	47
+Surveillance	920	SPF VIRAL SCREEN I		false	false	true	48
+Surveillance	929	LYMPHOCRYPTOVIRUS BY		false	false	true	49
+Surveillance	935	SRV-5		false	false	true	50
+Surveillance	936	TB ELISA		false	false	true	51
+Surveillance	940	HBeAb		false	false	true	52
+Surveillance	941	STLV p21		false	false	true	53
+Surveillance	942	BV GLYCOPROTEIN B		false	false	true	54
+Surveillance	943	SRV1 WB		false	false	true	55
+Surveillance	947	STLV WB		false	false	true	56
+Surveillance	948	SIV WB		false	false	true	57
