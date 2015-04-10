@@ -1,0 +1,25 @@
+﻿code	meaning
+0	Unknown
+4	Trapped by SFBR
+5	Received by trade
+7	New Purchase
+8	Gift (from outside source)
+9	Return of SFBR Loan
+10	Outside Loan to SFBR
+11	Re-Purchase
+12	Admission to SFBR for treatment
+13	Admission to SFBR for boarding
+14	Purchase, wild-born, known provenance
+15	Purchase, wild-born, unknown provenance
+16	Purchase, colony-born, other colony
+17	Gift, wild-born
+18	Gift, colony-born
+19	Loan, wild-born
+20	Loan, colony-born
+21	Returned to SFBR (inadequate model)
+24	Admit to SFBR for quarantine period (tether, surgery...prior to release)
+25	NON TxBiomed data acquisition
+26	Research related (return to SFBR)
+27	Reacquired to complete medical history
+50	Re-IDed (DBA addition, not physical addition to colony)
+97	Parental data only, animal never at SFBR
