@@ -2494,6 +2494,29 @@
         </columns>
         <tableTitle>Animal Group Members</tableTitle>
     </table>
+    <table tableName="animalAccounts" tableDbType="TABLE">
+        <columns>
+            <column columnName="id">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="date">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="account">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="enddate">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+            </column>
+            <column columnName="username">
+                <datatype>varchar</datatype>
+            </column>
+        </columns>
+        <tableTitle>Animal Accounts</tableTitle>
+    </table>
     <table tableName="deaths" tableDbType="TABLE">
         <columns>
             <column columnName="Id">

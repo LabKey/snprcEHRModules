@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Animal Accounts</name>
+    <description>Animal accounts data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="animal_accounts" />
+            <destination schemaName="study" queryName="Animal Accounts" bulkLoad="true" transactionSize="500" />
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy"/>
+    <schedule>
+        <poll interval="15s" />
+    </schedule>
+</etl>
