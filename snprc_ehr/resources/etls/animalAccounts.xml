@@ -6,11 +6,11 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="animal_accounts" />
-            <destination schemaName="study" queryName="Animal Accounts" bulkLoad="true" transactionSize="500" />
+            <destination schemaName="study" queryName="Animal Accounts" bulkLoad="true" transactionSize="500" targetOption="merge"/>
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp"/>
     <schedule>
-        <poll interval="300s" />
+        <poll interval="5m" />
     </schedule>
 </etl>
