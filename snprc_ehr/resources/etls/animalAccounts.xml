@@ -9,9 +9,8 @@
             <destination schemaName="study" queryName="Animal Accounts" bulkLoad="true" transactionSize="500" />
         </transform>
     </transforms>
-    <!--<incrementalFilter className="ModifiedSinceFilterStrategy"/>-->
-    <incrementalFilter className="SelectAllFilterStrategy"/>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp"/>
     <schedule>
-        <poll interval="15s" />
+        <poll interval="300s" />
     </schedule>
 </etl>

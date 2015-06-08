@@ -19,6 +19,7 @@ a.assign_date as date,
 a.account,
 a.end_date as enddate,
 a.object_id as objectid,
-a.user_name as username
+a.user_name as username,
+a.timestamp
 
 from snprcSrc.accounts a
