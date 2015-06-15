@@ -13,4 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT * FROM snprcAudit.audit_accounts WHERE AUDIT_ACTION = 'D' AND OBJECT_ID IS NOT NULL
+SELECT * FROM snprcSrc.v_audit_accounts WHERE AUDIT_ACTION = 'D' AND OBJECT_ID IS NOT NULL

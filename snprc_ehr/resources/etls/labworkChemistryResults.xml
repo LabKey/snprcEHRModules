@@ -11,6 +11,6 @@
 </transforms>
 <incrementalFilter className="SelectAllFilterStrategy"/>
 <schedule>
-    <poll interval="15s" />
+    <poll interval="60m" />
 </schedule>
 </etl>

@@ -22,4 +22,4 @@ a.object_id as objectid,
 a.user_name as username,
 a.timestamp
 
-from snprcSrc.accounts a
+from snprcSrc.v_accounts a

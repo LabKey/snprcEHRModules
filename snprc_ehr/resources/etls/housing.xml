@@ -13,6 +13,6 @@
         <deletedRowsSource schemaName="snprcSrc" queryName="DELETED_HOUSING" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
 <schedule>
-    <poll interval="15s" />
+    <poll interval="60m" />
 </schedule>
 </etl>
