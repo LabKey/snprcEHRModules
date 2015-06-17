@@ -1,22 +1,7 @@
-/*
- * Copyright (c) 2015 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_chemistry_results]    Script Date: 1/8/2015 4:02:00 PM ******/
+/****** Object:  View [labkey_etl].[v_labwork_chemistry_results]    Script Date: 1/8/2015 4:02:00 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -24,13 +9,13 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE VIEW [labkey_etl].[v_labwork_chemistry_results] AS
+ALTER VIEW [labkey_etl].[v_labwork_chemistry_results] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 1/22/2015
 -- Description:	Selects the ETL records for LabKey study.labwork_results dataset 
 -- Note:  Currently only selecting the following data types:
---			CBC
+--			Biochemistry
 -- Changes:
 --
 --
@@ -86,12 +71,11 @@ WHERE  obr.PROCEDURE_id IN (10200, 10201, 106262)
 
 AND obx.test_id IN (141,205,60,612, 135,136,137,138,142,272,90,139,17,18,19,631,632,611,
 										  87,81,633,86,140, 143,77 ) 
-AND obr.VERIFIED_DATE_TM >= '1/1/2014 00:00'
+--AND obr.VERIFIED_DATE_TM >= '1/1/2014 00:00'
 GO
 
---SELECT * FROM labkey_etl.v_labwork_results
-----WHERE runid = '17b3223e-5f09-4190-8a32-9535869481f6'
---WHERE OBJECT_ID = 'EA78291F-4CD9-1032-B72E-7FA05A66C3D4'
 
-GRANT SELECT ON Labkey_etl.v_labwork_chemistry_results TO z_camp_base
-GO
+grant SELECT on labkey_etl.v_labwork_chemistry_results to z_labkey
+grant SELECT on labkey_etl.v_labwork_chemistry_results to z_camp_base
+
+go

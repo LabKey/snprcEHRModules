@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2015 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 USE [animal]
 GO
 
@@ -30,10 +15,11 @@ GO
 /*==============================================================*/
 
 
-CREATE VIEW [labkey_etl].[V_HOUSING] AS
+ALTER VIEW [labkey_etl].[V_HOUSING] AS
 -- ====================================================================================================================
 -- Object: v_housing
---
+-- Author:	Terry Hawkins
+-- Create date: 1/2015
 -- ==========================================================================================
 
 SELECT L.ID AS id, 
@@ -43,10 +29,8 @@ SELECT L.ID AS id,
 	L.TIMESTAMP
 FROM location AS L
 JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = L.id
+--WHERE L.move_date_tm > '1/1/2014 00:00'
 
-GO
-
-GRANT SELECT ON Labkey_etl.V_HOUSING TO z_camp_base
 GO
 
 
