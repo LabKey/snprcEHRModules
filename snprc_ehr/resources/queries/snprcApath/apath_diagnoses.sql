@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-SELECT
+ SELECT
 
-a.animal_id AS Id,
-COALESCE(a.biopsy, a.death) AS date,
-a.accession_num AS caseno,
+a.unique_it AS Id,
+COALESCE (b.biopsy, b.death) AS date,
 a.object_id AS objectid,
+b.object_id AS parentid,
 a.timestamp,
 
-CASE
-WHEN a.tissue IS NOT NULL THEN (a.tissue + '-' + b.description)
-ELSE b.description
-END AS title
+FROM snprcApath.diagnosis a INNER JOIN snprcApath.apath b ON a.accession_num = b.accession_num
 
-FROM snprcApath.apath a INNER JOIN snprcApath.valid_accession_codes b ON a.accession_code = b.accession_code
-
-WHERE a.animal_id IS NOT NULL AND COALESCE(a.biopsy, a.death) IS NOT NULL AND b.description IS NOT NULL
+WHERE a.unique_it IS NOT NULL AND COALESCE(b.biopsy, b.death) IS NOT NULL
