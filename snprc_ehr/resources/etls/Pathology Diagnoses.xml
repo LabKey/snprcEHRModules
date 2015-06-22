@@ -9,4 +9,10 @@
             <destination schemaName="study" queryName="pathologyDiagnoses" bulkLoad="true" transactionSize="500" targetOption="merge"/>
         </transform>
     </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+        <deletedRowsSource schemaName="snprcApath" queryName="deleted_diagnoses" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
 </etl>

@@ -2997,10 +2997,6 @@
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#ParentId</propertyURI>
             </column>
-            <column columnName="description">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Description</propertyURI>
-            </column>
             <column columnName="objectid">
                 <datatype>entityid</datatype>
                 <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
@@ -3009,6 +3005,18 @@
             <column columnName="taskid">
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#TaskId</propertyURI>
+            </column>
+            <column columnName="morphology">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="organ">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="etiology_code">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="sp_etiology">
+                <datatype>varchar</datatype>
             </column>
             <column columnName="remark">
                 <datatype>varchar</datatype>

@@ -13,20 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-SELECT
-
-a.unique_it AS Id,
-COALESCE (b.biopsy, b.death) AS date,
-a.object_id AS objectid,
-b.object_id AS parentid,
-a.user_name AS performedby,
-a.morphology,
-a.organ,
-a.etiology_code,
-a.sp_etiology,
-a.timestamp,
-
-FROM snprcApath.diagnosis a INNER JOIN snprcApath.apath b ON a.accession_num = b.accession_num
-
-WHERE a.unique_it IS NOT NULL AND COALESCE(b.biopsy, b.death) IS NOT NULL
+SELECT * FROM snprcApath.audit_apath WHERE audit_action = 0 AND OBJECT_ID IS NOT NULL

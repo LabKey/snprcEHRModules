@@ -20,7 +20,13 @@ a.animal_id AS Id,
 COALESCE(a.biopsy, a.death) AS date,
 a.accession_num AS caseno,
 a.object_id AS objectid,
+a.user_name AS performedby,
 a.timestamp,
+
+CASE
+WHEN d.description LIKE 'Pending%' THEN 'Review Required'
+ELSE 'Completed'
+END AS QCStateLabel,
 
 CASE
 WHEN a.tissue IS NOT NULL THEN (a.tissue + '-' + b.description)
@@ -28,5 +34,6 @@ ELSE b.description
 END AS title
 
 FROM snprcApath.apath a INNER JOIN snprcApath.valid_accession_codes b ON a.accession_code = b.accession_code
+INNER JOIN snprcApath.valid_record_status d ON a.record_status = d.record_status
 
 WHERE a.animal_id IS NOT NULL AND COALESCE(a.biopsy, a.death) IS NOT NULL AND b.description IS NOT NULL
