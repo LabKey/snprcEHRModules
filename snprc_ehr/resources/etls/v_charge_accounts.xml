@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Charge accounts</name>
+    <description>Charge account data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_charge_account" />
+            <destination schemaName="ehr" queryName="project" bulkLoad="true" transactionSize="500" targetOption="merge"/>
+        </transform>
+    </transforms>
+    <incrementalFilter className="SelectAllFilterStrategy"/>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>

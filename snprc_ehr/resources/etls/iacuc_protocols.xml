@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>IACUC Protocols</name>
+    <description>IACUC protocol data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_arc_master" />
+            <destination schemaName="ehr" queryName="protocol" bulkLoad="true" transactionSize="500" targetOption="merge"/>
+        </transform>
+    </transforms>
+    <incrementalFilter className="SelectAllFilterStrategy"/>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>
