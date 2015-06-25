@@ -20,8 +20,6 @@ ALTER VIEW [labkey_etl].[v_labwork_surveillance_results] AS
 -- Changes:
 --
 ---- 6/19/2015 Removed spaces from observed_value string before converting to a decimal. tjh
---
---
 -- ==========================================================================================
 
 
@@ -68,9 +66,9 @@ SELECT obr.ANIMAL_ID AS id,
 	   obx.MESSAGE_ID AS runid,		-- foreign key to obr rows
 	   '' AS parent_id,
 	   '' AS taskid,
-	   obx.USER_NAME AS performedby,
+	   obx.USER_NAME AS user_name,
 	   '' AS requestedid,
-	  -- obx.ENTRY_DATE_TM AS enddate,
+	   obx.ENTRY_DATE_TM AS entry_date_tm,
 	   '' AS method
 FROM dbo.CLINICAL_PATH_OBR AS obr
 JOIN dbo.CLINICAL_PATH_OBX AS obx ON obx.MESSAGE_ID = obr.MESSAGE_ID

@@ -5,8 +5,8 @@
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="animal_event_narratives" />
-            <destination schemaName="study" queryName="encounters" bulkLoad="true" transactionSize="500" targetOption="merge"/>
+            <source schemaName="snprcSrc" queryName="animal_procedures" />
+            <destination schemaName="study" queryName="encounters" bulkLoad="true" transactionSize="500"/>
         </transform>
     </transforms>
     <incrementalFilter className="SelectAllFilterStrategy"/>

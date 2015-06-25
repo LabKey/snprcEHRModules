@@ -25,7 +25,7 @@ GO
 
 
 
-create VIEW [labkey_etl].[v_arc_master] AS
+ALTER VIEW [labkey_etl].[v_arc_master] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/23/2015
@@ -38,13 +38,21 @@ create VIEW [labkey_etl].[v_arc_master] AS
 
 
 SELECT am.working_iacuc AS protocol,
-	am.annual_review_date AS lastAnnualReview,
+	ad.review_date AS lastAnnualReview,
+	ad.title AS title, 
+	ad.pi_name AS inves,
+	ad.approval_date AS approve,
 	am.termination_date AS enddate,
-	am.user_name AS modifiedby,
-	am.entry_date_tm AS modified,
+	am.user_name AS user_name,
+	am.entry_date_tm AS entry_date_tm,
 	am.object_id AS objectid, 
 	am.timestamp AS timestamp
 FROM dbo.arc_master AS am
+JOIN dbo.arc_detail AS ad ON ad.arc_num_seq = am.arc_num_seq AND ad.arc_num_genus = am.arc_num_genus AND
+	ad.arc_num_amendment = (SELECT MAX(ad.arc_num_amendment) 
+							FROM arc_detail AS ad
+							WHERE ad.arc_num_seq = am.arc_num_seq 
+							  AND ad.arc_num_genus = am.arc_num_genus)
 
 GO
 

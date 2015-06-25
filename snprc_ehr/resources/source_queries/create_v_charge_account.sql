@@ -25,7 +25,7 @@ GO
 
 
 
-create VIEW [labkey_etl].[v_charge_account] AS
+ALTER VIEW [labkey_etl].[v_charge_account] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/22/2015
@@ -44,8 +44,8 @@ SELECT ca.charge_id AS project,
 	ca.stop_date AS enddate,
 	ca.short_description AS shortName,
 	ca.long_description AS name,
-	ca.user_name AS modifiedby,
-	ca.entry_date_tm AS modified,
+	ca.user_name AS user_name,
+	ca.entry_date_tm AS entry_date_tm,
 	ca.object_id AS objectid, 
 	ca.timestamp AS timestamp
 FROM dbo.charge_account AS ca

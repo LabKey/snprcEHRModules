@@ -25,7 +25,7 @@ GO
 
 
 
-create VIEW [labkey_etl].[v_clinical_admissions] AS
+ALTER VIEW [labkey_etl].[v_clinical_admissions] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/22/2015
@@ -39,22 +39,28 @@ create VIEW [labkey_etl].[v_clinical_admissions] AS
 
 SELECT c.id AS id,
 	   c.admit_date_tm AS date, 
-	   LTRIM(RTRIM(c.id)) + CAST(c.admit_id AS VARCHAR(128)) AS ParticipantSequenceNum,
+	   LTRIM(RTRIM(c.id)) + '/' + CAST(c.admit_id AS VARCHAR(128)) AS ParticipantSequenceNum,
 	   c.release_date_tm AS enddate,
-	   'PDX: ' + RTRIM(LTRIM(c.pdx)) + '; Resolution: ' + c.resolution AS observation,
+	   c.pdx AS problem,
 	   c.admit_complaint AS remark,
-	   CAST(c.admit_id AS INTEGER) AS visitRowId,
+	   c.admit_id AS caseid,
+	   c.admit_code AS category,
 	   c.charge_id AS project,
-	   c.vet_name AS performedby,
-	   c.admit_code AS code,
-	   c.user_name AS modifiedby,
-	   c.entry_date_tm AS modified,
+	   c.vet_name AS vetreviewer,  -- this should be assigned vet; however, we are missing the ehr_lookup.veterinarians table
+	   c.user_name AS user_name,
+	   c.entry_date_tm AS entry_date_tm,
 	   c.object_id AS objectid,
 	   c.timestamp AS timestamp
 
 
 
 FROM dbo.clinic AS c
+INNER JOIN master AS m ON m.id = c.id
+INNER JOIN valid_species vs ON m.species = vs.species_code 
+INNER JOIN arc_valid_species_codes avs ON vs.arc_species_code = avs.arc_species_code
+JOIN current_data AS cd ON m.id = cd.id
+JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
+WHERE avsc.primate = 'Y'
 GO
 
 

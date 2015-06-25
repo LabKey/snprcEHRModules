@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2015 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 USE [animal]
 GO
 
@@ -42,8 +27,8 @@ SELECT obr.animal_id AS [Id],
 	   obr.SPECIMEN_NUM AS [sampleId], 
 	   obr.PROCEDURE_NAME AS [serviceRequested],
 	   obr.PV1_VISIT_NUM AS [animalVisit],
-	   obr.ENTRY_DATE_TM AS [created],
-	   obr.USER_NAME AS [createdBy]
+	   obr.ENTRY_DATE_TM AS [entry_date_tm],
+	   obr.USER_NAME AS [user_name]
 FROM dbo.CLINICAL_PATH_OBR AS obr
 JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
 WHERE obr.PROCEDURE_ID IN (SELECT obr.PROCEDURE_ID FROM clinical_path_proc_id_lookup)

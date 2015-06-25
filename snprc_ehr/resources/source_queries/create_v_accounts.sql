@@ -10,13 +10,13 @@ GO
 /*==============================================================*/
 /* View: V_ACCOUNTS                                             */
 /*==============================================================*/
-CREATE
- VIEW [labkey_etl].[V_ACCOUNTS] as
+ALTER VIEW [labkey_etl].[V_ACCOUNTS] as
 -- ====================================================================================================================
 -- Object: v_accounts
 -- Author:		Terry Hawkins
 -- Create date: 6/11/2015
 --
+-- 6/24/2015 added entry_date_tm. tjh
 -- ==========================================================================================
 
 
@@ -27,9 +27,11 @@ a.account,
 a.end_date, -- as enddate,
 a.object_id, -- as objectid,
 a.user_name, -- as username,
+a.entry_date_tm,
 a.timestamp
 
 from dbo.accounts a
+JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.id
 --WHERE a.assign_date > '1/1/2014 00:00'
 go
 
