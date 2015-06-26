@@ -16,7 +16,7 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_arc_master]    Script Date: 6/23/2015 8:51:28 AM ******/
+/****** Object:  View [labkey_etl].[v_iacuc_protocols]    Script Date: 6/23/2015 8:51:28 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,7 +25,7 @@ GO
 
 
 
-ALTER VIEW [labkey_etl].[v_arc_master] AS
+ALTER VIEW [labkey_etl].[v_iacuc_protocols] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/23/2015
@@ -44,9 +44,12 @@ SELECT am.working_iacuc AS protocol,
 	ad.approval_date AS approve,
 	am.termination_date AS enddate,
 	am.user_name AS user_name,
-	am.entry_date_tm AS entry_date_tm,
+	(SELECT Max(v)
+		FROM (VALUES (am.entry_date_tm), (ad.entry_date_tm) ) AS VALUE (v) ) AS entry_date_tm,
 	am.object_id AS objectid, 
-	am.timestamp AS timestamp
+	(SELECT Max(v)
+		FROM (VALUES (am.timestamp), (ad.timestamp) ) AS VALUE (v) ) as timestamp
+	
 FROM dbo.arc_master AS am
 JOIN dbo.arc_detail AS ad ON ad.arc_num_seq = am.arc_num_seq AND ad.arc_num_genus = am.arc_num_genus AND
 	ad.arc_num_amendment = (SELECT MAX(ad.arc_num_amendment) 
@@ -56,7 +59,6 @@ JOIN dbo.arc_detail AS ad ON ad.arc_num_seq = am.arc_num_seq AND ad.arc_num_genu
 
 GO
 
-grant SELECT on [labkey_etl].[v_arc_master] to z_labkey
-grant SELECT on [labkey_etl].[v_arc_master] to z_camp_base
+grant SELECT on [labkey_etl].[v_iacuc_protocols] to z_labkey
 
 go

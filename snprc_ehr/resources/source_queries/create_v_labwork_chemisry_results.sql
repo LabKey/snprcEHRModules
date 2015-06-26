@@ -66,17 +66,15 @@ SELECT obr.ANIMAL_ID AS id,
 	  obx.ENTRY_DATE_TM AS entry_date_tm,
 	   '' AS method
 FROM dbo.CLINICAL_PATH_OBR AS obr
-JOIN dbo.CLINICAL_PATH_OBX AS obx ON obx.MESSAGE_ID = obr.MESSAGE_ID
-
+INNER JOIN dbo.CLINICAL_PATH_OBX AS obx ON obx.MESSAGE_ID = obr.MESSAGE_ID
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.animal_id
 WHERE  obr.PROCEDURE_id IN (10200, 10201, 106262)
-
-AND obx.test_id IN (141,205,60,612, 135,136,137,138,142,272,90,139,17,18,19,631,632,611,
+	AND obx.test_id IN (141,205,60,612, 135,136,137,138,142,272,90,139,17,18,19,631,632,611,
 										  87,81,633,86,140, 143,77 ) 
---AND obr.VERIFIED_DATE_TM >= '1/1/2014 00:00'
+
 GO
 
-
 grant SELECT on labkey_etl.v_labwork_chemistry_results to z_labkey
-grant SELECT on labkey_etl.v_labwork_chemistry_results to z_camp_base
 
 go

@@ -72,7 +72,8 @@ SELECT obr.ANIMAL_ID AS id,
 	   '' AS method
 FROM dbo.CLINICAL_PATH_OBR AS obr
 JOIN dbo.CLINICAL_PATH_OBX AS obx ON obx.MESSAGE_ID = obr.MESSAGE_ID
-
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.animal_id
 
 --JOIN dbo.CLINICAL_PATH_PROC_ID_LOOKUP AS PLU ON obr.PROCEDURE_ID = plu.procedure_id AND plu.procedure_type = 'Surveillance'
 --WHERE  (obx.RESULT_STATUS = 'F' OR obx.RESULT_STATUS = 'C')
@@ -91,11 +92,10 @@ WHERE obr.PROCEDURE_name IN (SELECT PROCEDURE_name FROM clinical_path_proc_id_lo
 	--AND 
 	(obx.RESULT_STATUS = 'F' OR obx.RESULT_STATUS = 'C')
     AND obr.RESULT_STATUS = 'F'
---AND obr.VERIFIED_DATE_TM >= '1/1/2014 00:00'
+
 
 GO
 
 
-GRANT SELECT ON [labkey_etl].[v_labwork_surveillance_results]  TO z_camp_base
 GRANT SELECT ON [labkey_etl].[v_labwork_surveillance_results]  TO z_labkey
 GO

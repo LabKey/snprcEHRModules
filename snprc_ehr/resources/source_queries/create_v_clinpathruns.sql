@@ -30,20 +30,18 @@ SELECT obr.animal_id AS [Id],
 	   obr.ENTRY_DATE_TM AS [entry_date_tm],
 	   obr.USER_NAME AS [user_name]
 FROM dbo.CLINICAL_PATH_OBR AS obr
-JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
+
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
 WHERE obr.PROCEDURE_ID IN (SELECT obr.PROCEDURE_ID FROM clinical_path_proc_id_lookup)
 --WHERE (obr.PROCEDURE_NAME LIKE '%differential only%' 
 --   OR obr.PROCEDURE_NAME LIKE '%CBC%' 
 --   OR  obr.PROCEDURE_id IN (10200, 10201, 106262) )
   AND obr.RESULT_STATUS = 'F'
   AND obr.VERIFIED_DATE_TM IS NOT NULL
---  AND obr.VERIFIED_DATE_TM >= '1/1/2014 00:00'
 
 GO
 
-
-
-GRANT SELECT ON Labkey_etl.v_clinPathRuns TO z_camp_base
 GRANT SELECT ON Labkey_etl.v_clinPathRuns TO z_labkey
   
 GO

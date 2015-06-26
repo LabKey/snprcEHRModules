@@ -31,12 +31,11 @@ a.entry_date_tm,
 a.timestamp
 
 from dbo.accounts a
-JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.id
---WHERE a.assign_date > '1/1/2014 00:00'
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.ID
+
 go
 
 grant SELECT on labkey_etl.V_ACCOUNTS to z_labkey
-grant SELECT on labkey_etl.V_ACCOUNTS to z_camp_base
-
 
 go

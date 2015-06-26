@@ -34,18 +34,15 @@ SELECT
 	CASE WHEN m.bd_status <> 0 THEN 'True' ELSE 'False' END AS estimated,
 	m.entry_date_tm AS entry_date_tm,
 	ad.user_name AS user_name,
-	ad.object_id AS objectid
+	ad.object_id AS objectid,
+	ad.timestamp
 FROM dbo.acq_disp AS ad
 INNER JOIN master AS m ON m.id = ad.id
-INNER JOIN valid_species vs ON m.species = vs.species_code 
-INNER JOIN arc_valid_species_codes avs ON vs.arc_species_code = avs.arc_species_code
-JOIN current_data AS cd ON m.id = cd.id
-JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
-WHERE avsc.primate = 'Y'
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
 
 GO
 
 GRANT SELECT ON Labkey_etl.v_arrival TO z_labkey 
-GRANT SELECT ON Labkey_etl.v_arrival TO z_camp_base
 GO
 

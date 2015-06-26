@@ -5,11 +5,13 @@
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="v_arc_master" />
-            <destination schemaName="ehr" queryName="protocol" bulkLoad="true" transactionSize="500"/>
+            <source schemaName="snprcSrc" queryName="v_iacuc_protocols" />
+            <destination schemaName="ehr" queryName="protocol" bulkLoad="true" transactionSize="500" targetOption="merge"/>
         </transform>
     </transforms>
-    <incrementalFilter className="SelectAllFilterStrategy"/>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_iacuc_protocols" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
     <schedule>
         <poll interval="60m" />
     </schedule>

@@ -29,14 +29,17 @@ SELECT ae.ANIMAL_ID AS id,
 	cpa.TIMESTAMP
 	
 FROM dbo.coded_procs cp 
-	JOIN dbo.ANIMAL_EVENTS ae ON cp.animal_event_id = ae.animal_event_id 
-	JOIN dbo.CODED_PROC_ATTRIBS cpa ON cp.PROC_ID = cpa.PROC_ID
-	JOIN dbo.budget_items bi ON bi.BUDGET_ITEM_ID = cp.BUDGET_ITEM_ID
-	JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
+INNER JOIN dbo.ANIMAL_EVENTS ae ON cp.animal_event_id = ae.animal_event_id
+INNER JOIN dbo.CODED_PROC_ATTRIBS cpa ON cp.PROC_ID = cpa.PROC_ID
+INNER JOIN dbo.budget_items bi ON bi.BUDGET_ITEM_ID = cp.BUDGET_ITEM_ID
+INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
 
 WHERE sp.PKG_ID in (6, 152) AND cpa.ATTRIB_KEY = 'weight'
---AND ae.EVENT_DATE_TM > '1/1/2014 00:00'
 
 GO
 
+GRANT SELECT ON Labkey_etl.v_departure TO z_labkey
+GO
 

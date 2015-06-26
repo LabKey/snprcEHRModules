@@ -22,16 +22,15 @@ select m.object_id as objectid,
 	m.entry_date_tm AS entry_date_tm,
 	m.user_name AS user_name 
 from master m 
-inner join valid_species vs on m.species = vs.species_code 
-inner join arc_valid_species_codes avs on vs.arc_species_code = avs.arc_species_code
-JOIN current_data AS cd ON m.id = cd.id
-JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
+INNER JOIN valid_species vs on m.species = vs.species_code
+INNER JOIN arc_valid_species_codes avs on vs.arc_species_code = avs.arc_species_code
+INNER JOIN current_data AS cd ON m.id = cd.id
+INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
 WHERE avsc.primate = 'Y'
 )
 
 GO
 
 grant SELECT on labkey_etl.V_DEMOGRAPHICS to z_labkey
-grant SELECT on labkey_etl.V_DEMOGRAPHICS to z_camp_base
 
 GO

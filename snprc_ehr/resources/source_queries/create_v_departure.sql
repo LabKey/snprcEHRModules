@@ -33,12 +33,8 @@ SELECT
 FROM dbo.acq_disp AS ad
 INNER JOIN master AS m ON m.id = ad.id
 INNER JOIN dbo.valid_disp_codes AS vdc ON vdc.disp_code = ad.disp_code
-INNER JOIN valid_species vs ON m.species = vs.species_code 
-INNER JOIN arc_valid_species_codes avs ON vs.arc_species_code = avs.arc_species_code
-JOIN current_data AS cd ON m.id = cd.id
-JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
-WHERE avsc.primate = 'Y'
-
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
 GO
 
 GRANT SELECT ON Labkey_etl.v_departure TO z_labkey 
