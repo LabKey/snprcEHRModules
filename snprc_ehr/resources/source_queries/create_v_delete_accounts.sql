@@ -8,14 +8,15 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /*==============================================================*/
-/* View: V_AUDIT_ACCOUNTS                                               */
+/* View: V_DELETE_ACCOUNTS                                      */
 /*==============================================================*/
-ALTER VIEW [labkey_etl].[V_AUDIT_ACCOUNTS] as
+ALTER VIEW [labkey_etl].[V_DELETE_ACCOUNTS] as
 -- ====================================================================================================================
 -- Object: v_audit_accounts
 -- Author:		Terry Hawkins
 -- Create date: 6/12/2015
 --
+-- 6/29/2015 renamed. tjh
 -- ==========================================================================================
 SELECT 
 	aa.object_id,
@@ -28,7 +29,7 @@ WHERE aa.AUDIT_ACTION = 'D' AND aa.OBJECT_ID IS NOT NULL
 
 go
 
-GRANT SELECT on labkey_etl.V_AUDIT_ACCOUNTS to z_labkey
+GRANT SELECT on labkey_etl.V_DELETE_ACCOUNTS to z_labkey
 GRANT SELECT ON audit.audit_accounts TO z_labkey
 
 
