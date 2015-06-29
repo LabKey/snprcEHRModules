@@ -9,7 +9,9 @@
         <destination schemaName="study" queryName="labworkResults" bulkLoad="true" transactionSize="500" />
     </transform>
 </transforms>
-<incrementalFilter className="SelectAllFilterStrategy"/>
+<incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+    <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_labwork_results" timestampColumnName="entry_date_tm" deletedSourceKeyColumnName="message_id" targetKeyColumnName="runid"/>
+</incrementalFilter>
 <schedule>
     <poll interval="60m" />
 </schedule>
