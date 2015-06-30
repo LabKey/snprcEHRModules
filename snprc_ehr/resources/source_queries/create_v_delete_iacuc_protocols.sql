@@ -37,7 +37,7 @@ ALTER VIEW [labkey_etl].[v_delete_iacuc_protocols] AS
 -- ==========================================================================================
 
 
-SELECT 	am.object_id AS objectid, 
+SELECT 	am.object_id, 
 		am.audit_date_tm
 
 FROM audit.audit_arc_master AS am

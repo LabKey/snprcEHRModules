@@ -31,7 +31,7 @@ WHERE am.audit_action = 'D' AND am.object_id IS NOT NULL
 
 GO
 
-GRANT SELECT ON Labkey_etl.v_delete_arrival TO z_labkey 
+GRANT SELECT ON Labkey_etl.V_DELETE_DEATH TO z_labkey 
 GRANT SELECT ON audit.audit_acq_disp TO z_labkey
 
 GO

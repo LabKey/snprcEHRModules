@@ -22,8 +22,8 @@ ALTER VIEW [labkey_etl].[V_DELETE_DEPARTURE] AS
 --
 -- ==========================================================================================
 
-SELECT ad.object_id AS objectid,
-	   ad.audit_date_tm AS audit_date_tm
+SELECT ad.object_id,
+	   ad.audit_date_tm
 FROM audit.audit_acq_disp AS ad
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id

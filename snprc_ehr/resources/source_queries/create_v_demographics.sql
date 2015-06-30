@@ -20,7 +20,8 @@ select m.object_id as objectid,
 	m.sex AS gender, 
 	lower(avs.common_name) as species,
 	m.entry_date_tm AS entry_date_tm,
-	m.user_name AS user_name 
+	m.user_name AS user_name, 
+	m.timestamp
 from master m 
 INNER JOIN valid_species vs on m.species = vs.species_code
 INNER JOIN arc_valid_species_codes avs on vs.arc_species_code = avs.arc_species_code

@@ -28,7 +28,8 @@ SELECT obr.animal_id AS [Id],
 	   obr.PROCEDURE_NAME AS [serviceRequested],
 	   obr.PV1_VISIT_NUM AS [animalVisit],
 	   obr.ENTRY_DATE_TM AS [entry_date_tm],
-	   obr.USER_NAME AS [user_name]
+	   obr.USER_NAME AS [user_name],
+	   obr.TIMESTAMP AS [timestamp]
 FROM dbo.CLINICAL_PATH_OBR AS obr
 
 -- select primates only from the TxBiomed colony
@@ -37,7 +38,7 @@ WHERE obr.PROCEDURE_ID IN (SELECT obr.PROCEDURE_ID FROM clinical_path_proc_id_lo
 --WHERE (obr.PROCEDURE_NAME LIKE '%differential only%' 
 --   OR obr.PROCEDURE_NAME LIKE '%CBC%' 
 --   OR  obr.PROCEDURE_id IN (10200, 10201, 106262) )
-  AND obr.RESULT_STATUS = 'F'
+  AND obr.RESULT_STATUS in ('F', 'C', 'D')
   AND obr.VERIFIED_DATE_TM IS NOT NULL
 
 GO

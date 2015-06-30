@@ -64,7 +64,8 @@ SELECT obr.ANIMAL_ID AS id,
 	   obx.USER_NAME AS user_name,
 	   '' AS requestedid,
 	  obx.ENTRY_DATE_TM AS entry_date_tm,
-	   '' AS method
+	   '' AS method,
+	   obx.TIMESTAMP
 FROM dbo.CLINICAL_PATH_OBR AS obr
 INNER JOIN dbo.CLINICAL_PATH_OBX AS obx ON obx.MESSAGE_ID = obr.MESSAGE_ID
 -- select primates only from the TxBiomed colony
