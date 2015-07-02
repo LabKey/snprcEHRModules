@@ -3351,4 +3351,96 @@
         </columns>
         <tableTitle>Pairing Observations</tableTitle>
     </table>
+    <table tableName="freezerworks" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="aliq_create_date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="aliq_mod_date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="sample_create_date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="NECROPSY">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="SHIPMENTSTATUS">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="sample_deleted">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="aliq_deleted">
+                <datatype>boolean</datatype>
+            </column>
+            <column columnName="PK_SAMPLEUID">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="PK_ALIQUOTUID">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="SAMPLE_TYPES">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COMMENTS">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="NUMBEROFALIQUOTSWITHPOSITIONS">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="CURRMAXALIQUOTNUMBER">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="NUMBEROFALIQUOTSTOTAL">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="INITIALAMOUNT">
+                <datatype>double</datatype>
+            </column>
+            <column columnName="STORAGE_VIAL">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="CONCENTRATION">
+                <datatype>double</datatype>
+            </column>
+            <column columnName="CURRENTAMOUNT">
+                <datatype>double</datatype>
+            </column>
+            <column columnName="Freezer_desc">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="FREEZERNAME">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="POSITION1">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="POSITION2">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="POSITION3">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="POSITION4">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="POSITION5">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="object_id">
+                <datatype>entityid</datatype>
+            </column>
+            <column columnName="user_name">
+                <datatype>varchar</datatype>
+            </column>
+        </columns>
+        <tableTitle>Freezerworks</tableTitle>
+    </table>
 </tables>
