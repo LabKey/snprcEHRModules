@@ -68,19 +68,6 @@ Ext4.onReady(function(){
         width: 270,
         renderTo: 'ehrMenu2_'+webpart.wrapperDivId,
         sections: [{
-            header: 'Daily Reports',
-            itemDefaults: {
-                linkCls: 'none',
-                style: 'font-weight: bold;'
-            },
-            items: [
-                {name: 'Active Behavior Cases', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:none&showReport:1&activeReport:behaviorCases'},
-                {name: 'Active Clinical Cases', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:none&showReport:1&activeReport:cases'},
-                {name: 'Active Surgical Cases', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:none&showReport:1&activeReport:surgicalCases'},
-                {name: 'Clinical Medication Schedule', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:none&showReport:1&activeReport:clinMedicationSchedule'},
-                {name: 'Surgical Medication Schedule', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:none&showReport:1&activeReport:surgMedicationSchedule'}
-            ]
-        },{
             header: 'Entire Colony',
             itemDefaults: {
                 linkCls: 'none',
@@ -106,7 +93,7 @@ Ext4.onReady(function(){
             },
             items: [
                 {name: 'Compare Lists of Animals', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/utilities.view?'},
-                {name: 'Drug Formulary', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=drug_defaults'},
+                //{name: 'Drug Formulary', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=drug_defaults'},
                 {name: 'Procedure List', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=procedures&query.viewName=Active Procedures'},
                 {name: 'Search Center SNOMED Codes', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=snomed'},
                 {name: 'Mature Female Exposed To Fertile Male', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr&query.queryName=animalExposure&query.viewName=Mature Female Exposed To Fertile Male'}
@@ -119,18 +106,6 @@ Ext4.onReady(function(){
             },
             items: [
                 {name: 'Enter Data', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/enterData.view'}
-            ]
-        },{
-            header: 'Service Requests',
-            itemDefaults: {
-                linkCls: 'none',
-                style: 'font-weight: bold;'
-            },
-            items: [
-                {name: 'Manage Requests', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/serviceRequests.view'},
-                //{name: 'ASB Services Request', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/dataEntryForm.view?formType=ASB Service Request'},
-                //{name: 'Colony Services Request', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/dataEntryForm.view?formType=Colony Service Request'},
-                {name: 'Request Labwork', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/dataEntryForm.view?formType=Labwork Request'}
             ]
         }]
     };
