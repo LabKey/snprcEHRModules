@@ -15,7 +15,7 @@
             <location>menu</location>
         </webPart>
         <webPart>
-            <name>EHR Help</name>
+            <name>SNPRC EHR Help</name>
             <location>menu</location>
         </webPart>
     </preferredWebParts>
