@@ -3,14 +3,20 @@
     <name>Animal events (encounters)</name>
     <description>Animal encounters data</description>
     <transforms>
-        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+        <transform id="step1" type="StoredProcedure">
+            <description>Update animal_procedures from stored proc</description>
+            <procedure schemaName="snprcSrc" procedureName="p_update_animal_procedures" />
+        </transform>
+        <transform id="step2" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="animal_procedures" />
+            <source schemaName="snprcSrc" queryName="v_animal_procedures" />
             <destination schemaName="study" queryName="encounters" bulkLoad="true" transactionSize="500" targetOption="merge"/>
         </transform>
     </transforms>
-    <incrementalFilter className="SelectAllFilterStrategy"/>
-    <schedule>
-        <poll interval="60m" />
-    </schedule>
+<incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+    <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_animal_procedures" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+</incrementalFilter>
+<schedule>
+<poll interval="60m" />
+</schedule>
 </etl>
