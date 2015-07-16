@@ -23,33 +23,27 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /*==============================================================*/
-/* View: V_ANIMAL_PROCEDURES                                    */
+/* View: v_delete_diet                                               */
 /*==============================================================*/
-alter VIEW [labkey_etl].[V_ANIMAL_PROCEDURES] as
+ALTER VIEW [labkey_etl].[v_delete_diet] as
 -- ====================================================================================================================
--- Object: v_animal_procedures
+-- Object: v_delete_diet
 -- Author:		Terry Hawkins
--- Create date: 7/6/2015
+-- Create date: 7/15/2015
 --
 -- ==========================================================================================
+SELECT 
+	ad.object_id,
+	ad.audit_date_tm
 
-
-SELECT  ap.animal_event_id AS visitRowId,
-        ap.animal_id AS id ,
-        ap.event_date_tm AS date ,
-        ap.ParticipantSequenceNum ,
-        ap.charge_id AS project ,
-        ap.proc_narrative AS remark ,
-        ap.objectid ,
-        ap.user_name ,
-        ap.entry_date_tm ,
-        CAST(ap.ts AS TIMESTAMP) AS timestamp
- from dbo.animal_procedures AS ap
----- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ap.animal_id
-
+FROM audit.audit_diet AS ad
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+WHERE ad.audit_action = 'D' AND ad.object_id IS NOT NULL
+ 
 go
 
-grant SELECT on labkey_etl.v_animal_procedures to z_labkey
+GRANT SELECT on labkey_etl.v_delete_diet to z_labkey
+GRANT SELECT ON audit.audit_diet TO z_labkey
 
 go

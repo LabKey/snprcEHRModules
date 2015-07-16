@@ -16,40 +16,42 @@
 USE [animal]
 GO
 
+/****** Object:  View [labkey_etl].[V_DIET]    Script Date: 12/31/2014 2:54:09 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
+
+
 /*==============================================================*/
-/* View: V_ANIMAL_PROCEDURES                                    */
+/* View: V_DIET                                              */
 /*==============================================================*/
-alter VIEW [labkey_etl].[V_ANIMAL_PROCEDURES] as
+
+
+CREATE VIEW [labkey_etl].[V_DIET] AS
 -- ====================================================================================================================
--- Object: v_animal_procedures
--- Author:		Terry Hawkins
--- Create date: 7/6/2015
---
+-- Object: v_diet
+-- Author:	Terry Hawkins
+-- Create date: 7/15/2015
 -- ==========================================================================================
 
+SELECT d.ID AS id, 
+	d.start_date AS date,
+	d.end_date AS enddate,
+	'Diet' AS category,
+	d.diet AS description,
+	tid AS visitRowId,
+	d.OBJECT_ID AS objectid,
+	d.entry_date_tm AS modified,
+	d.user_name AS user_name,
+	d.TIMESTAMP
+FROM dbo.diet AS d
+-- select primates only from the TxBiomed colony
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = d.id
 
-SELECT  ap.animal_event_id AS visitRowId,
-        ap.animal_id AS id ,
-        ap.event_date_tm AS date ,
-        ap.ParticipantSequenceNum ,
-        ap.charge_id AS project ,
-        ap.proc_narrative AS remark ,
-        ap.objectid ,
-        ap.user_name ,
-        ap.entry_date_tm ,
-        CAST(ap.ts AS TIMESTAMP) AS timestamp
- from dbo.animal_procedures AS ap
----- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ap.animal_id
+GO
 
-go
-
-grant SELECT on labkey_etl.v_animal_procedures to z_labkey
-
-go
+GRANT SELECT ON labkey_etl.v_diet TO z_labkey
+GO
