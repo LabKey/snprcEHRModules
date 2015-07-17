@@ -55,6 +55,8 @@ WHERE sp.PKG_ID in (6, 152) AND cpa.ATTRIB_KEY = 'weight'
 
 GO
 
-GRANT SELECT ON Labkey_etl.v_departure TO z_labkey
+GRANT SELECT ON Labkey_etl.V_WEIGHT TO z_labkey
+
+
 GO
 

@@ -30,7 +30,7 @@ GO
 /*==============================================================*/
 
 
-CREATE VIEW [labkey_etl].[V_DIET] AS
+ALTER VIEW [labkey_etl].[V_DIET] AS
 -- ====================================================================================================================
 -- Object: v_diet
 -- Author:	Terry Hawkins
@@ -41,13 +41,14 @@ SELECT d.ID AS id,
 	d.start_date AS date,
 	d.end_date AS enddate,
 	'Diet' AS category,
-	d.diet AS description,
-	tid AS visitRowId,
+	vd.snomed_code AS code,
+	d.tid AS visitRowId,
 	d.OBJECT_ID AS objectid,
 	d.entry_date_tm AS modified,
 	d.user_name AS user_name,
 	d.TIMESTAMP
 FROM dbo.diet AS d
+LEFT OUTER JOIN dbo.valid_diet AS vd ON vd.diet = d.diet
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = d.id
 
