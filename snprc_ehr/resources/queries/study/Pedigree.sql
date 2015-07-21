@@ -25,4 +25,4 @@ d.id.demographics.species,
 'Demographics' as source
 
 FROM study.demographics d
-WHERE d.Dam IS NOT NULL AND d.Sire IS NOT NULL
+WHERE d.Dam IS NOT NULL OR d.Sire IS NOT NULL
