@@ -137,6 +137,12 @@ Ext4.onReady(function(){
         },
 
         tables: [{
+            label: 'rooms',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'rooms',
+            pk: 'room'
+        },{
             label: 'Lookup Sets',
             doSkip: true,
             populateFn: 'populateLookupSets',
