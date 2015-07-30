@@ -17,7 +17,9 @@ package org.labkey.test.tests;
 
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
@@ -134,11 +136,16 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         repopulate("SNOMED Codes");
     }
 
-    @Test
-    public void testAnimalSearch()
+    @Before
+    public void preTest()
     {
         goToProjectHome();
         clickFolder("EHR");
+    }
+
+    @Test
+    public void testAnimalSearch()
+    {
         click(Locator.linkWithText("Animal Search"));
         waitForElement(Locator.inputByNameContaining("Id"));
         //pushLocation();
@@ -158,8 +165,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     @Test
     public void testHousingSearch()
     {
-        goToProjectHome();
-        clickFolder("EHR");
         click(Locator.linkWithText("Housing Queries"));
         waitForElement(Locator.inputByNameContaining("Id"));
         pushLocation();
@@ -173,7 +178,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         waitForElement(Locator.linkWithText("100172"));
     }
 
-    @Test
+    @Test @Ignore
+    public void testEtlStatus()
+    {
+        goToModule("DataIntegration");
+    }
+
+    @Test @Ignore
     public void testProtocolSearch()
     {
       //TODO: add protocol search
@@ -182,8 +193,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     @Test
     public void testCustomQueries()
     {
-        goToProjectHome();
-        clickFolder("EHR");
         clickAndWait(Locator.linkWithText("Mature Female Exposed To Fertile Male"));
         assertTextPresent("test3844307", "test5598475");
     }
@@ -191,8 +200,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     @Test
     public void testLookups()
     {
-        goToProjectHome();
-        clickFolder("EHR");
         navigateToQuery("ehr", "animalExposure");
 
         DataRegionTable query = new DataRegionTable("query", this);
@@ -212,8 +219,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     @Test
     public void testAnimalHistory()
     {
-        goToProjectHome();
-        clickFolder("EHR");
         click(Locator.linkWithText("Animal History"));
         saveLocation();
         waitForElement(Locator.inputByNameContaining("textfield"));
