@@ -3443,4 +3443,48 @@
         </columns>
         <tableTitle>Freezerworks</tableTitle>
     </table>
+    <table tableName="idHistory" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="id_date">
+                <datatype>datetime</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="value">
+                <datatype>varchar</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="id_type">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="description">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="source_name">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="user_name">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="entry_date_tm">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="date">
+                <isHidden>true</isHidden>
+                <nullable>true</nullable>
+            </column>
+        </columns>
+        <tableTitle>SNPRC ID History</tableTitle>
+    </table>
 </tables>

@@ -149,5 +149,8 @@
         <dataset name="freezerworks" id="5033" showByDefault="true" category="Colony Management" demographicData="false" type="Standard">
             <tags/>
         </dataset>
+        <dataset name="idHistory" id="5034" category="Colony Management" demographicData= "false" type="Standard">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

@@ -67,3 +67,4 @@ parasitology_method	Parasitology Method Field Values	value
 urinalysis_method	Urinalysis Method Field Values	value
 urinalysis_qualitative_results	Urinalysis Qualitative Result Field Values	value
 housing_reason	Housing Reason Field Values	value	title
+id_type	id type	value

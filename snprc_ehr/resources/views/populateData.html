@@ -137,6 +137,12 @@ Ext4.onReady(function(){
         },
 
         tables: [{
+            label: 'Id Types',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'id_type',
+            pk: 'rowid'
+        },{
             label: 'rooms',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
