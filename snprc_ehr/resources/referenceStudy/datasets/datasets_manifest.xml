@@ -62,7 +62,7 @@
         <dataset name="problem" id="1030" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="tb" id="1035" showByDefault="false" category="Clinical" type="Standard">
+        <dataset name="tb" id="1035" category="Clinical" type="Standard">
             <tags/>
         </dataset>
         <dataset name="treatment_order" id="1037" category="Clinical" type="Standard">

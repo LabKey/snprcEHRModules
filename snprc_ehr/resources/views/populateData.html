@@ -137,6 +137,12 @@ Ext4.onReady(function(){
         },
 
         tables: [{
+            label: 'TB sites',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'tb_site',
+            pk: 'value'
+        },{
             label: 'Id Types',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

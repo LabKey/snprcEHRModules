@@ -40,14 +40,15 @@ mhcData	Genetics	query	MHC Typing	true		MHC_Data	MHC_Data_Unified				false	false
 siblings	Reproductive Management	query	Siblings	true		study	demographicsSiblings				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 offspring	Reproductive Management	query	Offspring	true		study	demographicsOffspring				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 pedigreePlot	Genetics	report	Pedigree Plot	true		study	pedigree		module:EHR/schemas/study/Pedigree/Pedigree.r		false	false		qcstate/publicdata	This report will generate a pedigree plot for the selected animal
-TB	Lab Results	query	TB Test Dates	true		study	encounters	TB Tests		date	false	false		qcstate/publicdata	TB Test results
+TB	Lab Results	query	TB Test Results	true		study	encounters	TB Tests		date	false	false		qcstate/publicdata	TB Test results
 snapshot	General	js	Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
 clinSnapshot	Clinical	js	Clinical Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
 arrival	General	query	Arrivals	true		study	arrival			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 departure	General	query	Departures	true		study	departure			date	false	false		qcstate/publicdata	Displays arrival and departure dates
-bloodDraws	General	query	Blood Draw History	true		study	Blood Draws			date	false	false			Contains records of blood draws.  
+blood	General	query	Blood Draw History	true		study	Blood Draws			date	false	false			Contains records of blood draws.  
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
 idHistory	General	query	ID History	true		study	idHistory			id_date	false	false			This report contains a summary of the identifiers that have been assigned for each animal
+generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 deaths	General	query	Deaths	true		study	Deaths			date	false	false		qcstate/publicdata	Contains a list of animal deaths
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
 notes	General	query	Notes	true		study	notes	Active Notes		date	false	false		qcstate/publicdata	This report contains non-clinical notes entered into the animal's record

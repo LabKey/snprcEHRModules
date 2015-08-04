@@ -8,6 +8,7 @@ RearingType	Rearing Types
 MatingType	Mating Types	
 pairingEventType	Pairing Event Types	value
 tb_method	TB Test Methods	value
+tb_site	TB Site	value
 microbiologyQuantity	Microbiology Quantity	value
 blood_sample_type	Blood Sample Types	value
 pairingHousingType	Pairing Housing Types	value

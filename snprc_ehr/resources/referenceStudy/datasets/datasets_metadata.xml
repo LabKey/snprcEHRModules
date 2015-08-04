@@ -3487,4 +3487,48 @@
         </columns>
         <tableTitle>SNPRC ID History</tableTitle>
     </table>
+    <table tableName="tb" tableDbType="TABLE">
+    <columns>
+        <column columnName="Id">
+            <datatype>varchar</datatype>
+            <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+            <importAliases>
+                <importAlias>ptid</importAlias>
+            </importAliases>
+        </column>
+        <column columnName="date">
+            <datatype>datetime</datatype>
+        </column>
+        <column columnName="project">
+            <datatype>integer</datatype>
+            <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
+        </column>
+        <column columnName="site">
+            <datatype>varchar</datatype>
+            <columnTitle>tb_site</columnTitle>
+            <displayWidth>25</displayWidth>
+            <fk>
+                <fkDbSchema>ehr_lookups</fkDbSchema>
+                <fkTable>tb_site</fkTable>
+                <fkColumnName>value</fkColumnName>
+            </fk>
+        </column>
+        <column columnName="result">
+            <datatype>varchar</datatype>
+            <columnTitle>Result</columnTitle>
+        </column>
+        <column columnName="objectid">
+            <datatype>entityid</datatype>
+            <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+            <isKeyField>true</isKeyField>
+        </column>
+        <column columnName="user_name">
+            <datatype>varchar</datatype>
+        </column>
+        <column columnName="entry_date_tm">
+            <datatype>datetime</datatype>
+        </column>
+    </columns>
+    <tableTitle>TB Test Results</tableTitle>
+    </table>
 </tables>
