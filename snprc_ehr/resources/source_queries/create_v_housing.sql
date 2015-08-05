@@ -39,6 +39,7 @@ ALTER VIEW [labkey_etl].[V_HOUSING] AS
 
 SELECT L.ID AS id, 
 	L.MOVE_DATE_TM AS date,
+	L.exit_date_tm AS enddate,
 	CAST(L.location AS VARCHAR(10)) AS room,
 	L.OBJECT_ID AS objectid,
 	L.entry_date_tm AS entry_date_tm,
