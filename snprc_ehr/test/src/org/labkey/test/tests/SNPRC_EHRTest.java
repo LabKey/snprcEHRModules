@@ -90,7 +90,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         return "F";
     }
 
-    protected void setRooms() { ROOMS[0] = "2043365";  ROOMS[1] = "6824778"; ROOMS[2] = "2043365"; }
+    @Override
+    protected String[] getRooms()
+    {
+        return new String[] {"2043365", "6824778", "2043365"};
+    }
 
     @Override
     protected boolean doSetUserPasswords()
