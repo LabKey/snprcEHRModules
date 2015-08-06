@@ -74,6 +74,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
         EHRService.get().registerLabworkType(new LabResultsLabworkType());
 
+        EHRService.get().registerDemographicsProvider(new SNPRCTBDemographicsProvider(this));
+
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Fertile Male Exposure", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Population Summary By Species, Gender and Age", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=colonyPopulationByAge"), "Other Searches");
