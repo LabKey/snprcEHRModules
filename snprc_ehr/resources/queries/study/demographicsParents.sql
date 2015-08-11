@@ -15,22 +15,22 @@
  */
 SELECT
   d.id,
-  coalesce(p2.parent, b.dam) as dam,
+  coalesce(p2.parent, b.dam, d.dam) as dam,
   CASE
     WHEN p2.parent IS NOT NULL THEN p2.method
     WHEN b.dam IS NOT NULL THEN 'Observed'
     ELSE null
   END as damType,
 
-  coalesce(p1.parent, b.sire) as sire,
+  coalesce(p1.parent, b.sire, d.sire) as sire,
   CASE
     WHEN p1.parent IS NOT NULL THEN p1.method
     WHEN b.sire IS NOT NULL THEN 'Observed'
     ELSE null
   END as sireType,
   CASE
-    WHEN (coalesce(p2.parent, b.dam) IS NOT NULL AND coalesce(p1.parent, b.sire) IS NOT NULL) THEN 2
-    WHEN (coalesce(p2.parent, b.dam) IS NOT NULL OR coalesce(p1.parent, b.sire) IS NOT NULL) THEN 1
+    WHEN (coalesce(p2.parent, b.dam, d.dam) IS NOT NULL AND coalesce(p1.parent, b.sire, d.sire) IS NOT NULL) THEN 2
+    WHEN (coalesce(p2.parent, b.dam, d.dam) IS NOT NULL OR coalesce(p1.parent, b.sire, d.sire) IS NOT NULL) THEN 1
     ELSE 0
   END as numParents
 FROM study.demographics d
