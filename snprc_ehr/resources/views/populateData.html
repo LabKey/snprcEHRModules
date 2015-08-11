@@ -137,6 +137,16 @@ Ext4.onReady(function(){
         },
 
         tables: [{
+            label: 'Lookup Sets',
+            doSkip: true,
+            populateFn: 'populateLookupSets',
+            schemaName: 'ehr_lookups',
+            queryName: 'lookup_sets'
+        },
+
+
+        // Keep Lookup Sets first in the list
+        {
             label: 'TB sites',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
@@ -155,12 +165,6 @@ Ext4.onReady(function(){
             queryName: 'rooms',
             pk: 'room'
         },{
-            label: 'Lookup Sets',
-            doSkip: true,
-            populateFn: 'populateLookupSets',
-            schemaName: 'ehr_lookups',
-            queryName: 'lookup_sets'
-        },{
             label: 'Reports',
             populateFn: 'populateFromFile',
             schemaName: 'ehr',
@@ -173,7 +177,6 @@ Ext4.onReady(function(){
             queryName: 'chemistry_tests',
             pk: 'rowid'
         },{
-
             label: 'Species',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
