@@ -15,7 +15,7 @@ clinObsBsu	Behavior	query	Observations	true		study	Clinical Observations	BSU Obs
 clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
 behaviorRemarks	Behavior	query	Behavior Remarks	true		study	Clinical Remarks	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
 drug	Behavior	query	Behavior Treatments	true		study	Drug Administration	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
-treatments	Clinical	query	Medication Orders	true		study	Treatment Orders			date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
+treatments	Clinical	query	Therapies	true		study	Treatment Orders			date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 diets	Clinical	query	Diets	true		study	Treatment Orders	Diets		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 drug	Clinical	query	Medications - All	true		study	drugsUnified			date	false	false		qcstate/publicdata	This report contains records of all medications administered to each animal
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
@@ -36,7 +36,6 @@ parentage	Genetics	query	Parentage	true		study	demographicsParents				false	fals
 potentialParents	Colony Management	js	Potential Parents	true		study	potentialParents				false	false		qcstate/publicdata	This report shows potential parents for the animal, which is based on housing at estimated time of conception
 kinship	Genetics	js	Kinship	true		ehr	kinshipSummary				false	false		qcstate/publicdata	This report shows the kinship coefficient between every animal in the colony. The kinship coefficient is a measure of relatedness between two individuals. It represents the probability that two genes, sampled at random from each individual are identical (e.g. the kinship coefficient between a parent and an offspring is 0.25).
 pedigree	Genetics	js	Pedigree	true		study	pedigree				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
-mhcData	Genetics	query	MHC Typing	true		MHC_Data	MHC_Data_Unified				false	false			
 siblings	Reproductive Management	query	Siblings	true		study	demographicsSiblings				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 offspring	Reproductive Management	query	Offspring	true		study	demographicsOffspring				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 pedigreePlot	Genetics	report	Pedigree Plot	true		study	pedigree		module:EHR/schemas/study/Pedigree/Pedigree.r		false	false		qcstate/publicdata	This report will generate a pedigree plot for the selected animal
@@ -59,7 +58,6 @@ necropsies	Pathology	query	Necropsies	true		study	Clinical Encounters	Necropsies
 tissueSamples	Pathology	query	Tissue Weights	true		study	Tissue Samples			date	false	false		qcstate/publicdata	This report contains tissue weights obtained at necropsy
 cases	Daily Reports	query	Active Clinical Cases	true		study	Cases	Active Clinical Cases		date	false	false		qcstate/publicdata	This displays active clinical cases
 activeFlags	General	query	Active Flags	true		study	Animal Record Flags	Active Flags		date	false	false		qcstate/publicdata	This displays active flags for this animals
-allProblems	Clinical	query	Master Problems	true		study	Problem List			date	false	false		qcstate/publicdata	This displays the clinical problem list, including closed problems
 matings	Reproductive Management	query	Matings	true		study	matingsExpanded			date	false	false		qcstate/publicdata	This displays the records of matings
 matingSuccessRates	Reproductive Management	query	Mating Success Rates	true		study	matingSuccessRates			date	false	false		qcstate/publicdata	This displays a summary of matings
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	reproSummary			date	false	false		qcstate/publicdata
