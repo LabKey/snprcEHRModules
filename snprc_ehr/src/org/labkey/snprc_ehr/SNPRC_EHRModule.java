@@ -23,6 +23,7 @@ import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.view.WebPartFactory;
+import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
@@ -69,6 +70,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     protected void doStartupAfterSpringConfig(ModuleContext moduleContext)
     {
         EHRService.get().registerModule(this);
+
+        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcOverrides.js"), this);
 
         EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
