@@ -5,7 +5,7 @@
  */
 Ext4.namespace('WNPRC_EHR');
 
-EHR.Utils.splitIds = function(subjects)
+LDK.Utils.splitIds = function(subjects)
         {
             subjects = Ext4.String.trim(subjects);
 
