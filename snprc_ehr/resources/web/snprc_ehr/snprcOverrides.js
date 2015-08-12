@@ -5,7 +5,7 @@
  */
 Ext4.namespace('WNPRC_EHR');
 
-LDK.Utils.splitIds = function(subjects)
+LDK.Utils.splitIds = function(subjects, unsorted)
         {
             subjects = Ext4.String.trim(subjects);
 
@@ -42,7 +42,9 @@ LDK.Utils.splitIds = function(subjects)
             {
                 var result = subjects.split(';');
                 result = Ext4.unique(result);
-                result.sort();
+                if (!unsorted) {
+                    subjectArray.sort();
+                }
                 return result;
             }
             else
