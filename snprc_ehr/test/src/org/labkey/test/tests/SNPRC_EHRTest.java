@@ -102,6 +102,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         return true;
     }
 
+    @Override
+    protected String getExpectedAnimalIDCasing(String id)
+    {
+        return id.toUpperCase();
+    }
+
     protected void importStudy()
     {
         File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
