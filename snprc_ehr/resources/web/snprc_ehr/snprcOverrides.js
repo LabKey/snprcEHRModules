@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-Ext4.namespace('WNPRC_EHR');
+Ext4.namespace('SNPRC_EHR');
 
 LDK.Utils.splitIds = function(subjects, unsorted)
         {
