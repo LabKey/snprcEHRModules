@@ -167,8 +167,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         waitForElement(Locator.inputByNameContaining("Id/curLocation/cage"));
         setFormElement(Locator.inputByNameContaining("Id/curLocation/cage"), "5426");
         click(Ext4Helper.Locators.ext4Button("Submit"));
-        assertElementPresent(Locator.linkWithText("test499022"));
-        assertElementPresent(Locator.linkWithText("test6390238"));
+        waitForElement(Locator.linkWithText("test499022"));
+        waitForElement(Locator.linkWithText("test6390238"));
 
     }
 
