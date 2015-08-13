@@ -43,7 +43,7 @@ LDK.Utils.splitIds = function(subjects, unsorted)
                 var result = subjects.split(';');
                 result = Ext4.unique(result);
                 if (!unsorted) {
-                    subjectArray.sort();
+                    result = result.sort();
                 }
                 return result;
             }
