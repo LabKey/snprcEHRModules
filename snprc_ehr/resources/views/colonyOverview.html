@@ -1,0 +1,21 @@
+<script type="text/javascript">
+
+    Ext4.onReady(function(){
+        var webpart = <%=webpartContext%>;
+        Ext4.create('SNPRC_EHR.panel.ColonyOverviewPanel', {
+            getTabs: function(){
+                return [{
+                    title: 'Population Composition',
+                    style: 'padding 5px;',
+                    items: [{
+                        xtype: 'ehr-populationpanel',
+                        filterArray: this.filterArray,
+                        rowField: EHR.panel.PopulationPanel.FIELDS.species,
+                        colFields: [EHR.panel.PopulationPanel.FIELDS.ageclass, EHR.panel.PopulationPanel.FIELDS.gender]
+                    }],
+                    itemId: 'population'
+                }];
+            }
+        }).render(webpart.wrapperDivId);
+    });
+</script>
