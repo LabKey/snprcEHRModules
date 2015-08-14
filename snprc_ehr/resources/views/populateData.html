@@ -146,7 +146,13 @@ Ext4.onReady(function(){
 
 
         // Keep Lookup Sets first in the list
-        {
+            {
+                label: 'Assignment status',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'assignment_status',
+                pk: 'value'
+            },{
             label: 'TB sites',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
