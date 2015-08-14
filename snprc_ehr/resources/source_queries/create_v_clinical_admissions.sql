@@ -16,7 +16,7 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_delete_clinical_admissions]    Script Date: 6/26/2015 10:59:28 AM ******/
+/****** Object:  View [labkey_etl].[v_clinical_admissions]    Script Date: 8/14/2015 8:08:46 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,11 +25,12 @@ GO
 
 
 
-CREATE VIEW [labkey_etl].[v_delete_clinical_admissions] AS
+
+CREATE VIEW [labkey_etl].[v_clinical_admissions] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
--- Create date: 6/26/2015
--- Description:	Selects the clinical admissions for LabKey study.clinical_observations dataset for deletions
+-- Create date: 6/22/2015
+-- Description:	Selects the clinical admissions for LabKey study.clinical_observations dataset
 -- Note: 
 --		
 -- Changes:
@@ -37,19 +38,31 @@ CREATE VIEW [labkey_etl].[v_delete_clinical_admissions] AS
 -- ==========================================================================================
 
 
-SELECT ac.object_id AS objectid,
-	   ac.audit_date_tm AS audit_date_tm
+SELECT c.id AS id,
+	   c.admit_date_tm AS date, 
+	   LTRIM(RTRIM(c.id)) + '/' + CAST(c.admit_id AS VARCHAR(128)) AS ParticipantSequenceNum,
+	   c.release_date_tm AS enddate,
+	   c.pdx AS problem,
+	   c.admit_complaint AS remark,
+	   c.admit_id AS caseid,
+	   c.admit_code AS category,
+	   c.charge_id AS project,
+	   c.vet_name AS vetreviewer,  -- this should be assigned vet; however, we are missing the ehr_lookup.veterinarians table
+	   c.user_name AS user_name,
+	   c.entry_date_tm AS entry_date_tm,
+	   c.object_id AS objectid,
+	   c.timestamp AS timestamp
 
 
 
-FROM audit.audit_clinic AS ac
+FROM dbo.clinic AS c
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ac.id
-WHERE ac.audit_action = 'D' AND ac.object_id IS NOT NULL
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
 
 
 GO
 
-grant SELECT on [labkey_etl].[v_delete_clinical_admissions] to z_labkey
-GRANT SELECT ON [audit].[audit_clinic] TO z_labkey
+
+grant SELECT on [labkey_etl].[v_clinical_admissions] to z_labkey
+
 go
