@@ -1,0 +1,14 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="project"/>
+        <column name="remark"/>
+        <column name="title"/>
+        <column name="performedBy"/>
+        <column name="caseno"/>
+        <column name="datefinalized"/>
+        <column name="history"/>
+        <column name="QCState"/>
+    </columns>
+</customView>

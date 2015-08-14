@@ -1,0 +1,12 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="site"/>
+        <column name="result"/>
+        <column name="user_name"/>
+        <column name="entry_date_tm"/>
+        <column name="history"/>
+        <column name="QCState"/>
+    </columns>
+</customView>

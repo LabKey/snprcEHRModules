@@ -8,37 +8,37 @@
         <category>Pathology</category>
     </categories>
     <datasets>
-        <dataset name="antibioticSensitivity" id="5011" category="ClinPath" type="Standard">
+        <dataset name="antibioticSensitivity" id="5011" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="microbiology" id="5018" category="ClinPath" type="Standard">
+        <dataset name="microbiology" id="5018" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="flags" id="5019" category="Colony Management" type="Standard">
+        <dataset name="flags" id="5019" category="Colony Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="delivery" id="5020" category="Reproductive Management" type="Standard">
+        <dataset name="delivery" id="5020" category="Reproductive Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="serology" id="5021" category="ClinPath" type="Standard">
+        <dataset name="serology" id="5021" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="pregnancyConfirmation" id="5022" category="Reproductive Management" type="Standard">
+        <dataset name="pregnancyConfirmation" id="5022" category="Reproductive Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="parentage" id="5025" category="Colony Management" type="Standard">
+        <dataset name="parentage" id="5025" category="Colony Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="miscTests" id="5013" category="ClinPath" type="Standard">
+        <dataset name="miscTests" id="5013" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="measurements" id="5016" category="Pathology" type="Standard" showByDefault="true">
+        <dataset name="measurements" id="5016" category="Pathology" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="cases" id="5012" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="matings" id="5015" category="Reproductive Management" type="Standard">
+        <dataset name="matings" id="5015" category="Reproductive Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="birth" id="1007" category="Colony Management" demographicData="true" type="Standard">
@@ -77,7 +77,7 @@
         <dataset name="chemistryResults" id="1056" category="ClinPath" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="iStat" id="5026" category="ClinPath" type="Standard">
+        <dataset name="iStat" id="5026" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="anesthesia" id="5030" category="Clinical" type="Standard" showByDefault="false">
@@ -137,10 +137,10 @@
         <dataset name="tissueDistributions" id="5027" showByDefault="false" category="Pathology" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="pairings" id="5024" showByDefault="true" category="Colony Management" demographicData="false" type="Standard">
+        <dataset name="pairings" id="5024" showByDefault="false" category="Colony Management" demographicData="false" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="animal_group_members" id="5031" showByDefault="true" category="Colony Management" demographicData="false" type="Standard">
+        <dataset name="animal_group_members" id="5031" showByDefault="false" category="Colony Management" demographicData="false" type="Standard">
             <tags/>
         </dataset>
         <dataset name="animalAccounts" id="5032" showByDefault="true" category="Colony Management" demographicData="false" type="Standard">

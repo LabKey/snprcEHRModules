@@ -1,0 +1,12 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="servicerequested"/>
+        <column name="chargetype"/>
+        <column name="type"/>
+        <column name="datefinalized"/>
+        <column name="history"/>
+        <column name="QCState"/>
+    </columns>
+</customView>

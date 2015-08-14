@@ -1,0 +1,21 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="date"/>
+        <column name="testid"/>
+        <column name="value_type"/>
+        <column name="test_name"/>
+        <column name="result"/>
+        <column name="units"/>
+        <column name="refRange"/>
+        <column name="abnormal_flags"/>
+        <column name="remark"/>
+        <column name="runid"/>
+        <column name="Id"/>
+        <column name="resultNumber"/>
+        <column name="resultInRange"/>
+        <column name="qualresult"/>
+        <column name="history"/>
+        <column name="QCState"/>
+        <!--<column name="taskid"/>-->
+    </columns>
+</customView>

@@ -1,0 +1,34 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="aliq_create_date"/>
+        <column name="aliq_mod_date"/>
+        <column name="sample_create_date"/>
+        <column name="NECROPSY"/>
+        <column name="SHIPMENTSTATUS"/>
+        <column name="sample_deleted"/>
+        <column name="aliq_deleted"/>
+        <column name="PK_SAMPLEUID"/>
+        <column name="PK_ALIQUOTUID"/>
+        <column name="SAMPLE_TYPES"/>
+        <column name="COMMENTS"/>
+        <column name="NUMBEROFALIQUOTSWITHPOSITIONS"/>
+        <column name="CURRMAXALIQUOTNUMBER"/>
+        <column name="NUMBEROFALIQUOTSTOTAL"/>
+        <column name="INITIALAMOUNT"/>
+        <column name="STORAGE_VIAL"/>
+        <column name="CONCENTRATION"/>
+        <column name="CURRENTAMOUNT"/>
+        <column name="Freezer_desc"/>
+        <column name="POSITION1"/>
+        <column name="POSITION2"/>
+        <column name="POSITION3"/>
+        <column name="POSITION4"/>
+        <column name="POSITION5"/>
+        <column name="object_id"/>
+        <column name="user_name"/>
+        <column name="history"/>
+        <column name="QCState"/>
+    </columns>
+</customView>

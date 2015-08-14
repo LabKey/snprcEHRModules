@@ -1,0 +1,15 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="problem_no"/>
+        <column name="remark"/>
+        <column name="enddate"/>
+        <column name="description"/>
+        <column name="taskid"/>
+        <column name="category"/>
+        <column name="isActive"/>
+        <column name="history"/>
+        <column name="QCState"/>
+    </columns>
+</customView>
