@@ -200,12 +200,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
       //TODO: add protocol search
     }
 
-    @Test
-    public void testCustomQueries()
-    {
-        clickAndWait(Locator.linkWithText("Mature Female Exposed To Fertile Male"));
-        assertTextPresent("test3844307", "test5598475");
-    }
+//    @Test
+//    public void testCustomQueries()
+//    {
+//        clickAndWait(Locator.linkWithText("Mature Female Exposed To Fertile Male"));
+//        assertTextPresent("test3844307", "test5598475");
+//    }
 
     @Test
     public void testLookups()
