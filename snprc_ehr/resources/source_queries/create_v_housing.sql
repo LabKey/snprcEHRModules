@@ -39,13 +39,14 @@ ALTER VIEW [labkey_etl].[V_HOUSING] AS
 
 SELECT L.ID AS id, 
 	L.MOVE_DATE_TM AS date,
-	L.exit_date_tm AS enddate,
+	COALESCE(L.exit_date_tm, cd.disp_date_tm_max) AS enddate,
 	CAST(L.location AS VARCHAR(10)) AS room,
 	L.OBJECT_ID AS objectid,
 	L.entry_date_tm AS entry_date_tm,
 	L.user_name AS user_name,
 	L.TIMESTAMP
 FROM location AS L
+INNER JOIN dbo.current_data AS cd ON cd.id = L.id AND cd.location = L.location AND L.exit_date_tm IS null
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = l.id
 

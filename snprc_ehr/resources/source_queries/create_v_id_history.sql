@@ -27,7 +27,7 @@ GO
 /*==============================================================*/
 /* View: V_id_history                                           */
 /*==============================================================*/
-CREATE VIEW [labkey_etl].[V_ID_HISTORY] AS
+alter VIEW [labkey_etl].[V_ID_HISTORY] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 4/1/2015
@@ -45,7 +45,8 @@ vi.institution_name AS source_name,
 comment AS comment,
 object_id AS objectid,
 ih.user_name,
-ih.entry_date_tm
+ih.entry_date_tm,
+ih.timestamp
 
  FROM id_history AS ih
 JOIN dbo.valid_institutions AS vi ON vi.institution_id = ih.institution_id

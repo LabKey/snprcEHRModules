@@ -9,7 +9,7 @@
             <destination schemaName="study" queryName="blood" bulkLoad="true" targetOption="merge"/>
         </transform>
     </transforms>
-    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="entry_date_tm">
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
         <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_blood" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>
