@@ -33,45 +33,28 @@
                     var item = {
                         schemaName: 'study',
                         queryName: record.data.Label
-                    }
+                    };
 
                     var cfg = {
                         layout: 'hbox',
                         bodyStyle: 'background-color: transparent;',
                         defaults: LDK.panel.NavPanel.ITEM_DEFAULTS,
                         items: [
-                            this.getLabelItemCfg(item)
-                            ,
-//                        this.getSearchItemCfg(item, {
-//                            url: LABKEY.ActionURL.buildURL("query", "searchPanel", null, {schemaName: item.schemaName, queryName: item.queryName})
-//                        })
-//                          ,
+                            this.getLabelItemCfg(item),
                             this.getBrowseItemCfg(item, {
                                 url: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {schemaName: item.schemaName, 'query.queryName': item.queryName})
-                            })
-                            ,
-                            {
+                            }),{
                                 xtype: 'ldk-linkbutton',
-                                tooltip: item.searchTooltip || 'Click to display a table of all records of alive animals',
+                                tooltip: item.searchTooltip || 'Click to display a table of all records for living animals',
                                 href: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {schemaName: item.schemaName, 'query.queryName': item.queryName,
                                     'query.Id/Demographics/death~isblank':'' }),
-                                text: 'Browse All Alive'
-                            }
-                        ]
-                    }
-
-                    if(EHR.Security.hasPermission('Completed', 'admin', {schemaName: 'study', queryName: item.queryName})){
-                        cfg.items.push({
-                            xtype: 'ldk-linkbutton',
-                            tooltip: item.searchTooltip || 'Click to update records',
-                            href: LABKEY.ActionURL.buildURL('ehr', 'updateQuery', null, {schemaName: 'study', 'query.queryName': item.queryName, 'keyField': 'lsid'}),
-                            text: 'Update Records'
-                        });
-                    }
+                                text: 'Browse All Living Animals'
+                        }]
+                    };
 
                     return cfg;
                 }
-            }
+            };
 
             var sections = {};
             var section;
