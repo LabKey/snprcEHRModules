@@ -127,6 +127,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col15.setDescription("Shows the total offspring of each animal");
             ds.addColumn(col15);
         }
+
+        if (ds.getColumn("labworkHistory") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "labworkHistory", "demographicsLabwork", "Id", "Id");
+            col.setLabel("Labwork History");
+            col.setDescription("Shows the date of last labwork for a subsets of tests");
+            ds.addColumn(col);
+        }
     }
 
     private ColumnInfo getWrappedCol(UserSchema us, AbstractTableInfo ds, String name, String queryName, String colName, String targetCol)
