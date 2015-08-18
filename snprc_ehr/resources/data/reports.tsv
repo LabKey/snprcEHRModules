@@ -11,15 +11,16 @@ surgery	Surgery	query	Surgeries	true		study	Clinical Encounters	Surgeries		date	
 procedures	Clinical	query	Procedures	true		study	Clinical Encounters	Procedures		date	false	false		qcstate/publicdata
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 clinObs	Clinical	query	Observations	true		study	Clinical Observations			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
-clinObsBsu	Behavior	query	Observations	true		study	Clinical Observations	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
+clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
-behaviorRemarks	Behavior	query	Behavior Remarks	true		study	Clinical Remarks	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
-drug	Behavior	query	Behavior Treatments	true		study	Drug Administration	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
+behaviorRemarks	Behavior	js	Behavior Remarks	true		study	underDevelopment	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
+drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
 treatments	Clinical	query	Therapies	true		study	Treatment Orders			date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 diets	Clinical	query	Diets	true		study	Treatment Orders	Diets		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 drug	Clinical	query	Medications - All	true		study	drugsUnified			date	false	false		qcstate/publicdata	This report contains records of all medications administered to each animal
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
 clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory2	General	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 birth	Colony Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
 birth2	Reproductive Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
@@ -33,18 +34,17 @@ kinship	Genetics	js	Kinship	true		ehr	kinshipSummary				false	false		qcstate/pub
 pedigree	Genetics	js	Pedigree	true		study	pedigree				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 offspring	Reproductive Management	query	Offspring	true		study	demographicsOffspring				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
 pedigreePlot	Genetics	report	Pedigree Plot	true		study	pedigree		module:EHR/schemas/study/Pedigree/Pedigree.r		false	false		qcstate/publicdata	This report will generate a pedigree plot for the selected animal
-TB	Lab Results	query	TB Test Results	true		study	encounters	TB Tests		date	false	false		qcstate/publicdata	TB Test results
 snapshot	General	js	Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
 clinSnapshot	Clinical	js	Clinical Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
 arrival	General	query	Arrivals	true		study	arrival			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 departure	General	query	Departures	true		study	departure			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 blood	General	query	Blood Draw History	true		study	Blood Draws			date	false	false			Contains records of blood draws.  
-currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
 idHistory	General	query	ID History	true		study	idHistory			id_date	false	false			This report contains a summary of the identifiers that have been assigned for each animal
 generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 deaths	General	query	Deaths	true		study	Deaths			date	false	false		qcstate/publicdata	Contains a list of animal deaths
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
 biopsies	Pathology	query	Biopsies	true		study	Clinical Encounters	Biopsies		date	false	false		qcstate/publicdata	Contains information about biopsies
 necropsies	Pathology	query	Necropsies	true		study	Clinical Encounters	Necropsies		date	false	false		qcstate/publicdata	Contains information about necropsies
-reproSummary	Reproductive Management	js	Reproductive Summary	true		study	reproSummary			date	false	false		qcstate/publicdata
-menses	Reproductive Management	query	Menses	true		study	menseData			date	false	false		qcstate/publicdata
+reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
+menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
+freezerworks	General	query	Freezer/Sample Data	true		study	Freezer Samples			date	false	false		qcstate/publicdata

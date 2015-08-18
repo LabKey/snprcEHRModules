@@ -184,71 +184,6 @@
         </columns>
         <tableTitle>Animal Record Flags</tableTitle>
     </table>
-    <table tableName="delivery" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>timestamp</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
-                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="deliveryType">
-                <datatype>integer</datatype>
-            </column>
-            <column columnName="infant">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="sire">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="naturalMother">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="multipleBirths">
-                <datatype>boolean</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="remark">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Remark</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
-            <column columnName="parentid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ParentId</propertyURI>
-            </column>
-            <column columnName="taskid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#TaskId</propertyURI>
-            </column>
-            <column columnName="requestid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#RequestId</propertyURI>
-            </column>
-            <column columnName="description">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Description</propertyURI>
-            </column>
-            <column columnName="performedby">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#PerformedBy</propertyURI>
-            </column>
-        </columns>
-        <tableTitle>Delivery</tableTitle>
-    </table>
     <table tableName="serology" tableDbType="TABLE">
         <columns>
             <column columnName="Id">
@@ -328,65 +263,6 @@
             </column>
         </columns>
         <tableTitle>Serology Results</tableTitle>
-    </table>
-    <table tableName="pregnancyConfirmation" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>timestamp</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
-                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="sire">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="estDeliveryDate">
-                <datatype>timestamp</datatype>
-            </column>
-            <column columnName="confirmationType">
-                <datatype>integer</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="remark">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Remark</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
-            <column columnName="parentid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ParentId</propertyURI>
-            </column>
-            <column columnName="taskid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#TaskId</propertyURI>
-            </column>
-            <column columnName="requestid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#RequestId</propertyURI>
-            </column>
-            <column columnName="description">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Description</propertyURI>
-            </column>
-            <column columnName="performedby">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#PerformedBy</propertyURI>
-            </column>
-        </columns>
-        <tableTitle>Pregnancy Confirmations</tableTitle>
     </table>
     <table tableName="parentage" tableDbType="TABLE">
         <columns>

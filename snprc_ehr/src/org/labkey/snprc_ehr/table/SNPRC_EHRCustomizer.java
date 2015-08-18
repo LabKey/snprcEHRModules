@@ -18,6 +18,7 @@ package org.labkey.snprc_ehr.table;
 import org.apache.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.ForeignKey;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
@@ -62,14 +63,17 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
      */
     public void doSharedCustomization(AbstractTableInfo ti)
     {
-        /*
-            ColumnInfo projectCol = ti.getColumn("project");
-            if (projectCol != null)
+        //NOTE: SNPRC not using drugs w/ SNOMED codes, so remove the lookup for now
+        //another idea could be to populate the ehr_lookups.snomed table w/ string values to match their drug values
+        ColumnInfo snomedCol = ti.getColumn("code");
+        if (snomedCol != null)
+        {
+            ForeignKey fk = snomedCol.getFk();
+            if (fk != null && fk.getLookupTableName().equalsIgnoreCase("snomed"))
             {
-                projectCol.setLabel("I changed the label!");
+                snomedCol.setFk(null);
             }
-
-         */
+        }
     }
 
     /**

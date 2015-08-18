@@ -17,13 +17,7 @@
         <dataset name="flags" id="5019" category="Colony Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="delivery" id="5020" category="Reproductive Management" type="Standard" showByDefault="false">
-            <tags/>
-        </dataset>
         <dataset name="serology" id="5021" category="ClinPath" type="Standard" showByDefault="false">
-            <tags/>
-        </dataset>
-        <dataset name="pregnancyConfirmation" id="5022" category="Reproductive Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="parentage" id="5025" category="Colony Management" type="Standard" showByDefault="false">

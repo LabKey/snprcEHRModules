@@ -47,7 +47,7 @@
                                 xtype: 'ldk-linkbutton',
                                 tooltip: item.searchTooltip || 'Click to display a table of all records for living animals',
                                 href: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {schemaName: item.schemaName, 'query.queryName': item.queryName,
-                                    'query.Id/Demographics/death~isblank':'' }),
+                                    'query.Id/Demographics/calculated_status~eq=Alive':'' }),
                                 text: 'Browse All Living Animals'
                         }]
                     };
