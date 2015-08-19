@@ -1,9 +1,0 @@
-<query xmlns="http://labkey.org/data/xml/query">
-    <metadata>
-        <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="miscTests" tableDbType="TABLE" useColumnOrder="true">
-                <tableTitle>Misc Tests</tableTitle>
-            </table>
-        </tables>
-    </metadata>
-</query>

@@ -1,9 +1,0 @@
-<query xmlns="http://labkey.org/data/xml/query">
-    <metadata>
-        <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="housing" tableDbType="TABLE" useColumnOrder="true">
-                <tableTitle>housing</tableTitle>
-            </table>
-        </tables>
-    </metadata>
-</query>

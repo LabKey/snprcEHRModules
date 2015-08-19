@@ -1,9 +1,0 @@
-<query xmlns="http://labkey.org/data/xml/query">
-    <metadata>
-        <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="parentage" tableDbType="TABLE" useColumnOrder="true">
-                <tableTitle>parentage</tableTitle>
-            </table>
-        </tables>
-    </metadata>
-</query>
