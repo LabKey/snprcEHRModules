@@ -47,4 +47,4 @@ biopsies	Pathology	query	Biopsies	true		study	Clinical Encounters	Biopsies		date
 necropsies	Pathology	query	Necropsies	true		study	Clinical Encounters	Necropsies		date	false	false		qcstate/publicdata	Contains information about necropsies
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
 menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
-freezerworks	General	query	Freezer/Sample Data	true		study	Freezer Samples			date	false	false		qcstate/publicdata
+freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
