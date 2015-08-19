@@ -1,0 +1,9 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="vitals" tableDbType="TABLE" useColumnOrder="true">
+                <tableTitle>vitals</tableTitle>
+            </table>
+        </tables>
+    </metadata>
+</query>

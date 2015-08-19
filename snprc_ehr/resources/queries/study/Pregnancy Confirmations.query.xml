@@ -1,0 +1,9 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="pregnancyConfirmation" tableDbType="TABLE" useColumnOrder="true">
+                <tableTitle>Pregnancy Confirmations</tableTitle>
+            </table>
+        </tables>
+    </metadata>
+</query>

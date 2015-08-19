@@ -1,0 +1,9 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="iStat" tableDbType="TABLE" useColumnOrder="true">
+                <tableTitle>iStat</tableTitle>
+            </table>
+        </tables>
+    </metadata>
+</query>
