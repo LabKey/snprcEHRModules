@@ -16,41 +16,34 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[V_HOUSING]    Script Date: 12/31/2014 2:54:09 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
 /*==============================================================*/
-/* View: V_HOUSING                                              */
+/* View: v_delete_therapy                                               */
 /*==============================================================*/
-
-
-ALTER VIEW [labkey_etl].[V_HOUSING] AS
+ALTER VIEW [labkey_etl].[v_delete_therapy] as
 -- ====================================================================================================================
--- Object: v_housing
--- Author:	Terry Hawkins
--- Create date: 1/2015
+-- Object: v_delete_therapy
+-- Author:		Terry Hawkins
+-- Create date: 7/15/2015
+--
 -- ==========================================================================================
+SELECT 
+	ad.object_id,
+	ad.audit_date_tm
 
-SELECT L.ID AS id, 
-	L.MOVE_DATE_TM AS date,
-	COALESCE(L.exit_date_tm, cd.disp_date_tm_max) AS enddate,
-	CAST(L.location AS VARCHAR(10)) AS room,
-	L.OBJECT_ID AS objectid,
-	L.entry_date_tm AS entry_date_tm,
-	L.user_name AS user_name,
-	L.TIMESTAMP
-FROM location AS L
-INNER JOIN dbo.current_data AS cd ON cd.id = L.id 
+FROM audit.audit_diet AS ad
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = l.id
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+WHERE ad.audit_action = 'D' AND ad.object_id IS NOT NULL
+ 
+go
 
-GO
+GRANT SELECT on labkey_etl.v_delete_therapy to z_labkey
+GRANT SELECT ON audit.audit_therapy TO z_labkey
 
-GRANT SELECT ON labkey_etl.v_housing TO z_labkey
-GO
+go

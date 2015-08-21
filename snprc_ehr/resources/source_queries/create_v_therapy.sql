@@ -16,7 +16,6 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[V_HOUSING]    Script Date: 12/31/2014 2:54:09 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -26,31 +25,38 @@ GO
 
 
 /*==============================================================*/
-/* View: V_HOUSING                                              */
+/* View: V_THERAPY                                              */
 /*==============================================================*/
 
 
-ALTER VIEW [labkey_etl].[V_HOUSING] AS
+ALTER VIEW [labkey_etl].[V_THERAPY] AS
 -- ====================================================================================================================
--- Object: v_housing
+-- Object: v_therapy
 -- Author:	Terry Hawkins
--- Create date: 1/2015
+-- Create date: 8/20/2015
 -- ==========================================================================================
 
-SELECT L.ID AS id, 
-	L.MOVE_DATE_TM AS date,
-	COALESCE(L.exit_date_tm, cd.disp_date_tm_max) AS enddate,
-	CAST(L.location AS VARCHAR(10)) AS room,
-	L.OBJECT_ID AS objectid,
-	L.entry_date_tm AS entry_date_tm,
-	L.user_name AS user_name,
-	L.TIMESTAMP
-FROM location AS L
-INNER JOIN dbo.current_data AS cd ON cd.id = L.id 
+SELECT t.ID AS id, 
+	t.start_date AS date,
+	t.stop_date AS enddate,
+	'Therapy' AS category,
+	t.drug AS code,
+	t.dose	AS amount,
+	t.units	AS amount_units,
+	t.route	AS ROUTE,
+	vtf.tid	AS frequency,
+	t.dx AS reason,
+	t.tid AS visitRowId,
+	t.OBJECT_ID AS objectid,
+	t.entry_date_tm AS modified,
+	t.user_name AS user_name,
+	t.TIMESTAMP
+FROM dbo.therapy AS t
+INNER JOIN dbo.valid_therapy_frequencies AS vtf ON vtf.frequency = t.frequency
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = l.id
+INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = t.id
 
 GO
 
-GRANT SELECT ON labkey_etl.v_housing TO z_labkey
+GRANT SELECT ON labkey_etl.v_therapy TO z_labkey
 GO

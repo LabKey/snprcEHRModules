@@ -467,7 +467,7 @@
         <tableTitle>Tissue Measurements</tableTitle>
     </table>
     <table tableName="cases" tableDbType="TABLE">
-        <columns>
+        <col2umns>
             <column columnName="Id">
                 <datatype>varchar</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
@@ -544,7 +544,7 @@
             <column columnName="problem">
                 <datatype>varchar</datatype>
             </column>
-        </columns>
+        </col2umns>
         <tableTitle>Cases</tableTitle>
     </table>
     <table tableName="matings" tableDbType="TABLE">

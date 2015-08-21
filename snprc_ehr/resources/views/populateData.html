@@ -145,7 +145,15 @@ Ext4.onReady(function(){
         },
 
 
-        // Keep Lookup Sets first in the list
+        // Keep Lookup Sets first in the list            {
+
+            {
+                label: 'Status codes',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'status_codes',
+                pk: 'code'
+            },
             {
                 label: 'Assignment status',
                 populateFn: 'populateFromFile',

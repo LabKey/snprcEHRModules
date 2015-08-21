@@ -1,0 +1,4 @@
+rowid	set_name	value	description
+1	status_codes	Alive	Alive and residing at TxBIOMED
+2	status_codes	Dead	Death occured at TxBiomed
+3	status_codes	Other	Disposition other than death
