@@ -22,6 +22,7 @@ import org.labkey.api.data.ForeignKey;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
+import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
@@ -133,6 +134,16 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ColumnInfo col = getWrappedCol(us, ds, "labworkHistory", "demographicsLabwork", "Id", "Id");
             col.setLabel("Labwork History");
             col.setDescription("Shows the date of last labwork for a subsets of tests");
+            ds.addColumn(col);
+        }
+
+        //do we have freezer samples?
+        if (ds.getColumn("freezerSamples") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "freezerSamples", "demographicsFreezers", "Id", "Id");
+            col.setLabel("Freezer Samples");
+            col.setDescription("Shows the number of archived freezer samples");
+            col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=freezerWorks&query.Id~eq=${Id}", ds.getContainerContext()));
             ds.addColumn(col);
         }
     }
