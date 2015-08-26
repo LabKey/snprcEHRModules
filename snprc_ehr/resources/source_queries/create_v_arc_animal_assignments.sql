@@ -19,12 +19,13 @@ CREATE VIEW [labkey_etl].[v_arc_animal_assignments] AS
 -- ==========================================================================================
 
 SELECT aaa.id, 
-	aaa.start_date,
-	aaa.end_date, 
+	aaa.start_date AS date,
+	aaa.end_date AS enddate,
 	aaa.arc_num_seq, 
 	aaa.arc_num_genus,
 	aaa.working_iacuc,
-	aaa.status,
+	ca.project,
+	aaa.status AS animalStatus,
 	aaa.user_name,
 	aaa.entry_date_tm,
 	aaa.timestamp
@@ -32,7 +33,7 @@ SELECT aaa.id,
  FROM dbo.arc_animal_assignments AS aaa
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aaa.id
-
+INNER JOIN Labkey_etl.v_charge_account ca ON ca.protocol = aaa.working_iacuc
 GO
 
 GRANT SELECT ON labkey_etl.v_arc_animal_assignments TO z_labkey
