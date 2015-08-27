@@ -636,12 +636,6 @@
             <column columnName="wdate">
                 <datatype>timestamp</datatype>
             </column>
-            <column columnName="dam">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="sire">
-                <datatype>varchar</datatype>
-            </column>
             <column columnName="room">
                 <datatype>varchar</datatype>
             </column>
