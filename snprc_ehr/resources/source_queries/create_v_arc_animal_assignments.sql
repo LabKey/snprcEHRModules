@@ -7,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE VIEW [labkey_etl].[v_arc_animal_assignments] AS
+alter VIEW [labkey_etl].[v_arc_animal_assignments] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 8/14/2015
@@ -25,7 +25,7 @@ SELECT aaa.id,
 	aaa.arc_num_genus,
 	aaa.working_iacuc,
 	ca.project,
-	aaa.status AS animalStatus,
+	aaa.status AS assignment_status,
 	aaa.user_name,
 	aaa.entry_date_tm,
 	aaa.timestamp

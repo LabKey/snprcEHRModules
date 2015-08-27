@@ -35,7 +35,7 @@ select m.object_id as objectid,
 	m.sex AS gender, 
 	lower(avs.common_name) as species,
 	m.entry_date_tm AS entry_date_tm,
-	CASE WHEN cd.at_sfbr = 'Y' THEN 'Alive' WHEN (cd.at_sfbr = 'N' AND m.death_date IS NULL) THEN 'Other' ELSE 'Dead' END AS calculated_status,
+	CASE WHEN cd.at_sfbr = 'Y' THEN 'Alive' WHEN (cd.at_sfbr = 'N' AND m.death_date IS NULL) THEN 'Other' ELSE 'Dead' END AS status,
 	m.user_name AS user_name, 
 	m.timestamp
 from master m 

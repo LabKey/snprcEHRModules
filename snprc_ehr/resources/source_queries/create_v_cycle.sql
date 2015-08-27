@@ -57,7 +57,7 @@ FROM  ( SELECT c.id ,
          FROM cycle AS c
 		-- select primates only from the TxBiomed colony
 		INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
-		WHERE c.id = ' 30910'
+		--WHERE c.id = ' 30910'
 		 
 		 ) AS p
 
