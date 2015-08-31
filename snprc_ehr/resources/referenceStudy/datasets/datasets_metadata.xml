@@ -2279,6 +2279,10 @@
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
             </column>
+            <column columnName="protocol">
+                <datatype>varchar</datatype>
+                <propertyURI>urn:ehr.labkey.org/#Protocol</propertyURI>
+            </column>
             <column columnName="remark">
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Remark</propertyURI>
