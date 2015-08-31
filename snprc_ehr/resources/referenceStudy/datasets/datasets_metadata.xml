@@ -2323,10 +2323,6 @@
             <column columnName="groupId">
                 <datatype>integer</datatype>
             </column>
-            <column columnName="remark">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Remark</propertyURI>
-            </column>
             <column columnName="description">
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Description</propertyURI>
@@ -2351,9 +2347,6 @@
             <column columnName="requestid">
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#RequestId</propertyURI>
-            </column>
-            <column columnName="releaseType">
-                <datatype>varchar</datatype>
             </column>
         </columns>
         <tableTitle>Animal Group Members</tableTitle>

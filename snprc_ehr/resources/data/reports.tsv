@@ -48,3 +48,6 @@ necropsies	Pathology	query	Necropsies	true		study	Clinical Encounters	Necropsies
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
 menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
 freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
+breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+colonyAssignments	Assignments and Groups	query	Colony Assignments	true		study	colonyAssignments			date	false	false			This report contains the colony assignments for the animal
