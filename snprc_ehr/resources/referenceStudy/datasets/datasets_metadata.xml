@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tables xmlns="http://labkey.org/data/xml">
+    <table tableName="pregnancyConfirmation" tableDbType="TABLE" useColumnOrder="true">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="termDate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="termCode">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="confirmDate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="lastObscanDate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="sire">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+        </columns>
+    </table>
     <table tableName="antibioticSensitivity" tableDbType="TABLE">
         <columns>
             <column columnName="Id">

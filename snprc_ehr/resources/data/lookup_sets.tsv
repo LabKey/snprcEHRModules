@@ -72,3 +72,4 @@ id_type	Id Type	value
 assignment_status	Assignment Status	value
 treatment_frequency	Treatment Frequency	value
 status_codes	Status	code
+preg_term_code	Pregnancy Termination Code	value

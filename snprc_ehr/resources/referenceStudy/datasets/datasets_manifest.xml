@@ -8,6 +8,9 @@
         <category>Pathology</category>
     </categories>
     <datasets>
+        <dataset name="pregnancyConfirmation" id="5035" category="Colony Management" type="Standard">
+            <tags/>
+        </dataset>
         <dataset name="antibioticSensitivity" id="5011" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>

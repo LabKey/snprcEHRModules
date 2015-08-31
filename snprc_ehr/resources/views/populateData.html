@@ -153,6 +153,12 @@ Ext4.onReady(function(){
                 schemaName: 'ehr_lookups',
                 queryName: 'status_codes',
                 pk: 'code'
+            },            {
+                label: 'Pregnancy termination codes',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'preg_term_code',
+                pk: 'value'
             },
             {
                 label: 'Assignment status',
