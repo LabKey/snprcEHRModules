@@ -28,12 +28,11 @@ SELECT aaa.id,
 	aaa.object_id as objectid,
 	aaa.user_name,
 	aaa.entry_date_tm,
-	(SELECT MAX(v) FROM (VALUES  (ca.timestamp), (aaa.timestamp )) AS VALUE (v) ) AS timestamp
+	aaa.timestamp AS timestamp
 	
  FROM dbo.arc_animal_assignments AS aaa
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aaa.id
-INNER JOIN Labkey_etl.v_charge_account ca ON ca.protocol = aaa.working_iacuc
 GO
 
 GRANT SELECT ON labkey_etl.v_arc_animal_assignments TO z_labkey

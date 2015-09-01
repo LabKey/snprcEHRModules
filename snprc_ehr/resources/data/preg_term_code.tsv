@@ -1,0 +1,12 @@
+rowid	set_name	value	description	sort_order
+1	preg_term_code	1	Vaginal delivery (at SFBR)	1
+2	preg_term_code	2	Cesarean section (at SFBR)	2
+3	preg_term_code	3	Stillbirth	3
+4	preg_term_code	6	Surgical removal of dead fetus	6
+5	preg_term_code	22	Cesarean section (other than SFBR)	22
+6	preg_term_code	23	Vaginal delivery (other than SFBR)	23
+7	preg_term_code	28	Euthanized in utero, colony management	28
+8	preg_term_code	95	sold	95
+9	preg_term_code	96	Dropped from timed pregnancy program	96
+10	preg_term_code	97	Dam died	97
+11	preg_term_code	98	Recycled	98
