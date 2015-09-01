@@ -54,6 +54,18 @@
                           <fkColumnName>Id</fkColumnName>
                         </fk>
                     </column>
+                    <column columnName="Folder">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="Id_Parents_Folder">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="Id_Parents_Folder1">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="Id_Parents_Folder2">
+                        <isHidden>true</isHidden>
+                    </column>
                 </columns>
                 <titleColumn>Id</titleColumn>
             </table>

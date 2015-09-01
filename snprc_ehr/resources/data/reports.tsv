@@ -4,9 +4,9 @@ assignmentHistory	Assignments and Groups	query	Assignment History	true		study	As
 biochemistry	Lab Results	js	Biochemistry	true		study	bloodChemistry			date	false	false			Contains results of chemistry panels.  Can be displayed either by panel, or showing reference ranges
 clinPathRuns	Lab Results	query	Lab Runs	true		study	Clinpath Runs			date	false	false		qcstate/publicdata	Contains all clinpath requests
 hematology	Lab Results	js	Hematology	true		study	hematology			date	false	false			Contains hematology data showing cell subsets
-urinalysis	Lab Results	js	Urinalysis	true		study	urinalysisResults			date	false	false			Contains urinalysis results
-miscTests	Lab Results	query	Misc Tests	true		study	Misc Tests			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
-serology	Lab Results	query	Serology	true		study	Serology Results			date	false	false		qcstate/publicdata	This report contains the results of serology tests
+surveillance	Lab Results	js	Surveillance	true		study	surveillance			date	false	false			Contains surveillance data
+urinalysis	Lab Results	js	Urinalysis	true		study	underDevelopment			date	false	false			Contains urinalysis results
+miscTests	Lab Results	js	Misc Tests	true		study	underDevelopment			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
 surgery	Surgery	query	Surgeries	true		study	Clinical Encounters	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 procedures	Clinical	query	Procedures	true		study	Clinical Encounters	Procedures		date	false	false		qcstate/publicdata
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.

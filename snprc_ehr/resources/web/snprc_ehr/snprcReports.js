@@ -21,7 +21,8 @@ EHR.reports.underDevelopment = function(panel, tab){
     });
 };
 
-EHR.reports.hematology = function(panel, tab){
+EHR.reports.hematology = function(panel, tab)
+{
     var filterArray = panel.getFilterArray(tab);
     var title = panel.getTitleSuffix();
 
@@ -41,23 +42,24 @@ EHR.reports.hematology = function(panel, tab){
         queryConfig: config
     });
 
-    var miscConfig = panel.getQWPConfig({
-        schemaName: 'study',
-        queryName: 'hematologyMisc',
-        title: "Misc Tests" + title,
-        titleField: 'Id',
-        sort: '-date',
-        filters: filterArray.nonRemovable,
-        removeableFilters: filterArray.removable
-    });
+    // All tests are currently configured to be part of the panel, so this will always be blank
+    //var miscConfig = panel.getQWPConfig({
+    //    schemaName: 'study',
+    //    queryName: 'hematologyMisc',
+    //    title: "Misc Tests" + title,
+    //    titleField: 'Id',
+    //    sort: '-date',
+    //    filters: filterArray.nonRemovable,
+    //    removeableFilters: filterArray.removable
+    //});
+    //
+    //tab.add({
+    //    xtype: 'ldk-querypanel',
+    //    style: 'margin-bottom:20px;',
+    //    queryConfig: miscConfig
+    //});
 
-    tab.add({
-        xtype: 'ldk-querypanel',
-        style: 'margin-bottom:20px;',
-        queryConfig: miscConfig
-    });
-
-    // No reference range data currently available for SNPRC
+    // Reference range data not yet split into separate min/max values so disabling for now
     //var resultsConfig = panel.getQWPConfig({
     //    schemaName: 'study',
     //    queryName: 'hematologyRefRange',
@@ -74,3 +76,124 @@ EHR.reports.hematology = function(panel, tab){
     //    queryConfig: resultsConfig
     //});
 };
+
+EHR.reports.bloodChemistry = function(panel, tab){
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
+
+    var config = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'chemPivot',
+        title: "By Panel:",
+        titleField: 'Id',
+        sort: '-date',
+        filters: filterArray.nonRemovable,
+        removeableFilters: filterArray.removable
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: config
+    });
+
+    // All tests are currently configured to be part of the panel, so this will always be blank. Uncomment when/if
+    // ehr_lookups.lab_tests data changes
+
+    //config = panel.getQWPConfig({
+    //    schemaName: 'study',
+    //    queryName: 'chemMisc',
+    //    title: "Misc Tests:",
+    //    titleField: 'Id',
+    //    sort: '-date',
+    //    filters: filterArray.nonRemovable,
+    //    removeableFilters: filterArray.removable
+    //});
+    //
+    //tab.add({
+    //    xtype: 'ldk-querypanel',
+    //    style: 'margin-bottom:20px;',
+    //    queryConfig: config
+    //});
+
+
+    // Reference range data not yet split into separate min/max values so disabling for now
+
+    //config = panel.getQWPConfig({
+    //    schemaName: 'study',
+    //    queryName: 'chemistryRefRange',
+    //    //viewName: 'Plus Ref Range',
+    //    title: "Reference Ranges:",
+    //    titleField: 'Id',
+    //    sort: '-date',
+    //    filters: filterArray.nonRemovable,
+    //    removeableFilters: filterArray.removable
+    //});
+    //
+    //tab.add({
+    //    xtype: 'ldk-querypanel',
+    //    style: 'margin-bottom:20px;',
+    //    queryConfig: config
+    //});
+};
+
+EHR.reports.surveillance = function(panel, tab){
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
+
+    var config = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'surveillancePivot',
+        title: "By Panel:",
+        titleField: 'Id',
+        sort: '-date',
+        filters: filterArray.nonRemovable,
+        removeableFilters: filterArray.removable
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: config
+    });
+
+    // All tests are currently configured to be part of the panel, so this will always be blank. Uncomment when/if
+    // ehr_lookups.lab_tests data changes
+
+    //config = panel.getQWPConfig({
+    //    schemaName: 'study',
+    //    queryName: 'surveillanceMisc',
+    //    title: "Misc Tests:",
+    //    titleField: 'Id',
+    //    sort: '-date',
+    //    filters: filterArray.nonRemovable,
+    //    removeableFilters: filterArray.removable
+    //});
+    //
+    //tab.add({
+    //    xtype: 'ldk-querypanel',
+    //    style: 'margin-bottom:20px;',
+    //    queryConfig: config
+    //});
+
+
+    // Reference range data not yet split into separate min/max values so disabling for now
+
+    //config = panel.getQWPConfig({
+    //    schemaName: 'study',
+    //    queryName: 'surveillanceRefRange',
+    //    //viewName: 'Plus Ref Range',
+    //    title: "Reference Ranges:",
+    //    titleField: 'Id',
+    //    sort: '-date',
+    //    filters: filterArray.nonRemovable,
+    //    removeableFilters: filterArray.removable
+    //});
+    //
+    //tab.add({
+    //    xtype: 'ldk-querypanel',
+    //    style: 'margin-bottom:20px;',
+    //    queryConfig: config
+    //});
+};
+

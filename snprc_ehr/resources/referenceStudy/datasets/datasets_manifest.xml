@@ -20,9 +20,6 @@
         <dataset name="flags" id="5019" category="Colony Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="serology" id="5021" category="ClinPath" type="Standard" showByDefault="false">
-            <tags/>
-        </dataset>
         <dataset name="parentage" id="5025" category="Colony Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
@@ -71,9 +68,6 @@
         <dataset name="vitals" id="1063" showByDefault="false" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="chemistryResults" id="1056" category="ClinPath" type="Standard">
-            <tags/>
-        </dataset>
         <dataset name="iStat" id="5026" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
@@ -81,9 +75,6 @@
             <tags/>
         </dataset>
         <dataset name="clinpathRuns" id="1073" category="ClinPath" type="Standard">
-            <tags/>
-        </dataset>
-        <dataset name="hematologyResults" id="1059" category="ClinPath" type="Standard">
             <tags/>
         </dataset>
         <dataset name="labworkResults" id="1060" category="ClinPath" type="Standard">
