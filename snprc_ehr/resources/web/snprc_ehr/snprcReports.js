@@ -20,3 +20,57 @@ EHR.reports.underDevelopment = function(panel, tab){
         }
     });
 };
+
+EHR.reports.hematology = function(panel, tab){
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
+
+    var config = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'hematologyPivot',
+        title: "By Panel" + title,
+        titleField: 'Id',
+        filters: filterArray.nonRemovable,
+        removeableFilters: filterArray.removable,
+        sort: '-date'
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: config
+    });
+
+    var miscConfig = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'hematologyMisc',
+        title: "Misc Tests" + title,
+        titleField: 'Id',
+        sort: '-date',
+        filters: filterArray.nonRemovable,
+        removeableFilters: filterArray.removable
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: miscConfig
+    });
+
+    // No reference range data currently available for SNPRC
+    //var resultsConfig = panel.getQWPConfig({
+    //    schemaName: 'study',
+    //    queryName: 'hematologyRefRange',
+    //    //viewName: 'Plus Ref Range',
+    //    title: "Reference Ranges:",
+    //    titleField: 'Id',
+    //    filters: filterArray.nonRemovable,
+    //    removeableFilters: filterArray.removable
+    //});
+    //
+    //tab.add({
+    //    xtype: 'ldk-querypanel',
+    //    style: 'margin-bottom:20px;',
+    //    queryConfig: resultsConfig
+    //});
+};

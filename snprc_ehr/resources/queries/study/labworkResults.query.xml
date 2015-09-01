@@ -24,14 +24,12 @@
                         <nullable>false</nullable>
                         <columnTitle>Test Id</columnTitle>
                         <displayWidth>10</displayWidth>
-                        <!--
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>lab_tests</fkTable>
                             <fkColumnName>testid</fkColumnName>
                             <fkDisplayColumnName useRawValue="true"/>
                         </fk>
-                        -->
                     </column>
                     <column columnName="resultOORIndicator">
                         <nullable>true</nullable>
