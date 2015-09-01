@@ -1,5 +1,5 @@
  <query xmlns="http://labkey.org/data/xml/query">
-    <metadata> 
+    <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="Assignment" tableDbType="TABLE" useColumnOrder="true">
                 <tableUrl />
@@ -19,10 +19,12 @@
                         </fk>
                     </column>
                     <column columnName="protocol">
+                        <columnTitle>Protocol</columnTitle>
                         <fk>
                             <fkDbSchema>ehr</fkDbSchema>
-                            <fkTable>project</fkTable>
+                            <fkTable>protocol</fkTable>
                             <fkColumnName>protocol</fkColumnName>
+                            <fkDisplayColumnName>protocol</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="date">
