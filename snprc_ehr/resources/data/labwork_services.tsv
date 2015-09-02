@@ -1,4 +1,19 @@
 servicename	outsidelab	chargetype	dataset	tissue	collectionmethod	method
+TISSUE, EVALUATION	false	Clinpath
+SMEAR, GRAM STAIN	false	Clinpath
+COMPREHENSIVE UNKNOW	false	Clinpath
+SUSCEPT., GRAM-NEG	false	Clinpath
+CULTURE, ANAEROBIC	false	Clinpath
+CULTURE, BRUCELLA	false	Clinpath
+CULTURE, FUNGAL	false	Clinpath
+SUSCEPT., COMBINED	false	Clinpath
+SHIGELLA SCREEN	false	Clinpath
+SUSCEPT., GRAM-POS	false	Clinpath
+CULTURE, BLOOD	false	Clinpath
+SUSCEPTIBILITY	false	Clinpath
+CULTURE, CAGE WASH	false	Clinpath
+CULTURE, ROUTINE	false	Clinpath
+CULTURE, STOOL	false	Clinpath
 ADENOVIRUS, GRP SPEC	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 B VIRUS	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 B VIRUS by PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
@@ -25,6 +40,7 @@ MEASLES (RUBEOLA)	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 MEASLES BY PCR	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 MRSA SCREEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 REOVIRUS AB	false	SPF Surveillance Lab	Serology/Virology	T-0X500
+RHESUS SPF SCREEN RE	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 RHESUS SPF SCREEN	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 SIMIAN BASIC + TB VI	false	SPF Surveillance Lab	Serology/Virology	T-0X500
 SIMIAN BASIC VIRAL S	false	SPF Surveillance Lab	Serology/Virology	T-0X500
