@@ -24,129 +24,8 @@ function importFile(config) {
 }
 
 Ext4.onReady(function(){
-    var webpart = <%=webpartContext%>;
-    Ext4.define('SNPRC_EHR.panel.PopulateDataPanel', {
-        extend: 'Ext.panel.Panel',
-    
-        initComponent: function(){
-            Ext4.apply(this, {
-                defaults: {
-                    style: 'padding: 10px;'
-                },
-                items: this.getItems()
-            });
 
-            this.pendingInserts = 0;
-            this.pendingDeletes = 0;
-
-            this.callParent();
-        },
-
-        getItems: function(){
-            var tableItems = [];
-            var items = [{
-                layout: 'hbox',
-                border: false,
-                items: [{
-                    border: false,
-                    layout: {
-                        type: 'table',
-                        columns: 2
-                    },
-                    defaults: {
-                        style: 'margin: 2px;'
-                    },
-                    items: tableItems
-                },{
-                  border: false,
-                  itemId: 'ehr_msg',
-                  xtype: 'box',
-                  width: "400px",
-                  style: {overflow: "scroll"},
-                  html: '<div id="msgbox"></div>'
-                }]
-            }];
-
-            Ext4.each(this.tables, function(table){
-                tableItems.push({
-                    xtype: 'button',
-                    text: 'Populate ' + table.label,
-                    scope: this,
-                    handler: function(){
-                        document.getElementById('msgbox').innerHTML = '<div>Populating ' + table.queryName + '...</div>';
-                        if (table.populateFn == 'populateFromFile') {
-                          this.populateFromFile.call(this, table.schemaName, table.queryName);
-                        } else {
-                          this[table.populateFn].call(this);
-                        }
-                    }
-                });
-
-                tableItems.push({
-                    xtype: 'button',
-                    text: 'Delete Data From ' + table.label,
-                    scope: this,
-                    handler: function(){
-                        document.getElementById('msgbox').innerHTML = '<div>Deleting ' + table.label + '...</div>';
-                        this.deleteHandler(table);
-                    }
-                });
-            }, this);
-
-            tableItems.push({
-                xtype: 'button',
-                text: 'Populate All',
-                scope: this,
-                handler: function(){
-                    document.getElementById('msgbox').innerHTML = '';
-                    Ext4.each(this.tables, function(table){
-                        if (!table.doSkip) {
-                            document.getElementById('msgbox').innerHTML += '<div>Populating ' + table.queryName + '...</div>';
-                            if (table.populateFn == 'populateFromFile') {
-                              this.populateFromFile.call(this, table.schemaName, table.queryName);
-                            } else {
-                              this[table.populateFn]();
-                            }
-                        } else {
-                            document.getElementById('msgbox').innerHTML += '<div>Skipping ' + table.label + '</div>';
-                            console.log('skipping: ' + table.label)
-                        }
-                    }, this);
-                }
-            });
-            tableItems.push({
-                xtype: 'button',
-                text: 'Delete All',
-                scope: this,
-                handler: function(){
-                    this.pendingDeletes = 0;
-                    document.getElementById('msgbox').innerHTML = '';
-                    Ext4.each(this.tables, function(table){
-                        if (!table.doSkip) {
-                            document.getElementById('msgbox').innerHTML += '<div>Deleting ' + table.label + '...</div>';
-                            this.deleteHandler(table);
-                        } else {
-                            document.getElementById('msgbox').innerHTML += '<div>Skipping ' + table.label + '</div>';
-                            console.log('skipping: ' + table.label);
-                        }
-                    }, this);
-                }
-            });
-
-            return items;
-        },
-
-        tables: [{
-            label: 'Lookup Sets',
-            doSkip: true,
-            populateFn: 'populateLookupSets',
-            schemaName: 'ehr_lookups',
-            queryName: 'lookup_sets'
-        },
-
-
-        // Keep Lookup Sets first in the list            {
-
+    var tables = [
             {
                 label: 'Status codes',
                 populateFn: 'populateFromFile',
@@ -756,8 +635,135 @@ Ext4.onReady(function(){
                 });
             },
             pk: 'rowid'
-        }],
+        }
+    ];
 
+    tables.sort(function(a, b) {
+        return a.label < b.label ? -1 : 1;
+    });
+
+    // Keep lookup sets as the first item
+    tables.splice(0, 0, {
+                label: 'Lookup Sets',
+                doSkip: true,
+                populateFn: 'populateLookupSets',
+                schemaName: 'ehr_lookups',
+                queryName: 'lookup_sets'
+            });
+
+    var webpart = <%=webpartContext%>;
+    Ext4.define('SNPRC_EHR.panel.PopulateDataPanel', {
+        extend: 'Ext.panel.Panel',
+    
+        initComponent: function(){
+            Ext4.apply(this, {
+                defaults: {
+                    style: 'padding: 10px;'
+                },
+                items: this.getItems()
+            });
+
+            this.pendingInserts = 0;
+            this.pendingDeletes = 0;
+
+            this.callParent();
+        },
+
+        getItems: function(){
+            var tableItems = [];
+            var items = [{
+                layout: 'hbox',
+                border: false,
+                items: [{
+                    border: false,
+                    layout: {
+                        type: 'table',
+                        columns: 2
+                    },
+                    defaults: {
+                        style: 'margin: 2px;'
+                    },
+                    items: tableItems
+                },{
+                  border: false,
+                  itemId: 'ehr_msg',
+                  xtype: 'box',
+                  width: "400px",
+                  style: {overflow: "scroll"},
+                  html: '<div id="msgbox"></div>'
+                }]
+            }];
+
+            Ext4.each(this.tables, function(table){
+                tableItems.push({
+                    xtype: 'button',
+                    text: 'Populate ' + table.label,
+                    scope: this,
+                    handler: function(){
+                        document.getElementById('msgbox').innerHTML = '<div>Populating ' + table.queryName + '...</div>';
+                        if (table.populateFn == 'populateFromFile') {
+                          this.populateFromFile.call(this, table.schemaName, table.queryName);
+                        } else {
+                          this[table.populateFn].call(this);
+                        }
+                    }
+                });
+
+                tableItems.push({
+                    xtype: 'button',
+                    text: 'Delete Data From ' + table.label,
+                    scope: this,
+                    handler: function(){
+                        document.getElementById('msgbox').innerHTML = '<div>Deleting ' + table.label + '...</div>';
+                        this.deleteHandler(table);
+                    }
+                });
+            }, this);
+
+            tableItems.push({
+                xtype: 'button',
+                text: 'Populate All',
+                scope: this,
+                handler: function(){
+                    document.getElementById('msgbox').innerHTML = '';
+                    Ext4.each(this.tables, function(table){
+                        if (!table.doSkip) {
+                            document.getElementById('msgbox').innerHTML += '<div>Populating ' + table.queryName + '...</div>';
+                            if (table.populateFn == 'populateFromFile') {
+                              this.populateFromFile.call(this, table.schemaName, table.queryName);
+                            } else {
+                              this[table.populateFn]();
+                            }
+                        } else {
+                            document.getElementById('msgbox').innerHTML += '<div>Skipping ' + table.label + '</div>';
+                            console.log('skipping: ' + table.label)
+                        }
+                    }, this);
+                }
+            });
+            tableItems.push({
+                xtype: 'button',
+                text: 'Delete All',
+                scope: this,
+                handler: function(){
+                    this.pendingDeletes = 0;
+                    document.getElementById('msgbox').innerHTML = '';
+                    Ext4.each(this.tables, function(table){
+                        if (!table.doSkip) {
+                            document.getElementById('msgbox').innerHTML += '<div>Deleting ' + table.label + '...</div>';
+                            this.deleteHandler(table);
+                        } else {
+                            document.getElementById('msgbox').innerHTML += '<div>Skipping ' + table.label + '</div>';
+                            console.log('skipping: ' + table.label);
+                        }
+                    }, this);
+                }
+            });
+
+            return items;
+        },
+
+        tables: tables,
         deleteHandler: function(table){
             if (table.deleteFn){
                 table.deleteFn.call(this);
