@@ -20,8 +20,17 @@ import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ldk.ExtendedSimpleModule;
+import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DetailsURL;
+import org.labkey.api.security.User;
+import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.ReadPermission;
+import org.labkey.api.study.StudyUrls;
+import org.labkey.api.study.assay.AssayUrls;
+import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.view.ActionURL;
+import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
@@ -90,6 +99,18 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
+
+        AdminLinkManager.getInstance().addListener(new AdminLinkManager.Listener()
+        {
+            @Override
+            public void addAdminLinks(NavTree adminNavTree, Container container, User user)
+            {
+                if (container.hasPermission(user, AdminPermission.class) && container.getActiveModules().contains(SNPRC_EHRModule.this))
+                {
+                    adminNavTree.addChild(new NavTree("EHR Admin Page", new ActionURL("snprc_ehr", "ehrAdmin", container)));
+                }
+            }
+        });
     }
 
     @Override

@@ -11,6 +11,8 @@
         <column name="project"/>
         <column name="performedBy"/>
         <column name="history"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

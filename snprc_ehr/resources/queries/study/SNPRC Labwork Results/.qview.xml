@@ -15,7 +15,9 @@
         <column name="resultInRange"/>
         <column name="qualresult"/>
         <column name="history"/>
-        <column name="QCState"/>
         <!--<column name="taskid"/>-->
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

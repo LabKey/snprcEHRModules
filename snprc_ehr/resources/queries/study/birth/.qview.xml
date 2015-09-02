@@ -3,8 +3,14 @@
         <column name="Id"/>
         <column name="date"/>
         <column name="date_type"/>
-        <column name="isNumericId"/>
+        <column name="date_type/Description">
+            <properties>
+                <property name="columnTitle" value="Date Type Description"/>
+            </properties>
+        </column>
         <column name="history"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

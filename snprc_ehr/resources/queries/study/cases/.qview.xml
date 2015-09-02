@@ -6,6 +6,8 @@
         <column name="remark"/>
         <column name="problem"/>
         <column name="history"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

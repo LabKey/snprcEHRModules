@@ -6,7 +6,9 @@
         <column name="observation"/>
         <column name="remark"/>
         <column name="performedby"/>
-        <column name="QCState"/>
         <column name="taskid"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

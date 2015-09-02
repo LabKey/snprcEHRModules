@@ -2,6 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="pregnancyConfirmation" tableDbType="TABLE" useColumnOrder="true">
+                <tableTitle>Pregnancy Confirmation</tableTitle>
                 <tableUrl />
                 <insertUrl />
                 <importUrl />

@@ -6,7 +6,9 @@
         <column name="result"/>
         <column name="units"/>
         <column name="remark"/>
-        <column name="QCState"/>
         <column name="taskid"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

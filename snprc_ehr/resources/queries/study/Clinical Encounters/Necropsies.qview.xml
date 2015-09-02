@@ -9,7 +9,6 @@
         <column name="participants/participants"/>
 
         <!--<column name="remark"/>-->
-        <column name="qcstate" />
         <column name="taskid" />
         <column name="requestid" />
     </columns>

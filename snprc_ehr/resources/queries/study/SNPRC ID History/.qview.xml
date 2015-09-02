@@ -7,8 +7,9 @@
         <column name="source_name"/>
         <column name="date"/>
         <column name="user_name"/>
-        <column name="entry_date_tm"/>
         <column name="history"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

@@ -2,6 +2,8 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

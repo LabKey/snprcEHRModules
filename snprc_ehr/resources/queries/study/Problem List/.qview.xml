@@ -10,6 +10,8 @@
         <column name="category"/>
         <column name="isActive"/>
         <column name="history"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>

@@ -4,8 +4,9 @@
         <column name="date"/>
         <column name="acquisitionType"/>
         <column name="estimated"/>
-        <column name="isNumericId"/>
         <column name="history"/>
-        <column name="QCState"/>
     </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
 </customView>
