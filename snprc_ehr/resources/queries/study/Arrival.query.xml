@@ -27,7 +27,7 @@
                        <columnTitle>Acquisition Type</columnTitle>
                        <fk>
                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                           <fkTable>AcquistionType</fkTable>
+                           <fkTable>AcquisitionType</fkTable>
                        </fk>
                    </column>
                    <column columnName="rearingType">
