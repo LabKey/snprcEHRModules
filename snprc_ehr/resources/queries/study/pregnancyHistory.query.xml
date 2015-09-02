@@ -1,16 +1,15 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="pregnancyConfirmation" tableDbType="TABLE" useColumnOrder="true">
-                <tableTitle>Pregnancy Confirmation</tableTitle>
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
+            <table tableName="pregnancyHistory" tableDbType="TABLE">
+                <tableTitle>Pregnancy History</tableTitle>
                 <columns>
                     <column columnName="Id">
-
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
                     </column>
                     <column columnName="date">
                         <columnTitle>Est. Date of Conception</columnTitle>
@@ -42,4 +41,5 @@
             </table>
         </tables>
     </metadata>
+
 </query>
