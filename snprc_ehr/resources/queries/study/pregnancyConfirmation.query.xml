@@ -12,14 +12,14 @@
 
                     </column>
                     <column columnName="date">
-                        <columnTitle>Confirmation Date</columnTitle>
+                        <columnTitle>Est. Date of Conception</columnTitle>
                     </column>
-                    <column columnName="confirmationType">
-                        <columnTitle>Confirmation Type</columnTitle>
+                    <column columnName="termCode">
+                        <columnTitle>Termination Code</columnTitle>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>PregnancyConfirm</fkTable>
-                            <fkColumnName>rowid</fkColumnName>
+                            <fkTable>preg_term_code</fkTable>
+                            <fkColumnName>value</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="estDeliveryDate">
