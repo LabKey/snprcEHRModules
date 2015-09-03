@@ -6,7 +6,12 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_charge_account" />
-            <destination schemaName="ehr" queryName="project" bulkLoad="true" transactionSize="500" targetOption="merge"/>
+            <destination schemaName="ehr" queryName="project" bulkLoad="true" transactionSize="500" targetOption="merge">
+                <columnTransforms>
+                    <column source="name" target="title" />
+                    <column source="shortname" target="name" />
+                </columnTransforms>
+            </destination>
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
