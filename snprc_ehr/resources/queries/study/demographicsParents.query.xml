@@ -4,9 +4,6 @@
             <table tableName="demographicsParents" tableDbType="NOT_IN_DB">
                 <tableTitle>Parents</tableTitle>
                 <columns>
-                    <column columnName="Id">
-                        <isHidden>true</isHidden>
-                    </column>
                     <column columnName="dam">
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
