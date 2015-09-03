@@ -197,8 +197,7 @@ EHR.reports.surveillance = function(panel, tab){
     //});
 };
 
-EHR.reports.pregnancies = function(panel, tab)
-{
+    EHR.reports.pregnancies = function(panel, tab) {
     var filterArray = panel.getFilterArray(tab);
     var title = panel.getTitleSuffix();
 
@@ -218,3 +217,25 @@ EHR.reports.pregnancies = function(panel, tab)
         queryConfig: config
     });
 };
+
+    EHR.reports.cycles = function(panel, tab)    {
+        var filterArray = panel.getFilterArray(tab);
+        var title = panel.getTitleSuffix();
+
+        var config = panel.getQWPConfig({
+            schemaName: 'study',
+            queryName: 'estrousCyclePivot',
+            title: "Cycle History:",
+            titleField: 'Id',
+            sort: '-date',
+            filters: filterArray.nonRemovable,
+            removeableFilters: filterArray.removable
+        });
+
+        tab.add({
+            xtype: 'ldk-querypanel',
+            style: 'margin-bottom:20px;',
+            queryConfig: config
+        });
+
+    };

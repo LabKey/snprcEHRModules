@@ -35,7 +35,7 @@ ALTER VIEW [labkey_etl].[V_CYCLE] AS
 --
 SELECT id,
 	cycle_date AS date,
-	CAST(object_id AS VARCHAR(128)) + '-' + category AS objectid,
+	CAST(object_id AS VARCHAR(128)) + '/' + category AS objectid,
 	category, 
 	observation,
 	user_name,
