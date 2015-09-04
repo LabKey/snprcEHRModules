@@ -19,7 +19,7 @@
                         <fk>
                             <fkDbSchema>ehr</fkDbSchema>
                             <fkTable>project</fkTable>
-                            <fkColumnName>N</fkColumnName>
+                            <fkColumnName>project</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="protocol">
