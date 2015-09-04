@@ -9,7 +9,11 @@
                 <deleteUrl />
                 <columns>
                     <column columnName="Id">
-
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
                     </column>
                     <column columnName="project">
                         <fk>
