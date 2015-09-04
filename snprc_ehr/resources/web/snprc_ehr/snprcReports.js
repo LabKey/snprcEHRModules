@@ -218,7 +218,8 @@ EHR.reports.surveillance = function(panel, tab){
     });
 };
 
-    EHR.reports.cycles = function(panel, tab)    {
+    EHR.reports.cycles = function(panel, tab)
+    {
         var filterArray = panel.getFilterArray(tab);
         var title = panel.getTitleSuffix();
 
@@ -237,5 +238,26 @@ EHR.reports.surveillance = function(panel, tab){
             style: 'margin-bottom:20px;',
             queryConfig: config
         });
+        EHR.reports.breedingGrpAssignments = function (panel, tab)
+        {
+            var filterArray = panel.getFilterArray(tab);
+            var title = panel.getTitleSuffix();
 
+            var config = panel.getQWPConfig({
+                schemaName: 'study',
+                queryName: 'breedingGrpAssignments',
+                title: "breeding Group Assignments:",
+                titleField: 'Id',
+                sort: '-date',
+                filters: filterArray.nonRemovable,
+                removeableFilters: filterArray.removable
+            });
+
+            tab.add({
+                xtype: 'ldk-querypanel',
+                style: 'margin-bottom:20px;',
+                queryConfig: config
+            });
+
+        };
     };

@@ -8,7 +8,7 @@ SELECT
 agm.id,
 agm.date,
 agm.enddate,
-ag.name,
+agm.groupId.name,
 ag.comment
 
 FROM ehr.animal_group_members as agm
