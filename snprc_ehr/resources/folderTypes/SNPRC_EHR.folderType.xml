@@ -25,7 +25,7 @@
             <caption>Overview</caption>
             <preferredWebParts>
                 <webPart>
-                    <name>EHR Front Page</name>
+                    <name>SNPRC EHR Front Page</name>
                     <location>body</location>
                 </webPart>
                 <webPart>
@@ -44,7 +44,7 @@
             </selectors>
             <preferredWebParts>
                 <webPart>
-                    <name>Animal History</name>
+                    <name>SNPRC Animal History</name>
                     <location>body</location>
                 </webPart>
             </preferredWebParts>
