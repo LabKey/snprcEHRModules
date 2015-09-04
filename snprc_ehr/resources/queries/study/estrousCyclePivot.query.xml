@@ -21,6 +21,15 @@
                         <isHidden>true</isHidden>
                         <shownInDetailsView>false</shownInDetailsView>
                     </column>
+                    <column columnName="male_id">
+                        <columnTitle>Sire</columnTitle>
+                        <facetingBehavior>ALWAYS_OFF</facetingBehavior>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>id</fkColumnName>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

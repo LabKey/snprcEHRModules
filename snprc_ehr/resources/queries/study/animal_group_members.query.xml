@@ -5,6 +5,12 @@
                 <tableTitle>Animal Group Members</tableTitle>
                 <columns>
                     <column columnName="Id">
+                        <isKeyField>true</isKeyField>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
 
                     </column>
                     <column columnName="date">
@@ -23,6 +29,7 @@
                         </fk>
                     </column>
                     <column columnName="qcstate">
+                        <isHidden>true</isHidden>
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>qcstate</fkTable>
