@@ -16,6 +16,6 @@
         <sort column="date" descending="true"/>
     </sorts>
     <filters>
-        <filter column="type" operator="eq" value="Biopsy"/>
+        <filter column="title" operator="contains" value="Biopsy"/>
     </filters>
 </customView>
