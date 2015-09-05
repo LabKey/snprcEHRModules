@@ -1,9 +1,9 @@
 reportname	category	reporttype	reporttitle	visible	containerpath	schemaname	queryname	viewname	report	datefieldname	todayonly	queryhaslocation	sort_order	QCStateLabelFieldName	description
-breedingGrpAssignments	Assignments and Groups	js	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
-breedingGrpAssignments	Reproductive Management	js	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 colonyAssignments	Assignments and Groups	query	Colony Assignments	true		study	colonyAssignments			date	false	false			This report contains the colony assignments for the animal
-pregnancyHistory	Reproductive Management	js	Pregnancy history	true		study	pregnancies			date	false	false			Contains reproductive history data
-estrousCyclePivot	Reproductive Management	js	Cycle history	true		study	cycles			date	false	false			Contains daily estrous cycle readings
+pregnancyHistory	Reproductive Management	query	Pregnancy History	true		study	pregnancyHistory			date	false	false			Contains reproductive history data
+estrousCyclePivot	Reproductive Management	query	Cycle History	true		study	estrousCyclePivot			date	false	false			Contains daily estrous cycle readings
 activeAssignments	Assignments and Groups	query	Active Assignments	true		study	Assignment	Active Assignments		date	false	false		qcstate/publicdata	This report shows the active assignments for each animal
 assignmentHistory	Assignments and Groups	query	Assignment History	true		study	Assignment			date	false	false		qcstate/publicdata	This report shows all assignments records for the animals
 biochemistry	Lab Results	js	Biochemistry	true		study	bloodChemistry			date	false	false			Contains results of chemistry panels.  Can be displayed either by panel, or showing reference ranges
