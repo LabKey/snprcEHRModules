@@ -146,6 +146,30 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=freezerWorks&query.Id~eq=${Id}", ds.getContainerContext()));
             ds.addColumn(col);
         }
+
+        if (ds.getColumn("activeAssignments") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "activeAssignments", "demographicsActiveAssignment", "Id", "Id");
+            col.setLabel("Assignments - Active");
+            col.setDescription("Shows all protocols to which the animal is actively assigned on the current date");
+            ds.addColumn(col);
+        }
+
+        if (ds.getColumn("activeGroups") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "activeGroups", "demographicsAnimalGroups", "Id", "Id");
+            col.setLabel("Animal Groups - Active");
+            col.setDescription("Shows all groups to which the animal is actively assigned on the current date");
+            ds.addColumn(col);
+        }
+
+        if (ds.getColumn("activeAccounts") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
+            col.setLabel("Accounts - Active");
+            col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
+            ds.addColumn(col);
+        }
     }
 
     private ColumnInfo getWrappedCol(UserSchema us, AbstractTableInfo ds, String name, String queryName, String colName, String targetCol)

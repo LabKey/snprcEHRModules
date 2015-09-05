@@ -1,0 +1,1 @@
+SELECT DISTINCT Account FROM study.AnimalAccounts

@@ -21,6 +21,8 @@
                             <fkTable>project</fkTable>
                             <fkColumnName>project</fkColumnName>
                         </fk>
+                        <!-- Not populated for SNPRC -->
+                        <isHidden>true</isHidden>
                     </column>
                     <column columnName="protocol">
                         <columnTitle>Protocol</columnTitle>
@@ -28,7 +30,7 @@
                             <fkDbSchema>ehr</fkDbSchema>
                             <fkTable>protocol</fkTable>
                             <fkColumnName>protocol</fkColumnName>
-                            <fkDisplayColumnName>protocol</fkDisplayColumnName>
+                            <fkDisplayColumnName>Protocol</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="date">

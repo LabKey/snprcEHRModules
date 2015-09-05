@@ -22,5 +22,30 @@
                 <property name="columnTitle" value="Condition"/>
             </properties>
         </column>
+        <column name="Id/activeAssignments/Protocols">
+            <properties>
+                <property name="columnTitle" value="Protocol"/>
+            </properties>
+        </column>
+        <column name="Id/activeAccounts/Account">
+            <properties>
+                <property name="columnTitle" value="Account"/>
+            </properties>
+        </column>
+        <column name="Id/activeAccounts/Account">
+            <properties>
+                <property name="columnTitle" value="Account"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/BreedingGroup">
+            <properties>
+                <property name="columnTitle" value="Breeding Group"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/ColonyGroup">
+            <properties>
+                <property name="columnTitle" value="Colony Group"/>
+            </properties>
+        </column>
     </columns>
 </customView>

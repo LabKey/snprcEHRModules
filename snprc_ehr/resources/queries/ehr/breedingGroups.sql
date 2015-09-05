@@ -1,0 +1,1 @@
+SELECT * FROM ehr.animal_groups WHERE Category = 'Breeding'

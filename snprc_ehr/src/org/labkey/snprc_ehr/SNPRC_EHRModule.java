@@ -85,6 +85,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerActionOverride("colonyOverview", this, "views/colonyOverview.html");
         EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");
+        EHRService.get().registerActionOverride("protocolDetails", this, "views/protocolDetails.html");
+        EHRService.get().registerActionOverride("animalHistory", this, "views/animalHistory.html");
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
         EHRService.get().registerLabworkType(new LabResultsLabworkType());
 

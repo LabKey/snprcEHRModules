@@ -2,7 +2,9 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="cause"/>
+        <column name="enddate"/>
+        <column name="account"/>
+        <column name="username"/>
         <column name="history"/>
     </columns>
     <sorts>
