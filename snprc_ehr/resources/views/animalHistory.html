@@ -27,7 +27,12 @@
             },{
                 xtype: 'ehr-locationfiltertype',
                 inputValue: EHR.panel.LocationFilterType.filterName,
-                label: EHR.panel.LocationFilterType.label
+                label: EHR.panel.LocationFilterType.label,
+                searchOptions: {
+                    area: true,
+                    room: true,
+                    cage: false
+                }
             },{
                 xtype: 'ldk-nofiltersfiltertype',
                 inputValue: LDK.panel.NoFiltersFilterType.filterName,

@@ -58,6 +58,12 @@ Ext4.onReady(function(){
             queryName: 'calculated_status_codes',
             pk: 'code'
         },{
+            label: 'areas',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'areas',
+            pk: 'area'
+        },{
             label: 'Id Types',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
