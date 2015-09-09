@@ -1,0 +1,9 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="subjectId"/>
+        <column name="subjectId/Demographics/species"/>
+        <column name="genex"/>
+        <column name="genex/Has_Chromosome"/>
+        <column name="value"/>
+    </columns>
+</customView>
