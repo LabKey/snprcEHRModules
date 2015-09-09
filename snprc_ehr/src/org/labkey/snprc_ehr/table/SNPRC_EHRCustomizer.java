@@ -109,7 +109,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     private void customizeAnimalTable(AbstractTableInfo ds)
     {
         UserSchema us = getUserSchema(ds, "study");
-        UserSchema genetics = getUserSchema(ds, "Genetic_Assay");
+        UserSchema genetics = getUserSchema(ds, "genetic_assays");
 
         if (us == null)
         {
