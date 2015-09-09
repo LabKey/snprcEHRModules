@@ -24,6 +24,7 @@
         <copy todir="${dist.modules.dir}">
             <fileset dir="${staging.modules.dir}">
                 <include name="snprc_ehr.module" />
+                <include name="snprc_genetics.module" />
                 <include name="ehr.module" />
                 <include name="laboratory.module" />
                 <include name="LDK.module" />

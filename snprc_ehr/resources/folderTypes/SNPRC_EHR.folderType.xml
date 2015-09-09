@@ -71,6 +71,7 @@
         <moduleName>DataIntegration</moduleName>
         <moduleName>EHR</moduleName>
         <moduleName>SNPRC_EHR</moduleName>
+        <moduleName>SNPRC_Genetics</moduleName>
     </modules>
     <defaultModule>Core</defaultModule>
     <workbookType>false</workbookType>

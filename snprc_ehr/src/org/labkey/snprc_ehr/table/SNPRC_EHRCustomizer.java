@@ -109,6 +109,8 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     private void customizeAnimalTable(AbstractTableInfo ds)
     {
         UserSchema us = getUserSchema(ds, "study");
+        UserSchema genetics = getUserSchema(ds, "Genetic_Assay");
+
         if (us == null)
         {
             return;
@@ -168,6 +170,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
             col.setLabel("Accounts - Active");
             col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
+            ds.addColumn(col);
+        }
+
+        if (ds.getColumn("geneticAssays") == null)
+        {
+            ColumnInfo col = getWrappedCol(genetics, ds, "geneticAssays", "total_assays", "Id", "Id");
+            col.setLabel("Genetic Assays");
+            col.setDescription("Show if genetic assays exist for ID");
             ds.addColumn(col);
         }
     }
