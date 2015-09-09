@@ -173,12 +173,18 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ds.addColumn(col);
         }
 
-        if (ds.getColumn("geneticAssays") == null)
+        if(genetics != null)
         {
-            ColumnInfo col = getWrappedCol(genetics, ds, "geneticAssays", "total_assays", "Id", "Id");
-            col.setLabel("Genetic Assays");
-            col.setDescription("Show if genetic assays exist for ID");
-            ds.addColumn(col);
+            if (ds.getColumn("geneticAssays") == null)
+            {
+                ColumnInfo col = getWrappedCol(genetics, ds, "geneticAssays", "total_assays", "Id", "Id");
+                col.setLabel("Genetic Assays");
+                col.setDescription("Show if genetic assays exist for ID");
+                ds.addColumn(col);
+            }
+        } else
+        {
+            _log.info("Schema: " + us.getName() + " - Not found");
         }
     }
 
