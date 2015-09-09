@@ -29,10 +29,10 @@ GO
 /*==============================================================*/
 ALTER view [labkey_etl].[V_WEIGHT] as
 -- ====================================================================================================================
--- Object: v_weight2
+-- Object: v_weight
 -- Author:	Terry Hawkins
 -- Create date: 1/2015
---
+--  9/8/2015	Added capuchin weight code. tjh
 -- ==========================================================================================
 
 SELECT ae.ANIMAL_ID AS id, 
@@ -51,7 +51,7 @@ INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
 
-WHERE sp.PKG_ID in (6, 152) AND cpa.ATTRIB_KEY = 'weight'
+WHERE sp.PKG_ID in (6, 152, 158) AND cpa.ATTRIB_KEY = 'weight'
 
 GO
 
