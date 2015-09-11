@@ -15,6 +15,7 @@
  */
 SELECT
 total.id,
+--TODO: if this was a string, like 'Y', it would better accept a URL
 CASE
   WHEN max(total.hasGE) = 1 THEN true
   ELSE NULL
