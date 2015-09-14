@@ -64,15 +64,13 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
      */
     public void doSharedCustomization(AbstractTableInfo ti)
     {
-        //NOTE: SNPRC not using drugs w/ SNOMED codes, so remove the lookup for now
-        //another idea could be to populate the ehr_lookups.snomed table w/ string values to match their drug values
         ColumnInfo snomedCol = ti.getColumn("code");
         if (snomedCol != null)
         {
             ForeignKey fk = snomedCol.getFk();
             if (fk != null && fk.getLookupTableName().equalsIgnoreCase("snomed"))
             {
-                snomedCol.setFk(null);
+                snomedCol.setFk(fk);
             }
         }
     }
