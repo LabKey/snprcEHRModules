@@ -645,7 +645,7 @@ Ext4.onReady(function(){
     ];
 
     tables.sort(function(a, b) {
-        return a.label < b.label ? -1 : 1;
+        return a.label.toLowerCase() < b.label.toLowerCase() ? -1 : 1;
     });
 
     // Keep lookup sets as the first item
