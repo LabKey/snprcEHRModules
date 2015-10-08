@@ -27,15 +27,29 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
+import org.labkey.test.components.BodyWebPart;
+import org.labkey.test.pages.AnimalHistoryPage;
+import org.labkey.test.pages.SNPRCAnimalHistoryPage;
+import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
+import org.labkey.test.util.TestLogger;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
 public class SNPRC_EHRTest extends AbstractGenericEHRTest
@@ -77,7 +91,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         new RReportHelper(initTest).ensureRConfig();
         initTest.goToProjectHome();
         initTest.clickFolder(FOLDER_NAME);
-        new PortalHelper(initTest).addWebPart("EHR Front Page");
+        new PortalHelper(initTest).addWebPart("EHR Datasets");
     }
 
     @Override
@@ -130,7 +144,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
             waitForElement(cb);
             uncheckCheckbox(cb);
         }
-
+        uncheckCheckbox(Locator.name("validateQueries")); // TODO: Validate queries once fixed on postgres
         clickButton("Start Import"); // Validate queries page
         waitForPipelineJobsToComplete(1, "Study import", false, MAX_WAIT_SECONDS * 2500);
     }
@@ -151,6 +165,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     {
         goToProjectHome();
         clickFolder("EHR");
+        waitForElement(Locator.linkWithText("Animal Search"));
+        waitForElement(Locator.linkWithText("Browse All"));
     }
 
     @Test
@@ -188,23 +204,39 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         waitForElement(Locator.linkWithText("100172"));
     }
 
-    @Test @Ignore
-    public void testEtlStatus()
-    {
-        goToModule("DataIntegration");
-    }
-
-    @Test @Ignore
+    @Test @Ignore("TODO: add protocol search")
     public void testProtocolSearch()
     {
-      //TODO: add protocol search
     }
 
-    @Test @Ignore("TODO: Issue 24068: Add test for SNPRC custom queries")
+    @Test
     public void testCustomQueries()
     {
-        clickAndWait(Locator.linkWithText("Mature Female Exposed To Fertile Male"));
-        assertTextPresent("test3844307", "test5598475");
+        BodyWebPart dashboard = new BodyWebPart(this, "Electronic Health Record", 1);
+        clickAndWait(Locator.linkWithText("Room Utilization").findElement(dashboard));
+
+        DataRegionTable table = new DataRegionTable("query", this);
+        assertTrue("No data in room utilization query", table.getDataRowCount() > 0);
+    }
+
+
+    @Test @Ignore("Reports not finalized for SNPRC")
+    public void testMoreReports()
+    {
+        Map<String, List<String>> additionalReports = new HashMap<>();
+        additionalReports.put("Listing of Cages", Arrays.asList());
+        additionalReports.put("Mature Female Exposed To Fertile Male", Arrays.asList("test3844307", "test5598475"));
+
+        BodyWebPart dashboard = new BodyWebPart(this, "Electronic Health Record", 1);
+        clickAndWait(Locator.linkWithText("More Reports").findElement(dashboard));
+        saveLocation();
+
+        for (Map.Entry<String, List<String>> entry : additionalReports.entrySet())
+        {
+            clickAndWait(Locator.linkWithText(entry.getKey()));
+            assertTextPresent(entry.getValue());
+            recallLocation();
+        }
     }
 
     @Test
@@ -243,10 +275,101 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         click(Locator.tagWithText("span", "Refresh"));
         //check count and links for one subject
         DataRegionTable tbl = DataRegionTable.findDataRegionWithin(this, PortalHelper.Locators.webPart("Overview").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT));
-        Assert.assertEquals(tbl.getDataRowCount(), 49);
+        assertEquals(tbl.getDataRowCount(), 49);
         assertElementPresent(Locator.linkWithText("test1020148"));
         assertElementPresent(Locator.linkWithText("Male"));
         assertElementPresent(Locator.linkWithText("Alive"));
     }
 
+    @Test
+    public void testAnimalHistoryReports()
+    {
+        clickAndWait(Locator.linkWithText("Animal History"));
+        SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(this);
+
+        waitForElement(Locator.inputByNameContaining("textfield"));
+        setFormElement(Locator.inputByNameContaining("textfield"), "12345");
+        click(Locator.tagWithText("span", "Refresh"));
+
+        Map<String, WebElement> categoryTabs = animalHistoryPage.elements().findCategoryTabs();
+        for (String category : categoryTabs.keySet())
+        {
+            log("Category: " + category);
+            TestLogger.increaseIndent();
+            animalHistoryPage.clickCategoryTab(category);
+
+            Map<String, WebElement> reportTabs = animalHistoryPage.elements().findReportTabs();
+            for (String report : reportTabs.keySet())
+            {
+                log("Report: " + report);
+                try
+                {
+                    animalHistoryPage.clickReportTab(report);
+                }
+                catch(WebDriverException ignore)
+                {
+                    fail("There appears to be an error in the report: " + report);
+                }
+                if (isTextPresent("ERROR", "Exception"))
+                    fail("There appears to be an error in the report: " + report);
+            }
+
+            TestLogger.decreaseIndent();
+        }
+    }
+
+    @Test
+    public void testSnprcFrontPageView()
+    {
+        BodyWebPart frontPage = new BodyWebPart(this, "Electronic Health Record");
+        WebElement browseData = Locator.tagWithText("a", "Browse Data").findElement(frontPage);
+        WebElement enterData = Locator.tagWithText("a", "Enter Data").findElement(frontPage);
+        WebElement colonyOverview = Locator.tagWithText("a", "Colony Overview").findElement(frontPage);
+
+        Crawler.ControllerActionId actionId = new Crawler.ControllerActionId(browseData.getAttribute("href"));
+        assertEquals("Wrong controller for 'Browse Data", "snprc_ehr", actionId.getController());
+        assertEquals("Wrong action for 'Browse Data", "animalHistory", actionId.getAction());
+
+        actionId = new Crawler.ControllerActionId(enterData.getAttribute("href"));
+        assertEquals("Wrong controller for 'Enter Data", "ehr", actionId.getController());
+        assertEquals("Wrong action for 'Enter Data", "enterData", actionId.getAction());
+
+        actionId = new Crawler.ControllerActionId(colonyOverview.getAttribute("href"));
+        assertEquals("Wrong controller for 'Colony Overview", "ehr", actionId.getController());
+        assertEquals("Wrong action for 'Colony Overview", "colonyOverview", actionId.getAction());
+    }
+
+    @Test
+    public void testEhrDatasets()
+    {
+        /* Non-exhaustive lists */
+        List<String> expectedDatasets = new ArrayList<>(Arrays.asList(
+                "SNPRC Labwork Results",
+                "SNPRC ID History",
+                "Freezerworks"
+        ));
+        List<String> expectedHiddenDatasets = new ArrayList<>(Arrays.asList(
+                "miscTests",
+                "Misc Tests",
+                "notes",
+                "Notes"
+        ));
+        int expectedDatasetCount = 24;
+
+        BodyWebPart datasets = new BodyWebPart(this, "EHR Datasets");
+        List<WebElement> datasetLabelElements = Locator.css(".ldk-navpanel-section-row div.x4-box-item.x4-panel").findElements(datasets);
+        List<String> datasetLabels = new ArrayList<>();
+        for (WebElement el : datasetLabelElements)
+        {
+            datasetLabels.add(el.getText().replace(":", ""));
+        }
+
+        expectedDatasets.removeAll(datasetLabels);
+        assertTrue("Missing dataset(s): [" + String.join(", ", expectedDatasets) + "]", expectedDatasets.isEmpty());
+        List<String> hiddenDatasets = new ArrayList<>(expectedHiddenDatasets);
+        hiddenDatasets.removeAll(datasetLabels);
+        assertEquals("Dataset(s) not hidden", expectedHiddenDatasets, hiddenDatasets);
+
+        assertEquals("Wrong number of datasets visible", expectedDatasetCount, datasetLabelElements.size());
+    }
 }
