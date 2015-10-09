@@ -20,11 +20,9 @@
                         <columnTitle>Age At Time</columnTitle>
                         <datatype>double</datatype>
                         <fk>
-                            <fkFolderPath>/SNPRC/Core Facilities/Genetics</fkFolderPath>
                             <fkDbSchema>assay.General.Phenotypes</fkDbSchema>
                             <fkTable>age_at_time</fkTable>
                             <fkColumnName>RowId</fkColumnName>
-                            <fkDisplayColumnName>ageAtTime</fkDisplayColumnName>
                         </fk>
                     </column>
                 </columns>
