@@ -76,10 +76,4 @@ public class SNPRC_GeneticsModule extends DefaultModule
         return Collections.emptyList();
     }
 
-    @Override
-    @NotNull
-    public Set<String> getSchemaNames()
-    {
-        return Collections.singleton(SNPRC_GeneticsSchema.NAME);
-    }
 }

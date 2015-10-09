@@ -42,10 +42,3 @@ FROM(
   UNION
   SELECT d.id as id, 0 as hasGE, 0 as hasMS, 0 as hasPH, 1 as hasSNP FROM assay.General.SNPs.total_assays d
   )as total GROUP BY id
-
-
--- FROM assay.General."Gene Expression".total_assays a
---
--- FULL OUTER JOIN assay.General.Microsatellites.total_assays b ON b.id = COALESCE(a.id,c.id)
--- FULL OUTER JOIN assay.General.Phenotypes.total_assays c ON c.id = COALESCE(a.id, b.id)
--- OUTER JOIN assay.General.SNPs.total_assays d ON d.id = COALESCE(a.id, b.id, c.id)
