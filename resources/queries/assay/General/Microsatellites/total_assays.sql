@@ -15,7 +15,5 @@
  */
 SELECT
 DISTINCT subjectId as id
--- COUNT(*) as num
 FROM assay.General.Microsatellites.Data
--- GROUP BY subjectId
 

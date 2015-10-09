@@ -15,7 +15,5 @@
  */
 SELECT
 DISTINCT subjectId as id
--- COUNT(*) as num
 FROM assay.General.Phenotypes.Data
--- GROUP BY subjectId
 
