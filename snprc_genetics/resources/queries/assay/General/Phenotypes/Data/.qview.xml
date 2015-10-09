@@ -6,5 +6,6 @@
         <column name="BLEED_DATE"/>
         <column name="ASSAY"/>
         <column name="VALUE"/>
+        <column name="ageAtTimeQuery/ageAtTime"/>
     </columns>
 </customView>
