@@ -6,7 +6,7 @@
 SELECT
 c.id,
 c.date,
-group_concat('Estrous data: ', chr(10)) as servicerequested,
+group_concat(cast('Estrous data: ' as varchar), chr(10)) as servicerequested,
 c.category,
 group_concat(cast(c.observation as varchar)) as observations
 
