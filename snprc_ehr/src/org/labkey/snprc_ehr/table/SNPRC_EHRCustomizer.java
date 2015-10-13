@@ -20,6 +20,7 @@ import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.ForeignKey;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.DetailsURL;
@@ -90,6 +91,10 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             customizeAnimalTable((AbstractTableInfo) ti);
         }    
+        if (matches(ti, "study", "Clinical Encounters"))
+        {
+            customizeEncounterTable(ti);
+        }
     }
 
     /**
@@ -102,6 +107,11 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             return ti.getSchema().getName().equalsIgnoreCase(schema) && (ti.getName().equalsIgnoreCase(query) || ti.getTitle().equalsIgnoreCase(query));
         else
             return ti.getSchema().getName().equalsIgnoreCase(schema) && ti.getName().equalsIgnoreCase(query);
+    }
+
+    private void customizeEncounterTable(AbstractTableInfo ti)
+    {
+        ti.getColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
     }
 
     private void customizeAnimalTable(AbstractTableInfo ds)
