@@ -17,4 +17,90 @@
 
  -->
 <ns:tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd" xmlns:ns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <ns:table tableName="package" tableDbType="TABLE" useColumnOrder="true">
+  <ns:tableTitle>Package</ns:tableTitle>
+  <ns:pkColumnName>id</ns:pkColumnName>
+  <ns:columns>
+   <ns:column columnName="id">
+    <ns:isKeyField>true</ns:isKeyField>
+   </ns:column>
+   <ns:column columnName="name">
+    <ns:nullable>true</ns:nullable>
+   </ns:column>
+   <ns:column columnName="description">
+    <ns:nullable>true</ns:nullable>
+   </ns:column>
+   <ns:column columnName="container">
+    <ns:nullable>false</ns:nullable>
+   </ns:column>
+  </ns:columns>
+ </ns:table>
+ <ns:table tableName="package_category" tableDbType="TABLE" useColumnOrder="true">
+  <ns:tableTitle>Package Category</ns:tableTitle>
+  <ns:pkColumnName>id</ns:pkColumnName>
+  <ns:columns>
+   <ns:column columnName="id">
+    <ns:isKeyField>true</ns:isKeyField>
+   </ns:column>
+   <ns:column columnName="name">
+    <ns:nullable>true</ns:nullable>
+   </ns:column>
+   <ns:column columnName="description">
+    <ns:nullable>true</ns:nullable>
+   </ns:column>
+   <ns:column columnName="container">
+    <ns:nullable>false</ns:nullable>
+   </ns:column>
+  </ns:columns>
+ </ns:table>
+ <ns:table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
+  <ns:tableTitle>Package Category Junction</ns:tableTitle>
+  <ns:pkColumnName>rowId</ns:pkColumnName>
+  <ns:columns>
+   <ns:column columnName="rowId">
+    <ns:isKeyField>true</ns:isKeyField>
+   </ns:column>
+   <ns:column columnName="packageId">
+    <ns:nullable>false</ns:nullable>
+    <ns:fk>
+      <ns:fkDbSchema>snprc_ehr</ns:fkDbSchema>
+      <ns:fkTable>package</ns:fkTable>
+      <ns:fkColumnName>id</ns:fkColumnName>
+    </ns:fk>
+   </ns:column>
+   <ns:column columnName="categoryId">
+    <ns:nullable>false</ns:nullable>
+    <ns:fk>
+      <ns:fkDbSchema>snprc_ehr</ns:fkDbSchema>
+      <ns:fkTable>package_category</ns:fkTable>
+      <ns:fkColumnName>id</ns:fkColumnName>
+    </ns:fk>
+   </ns:column>
+  </ns:columns>
+ </ns:table>
+ <ns:table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
+  <ns:tableTitle>Package Category Junction</ns:tableTitle>
+  <ns:pkColumnName>rowId</ns:pkColumnName>
+  <ns:columns>
+   <ns:column columnName="rowId">
+    <ns:isKeyField>true</ns:isKeyField>
+   </ns:column>
+   <ns:column columnName="packageId">
+    <ns:nullable>false</ns:nullable>
+    <ns:fk>
+     <ns:fkDbSchema>snprc_ehr</ns:fkDbSchema>
+     <ns:fkTable>package</ns:fkTable>
+     <ns:fkColumnName>id</ns:fkColumnName>
+    </ns:fk>
+   </ns:column>
+   <ns:column columnName="categoryId">
+    <ns:nullable>false</ns:nullable>
+    <ns:fk>
+     <ns:fkDbSchema>snprc_ehr</ns:fkDbSchema>
+     <ns:fkTable>package_category</ns:fkTable>
+     <ns:fkColumnName>id</ns:fkColumnName>
+    </ns:fk>
+   </ns:column>
+  </ns:columns>
+ </ns:table>
 </ns:tables>

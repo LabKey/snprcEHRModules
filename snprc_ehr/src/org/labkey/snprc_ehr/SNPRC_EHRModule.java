@@ -25,10 +25,6 @@ import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
-import org.labkey.api.security.permissions.ReadPermission;
-import org.labkey.api.study.StudyUrls;
-import org.labkey.api.study.assay.AssayUrls;
-import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
@@ -53,7 +49,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public double getVersion()
     {
-        return 13.21;
+        return 15.21;
     }
 
     @Override
