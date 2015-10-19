@@ -28,7 +28,6 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
-import org.labkey.test.pages.AnimalHistoryPage;
 import org.labkey.test.pages.SNPRCAnimalHistoryPage;
 import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
@@ -36,6 +35,7 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
+import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TestLogger;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -52,7 +52,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
-public class SNPRC_EHRTest extends AbstractGenericEHRTest
+public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
 {
     private boolean _hasCreatedBirthRecords = false;
 
