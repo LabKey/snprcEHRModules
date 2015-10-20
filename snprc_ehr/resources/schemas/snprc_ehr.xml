@@ -78,15 +78,4 @@
    </ns:column>
   </ns:columns>
  </ns:table>
- <ns:table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
-  <ns:tableTitle>Package Category Junction</ns:tableTitle>
-  <ns:columns>
-   <ns:column columnName="rowId">
-   </ns:column>
-   <ns:column columnName="packageId">
-   </ns:column>
-   <ns:column columnName="categoryId">
-   </ns:column>
-  </ns:columns>
- </ns:table>
 </ns:tables>
