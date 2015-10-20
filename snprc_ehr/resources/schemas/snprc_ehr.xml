@@ -80,26 +80,12 @@
  </ns:table>
  <ns:table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
   <ns:tableTitle>Package Category Junction</ns:tableTitle>
-  <ns:pkColumnName>rowId</ns:pkColumnName>
   <ns:columns>
    <ns:column columnName="rowId">
-    <ns:isKeyField>true</ns:isKeyField>
    </ns:column>
    <ns:column columnName="packageId">
-    <ns:nullable>false</ns:nullable>
-    <ns:fk>
-     <ns:fkDbSchema>snprc_ehr</ns:fkDbSchema>
-     <ns:fkTable>package</ns:fkTable>
-     <ns:fkColumnName>id</ns:fkColumnName>
-    </ns:fk>
    </ns:column>
    <ns:column columnName="categoryId">
-    <ns:nullable>false</ns:nullable>
-    <ns:fk>
-     <ns:fkDbSchema>snprc_ehr</ns:fkDbSchema>
-     <ns:fkTable>package_category</ns:fkTable>
-     <ns:fkColumnName>id</ns:fkColumnName>
-    </ns:fk>
    </ns:column>
   </ns:columns>
  </ns:table>
