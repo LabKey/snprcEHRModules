@@ -44,6 +44,9 @@
         <dataset name="encounters" id="1067" category="Clinical" type="Standard">
             <tags/>
         </dataset>
+        <dataset name="procedure" id="1069" category="Clinical" type="Standard">
+            <tags/>
+        </dataset>
         <dataset name="clinical_observations" id="5006" showByDefault="false" category="Clinical" type="Standard">
             <tags/>
         </dataset>
