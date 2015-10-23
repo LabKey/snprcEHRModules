@@ -26,7 +26,7 @@ GO
 
 
 
-CREATE VIEW [labkey_etl].[v_clinical_admissions] AS
+ALTER VIEW [labkey_etl].[v_clinical_admissions] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/22/2015
@@ -34,13 +34,14 @@ CREATE VIEW [labkey_etl].[v_clinical_admissions] AS
 -- Note: 
 --		
 -- Changes:
+-- 9/25/2015	Removed animal id from ParticipantSequenceNum. tjh
 --
 -- ==========================================================================================
 
 
 SELECT c.id AS id,
 	   c.admit_date_tm AS date, 
-	   LTRIM(RTRIM(c.id)) + '/' + CAST(c.admit_id AS VARCHAR(128)) AS ParticipantSequenceNum,
+	   CAST(c.admit_id AS VARCHAR(128)) AS ParticipantSequenceNum,
 	   c.release_date_tm AS enddate,
 	   c.pdx AS problem,
 	   c.admit_complaint AS remark,
