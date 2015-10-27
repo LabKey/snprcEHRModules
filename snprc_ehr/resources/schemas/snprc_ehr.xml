@@ -46,9 +46,6 @@
    <ns:column columnName="id">
     <ns:isKeyField>true</ns:isKeyField>
    </ns:column>
-   <ns:column columnName="name">
-    <ns:nullable>true</ns:nullable>
-   </ns:column>
    <ns:column columnName="description">
     <ns:nullable>true</ns:nullable>
    </ns:column>
