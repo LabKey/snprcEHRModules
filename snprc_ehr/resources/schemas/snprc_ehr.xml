@@ -33,6 +33,10 @@
    <ns:column columnName="container">
     <ns:nullable>false</ns:nullable>
    </ns:column>
+   <ns:column columnName="Created"/>
+   <ns:column columnName="CreatedBy"/>
+   <ns:column columnName="Modified"/>
+   <ns:column columnName="ModifiedBy"/>
   </ns:columns>
  </ns:table>
  <ns:table tableName="package_category" tableDbType="TABLE" useColumnOrder="true">
@@ -51,6 +55,10 @@
    <ns:column columnName="container">
     <ns:nullable>false</ns:nullable>
    </ns:column>
+   <ns:column columnName="Created"/>
+   <ns:column columnName="CreatedBy"/>
+   <ns:column columnName="Modified"/>
+   <ns:column columnName="ModifiedBy"/>
   </ns:columns>
  </ns:table>
  <ns:table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
@@ -76,6 +84,10 @@
       <ns:fkColumnName>id</ns:fkColumnName>
     </ns:fk>
    </ns:column>
+   <ns:column columnName="Created"/>
+   <ns:column columnName="CreatedBy"/>
+   <ns:column columnName="Modified"/>
+   <ns:column columnName="ModifiedBy"/>
   </ns:columns>
  </ns:table>
 </ns:tables>
