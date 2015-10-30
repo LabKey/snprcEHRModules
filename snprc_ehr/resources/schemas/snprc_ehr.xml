@@ -33,6 +33,9 @@
    <ns:column columnName="container">
     <ns:nullable>false</ns:nullable>
    </ns:column>
+   <ns:column columnName="objectid">
+    <ns:nullable>false</ns:nullable>
+   </ns:column>
    <ns:column columnName="Created"/>
    <ns:column columnName="CreatedBy"/>
    <ns:column columnName="Modified"/>
@@ -50,6 +53,9 @@
     <ns:nullable>true</ns:nullable>
    </ns:column>
    <ns:column columnName="container">
+    <ns:nullable>false</ns:nullable>
+   </ns:column>
+   <ns:column columnName="objectid">
     <ns:nullable>false</ns:nullable>
    </ns:column>
    <ns:column columnName="Created"/>
@@ -80,6 +86,9 @@
       <ns:fkTable>package_category</ns:fkTable>
       <ns:fkColumnName>id</ns:fkColumnName>
     </ns:fk>
+   </ns:column>
+   <ns:column columnName="objectid">
+    <ns:nullable>false</ns:nullable>
    </ns:column>
    <ns:column columnName="Created"/>
    <ns:column columnName="CreatedBy"/>

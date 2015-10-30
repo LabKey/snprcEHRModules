@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>PackageCategory</name>
+    <description>Package Categories from (valid_code_table)</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_package_category" />
+            <destination schemaName="snprc_ehr" queryName="package_category" bulkLoad="true" targetOption="merge"/>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_package_category" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>

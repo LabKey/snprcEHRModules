@@ -9,7 +9,7 @@ GO
 
 
 
-ALTER VIEW [labkey_etl].[v_package] AS
+CREATE VIEW [labkey_etl].[v_package] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 10/23/2015
