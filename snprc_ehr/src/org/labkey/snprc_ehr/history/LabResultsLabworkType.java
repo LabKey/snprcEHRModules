@@ -27,6 +27,7 @@ import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.ehr.history.DefaultLabworkType;
+import org.labkey.api.module.Module;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.util.PageFlowUtil;
 
@@ -59,10 +60,10 @@ public class LabResultsLabworkType extends DefaultLabworkType
     private String _sortCol = "sort_order";
     private Map<String, Integer> _tests = null;
 
-    public LabResultsLabworkType()
+    public LabResultsLabworkType(Module module)
     {
         //terry - is 'Lab Results' what you used for test_type?
-        super("LabworkResults", "study", "LabworkResults");
+        super("LabworkResults", "study", "LabworkResults", module);
         _testType = _default_testType;  // this is just a temporary value it will be updated for the specific
                                         // assay type in the getRows() method. tjh
         _normalRangeField = "refRange";
