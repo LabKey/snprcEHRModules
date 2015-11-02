@@ -33,7 +33,7 @@ public class SNPRCTBDemographicsProvider extends AbstractListDemographicsProvide
 {
     public SNPRCTBDemographicsProvider(Module module)
     {
-        super("study", "demographicsMostRecentTBDate", "tb", module);
+        super(module, "study", "demographicsMostRecentTBDate", "tb");
         _supportsQCState = false;
     }
 
