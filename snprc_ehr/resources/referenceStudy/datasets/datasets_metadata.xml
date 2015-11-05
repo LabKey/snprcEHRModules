@@ -805,7 +805,7 @@
             </column>
             <column columnName="pkgId">
                 <datatype>integer</datatype>
-                <nullable>true</nullable>
+                <nullable>false</nullable>
                 <columnTitle>Pkg Id</columnTitle>
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
