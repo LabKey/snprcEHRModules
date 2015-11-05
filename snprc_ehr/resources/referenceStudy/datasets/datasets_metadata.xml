@@ -803,7 +803,10 @@
                 <datatype>entityid</datatype>
                 <isKeyField>true</isKeyField>
             </column>
-            <column columnName="pkg_id">
+            <column columnName="pkgId">
+                <datatype>integer</datatype>
+                <nullable>true</nullable>
+                <columnTitle>Pkg Id</columnTitle>
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
                     <fkTable>package</fkTable>

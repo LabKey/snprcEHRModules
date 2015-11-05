@@ -256,8 +256,6 @@ cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, p
             ts
 			FROM #animal_event_narratives
 
-
-
 	RETURN 0
 
 	END
