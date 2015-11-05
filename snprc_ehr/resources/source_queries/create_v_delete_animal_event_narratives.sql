@@ -23,27 +23,26 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /*==============================================================*/
-/* View: V_DELETE_ACCOUNTS                                      */
+/* View: V_DELETE_ANIMAL_PROCEDURES                             */
 /*==============================================================*/
-CREATE VIEW [labkey_etl].[V_DELETE_ANIMAL_PROCEDURES] as
--- ====================================================================================================================
+ALTER VIEW [labkey_etl].[V_DELETE_ANIMAL_PROCEDURES] as
+-- =========================================================================================
 -- Author:		Terry Hawkins
--- Create date: 7/13/2015
+-- Create date: 11/3/2015
 --
 -- ==========================================================================================
 SELECT 
-	aae.object_id,
-	aae.audit_date_tm
+	acp.object_id,
+	acp.audit_date_tm
 
-FROM audit.audit_animal_events AS aae
+FROM audit.AUDIT_CODED_PROCS AS acp
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aae.animal_id
-WHERE aae.AUDIT_ACTION = 'D' AND aae.OBJECT_ID IS NOT NULL
+WHERE acp.AUDIT_ACTION = 'D' AND acp.OBJECT_ID IS NOT NULL
 
 go
 
 GRANT SELECT on labkey_etl.V_DELETE_ANIMAL_PROCEDURES to z_labkey
-GRANT SELECT ON audit.audit_animal_events TO z_labkey
+GRANT SELECT ON audit.AUDIT_CODED_PROCS TO z_labkey
 
 
 go

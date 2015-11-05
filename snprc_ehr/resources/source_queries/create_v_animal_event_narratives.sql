@@ -23,14 +23,15 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /*==============================================================*/
-/* View: V_ANIMAL_PROCEDURES                                    */
+/* View: V_ANIMAL_EVENT_NARRATIVES                                    */
 /*==============================================================*/
-alter VIEW [labkey_etl].[V_ANIMAL_PROCEDURES] as
+create VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] as
 -- ====================================================================================================================
--- Object: v_animal_procedures
+-- Object: v_animal_event_narratives
 -- Author:		Terry Hawkins
 -- Create date: 7/6/2015
 --
+-- 11/02/2015   Terry Hawkins   Renamed from v_animal_procedures to v_animal_event_narratives.
 -- ==========================================================================================
 
 
@@ -44,12 +45,12 @@ SELECT  ap.animal_event_id AS visitRowId,
         ap.user_name ,
         ap.entry_date_tm ,
         CAST(ap.ts AS TIMESTAMP) AS timestamp
- from dbo.animal_procedures AS ap
+ from dbo.animal_event_narratives AS ap
 ---- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ap.animal_id
 
 go
 
-grant SELECT on labkey_etl.v_animal_procedures to z_labkey
+grant SELECT on labkey_etl.V_ANIMAL_EVENT_NARRATIVES to z_labkey
 
 go

@@ -801,9 +801,17 @@
             </column>
             <column columnName="procedureId">
                 <datatype>entityid</datatype>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="pkg_id">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>package</fkTable>
+                    <fkColumnName>id</fkColumnName>
+                </fk>
             </column>
         </columns>
-        <tableTitle>Clinical Packages</tableTitle>
+        <tableTitle>Animal Procedures</tableTitle>
     </table>
     <table tableName="clinical_observations" tableDbType="TABLE">
         <columns>

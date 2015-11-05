@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>Animal events (encounters)</name>
-    <description>Animal encounters data</description>
+    <name>Animal event narratives</name>
+    <description>Animal event narratives(going into encounters)</description>
     <transforms>
         <transform id="step1" type="StoredProcedure">
-            <description>Update animal_procedures from stored proc</description>
-            <procedure schemaName="snprcSrc" procedureName="p_update_animal_procedures">
+            <description>Update animal_event_narratives from stored proc</description>
+            <procedure schemaName="snprcSrc" procedureName="p_update_animal_event_narratives">
             </procedure>
         </transform>
         <transform id="step2" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="v_animal_procedures" />
+            <source schemaName="snprcSrc" queryName="v_animal_event_narratives" />
             <destination schemaName="study" queryName="encounters" bulkLoad="true" transactionSize="500" targetOption="merge"/>
         </transform>
     </transforms>
 <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
-    <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_animal_procedures" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+    <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_animal_event_narratives" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
 </incrementalFilter>
 <schedule>
 <poll interval="60m" />
