@@ -37,7 +37,7 @@ CREATE VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
 
  SELECT LTRIM(RTRIM(bg.id)) AS id ,
 		'Breeding' AS GroupCategory,
-		'Breeding grp:'+CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName
+		'Breeding grp:'+CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName,
         bg.start_date AS date,
         bg.end_date AS enddate,
         bg.user_name ,
