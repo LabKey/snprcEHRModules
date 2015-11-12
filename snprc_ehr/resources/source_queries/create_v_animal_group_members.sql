@@ -31,13 +31,13 @@ CREATE VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
 -- Author: Terry Hawkins
 -- Create date: 8/28/2015
 --
--- 
+-- 11/12/15 - Added 'Breeding grp:' to groupName to match v_animal_groups. tjh
 -- ==========================================================================================
 
 
  SELECT LTRIM(RTRIM(bg.id)) AS id ,
 		'Breeding' AS GroupCategory,
-		CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName,
+		'Breeding grp:'+CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName
         bg.start_date AS date,
         bg.end_date AS enddate,
         bg.user_name ,
