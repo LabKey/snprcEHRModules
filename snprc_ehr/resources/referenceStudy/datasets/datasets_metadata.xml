@@ -2041,6 +2041,17 @@
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Description</propertyURI>
             </column>
+            <column columnName="assignmentStatus">
+            <datatype>varchar</datatype>
+            <columnTitle>Assignment Status</columnTitle>
+            <displayWidth>25</displayWidth>
+            <fk>
+                <fkDbSchema>ehr_lookups</fkDbSchema>
+                <fkTable>assignment_status</fkTable>
+                <fkColumnName>value</fkColumnName>
+                <fkDisplayColumnName>description</fkDisplayColumnName>
+            </fk>
+            </column>
             <column columnName="objectid">
                 <datatype>entityid</datatype>
                 <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>

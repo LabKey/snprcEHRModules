@@ -5,6 +5,7 @@
         <column name="date"/>
         <column name="enddate"/>
         <column name="description"/>
+        <column name="assignmentStatus"/>
         <column name="isActive"/>
         <column name="history"/>
     </columns>
