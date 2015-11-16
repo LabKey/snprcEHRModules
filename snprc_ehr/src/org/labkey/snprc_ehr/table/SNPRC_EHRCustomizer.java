@@ -91,7 +91,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             customizeAnimalTable((AbstractTableInfo) ti);
         }    
-        if (matches(ti, "study", "Clinical Encounters"))
+        if (matches(ti, "study", "Animal Events") || matches(ti, "study", "encounters"))
         {
             customizeEncounterTable(ti);
         }

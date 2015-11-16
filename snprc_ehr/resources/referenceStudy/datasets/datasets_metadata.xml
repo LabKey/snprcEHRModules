@@ -790,18 +790,30 @@
                 <importAliases>
                     <importAlias>ptid</importAlias>
                 </importAliases>
+                <isKeyField>true</isKeyField>
+                <fk>
+                     <fkDbSchema>study</fkDbSchema>
+                     <fkTable>animal</fkTable>
+                     <fkColumnName>Id</fkColumnName>
+                </fk>
             </column>
             <column columnName="date">
                 <datatype>timestamp</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
             </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
             <column columnName="encounterId">
                 <datatype>entityid</datatype>
-            </column>
-            <column columnName="procedureId">
-                <datatype>entityid</datatype>
-                <isKeyField>true</isKeyField>
+                <fk>
+                    <fkDbSchema>study</fkDbSchema>
+                    <fkTable>encounters</fkTable>
+                    <fkColumnName>objectid</fkColumnName>
+                </fk>
             </column>
             <column columnName="pkgId">
                 <datatype>integer</datatype>
@@ -811,6 +823,14 @@
                     <fkDbSchema>snprc_ehr</fkDbSchema>
                     <fkTable>package</fkTable>
                     <fkColumnName>id</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="qcstate">
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>study</fkDbSchema>
+                    <fkTable>qcstate</fkTable>
+                    <fkColumnName>rowid</fkColumnName>
                 </fk>
             </column>
         </columns>
@@ -1676,7 +1696,6 @@
             <column columnName="value_type">
                 <datatype>varchar</datatype>
             </column>
-
             <column columnName="test_name">
                 <datatype>varchar</datatype>
             </column>
