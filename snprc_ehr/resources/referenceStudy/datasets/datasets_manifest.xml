@@ -47,7 +47,7 @@
         <dataset name="procedure" id="1069" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="clinical_observations" id="5006" showByDefault="false" category="Clinical" type="Standard">
+        <dataset name="clinical_observations" id="5006" showByDefault="true" category="Clinical" type="Standard">
             <tags/>
         </dataset>
         <dataset name="clinremarks" id="1047" category="Clinical" type="Standard">
@@ -68,7 +68,7 @@
         <dataset name="weight" id="1045" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="vitals" id="1063" showByDefault="false" category="Clinical" type="Standard">
+        <dataset name="vitals" id="1063" showByDefault="true" category="Clinical" type="Standard">
             <tags/>
         </dataset>
         <dataset name="iStat" id="5026" category="ClinPath" type="Standard" showByDefault="false">
@@ -131,7 +131,7 @@
         <dataset name="pairings" id="5024" showByDefault="false" category="Colony Management" demographicData="false" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="animal_group_members" id="5031" showByDefault="false" category="Colony Management" demographicData="false" type="Standard">
+        <dataset name="animal_group_members" id="5031" showByDefault="true" category="Colony Management" demographicData="false" type="Standard">
             <tags/>
         </dataset>
         <dataset name="animalAccounts" id="5032" showByDefault="true" category="Colony Management" demographicData="false" type="Standard">
