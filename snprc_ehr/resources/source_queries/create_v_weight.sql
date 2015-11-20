@@ -33,6 +33,7 @@ ALTER view [labkey_etl].[V_WEIGHT] as
 -- Author:	Terry Hawkins
 -- Create date: 1/2015
 --  9/8/2015	Added capuchin weight code. tjh
+--  11/19/2015	Changed query to use the pkg_category/valid_code_table to find weight pkg codes. tjh
 -- ==========================================================================================
 
 SELECT ae.ANIMAL_ID AS id, 
@@ -51,7 +52,11 @@ INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
 
-WHERE sp.PKG_ID in (6, 152, 158) AND cpa.ATTRIB_KEY = 'weight'
+--WHERE sp.PKG_ID in (6, 152, 158) AND cpa.ATTRIB_KEY = 'weight'
+ WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
+						INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
+						WHERE vct.DESCRIPTION = 'weight' )
+AND CPA.DATA_TYPE = 'decimal' AND cpa.ATTRIB_KEY = 'weight'
 
 GO
 

@@ -24,13 +24,13 @@ GO
 
 
 /*==============================================================*/
-/* View: V_DELETE_WEIGHT                                               */
+/* View: V_DELETE_VITALS                                              */
 /*==============================================================*/
-ALTER VIEW [labkey_etl].[V_DELETE_WEIGHT] AS
+ALTER VIEW [labkey_etl].[V_DELETE_VITALS] AS
 -- ====================================================================================================================
 -- Author:	Terry Hawkins
--- Create date: 6/30/2015
--- 11/20/2015 refactored query to use pkg_category table to select pkg ids. tjh
+-- Create date: 11/17/2015
+--
 -- ==========================================================================================
 
 SELECT DISTINCT ISNULL(ae.ANIMAL_ID, aae.ANIMAL_ID) AS animal_id,
@@ -39,20 +39,22 @@ SELECT DISTINCT ISNULL(ae.ANIMAL_ID, aae.ANIMAL_ID) AS animal_id,
        acp.AUDIT_DATE_TM
 
 FROM audit.AUDIT_CODED_PROCS AS acp
-LEFT OUTER JOIN dbo.animal_events AS ae ON ae.ANIMAL_EVENT_ID = acp.ANIMAL_EVENT_ID
+LEFT OUTER JOIN animal_events AS ae ON ae.ANIMAL_EVENT_ID = acp.ANIMAL_EVENT_ID
 LEFT OUTER JOIN audit.AUDIT_ANIMAL_EVENTS AS aae ON aae.ANIMAL_EVENT_ID = acp.ANIMAL_EVENT_ID
 INNER JOIN dbo.BUDGET_ITEMS AS bi ON bi.BUDGET_ITEM_ID = acp.BUDGET_ITEM_ID
 INNER JOIN dbo.SUPER_PKGS AS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
 						INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
-						WHERE vct.DESCRIPTION = 'weight' )
+						WHERE vct.DESCRIPTION = 'vitals' )
 AND acp.AUDIT_ACTION = 'D' AND acp.OBJECT_ID IS NOT null
 
-go
-GRANT SELECT ON labkey_etl.V_DELETE_WEIGHT TO z_labkey
-GRANT SELECT ON dbo.animal_events TO z_labkey
+GO
+
+GRANT SELECT ON labkey_etl.V_DELETE_VITALS TO z_labkey
+GRANT SELECT ON dbo.CODED_PROCS TO z_labkey
+GRANT SELECT ON dbo.CODED_PROC_ATTRIBS TO z_labkey
 GRANT SELECT ON audit.AUDIT_CODED_PROCS TO z_labkey
-GRANT SELECT ON audit.AUDIT_ANIMAL_EVENTS TO z_labkey
-go
+GRANT SELECT ON audit.AUDIT_CODED_PROC_ATTRIBS TO z_labkey
+GO
 
 
