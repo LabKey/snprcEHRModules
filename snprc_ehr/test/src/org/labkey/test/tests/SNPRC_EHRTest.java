@@ -354,7 +354,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 "notes",
                 "Notes"
         ));
-        int expectedDatasetCount = 24;
 
         BodyWebPart datasets = new BodyWebPart(this, "EHR Datasets");
         List<WebElement> datasetLabelElements = Locator.css(".ldk-navpanel-section-row div.x4-box-item.x4-panel").findElements(datasets);
@@ -369,7 +368,5 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         List<String> hiddenDatasets = new ArrayList<>(expectedHiddenDatasets);
         hiddenDatasets.removeAll(datasetLabels);
         assertEquals("Dataset(s) not hidden", expectedHiddenDatasets, hiddenDatasets);
-
-        assertEquals("Wrong number of datasets visible", expectedDatasetCount, datasetLabelElements.size());
     }
 }
