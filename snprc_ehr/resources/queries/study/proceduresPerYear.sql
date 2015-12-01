@@ -25,7 +25,7 @@ year(c.date) as year,
 -- c.procedureid.shortName as procedureName,
 count(*) as total
 
-FROM study."Clinical Encounters" c
+FROM study."Animal Procedures" c
 -- WHERE c.procedureid IS NOT NULL
 GROUP BY
   c.Id,
