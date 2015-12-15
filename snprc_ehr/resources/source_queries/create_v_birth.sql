@@ -33,6 +33,7 @@ ALTER VIEW [labkey_etl].[V_BIRTH] AS
 -- Create date: 4/1/2015
 -- Description:	Selects the ETL records for LabKey study.birth dataset
 -- Changes:
+-- 12/14/2015 Added dam,sire,and species to query
 --
 --
 -- ==========================================================================================
@@ -41,10 +42,10 @@ SELECT
 	m.id AS id, 
 	m.birth_date AS date, 
 	m.bd_status AS date_type,
-	--m.dam_id AS dam,
-	--m.sex AS gender,
-	--LOWER(avs.common_name) AS species, 
-	--m.sire_id AS sire,
+	m.dam_id AS dam,
+	m.sire_id AS sire,
+	m.sex AS gender,
+	m.species,
 	m.entry_date_tm AS entry_date_tm,
 	m.user_name AS user_name,
 	m.object_id AS objectid,

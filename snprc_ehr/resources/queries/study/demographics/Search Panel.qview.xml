@@ -3,6 +3,11 @@
         <column name="Id"/>
         <column name="gender"/>
         <column name="species"/>
+        <column name="species/arc_species_code">
+            <properties>
+                <property name="columnTitle" value="Species code"/>
+            </properties>
+        </column>
         <column name="birth"/>
         <column name="viralstatus"/>
         <column name="viralantigenstatus"/>

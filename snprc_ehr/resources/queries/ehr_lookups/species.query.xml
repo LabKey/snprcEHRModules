@@ -1,0 +1,20 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="species" tableDbType="TABLE">
+                <tableTitle>SNPRC Species</tableTitle>
+                <columns>
+                    <column columnName="arc_species_code">
+                        <columnTitle>ARC species code</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>species_codes</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                </columns>
+                <pkColumnName>arc_species_code</pkColumnName>
+            </table>
+        </tables>
+    </metadata>
+</query>

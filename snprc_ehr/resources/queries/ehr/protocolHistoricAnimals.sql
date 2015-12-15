@@ -17,10 +17,10 @@ FROM ehr.protocol p
 
 --we find total distinct animals ever assigned to this protocol
 LEFT JOIN
-  (SELECT a.protocol as protocol, a.id, a.id.dataset.demographics.Species AS Species, count(*) AS Total, max(a.date) as LatestStart,
+  (SELECT a.protocol as protocol, a.id, a.id.dataset.demographics.species.arc_species_code AS Species, count(*) AS Total, max(a.date) as LatestStart,
   max(a.enddateCoalesced) as latestEnd
   FROM study.assignment a
-  GROUP BY a.protocol, a.id, a.id.dataset.demographics.species) a
+  GROUP BY a.protocol, a.id, a.id.dataset.demographics.species.arc_species_code) a
   ON (p.protocol = a.protocol)
 
 WHERE a.Total > 0

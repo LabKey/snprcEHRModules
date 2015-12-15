@@ -809,11 +809,6 @@
             </column>
             <column columnName="encounterId">
                 <datatype>entityid</datatype>
-                <fk>
-                    <fkDbSchema>study</fkDbSchema>
-                    <fkTable>encounters</fkTable>
-                    <fkColumnName>objectid</fkColumnName>
-                </fk>
             </column>
             <column columnName="pkgId">
                 <datatype>integer</datatype>

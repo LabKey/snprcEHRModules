@@ -49,7 +49,7 @@
                        <fk>
                            <fkDbSchema>ehr_lookups</fkDbSchema>
                            <fkTable>species</fkTable>
-                           <fkColumnName>common</fkColumnName>
+                           <fkColumnName>species_code</fkColumnName>
                        </fk>
                    </column>
                    <column columnName="geographic_origin">

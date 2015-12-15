@@ -21,6 +21,7 @@ ALTER view Labkey_etl.v_demographics AS (
 -- Create date: 12/2014
 -- Description:	Selects the ETL records for LabKey demographics data
 -- Changes:
+-- 12/11/2015 changed species source from common_name to three character species code. tjh
 --
 --
 -- ==========================================================================================
@@ -33,7 +34,8 @@ select m.object_id as objectid,
 	m.dam_id AS dam_id,
 	m.sire_id AS sire_id,
 	m.sex AS gender, 
-	lower(avs.common_name) as species,
+	--lower(avs.common_name) as species,
+	m.species as species,
 	m.entry_date_tm AS entry_date_tm,
 	CASE WHEN cd.at_sfbr = 'Y' THEN 'Alive' WHEN (cd.at_sfbr = 'N' AND m.death_date IS NULL) THEN 'Other' ELSE 'Dead' END AS status,
 	m.user_name AS user_name, 
