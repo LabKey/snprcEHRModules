@@ -97,6 +97,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Procedures Three Days Before Death", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=procedure&viewName=daysBeforeDeathProcedure&query.daysBeforeDeath/daysBeforeDeath~lte=3"), "Colony Management");
 
         AdminLinkManager.getInstance().addListener(new AdminLinkManager.Listener()
         {
