@@ -18,15 +18,18 @@ package org.labkey.snprc_ehr.table;
 import org.apache.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.Container;
 import org.labkey.api.data.ForeignKey;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
+import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
+import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -74,7 +77,28 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 snomedCol.setFk(fk);
             }
         }
+
+        ColumnInfo species = ti.getColumn("species");
+        if (species != null)
+        {
+            ForeignKey fk = species.getFk();
+            if (fk != null && fk.getLookupTableName().equalsIgnoreCase("species") && fk.getLookupSchemaName().equalsIgnoreCase("ehr_lookups"))
+            {
+                UserSchema us = getEHRUserSchema(ti, SNPRC_EHRSchema.NAME);
+                species.setFk(new QueryForeignKey(us, null, "species", null, null));
+            }
+        }
     }
+
+    public UserSchema getEHRUserSchema(AbstractTableInfo ds, String name)
+    {
+        Container ehrContainer = EHRService.get().getEHRStudyContainer(ds.getUserSchema().getContainer());
+        if (ehrContainer == null)
+            return null;
+
+        return getUserSchema(ds, name, ehrContainer);
+    }
+
 
     /**
      * Allows changes to be applied table-by-table

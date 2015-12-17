@@ -20,7 +20,7 @@
                     </column>
                     <column columnName="Species/arc_species_code">
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>species</fkTable>
                             <fkColumnName>arc_species_code</fkColumnName>
                         </fk>

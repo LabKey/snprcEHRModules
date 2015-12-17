@@ -26,7 +26,7 @@
                     <column columnName="species">
                         <columnTitle>Species</columnTitle>
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>species</fkTable>
                             <fkColumnName>species_code</fkColumnName>
                             <fkDisplayColumnName useRawValue="true"/>
