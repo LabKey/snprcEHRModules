@@ -1,10 +1,10 @@
-﻿common	scientific_name
-capuchin monkey	Cebus spp
-common marmoset	Callithrix jacchus
-cynomolgus monkey	Macaca fascicularis
-rhesus monkey	Macaca mulatta
-pig-tail monkey	Macaca nemestrina
-baboon	Papio cynocephalus
-chimpanzee	Pan troglodytes
-squirrel monkey	Saimiri boliviensis
-tamarin	Saguinus mystax
+﻿common	scientific_name	species_code	arc_species_code
+capuchin monkey	Cebus spp	cap	x
+common marmoset	Callithrix jacchus	mar	x
+cynomolgus monkey	Macaca fascicularis	cyn	x
+rhesus monkey	Macaca mulatta	rhe	x
+pig-tail monkey	Macaca nemestrina	pig	x
+baboon	Papio cynocephalus	bab	x
+chimpanzee	Pan troglodytes	chi	x
+squirrel monkey	Saimiri boliviensis	squ	x
+tamarin	Saguinus mystax	tam	x
