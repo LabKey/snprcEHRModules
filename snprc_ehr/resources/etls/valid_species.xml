@@ -6,7 +6,7 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_valid_species" />
-            <destination schemaName="ehr_lookups" queryName="species" bulkLoad="true" targetOption="merge"/>
+            <destination schemaName="snprc_ehr" queryName="species" bulkLoad="true" targetOption="merge"/>
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">

@@ -3,16 +3,14 @@
         <column name="Id"/>
         <column name="species">
             <properties>
-                <property name="columnTitle" value="Species Code"/>
+                <property name="columnTitle" value="Species (3 char)"/>
             </properties>
         </column>
-        <!--<column name="geographic_origin"/>-->
-        <column name="species/arc_species_code/common_name">
+        <column name="species/arc_species_code">
             <properties>
-                <property name="columnTitle" value="Species"/>
+                <property name="columnTitle" value="Species (2 char)"/>
             </properties>
         </column>
-        <!--<column name="geographic_origin"/>-->
         <column name="gender">
             <properties>
                 <property name="columnTitle" value="Sex"/>
@@ -46,7 +44,7 @@
         <!--</column>-->
         <column name="Id/curLocation/room">
             <properties>
-                <property name="columnTitle" value="Room"/>
+                <property name="columnTitle" value="Location"/>
             </properties>
         </column>
         <!--<column name="Id/curLocation/cage">-->

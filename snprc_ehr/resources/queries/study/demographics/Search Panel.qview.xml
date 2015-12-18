@@ -2,10 +2,19 @@
     <columns>
         <column name="Id"/>
         <column name="gender"/>
-        <column name="species"/>
+        <column name="species">
+            <properties>
+                <property name="columnTitle" value="Species code (3 char)"/>
+            </properties>
+        </column>
         <column name="species/arc_species_code">
             <properties>
-                <property name="columnTitle" value="Species code"/>
+                <property name="columnTitle" value="Species code (2 char)"/>
+            </properties>
+        </column>
+        <column name="species/arc_species_code/common_name">
+            <properties>
+                <property name="columnTitle" value="Common name"/>
             </properties>
         </column>
         <column name="birth"/>

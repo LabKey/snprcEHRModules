@@ -34,6 +34,7 @@ ALTER VIEW [labkey_etl].[v_labwork_chemistry_results] AS
 -- Changes:
 --
 -- 6/19/2015 Removed spaces from observed_value string before converting to a decimal. tjh
+-- 12/16/2015 Fixed CHEM 2 code. tjh
 -- ==========================================================================================
 
 
@@ -85,12 +86,15 @@ FROM dbo.CLINICAL_PATH_OBR AS obr
 INNER JOIN dbo.CLINICAL_PATH_OBX AS obx ON obx.MESSAGE_ID = obr.MESSAGE_ID
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.animal_id
-WHERE  obr.PROCEDURE_id IN (10200, 10201, 106262)
+WHERE  --obr.PROCEDURE_id IN (10200, 10201, 10626) 
+	obr.PROCEDURE_ID IN 
+    (SELECT lu.PROCEDURE_ID FROM CLINICAL_PATH_PROC_ID_LOOKUP AS lu WHERE lu.PROCEDURE_TYPE = 'Biochemistry')
 	AND obx.test_id IN (141,205,60,612, 135,136,137,138,142,272,90,139,17,18,19,631,632,611,
 										  87,81,633,86,140, 143,77 ) 
 
 GO
 
 grant SELECT on labkey_etl.v_labwork_chemistry_results to z_labkey
+GRANT SELECT ON dbo.CLINICAL_PATH_PROC_ID_LOOKUP TO z_labkey
 
 go

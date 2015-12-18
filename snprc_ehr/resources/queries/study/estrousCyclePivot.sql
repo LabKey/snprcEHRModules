@@ -23,5 +23,8 @@ WHERE co.qcstate.publicdata = true
 ) c
 
 GROUP BY c.id, c.date, c.category, c.objectid
+
 PIVOT  observations BY category IN
 (  'tumescence_index', 'vaginal_bleeding', 'purple_color' , 'carrying_infant', 'male_status', 'male_id', 'cycle_location', 'observer_emp_num')
+
+order by id, date desc

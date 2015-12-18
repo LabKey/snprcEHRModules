@@ -138,15 +138,13 @@ Culture	10456	CULTURE, BRUCELLA		false	false	true	63
 Culture	10353	TISSUE, EVALUATION		false	false	true	64
 Culture	10403	CULTURE, ROUTINE		false	false	true	65
 Culture	10416	SHIGELLA SCREEN		false	false	true	66
-Culture	10404	CULTURE, BLOOD		false	false	true	67
 Culture	10400	SMEAR, GRAM STAIN		false	false	true	68
 Culture	19013	COMPREHENSIVE UNKNOW		false	false	true	69
 Culture	10407	CULTURE, CAGE WASH		false	false	true	70
 Culture	10464	CULTURE, B VIRUS		false	false	true	72
-Culture	10411	SUSCEPT., COMBINED		false	false	true	73
-Culture	10409	SUSCEPT., GRAM-NEG		false	false	true	74
-Culture	10200	CHEM PROFILE		false	false	true	75
-Culture	10411	SUSCEPTIBILITY		false	false	true	76
-Culture	10417	MRSA SCREEN		false	false	true	77
-Culture	10412	CULTURE, FUNGAL		false	false	true	78
-Culture	10405	CULTURE, STOOL		false	false	true	79
+Culture	10409	SUSCEPT., GRAM-NEG		false	false	true	73
+Culture	10200	CHEM PROFILE		false	false	true	74
+Culture	10411	SUSCEPTIBILITY		false	false	true	75
+Culture	10417	MRSA SCREEN		false	false	true	76
+Culture	10412	CULTURE, FUNGAL		false	false	true	77
+Culture	10405	CULTURE, STOOL		false	false	true	78

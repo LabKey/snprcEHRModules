@@ -24,7 +24,7 @@
                         </fk>
                     </column>
                     <column columnName="species">
-                        <columnTitle>Species</columnTitle>
+                        <columnTitle>Species code (3 char)</columnTitle>
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>species</fkTable>

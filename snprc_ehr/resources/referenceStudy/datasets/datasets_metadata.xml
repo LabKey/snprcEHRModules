@@ -2285,6 +2285,8 @@
             </column>
             <column columnName="species">
                 <datatype>varchar</datatype>
+                <nullable>false</nullable>
+                <columnTitle>Species code (3 char)</columnTitle>
             </column>
             <column columnName="objectid">
                 <datatype>varchar</datatype>

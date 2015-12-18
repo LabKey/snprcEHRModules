@@ -3,6 +3,7 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="species" tableDbType="TABLE">
                 <tableTitle>SNPRC Species</tableTitle>
+                <pkColumnName>species_code</pkColumnName>
                 <columns>
                     <column columnName="arc_species_code">
                         <columnTitle>ARC species code</columnTitle>
@@ -13,7 +14,6 @@
                         </fk>
                     </column>
                 </columns>
-                <pkColumnName>arc_species_code</pkColumnName>
             </table>
         </tables>
     </metadata>

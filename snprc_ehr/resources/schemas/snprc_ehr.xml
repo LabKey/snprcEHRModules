@@ -102,14 +102,20 @@
   <insertUrl></insertUrl>
   <updateUrl></updateUrl>
   <deleteUrl></deleteUrl>
-  <pkColumnName>common</pkColumnName>
-  <titleColumn>common</titleColumn>
+  <pkColumnName>species_code</pkColumnName>
   <columns>
+   <column columnName="species_code">
+    <columnTitle>Species Code (3 char)</columnTitle>
+    <description>This is the three character species code that includes species and hybrid information</description>
+   </column>
    <column columnName="common">
+    <columnTitle>Common name</columnTitle>
+    <description>This is the common name for the species, which includes hybrid descriptions.</description>
     <displayWidth>100</displayWidth>
    </column>
    <column columnName="scientific_name">
-    <nullable>true</nullable>
+    <description>This is the scientific name for the species, which includes hybrid descriptions.</description>
+     <nullable>true</nullable>
    </column>
    <column columnName="id_prefix">
     <nullable>true</nullable>
@@ -138,8 +144,15 @@
    <column columnName="dateDisabled">
     <columnTitle>Date Disabled</columnTitle>
    </column>
-   <column columnName="species_code" />
-   <column columnName="arc_species_code" />
+   <column columnName="arc_species_code">
+    <columnTitle>Species Code (2 char)</columnTitle>
+    <description>This is the two character species code that is used by the IACUC to group like species.</description>
+     <fk>
+      <fkDbSchema>ehr_lookups</fkDbSchema>
+      <fkTable>species_codes</fkTable>
+      <fkColumnName>code</fkColumnName>
+     </fk>
+   </column>
    <column columnName="objectid" />
    <column columnName="tid" />
   </columns>

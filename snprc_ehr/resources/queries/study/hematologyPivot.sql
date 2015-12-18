@@ -24,7 +24,7 @@ SELECT
     ELSE CAST(CAST(b.result AS float) AS VARCHAR)
   END as result
 FROM study.labworkResults b
-WHERE b.testId.includeInPanel = true AND b.qcstate.publicdata = true
+WHERE b.testId.includeInPanel = true AND b.qcstate.publicdata = true and b.testid.type = 'Hematology'
 ) b
 
 GROUP BY b.id, b.date, b.runId, b.TestName
