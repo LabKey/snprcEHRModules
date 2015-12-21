@@ -1,0 +1,3 @@
+select common_name
+from ehr_lookups.species_codes
+order by common_name
