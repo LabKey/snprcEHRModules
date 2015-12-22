@@ -21,7 +21,6 @@
                         </fk>
                     </column>
                 </columns>
-                <tableTitle>Encounters</tableTitle>
             </table>
         </tables>
     </metadata>
