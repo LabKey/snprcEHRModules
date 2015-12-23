@@ -11,15 +11,6 @@
                             <fkColumnName>objectid</fkColumnName>
                         </fk>
                     </column>
-                    <column columnName="daysBeforeDeath" wrappedColumnName="lsid">
-                        <datatype>varchar</datatype>
-                        <isHidden>true</isHidden>
-                        <fk>
-                            <fkDbSchema>study</fkDbSchema>
-                            <fkTable>daysBeforeDeath</fkTable>
-                            <fkColumnName>lsid</fkColumnName>
-                        </fk>
-                    </column>
                 </columns>
             </table>
         </tables>
