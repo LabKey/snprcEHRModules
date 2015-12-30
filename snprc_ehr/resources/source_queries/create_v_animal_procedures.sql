@@ -7,14 +7,19 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_PROCEDURES] as
 -- Author:		Terry Hawkins
 -- Create date: 11/2/2015
 --
+-- 12/23/2015 added procNarrative, viewOrder, and procType. tjh
 -- ==========================================================================================
 
 
 SELECT  aep.id AS id,
         aep.event_date_tm AS date ,
-        aep.ae_object_id AS encounterId,
-        aep.cp_object_id AS procedureId,
-		    aep.PKG_ID AS pkgId,
+        aep.ae_animal_event_id AS encounterId,
+        aep.cp_object_id AS objectid,
+		aep.PKG_ID AS pkgId,
+		dbo.f_decoded_narrative(aep.PROC_ID, 0) AS procNarrative,
+		aep.VIEW_ORDER AS viewOrder,
+		aep.BUDGET_TYPE AS procType,
+		aep.USDA_CATEGORY AS usdaCategory,
         aep.cp_user_name AS username,
         aep.cp_entry_date_tm AS entry_date_tm,
         CAST(aep.cp_timestamp AS TIMESTAMP) AS timestamp

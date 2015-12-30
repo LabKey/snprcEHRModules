@@ -13,7 +13,8 @@ surveillance	Lab Results	js	Surveillance	true		study	surveillance			date	false	f
 urinalysis	Lab Results	js	Urinalysis	true		study	underDevelopment			date	false	false			Contains urinalysis results
 miscTests	Lab Results	js	Misc Tests	true		study	underDevelopment			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
 surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
-procedures	Clinical	query	Procedures	true		study	encounters	Procedures		date	false	false		qcstate/publicdata
+Animal events	Clinical	query	Animal Events	true		study	encounters	encounters		date	false	false		qcstate/publicdata
+procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata
 withinThreeDaysOfDisposition	Clinical	query	Within 3 Days of Disposition	true		study	encounters	WithinThreeDaysOfDisposition		date	false	false		qcstate/publicdata
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 clinObs	Clinical	js	Observations	true		study	underDevelopment			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.

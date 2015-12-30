@@ -23,7 +23,7 @@
         <column name="Id/totalOffspring/TotalOffspring"/>
         <column name="Id/curLocation/room">
             <properties>
-                <property name="columnTitle" value="Room"/>
+                <property name="columnTitle" value="Location"/>
             </properties>
         </column>
         <column name="Id/curLocation/cage">

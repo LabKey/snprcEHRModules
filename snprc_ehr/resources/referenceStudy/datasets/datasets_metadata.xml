@@ -740,6 +740,9 @@
                     <importAlias>ptid</importAlias>
                 </importAliases>
             </column>
+            <column columnName="encounterId">
+                <datatype>integer</datatype>
+            </column>
             <column columnName="date">
                 <datatype>timestamp</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
@@ -808,7 +811,7 @@
                 <isKeyField>true</isKeyField>
             </column>
             <column columnName="encounterId">
-                <datatype>entityid</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="pkgId">
                 <datatype>integer</datatype>
@@ -818,6 +821,29 @@
                     <fkDbSchema>snprc_ehr</fkDbSchema>
                     <fkTable>package</fkTable>
                     <fkColumnName>id</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="procNarrative">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="viewOrder">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="procType">
+                <datatype>varchar</datatype>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>proc_type</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                    <fkDisplayColumnName>description</fkDisplayColumnName>
+                </fk>
+            </column>
+            <column columnName="usdaCategory">
+                <datatype>varchar</datatype>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>usda_levels</fkTable>
+                    <fkColumnName>usda_level</fkColumnName>
                 </fk>
             </column>
             <column columnName="qcstate">

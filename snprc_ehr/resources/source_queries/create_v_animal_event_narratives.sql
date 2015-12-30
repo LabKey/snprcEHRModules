@@ -25,17 +25,18 @@ GO
 /*==============================================================*/
 /* View: V_ANIMAL_EVENT_NARRATIVES                                    */
 /*==============================================================*/
-create VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] as
+ALTER VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] as
 -- ====================================================================================================================
 -- Object: v_animal_event_narratives
 -- Author:		Terry Hawkins
 -- Create date: 7/6/2015
 --
 -- 11/02/2015   Terry Hawkins   Renamed from v_animal_procedures to v_animal_event_narratives.
+-- 12/29/2015	Terry Hawkins	renamed visitRowId column to encounterId
 -- ==========================================================================================
 
 
-SELECT  ap.animal_event_id AS visitRowId,
+SELECT  ap.animal_event_id AS encounterId,
         ap.animal_id AS id ,
         ap.event_date_tm AS date ,
         ap.ParticipantSequenceNum ,
@@ -48,6 +49,7 @@ SELECT  ap.animal_event_id AS visitRowId,
  from dbo.animal_event_narratives AS ap
 ---- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ap.animal_id
+
 
 go
 

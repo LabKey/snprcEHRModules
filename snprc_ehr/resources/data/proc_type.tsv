@@ -1,0 +1,7 @@
+﻿rowid	value	description	sort_order
+1	A	Adhoc	5
+2	B	Behavior	4
+3	C	Clinical	1
+4	L	Legacy	6
+5	M	Maintenance	3
+6	R	Research	2

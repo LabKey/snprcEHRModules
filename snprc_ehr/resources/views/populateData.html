@@ -26,26 +26,31 @@ function importFile(config) {
 Ext4.onReady(function(){
 
     var tables = [
-            {
-                label: 'Status codes',
-                populateFn: 'populateFromFile',
-                schemaName: 'ehr_lookups',
-                queryName: 'status_codes',
-                pk: 'code'
-            },            {
-                label: 'Pregnancy termination codes',
-                populateFn: 'populateFromFile',
-                schemaName: 'ehr_lookups',
-                queryName: 'preg_term_code',
-                pk: 'value'
-            },
-            {
-                label: 'Assignment status',
-                populateFn: 'populateFromFile',
-                schemaName: 'ehr_lookups',
-                queryName: 'assignment_status',
-                pk: 'value'
-            },{
+        {
+            label: 'USDA Levels',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'usda_levels',
+            pk: 'code'
+        },{
+            label: 'Status codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'status_codes',
+            pk: 'code'
+        },{
+            label: 'Pregnancy termination codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'preg_term_code',
+            pk: 'value'
+        },{
+            label: 'Assignment status',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'assignment_status',
+            pk: 'value'
+        },{
             label: 'TB sites',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
@@ -88,11 +93,17 @@ Ext4.onReady(function(){
             queryName: 'chemistry_tests',
             pk: 'rowid'
         },{
-            label: 'Species',
+            label: 'Species (NOT used)',
             populateFn: 'populateFromFile',
             schemaName: 'snprc_ehr',
             queryName: 'species',
             pk: 'species_code'
+        },{
+            label: 'Species codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookup',
+            queryName: 'species_codes',
+            pk: 'rowid'
         },{
             label: 'source',
             populateFn: 'populateFromFile',
@@ -640,6 +651,12 @@ Ext4.onReady(function(){
                     queryName: 'procedures'
                 });
             },
+            pk: 'rowid'
+        },{
+            label: 'Procedure Types',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'proc_type',
             pk: 'rowid'
         }
     ];
