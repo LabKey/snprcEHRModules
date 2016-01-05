@@ -75,7 +75,10 @@ public class AnimalHistoryPage extends LabKeyPage
     public AnimalHistoryPage clickReportTab(WebElement reportTab)
     {
         if (!reportTab.getAttribute("class").contains("active"))
+        {
             doAndWaitForPageSignal(reportTab::click, REPORT_TAB_SIGNAL);
+            _ext4Helper.waitForMaskToDisappear();
+        }
         return this;
     }
 

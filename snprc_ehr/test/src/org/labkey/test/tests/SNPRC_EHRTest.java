@@ -22,7 +22,9 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.labkey.api.reader.ExcelFormatException;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
@@ -54,6 +56,20 @@ import static org.junit.Assert.fail;
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
 public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
 {
+    private static final String ASSAY_GENE_EXPRESSION = "Gene Expression";
+    private static final File ASSAY_GENE_EXPRESSION_XAR = TestFileUtils.getSampleData("snprc/assays/Gene Expression.xar");
+    private static final File ASSAY_GENE_EXPRESSION_TSV = TestFileUtils.getSampleData("snprc/assays/gene_expression.tsv");
+    private static final String ASSAY_MICROSATELLITES = "Microsatellites";
+    private static final File ASSAY_MICROSATELLITES_XAR = TestFileUtils.getSampleData("snprc/assays/Microsatellites.xar");
+    private static final File ASSAY_MICROSATELLITES_TSV = TestFileUtils.getSampleData("snprc/assays/microsatellites.tsv");
+    private static final String ASSAY_PHENOTYPES = "Phenotypes";
+    private static final File ASSAY_PHENOTYPES_XAR = TestFileUtils.getSampleData("snprc/assays/Phenotypes.xar");
+    private static final File ASSAY_PHENOTYPES_TSV = TestFileUtils.getSampleData("snprc/assays/phenotypes.tsv");
+    private static final String ASSAY_SNPS = "SNPs";
+    private static final File ASSAY_SNPS_XAR = TestFileUtils.getSampleData("snprc/assays/SNPs.xar");
+    private static final File ASSAY_SNPS_TSV = TestFileUtils.getSampleData("snprc/assays/snps.tsv");
+    private static final File LOOKUP_LIST_ARCHIVE = TestFileUtils.getSampleData("snprc/SNPRC_Test.lists.zip");
+
     private boolean _hasCreatedBirthRecords = false;
 
     public String getModuleDirectory()
@@ -77,21 +93,38 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     public List<String> getAssociatedModules()
     {
-        return Arrays.asList("ehr", "snprc_ehr");
+        return Arrays.asList("ehr", "snprc_ehr", "snprc_genetics");
     }
 
     @BeforeClass
-    @LogMethod
-    public static void doSetup() throws Exception
+    public static void setupProject() throws Exception
     {
-        SNPRC_EHRTest initTest = (SNPRC_EHRTest)getCurrentTest();
+        SNPRC_EHRTest initTest = (SNPRC_EHRTest) getCurrentTest();
 
-        initTest.initProject("SNPRC EHR");
-        initTest.createTestSubjects();
-        new RReportHelper(initTest).ensureRConfig();
-        initTest.goToProjectHome();
-        initTest.clickFolder(FOLDER_NAME);
-        new PortalHelper(initTest).addWebPart("EHR Datasets");
+        initTest.doSetup();
+    }
+
+    private void doSetup() throws Exception
+    {
+        new RReportHelper(this).ensureRConfig();
+        initProject("SNPRC EHR");
+        createTestSubjects();
+        goToProjectHome();
+        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
+        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
+        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
+        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_SNPS_XAR, 4);
+        clickFolder(FOLDER_NAME);
+        String containerPath = getContainerPath();
+        _listHelper.importListArchive(LOOKUP_LIST_ARCHIVE);
+        clickFolder(FOLDER_NAME);
+        PortalHelper portalHelper = new PortalHelper(this);
+        portalHelper.addWebPart("EHR Datasets");
+        portalHelper.addWebPart("Assay List");
+        _assayHelper.importAssay(ASSAY_GENE_EXPRESSION, ASSAY_GENE_EXPRESSION_TSV, containerPath);
+        _assayHelper.importAssay(ASSAY_MICROSATELLITES, ASSAY_MICROSATELLITES_TSV, containerPath);
+        _assayHelper.importAssay(ASSAY_PHENOTYPES, ASSAY_PHENOTYPES_TSV, containerPath);
+        _assayHelper.importAssay(ASSAY_SNPS, ASSAY_SNPS_TSV, containerPath);
     }
 
     @Override
@@ -242,7 +275,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testLookups()
     {
-        navigateToQuery("ehr", "animalExposure");
+        navigateToQuery("ehr", "animalExposure", 180000);
 
         DataRegionTable query = new DataRegionTable("query", this);
         List<String> row = query.getRowDataAsText(0);
@@ -291,6 +324,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         setFormElement(Locator.inputByNameContaining("textfield"), "12345");
         click(Locator.tagWithText("span", "Refresh"));
 
+        List<String> errors = new ArrayList<>();
         Map<String, WebElement> categoryTabs = animalHistoryPage.elements().findCategoryTabs();
         for (String category : categoryTabs.keySet())
         {
@@ -306,15 +340,30 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 {
                     animalHistoryPage.clickReportTab(report);
                 }
-                catch(WebDriverException ignore)
+                catch(WebDriverException fail)
                 {
-                    fail("There appears to be an error in the report: " + report);
+                    throw new AssertionError("There appears to be an error in the report: " + report, fail);
                 }
-                if (isTextPresent("ERROR", "Exception"))
-                    fail("There appears to be an error in the report: " + report);
+
+                List<WebElement> errorEls = Locator.CssLocator.union(Locators.labkeyError, Locator.css(".error")).findElements(getDriver());
+                if (!errorEls.isEmpty())
+                {
+                    List<String> errorTexts = getTexts(errorEls);
+                    if (!String.join("", errorTexts).trim().isEmpty())
+                    {
+                        errors.add("Error in: " + category + " - " + report);
+                        for (String errorText : errorTexts)
+                            errors.add("\t" + errorText);
+                    }
+                }
             }
 
             TestLogger.decreaseIndent();
+        }
+        if (!errors.isEmpty())
+        {
+            errors.add(0, "Error(s) in animal history report(s)");
+            fail(String.join("\n", errors).replaceAll("\n+", "\n"));
         }
     }
 
