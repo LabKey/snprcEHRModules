@@ -61,5 +61,15 @@
                 <property name="columnTitle" value="Colony Group"/>
             </properties>
         </column>
+        <column name="death">
+            <properties>
+                <property name="columnTitle" value="Death1"/>
+            </properties>
+        </column>
+        <column name="Id/Demographics/death">
+            <properties>
+                <property name="columnTitle" value="Death2"/>
+            </properties>
+        </column>
     </columns>
 </customView>
