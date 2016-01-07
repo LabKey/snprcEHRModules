@@ -177,7 +177,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
             waitForElement(cb);
             uncheckCheckbox(cb);
         }
-        uncheckCheckbox(Locator.name("validateQueries")); // TODO: Validate queries once fixed on postgres
+
         clickButton("Start Import"); // Validate queries page
         waitForPipelineJobsToComplete(1, "Study import", false, MAX_WAIT_SECONDS * 2500);
     }
@@ -353,7 +353,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                     {
                         errors.add("Error in: " + category + " - " + report);
                         for (String errorText : errorTexts)
-                            errors.add("\t" + errorText);
+                            if (!errorText.trim().isEmpty())
+                                errors.add("\t" + errorText.trim());
                     }
                 }
             }
