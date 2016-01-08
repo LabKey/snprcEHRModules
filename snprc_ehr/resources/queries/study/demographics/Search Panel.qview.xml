@@ -63,12 +63,12 @@
         </column>
         <column name="death">
             <properties>
-                <property name="columnTitle" value="Death1"/>
+                <property name="columnTitle" value="Death Date 1"/>
             </properties>
         </column>
         <column name="Id/Demographics/death">
             <properties>
-                <property name="columnTitle" value="Death2"/>
+                <property name="columnTitle" value="Death Date 2"/>
             </properties>
         </column>
     </columns>
