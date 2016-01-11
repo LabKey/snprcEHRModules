@@ -31,9 +31,6 @@
         <column name="history"/>
         <column name="survivorship/survivorshipInDays"/>
     </columns>
-    <filters>
-        <filter column="survivorship/survivorshipInDays" operator="lte" value="3"></filter>
-    </filters>
     <sorts>
         <sort column="Date" descending="true" />
     </sorts>

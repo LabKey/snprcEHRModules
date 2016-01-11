@@ -196,3 +196,23 @@ EHR.reports.surveillance = function(panel, tab){
     //    queryConfig: config
     //});
 };
+
+EHR.reports.proceduresBeforeDisposition = function(panel, tab){
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
+
+    var config = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'encounters',
+        viewName: 'ProceduresBeforeDisposition',
+        title: "Procedure Before Disposition " + title,
+        filters: filterArray.nonRemovable,
+        removeableFilters: [LABKEY.Filter.create('survivorship/survivorshipInDays', 3, LABKEY.Filter.Types.LESS_THAN_OR_EQUAL)]
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: config
+    });
+};

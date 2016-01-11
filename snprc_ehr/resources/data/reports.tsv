@@ -15,7 +15,7 @@ miscTests	Lab Results	js	Misc Tests	true		study	underDevelopment			date	false	fa
 surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 Animal events	Clinical	query	Animal Events	true		study	encounters	encounters		date	false	false		qcstate/publicdata
 procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata
-withinThreeDaysOfDisposition	Clinical	query	Within 3 Days of Disposition	true		study	encounters	WithinThreeDaysOfDisposition		date	false	false		qcstate/publicdata
+proceduresBeforeDisposition	Clinical	js	"Procedures Before Disposition"	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 clinObs	Clinical	js	Observations	true		study	underDevelopment			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
