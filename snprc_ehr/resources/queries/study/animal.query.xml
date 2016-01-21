@@ -1,0 +1,24 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="encounters" tableDbType="NOT_IN_DB">
+                <javaCustomizer>org.labkey.ehr.table.DefaultEHRCustomizer</javaCustomizer>
+                <tableTitle>Animal Events</tableTitle>
+                <columns>
+                    <column columnName="assignmentsAtDeath" wrappedColumnName="id">
+                        <shownInInsertView>false</shownInInsertView>
+                        <shownInUpdateView>false</shownInUpdateView>
+                        <isUnselectable>true</isUnselectable>
+                        <columnTitle>assignmentsAtDeath</columnTitle>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>assignmentsAtDeath</fkTable>
+                            <fkColumnName>id</fkColumnName>
+                            <fkDisplayColumnName>assignmentsAtDeath</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

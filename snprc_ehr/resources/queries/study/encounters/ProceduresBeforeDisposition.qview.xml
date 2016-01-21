@@ -30,6 +30,7 @@
         </column>
         <column name="history"/>
         <column name="survivorship/survivorshipInDays"/>
+        <column name="Id/assignmentsAtDeath/assignmentsAtDeath"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />
