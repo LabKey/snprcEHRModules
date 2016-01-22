@@ -76,6 +76,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     {
         EHRService.get().registerModule(this);
 
+        EHRService.get().registerClientDependency(ClientDependency.fromFilePath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcReports.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcOverrides.js"), this);
 

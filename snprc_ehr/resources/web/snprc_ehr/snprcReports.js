@@ -216,3 +216,46 @@ EHR.reports.proceduresBeforeDisposition = function(panel, tab){
         queryConfig: config
     });
 };
+
+EHR.reports.currentBlood = function(panel, tab){
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
+
+    tab.add({
+        html: 'This report summarizes the blood available for the animals below.  ' +
+        //'For more detail on this calculation, please see the PDF <a href="https://bridge.ohsu.edu/research/onprc/dcm/DCM%20Standard%20Operatiing%20Procedures/Blood%20Collection%20Volume%20Guidelines.pdf" target="_blank">here</a>.' +
+        '<br><br>If there have been recent blood draws for the animal, a graph will show the available blood over time.  On the graph, dots indicate dates when either blood was drawn or a previous blood draw fell off.  The horizontal lines indicate the maximum allowable blood that can be drawn on that date.',
+        border: false,
+        style: 'padding-bottom: 20px;'
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom: 10px;',
+        queryConfig: panel.getQWPConfig({
+            title: 'Summary',
+            schemaName: 'study',
+            queryName: 'Demographics',
+            viewName: 'Blood Draws',
+            filterArray: filterArray.removable.concat(filterArray.nonRemovable)
+        })
+    });
+
+    var subjects = tab.filters.subjects || [];
+
+    if (subjects.length){
+        tab.add({
+            xtype: 'snprc-bloodsummarypanel',
+            subjects: subjects
+        });
+    }
+    else
+    {
+        panel.resolveSubjectsFromHousing(tab, function(subjects, tab){
+            tab.add({
+                xtype: 'snprc-bloodsummarypanel',
+                subjects: subjects
+            });
+        }, this);
+    }
+};

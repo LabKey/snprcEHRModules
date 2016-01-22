@@ -54,3 +54,4 @@ necropsies	Pathology	query	Necropsies	true		study	Clinical Encounters	Necropsies
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
 menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
 freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
+currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
