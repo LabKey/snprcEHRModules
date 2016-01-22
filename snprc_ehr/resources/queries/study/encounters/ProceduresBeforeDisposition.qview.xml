@@ -7,7 +7,11 @@
             </properties>
         </column>
         <column name="Id/Demographics/death"/>
-        <column name="project"/>
+        <column name="project">
+            <properties>
+                <property name="columnTitle" value="Charge ID"/>
+            </properties>
+        </column>
         <column name="project/account"/>
         <column name="project/protocol">
             <properties>
