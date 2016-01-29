@@ -25,6 +25,7 @@
                 <include name="jbrowse.module" />
                 <include name="blast.module" />
                 <include name="GenotypeAssays.module" />
+                <include name="workflow.module" />
             </fileset>
         </copy>
     </target>
