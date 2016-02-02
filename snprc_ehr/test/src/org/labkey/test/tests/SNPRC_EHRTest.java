@@ -22,7 +22,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.labkey.api.reader.ExcelFormatException;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
@@ -34,7 +33,6 @@ import org.labkey.test.pages.SNPRCAnimalHistoryPage;
 import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
-import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
@@ -69,6 +67,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final File ASSAY_SNPS_XAR = TestFileUtils.getSampleData("snprc/assays/SNPs.xar");
     private static final File ASSAY_SNPS_TSV = TestFileUtils.getSampleData("snprc/assays/snps.tsv");
     private static final File LOOKUP_LIST_ARCHIVE = TestFileUtils.getSampleData("snprc/SNPRC_Test.lists.zip");
+    private static final String PROJECT_NAME = "SNPRC";
+    private static final String COREFACILITIES = "Core Facilities";
+    private static final String GENETICSFOLDER = "Genetics";
+    private static final String FOLDER_NAME = "SNPRC";
 
     private boolean _hasCreatedBirthRecords = false;
 
@@ -77,11 +79,37 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         return "snprc_ehr";
     }
 
+    @Override
+    protected void goToEHRFolder()
+    {
+        clickProject(getProjectName());
+    }
+
     @Nullable
     @Override
     protected String getProjectName()
     {
-        return "SNPRC_EHRTestProject";
+        return PROJECT_NAME;
+    }
+
+    @Override
+    public String getFolderName() { return FOLDER_NAME; }
+
+    @Override
+    public String getContainerPath()
+    {
+        return PROJECT_NAME;
+    }
+
+    public String getGeneticsPath() { return PROJECT_NAME + "/" + COREFACILITIES + "/" + GENETICSFOLDER; }
+
+    @Override
+    protected void createProjectAndFolders(String type)
+    {
+        _containerHelper.createProject(getProjectName(), type);
+        _containerHelper.createSubfolder(getProjectName(), getProjectName(), COREFACILITIES, "Collaboration", null);
+        _containerHelper.createSubfolder(getProjectName(), COREFACILITIES, GENETICSFOLDER, "Laboratory Folder", new String[]{"SequenceAnalysis", "SNPRC_Genetics"});
+        clickFolder(getProjectName());
     }
 
     @Override
@@ -110,21 +138,23 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         initProject("SNPRC EHR");
         createTestSubjects();
         goToProjectHome();
+        clickFolder(GENETICSFOLDER);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_SNPS_XAR, 4);
-        clickFolder(FOLDER_NAME);
+        clickFolder(GENETICSFOLDER);
         String containerPath = getContainerPath();
         _listHelper.importListArchive(LOOKUP_LIST_ARCHIVE);
-        clickFolder(FOLDER_NAME);
+        clickFolder(PROJECT_NAME);
         PortalHelper portalHelper = new PortalHelper(this);
         portalHelper.addWebPart("EHR Datasets");
+        clickFolder(GENETICSFOLDER);
         portalHelper.addWebPart("Assay List");
-        _assayHelper.importAssay(ASSAY_GENE_EXPRESSION, ASSAY_GENE_EXPRESSION_TSV, containerPath);
-        _assayHelper.importAssay(ASSAY_MICROSATELLITES, ASSAY_MICROSATELLITES_TSV, containerPath);
-        _assayHelper.importAssay(ASSAY_PHENOTYPES, ASSAY_PHENOTYPES_TSV, containerPath);
-        _assayHelper.importAssay(ASSAY_SNPS, ASSAY_SNPS_TSV, containerPath);
+        _assayHelper.importAssay(ASSAY_GENE_EXPRESSION, ASSAY_GENE_EXPRESSION_TSV, getGeneticsPath());
+        _assayHelper.importAssay(ASSAY_MICROSATELLITES, ASSAY_MICROSATELLITES_TSV, getGeneticsPath());
+        _assayHelper.importAssay(ASSAY_PHENOTYPES, ASSAY_PHENOTYPES_TSV, getGeneticsPath());
+        _assayHelper.importAssay(ASSAY_SNPS, ASSAY_SNPS_TSV, getGeneticsPath());
     }
 
     @Override
@@ -197,9 +227,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void preTest()
     {
         goToProjectHome();
-        clickFolder("EHR");
+        clickFolder(FOLDER_NAME);
         waitForElement(Locator.linkWithText("Animal Search"));
-        waitForElement(Locator.linkWithText("Browse All"));
+        waitForElement(Locator.linkWithText("Browse All Datasets"));
     }
 
     @Test
@@ -321,7 +351,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(this);
 
         waitForElement(Locator.inputByNameContaining("textfield"));
-        setFormElement(Locator.inputByNameContaining("textfield"), "12345");
+        setFormElement(Locator.inputByNameContaining("textfield"), "test1441142");
         click(Locator.tagWithText("span", "Refresh"));
 
         List<String> errors = new ArrayList<>();
