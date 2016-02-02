@@ -157,4 +157,31 @@
    <column columnName="tid" />
   </columns>
  </table>
+ <table tableName="clinical_observation_datasets" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Clinical Observation Datasets</tableTitle>
+  <importUrl></importUrl>
+  <insertUrl></insertUrl>
+  <updateUrl></updateUrl>
+  <deleteUrl></deleteUrl>
+  <pkColumnName>rowId</pkColumnName>
+  <columns>
+   <column columnName="rowId">
+    <isKeyField>true</isKeyField>
+    </column>
+   <column columnName="dataset_name">
+    <columnTitle>Dataset Name</columnTitle>
+    <nullable>false</nullable>
+    <description>Determines which dataset the row belongs to (e.g. cycle_data, daily_observations)</description>
+   </column>
+   <column columnName="category_name">
+    <columnTitle>Category Name</columnTitle>
+    <nullable>false</nullable>
+    <description>The category to which the data belongs (e.g. cycle data includes 'tumescence_index', 'vaginal_bleeding', 'purple_color', etc.)</description>
+   </column>
+   <column columnName="sort_order">
+      <columnTitle>Sort Order</columnTitle>
+      <nullable>true</nullable>
+   </column>
+  </columns>
+ </table>
 </tables>

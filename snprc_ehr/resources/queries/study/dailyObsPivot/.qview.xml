@@ -1,0 +1,93 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id">
+            <properties>
+                <property name="columnTitle" value="Id"/>
+            </properties>
+        </column>
+        <column name="Date">
+            <properties>
+                <property name="columnTitle" value="Observation Date"/>
+            </properties>
+        </column>
+        <column name="water::observations">
+            <properties>
+                <property name="columnTitle" value="Water"/>
+            </properties>
+        </column>
+        <column name="feed::observations">
+            <properties>
+                <property name="columnTitle" value="Feed (% eaten)"/>
+            </properties>
+        </column>
+        <column name="sa_none::observations">
+            <properties>
+                <property name="columnTitle" value="No Stool"/>
+            </properties>
+        </column>
+        <column name="sa_bloody::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Bloody"/>
+            </properties>
+        </column>
+        <column name="sa_dry::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Dry"/>
+            </properties>
+        </column>
+        <column name="sa_loose::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Loose"/>
+            </properties>
+        </column>
+        <column name="sa_normal::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Normal"/>
+            </properties>
+        </column>
+        <column name="sa_other::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Other"/>
+            </properties>
+        </column>
+        <column name="sa_pellet::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Pelleted"/>
+            </properties>
+        </column>
+        <column name="sa_soft::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Soft"/>
+            </properties>
+        </column>
+        <column name="sa_unknown::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Unknown"/>
+            </properties>
+        </column>
+        <column name="sa_watery::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Watery"/>
+            </properties>
+        </column>
+        <column name="sa_dry::observations">
+            <properties>
+                <property name="columnTitle" value="Stool:Dry"/>
+            </properties>
+        </column>
+        <column name="housing_status::observations">
+            <properties>
+                <property name="columnTitle" value="Housing Status"/>
+            </properties>
+        </column>
+        <column name="comments::observations">
+            <properties>
+                <property name="columnTitle" value="Comments"/>
+            </properties>
+        </column>
+    </columns>
+    <sorts>
+        <sort column="Id" descending="false"/>
+        <sort column="date" descending="true" />
+    </sorts>
+</customView>

@@ -3,6 +3,7 @@
         <column name="Id"/>
         <column name="date"/>
         <column name="area"/>
+        <column name="category"/>
         <column name="observation"/>
         <column name="remark"/>
         <column name="performedby"/>

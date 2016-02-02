@@ -27,6 +27,12 @@ Ext4.onReady(function(){
 
     var tables = [
         {
+            label: 'Clinical Observation Datasets',
+            populateFn: 'populateFromFile',
+            schemaName: 'snprc_ehr',
+            queryName: 'clinical_observation_datasets',
+            pk: 'rowId'
+        },{
             label: 'USDA Levels',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

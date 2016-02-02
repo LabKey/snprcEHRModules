@@ -34,7 +34,7 @@ ALTER VIEW [labkey_etl].[V_DELETE_CYCLE] AS
 -- ==========================================================================================
 
 SELECT 
-	CAST(object_id AS VARCHAR(128)) + '-' + category AS object_id,
+	CAST(object_id AS VARCHAR(128)) + '/' + category AS object_id,
 	audit_date_tm
  
  FROM  ( SELECT 

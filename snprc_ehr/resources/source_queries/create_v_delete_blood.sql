@@ -29,7 +29,7 @@ GO
 /*==============================================================*/
 /* View: V_DELETE_BLOOD                                               */
 /*==============================================================*/
-CREATE VIEW [labkey_etl].[V_DELETE_BLOOD] AS
+ALTER VIEW [labkey_etl].[V_DELETE_BLOOD] AS
 -- ====================================================================================================================
 -- Author:	Terry Hawkins
 -- Create date: 8/4/2015
@@ -47,8 +47,11 @@ INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
 
-WHERE sp.PKG_ID = 7 AND cpa.ATTRIB_KEY = 'blood_volume'
-AND cpa.AUDIT_ACTION = 'D'
+WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
+						INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
+						WHERE vct.DESCRIPTION = 'Cumulative Blood' )
+
+AND cpa.ATTRIB_KEY = 'blood_volume' AND cpa.AUDIT_ACTION = 'D'
 
 UNION
 
@@ -64,8 +67,10 @@ INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
 
-WHERE sp.PKG_ID = 7 AND cpa.ATTRIB_KEY = 'blood_volume'
-AND cpa.AUDIT_ACTION = 'D'
+WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
+						INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
+						WHERE vct.DESCRIPTION = 'Cumulative Blood' )
+AND cpa.ATTRIB_KEY = 'blood_volume' AND cpa.AUDIT_ACTION = 'D'
 
 GO
 
