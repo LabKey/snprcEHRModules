@@ -7,7 +7,7 @@ CREATE TABLE snprc_ehr.clinical_observation_datasets
 	Container	entityId NOT NULL,
 
     CONSTRAINT pk_clinical_observation_datasets PRIMARY KEY (rowId),
-    CONSTRAINT FK_packages_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
+    CONSTRAINT FK_clinical_observation_datasets_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
     );
 
 GO
