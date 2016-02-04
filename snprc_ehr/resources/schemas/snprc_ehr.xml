@@ -182,6 +182,9 @@
       <columnTitle>Sort Order</columnTitle>
       <nullable>true</nullable>
    </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+   </column>
   </columns>
  </table>
 </tables>
