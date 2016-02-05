@@ -14,6 +14,15 @@
                         colFields: [EHR.panel.PopulationPanel.FIELDS.ageclass, EHR.panel.PopulationPanel.FIELDS.gender]
                     }],
                     itemId: 'population'
+                }
+                    ,{
+                    title: 'Baboon Colony',
+                    style: 'padding 5px;',
+                    items: [{
+                        xtype: 'snprc-colonyusagepanel',
+                        filterArray: [LABKEY.Filter.create('species_code', 'PC', LABKEY.Filter.Types.EQUALS)]
+                    }],
+                    itemId: 'baboon'
                 }];
             }
         }).render(webpart.wrapperDivId);
