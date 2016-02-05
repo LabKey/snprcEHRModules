@@ -31,7 +31,7 @@ ALTER VIEW [labkey_etl].[V_OBSERVATIONS] AS
 -- CREATE DATE: 1/15/2016
 -- DESCRIPTION:	View provides the observation data for LabKey
 -- CHANGES:
---
+-- 2/3/2016 user_name column renamed to performedby
 --
 
 SELECT id, 
@@ -39,7 +39,7 @@ SELECT id,
 	CAST(object_id AS VARCHAR(128)) + '/' + category AS objectid,
 	category, 
 	CAST(observation AS VARCHAR(3)) AS observation,
-	user_name,
+	user_name AS performedby,
 	timestamp 
 FROM (SELECT id, obs_date,
 	CAST(water AS VARCHAR(3) ) AS water, CAST(feed  AS VARCHAR(3) ) AS feed,

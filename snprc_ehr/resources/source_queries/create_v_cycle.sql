@@ -32,13 +32,13 @@ ALTER VIEW [labkey_etl].[V_CYCLE] AS
 -- DESCRIPTION:	View provides the cycle data for LabKey
 -- CHANGES:
 --
---
+-- 2/3/2016 user_name column renamed to performedby
 SELECT id,
 	cycle_date AS date,
 	CAST(object_id AS VARCHAR(128)) + '/' + category AS objectid,
 	category, 
 	observation,
-	user_name,
+	user_name AS performedby,
 	timestamp
 FROM  ( SELECT c.id ,
           c.cycle_date ,

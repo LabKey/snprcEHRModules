@@ -17,7 +17,7 @@ SELECT
   co.date,
   LEFT(co.objectid, 37 ) as objectid,
   co.category,
-  co.observation,
+  co.observation
 FROM study.clinical_observations co
 INNER JOIN snprc_ehr.clinical_observation_datasets as cod on co.category = cod.category_name and cod.dataset_name = 'cycle_data'
 WHERE co.qcstate.publicdata = true
