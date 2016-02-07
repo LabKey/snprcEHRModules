@@ -97,7 +97,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                             jsonType: 'boolean'
                         });
                         if(this.bloodDrawResults) {
-                            this.bloodDrawResults.rows.concat(results.rows);
+                            this.bloodDrawResults.rows = this.bloodDrawResults.rows.concat(results.rows);
                         } else {
                             this.bloodDrawResults = results;
                         }
