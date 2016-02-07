@@ -9,6 +9,7 @@
 Ext4.define('SNPRC.panel.BloodSummaryPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.snprc-bloodsummarypanel',
+    intervals: {},
 
     initComponent: function(){
         Ext4.apply(this, {
@@ -27,9 +28,8 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
     },
 
     loadData: function(){
-        var multi = new LABKEY.MultiRequest();
 
-        multi.add(LABKEY.Query.selectRows, {
+        LABKEY.Query.selectRows({
             schemaName: 'study',
             queryName: 'demographics',
             filterArray: [LABKEY.Filter.create('id', this.subjects.join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
@@ -40,53 +40,85 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
             failure: LDK.Utils.getErrorCallback(),
             success: function(results){
                 this.demographicsMap = {};
+                this.intervals = {};
+
                 Ext4.each(results.rows, function(row){
                     var map = new LDK.SelectRowsRow(row);
+                    var interval = row["species/blood_draw_interval"].value;
                     this.demographicsMap[map.getValue('id')] = map;
+
+                    if(!interval) {
+                        interval = 42;
+                    }
+                    if( this.intervals.hasOwnProperty(interval) ) {
+                        this.intervals[interval].push(row.Id.value)
+                    } else {
+                        this.intervals[interval] = [row.Id.value];
+                    }
+
                 }, this);
+
+                this.loadBloodData();
             }
         });
+    },
 
-        multi.add(LABKEY.Query.selectRows, {
-            schemaName: 'study',
-            queryName: 'currentBloodDraws',
-            sort: 'Id,date',
-            filterArray: [LABKEY.Filter.create('Id', this.subjects.join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
-            parameters: {
-                //NOTE: this is currently hard-coded for perf.
-                DATE_INTERVAL: 21
-            },
-            requiredVersion: 9.1,
-            scope: this,
-            failure: LDK.Utils.getErrorCallback(),
-            success: function(results){
-                //these will be used for the blood graph
-                results.metaData.fields.push({
-                    name: 'allowableDisplay',
-                    jsonType: 'string'
+    loadBloodData: function() {
+        var multi = new LABKEY.MultiRequest();
+
+        for(var interval in this.intervals) {
+            if (this.intervals.hasOwnProperty(interval)) {
+
+                multi.add(LABKEY.Query.selectRows, {
+                    schemaName: 'study',
+                    queryName: 'currentBloodDraws',
+                    sort: 'Id,date',
+                    filterArray: [LABKEY.Filter.create('Id', this.intervals[interval].join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
+                    parameters: {
+                        //NOTE: this is currently hard-coded for perf.
+                        DATE_INTERVAL: interval
+                    },
+                    requiredVersion: 9.1,
+                    scope: this,
+                    failure: LDK.Utils.getErrorCallback(),
+                    success: function (results)
+                    {
+                        //these will be used for the blood graph
+                        results.metaData.fields.push({
+                            name: 'allowableDisplay',
+                            jsonType: 'string'
+                        });
+                        results.metaData.fields.push({
+                            name: 'seriesId',
+                            jsonType: 'string'
+                        });
+                        results.metaData.fields.push({
+                            name: 'isHidden',
+                            jsonType: 'boolean'
+                        });
+                        if(this.bloodDrawResults) {
+                            this.bloodDrawResults.rows.concat(results.rows);
+                        } else {
+                            this.bloodDrawResults = results;
+                        }
+
+                        if(!this.currentBloodMap)
+                            this.currentBloodMap = {};
+
+                        Ext4.each(results.rows, function (row)
+                        {
+                            var map = new LDK.SelectRowsRow(row);
+                            var id = map.getValue('Id');
+
+                            if (!this.currentBloodMap[id])
+                                this.currentBloodMap[id] = [];
+
+                            this.currentBloodMap[id].push(row);
+                        }, this);
+                    }
                 });
-                results.metaData.fields.push({
-                    name: 'seriesId',
-                    jsonType: 'string'
-                });
-                results.metaData.fields.push({
-                    name: 'isHidden',
-                    jsonType: 'boolean'
-                });
-                this.bloodDrawResults = results;
-
-                this.currentBloodMap = {};
-                Ext4.each(results.rows, function(row){
-                    var map = new LDK.SelectRowsRow(row);
-                    var id = map.getValue('Id');
-
-                    if (!this.currentBloodMap[id])
-                        this.currentBloodMap[id] = [];
-
-                    this.currentBloodMap[id].push(row);
-                }, this);
             }
-        });
+        }
 
         multi.send(this.onLoad, this);
     },
@@ -300,7 +332,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
             xtype: 'ldk-querypanel',
             style: 'margin-bottom: 10px;',
             queryConfig: LDK.Utils.getReadOnlyQWPConfig({
-                title: 'Recent/Scheduled Blood Draws: ' + subject,
+                title: 'Recent Blood Draws: ' + subject,
                 schemaName: 'study',
                 queryName: 'bloodDrawsByDay',
                 allowHeaderLock: false,
