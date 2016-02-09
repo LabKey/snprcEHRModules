@@ -1,4 +1,5 @@
 setname	label	keyfield	titleColumn
+housingStatus	Housing Status	value
 PregnancyConfirm	Pregnancy Confirmation Types	
 housingDefinition	Housing Definition	
 housingTypes	Housing Types	

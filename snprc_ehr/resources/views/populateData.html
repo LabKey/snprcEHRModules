@@ -27,6 +27,12 @@ Ext4.onReady(function(){
 
     var tables = [
         {
+            label: 'Housing Status',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'housingStatus',
+            pk: 'value'
+        },{
             label: 'Clinical Observation Datasets',
             populateFn: 'populateFromFile',
             schemaName: 'snprc_ehr',
