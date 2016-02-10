@@ -24,6 +24,7 @@ SELECT
   t.blood_per_kg,
   t.mostRecentWeight,
   t.mostRecentWeightDate,
+  t.death,
   cast(t.allowableBlood as double) as maxAllowableBlood,
   cast(t.bloodPrevious as double) as bloodPrevious,
   cast((t.allowableBlood - t.bloodPrevious) as double) as allowablePrevious,
@@ -48,6 +49,7 @@ SELECT
   bd.dateOnly as date,
   bd.quantity,
   d.species,
+  d.death,
   d.id.mostRecentWeight.MostRecentWeight,
   d.id.mostRecentWeight.MostRecentWeightDate,
   d.species.blood_per_kg,
@@ -62,7 +64,7 @@ SELECT
     WHERE draws.id = bd.id
       AND draws.dateOnly > bd.minDate
       AND draws.dateOnly <= bd.dateOnly
-      --NOTE: this has been changed to include penidng/non-approved draws
+      --NOTE: this has been changed to include pending/non-approved draws
       AND draws.countsAgainstVolume = true
   ), 0) AS BloodPrevious,
 
@@ -72,7 +74,7 @@ SELECT
     WHERE draws.id = bd.id
       AND draws.dateOnly < bd.maxDate
       AND draws.dateOnly >= bd.dateOnly
-      --NOTE: this has been changed to include penidng/non-approved draws
+      --NOTE: this has been changed to include pending/non-approved draws
       AND draws.countsAgainstVolume = true
   ), 0) AS BloodFuture
 

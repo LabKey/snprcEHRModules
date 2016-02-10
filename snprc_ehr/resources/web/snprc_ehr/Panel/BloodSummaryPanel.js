@@ -96,11 +96,14 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                             name: 'isHidden',
                             jsonType: 'boolean'
                         });
-                        if(this.bloodDrawResults) {
-                            this.bloodDrawResults.rows = this.bloodDrawResults.rows.concat(results.rows);
-                        } else {
-                            this.bloodDrawResults = results;
-                        }
+                        results.metaData.fields.push({
+                            name: 'isToday',
+                            jsonType: 'boolean'
+                        });
+                        results.metaData.fields.push({
+                            name: 'isDeath',
+                            jsonType: 'boolean'
+                        });
 
                         if(!this.currentBloodMap)
                             this.currentBloodMap = {};
@@ -109,12 +112,36 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                         {
                             var map = new LDK.SelectRowsRow(row);
                             var id = map.getValue('Id');
+                            row.isToday = {value: false};
+                            row.isDeath = {value: false};
+
+                            if(row.date.value) {
+                                var rDate = new Date(row.date.value);
+                                if(row.death.value) {
+                                    var dDate = new Date(row.death.value);
+                                    if (dDate && rDate && rDate.format('Y-m-d') == dDate.format('Y-m-d')) {
+                                        row.isDeath = {value: true};
+                                    }
+                                    if (dDate && rDate && rDate > dDate) {
+                                        return;
+                                    }
+                                }
+                                if (rDate && rDate.format('Y-m-d') == (new Date()).format('Y-m-d')) {
+                                    row.isToday = {value: true};
+                                }
+                            }
 
                             if (!this.currentBloodMap[id])
                                 this.currentBloodMap[id] = [];
 
                             this.currentBloodMap[id].push(row);
                         }, this);
+
+                        if(this.bloodDrawResults) {
+                            this.bloodDrawResults.rows = this.bloodDrawResults.rows.concat(results.rows);
+                        } else {
+                            this.bloodDrawResults = results;
+                        }
                     }
                 });
             }
@@ -154,10 +181,10 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                     html: '<hr>'
                 });
 
-                if (!bds || !bds.length) {
+                if (!bds || bds.length == 1) {
                     var maxDraw = dd.getValue('species/blood_per_kg') * dd.getValue('species/max_draw_pct') * dd.getValue('id/MostRecentWeight/mostRecentWeight');
                     cfg.items.push({
-                        html: 'There are no previous or future blood draws with the relevant timeframe.  The maximum amount of ' + Ext4.util.Format.round(maxDraw, 2) + ' mL can be drawn.',
+                        html: 'There are no previous blood draws within the relevant time frame.  A maximum amount of ' + Ext4.util.Format.round(maxDraw, 2) + ' mL can be drawn.',
                         border: false
                     });
                 }
@@ -178,6 +205,75 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                 html: 'No records found'
             });
         }
+
+        this.addAdditionalGraphOptions();
+    },
+
+    addAdditionalGraphOptions: function() {
+        var svgs = d3.selectAll('svg');
+
+        // Add shading pattern
+        var defs = svgs.selectAll('defs')
+                .append('pattern')
+                .attr('id', 'diag-pattern')
+                .attr('patternUnits', 'userSpaceOnUse')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', 3)
+                .attr('height', 8)
+                .attr('patternTransform', 'rotate(30)')
+                .append('rect')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width',.5)
+                .attr('height', 8)
+                .attr('style', 'stroke:none;')
+                .attr('fill', 'red');
+
+
+        // Add under zero shading
+        Ext4.each(svgs[0], function(svg) {
+            var ticks = svg.getElementsByClassName('axis')[1].getElementsByClassName('tick-text')[0].getElementsByTagName('g');
+            Ext4.each(ticks, function(tick) {
+                if(tick.getElementsByTagName('text')[0].textContent === '0') {
+                    var axis = d3.select(tick.parentElement.parentElement);
+                    var tickText = d3.select(tick.parentElement);
+                    axis.append('rect')
+                            .attr('x', tick.getBBox().x + 16)
+                            .attr('y', tick.getBBox().y + 10)
+                            .attr('width', axis[0][0].getBBox().width - tickText[0][0].getBBox().width - 10)
+                            .attr('height', 400 - tick.getBBox().y - 60)
+                            .attr('fill-opacity',.5)
+                            .attr('fill', 'url(#diag-pattern)');
+                            //.attr('fill', '#801515');
+                }
+            })
+        });
+
+        var points = d3.selectAll('a.point');
+        var todayPoints = points.filter(function(d) {
+            return (d.isToday && d.isToday == true);
+        });
+
+        // Add Today line and text
+        todayPoints.append(function(d,i) {
+
+            // Hijack the loop to setup line
+            var axis = d3.selectAll('svg').select('g.axis')[0][i];
+            var ht = axis.getBBox().height;
+            this.getElementsByTagName('path')[0]
+                    .setAttribute('d', "M0 " + (ht + 47 - this.getBBox().y) + " l0 -" + (ht-22));
+
+            var text =  document.createElementNS(d3.ns.prefix.svg, 'text');
+            text.setAttribute("x", this.getBBox().x - 18);
+            text.setAttribute("y", this.getBBox().y - 3);
+            text.setAttribute("style", "font-weight:bold;font-family:Arial;font-size:11px;");
+            text.setAttribute("fill", "black");
+            text.setAttribute("visibility", "visible");
+            text.textContent = "Today";
+
+            return text;
+        });
     },
 
     getGraphCfg: function(dd, bds){
@@ -240,6 +336,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
             });
         }
 
+        var layerName = "Volume";
         toAdd.push({
             xtype: 'container',
             //title: 'Available Blood: ' + subject,
@@ -250,16 +347,39 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                     results: results,
                     title: 'Blood Available To Be Drawn: ' + subject,
                     height: 400,
-                    width: 800,
+                    width: this.getWidth() - 50,
                     yLabel: 'Available Blood (mL)',
                     xLabel: 'Date',
                     xField: 'date',
                     grouping: ['seriesId'],
+                    scales: {
+                        shape: {
+                            scaleType: 'discrete',
+                            range: [LABKEY.vis.Scale.Shape()[1], LABKEY.vis.Scale.Shape()[0],
+                                LABKEY.vis.Scale.Shape()[4], LABKEY.vis.Scale.Shape()[0]],
+                            domain: ["0 " + layerName, "1 " + layerName, "2 " + layerName, "3 " + layerName]
+                        },
+                        color: {
+                            scaleType: 'discrete',
+                            range: [LABKEY.vis.Scale.ColorDiscrete()[1], LABKEY.vis.Scale.ColorDiscrete()[0], "#2fad24", "red", "black"],
+                            domain: ["0 " + layerName, "1 " + layerName, "2 " + layerName, "3 " + layerName]
+                        }
+                        ,
+                        size: {
+                            scaleType: 'discrete',
+                            range: [5, 7],
+                            domain: ["0 " + layerName, "1 " + layerName]
+                        }
+
+                    },
                     layers: [{
                         y: 'allowableBlood',
                         hoverText: function(row){
                             var lines = [];
 
+                            if(row.isDeath) {
+                                lines.push('DEATH');
+                            }
                             lines.push('Date: ' + row.date.format('Y-m-d'));
                             lines.push('Drawn on this Date: ' + row.quantity);
                             lines.push('Volume Available on this Date: ' + LABKEY.Utils.roundNumber(row.allowableDisplay, 1) + ' mL');
@@ -272,7 +392,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
 
                             return lines.join('\n');
                         },
-                        name: 'Volume'
+                        name: layerName
                     }]
                 },
                 getPlotConfig: function(){
@@ -297,7 +417,37 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
 
                                 return row[layerConfig.y]
                             },
-                            hoverText: layerConfig.hoverText
+                            hoverText: layerConfig.hoverText,
+                            shape: function(row){
+                                if(row.isDeath)
+                                    return 2;
+                                if(row.isToday)
+                                    return 3;
+                                if(row.quantity > 0) {
+                                    return 0;
+                                }
+                                return 1;
+                            },
+                            color: function(row){
+                                if(row.isToday)
+                                    return 4;
+                                if(row.isDeath)
+                                    return 4;
+
+                                if(row.quantity > 0) {
+                                    return 0;
+                                }
+
+                                return 1;
+                            },
+                            size: function(row) {
+                                if(row.isToday)
+                                    return 1;
+                                if(row.isDeath)
+                                    return 1;
+
+                                return 0;
+                            }
                         }
                     }));
 
@@ -340,23 +490,6 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                 filters: [
                     LABKEY.Filter.create('Id', subject, LABKEY.Filter.Types.EQUAL),
                     LABKEY.Filter.create('date', '-' + (dd.getValue('species/blood_draw_interval') * 2) + 'd', LABKEY.Filter.Types.DATE_GREATER_THAN_OR_EQUAL)
-                ],
-                sort: '-date'
-            })
-        });
-
-        toAdd.push({
-            xtype: 'ldk-querypanel',
-            style: 'margin-bottom: 10px;',
-            queryConfig: LDK.Utils.getReadOnlyQWPConfig({
-                title: 'Pending/Not-Yet-Approved Blood Draws: ' + subject,
-                schemaName: 'study',
-                queryName: 'blood',
-                allowHeaderLock: false,
-                //frame: 'none',
-                filters: [
-                    LABKEY.Filter.create('Id', subject, LABKEY.Filter.Types.EQUAL),
-                    LABKEY.Filter.create('countsAgainstVolume', false, LABKEY.Filter.Types.EQUAL)
                 ],
                 sort: '-date'
             })
