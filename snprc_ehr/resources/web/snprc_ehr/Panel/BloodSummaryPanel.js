@@ -240,7 +240,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                     var tickText = d3.select(tick.parentElement);
                     axis.append('rect')
                             .attr('x', tick.getBBox().x + 16)
-                            .attr('y', tick.getBBox().y + 10)
+                            .attr('y', tick.getBBox().y + 11)
                             .attr('width', axis[0][0].getBBox().width - tickText[0][0].getBBox().width - 10)
                             .attr('height', 400 - tick.getBBox().y - 60)
                             .attr('fill-opacity',.5)
@@ -259,8 +259,11 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
         todayPoints.append(function(d,i) {
 
             // Hijack the loop to setup line
-            var axis = d3.selectAll('svg').select('g.axis')[0][i];
-            var ht = axis.getBBox().height;
+            var yAxis = d3.selectAll('svg').select('g.grid-line path')[0][i];
+            var path = yAxis.getAttribute('d');
+            var bottom = Number(path.substring(path.indexOf(',')+1, path.indexOf('L')));
+            var top = Number(path.substring(path.indexOf(',', path.indexOf(',')+1)+1, path.indexOf('Z')));
+            var ht = bottom - top + 21;
             this.getElementsByTagName('path')[0]
                     .setAttribute('d', "M0 " + (ht + 47 - this.getBBox().y) + " l0 -" + (ht-22));
 
