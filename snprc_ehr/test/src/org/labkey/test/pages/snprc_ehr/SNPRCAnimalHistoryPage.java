@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.test.pages;
+package org.labkey.test.pages.snprc_ehr;
 
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.WebTestHelper;
+import org.labkey.test.pages.ehr.AnimalHistoryPage;
 
 public class SNPRCAnimalHistoryPage extends AnimalHistoryPage
 {
     public SNPRCAnimalHistoryPage(BaseWebDriverTest test)
     {
-        super(test);
+        super(test.getDriver());
     }
 
-    public static AnimalHistoryPage beginAt(BaseWebDriverTest test)
+    public static SNPRCAnimalHistoryPage beginAt(BaseWebDriverTest test)
     {
         return beginAt(test, test.getCurrentContainerPath());
     }
 
-    public static AnimalHistoryPage beginAt(BaseWebDriverTest test, String containerPath)
+    public static SNPRCAnimalHistoryPage beginAt(BaseWebDriverTest test, String containerPath)
     {
         test.beginAt(WebTestHelper.buildURL("snprc_ehr", containerPath, "animalHistory"));
-        return new AnimalHistoryPage(test);
+        return new SNPRCAnimalHistoryPage(test);
     }
 }

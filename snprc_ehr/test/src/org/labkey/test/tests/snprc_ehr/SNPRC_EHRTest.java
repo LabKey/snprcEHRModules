@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.test.tests;
+package org.labkey.test.tests.snprc_ehr;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +23,8 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.labkey.remoteapi.Connection;
+import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
@@ -29,7 +32,9 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
-import org.labkey.test.pages.SNPRCAnimalHistoryPage;
+import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
+import org.labkey.test.pages.ehr.ParticipantViewPage;
+import org.labkey.test.tests.AbstractGenericEHRTest;
 import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
@@ -43,9 +48,12 @@ import org.openqa.selenium.WebElement;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -185,6 +193,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         return id.toUpperCase();
     }
 
+    @Override
     protected void importStudy()
     {
         File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
@@ -342,6 +351,56 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertElementPresent(Locator.linkWithText("test1020148"));
         assertElementPresent(Locator.linkWithText("Male"));
         assertElementPresent(Locator.linkWithText("Alive"));
+    }
+
+    @Test
+    public void testCurrentBloodReportRhesus() throws Exception
+    {
+        Connection connection = createDefaultConnection(true);
+        String aliveRhesusId = "test9195996";
+        Map<String, Object> weightRow = new HashMap<>();
+        weightRow.put("Id", aliveRhesusId);
+        weightRow.put("date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)));
+        weightRow.put("weight", 5);
+
+        InsertRowsCommand command = new InsertRowsCommand("study", "weight");
+        command.setRows(Arrays.asList(weightRow));
+        command.execute(connection, getProjectName());
+
+        Map<String, Object> bloodRow = new HashMap<>();
+        bloodRow.put("Id", aliveRhesusId);
+        bloodRow.put("date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -2)));
+        bloodRow.put("quantity", 5);
+
+        command = new InsertRowsCommand("study", "blood");
+        command.setRows(Arrays.asList(bloodRow));
+        command.execute(connection, getProjectName());
+
+        ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, aliveRhesusId);
+
+        participantViewPage.clickCategoryTab("General");
+        participantViewPage.clickReportTab("Current Blood");
+
+        //TODO: Verify report. Blocked -- SNPRC reports don't understand some test data (demographics)
+    }
+
+    /**
+     * Report based off of Animal Events dataset: referenceStudy/datasets/dataset1067.tsv
+     */
+    @Test
+    public void testProceduresBeforeDispositionReport() throws Exception
+    {
+        String deadAnimalId = "test1441142";
+        ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, deadAnimalId);
+
+        participantViewPage.clickCategoryTab("Clinical");
+        participantViewPage.clickReportTab("Animal Events");
+        List<String> remarkColumn = participantViewPage.getActiveReportDataRegion(this).getColumnDataAsText("Remark");
+        assertEquals("Should be 4 events for " + deadAnimalId + ". Check SNPRC reference study dataset1067.tsv", Arrays.asList("necropsy -4days", "necropsy -3days", "necropsy -0days", "necropsy +1days"), remarkColumn);
+
+        participantViewPage.clickReportTab("Procedures Before Disposition");
+        remarkColumn = participantViewPage.getActiveReportDataRegion(this).getColumnDataAsText("Remark");
+        assertEquals("Report should show events less than 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days"), remarkColumn);
     }
 
     @Test
