@@ -28,7 +28,7 @@ alter VIEW [labkey_etl].[V_DELETE_ANIMAL_GROUP_MEMBERS] as
 -- Object: v_delete_animal_group_members
 -- Author:		Terry Hawkins
 -- Create date: 8/28/2015
---
+-- 3/1/2016 Added pedigrees. tjh
 -- ==========================================================================================
 SELECT 
 	ac.object_id,
@@ -46,12 +46,19 @@ SELECT
 FROM audit.audit_breeding_grp AS ab
 WHERE ab.AUDIT_ACTION = 'D' AND ab.OBJECT_ID IS NOT NULL
 
+UNION
 
+SELECT p.object_id,
+		p.audit_date_tm
+
+FROM audit.audit_pedigree AS p
+WHERE p.AUDIT_ACTION = 'D' AND p.object_id IS NOT null
 GO
 
 GRANT SELECT on labkey_etl.V_DELETE_ANIMAL_GROUP_MEMBERS to z_labkey
 GRANT SELECT ON audit.audit_breeding_grp TO z_labkey
 GRANT SELECT ON audit.audit_colony TO z_labkey
+GRANT SELECT ON audit.audit_pedigree TO z_labkey
 
 
 go

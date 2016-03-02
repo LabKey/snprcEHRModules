@@ -25,13 +25,14 @@ GO
 /*==============================================================*/
 /* View: v_animal_group_members                                 */
 /*==============================================================*/
-CREATE VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
+ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
 -- ====================================================================================================================
 -- Object: v_animal_group_members
 -- Author: Terry Hawkins
 -- Create date: 8/28/2015
 --
 -- 11/12/15 - Added 'Breeding grp:' to groupName to match v_animal_groups. tjh
+-- 3/1/2016 - Added valid_pedigrees. tjh
 -- ==========================================================================================
 
 
@@ -59,6 +60,19 @@ CREATE VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
         c.timestamp 
 FROM dbo.colony AS c
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
+
+UNION
+SELECT LTRIM(RTRIM(p.id)) AS id,
+	   'Pedigree' AS GroupCategory,
+	    p.pedigree AS GroupName,
+       p.start_date AS date,
+       p.stop_date AS enddate,
+       p.user_name ,
+	   p.object_id AS objectid,
+       p.entry_date_tm ,
+       p.timestamp 
+FROM dbo.pedigree AS p
+INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = p.id
 
 GO
 

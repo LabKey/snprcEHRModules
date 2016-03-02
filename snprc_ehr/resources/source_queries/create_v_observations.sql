@@ -56,8 +56,8 @@ FROM (SELECT id, obs_date,
     o.entry_date_tm ,
     o.timestamp
  FROM observations AS o
- WHERE housing_status IS NOT NULL)
-  --and id = ' 15149')
+ --WHERE id = '  6200')
+ ) 
 AS result 
 UNPIVOT
 (

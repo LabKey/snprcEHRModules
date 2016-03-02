@@ -23,14 +23,15 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /*==============================================================*/
-/* View: V_DELETE_ACCOUNTS                                      */
+/* View: V_DELETE_ANIMAL_GROUPS                                 */
 /*==============================================================*/
-create VIEW [labkey_etl].[V_DELETE_ANIMAL_GROUPS] as
+ALTER VIEW [labkey_etl].[V_DELETE_ANIMAL_GROUPS] as
 -- ====================================================================================================================
 -- Object: v_delete_animal_groups
 -- Author:		Terry Hawkins
 -- Create date: 8/28/2015
---
+-- 
+-- 3/1/2016 added valid_pedigrees. tjh
 -- ==========================================================================================
 SELECT 
 	avc.object_id,
@@ -49,11 +50,19 @@ FROM audit.audit_valid_breeding_grps AS avb
 WHERE avb.AUDIT_ACTION = 'D' AND avb.OBJECT_ID IS NOT NULL
 
 
+UNION
+
+SELECT 
+	vp.object_id,
+	vp.audit_date_tm
+
+FROM AUDIT.audit_valid_pedigrees AS vp
+WHERE vp.audit_action = 'D' AND vp.OBJECT_ID IS null
 GO
 
 GRANT SELECT on labkey_etl.V_DELETE_ANIMAL_GROUPS to z_labkey
 GRANT SELECT ON audit.audit_valid_breeding_grps TO z_labkey
 GRANT SELECT ON audit.audit_valid_colonies TO z_labkey
-
+GRANT SELECT ON audit.audit_valid_pedigrees TO z_labkey
 
 go
