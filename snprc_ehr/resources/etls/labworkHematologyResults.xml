@@ -6,7 +6,7 @@
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
         <description>Copy to target</description>
         <source schemaName="snprcSrc" queryName="v_labwork_hematology_results" />
-        <destination schemaName="study" queryName="labworkResults" bulkLoad="true" transactionSize="500" targetOption="merge"/>
+        <destination schemaName="study" queryName="labworkResults" bulkLoad="true" batchSize="500" targetOption="merge"/>
     </transform>
 </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
