@@ -23,7 +23,6 @@
                 <include name="LDK.module" />
                 <include name="SequenceAnalysis.module" />
                 <include name="jbrowse.module" />
-                <include name="blast.module" />
                 <include name="GenotypeAssays.module" />
             </fileset>
         </copy>
