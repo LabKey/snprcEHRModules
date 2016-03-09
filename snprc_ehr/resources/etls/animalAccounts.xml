@@ -5,7 +5,7 @@
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="animal_accounts" />
+            <source schemaName="snprcSrc" queryName="v_accounts" />
             <destination schemaName="study" queryName="Animal Accounts" bulkLoad="true" batchSize="500" targetOption="merge"/>
         </transform>
     </transforms>

@@ -33,6 +33,7 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
 --
 -- 11/12/15 - Added 'Breeding grp:' to groupName to match v_animal_groups. tjh
 -- 3/1/2016 - Added valid_pedigrees. tjh
+-- 3/3/2016 - Added account_group. tjh
 -- ==========================================================================================
 
 

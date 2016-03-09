@@ -32,16 +32,17 @@ ALTER VIEW [labkey_etl].[V_ACCOUNTS] as
 -- Create date: 6/11/2015
 --
 -- 6/24/2015 added entry_date_tm. tjh
+-- 3/8/2016 updated column names. tjh
 -- ==========================================================================================
 
 
 SELECT
 a.id,
-a.assign_date, -- as date,
+a.assign_date as date,
 a.account,
-a.end_date, -- as enddate,
-a.object_id, -- as objectid,
-a.user_name, -- as username,
+a.end_date as enddate,
+a.object_id as objectid,
+a.user_name as username,
 a.entry_date_tm,
 a.timestamp
 

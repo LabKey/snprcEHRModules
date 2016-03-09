@@ -21,7 +21,13 @@
                             <fkTable>breedingGroups</fkTable>
                         </fk>
                     </column>
-                    <column columnName="BreedingGroup" />
+                    <column columnName="PedigreeGroup">
+                        <fk>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkDbSchema>ehr</fkDbSchema>
+                            <fkTable>pedigreeGroups</fkTable>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

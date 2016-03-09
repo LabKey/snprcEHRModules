@@ -15,7 +15,14 @@
                             <fkDisplayColumnName useRawValue="true" />
                         </fk>
                     </column>
-
+                    <column columnName="AccountGroup">
+                        <fk>
+                            <fkColumnName>accountGroup</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>distinctAccountGroups</fkTable>
+                            <fkDisplayColumnName>accountGroup</fkDisplayColumnName>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

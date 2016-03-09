@@ -16,12 +16,15 @@
 SELECT
   d.id,
   (SELECT MIN(cag.RowId)) AS ColonyGroup,
-  (SELECT MIN(bag.RowId)) AS BreedingGroup
+  (SELECT MIN(bag.RowId)) AS BreedingGroup,
+  (SELECT MIN(pag.RowId)) AS PedigreeGroup
 
 FROM study.demographics d
 LEFT JOIN ehr.animal_group_members cagm ON (cagm.Id = d.Id AND cagm.isActive = true)
 LEFT JOIN ehr.animal_groups cag ON (cag.RowId = cagm.GroupId AND cag.Category = 'Colony')
 LEFT JOIN ehr.animal_group_members bagm ON (bagm.Id = d.Id AND bagm.isActive = true)
 LEFT JOIN ehr.animal_groups bag ON (bag.RowId = bagm.GroupId AND bag.Category = 'Breeding')
+LEFT JOIN ehr.animal_group_members pagm ON (pagm.Id = d.Id AND pagm.isActive = true)
+LEFT JOIN ehr.animal_groups pag ON (pag.RowId = pagm.GroupId AND pag.Category = 'Pedigree')
 
 GROUP BY d.Id

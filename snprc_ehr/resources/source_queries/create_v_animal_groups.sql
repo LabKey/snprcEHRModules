@@ -34,6 +34,7 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_GROUPS] AS
 -- Create date: 8/28/2015
 --
 -- 3/1/2016	Added pedigree data. tjh
+-- 3/3/2016 Added account_group. tjh
 -- ==========================================================================================
 
 
@@ -71,10 +72,10 @@ SELECT vp.pedigree AS name,
 	   vp.entry_date_tm,
        vp.object_id AS objectid,
        vp.timestamp FROM dbo.valid_pedigrees AS vp
-GO
+
+
+go
 
 grant SELECT on labkey_etl.V_ANIMAL_GROUPS to z_labkey
 
 go
-
-

@@ -1,0 +1,14 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="distinctAccountGroups" tableDbType="NOT_IN_DB">
+                <tableTitle>Valid Account Groups</tableTitle>
+                <columns>
+                    <column columnName="accountGroup">
+                        <isKeyField>true</isKeyField>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

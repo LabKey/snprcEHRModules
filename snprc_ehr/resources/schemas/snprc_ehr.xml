@@ -187,4 +187,63 @@
    </column>
   </columns>
  </table>
+<table tableName="validAccounts" tableDbType="TABLE" useColumnOrder="true">
+<tableTitle>Valid SNPRC Animal Accounts</tableTitle>
+<importUrl></importUrl>
+<insertUrl></insertUrl>
+<updateUrl></updateUrl>
+<deleteUrl></deleteUrl>
+<pkColumnName>account</pkColumnName>
+<columns>
+ <column columnName="account">
+  <isKeyField>true</isKeyField>
+  <columnTitle>Account Number</columnTitle>
+  <nullable>false</nullable>
+  <description>Animal account made up of three parts: project(xxx)-point(xx)-subpoint(xx)</description>
+ </column>
+ <column columnName="accountStatus">
+  <columnTitle>Account Status</columnTitle>
+  <nullable>false</nullable>
+  <description>Account status code (A = Active, I = Inactive)</description>
+ </column>
+ <column columnName="date">
+  <columnTitle>Start Date</columnTitle>
+ </column>
+ <column columnName="enddate">
+  <columnTitle>Enddate</columnTitle>
+ </column>
+ <column columnName="description">
+  <columnTitle>Account Description</columnTitle>
+  <nullable>false</nullable>
+  <displayWidth>300</displayWidth>
+   <facetingBehavior>ALWAYS_OFF</facetingBehavior>
+   <propertyURI>urn:ehr.labkey.org/#Descrption</propertyURI>
+  </column>
+ <column columnName="accountGroup">
+  <columnTitle>Account Group</columnTitle>
+  <nullable>true</nullable>
+ </column>
+ <column columnName="userName">
+  <columnTitle>User Name</columnTitle>
+  <nullable>false</nullable>
+ </column>
+ <column columnName="entryDateTm">
+  <columnTitle>Entry Date Time</columnTitle>
+  <nullable>false</nullable>
+ </column>
+ <column columnName="Created"/>
+ <column columnName="CreatedBy"/>
+ <column columnName="Modified"/>
+ <column columnName="ModifiedBy"/>
+ <column columnName="objectid">
+  <nullable>false</nullable>
+  <isHidden>true</isHidden>
+ </column>
+ <column columnName="container">
+  <nullable>false</nullable>
+  <isHidden>true</isHidden>
+ </column>
+</columns>
+</table>
 </tables>
+

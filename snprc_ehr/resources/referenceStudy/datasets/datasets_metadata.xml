@@ -2196,6 +2196,11 @@
             </column>
             <column columnName="account">
                 <datatype>varchar</datatype>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>validAccounts</fkTable>
+                    <fkColumnName>account</fkColumnName>
+                </fk>
             </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>

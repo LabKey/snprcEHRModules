@@ -1,0 +1,1 @@
+SELECT DISTINCT accountGroup FROM snprc_ehr.validAccounts
