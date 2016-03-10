@@ -117,6 +117,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
 
                             if(row.date.value) {
                                 var rDate = new Date(row.date.value);
+                                //TODO: Remove this if we're happy not displaying dead animal data
                                 if(row.death.value) {
                                     var dDate = new Date(row.death.value);
                                     if (dDate && rDate && rDate.format('Y-m-d') == dDate.format('Y-m-d')) {
@@ -126,6 +127,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                                         return;
                                     }
                                 }
+                                //End TODO
                                 if (rDate && rDate.format('Y-m-d') == (new Date()).format('Y-m-d')) {
                                     row.isToday = {value: true};
                                 }
@@ -181,7 +183,13 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                     html: '<hr>'
                 });
 
-                if (!bds || bds.length == 1) {
+                if(dd.getValue('Id/demographics/calculated_status') == "Dead") {
+                    cfg.items.push({
+                        html: 'No current blood draw information for dead animal.',
+                        border: false
+                    });
+                }
+                else if (!bds || bds.length == 1) {
                     var maxDraw = dd.getValue('species/blood_per_kg') * dd.getValue('species/max_draw_pct') * dd.getValue('id/MostRecentWeight/mostRecentWeight');
                     cfg.items.push({
                         html: 'There are no previous blood draws within the relevant time frame.  A maximum amount of ' + Ext4.util.Format.round(maxDraw, 2) + ' mL can be drawn.',
@@ -390,7 +398,9 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                             lines.push('Current Weight: ' + row.mostRecentWeight + ' kg (' + row.mostRecentWeightDate.format('Y-m-d') + ')');
 
                             lines.push('Drawn in Previous ' + row.blood_draw_interval + ' days: ' + LABKEY.Utils.roundNumber(row.bloodPrevious, 1));
-                            lines.push('Drawn in Next ' + row.blood_draw_interval + ' days: ' + LABKEY.Utils.roundNumber(row.bloodFuture, 1));
+
+                            if (new Date(row.date) < new Date() && !row.isToday)
+                                lines.push('Drawn in Next ' + row.blood_draw_interval + ' days: ' + LABKEY.Utils.roundNumber(row.bloodFuture, 1));
 
 
                             return lines.join('\n');
