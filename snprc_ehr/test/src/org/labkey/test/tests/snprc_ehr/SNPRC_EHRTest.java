@@ -357,7 +357,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void testCurrentBloodReportRhesus() throws Exception
     {
         Connection connection = createDefaultConnection(true);
-        String aliveRhesusId = "test9195996";
+        String aliveRhesusId = "TEST9195996";
         Map<String, Object> weightRow = new HashMap<>();
         weightRow.put("Id", aliveRhesusId);
         weightRow.put("date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)));
@@ -390,7 +390,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testProceduresBeforeDispositionReport() throws Exception
     {
-        String deadAnimalId = "test1441142";
+        String deadAnimalId = "TEST1441142";
         ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, deadAnimalId);
 
         participantViewPage.clickCategoryTab("Clinical");
@@ -410,7 +410,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(this);
 
         waitForElement(Locator.inputByNameContaining("textfield"));
-        setFormElement(Locator.inputByNameContaining("textfield"), "test1441142");
+        setFormElement(Locator.inputByNameContaining("textfield"), "TEST1441142");
         click(Locator.tagWithText("span", "Refresh"));
 
         List<String> errors = new ArrayList<>();
