@@ -8,6 +8,7 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
         Ext4.apply(this, {
             minHeight: 400,
             border: false,
+            autoScroll: true,
             style: 'padding: 5px;'
         });
 
@@ -21,10 +22,9 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
     getAssignedTable: function(){
         return {
             xtype: 'ldk-querypanel',
-            //title: 'Raw Data',
             style: 'margin: 5px;',
             queryConfig: {
-                frame: 'none',
+                title: 'Assigned (funded)',
                 containerPath: this.containerPath,
                 schemaName: 'study',
                 queryName: 'colonyUsage',

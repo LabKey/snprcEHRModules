@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="colonyUsage" tableDbType="TABLE">
-                <tableTitle>Chemistry Results</tableTitle>
+                <tableTitle>Colony Usage</tableTitle>
                 <columns>
                     <column columnName="species_code">
                         <isHidden>true</isHidden>
