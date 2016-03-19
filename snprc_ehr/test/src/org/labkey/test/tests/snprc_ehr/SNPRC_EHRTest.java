@@ -32,16 +32,18 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
-import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
+import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.AbstractGenericEHRTest;
 import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
+import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TestLogger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
@@ -50,10 +52,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -194,6 +194,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
+    protected boolean skipStudyImportQueryValidation()
+    {
+        return true;
+    }
+
+    @Override
     protected void importStudy()
     {
         File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
@@ -250,13 +256,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         saveLocation();
         setFormElement(Locator.inputByNameContaining("Id"), "1");
         click(Ext4Helper.Locators.ext4Button("Submit"));
-        waitForElement(Locator.linkWithText("test1020148"));
+        waitForElement(Locator.linkWithText("TEST1020148"));
         recallLocation();
         waitForElement(Locator.inputByNameContaining("Id/curLocation/cage"));
         setFormElement(Locator.inputByNameContaining("Id/curLocation/cage"), "5426");
         click(Ext4Helper.Locators.ext4Button("Submit"));
-        waitForElement(Locator.linkWithText("test499022"));
-        waitForElement(Locator.linkWithText("test6390238"));
+        waitForElement(Locator.linkWithText("TEST499022"));
+        waitForElement(Locator.linkWithText("TEST6390238"));
 
     }
 
@@ -268,7 +274,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         pushLocation();
         setFormElement(Locator.inputByNameContaining("Id"), "1");
         click(Ext4Helper.Locators.ext4Button("Submit"));
-        waitForElement(Locator.linkWithText("test1112911"));
+        waitForElement(Locator.linkWithText("TEST1112911"));
         popLocation();
         waitForElement(Locator.inputByNameContaining("cage"));
         setFormElement(Locator.inputByNameContaining("cage"), "100172");
@@ -297,7 +303,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         Map<String, List<String>> additionalReports = new HashMap<>();
         additionalReports.put("Listing of Cages", Arrays.asList());
-        additionalReports.put("Mature Female Exposed To Fertile Male", Arrays.asList("test3844307", "test5598475"));
+        additionalReports.put("Mature Female Exposed To Fertile Male", Arrays.asList("TEST3844307", "TEST5598475"));
 
         BodyWebPart dashboard = new BodyWebPart(this, "Electronic Health Record", 1);
         clickAndWait(Locator.linkWithText("More Reports").findElement(dashboard));
@@ -348,7 +354,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         //check count and links for one subject
         DataRegionTable tbl = DataRegionTable.findDataRegionWithin(this, PortalHelper.Locators.webPart("Overview").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT));
         assertEquals(tbl.getDataRowCount(), 49);
-        assertElementPresent(Locator.linkWithText("test1020148"));
+        assertElementPresent(Locator.linkWithText("TEST1020148"));
         assertElementPresent(Locator.linkWithText("Male"));
         assertElementPresent(Locator.linkWithText("Alive"));
     }
@@ -356,24 +362,35 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testCurrentBloodReportRhesus() throws Exception
     {
+        // See snprc/species.tsv for blood values
+        double maxDraw = 10.0; // mL/kg
+        double weight = 5; //kg
+        int refreshDays = 42;
         Connection connection = createDefaultConnection(true);
         String aliveRhesusId = "TEST9195996";
-        Map<String, Object> weightRow = new HashMap<>();
-        weightRow.put("Id", aliveRhesusId);
-        weightRow.put("date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)));
-        weightRow.put("weight", 5);
+        List<Map<String, Object>> weightRows = Arrays.asList(
+                Maps.of("Id", aliveRhesusId,
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(3 * refreshDays))),
+                        "weight", weight));
 
         InsertRowsCommand command = new InsertRowsCommand("study", "weight");
-        command.setRows(Arrays.asList(weightRow));
+        command.setRows(weightRows);
         command.execute(connection, getProjectName());
 
-        Map<String, Object> bloodRow = new HashMap<>();
-        bloodRow.put("Id", aliveRhesusId);
-        bloodRow.put("date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -2)));
-        bloodRow.put("quantity", 5);
+        List<Map<String, Object>> bloodRows = Arrays.asList(
+                Maps.of("Id", aliveRhesusId,
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))),
+                        "quantity", weight),
+                Maps.of("Id", aliveRhesusId,
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
+                        "quantity", (weight + 0.5) * maxDraw),
+                Maps.of("Id", aliveRhesusId,
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
+                        "quantity", weight)
+        );
 
         command = new InsertRowsCommand("study", "blood");
-        command.setRows(Arrays.asList(bloodRow));
+        command.setRows(bloodRows);
         command.execute(connection, getProjectName());
 
         ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, aliveRhesusId);
@@ -381,7 +398,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         participantViewPage.clickCategoryTab("General");
         participantViewPage.clickReportTab("Current Blood");
 
-        //TODO: Verify report. Blocked -- SNPRC reports don't understand some test data (demographics)
+        WebElement svg = Locator.css("div[id^=snprc-bloodsummarypanel-] svg").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT);
+        assertEquals("Wrong number of data points", 5, svg.findElements(By.cssSelector("a.point")).size()); // Two blood draws, 3 refreshes
     }
 
     /**
