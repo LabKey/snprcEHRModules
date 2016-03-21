@@ -25,7 +25,6 @@ import org.labkey.api.view.WebPartFactory;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 public class SNPRC_GeneticsModule extends DefaultModule
 {
