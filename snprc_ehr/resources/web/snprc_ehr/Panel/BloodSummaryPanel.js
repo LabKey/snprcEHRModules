@@ -10,6 +10,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.snprc-bloodsummarypanel',
     intervals: {},
+    plotHeight: 400,
 
     initComponent: function(){
         Ext4.apply(this, {
@@ -75,7 +76,6 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                     sort: 'Id,date',
                     filterArray: [LABKEY.Filter.create('Id', this.intervals[interval].join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
                     parameters: {
-                        //NOTE: this is currently hard-coded for perf.
                         DATE_INTERVAL: interval
                     },
                     requiredVersion: 9.1,
@@ -219,24 +219,25 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
 
     addAdditionalGraphOptions: function() {
         var svgs = d3.selectAll('svg');
+        var patternHeight = 8;
 
         // Add shading pattern
         var defs = svgs.selectAll('defs')
                 .append('pattern')
-                .attr('id', 'diag-pattern')
-                .attr('patternUnits', 'userSpaceOnUse')
-                .attr('x', 0)
-                .attr('y', 0)
-                .attr('width', 3)
-                .attr('height', 8)
-                .attr('patternTransform', 'rotate(30)')
+                    .attr('id', 'diag-pattern')
+                    .attr('patternUnits', 'userSpaceOnUse')
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('width', 3)
+                    .attr('height', patternHeight)
+                    .attr('patternTransform', 'rotate(30)')
                 .append('rect')
-                .attr('x', 0)
-                .attr('y', 0)
-                .attr('width',.5)
-                .attr('height', 8)
-                .attr('style', 'stroke:none;')
-                .attr('fill', 'red');
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('width',.5)
+                    .attr('height', patternHeight)
+                    .attr('style', 'stroke:none;')
+                    .attr('fill', 'red');
 
 
         // Add under zero shading
@@ -250,13 +251,12 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
                             .attr('x', tick.getBBox().x + 16)
                             .attr('y', tick.getBBox().y + 11)
                             .attr('width', axis[0][0].getBBox().width - tickText[0][0].getBBox().width - 10)
-                            .attr('height', 400 - tick.getBBox().y - 60)
+                            .attr('height', this.plotHeight - tick.getBBox().y - 60)
                             .attr('fill-opacity',.5)
                             .attr('fill', 'url(#diag-pattern)');
-                            //.attr('fill', '#801515');
                 }
-            })
-        });
+            },this)
+        },this);
 
         var points = d3.selectAll('a.point');
         var todayPoints = points.filter(function(d) {
@@ -271,9 +271,9 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
             var path = yAxis.getAttribute('d');
             var bottom = Number(path.substring(path.indexOf(',')+1, path.indexOf('L')));
             var top = Number(path.substring(path.indexOf(',', path.indexOf(',')+1)+1, path.indexOf('Z')));
-            var ht = bottom - top + 21;
+            var ht = bottom - top;
             this.getElementsByTagName('path')[0]
-                    .setAttribute('d', "M0 " + (ht + 47 - this.getBBox().y) + " l0 -" + (ht-22));
+                    .setAttribute('d', "M0 " + (ht + 68 - this.getBBox().y) + " l0 -" + (ht-1));
 
             var text =  document.createElementNS(d3.ns.prefix.svg, 'text');
             text.setAttribute("x", this.getBBox().x - 18);
@@ -288,7 +288,6 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
     },
 
     getGraphCfg: function(dd, bds){
-        console.log(this.bloodDrawResults);
 
         var subject = dd.getValue('Id');
         var toAdd = [];
@@ -350,14 +349,13 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
         var layerName = "Volume";
         toAdd.push({
             xtype: 'container',
-            //title: 'Available Blood: ' + subject,
             items: [{
                 xtype: 'ldk-graphpanel',
                 margin: '0 0 0 0',
                 plotConfig: {
                     results: results,
                     title: 'Blood Available To Be Drawn: ' + subject,
-                    height: 400,
+                    height: this.plotHeight,
                     width: this.getWidth() - 50,
                     yLabel: 'Available Blood (mL)',
                     xLabel: 'Date',
