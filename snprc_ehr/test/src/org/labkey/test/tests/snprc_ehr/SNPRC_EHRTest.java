@@ -433,6 +433,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         List<String> errors = new ArrayList<>();
         Map<String, WebElement> categoryTabs = animalHistoryPage.elements().findCategoryTabs();
+        List<String> firstBadReport = null;
         for (String category : categoryTabs.keySet())
         {
             log("Category: " + category);
@@ -462,6 +463,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         for (String errorText : errorTexts)
                             if (!errorText.trim().isEmpty())
                                 errors.add("\t" + errorText.trim());
+                        firstBadReport = Arrays.asList(category, report);
                     }
                 }
             }
@@ -470,8 +472,16 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         }
         if (!errors.isEmpty())
         {
-            errors.add(0, "Error(s) in animal history report(s)");
-            fail(String.join("\n", errors).replaceAll("\n+", "\n"));
+            try
+            {
+                animalHistoryPage.clickCategoryTab(firstBadReport.get(0));
+                animalHistoryPage.clickReportTab(firstBadReport.get(1));
+            }
+            finally
+            {
+                errors.add(0, "Error(s) in animal history report(s)");
+                fail(String.join("\n", errors).replaceAll("\n+", "\n"));
+            }
         }
     }
 
