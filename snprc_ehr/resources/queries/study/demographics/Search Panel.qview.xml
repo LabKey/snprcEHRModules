@@ -71,6 +71,7 @@
                 <property name="columnTitle" value="Death Date 1"/>
             </properties>
         </column>
+        <!--Second death date to find deaths within a range. Same target as Death Date 1, just needs a different column name.-->
         <column name="Id/Demographics/death">
             <properties>
                 <property name="columnTitle" value="Death Date 2"/>
