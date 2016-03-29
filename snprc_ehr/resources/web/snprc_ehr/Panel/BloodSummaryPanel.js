@@ -72,7 +72,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
 
                 multi.add(LABKEY.Query.selectRows, {
                     schemaName: 'study',
-                    queryName: 'currentBloodDrawsPlusSpecialCases',
+                    queryName: 'currentBloodDraws',
                     sort: 'Id,date',
                     filterArray: [LABKEY.Filter.create('Id', this.intervals[interval].join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
                     parameters: {
