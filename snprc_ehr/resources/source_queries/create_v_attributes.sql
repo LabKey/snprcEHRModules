@@ -20,7 +20,8 @@ CREATE VIEW [labkey_etl].[V_ATTRIBUTES] as
 
 SELECT a.id ,
 	   a.entry_date_tm AS date,
-       a.attribute AS flag,
+       NULL AS flag,
+	   a.attribute AS attribute,
        a.comment AS remark,
 	   a.object_id AS objectId,
        a.user_name ,
