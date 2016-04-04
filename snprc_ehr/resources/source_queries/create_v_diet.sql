@@ -35,11 +35,13 @@ ALTER VIEW [labkey_etl].[V_DIET] AS
 -- Object: v_diet
 -- Author:	Terry Hawkins
 -- Create date: 7/15/2015
+--
+-- added code to end date entries with max_disposition_date. tjh 
 -- ==========================================================================================
 
 SELECT d.ID AS id, 
 	d.start_date AS date,
-	d.end_date AS enddate,
+	COALESCE(d.end_date, cd.disp_date_tm_max) AS enddate,
 	'Diet' AS category,
 	vd.snomed_code AS code,
 	d.tid AS visitRowId,
@@ -50,6 +52,7 @@ SELECT d.ID AS id,
 FROM dbo.diet AS d
 LEFT OUTER JOIN dbo.valid_diet AS vd ON vd.diet = d.diet
 -- select primates only from the TxBiomed colony
+INNER JOIN current_data AS cd ON cd.id = d.id
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = d.id
 
 GO

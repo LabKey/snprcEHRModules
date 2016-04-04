@@ -34,11 +34,11 @@ alter VIEW [labkey_etl].[V_ID_HISTORY] AS
 -- Description:	Selects the ETL records for LabKey study.idHistory dataset
 -- Changes:
 --
---
+-- Changed missing value date to '1/1/1900'
 -- ==========================================================================================
 SELECT ih.sfbr_id AS id,
 ih.id_date AS id_date,
-ISNULL(ih.id_date, CAST('01/01/1901 00:00' AS DATETIME)) AS date,
+ISNULL(ih.id_date, CAST('01/01/1900 00:00' AS DATETIME)) AS date,
 ih.id_value AS value,
 ih.id_type AS id_type,
 vi.institution_name AS source_name,

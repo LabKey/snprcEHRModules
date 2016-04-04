@@ -42,7 +42,7 @@ SELECT  vs.tid AS rowid ,
         ) AS timestamp
 FROM    dbo.valid_species AS vs
         INNER JOIN dbo.arc_valid_species_codes AS avs ON avs.arc_species_code = vs.arc_species_code
-                                                         AND avs.primate = 'Y';
+                                                         AND avs.primate <> 'MD';
 
 GO
 

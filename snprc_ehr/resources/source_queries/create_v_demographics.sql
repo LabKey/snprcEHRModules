@@ -45,7 +45,7 @@ INNER JOIN valid_species vs on m.species = vs.species_code
 INNER JOIN arc_valid_species_codes avs on vs.arc_species_code = avs.arc_species_code
 INNER JOIN current_data AS cd ON m.id = cd.id
 INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
-WHERE avsc.primate = 'Y'
+WHERE avsc.arc_species_code <> 'MD'
 )
 
 GO

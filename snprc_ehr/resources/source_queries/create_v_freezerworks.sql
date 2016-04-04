@@ -29,48 +29,51 @@ GO
 /*==============================================================*/
 ALTER VIEW [labkey_etl].[V_FREEZERWORKS]
 AS
-    -- ====================================================================================================================
+-- ==========================================================================================
 -- Object: V_FREEZERWORKS
 -- Author:	Scott Rouse
 -- Create date: 06/26/2015
 --
+-- 4/4/2016	Joined with labkey_etl table to only bring in samples for txbiomed animals. tjh
 -- ==========================================================================================
 
-SELECT  [TBRI_id] AS id ,
+SELECT  f.[TBRI_id] AS id ,
  --FW_ID AS Freezerworks_ID,
-        [DATE_COLLECTED] ,
-        [aliq_create_date] ,
-        [aliq_mod_date] ,
-        [sample_create_date] ,
-        [NECROPSY] ,
-        [SHIPMENTSTATUS] ,
-        [sample_deleted] ,
-        [aliq_deleted] ,
-        [PK_SAMPLEUID] ,
-        [PK_ALIQUOTUID] ,
-        [SAMPLE_TYPES] ,
-        [COMMENTS] ,
-        [NUMBEROFALIQUOTSWITHPOSITIONS] ,
-        [CURRMAXALIQUOTNUMBER] ,
-        [NUMBEROFALIQUOTSTOTAL] ,
-        [INITIALAMOUNT] ,
-        [STORAGE_VIAL] ,
-        [CONCENTRATION] ,
-        [CURRENTAMOUNT] ,
-        [Freezer_desc] ,
-        [FREEZERNAME]
+		f.[DATE_COLLECTED] AS date,
+        f.[aliq_create_date] ,
+        f.[aliq_mod_date] ,
+        f.[sample_create_date] ,
+        f.[NECROPSY] ,
+        f.[SHIPMENTSTATUS] ,
+        f.[sample_deleted] ,
+        f.[aliq_deleted] ,
+        f.[PK_SAMPLEUID] ,
+        f.[PK_ALIQUOTUID] ,
+        f.[SAMPLE_TYPES] ,
+        f.[COMMENTS] ,
+        f.[NUMBEROFALIQUOTSWITHPOSITIONS] ,
+        f.[CURRMAXALIQUOTNUMBER] ,
+        f.[NUMBEROFALIQUOTSTOTAL] ,
+        f.[INITIALAMOUNT] ,
+        f.[STORAGE_VIAL] ,
+        f.[CONCENTRATION] ,
+        f.[CURRENTAMOUNT] ,
+        f.[Freezer_desc] ,
+        f.[FREEZERNAME]
 --, [SUBDIVISION1], [SUBDIVISION2], [SUBDIVISION3], [SUBDIVISION4], [SUBDIVISION5]
         ,
-        [POSITION1] ,
-        [POSITION2] ,
-        [POSITION3] ,
-        [POSITION4] ,
-        [POSITION5] ,
-        [object_id] ,
-        [user_name] ,
-        [entry_date_tm] ,
-        [timestamp]
-FROM    [freezerworks].[SAMPLE_ALIQ]
+        f.[POSITION1] ,
+        f.[POSITION2] ,
+        f.[POSITION3] ,
+        f.[POSITION4] ,
+        f.[POSITION5] ,
+        f.[object_id] ,
+        f.[user_name] ,
+        f.[entry_date_tm] ,
+        f.[timestamp]
+FROM    [freezerworks].[SAMPLE_ALIQ] AS f
+INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON f.tbri_id = d.id
+WHERE f.[DATE_COLLECTED] IS NOT NULL
 
 GO
 
