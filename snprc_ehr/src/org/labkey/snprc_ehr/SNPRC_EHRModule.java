@@ -29,6 +29,7 @@ import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
+import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
@@ -89,6 +90,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerLabworkType(new LabResultsLabworkType(this));
 
         EHRService.get().registerDemographicsProvider(new SNPRCTBDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");
