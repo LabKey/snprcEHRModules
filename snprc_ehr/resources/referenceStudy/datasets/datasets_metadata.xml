@@ -812,17 +812,11 @@
             </column>
             <column columnName="encounterId">
                 <datatype>integer</datatype>
+                <nullable>false</nullable>
             </column>
             <column columnName="pkgId">
                 <datatype>integer</datatype>
                 <nullable>false</nullable>
-                <columnTitle>Pkg Id</columnTitle>
-                <fk>
-                    <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>package</fkTable>
-                    <fkColumnName>id</fkColumnName>
-                </fk>
-            </column>
             <column columnName="procNarrative">
                 <datatype>varchar</datatype>
             </column>

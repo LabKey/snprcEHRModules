@@ -11,6 +11,14 @@
                             <fkDisplayColumnName>encounterId</fkDisplayColumnName>
                         </fk>
                     </column>
+                    <column columnName="pkgId">
+                        <columnTitle>Pkg Id</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>package_category_junction</fkTable>
+                            <fkColumnName>packageId</fkColumnName>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

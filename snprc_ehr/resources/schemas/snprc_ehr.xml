@@ -50,7 +50,7 @@
     <isKeyField>true</isKeyField>
    </column>
    <column columnName="description">
-    <nullable>true</nullable>
+    <nullable>false</nullable>
    </column>
    <column columnName="container">
     <nullable>false</nullable>
@@ -77,6 +77,7 @@
       <fkDbSchema>snprc_ehr</fkDbSchema>
       <fkTable>package</fkTable>
       <fkColumnName>id</fkColumnName>
+     <fkDisplayColumnName>name</fkDisplayColumnName>
     </fk>
    </column>
    <column columnName="categoryId">
@@ -85,6 +86,7 @@
       <fkDbSchema>snprc_ehr</fkDbSchema>
       <fkTable>package_category</fkTable>
       <fkColumnName>id</fkColumnName>
+     <fkDisplayColumnName>description</fkDisplayColumnName>
     </fk>
    </column>
    <column columnName="objectid">
