@@ -817,6 +817,7 @@
             <column columnName="pkgId">
                 <datatype>integer</datatype>
                 <nullable>false</nullable>
+            </column>
             <column columnName="procNarrative">
                 <datatype>varchar</datatype>
             </column>
