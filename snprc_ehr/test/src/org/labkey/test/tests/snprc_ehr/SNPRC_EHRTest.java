@@ -23,8 +23,14 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.labkey.api.reader.TabLoader;
+import org.labkey.api.util.GUID;
+import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
+import org.labkey.remoteapi.assay.Run;
 import org.labkey.remoteapi.query.InsertRowsCommand;
+import org.labkey.remoteapi.query.SaveRowsResponse;
+import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
@@ -33,6 +39,7 @@ import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
+import org.labkey.test.pages.snprc_ehr.ColonyOverviewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.AbstractGenericEHRTest;
 import org.labkey.test.util.Crawler;
@@ -48,6 +55,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -56,6 +64,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -75,6 +84,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final File ASSAY_SNPS_XAR = TestFileUtils.getSampleData("snprc/assays/SNPs.xar");
     private static final File ASSAY_SNPS_TSV = TestFileUtils.getSampleData("snprc/assays/snps.tsv");
     private static final File LOOKUP_LIST_ARCHIVE = TestFileUtils.getSampleData("snprc/SNPRC_Test.lists.zip");
+    private static final File ANIMAL_GROUPS_TSV = TestFileUtils.getSampleData("snprc/animal_groups.tsv");
+    private static final File ANIMAL_GROUP_MEMBERS_TSV = TestFileUtils.getSampleData("snprc/animal_group_members.tsv");
     private static final String PROJECT_NAME = "SNPRC";
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
@@ -228,6 +239,60 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
+    protected void populateHardTableRecords() throws Exception
+    {
+        super.populateHardTableRecords();
+        Connection connection = createDefaultConnection(true);
+
+        InsertRowsCommand command = new InsertRowsCommand("ehr", "animal_groups");
+        command.setRows(loadTsv(ANIMAL_GROUPS_TSV));
+        List<Map<String, Object>> savedRows = command.execute(connection, getProjectName()).getRows();
+        Map<String, Number> groupIds = new HashMap<>();
+        for (Map<String, Object> row : savedRows)
+        {
+            groupIds.put((String)row.get("name"), (Number)row.get("rowid"));
+        }
+
+        command = new InsertRowsCommand("ehr", "animal_group_members");
+        List<Map<String, Object>> loadedTsv = loadTsv(ANIMAL_GROUP_MEMBERS_TSV);
+        for (Map<String, Object> row : loadedTsv)
+        {
+            String group = (String)row.get("groupid");
+            row.put("groupid", groupIds.get(group));
+            row.put("objectid", new GUID());
+        }
+        command.setRows(loadedTsv);
+        command.execute(connection, getProjectName());
+    }
+
+    @Override
+    protected void deleteHardTableRecords() throws CommandException, IOException
+    {
+        super.deleteHardTableRecords();
+        Connection connection = createDefaultConnection(true);
+
+        TruncateTableCommand command = new TruncateTableCommand("ehr", "animal_groups");
+        command.execute(connection, getProjectName());
+
+        command = new TruncateTableCommand("ehr", "animal_group_members");
+        command.execute(connection, getProjectName());
+    }
+
+    private List<Map<String, Object>> loadTsv(File tsv)
+    {
+        try
+        {
+            TabLoader loader = new TabLoader(tsv, true);
+            loader.setInferTypes(false);
+            return loader.load();
+        }
+        catch (IOException fail)
+        {
+            throw new RuntimeException(fail);
+        }
+    }
+
+    @Override
     protected void populateInitialData()
     {
         beginAt(getBaseURL() + "/" + getModuleDirectory() + "/" + getContainerPath() + "/populateData.view");
@@ -242,7 +307,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void preTest()
     {
         goToProjectHome();
-        clickFolder(FOLDER_NAME);
         waitForElement(Locator.linkWithText("Animal Search"));
         waitForElement(Locator.linkWithText("Browse All Datasets"));
     }
@@ -408,7 +472,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testProceduresBeforeDispositionReport() throws Exception
     {
-        String deadAnimalId = "TEST1441142";
+        final String deadAnimalId = "TEST1441142";
         ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, deadAnimalId);
 
         participantViewPage.clickCategoryTab("Clinical");
@@ -535,5 +599,30 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         List<String> hiddenDatasets = new ArrayList<>(expectedHiddenDatasets);
         hiddenDatasets.removeAll(datasetLabels);
         assertEquals("Dataset(s) not hidden", expectedHiddenDatasets, hiddenDatasets);
+    }
+
+    @Test
+    public void testProcedureLookups() throws Exception
+    {
+        final String animalId = "TEST3771679";
+        ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, animalId);
+
+        participantViewPage.clickCategoryTab("Clinical");
+        participantViewPage.clickReportTab("Procedures");
+        DataRegionTable reportDataRegion = participantViewPage.getActiveReportDataRegion(this);
+        List<String> columnData = reportDataRegion.getColumnDataAsText("usdaCategory");
+        columnData.addAll(reportDataRegion.getColumnDataAsText("procType"));
+        for (String value : columnData)
+        {
+            assertFalse("Broken lookup: " + value, value.startsWith("<"));
+        }
+    }
+
+    @Test
+    public void testBaboonCensus() throws Exception
+    {
+        clickAndWait(Locator.linkWithText("Colony Overview"));
+        ColonyOverviewPage overviewPage = new ColonyOverviewPage(getDriver());
+        ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
     }
 }

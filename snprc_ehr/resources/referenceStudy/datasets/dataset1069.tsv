@@ -1,0 +1,5 @@
+ptid	date	encounterId	pkgId	procNarrative	procType	usdaCategory
+TEST3771679	2016-04-22 15:51	11111	1	reviewed laboratory results	M	U
+TEST3771679	2016-04-21 15:49	11112	1	switch therapy	C	U
+TEST3771679	2016-04-20 15:49	11113	1	reviewed laboratory results	M	U
+TEST3771679	2016-04-19 15:48	11114	2	Therapy started.	L	C
