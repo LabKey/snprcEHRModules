@@ -27,9 +27,7 @@ import org.labkey.api.reader.TabLoader;
 import org.labkey.api.util.GUID;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
-import org.labkey.remoteapi.assay.Run;
 import org.labkey.remoteapi.query.InsertRowsCommand;
-import org.labkey.remoteapi.query.SaveRowsResponse;
 import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
@@ -624,7 +622,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         clickAndWait(Locator.linkWithText("Colony Overview"));
         ColonyOverviewPage overviewPage = new ColonyOverviewPage(getDriver());
         ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
-        DataRegionTable assignedFundedDataRegion = baboonColonyTab.getAssignedFundedDataRegion();
         List<List<String>> rows = baboonColonyTab.getAssignedFundedDataRegion().getRows("Investigator", "Protocol", "M", "F", "baboon1", "baboon2", "baboon3", "Total");
         List<List<String>> expectedRows = Arrays.asList(
                 Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", "3", "1", " ", "4"),
