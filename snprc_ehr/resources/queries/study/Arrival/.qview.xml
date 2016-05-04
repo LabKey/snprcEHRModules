@@ -5,7 +5,7 @@
         <column name="acquisitionType"/>
         <column name="estimated"/>
         <column name="history"/>
-        <column name="species/species_code/code"/>
+        <column name="species/species_code"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />
