@@ -132,7 +132,7 @@ public class LabResultsLabworkType extends DefaultLabworkType
     {
         if (forceRefresh || _tests == null)
         {
-            TableInfo ti = DbSchema.get("ehr_lookups", DbSchemaType.Module).getTable("lab_tests");
+            TableInfo ti = DbSchema.get("snprc_ehr", DbSchemaType.Module).getTable("lab_tests");
             assert ti != null;
 
             _tests = new CaseInsensitiveHashMap<>();

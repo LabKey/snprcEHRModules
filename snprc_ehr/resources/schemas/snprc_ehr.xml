@@ -247,5 +247,162 @@
  </column>
 </columns>
 </table>
+ <table tableName="lab_tests" tableDbType="TABLE" useColumnOrder="true" hidden="false">
+  <tableTitle>Lab Tests</tableTitle>
+  <importUrl></importUrl>
+  <insertUrl></insertUrl>
+  <updateUrl></updateUrl>
+  <deleteUrl></deleteUrl>
+  <tableUrl>/query/detailsQueryRow.view?schemaName=snprc_ehr&amp;query.queryName=lab_tests&amp;testid=${testid}</tableUrl>
+  <pkColumnName>testid</pkColumnName>
+  <columns>
+   <column columnName="rowid">
+    <isAutoInc>true</isAutoInc>
+    <columnTitle>Row Id</columnTitle>
+   </column>
+   <column columnName="type">
+    <columnTitle>Test Type</columnTitle>
+    <nullable>false</nullable>
+   </column>
+   <column columnName="testid">
+    <isKeyField>false</isKeyField>
+    <columnTitle>Test Id</columnTitle>
+   </column>
+   <column columnName="name">
+    <nullable>false</nullable>
+    <columnTitle>Test Name</columnTitle>
+   </column>
+   <column columnName="units">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="aliases">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="alertOnAbnormal">
+    <columnTitle>Alert On Abnormal</columnTitle>
+    <nullable>true</nullable>
+   </column>
+   <column columnName="alertOnAny">
+    <columnTitle>Alert On Any</columnTitle>
+    <nullable>true</nullable>
+   </column>
+   <column columnName="includeInPanel">
+    <columnTitle>Include In Panel</columnTitle>
+    <nullable>true</nullable>
+   </column>
+   <column columnName="sort_order">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="UserName">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="entryDateTm">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="objectid">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="Created">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="CreatedBy">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="Modified">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="ModifiedBy">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+    <isHidden>true</isHidden>
+   </column>
+  </columns>
+ </table>
+ <table tableName="labwork_services" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Labwork Service Types</tableTitle>
+  <description>This table lists all the types of labwork that can be ordered</description>
+  <auditLogging>DETAILED</auditLogging>
+  <importUrl></importUrl>
+  <insertUrl></insertUrl>
+  <updateUrl></updateUrl>
+  <deleteUrl></deleteUrl>
+  <pkColumnName>servicename</pkColumnName>
+  <columns>
+   <column columnName="servicename">
+    <columnTitle>Service Name</columnTitle>
+    <isKeyField>true</isKeyField>
+   </column>
+   <column columnName="dataset">
+    <fk>
+     <fkDbSchema>ehr_lookups</fkDbSchema>
+     <fkTable>clinpath_types</fkTable>
+     <fkColumnName>value</fkColumnName>
+    </fk>
+   </column>
+   <column columnName="chargetype">
+    <columnTitle>Group</columnTitle>
+    <fk>
+     <fkDbSchema>ehr_lookups</fkDbSchema>
+     <fkTable>labworkChargeType</fkTable>
+     <fkColumnName>value</fkColumnName>
+    </fk>
+   </column>
+   <column columnName="tissue">
+    <columnTitle>Tissue</columnTitle>
+    <fk>
+     <fkDbSchema>ehr_lookups</fkDbSchema>
+     <fkTable>snomed</fkTable>
+     <fkColumnName>code</fkColumnName>
+    </fk>
+   </column>
+   <column columnName="collectionmethod">
+    <columnTitle>Collection Method</columnTitle>
+    <fk>
+     <fkDbSchema>ehr_lookups</fkDbSchema>
+     <fkTable>clinpath_collection_method</fkTable>
+     <fkColumnName>value</fkColumnName>
+    </fk>
+   </column>
+   <column columnName="method">
+    <columnTitle>Method</columnTitle>
+   </column>
+   <column columnName="alertOnComplete">
+    <columnTitle>Alert On Complete?</columnTitle>
+   </column>
+   <column columnName="outsidelab">
+    <columnTitle>From Outside Lab?</columnTitle>
+   </column>
+   <column columnName="datedisabled">
+    <columnTitle>Date Disabled</columnTitle>
+   </column>
+   <column columnName="UserName">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="entryDateTm">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="objectid">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="Created">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="CreatedBy">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="Modified">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="ModifiedBy">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+    <isHidden>true</isHidden>
+   </column>
+  </columns>
+ </table>
 </tables>
 

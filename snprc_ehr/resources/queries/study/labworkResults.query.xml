@@ -25,7 +25,7 @@
                         <columnTitle>Test Id</columnTitle>
                         <displayWidth>10</displayWidth>
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>lab_tests</fkTable>
                             <fkColumnName>testid</fkColumnName>
                             <fkDisplayColumnName useRawValue="true"/>

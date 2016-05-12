@@ -29,5 +29,5 @@ WHERE b.testId.includeInPanel = true and b.qcstate.publicdata = true and b.testi
 GROUP BY b.runid,b.id, b.date, b.TestName
 
 PIVOT results BY TestName IN
-(select name from ehr_lookups.lab_tests t WHERE t.includeInPanel = true AND Type='Surveillance')
+(select name from snprc_ehr.lab_tests t WHERE t.includeInPanel = true AND Type='Surveillance')
 
