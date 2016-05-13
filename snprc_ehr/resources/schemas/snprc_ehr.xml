@@ -334,6 +334,9 @@
     <columnTitle>Service Name</columnTitle>
     <isKeyField>true</isKeyField>
    </column>
+   <column columnName="serviceid">
+    <columnTitle>Service ID</columnTitle>
+   </column>
    <column columnName="dataset">
     <fk>
      <fkDbSchema>ehr_lookups</fkDbSchema>
