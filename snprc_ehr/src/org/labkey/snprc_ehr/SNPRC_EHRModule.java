@@ -19,6 +19,8 @@ package org.labkey.snprc_ehr;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
+import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
+import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.ModuleContext;
@@ -29,7 +31,7 @@ import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
-import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
+import org.labkey.snprc_ehr.dataentry.dataentry.*;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
@@ -113,6 +115,55 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
                 }
             }
         });
+
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(WeightFormType.class, this));
+        //EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AnesthesiaFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DCMNotesFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ClinicalRoundsFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(SurgicalRoundsFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BehaviorExamFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BehaviorRoundsFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(TreatmentsFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MedSignoffFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(TBFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PairingFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(IStatFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ProcessingFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(SurgeryFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(SingleSurgeryFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(NecropsyFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BiopsyFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PathologyTissuesFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ClinicalReportFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BulkClinicalEntryFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DeathFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MensFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AssignmentFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupAssignmentFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DepartureFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MatingFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PregnancyConfirmationFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ParentageFormType.class, this));
+
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BloodDrawFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AuxProcedureFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ASBRequestFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ColonyRequestFormType.class, this));
+        // Requires mergesync
+//        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkRequestFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingRequestFormType.class, this));
+
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BloodRequestBulkEditFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DrugRequestBulkEditFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkRequestBulkEditFormType.class, this));
+
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(RecordAmendmentFormType.class, this));
+
     }
 
     @Override
