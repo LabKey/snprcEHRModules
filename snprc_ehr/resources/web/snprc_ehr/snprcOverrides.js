@@ -50,3 +50,49 @@ LDK.Utils.splitIds = function(subjects, unsorted)
             else
                 return new Array();
         };
+
+
+Ext4.override(EHR.panel.SnapshotPanel, {
+    appendParentageResults: function(toSet, results){
+
+        if (results){
+            var parentMap = {};
+            Ext4.each(results, function(row){
+                var parent = row.parent;
+                var relationship = row.relationship;
+
+                if (parent && relationship){
+                    var text = relationship + ' - ' + parent;
+
+                    if (!parentMap[text])
+                        parentMap[text] = [];
+
+                    var method = row.method;
+                    if (method){
+                        parentMap[text].push(method);
+                    }
+                }
+            }, this);
+
+            var values = [];
+            Ext4.Array.forEach(Ext4.Object.getKeys(parentMap).sort(), function(text){
+                parentMap[text] = Ext4.unique(parentMap[text]);
+                var method = parentMap[text].join(', ');
+                    values.push('<a href="' + LABKEY.ActionURL.buildURL('query', 'executeQuery', null, {schemaName: 'study', 'query.queryName': 'demographicsParentStatus', 'query.Id~eq': this.subjectId}) + '" target="_blank">' + text + (method ? ' (' + method + ')' : '') + '</a>');
+            }, this);
+
+            if (values.length)
+                toSet['parents'] = values.join('<br>');
+        }
+        else {
+            toSet['parents'] = 'No data';
+        }
+
+
+    }
+
+//    appendAssignments: function(toSet, results){
+//        var ret = this.callOverridden();
+//    }
+
+});

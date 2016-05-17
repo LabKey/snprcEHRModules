@@ -34,6 +34,7 @@ import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.dataentry.dataentry.*;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
+import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -103,6 +104,9 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
+
+        // demographics
+        EHRService.get().registerDemographicsProvider(new ParentsDemographicsProvider(this));
 
         AdminLinkManager.getInstance().addListener(new AdminLinkManager.Listener()
         {
