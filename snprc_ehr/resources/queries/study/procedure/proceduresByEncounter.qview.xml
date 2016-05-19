@@ -3,7 +3,11 @@
         <column name="Id"/>
         <column name="date"/>
         <column name="encounterID"/>
-        <column name="pkgId"/>
+        <column name="pkgId/packageId/id">
+            <properties>
+                <property name="columnTitle" value="Pkg Id"/>
+            </properties>
+        </column>
         <column name="procNarrative"/>
         <column name="procType"/>
         <column name="usdaCategory"/>
