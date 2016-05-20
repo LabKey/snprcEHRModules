@@ -13,6 +13,6 @@
         <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_animal_group_members" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>
-        <poll interval="60m" />
+        <poll interval="365d" />
     </schedule>
 </etl>
