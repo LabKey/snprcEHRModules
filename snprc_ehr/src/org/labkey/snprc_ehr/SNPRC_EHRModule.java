@@ -84,6 +84,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/ColonyUsage.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcReports.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcOverrides.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.fromPath("ehr/reports.js"), this);
 
         EHRService.get().registerActionOverride("colonyOverview", this, "views/colonyOverview.html");
         EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");

@@ -9,18 +9,6 @@ Ext4.namespace('EHR.reports');
 //this file is registered with EHRService, and should auto-load whenever EHR's
 //dependencies are requested, provided this module is enabled
 
-EHR.reports.underDevelopment = function(panel, tab){
-    tab.add({
-        xtype: 'panel',
-        border: false,
-        html: 'The site is currently under development and we expect this tab to be enabled soon.',
-        bodyStyle: 'padding: 5px;',
-        defaults: {
-            border: false
-        }
-    });
-};
-
 EHR.reports.hematology = function(panel, tab)
 {
     var filterArray = panel.getFilterArray(tab);
