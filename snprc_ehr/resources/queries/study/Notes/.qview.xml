@@ -2,8 +2,9 @@
    <columns>
        <column name="Id" />
        <column name="date" />
-       <column name="category" />
        <column name="remark" />
+       <column name="modified" />
+       <column name="modifiedby" />
        <column name="qcstate" />
    </columns>
    <sorts>
