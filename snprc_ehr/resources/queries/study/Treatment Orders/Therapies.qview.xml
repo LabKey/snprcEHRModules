@@ -1,6 +1,6 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <filters>
-        <filter column="category" operator="eq" value="Therapies"/>
+        <filter column="category" operator="eq" value="Therapy"/>
     </filters>
     <sorts>
         <sort column="Date" descending="true" />
