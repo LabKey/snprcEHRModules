@@ -2382,6 +2382,15 @@
             <column columnName="origin">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="rearing_type">
+                <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>rearing_type</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                    <fkDisplayColumnName>description</fkDisplayColumnName>
+                </fk>
+            </column>
         </columns>
         <tableTitle>Demographics</tableTitle>
     </table>

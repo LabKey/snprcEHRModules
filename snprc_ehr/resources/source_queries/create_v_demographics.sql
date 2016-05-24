@@ -22,7 +22,7 @@ ALTER view Labkey_etl.v_demographics AS (
 -- Description:	Selects the ETL records for LabKey demographics data
 -- Changes:
 -- 12/11/2015 changed species source from common_name to three character species code. tjh
---
+-- 5/24/2016  Added rearing column. tjh
 --
 -- ==========================================================================================
 
@@ -39,12 +39,15 @@ select m.object_id as objectid,
 	m.entry_date_tm AS entry_date_tm,
 	CASE WHEN cd.at_sfbr = 'Y' THEN 'Alive' WHEN (cd.at_sfbr = 'N' AND m.death_date IS NULL) THEN 'Other' ELSE 'Dead' END AS status,
 	m.user_name AS user_name, 
-	m.timestamp
+	r.rearing_code AS rearing_type,
+	(SELECT MAX(v) FROM (VALUES  (r.timestamp), (m.timestamp)) AS VALUE (v)) AS timestamp
+
 from master m 
 INNER JOIN valid_species vs on m.species = vs.species_code
 INNER JOIN arc_valid_species_codes avs on vs.arc_species_code = avs.arc_species_code
 INNER JOIN current_data AS cd ON m.id = cd.id
 INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
+LEFT OUTER JOIN dbo.rearing AS r ON m.id = r.id
 WHERE avsc.arc_species_code <> 'MD'
 )
 
