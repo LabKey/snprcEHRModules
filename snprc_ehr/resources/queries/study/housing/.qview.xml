@@ -4,8 +4,6 @@
         <column name="date"/>
         <column name="enddate"/>
         <column name="room"/>
-        <column name="cage"/>
-        <!--<column name="taskid"/>-->
     </columns>
     <sorts>
         <sort column="Date" descending="true" />
