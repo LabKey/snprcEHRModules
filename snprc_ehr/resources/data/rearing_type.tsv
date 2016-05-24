@@ -1,0 +1,5 @@
+set_name	value	description	sort_order
+rearing_type	1	mother-reared	1
+rearing_type	2	nursery-reared	2
+rearing_type	3	intermediate	3
+rearing_type	4	unknown	4
