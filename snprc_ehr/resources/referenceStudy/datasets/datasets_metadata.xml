@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tables xmlns="http://labkey.org/data/xml"> 
+<tables xmlns="http://labkey.org/data/xml">
+    <table tableName="animalOwnership" tableDbType="TABLE" useColumnOrder="true">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="enddate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="owner_institution">
+                <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>validInstitutions</fkTable>
+                    <fkColumnName>institution_id</fkColumnName>
+                    <fkDisplayColumnName>short_name</fkDisplayColumnName>
+                </fk>
+            </column>
+            <column columnName="institution_acquired_from">
+            <datatype>integer</datatype>
+            <fk>
+                <fkDbSchema>snprc_ehr</fkDbSchema>
+                <fkTable>validInstitutions</fkTable>
+                <fkColumnName>institution_id</fkColumnName>
+                <fkDisplayColumnName>short_name</fkDisplayColumnName>
+            </fk>
+            </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="Modified">
+                <datatype>timestamp</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="ModifiedBy">
+                <datatype>string</datatype>
+                <nullable>true</nullable>
+            </column>
+        </columns>
+    </table>
     <table tableName="pregnancyConfirmation" tableDbType="TABLE" useColumnOrder="true">
         <columns>
             <column columnName="Id">

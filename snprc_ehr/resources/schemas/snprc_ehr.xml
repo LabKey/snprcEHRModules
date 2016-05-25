@@ -407,5 +407,61 @@
    </column>
   </columns>
  </table>
+ <table tableName="validInstitutions" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Valid Institutions</tableTitle>
+  <description>This table lists the non-TxBiomed instutional IDs</description>
+  <auditLogging>DETAILED</auditLogging>
+  <importUrl></importUrl>
+  <insertUrl></insertUrl>
+  <updateUrl></updateUrl>
+  <deleteUrl></deleteUrl>
+  <pkColumnName>institution_id</pkColumnName>
+  <columns>
+   <column columnName="institution_id">
+    <isKeyField>true</isKeyField>
+    <columnTitle>Institution ID</columnTitle>
+   </column>
+   <column columnName="institution_name">
+    <columnTitle>Institution Name</columnTitle>
+   </column>
+   <column columnName="short_name">
+    <columnTitle>Institution Short Name</columnTitle>
+   </column>
+   <column columnName="city">
+    <columnTitle>City</columnTitle>
+   </column>
+   <column columnName="state">
+    <columnTitle>State</columnTitle>
+   </column>
+   <column columnName="affiliate">
+    <columnTitle>Affiliate</columnTitle>
+    <nullable>true</nullable>
+   </column>
+   <column columnName="web_site">
+    <nullable>true</nullable>
+    <columnTitle>Institution's website</columnTitle>
+   </column>
+   <column columnName="objectid">
+    <nullable>false</nullable>
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="Created">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="CreatedBy">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="Modified">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="ModifiedBy">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+    <isHidden>true</isHidden>
+   </column>
+  </columns>
+ </table>
 </tables>
 
