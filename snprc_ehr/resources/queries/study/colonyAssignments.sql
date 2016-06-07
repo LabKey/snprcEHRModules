@@ -11,5 +11,5 @@ agm.enddate,
 ag.name,
 ag.comment
 
-FROM ehr.animal_group_members as agm
+FROM study.animal_group_members as agm
 JOIN ehr.animal_groups ag on (ag.category = 'Colony' and agm.groupId = ag.rowid)
