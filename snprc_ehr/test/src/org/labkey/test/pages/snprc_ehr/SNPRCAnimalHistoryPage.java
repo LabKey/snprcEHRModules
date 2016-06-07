@@ -15,25 +15,26 @@
  */
 package org.labkey.test.pages.snprc_ehr;
 
-import org.labkey.test.BaseWebDriverTest;
+import org.labkey.test.WebDriverWrapper;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
+import org.openqa.selenium.WebDriver;
 
 public class SNPRCAnimalHistoryPage extends AnimalHistoryPage
 {
-    public SNPRCAnimalHistoryPage(BaseWebDriverTest test)
+    public SNPRCAnimalHistoryPage(WebDriver driver)
     {
-        super(test.getDriver());
+        super(driver);
     }
 
-    public static SNPRCAnimalHistoryPage beginAt(BaseWebDriverTest test)
+    public static SNPRCAnimalHistoryPage beginAt(WebDriverWrapper driverWrapper)
     {
-        return beginAt(test, test.getCurrentContainerPath());
+        return beginAt(driverWrapper, driverWrapper.getCurrentContainerPath());
     }
 
-    public static SNPRCAnimalHistoryPage beginAt(BaseWebDriverTest test, String containerPath)
+    public static SNPRCAnimalHistoryPage beginAt(WebDriverWrapper driverWrapper, String containerPath)
     {
-        test.beginAt(WebTestHelper.buildURL("snprc_ehr", containerPath, "animalHistory"));
-        return new SNPRCAnimalHistoryPage(test);
+        driverWrapper.beginAt(WebTestHelper.buildURL("snprc_ehr", containerPath, "animalHistory"));
+        return new SNPRCAnimalHistoryPage(driverWrapper.getDriver());
     }
 }

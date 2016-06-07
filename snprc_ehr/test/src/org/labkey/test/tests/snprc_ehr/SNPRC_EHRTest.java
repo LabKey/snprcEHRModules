@@ -487,64 +487,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void testAnimalHistoryReports()
     {
         clickAndWait(Locator.linkWithText("Animal History"));
-        SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(this);
+        SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
 
-        waitForElement(Locator.inputByNameContaining("textfield"));
         setFormElement(Locator.inputByNameContaining("textfield"), "TEST1441142");
         click(Locator.tagWithText("span", "Refresh"));
-
-        List<String> errors = new ArrayList<>();
-        Map<String, WebElement> categoryTabs = animalHistoryPage.elements().findCategoryTabs();
-        List<String> firstBadReport = null;
-        for (String category : categoryTabs.keySet())
-        {
-            log("Category: " + category);
-            TestLogger.increaseIndent();
-            animalHistoryPage.clickCategoryTab(category);
-
-            Map<String, WebElement> reportTabs = animalHistoryPage.elements().findReportTabs();
-            for (String report : reportTabs.keySet())
-            {
-                log("Report: " + report);
-                try
-                {
-                    animalHistoryPage.clickReportTab(report);
-                }
-                catch(WebDriverException fail)
-                {
-                    throw new AssertionError("There appears to be an error in the report: " + report, fail);
-                }
-
-                List<WebElement> errorEls = Locator.CssLocator.union(Locators.labkeyError, Locator.css(".error")).findElements(getDriver());
-                if (!errorEls.isEmpty())
-                {
-                    List<String> errorTexts = getTexts(errorEls);
-                    if (!String.join("", errorTexts).trim().isEmpty())
-                    {
-                        errors.add("Error in: " + category + " - " + report);
-                        for (String errorText : errorTexts)
-                            if (!errorText.trim().isEmpty())
-                                errors.add("\t" + errorText.trim());
-                        firstBadReport = Arrays.asList(category, report);
-                    }
-                }
-            }
-
-            TestLogger.decreaseIndent();
-        }
-        if (!errors.isEmpty())
-        {
-            try
-            {
-                animalHistoryPage.clickCategoryTab(firstBadReport.get(0));
-                animalHistoryPage.clickReportTab(firstBadReport.get(1));
-            }
-            finally
-            {
-                errors.add(0, "Error(s) in animal history report(s)");
-                fail(String.join("\n", errors).replaceAll("\n+", "\n"));
-            }
-        }
+        _helper.verifyAllReportTabs(animalHistoryPage);
     }
 
     @Test
