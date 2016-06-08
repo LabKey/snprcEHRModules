@@ -569,10 +569,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         clickAndWait(Locator.linkWithText("Colony Overview"));
         ColonyOverviewPage overviewPage = new ColonyOverviewPage(getDriver());
         ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
-        List<List<String>> rows = baboonColonyTab.getAssignedFundedDataRegion().getRows("Investigator", "Protocol", "M", "F", "baboon1", "baboon2", "baboon3", "Total");
+        String[] censusColumns = {"Investigator", "Protocol", "M", "F", "baboon1", "baboon2", "baboon3", "Total"};
+        List<List<String>> rows = baboonColonyTab.getAssignedFundedDataRegion().getRows(censusColumns);
         List<List<String>> expectedRows = Arrays.asList(
                 Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", "3", "1", " ", "4"),
                 Arrays.asList("investigator101", "protocol101", "4", "8", "2", "8", "2", "12"));
-        assertEquals(expectedRows, rows);
+        assertEquals(String.join(", ", Arrays.asList(censusColumns)), expectedRows, rows);
     }
 }
