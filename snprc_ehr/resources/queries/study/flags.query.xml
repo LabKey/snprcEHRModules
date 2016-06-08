@@ -35,12 +35,12 @@
                     </column>
                     <column columnName="flag">
                         <columnTitle>Flag</columnTitle>
-                        <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>flag_values</fkTable>
-                            <fkColumnName>objectid</fkColumnName>
-                            <fkDisplayColumnName>value</fkDisplayColumnName>
-                        </fk>
+                        <!--<fk>-->
+                            <!--<fkDbSchema>ehr_lookups</fkDbSchema>-->
+                            <!--<fkTable>flag_values</fkTable>-->
+                            <!--<fkColumnName>objectid</fkColumnName>-->
+                            <!--<fkDisplayColumnName>value</fkDisplayColumnName>-->
+                        <!--</fk>-->
                     </column>
                     <column columnName="value">
                         <columnTitle>Value</columnTitle>
