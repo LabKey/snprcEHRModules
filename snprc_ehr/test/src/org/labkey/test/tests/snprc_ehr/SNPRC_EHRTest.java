@@ -31,6 +31,7 @@ import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
@@ -84,6 +85,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
     private static final String FOLDER_NAME = "SNPRC";
+    private static Integer _pipelineJobCount = 0;
 
     private boolean _hasCreatedBirthRecords = false;
 
@@ -229,7 +231,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         }
 
         clickButton("Start Import"); // Validate queries page
-        waitForPipelineJobsToComplete(1, "Study import", false, MAX_WAIT_SECONDS * 2500);
+        waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
     }
 
     @Override
@@ -571,5 +573,23 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", "3", "1", " ", "4"),
                 Arrays.asList("investigator101", "protocol101", "4", "8", "2", "8", "2", "12"));
         assertEquals(String.join(", ", Arrays.asList(censusColumns)), expectedRows, rows);
+    }
+
+    @Test @Ignore
+    public void testKinshipReport() throws Exception
+    {
+        { // Move genetics calculations to #doSetup()
+            beginAt(WebTestHelper.buildURL("ehr", getProjectName(), "doGeneticCalculations"));
+            clickButton("OK");
+            waitForPipelineJobsToComplete(++_pipelineJobCount, "EHR Kinship Calculation", false, 10 * 60000);
+        }
+        final String animal1 = "TEST2312318";
+        final String animal2 = "TEST3844307";
+
+        SNPRCAnimalHistoryPage historyPage = SNPRCAnimalHistoryPage.beginAt(this);
+        historyPage.appendMultipleAnimals(animal1, animal2);
+        historyPage.refreshReport();
+        historyPage.clickCategoryTab("Genetics");
+        historyPage.clickReportTab("Kinship");
     }
 }
