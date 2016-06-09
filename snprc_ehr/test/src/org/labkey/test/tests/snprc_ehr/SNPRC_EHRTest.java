@@ -30,7 +30,6 @@ import org.labkey.remoteapi.Connection;
 import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.Locator;
-import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
@@ -47,9 +46,7 @@ import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
-import org.labkey.test.util.TestLogger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
@@ -64,7 +61,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
 public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
@@ -251,7 +247,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
             groupIds.put((String)row.get("name"), (Number)row.get("rowid"));
         }
 
-        command = new InsertRowsCommand("ehr", "animal_group_members");
+        command = new InsertRowsCommand("study", "animal_group_members");
         List<Map<String, Object>> loadedTsv = loadTsv(ANIMAL_GROUP_MEMBERS_TSV);
         for (Map<String, Object> row : loadedTsv)
         {
