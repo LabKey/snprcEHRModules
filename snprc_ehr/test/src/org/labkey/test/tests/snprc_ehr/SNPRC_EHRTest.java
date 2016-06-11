@@ -47,6 +47,7 @@ import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
+import org.labkey.test.util.TextSearcher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -152,6 +153,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         new RReportHelper(this).ensureRConfig();
         initProject("SNPRC EHR");
         createTestSubjects();
+        initGenetics();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
@@ -234,6 +236,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
     }
 
+    protected void initGenetics() throws Exception
+    {
+        beginAt(WebTestHelper.buildURL("ehr", getProjectName(), "doGeneticCalculations"));
+        clickButton("OK");
+        waitForPipelineJobsToComplete(++_pipelineJobCount, "EHR Kinship Calculation", false, 10 * 60000);
+    }
+
     @Override
     protected void populateHardTableRecords() throws Exception
     {
@@ -268,9 +277,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         Connection connection = createDefaultConnection(true);
 
         TruncateTableCommand command = new TruncateTableCommand("ehr", "animal_groups");
-        command.execute(connection, getProjectName());
-
-        command = new TruncateTableCommand("ehr", "animal_group_members");
         command.execute(connection, getProjectName());
     }
 
@@ -575,21 +581,38 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertEquals(String.join(", ", Arrays.asList(censusColumns)), expectedRows, rows);
     }
 
-    @Test @Ignore
+    @Test
     public void testKinshipReport() throws Exception
     {
-        { // Move genetics calculations to #doSetup()
-            beginAt(WebTestHelper.buildURL("ehr", getProjectName(), "doGeneticCalculations"));
-            clickButton("OK");
-            waitForPipelineJobsToComplete(++_pipelineJobCount, "EHR Kinship Calculation", false, 10 * 60000);
-        }
         final String animal1 = "TEST2312318";
         final String animal2 = "TEST3844307";
 
         SNPRCAnimalHistoryPage historyPage = SNPRCAnimalHistoryPage.beginAt(this);
         historyPage.appendMultipleAnimals(animal1, animal2);
-        historyPage.refreshReport();
         historyPage.clickCategoryTab("Genetics");
         historyPage.clickReportTab("Kinship");
+
+        DataRegionTable tbl = historyPage.getActiveReportDataRegion(this);
+        assertEquals(tbl.getDataRowCount(), 16);
+
+        _ext4Helper.checkCheckbox(Locator.ehrCheckboxIdContaining("limitRawDataToSelection"));
+
+        tbl = historyPage.getActiveReportDataRegion(this);
+        assertEquals(tbl.getDataRowCount(), 1);
+
+        String[] idCols = {"Id", "Id2", "Coefficient"};
+        List<List<String>> rows = tbl.getRows(idCols);
+        List<List<String>> expectedRows = Arrays.asList(
+                Arrays.asList(animal1, animal2, "0.375"));
+        assertEquals(String.join(", ", Arrays.asList(idCols)), expectedRows, rows);
+
+        _ext4Helper.clickExt4Tab("Matrix");
+        File csv = doAndWaitForDownload(() -> click(Ext4Helper.Locators.ext4Button("Export")));
+        TextSearcher fileSearcher = new TextSearcher(()-> TestFileUtils.getFileContents(csv));
+
+        assertTextPresent(fileSearcher, "," + animal1 + "," + animal2);
+        assertTextPresent(fileSearcher, animal1 + ", ,0.375");
+        assertTextPresent(fileSearcher, animal2 + ",0.375,");
+
     }
 }
