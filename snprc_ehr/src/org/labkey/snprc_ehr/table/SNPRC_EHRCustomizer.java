@@ -49,9 +49,47 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             doSharedCustomization((AbstractTableInfo) table);
             doTableSpecificCustomizations((AbstractTableInfo) table);
+            //TODO: customizeColumns((AbstractTableInfo) table);
         }
     }
 
+/*  //TODO: need to add investigator foreign key to multiple tables once the arc_valid_pi table has been ETL'd. tjh
+    // Are we using investigatorId or investigatorName???
+
+    private void customizeColumns(AbstractTableInfo ti)
+    {
+
+        // add foreign key for investigator id
+        boolean found = false;
+        for (String field : new String[]{"investigator", "investigatorId"})
+
+        {
+            if (found)
+
+                continue; //a table should never contain both of these anyway
+
+            ColumnInfo investigator = ti.getColumn(field);
+            if (investigator != null)
+            {
+                found = true;
+                investigator.setLabel("Investigator");
+
+                if (!ti.getName().equalsIgnoreCase("investigators") && investigator.getJdbcType().getJavaClass().equals(Integer.class))
+                {
+                    UserSchema us = getEHRUserSchema(ti, "snprc_ehr");
+                    if (us != null){
+                        //here:   investigator.setFk(new QueryForeignKey(us, us.getContainer(), "package", "id", "name"));
+                        //investigator.setFk(new QueryForeignKey(us, us.getContainer(), "investigators", "rowid", "lastname"));
+                    }
+                }
+                investigator.setLabel("Investigator");
+            }
+        }
+
+
+
+    }
+*/
     /**
      * This should contain java code that will act upon any table in the EHR, which includes
      * core ehr and ehr_lookups schema, study datasets, etc.
@@ -180,6 +218,13 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=freezerWorks&query.Id~eq=${Id}", ds.getContainerContext()));
             ds.addColumn(col);
         }
+        if (ds.getColumn("packageCategory") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", "Id", "Id");
+            col.setLabel("Package Category");
+            col.setDescription("Shows the package category for procedures");
+            ds.addColumn(col);
+        }
 
         if (ds.getColumn("activeAssignments") == null)
         {
@@ -202,6 +247,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
             col.setLabel("Accounts - Active");
             col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
+            ds.addColumn(col);
+        }
+
+        if (ds.getColumn("MostRecentTBDate") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "MostRecentTBDate", "demographicsMostRecentTBDate", "Id", "Id");
+            col.setLabel("Most Recent TB");
+            col.setDescription("Queries the most recent TB date for the animal.");
             ds.addColumn(col);
         }
 

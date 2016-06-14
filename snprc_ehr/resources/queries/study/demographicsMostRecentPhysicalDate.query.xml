@@ -1,0 +1,27 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="demographicsMostRecentPhysicalDate" tableDbType="NOT_IN_DB">
+                <tableTitle>Most Recent Physical Date</tableTitle>
+                <columns>
+                    <column columnName="Id">
+                        <isKeyField>true</isKeyField>
+                        <isHidden>false</isHidden>
+                    </column>
+                    <column columnName="MostRecentPhysicalDate">
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=Physicals&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.Date~eq=${MostRecentPhysicalDate}
+                        </url>
+                        <columnTitle>Most Recent Physical Date</columnTitle>
+                    </column>
+                    <column columnName="MonthsSinceLastPhysical">
+                        <columnTitle>Months Since Last Physical</columnTitle>
+                    </column>
+                </columns>
+                <titleColumn>MostRecentPhysicalDate</titleColumn>
+            </table>
+        </tables>
+    </metadata>
+</query>
