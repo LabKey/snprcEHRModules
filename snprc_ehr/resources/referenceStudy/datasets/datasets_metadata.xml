@@ -220,7 +220,7 @@
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
             </column>
             <column columnName="flag">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>

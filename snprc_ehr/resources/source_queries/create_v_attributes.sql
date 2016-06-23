@@ -20,12 +20,14 @@ ALTER VIEW [labkey_etl].[V_ATTRIBUTES] as
 
 SELECT a.id ,
 	   a.entry_date_tm AS date,
-     NULL AS flag,
-	   a.attribute AS attribute,
-     a.comment AS remark,
+	   --a.attribute AS flag,
+	   fv.code AS flag,
+	   a.comment AS remark,
 	   a.object_id AS objectId,
-     a.user_name ,
-     a.timestamp  FROM dbo.attributes AS a
+       a.user_name ,
+       a.timestamp  
+	   FROM dbo.attributes AS a
+	   INNER JOIN labkey_etl.flag_values AS fv ON a.attribute = fv.value
 ---- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.id
 

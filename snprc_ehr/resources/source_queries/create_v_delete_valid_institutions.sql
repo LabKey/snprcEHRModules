@@ -13,3 +13,8 @@ FROM audit.audit_valid_institutions AS avi
 WHERE avi.AUDIT_ACTION = 'D' AND avi.OBJECT_ID IS NOT NULL
 
 GO
+
+GRANT SELECT ON Labkey_etl.V_DELETE_VALID_INSTITUTIONS TO z_labkey
+GRANT SELECT ON audit.audit_valid_institutions TO z_labkey
+
+GO
