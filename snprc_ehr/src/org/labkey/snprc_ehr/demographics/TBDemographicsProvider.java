@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.snprc_ehr;
+package org.labkey.snprc_ehr.demographics;
 
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.ehr.demographics.AbstractListDemographicsProvider;
@@ -29,9 +29,9 @@ import java.util.Set;
  * Date: 7/14/13
  * Time: 10:29 AM
  */
-public class SNPRCTBDemographicsProvider extends AbstractListDemographicsProvider
+public class TBDemographicsProvider extends AbstractListDemographicsProvider
 {
-    public SNPRCTBDemographicsProvider(Module module)
+    public TBDemographicsProvider(Module module)
     {
         super(module, "study", "demographicsMostRecentTBDate", "tb");
         _supportsQCState = false;

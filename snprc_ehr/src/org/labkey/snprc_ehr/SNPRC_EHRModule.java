@@ -32,6 +32,7 @@ import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.dataentry.dataentry.*;
+import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
@@ -93,7 +94,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
         EHRService.get().registerLabworkType(new LabResultsLabworkType(this));
 
-        EHRService.get().registerDemographicsProvider(new SNPRCTBDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new TBDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
