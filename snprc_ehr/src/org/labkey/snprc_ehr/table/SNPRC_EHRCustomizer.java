@@ -178,8 +178,9 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     private void customizeAnimalTable(AbstractTableInfo ds)
     {
+        String geneticsSchema = "genetic_assays";
         UserSchema us = getUserSchema(ds, "study");
-        UserSchema genetics = getUserSchema(ds, "genetic_assays");
+        UserSchema genetics = getUserSchema(ds, geneticsSchema);
 
         if (us == null)
         {
@@ -269,7 +270,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             }
         } else
         {
-            _log.info("Schema: " + us.getName() + " - Not found");
+            _log.info("Linked Schema: " + geneticsSchema + " - Not found");
         }
     }
 
