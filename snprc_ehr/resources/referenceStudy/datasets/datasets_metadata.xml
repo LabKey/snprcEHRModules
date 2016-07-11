@@ -3197,8 +3197,10 @@
             <column columnName="POSITION5">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="object_id">
+            <column columnName="objectid">
                 <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
             </column>
             <column columnName="user_name">
                 <datatype>varchar</datatype>
