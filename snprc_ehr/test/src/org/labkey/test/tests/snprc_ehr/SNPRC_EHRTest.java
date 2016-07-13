@@ -479,11 +479,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         participantViewPage.clickCategoryTab("Clinical");
         participantViewPage.clickReportTab("Animal Events");
-        List<String> remarkColumn = participantViewPage.getActiveReportDataRegion(this).getColumnDataAsText("Remark");
+        List<String> remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Remark");
         assertEquals("Should be 4 events for " + deadAnimalId + ". Check SNPRC reference study dataset1067.tsv", Arrays.asList("necropsy -4days", "necropsy -3days", "necropsy -0days", "necropsy +1days"), remarkColumn);
 
         participantViewPage.clickReportTab("Procedures Before Disposition");
-        remarkColumn = participantViewPage.getActiveReportDataRegion(this).getColumnDataAsText("Remark");
+        remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Remark");
         assertEquals("Report should show events less than 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days"), remarkColumn);
     }
 
@@ -558,7 +558,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         participantViewPage.clickCategoryTab("Clinical");
         participantViewPage.clickReportTab("Procedures");
-        DataRegionTable reportDataRegion = participantViewPage.getActiveReportDataRegion(this);
+        DataRegionTable reportDataRegion = participantViewPage.getActiveReportDataRegion();
         List<String> columnData = reportDataRegion.getColumnDataAsText("usdaCategory");
         columnData.addAll(reportDataRegion.getColumnDataAsText("procType"));
         for (String value : columnData)
@@ -592,12 +592,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         historyPage.clickCategoryTab("Genetics");
         historyPage.clickReportTab("Kinship");
 
-        DataRegionTable tbl = historyPage.getActiveReportDataRegion(this);
+        DataRegionTable tbl = historyPage.getActiveReportDataRegion();
         assertEquals(tbl.getDataRowCount(), 16);
 
         _ext4Helper.checkCheckbox(Locator.ehrCheckboxIdContaining("limitRawDataToSelection"));
 
-        tbl = historyPage.getActiveReportDataRegion(this);
+        tbl = historyPage.getActiveReportDataRegion();
         assertEquals(tbl.getDataRowCount(), 1);
 
         String[] idCols = {"Id", "Id2", "Coefficient"};
