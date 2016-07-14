@@ -79,7 +79,7 @@
                     <column columnName="POSITION5">
                         <columnTitle>Position5</columnTitle>
                     </column>
-                    <column columnName="object_id">
+                    <column columnName="objectid">
                         <columnTitle>Object Id</columnTitle>
                     </column>
                     <column columnName="user_name">
