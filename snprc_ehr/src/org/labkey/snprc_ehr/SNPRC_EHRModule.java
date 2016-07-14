@@ -22,6 +22,7 @@ import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.api.ldk.ExtendedSimpleModule;
+import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DetailsURL;
@@ -34,8 +35,10 @@ import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.dataentry.dataentry.*;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
+import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
+import org.labkey.api.ldk.notification.NotificationService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -109,6 +112,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         // demographics
         EHRService.get().registerDemographicsProvider(new ParentsDemographicsProvider(this));
+
+        NotificationService.get().registerNotification(new SampleSSRSNotification());
 
         AdminLinkManager.getInstance().addListener(new AdminLinkManager.Listener()
         {
