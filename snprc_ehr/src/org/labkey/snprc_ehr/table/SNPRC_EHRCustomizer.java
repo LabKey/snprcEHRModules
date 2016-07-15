@@ -219,6 +219,15 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=freezerWorks&query.Id~eq=${Id}", ds.getContainerContext()));
             ds.addColumn(col);
         }
+        if (ds.getColumn("idHistoryList") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "idHistoryList", "demographicsIdHistory", "Id", "Id");
+            col.setLabel("Id Hx List");
+            col.setDescription("List of Ids assigned to animal");
+            col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=idHistory&query.Id~eq=${Id}", ds.getContainerContext()));
+            ds.addColumn(col);
+        }
+
         if (ds.getColumn("packageCategory") == null)
         {
             ColumnInfo col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", "Id", "Id");
