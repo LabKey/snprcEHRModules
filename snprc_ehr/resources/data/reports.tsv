@@ -1,6 +1,7 @@
 reportname	category	reporttype	reporttitle	visible	containerpath	schemaname	queryname	viewname	report	datefieldname	todayonly	queryhaslocation	sort_order	QCStateLabelFieldName	description
 breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+animalAccounts	Assignments and Groups	query	Account Assignments	true		study	animalAccounts			date	false	false			This report contains the charge account assignments
 colonyAssignments	Assignments and Groups	query	Colony Assignments	true		study	colonyAssignments			date	false	false			This report contains the colony assignments for the animal
 pregnancyHistory	Reproductive Management	query	Pregnancy History	true		study	pregnancyHistory			date	false	false			Contains reproductive history data
 estrousCyclePivot	Reproductive Management	query	Cycle History	true		study	estrousCyclePivot			date	false	false			Contains daily estrous cycle readings
