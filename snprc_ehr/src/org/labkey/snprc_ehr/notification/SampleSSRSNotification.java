@@ -21,7 +21,7 @@ public class SampleSSRSNotification extends AbstractSSRSNotification
     @Override
     public String getCronString()
     {
-        return "0 0 6 * * ?";
+        return "0 6 * * * ?";
     }
 
     @Override
