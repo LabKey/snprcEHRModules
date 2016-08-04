@@ -21,6 +21,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
+import org.labkey.api.ehr.demographics.WeightsDemographicsProvider;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
@@ -38,6 +39,7 @@ import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.api.ldk.notification.NotificationService;
 
 import java.util.Collection;
@@ -88,6 +90,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/ColonyUsage.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcReports.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcOverrides.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/demographicsRecord.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("ehr/reports.js"), this);
 
         EHRService.get().registerActionOverride("colonyOverview", this, "views/colonyOverview.html");
@@ -99,6 +102,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerDemographicsProvider(new TBDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new IdHistoryDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");
