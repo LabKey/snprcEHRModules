@@ -463,5 +463,33 @@
    </column>
   </columns>
  </table>
+ <table tableName="validVets" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Valid Veternarians</tableTitle>
+  <pkColumnName>vetId</pkColumnName>
+  <columns>
+   <column columnName="vetId">
+    <isKeyField>true</isKeyField>
+   </column>
+   <column columnName="displayName">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="emailAddress">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="status">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="objectid">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="Created"/>
+   <column columnName="CreatedBy"/>
+   <column columnName="Modified"/>
+   <column columnName="ModifiedBy"/>
+  </columns>
+ </table>
 </tables>
 
