@@ -227,14 +227,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=idHistory&query.Id~eq=${Id}", ds.getContainerContext()));
             ds.addColumn(col);
         }
-        if (ds.getColumn("idHistory") == null)
-        {
-            ColumnInfo col = getWrappedCol(us, ds, "idHistory", "demographicsIdHistory", "Id", "Id");
-            col.setLabel("Id Hx List");
-            col.setDescription("List of Ids assigned to animal");
-            col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=idHistory&query.Id~eq=${Id}", ds.getContainerContext()));
-            ds.addColumn(col);
-        }
+
         if (ds.getColumn("packageCategory") == null)
         {
             ColumnInfo col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", "Id", "Id");
@@ -256,14 +249,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ColumnInfo col = getWrappedCol(us, ds, "activeGroups", "demographicsAnimalGroups", "Id", "Id");
             col.setLabel("Animal Groups - Active");
             col.setDescription("Shows all groups to which the animal is actively assigned on the current date");
-            ds.addColumn(col);
-        }
-
-        if (ds.getColumn("activeAccounts") == null)
-        {
-            ColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
-            col.setLabel("Accounts - Active");
-            col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
             ds.addColumn(col);
         }
 

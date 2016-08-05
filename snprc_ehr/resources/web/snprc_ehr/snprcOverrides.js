@@ -111,6 +111,19 @@ Ext4.override(EHR.panel.SnapshotPanel, {
     },
 
 
+    appendCurrentAccountsResults: function(toSet, results){
+        var text = [];
+        if (results){
+            var rows = [];
+            Ext4.each(results, function(row){
+                var newRow = '<tr><td nowrap>' + row['account'] + '</td></tr>';
+                text.push(newRow);
+            }, this);
+
+        }
+        toSet['currentAccounts'] = text.length ? '<table>' + text.join('') + '</table>' : null;
+    },
+
     getBaseItems: function(){
         return [{
             xtype: 'container',
@@ -157,6 +170,10 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Active Cases',
                         name: 'activeCases'
+                    },{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Current Account',
+                        name: 'currentAccounts'
                     }]
                 },{
                     xtype: 'container',
@@ -240,11 +257,14 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendWeightResults(toSet, results.getRecentWeights());
 
+        this.appendCurrentAccountsResults(toSet, results.getCurrentAccounts());
+
         this.appendIdHistoryResults(toSet, results.getIdHistories());
 
         this.appendRoommateResults(toSet, results.getCagemates(), id);
 
         this.appendProblemList(toSet, results.getActiveProblems());
+
         this.appendAssignments(toSet, results.getActiveAssignments());
 
         if (!this.redacted){
