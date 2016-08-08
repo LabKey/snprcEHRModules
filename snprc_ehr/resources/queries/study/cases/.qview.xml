@@ -3,11 +3,12 @@
         <column name="Id"/>
         <column name="date"/>
         <column name="enddate"/>
-        <column name="caseid"></column>
+        <column name="caseid"/>
         <column name="category"/>
         <column name="problem"/>
         <column name="sdx"/>
-        <column name="admitcomplaint"></column>
+        <column name="admitcomplaint"/>
+        <column name="assignedvet"/>
         <column name="history"/>
     </columns>
     <sorts>
