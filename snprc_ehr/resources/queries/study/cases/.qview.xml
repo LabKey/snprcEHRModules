@@ -2,9 +2,12 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
+        <column name="enddate"/>
+        <column name="caseid"></column>
         <column name="category"/>
-        <column name="remark"/>
         <column name="problem"/>
+        <column name="sdx"/>
+        <column name="admitcomplaint"></column>
         <column name="history"/>
     </columns>
     <sorts>

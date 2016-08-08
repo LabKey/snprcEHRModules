@@ -542,6 +542,15 @@
             <column columnName="problem">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="sdx">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="admitcomplaint">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="resolution">
+                <datatype>varchar</datatype>
+            </column>
         </columns>
         <tableTitle>Cases</tableTitle>
     </table>
