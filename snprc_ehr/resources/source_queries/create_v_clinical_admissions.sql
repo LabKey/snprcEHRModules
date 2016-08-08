@@ -35,7 +35,7 @@ ALTER VIEW [labkey_etl].[v_clinical_admissions] AS
 --		
 -- Changes:
 -- 9/25/2015	Removed animal id from ParticipantSequenceNum. tjh
---
+-- 8/8/2016		added sdx, admit_complaint, resolution, and retarget vet to assignedvet column
 -- ==========================================================================================
 
 
@@ -47,9 +47,10 @@ SELECT c.id AS id,
 	   c.sdx AS sdx,
 	   c.admit_complaint AS admitcomplaint,
 	   c.admit_id AS caseid,
-	   c.admit_code AS category,
+	   vac.description AS category,
+	   c.resolution AS resolution,
 	   c.charge_id AS project,
-	   c.vet_name AS vetreviewer,  -- this should be assigned vet; however, we are missing the ehr_lookup.veterinarians table
+	   v.tid AS assignedvet,  
 	   c.user_name AS user_name,
 	   c.entry_date_tm AS entry_date_tm,
 	   c.object_id AS objectid,
@@ -58,8 +59,10 @@ SELECT c.id AS id,
 
 
 FROM dbo.clinic AS c
+INNER JOIN dbo.valid_admit_codes AS vac ON vac.admit_code = c.admit_code
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
+LEFT OUTER JOIN dbo.valid_vet AS v ON c.vet_name = v.vet_name
 
 
 GO

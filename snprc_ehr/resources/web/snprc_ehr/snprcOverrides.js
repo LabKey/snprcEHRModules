@@ -124,6 +124,36 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['currentAccounts'] = text.length ? '<table>' + text.join('') + '</table>' : null;
     },
 
+    appendCases: function(toSet, results){
+        var text = [];
+        if (results){
+            var rows = [];
+            Ext4.each(results, function(row){
+                var newRow = {
+                    admit_id: row['caseid'],
+                    admit_date: row['date'],
+                    admit_type: row['category'],
+                    pdx: row['problem'],
+                    admit_complaint: row['admitcomplaint'],
+                    assigned_vet: row['assignedvet/DisplayName']
+                };
+                rows.push(newRow);
+            }, this);
+
+            Ext4.each(rows, function(r){
+                var d = LDK.ConvertUtils.parseDate(r.admit_date,'m-d-Y');
+                text.push('<tr><td nowrap>' + r.admit_id + ':' + '</td><td style="padding-left: 5px;" nowrap>' +
+                    d.format('m-d-Y')  + '</td><td style="padding-left: 5px;" nowrap>' +
+                     //   r.admit_type + '</td><td style="padding-left: 5px;" nowrap>' +
+                     //   r.pdx + '</td><td style="padding-left: 5px;" nowrap>' +
+                        r.admit_complaint + '</td><td style="padding-left: 5px;" nowrap>' +
+                     //   r.assigned_vet + '</td><td style="padding-left: 5px;" nowrap>' +
+                        '</td></tr>');
+            }, this);        }
+
+        toSet['activeCases'] = text.length ? '<table>' + text.join('') + '</table>' : 'None';
+    },
+
     getBaseItems: function(){
         return [{
             xtype: 'container',
