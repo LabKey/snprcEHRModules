@@ -40,9 +40,11 @@ import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.ActiveAnimalGroupsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
 import org.labkey.api.ldk.notification.NotificationService;
 
 import java.util.Collection;
@@ -106,9 +108,11 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerDemographicsProvider(new TBDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new IdHistoryDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new ActiveAnimalGroupsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new CurrentAccountsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveCasesDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new CurrentPedigreeDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new ActiveAssignmentsDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");

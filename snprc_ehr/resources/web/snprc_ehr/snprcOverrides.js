@@ -186,6 +186,40 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['currentPedigree'] = text.length ? '<table>' + text.join('') + '</table>' : 'N/A';
     },
 
+    appendGroups: function(toSet, results){
+
+        var values = [];
+        if (results){
+            Ext4.each(results, function(row){
+                values.push(row['groupId/Category'] + ': ' + row['groupId/name']);
+            }, this);
+        }
+
+        toSet['groups'] = values.length ? values.join('<br>') : 'None';
+    },
+
+    appendAssignments: function(toSet, results){
+        toSet['assignments'] = null;
+
+        if (this.redacted) {
+            return;
+        }
+
+        var values = [];
+        if (results){
+            Ext4.each(results, function(row){
+                var val = row['protocol/displayName'] || ' ';
+                val += ' [' + row['protocol/inves'] + ']';
+               // val += ' [' + row['protocol/title'] + ']';
+
+                if (val)
+                    values.push(val);
+            }, this);
+        }
+
+        toSet['assignments'] = values.length ? values.join('<br>') : 'None';
+    },
+
     getBaseItems: function(){
         return [{
             xtype: 'container',
@@ -218,16 +252,12 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         hidden: this.redacted,
                         name: 'assignments',
-                        fieldLabel: 'Projects'
+                        fieldLabel: 'IACUC Assignments'
                     },{
                         xtype: 'displayfield',
                         fieldLabel: 'Groups',
                         hidden: this.redacted,
                         name: 'groups'
-                    },{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Open Problems',
-                        name: 'openProblems'
                     },{
                         xtype: 'displayfield',
                         fieldLabel: 'Open Admissions',
@@ -236,10 +266,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Current Account',
                         name: 'currentAccounts'
-                    },{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Current Pedigree',
-                        name: 'currentPedigree'
                     }]
                 },{
                     xtype: 'container',
@@ -264,10 +290,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Age',
                         name: 'age'
-                    },{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Source',
-                        name: 'source'
                     }]
                 },{
                     xtype: 'container',
@@ -297,6 +319,73 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }]
         }];
     },
+
+    getExtendedItems: function(){
+        return [{
+            xtype: 'container',
+            name: 'additionalInformation',
+            style: 'padding-bottom: 10px;',
+            border: false,
+            defaults: {
+                border: false
+            },
+            items: [{
+                xtype: 'container',
+                html: '<b>Additional Information</b><hr>'
+            },{
+                layout: 'column',
+                defaults: {
+                    labelWidth: this.defaultLabelWidth
+                },
+                items: [{
+                    xtype: 'container',
+                    columnWidth: 0.5,
+                    border: false,
+                    defaults: {
+                        labelWidth: this.defaultLabelWidth,
+                        border: false,
+                        style: 'margin-right: 20px;'
+                    },
+                    items: [{
+                        xtype: 'displayfield',
+                        width: 350,
+                        fieldLabel: 'Geographic Origin',
+                        name: 'geographic_origin'
+                    },{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Birth',
+                        name: 'birth'
+                    },{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Death',
+                        name: 'death'
+                    }]
+                },{
+                    xtype: 'container',
+                    columnWidth: 0.5,
+                    defaults: {
+                        labelWidth: this.defaultLabelWidth
+                    },
+                    items: [{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Parent Information',
+                        name: 'parents'
+                    }
+                        /*,{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Pairing Type',
+                        name: 'pairingType'
+                    },{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Cagemates',
+                        name: 'cagemates'
+                    } */
+                    ]
+                }]
+            }]
+        }];
+    },
+
     onLoad: function(ids, resultMap){
         if (this.disableAnimalLoad){
             return;
@@ -327,11 +416,9 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendIdHistoryResults(toSet, results.getIdHistories());
 
-        this.appendCurrentPedigreeResults(toSet, results.getCurrentPedigree());
+        //this.appendCurrentPedigreeResults(toSet, results.getCurrentPedigree());
 
         this.appendRoommateResults(toSet, results.getCagemates(), id);
-
-        this.appendProblemList(toSet, results.getActiveProblems());
 
         this.appendAssignments(toSet, results.getActiveAssignments());
 
@@ -340,10 +427,9 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             this.appendGroups(toSet, results.getActiveAnimalGroups());
         }
 
-        this.appendSourceResults(toSet, results.getSourceRecord());
         this.appendTreatmentRecords(toSet, results.getActiveTreatments());
         this.appendCases(toSet, results.getActiveCases());
-        this.appendCaseSummary(toSet, results.getActiveCases());
+        //this.appendCaseSummary(toSet, results.getActiveCases());
 
         this.appendFlags(toSet, results.getActiveFlags());
         this.appendTBResults(toSet, results.getTBRecord());
