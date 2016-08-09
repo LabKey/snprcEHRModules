@@ -59,45 +59,6 @@ public class IdHistoryDemographicsProvider extends AbstractListDemographicsProvi
     }
 
     @Override
-    public Map<String, Map<String, Object>> getProperties(Container c, User u, Collection<String> ids)
-    {
-        final Map<String, Map<String, Object>> ret = new HashMap<>();
-        final TableInfo ti = getTableInfo(c, u);
-        final Map<FieldKey, ColumnInfo> cols = getColumns(ti);
-        Sort sort = getSort();
-
-        for (String id : ids)
-        {
-            SimpleFilter filter = getFilter(Collections.singleton(id));
-
-            TableSelector ts = new TableSelector(ti, cols.values(), filter, sort);
-            ts.setForDisplay(true);
-//            ts.setMaxRows(3);
-
-            ts.forEach(new Selector.ForEachBlock<ResultSet>()
-            {
-                @Override
-                public void exec(ResultSet object) throws SQLException
-                {
-                    Results rs = new ResultsImpl(object, cols);
-
-                    String id = rs.getString(FieldKey.fromString(ti.getColumn("Id").getAlias()));
-
-                    Map<String, Object> map = ret.get(id);
-                    if (map == null)
-                        map = new HashMap<>();
-
-                    processRow(rs, cols, map);
-
-                    ret.put(id, map);
-                }
-            });
-        }
-
-        return ret;
-    }
-
-    @Override
     protected Sort getSort()
     {
         return new Sort("-date");

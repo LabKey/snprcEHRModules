@@ -112,17 +112,26 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
 
     appendCurrentAccountsResults: function(toSet, results){
-        var text = [];
-        if (results){
-            var rows = [];
-            Ext4.each(results, function(row){
-                var newRow = '<tr><td nowrap>' + row['account'] + '</td></tr>';
-                text.push(newRow);
-            }, this);
+    var text = [];
+    if (results){
+        var rows = [];
+        Ext4.each(results, function(row){
+            var newRow = {
+                account_date: row['date'],
+                account: row['account'],
+            };
+            rows.push(newRow);
+        }, this);
 
-        }
-        toSet['currentAccounts'] = text.length ? '<table>' + text.join('') + '</table>' : null;
+        Ext4.each(rows, function(r){
+            var d = LDK.ConvertUtils.parseDate(r.account_date,'m-d-Y');
+            text.push('<tr><td nowrap>' + d.format('m-d-Y')  +
+                    '</td><td style="padding-left: 5px;" nowrap>' + r.account + '</td></tr>');
+        }, this);        }
+
+    toSet['currentAccounts'] = text.length ? '<table>' + text.join('') + '</table>' : null;
     },
+
 
     appendCases: function(toSet, results){
         var text = [];
@@ -142,7 +151,9 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
             Ext4.each(rows, function(r){
                 var d = LDK.ConvertUtils.parseDate(r.admit_date,'m-d-Y');
-                text.push('<tr><td nowrap>' + r.admit_id + ':' + '</td><td style="padding-left: 5px;" nowrap>' +
+                text.push(
+                    '<tr><td nowrap>' +
+                    // r.admit_id + ':' + '</td><td style="padding-left: 5px;" nowrap>' +
                     d.format('m-d-Y')  + '</td><td style="padding-left: 5px;" nowrap>' +
                      //   r.admit_type + '</td><td style="padding-left: 5px;" nowrap>' +
                      //   r.pdx + '</td><td style="padding-left: 5px;" nowrap>' +
@@ -152,6 +163,27 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }, this);        }
 
         toSet['activeCases'] = text.length ? '<table>' + text.join('') + '</table>' : 'None';
+    },
+
+    appendCurrentPedigreeResults: function(toSet, results){
+        var text = [];
+        if (results){
+            var rows = [];
+            Ext4.each(results, function(row){
+                var newRow = {
+                    pedigree_date: row['date'],
+                    pedigree: row['pedigree'],
+                };
+                rows.push(newRow);
+            }, this);
+
+            Ext4.each(rows, function(r){
+                var d = LDK.ConvertUtils.parseDate(r.pedigree_date,'m-d-Y');
+                text.push('<tr><td nowrap>' + d.format('m-d-Y')  +
+                        '</td><td style="padding-left: 5px;" nowrap>' + r.pedigree + '</td></tr>');
+            }, this);        }
+
+        toSet['currentPedigree'] = text.length ? '<table>' + text.join('') + '</table>' : 'N/A';
     },
 
     getBaseItems: function(){
@@ -198,12 +230,16 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         name: 'openProblems'
                     },{
                         xtype: 'displayfield',
-                        fieldLabel: 'Active Cases',
+                        fieldLabel: 'Open Admissions',
                         name: 'activeCases'
                     },{
                         xtype: 'displayfield',
                         fieldLabel: 'Current Account',
                         name: 'currentAccounts'
+                    },{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Current Pedigree',
+                        name: 'currentPedigree'
                     }]
                 },{
                     xtype: 'container',
@@ -290,6 +326,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         this.appendCurrentAccountsResults(toSet, results.getCurrentAccounts());
 
         this.appendIdHistoryResults(toSet, results.getIdHistories());
+
+        this.appendCurrentPedigreeResults(toSet, results.getCurrentPedigree());
 
         this.appendRoommateResults(toSet, results.getCagemates(), id);
 

@@ -25,15 +25,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by thawkins on 8/5/2016.
+ * Created by thawkins on 8/9/2016.
  */
+public class CurrentPedigreeDemographicsProvider extends AbstractListDemographicsProvider
 
-public class CurrentAccountsDemographicsProvider extends AbstractListDemographicsProvider
+
 {
 
-    public CurrentAccountsDemographicsProvider(Module owner)
+    public CurrentPedigreeDemographicsProvider(Module owner)
     {
-        super(owner, "study", "animalAccounts", "currentAccounts");
+        super(owner, "study", "demographicsCurrentPedigree", "currentPedigree");
         _supportsQCState = false;
     }
 
@@ -43,10 +44,11 @@ public class CurrentAccountsDemographicsProvider extends AbstractListDemographic
         keys.add(FieldKey.fromString("lsid"));
         keys.add(FieldKey.fromString("Id"));
         keys.add(FieldKey.fromString("date"));
-        keys.add(FieldKey.fromString("account"));
+        keys.add(FieldKey.fromString("pedigree"));
 
         return keys;
     }
+
 
     @Override
     protected Sort getSort()
@@ -54,6 +56,7 @@ public class CurrentAccountsDemographicsProvider extends AbstractListDemographic
         return new Sort("-date");
     }
 
+    /*
     @Override
     protected SimpleFilter getFilter(Collection<String> ids)
     {
@@ -63,4 +66,5 @@ public class CurrentAccountsDemographicsProvider extends AbstractListDemographic
 
         return filter;
     }
+    */
 }

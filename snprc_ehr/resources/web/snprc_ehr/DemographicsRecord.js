@@ -26,6 +26,10 @@ EHR.DemographicsRecord = function(data){
             return data['currentAccounts'];
         },
 
+        getCurrentPedigree: function() {
+            return data['currentPedigree'];
+        },
+
         getAgeInDays: function(){
             return data['Id/age/ageInDays'];
         },
