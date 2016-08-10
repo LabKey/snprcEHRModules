@@ -228,6 +228,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ds.addColumn(col);
         }
 
+        if (ds.getColumn("activeAccounts") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
+            col.setLabel("Accounts - Active");
+            col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
+            ds.addColumn(col);
+        }
+
         if (ds.getColumn("packageCategory") == null)
         {
             ColumnInfo col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", "Id", "Id");

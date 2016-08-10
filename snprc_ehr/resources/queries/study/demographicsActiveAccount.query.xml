@@ -5,7 +5,7 @@
                 <tableTitle>Active Account</tableTitle>
                 <columns>
                     <column columnName="Id">
-                        <isHidden>true</isHidden>
+                        <isHidden>false</isHidden>
                     </column>
                     <column columnName="Account">
                         <fk>
