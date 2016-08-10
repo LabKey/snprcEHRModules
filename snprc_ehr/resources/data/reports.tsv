@@ -19,7 +19,6 @@ procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter
 proceduresBeforeDisposition	Clinical	js	"Procedures Before Disposition"	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 dailyObsPivot	Clinical	query	Daily Obs	true		study	dailyObsPivot			date	false	false			Contains daily observations
-clinObs	Clinical	js	Observations	true		study	underDevelopment			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
 behaviorRemarks	Behavior	js	Behavior Remarks	true		study	underDevelopment	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
