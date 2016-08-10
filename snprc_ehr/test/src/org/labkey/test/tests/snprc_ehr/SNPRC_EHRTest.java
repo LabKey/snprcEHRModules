@@ -197,6 +197,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
+    protected File getStudyPolicyXML()
+    {
+        return TestFileUtils.getSampleData("snprcEHRStudyPolicy.xml");
+    }
+
+    @Override
     protected String getExpectedAnimalIDCasing(String id)
     {
         return id.toUpperCase();
