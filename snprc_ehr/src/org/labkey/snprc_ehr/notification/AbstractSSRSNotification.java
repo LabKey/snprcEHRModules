@@ -1,6 +1,7 @@
 package org.labkey.snprc_ehr.notification;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -8,14 +9,15 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.log4j.Logger;
 import org.apache.poi.util.IOUtils;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.ldk.notification.Notification;
-import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.security.SecurityManager;
 import org.labkey.api.security.User;
-import org.labkey.api.security.UserPrincipal;
+import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.FileUtil;
 import org.labkey.api.util.MailHelper;
 import org.labkey.api.util.UnexpectedException;
@@ -23,11 +25,9 @@ import org.labkey.snprc_ehr.SNPRC_EHRModule;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.mail.Address;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
@@ -35,10 +35,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by: jeckels
@@ -46,26 +43,100 @@ import java.util.Set;
  */
 public abstract class AbstractSSRSNotification implements Notification
 {
-    @Override
-    public String getMessage(Container c, User u)
+    private final String _subject;
+    private final String _textContent;
+    private Format _format;
+
+    private static final Logger LOG = Logger.getLogger(AbstractSSRSNotification.class);
+    private final String _reportId;
+
+    public enum Format
     {
-        String DEFAULT_USER = "txbiomed\\reports_lkbase";
-        String DEFAULT_PASS = "**************";
-        String TEXT_CONTENT = "Please see attached report.";
-        String SUBJECT = "Daily Report";
+        HTML5("html", "text/html"),
+        PDF("pdf", "application/pdf"),
+        XML("xml", "text/xml"),
+        CSV("csv", "text/csv"),
+        Excel("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        private final String _extension;
+        private final String _mimeType;
+
+        Format(String extension, String mimeType)
+        {
+            _extension = extension;
+            _mimeType = mimeType;
+        }
+
+        public String getExtension()
+        {
+            return _extension;
+        }
+
+        public String getMimeType()
+        {
+            return _mimeType;
+        }
+    }
+
+    public AbstractSSRSNotification(String reportId, String subject, String textContent, Format format)
+    {
+        _reportId = reportId;
+        _subject = subject;
+        _textContent = textContent;
+        _format = format;
+    }
+
+    @Override
+    @Nullable
+    public String getMessageBodyHTML(Container c, User u)
+    {
+        return _textContent;
+    }
+
+    @Nullable
+    @Override
+    public MimeMessage createMessage(Container c, User u) throws MessagingException
+    {
+        String user = SSRSConfigManager.getInstance().getUser(c);
+        String password = SSRSConfigManager.getInstance().getPassword(c);
+        String baseURL = SSRSConfigManager.getInstance().getBaseURL(c);
+
+        if (user == null || password == null || baseURL == null)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (user == null)
+            {
+                sb.append("No SSRS user configured, cannot request report\n");
+            }
+            if (password == null)
+            {
+                sb.append("No SSRS password configured, cannot request report\n");
+            }
+            if (baseURL == null)
+            {
+                sb.append("No SSRS URL configured, cannot request report\n");
+            }
+            LOG.error(sb.toString());
+            return null;
+        }
+
+        if (!baseURL.endsWith("?"))
+        {
+            baseURL += "?";
+        }
+
+        String ssrsReportURL = baseURL + _reportId + "&rs:Command=Render&rs:Format=" + _format.toString();
 
         // Start a session that SSRS can use for its callback
         String sessionId = SecurityManager.beginTransformSession(u);
-        String ssrsURL = "https://kittyhawk.txbiomed.local/ReportServer/Pages/ReportViewer.aspx?%2fbeta%2fLabkey_xml%2flabkey_xml&rs:Command=Render&rs:Format=CSV&"
-                + SecurityManager.TRANSFORM_SESSION_ID + "=" + sessionId;
-//        String ssrsURL = "http://www.labkey.com/wp-content/uploads/2016/06/2016-ASMS-Panorama-small-molecule-poster-v5.pdf";
+        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.TRANSFORM_SESSION_ID + "=" + sessionId;
 
         try
         {
-            URI uri = new URI(ssrsURL);
+            URI uri = new URI(ssrsSessionURL);
             HttpGet request = new HttpGet (uri);
 
-            String auth = DEFAULT_USER + ":" + DEFAULT_PASS;
+            String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("ISO-8859-1")));
             String authHeader = "Basic " + new String(encodedAuth, "ISO-8859-1");
             request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
@@ -79,8 +150,9 @@ public abstract class AbstractSSRSNotification implements Notification
             if( resp.getStatusLine().getStatusCode() != HttpStatus.SC_OK )
                 throw new IOException("Server response: " + resp.getStatusLine().getStatusCode());
 
-            if( null == resp.getFirstHeader("Content-Type") || !resp.getFirstHeader("Content-Type").getValue().equals("application/pdf"))
-                throw new IOException("Content-Type not found or incorrect. Expecting application/pdf.");
+            Header contentTypeHeader = resp.getFirstHeader("Content-Type");
+            if( null == contentTypeHeader || !contentTypeHeader.getValue().equals(_format.getMimeType()))
+                throw new IOException("Content-Type not found or incorrect. Expecting '" + _format.getMimeType() + "' but was '" + (contentTypeHeader == null ? "null" : contentTypeHeader.getValue()) + "'.");
 
             HttpEntity entity = resp.getEntity();
 
@@ -89,44 +161,27 @@ public abstract class AbstractSSRSNotification implements Notification
                 byte[] data = IOUtils.toByteArray(is);
 
                 if(data.length == 0)
-                    throw new IOException("Empty report received.");
+                    throw new IOException("Empty report received from SSRS, URL was " + ssrsReportURL);
 
                 // Text body part
                 MimeBodyPart textBodyPart = new MimeBodyPart();
-                textBodyPart.setText(TEXT_CONTENT);
+                textBodyPart.setText(getMessageBodyHTML(c, u), null, "html");
 
                 // PDF body part
-                DataSource dataSource = new ByteArrayDataSource(data, "application/pdf");
+                DataSource dataSource = new ByteArrayDataSource(data, _format.getMimeType());
                 MimeBodyPart pdfBodyPart = new MimeBodyPart();
                 pdfBodyPart.setDataHandler(new DataHandler(dataSource));
-                pdfBodyPart.setFileName(FileUtil.makeFileNameWithTimestamp("DailyReport", "pdf"));
+                pdfBodyPart.setFileName(FileUtil.makeFileNameWithTimestamp(_subject, _format.getExtension()));
 
                 // Mime multi part
                 MimeMultipart mimeMultipart = new MimeMultipart();
                 mimeMultipart.addBodyPart(textBodyPart);
                 mimeMultipart.addBodyPart(pdfBodyPart);
 
-                // Get recipients
-                Set<UserPrincipal> recipients = NotificationService.get().getRecipients(this, c);
-                Address[] addresses = new InternetAddress[recipients.size()];
-                int iAdd = 0;
-                for (UserPrincipal recipient : recipients)
-                {
-                    addresses[iAdd++] = new InternetAddress(recipient.getName());
-                }
-
-                // Email subject
-                DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                String emailSubject = SUBJECT + " " + format.format(new Date());
-
                 // Construct message
-                MailHelper.ViewMessage message = MailHelper.createMessage();
-                message.setFrom(NotificationService.get().getReturnEmail(c));
-                message.setRecipients(Message.RecipientType.TO, addresses);
-                message.setSubject(emailSubject);
+                MailHelper.MultipartMessage message = MailHelper.createMultipartMessage();
                 message.setContent(mimeMultipart);
-
-                MailHelper.send(message, u, c);
+                return message;
             }
             catch (MessagingException e)
             {
@@ -143,9 +198,6 @@ public abstract class AbstractSSRSNotification implements Notification
             // asynchronously we might need to block, sleep, etc so it's not terminated too early
             SecurityManager.endTransformSession(sessionId);
         }
-
-        // We don't want to send an email ourselves, let SSRS handle that
-        return null;
     }
 
     @Override
@@ -158,7 +210,6 @@ public abstract class AbstractSSRSNotification implements Notification
     @Override
     public String getEmailSubject()
     {
-        // Shouldn't actually be called
-        return null;
+        return _subject + " " + DateUtil.formatDate(new Date());
     }
 }

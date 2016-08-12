@@ -6,6 +6,11 @@ package org.labkey.snprc_ehr.notification;
  */
 public class SampleSSRSNotification extends AbstractSSRSNotification
 {
+    public SampleSSRSNotification()
+    {
+        super("%2fbeta%2fLabkey_xml%2flabkey_xml", "Daily Report", "Please see attached report.", Format.PDF);
+    }
+
     @Override
     public String getName()
     {
