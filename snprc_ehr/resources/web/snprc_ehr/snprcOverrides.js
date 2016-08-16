@@ -51,6 +51,7 @@ LDK.Utils.splitIds = function(subjects, unsorted)
                 return [];
         };
 
+
 Ext4.override(EHR.panel.SnapshotPanel, {
     appendParentageResults: function(toSet, results){
 
@@ -186,6 +187,27 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['currentPedigree'] = text.length ? '<table>' + text.join('') + '</table>' : 'N/A';
     },
 
+    appendCurrentDietResults: function(toSet, results){
+        var text = [];
+        if (results){
+            var rows = [];
+            Ext4.each(results, function(row){
+                var newRow = {
+                    diet_date: row['date'],
+                    diet: row['code/meaning'],
+                };
+                rows.push(newRow);
+            }, this);
+
+            Ext4.each(rows, function(r){
+                var d = LDK.ConvertUtils.parseDate(r.diet_date,'m-d-Y');
+                text.push('<tr><td nowrap>' + d.format('m-d-Y')  +
+                        '</td><td style="padding-left: 5px;" nowrap>' + r.diet + '</td></tr>');
+            }, this);        }
+
+        toSet['currentDiet'] = text.length ? '<table>' + text.join('') + '</table>' : 'None';
+    },
+
     appendGroups: function(toSet, results){
 
         var values = [];
@@ -290,7 +312,11 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Age',
                         name: 'age'
-                    }]
+                    },{
+                    xtype: 'displayfield',
+                    fieldLabel: 'Current Diet',
+                    name: 'currentDiet'
+                }]
                 },{
                     xtype: 'container',
                     columnWidth: 0.35,
@@ -417,6 +443,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         this.appendIdHistoryResults(toSet, results.getIdHistories());
 
         //this.appendCurrentPedigreeResults(toSet, results.getCurrentPedigree());
+
+        this.appendCurrentDietResults(toSet, results.getCurrentDiet());
 
         this.appendRoommateResults(toSet, results.getCagemates(), id);
 

@@ -21,7 +21,6 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
-import org.labkey.api.ehr.demographics.WeightsDemographicsProvider;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
@@ -34,6 +33,7 @@ import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.dataentry.dataentry.*;
+import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
@@ -45,7 +45,6 @@ import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
-import org.labkey.api.ldk.notification.NotificationService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -113,6 +112,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerDemographicsProvider(new ActiveCasesDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new CurrentPedigreeDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveAssignmentsDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new CurrentDietDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");

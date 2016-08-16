@@ -139,6 +139,10 @@ EHR.DemographicsRecord = function(data){
             return data['activeTreatments'];
         },
 
+        getCurrentDiet: function(){
+            return data['currentDiet'];
+        },
+
         getMostRecentWeightDate: function(){
             if (data['mostRecentWeightDate'])
                 return LDK.ConvertUtils.parseDate(data['mostRecentWeightDate']);

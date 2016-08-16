@@ -9,7 +9,7 @@
                 <deleteUrl />
                 <columns>
                     <column columnName="Id">
-
+                        <columnTitle>Animal Id</columnTitle>
                     </column>
                     <column columnName="date">
                         <columnTitle>Begin Date</columnTitle>
