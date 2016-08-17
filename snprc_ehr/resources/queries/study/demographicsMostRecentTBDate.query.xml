@@ -9,6 +9,8 @@
                         <isHidden>true</isHidden>
                     </column>
                     <column columnName="MostRecentTBDate">
+
+                        <formatString>MM-dd-yy</formatString>
                         <url>/query/executeQuery.view?schemaName=study&amp;
                             query.queryName=TB Tests&amp;
                             query.Id~eq=${Id}&amp;
