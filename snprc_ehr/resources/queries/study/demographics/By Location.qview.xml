@@ -39,14 +39,14 @@
                 <property name="columnTitle" value="Last TB Test"/>
             </properties>
         </column>
-        <column name="Id/idHistoryList/idHistoryList">
-            <properties>
-                <property name="columnTitle" value="Id history"/>
-            </properties>
-        </column>
         <column name="Id/activeAccounts/account">
             <properties>
                 <property name="columnTitle" value="Account"/>
+            </properties>
+        </column>
+        <column name="Id/idHistoryList/idHistoryList">
+            <properties>
+                <property name="columnTitle" value="Id history"/>
             </properties>
         </column>
         <column name="history"/>
