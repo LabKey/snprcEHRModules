@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="diet" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="dietHistory" tableDbType="NOT_IN_DB" useColumnOrder="true">
                 <insertUrl />
                 <importUrl />
                 <updateUrl />
@@ -12,10 +12,11 @@
                     </column>
                     <column columnName="date">
                         <columnTitle>Start Date</columnTitle>
+                        <formatString>MM-dd-yy</formatString>
                     </column>
                     <column columnName="enddate">
                         <columnTitle>End Date</columnTitle>
-                        <isHidden>false</isHidden>
+                        <formatString>MM-dd-yy</formatString>
                     </column>
                     <column columnName="code">
                         <nullable>false</nullable>
@@ -25,6 +26,9 @@
                             <fkTable>snomed</fkTable>
                             <fkColumnName>code</fkColumnName>
                         </fk>
+                    </column>
+                    <column columnName="duration">
+                        <columnTitle>Duration</columnTitle>
                     </column>
                 </columns>
             </table>

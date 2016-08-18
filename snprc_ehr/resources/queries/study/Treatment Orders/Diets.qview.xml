@@ -1,8 +1,0 @@
-<customView xmlns="http://labkey.org/data/xml/queryCustomView">
-    <filters>
-        <filter column="category" operator="eq" value="Diet"/>
-    </filters>
-    <sorts>
-        <sort column="Date" descending="true" />
-    </sorts>
-</customView>

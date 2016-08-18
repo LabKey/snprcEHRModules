@@ -25,7 +25,7 @@ clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	
 behaviorRemarks	Behavior	js	Behavior Remarks	true		study	underDevelopment	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
 drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
 treatments	Clinical	query	Therapies	true		study	Treatment Orders	Therapies		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
-diets	General	query	Diet History	true		study	diet	DietHistory		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
+diets	General	query	Diet History	true		study	dietHistory	DietHistory		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
 clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 clinicalHistory2	General	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
