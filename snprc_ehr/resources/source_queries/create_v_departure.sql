@@ -41,6 +41,7 @@ SELECT
 	m.id AS id, 
 	ad.disp_date_tm AS date, 
 	vdc.description AS description,
+	ad.disp_code as dispositionType,
 	ad.user_name AS user_name,
 	ad.entry_date_tm AS entry_date_tm,
 	ad.object_id AS objectid,

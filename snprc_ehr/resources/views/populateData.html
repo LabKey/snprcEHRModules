@@ -135,6 +135,12 @@ Ext4.onReady(function(){
             queryName: 'acquisitionType',
             pk: 'rowid'
         },{
+            label: 'Disposition Type',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'dispositionType',
+            pk: 'rowid'
+        },{
             label: 'Misc Tests',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

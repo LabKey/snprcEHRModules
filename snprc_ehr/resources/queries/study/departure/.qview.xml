@@ -2,6 +2,7 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
+        <column name="dispositionType" />
     </columns>
     <sorts>
         <sort column="Date" descending="true" />

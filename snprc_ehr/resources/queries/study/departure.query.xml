@@ -1,0 +1,29 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="departure" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Id">
+                        <columnTitle>Animal Id</columnTitle>
+                    </column>
+                    <column columnName="date">
+                        <columnTitle>Departure Date</columnTitle>
+                    </column>
+                    <column columnName="dispositionType">
+                        <columnTitle>Disposition Type</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>DispositionType</fkTable>
+                            <fkDisplayColumn>description</fkDisplayColumn>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

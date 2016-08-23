@@ -5,6 +5,7 @@ housingDefinition	Housing Definition
 housingTypes	Housing Types	
 DeliveryMode	Delivery Types	
 AcquisitionType	Acquisition Types	Value	Description
+DispositionType	Disposition Types	Value	Description
 MatingType	Mating Types	
 pairingEventType	Pairing Event Types	value
 tb_method	TB Test Methods	value
