@@ -23,7 +23,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.labkey.api.reader.TabLoader;
 import org.labkey.api.util.GUID;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
@@ -284,20 +283,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         TruncateTableCommand command = new TruncateTableCommand("ehr", "animal_groups");
         command.execute(connection, getProjectName());
-    }
-
-    private List<Map<String, Object>> loadTsv(File tsv)
-    {
-        try
-        {
-            TabLoader loader = new TabLoader(tsv, true);
-            loader.setInferTypes(false);
-            return loader.load();
-        }
-        catch (IOException fail)
-        {
-            throw new RuntimeException(fail);
-        }
     }
 
     @Override
