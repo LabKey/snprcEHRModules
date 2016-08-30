@@ -3,6 +3,22 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="encounters" tableDbType="NOT_IN_DB">
                 <tableTitle>Animal Events</tableTitle>
+                <columns>
+                    <column columnName="encounterId">
+                        <columnTitle>animalEventId</columnTitle>
+                        <hidden>true</hidden>
+                    </column>
+                    <column columnName="date">
+                        <columnTitle>Proc Date</columnTitle>
+                    </column>
+                    <column columnName="remark">
+                        <columnTitle>Procedure Text</columnTitle>
+                        <hidden>true</hidden>
+                    </column>
+                    <column columnName="project">
+                        <columnTitle>Charge Id</columnTitle>
+                    </column>
+                </columns>
             </table>
         </tables>
     </metadata>

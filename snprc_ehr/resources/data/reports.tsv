@@ -1,4 +1,5 @@
 reportname	category	reporttype	reporttitle	visible	containerpath	schemaname	queryname	viewname	report	datefieldname	todayonly	queryhaslocation	sort_order	QCStateLabelFieldName	description
+acqAndDisp	General	query	Acq & Disp	true		study	arrival			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 animalAccounts	Assignments and Groups	query	Account Assignments	true		study	animalAccounts			date	false	false			This report contains the charge account assignments
@@ -14,7 +15,7 @@ surveillance	Lab Results	js	Surveillance	true		study	surveillance			date	false	f
 urinalysis	Lab Results	js	Urinalysis	true		study	underDevelopment			date	false	false			Contains urinalysis results
 miscTests	Lab Results	js	Misc Tests	true		study	underDevelopment			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
 surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
-Animal events	Clinical	query	Animal Events	true		study	encounters	encounters		date	false	false		qcstate/publicdata
+Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata
 Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata
 procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata
 proceduresBeforeDisposition	Clinical	js	"Procedures Before Disposition"	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata
