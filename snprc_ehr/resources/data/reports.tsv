@@ -1,5 +1,5 @@
 reportname	category	reporttype	reporttitle	visible	containerpath	schemaname	queryname	viewname	report	datefieldname	todayonly	queryhaslocation	sort_order	QCStateLabelFieldName	description
-acqAndDisp	General	query	Acq & Disp	true		study	arrival			date	false	false		qcstate/publicdata	Displays arrival and departure dates
+acqAndDisp	General	query	Acq & Disp	true		study	acq_dispHistory			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 animalAccounts	Assignments and Groups	query	Account Assignments	true		study	animalAccounts			date	false	false			This report contains the charge account assignments

@@ -1,0 +1,12 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="acq_date"/>
+        <column name="acq_code"/>
+        <column name="disp_date" />
+        <column name="disp_code"/>
+    </columns>
+    <sorts>
+        <sort column="acq_date" descending="true" />
+    </sorts>
+</customView>
