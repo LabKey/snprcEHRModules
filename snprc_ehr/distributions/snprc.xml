@@ -24,6 +24,7 @@
                 <include name="SequenceAnalysis.module" />
                 <include name="jbrowse.module" />
                 <include name="GenotypeAssays.module" />
+                <include name="snprc_r24.module" />
             </fileset>
         </copy>
     </target>
