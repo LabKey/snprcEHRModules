@@ -196,7 +196,7 @@ public abstract class AbstractSSRSNotification implements Notification
         {
             // Ideally we'd kill the session right here. However, if SSRS is handling the request
             // asynchronously we might need to block, sleep, etc so it's not terminated too early
-            SecurityManager.endTransformSession(sessionId);
+            //SecurityManager.endTransformSession(sessionId);
         }
     }
 
