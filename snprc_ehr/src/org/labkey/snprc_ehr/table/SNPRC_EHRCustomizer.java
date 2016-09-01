@@ -126,6 +126,12 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 species.setFk(new QueryForeignKey(us, null, "species", null, null));
             }
         }
+
+        ColumnInfo project = ti.getColumn("project");
+        if (project != null)
+        {
+            project.setLabel("Charge Id");
+        }
     }
 
     public UserSchema getEHRUserSchema(AbstractTableInfo ds, String name)
