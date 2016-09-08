@@ -471,7 +471,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         participantViewPage.clickCategoryTab("Clinical");
         participantViewPage.clickReportTab("Animal Events");
         List<String> remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Procedure Text");
-        assertEquals("Should be 4 events for " + deadAnimalId + ". Check SNPRC reference study dataset1067.tsv", Arrays.asList("necropsy -4days", "necropsy -3days", "necropsy -0days", "necropsy +1days"), remarkColumn);
+        assertEquals("Should be 4 events for " + deadAnimalId + ". Check SNPRC reference study dataset1067.tsv", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days", "necropsy -4days"), remarkColumn);
 
         participantViewPage.clickReportTab("Procedures Before Disposition");
         remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Procedure Text");
