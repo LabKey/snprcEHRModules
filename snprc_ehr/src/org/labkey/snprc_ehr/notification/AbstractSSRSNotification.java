@@ -208,8 +208,8 @@ public abstract class AbstractSSRSNotification implements Notification
     }
 
     @Override
-    public String getEmailSubject()
+    public String getEmailSubject(Container c)
     {
-        return _subject + " " + DateUtil.formatDate(new Date());
+        return _subject + " " + DateUtil.formatDate(c);
     }
 }
