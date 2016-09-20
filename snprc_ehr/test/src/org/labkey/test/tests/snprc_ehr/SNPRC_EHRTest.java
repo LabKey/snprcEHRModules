@@ -301,7 +301,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         goToProjectHome();
         waitForElement(Locator.linkWithText("Animal Search"));
-        waitForElement(Locator.linkWithText("Browse All Datasets"));
+        waitForElement(Locator.linkWithText("Browse All"));
     }
 
     @Test
@@ -561,8 +561,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testBaboonCensus() throws Exception
     {
-        clickAndWait(Locator.linkWithText("Colony Overview"));
-        ColonyOverviewPage overviewPage = new ColonyOverviewPage(getDriver());
+        ColonyOverviewPage overviewPage = ColonyOverviewPage.beginAt(this, getProjectName());
         ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
         String[] censusColumns = {"Investigator", "Protocol", "M", "F", "baboon1", "baboon2", "baboon3", "Total"};
         List<List<String>> rows = baboonColonyTab.getAssignedFundedDataRegion().getRows(censusColumns);
