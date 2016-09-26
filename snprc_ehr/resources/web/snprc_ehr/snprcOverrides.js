@@ -140,30 +140,18 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             var rows = [];
             Ext4.each(results, function(row){
                 var newRow = {
-                    admit_id: row['caseid'],
-                    admit_date: row['date'],
-                    admit_type: row['category'],
-                    pdx: row['problem'],
-                    admit_complaint: row['admitcomplaint'],
-                    assigned_vet: row['assignedvet/DisplayName']
+                   admit_date: row['date'],
+                   admit_complaint: row['admitcomplaint'],
                 };
                 rows.push(newRow);
             }, this);
 
             Ext4.each(rows, function(r){
                 var d = LDK.ConvertUtils.parseDate(r.admit_date,'m-d-Y');
-                text.push(
-                    '<tr><td nowrap>' +
-                    // r.admit_id + ':' + '</td><td style="padding-left: 5px;" nowrap>' +
-                    d.format('m-d-Y')  + '</td><td style="padding-left: 5px;" nowrap>' +
-                     //   r.admit_type + '</td><td style="padding-left: 5px;" nowrap>' +
-                     //   r.pdx + '</td><td style="padding-left: 5px;" nowrap>' +
-                        r.admit_complaint + '</td><td style="padding-left: 5px;" nowrap>' +
-                     //   r.assigned_vet + '</td><td style="padding-left: 5px;" nowrap>' +
-                        '</td></tr>');
+                text.push(d.format('m-d-Y') + ' ' + r.admit_complaint);
             }, this);        }
 
-        toSet['activeCases'] = text.length ? '<table>' + text.join('') + '</table>' : 'None';
+        toSet['activeCases'] = text.length ? text.join(',<br>') : 'None';
     },
 
     appendCurrentPedigreeResults: function(toSet, results){
