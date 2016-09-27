@@ -10,13 +10,14 @@
                     <column columnName="date">
                         <formatString>MM-dd-yy</formatString>
                     </column>
-
                     <column columnName="location">
-                        <fk>
+                        <displayWidth>40</displayWidth>
+                        <!--<fk>
                           <fkDbSchema>ehr_lookups</fkDbSchema>
                           <fkTable>cage</fkTable>
                           <fkColumnName>location</fkColumnName>
                         </fk>
+                        -->
                     </column>
                     <column columnName="room">
                         <displayWidth>40</displayWidth>
