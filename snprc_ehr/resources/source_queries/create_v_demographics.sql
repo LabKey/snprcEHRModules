@@ -23,6 +23,9 @@ ALTER view Labkey_etl.v_demographics AS (
 -- Changes:
 -- 12/11/2015 changed species source from common_name to three character species code. tjh
 -- 5/24/2016  Added rearing column. tjh
+-- 9/6/2016   Removed join with arc_valid_species_codes
+--            Animals that were never members of our colony do not have a current_data record, so 
+--            the join with this table was changed from inner to left. tjh 
 --
 -- ==========================================================================================
 
@@ -34,7 +37,6 @@ select m.object_id as objectid,
 	m.dam_id AS dam_id,
 	m.sire_id AS sire_id,
 	m.sex AS gender, 
-	--lower(avs.common_name) as species,
 	m.species as species,
 	m.entry_date_tm AS entry_date_tm,
 	CASE WHEN cd.at_sfbr = 'Y' THEN 'Alive' WHEN (cd.at_sfbr = 'N' AND m.death_date IS NULL) THEN 'Other' ELSE 'Dead' END AS status,
@@ -44,11 +46,9 @@ select m.object_id as objectid,
 
 from master m 
 INNER JOIN valid_species vs on m.species = vs.species_code
-INNER JOIN arc_valid_species_codes avs on vs.arc_species_code = avs.arc_species_code
-INNER JOIN current_data AS cd ON m.id = cd.id
-INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
+LEFT OUTER JOIN current_data AS cd ON m.id = cd.id
 LEFT OUTER JOIN dbo.rearing AS r ON m.id = r.id
-WHERE avsc.arc_species_code <> 'MD'
+WHERE vs.arc_species_code <> 'MD'
 )
 
 GO
