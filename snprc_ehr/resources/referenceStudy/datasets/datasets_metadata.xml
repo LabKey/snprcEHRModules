@@ -27,6 +27,11 @@
                 <propertyURI>urn:ehr.labkey.org/#Remark</propertyURI>
             </column>
         </columns>
+        <indices>
+            <index type="non-unique">
+                <column>taskid</column>
+            </index>
+        </indices>
     </sharedConfig>
     <table tableName="animalOwnership" tableDbType="TABLE" useColumnOrder="true">
         <columns>
