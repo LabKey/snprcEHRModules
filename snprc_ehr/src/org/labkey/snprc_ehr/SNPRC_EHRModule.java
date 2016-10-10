@@ -166,8 +166,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MensFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AssignmentFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupAssignmentFormType.class, this));
-//        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
-//        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DepartureFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));
