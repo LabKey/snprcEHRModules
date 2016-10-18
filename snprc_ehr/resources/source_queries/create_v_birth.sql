@@ -41,23 +41,32 @@ ALTER VIEW [labkey_etl].[V_BIRTH] AS
 SELECT 
 	m.id AS id, 
 	m.birth_date AS date, 
-	m.bd_status AS date_type,
+	m.bd_status AS bd_status,
+	ad.acq_code AS birth_code,
 	m.dam_id AS dam,
 	m.sire_id AS sire,
 	m.sex AS gender,
 	m.species,
-	m.entry_date_tm AS entry_date_tm,
-	m.user_name AS user_name,
+	m.entry_date_tm AS modified,
+	COALESCE((SELECT MIN(am.entry_date_tm) 
+									FROM audit.audit_master AS am
+									WHERE m.id = am.id), m.entry_date_tm) AS created,
+	m.user_name AS username,
+	
 	m.object_id AS objectid,
 	m.timestamp as timestamp
 FROM master m
+INNER JOIN dbo.acq_disp AS ad ON ad.id = m.id
+INNER JOIN dbo.valid_acq_codes AS vac ON vac.acq_code = ad.acq_code AND vac.birth_code = 'Y'
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = m.id
+
 WHERE m.birth_date IS NOT null
 
 GO
 
 GRANT SELECT ON Labkey_etl.v_birth TO z_labkey 
+GRANT SELECT ON audit.audit_master TO z_labkey
 
 GO
 

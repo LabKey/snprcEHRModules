@@ -2,10 +2,14 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="date_type"/>
-        <column name="date_type/Description">
+        <column name="bd_status/Description">
+        <properties>
+            <property name="columnTitle" value="Birth Date Status"/>
+        </properties>
+    </column>
+        <column name="birth_code/Description">
             <properties>
-                <property name="columnTitle" value="Date Type Description"/>
+                <property name="columnTitle" value="Birth Type"/>
             </properties>
         </column>
         <column name="history"/>

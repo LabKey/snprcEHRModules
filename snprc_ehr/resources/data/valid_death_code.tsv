@@ -1,0 +1,33 @@
+value	description	created
+1	Natural death (other than research)	1960-01-01 00:00:00.000
+2	Sacrifice for research reasons	1960-01-01 00:00:00.000
+3	Research related death	1960-01-01 00:00:00.000
+11	Sacrifice for humane/management reasons (Euthanasia)	1960-01-01 00:00:00.000
+12	Stillbirth	1978-08-01 00:00:00.000
+13	Abortion	1978-08-01 00:00:00.000
+15	Died while on treatment	1999-05-27 00:00:00.000
+17	Research related death (outside TBRI)	2006-01-01 00:00:00.000
+18	Surgical Removal of dead fetus	2007-05-25 09:59:18.567
+19	Euthanized for humane reasons	2009-08-26 00:00:00.000
+20	Euthanized for management reasons	2009-08-26 00:00:00.000
+61	AC   -Accidental death	1978-01-01 00:00:00.000
+62	DE   -Dead	1978-01-01 00:00:00.000
+63	EX   -Experimental related death	1978-01-01 00:00:00.000
+68	ACTR -Accidental death due to trauma	1978-01-01 00:00:00.000
+69	ACWL -Accidental death (water bottle leaked)	1978-01-01 00:00:00.000
+70	ACWM -Accidental death (no water bottle)	1978-01-01 00:00:00.000
+71	ES   -Escaped	1978-01-01 00:00:00.000
+72	EXBA -Experimental death due to blood collection/anesthesia	1978-01-01 00:00:00.000
+73	EXEP -Experimental death due to experimental endpoint (tissue collection or necropsy)	1978-01-01 00:00:00.000
+74	EXSA -Experimental death due to surgery/anesthesia	1978-01-01 00:00:00.000
+75	EXSH -Experimental death due to shaving/anesthesia	1978-01-01 00:00:00.000
+76	IC   -Inflamed Cloaca	1978-01-01 00:00:00.000
+77	KI   -Killed by mate or siblings	1978-01-01 00:00:00.000
+78	MI   -Missing animal (no book, no animal)	1978-01-01 00:00:00.000
+79	MO   -Moribund (near death, very ill, euthanized)	1978-01-01 00:00:00.000
+80	PR   -Prolapse	1978-01-01 00:00:00.000
+81	SA   -Sacrificed (cull list)	1978-01-01 00:00:00.000
+83	SP   -Spontaneous death	1978-01-01 00:00:00.000
+84	SC   -Surgical Complications	1978-01-01 00:00:00.000
+85	SD   -Spontaneous death, diet related	1978-01-01 00:00:00.000
+86	PP   -Prolapsed Placenta	1978-01-01 00:00:00.000

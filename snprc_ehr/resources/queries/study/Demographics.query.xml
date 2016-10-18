@@ -44,7 +44,7 @@
                     <column columnName="birth">
                         <formatString>MM-dd-yy</formatString>
                         <!--<shownInInsertView>false</shownInInsertView>-->
-                        <columnTitle>Birth</columnTitle>
+                        <columnTitle>Date of Birth</columnTitle>
                         <url>/query/executeQuery.view?
                             schemaName=study&amp;
                             query.queryName=Birth&amp;
@@ -54,7 +54,7 @@
                     <column columnName="death">
                         <formatString>MM-dd-yy</formatString>
                         <!--<shownInInsertView>false</shownInInsertView>-->
-                        <columnTitle>Death</columnTitle>
+                        <columnTitle>Date of Death</columnTitle>
                         <url>/query/executeQuery.view?
                             schemaName=study&amp;
                             query.queryName=Deaths&amp;

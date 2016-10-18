@@ -27,6 +27,24 @@ Ext4.onReady(function(){
 
     var tables = [
         {
+            label: 'Valid birth date status',
+            populateFn: 'populateFromFile',
+            schemaName: 'snprc_ehr',
+            queryName: 'valid_bd_status',
+            pk: 'value'
+        },{
+            label: 'Valid death codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'snprc_ehr',
+            queryName: 'valid_death_code',
+            pk: 'value'
+        },{
+            label: 'Valid birth codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'snprc_ehr',
+            queryName: 'valid_birth_code',
+            pk: 'value'
+        },{
             label: 'Rearing Types',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

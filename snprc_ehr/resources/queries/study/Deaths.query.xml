@@ -1,0 +1,44 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="Deaths" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Id"/>
+                    <column columnName="date">
+                        <columnTitle>Date of Death</columnTitle>
+                        <formatString>MM-dd-YY</formatString>
+                    </column>
+                    <column columnName="cause">
+                        <columnTitle>Type of Death</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>valid_death_code</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="necropsy">
+                        <columnTitle>Necropsy Case No</columnTitle>
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=Necropsies&amp;
+                            query.caseno~eq=${necropsy}&amp;
+                        </url>
+                    </column>
+                    <column columnName="objectid">
+                        <columnTitle>Key</columnTitle>
+                        <shownInInsertView>false</shownInInsertView>
+                        <shownInUpdateView>false</shownInUpdateView>
+                        <shownInDetailsView>false</shownInDetailsView>
+                        <isHidden>true</isHidden>
+                        <!--<isKeyField>true</isKeyField>-->
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

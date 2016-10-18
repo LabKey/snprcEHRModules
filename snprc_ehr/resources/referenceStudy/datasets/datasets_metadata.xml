@@ -465,38 +465,17 @@
                 <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
             </column>
-            <column columnName="gender">
+            <column columnName="dam">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="species">
+            <column columnName="sire">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="geographic_origin">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="room">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="cage">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="date_type">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="birth_condition">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="teeth">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="conception">
-                <datatype>timestamp</datatype>
-            </column>
-            <column columnName="conceptualDay">
+            <column columnName="bd_status">
                 <datatype>integer</datatype>
             </column>
-            <column columnName="type">
-                <datatype>varchar</datatype>
+            <column columnName="birth_code">
+                <datatype>integer</datatype>
             </column>
             <column columnName="objectid">
                 <datatype>varchar</datatype>
@@ -1680,7 +1659,7 @@
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
             </column>
             <column columnName="cause">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="necropsy">
                 <datatype>varchar</datatype>
@@ -1689,28 +1668,9 @@
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
             </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
-            </column>
-            <column columnName="roomattime">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="cageattime">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="manner">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="dam">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="notAtCenter">
-                <datatype>boolean</datatype>
             </column>
         </columns>
         <tableTitle>Deaths</tableTitle>

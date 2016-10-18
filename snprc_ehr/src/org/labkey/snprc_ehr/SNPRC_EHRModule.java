@@ -45,6 +45,8 @@ import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.BirthDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -63,7 +65,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public double getVersion()
     {
-        return 15.39;
+        return 15.40;
     }
 
     @Override
@@ -113,6 +115,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerDemographicsProvider(new CurrentPedigreeDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveAssignmentsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new CurrentDietDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new BirthDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new DeathsDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");

@@ -491,5 +491,71 @@
    <column columnName="ModifiedBy"/>
   </columns>
  </table>
+ <table tableName="valid_bd_status" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Valid birth date status</tableTitle>
+  <pkColumnName>value</pkColumnName>
+  <columns>
+   <column columnName="value">
+    <isKeyField>true</isKeyField>
+   </column>
+   <column columnName="description">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="objectid">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="Created"/>
+   <column columnName="CreatedBy"/>
+   <column columnName="Modified"/>
+   <column columnName="ModifiedBy"/>
+  </columns>
+ </table>
+ <table tableName="valid_birth_code" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Valid birth code</tableTitle>
+  <pkColumnName>value</pkColumnName>
+  <columns>
+   <column columnName="value">
+    <isKeyField>true</isKeyField>
+   </column>
+   <column columnName="description">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="objectid">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="Created"/>
+   <column columnName="CreatedBy"/>
+   <column columnName="Modified"/>
+   <column columnName="ModifiedBy"/>
+  </columns>
+ </table>
+ <table tableName="valid_death_code" tableDbType="TABLE" useColumnOrder="true">
+  <tableTitle>Valid death codes</tableTitle>
+  <pkColumnName>value</pkColumnName>
+  <columns>
+   <column columnName="value">
+    <isKeyField>true</isKeyField>
+   </column>
+   <column columnName="description">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="container">
+    <nullable>false</nullable>
+   </column>
+   <column columnName="objectid">
+    <nullable>true</nullable>
+   </column>
+   <column columnName="Created"/>
+   <column columnName="CreatedBy"/>
+   <column columnName="Modified"/>
+   <column columnName="ModifiedBy"/>
+  </columns>
+ </table>
 </tables>
 

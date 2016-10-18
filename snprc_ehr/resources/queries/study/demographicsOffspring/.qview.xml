@@ -1,20 +1,42 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
-        <column name="Id"/>
-        <column name="gender"/>
-        <column name="Relationship"/>
+        <column name="id"/>
         <column name="Offspring"/>
-        <column name="Offspring/demographics/gender"/>
-        <column name="Offspring/demographics/calculated_status"/>
-        <column name="Offspring/demographics/birth"/>
-        <column name="Offspring/dataset/birth/type"/>
-        <column name="Offspring/dataset/birth/cond"/>
+
+        <column name="Offspring/demographics/gender">
+            <properties>
+                <property name="columnTitle" value="Sex"/>
+            </properties>
+        </column>
+        <column name="Offspring/demographics/birth">
+            <properties>
+                <property name="columnTitle" value="Birth Date"/>
+            </properties>
+        </column>
+        <column name="Offspring/birth/birth_code">
+        <!-- <column name="birth_code"> -->
+            <properties>
+                <property name="columnTitle" value="Birth Type"/>
+            </properties>
+        </column>
+        <column name="Offspring/death/date">
+            <properties>
+                <property name="columnTitle" value="Date of Death"/>
+            </properties>
+        </column>
+        <column name="Offspring/death/cause">
+        <!-- <column name="cause"> -->
+            <properties>
+                <property name="columnTitle" value="Death Type"/>
+            </properties>
+        </column>
+
         <column name="Offspring/parents/sire"/>
-        <column name="Offspring/parents/sireType"/>
+
         <column name="Offspring/parents/dam"/>
-        <column name="Offspring/parents/damType"/>
+
     </columns>
     <sorts>
-        <sort column="Id" />
+        <sort column="Birth" descending="true" />
     </sorts>
 </customView>

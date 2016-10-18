@@ -6,16 +6,19 @@
 SELECT
 
 d.id,
-d.gender,
-'Offspring' as Relationship,
-
 d2.id  AS Offspring,
 d2.birth,
-
+--d2.id.birth.birth_code.description + ' (' + cast(d2.id.birth.birth_code as varchar(2)) +')' as birth_code,
+--d2.id.death.cause.description + ' (' + cast(d2.id.death.cause as varchar(2)) + ')' as cause,
 d.qcstate
 
 FROM study.Demographics d
 
 INNER JOIN study.Demographics d2
-  ON ((d2.id.parents.sire = d.id OR d2.id.parents.dam = d.id) AND d.id != d2.id)
+  ON ((d2.sire = d.id OR d2.dam = d.id) AND d.id != d2.id)
 
+
+group by d.id, d2.id, d2.birth,
+--d2.id.birth.birth_code.description + ' (' + cast(d2.id.birth.birth_code as varchar(2)) +')',
+--d2.id.death.cause.description + ' (' + cast(d2.id.death.cause as varchar(2)) + ')',
+ d.qcstate

@@ -192,7 +192,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             return;
         }
-
+        if (ds.getColumn("flags") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "attributes", "flags", "Id", "Id");
+            col.setLabel("Attributes");
+            col.setDescription("Animal Attributes");
+            col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&queryName=flag_values&query.Id~eq=${Id}", ds.getContainerContext()));
+            ds.addColumn(col);
+        }
         if (ds.getColumn("parents") == null)
         {
             ColumnInfo col = getWrappedCol(us, ds, "parents", "demographicsParents", "Id", "Id");

@@ -42,7 +42,10 @@ SELECT
 	m.dd_status AS date_type,
 	vdc.description AS cause,
 	m.object_id AS objectid,
-	m.entry_date_tm AS entry_date_tm,
+	COALESCE((SELECT MIN(am.entry_date_tm) 
+									FROM audit.audit_master AS am
+									WHERE m.id = am.id), m.entry_date_tm) AS created,
+	m.entry_date_tm AS modified,
 	m.user_name AS user_name,
 	m.timestamp AS timestamp
 FROM master m
@@ -54,6 +57,7 @@ WHERE m.death_date IS NOT null
 
 GO
 
-GRANT SELECT ON Labkey_etl.v_deaths TO z_labkey 
+GRANT SELECT ON Labkey_etl.v_deaths TO z_labkey
+GRANT SELECT ON audit.audit_master TO z_labkey
 GO
 
