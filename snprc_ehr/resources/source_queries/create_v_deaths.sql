@@ -40,7 +40,7 @@ SELECT
 	m.id AS id, 
 	m.death_date AS date, 
 	m.dd_status AS date_type,
-	vdc.description AS cause,
+	m.death_code AS cause,
 	m.object_id AS objectid,
 	COALESCE((SELECT MIN(am.entry_date_tm) 
 									FROM audit.audit_master AS am
@@ -49,7 +49,6 @@ SELECT
 	m.user_name AS user_name,
 	m.timestamp AS timestamp
 FROM master m
-INNER JOIN valid_disp_codes AS vdc ON m.death_code = vdc.disp_code
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = m.id
 
