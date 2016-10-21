@@ -9,11 +9,16 @@
         Ext4.create('EHR.panel.AnimalHistoryPanel', {
             defaultReport: ctx.DefaultAnimalHistoryReport,
             defaultTab: 'General',
-            maxSubjectsToShow: 40,
             filterTypes: [{
                 xtype: 'ldk-singlesubjectfiltertype',
                 inputValue: LDK.panel.SingleSubjectFilterType.filterName,
-                label: 'Single Animal'
+                label: 'Single Animal',
+                aliasTable: {
+                    schemaName: 'study',
+                    queryName: 'validIdAndAlias',
+                    idColumn: 'Id',
+                    aliasColumn: 'alias'
+                }
             },{
                 xtype: 'ehr-multianimalfiltertype',
                 inputValue: EHR.panel.MultiAnimalFilterType.filterName,
@@ -23,6 +28,13 @@
                     cage: false,
                     project: false,
                     protocol: true
+                },
+                aliasTable: {
+                    schemaName: 'study',
+                    queryName: 'validIdAndAlias',
+                    colName: 'value',
+                    idColumn: 'Id',
+                    aliasColumn: 'alias'
                 }
             },{
                 xtype: 'ehr-locationfiltertype',
