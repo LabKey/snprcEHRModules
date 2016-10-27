@@ -400,14 +400,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         saveLocation();
         waitForElement(Locator.inputByNameContaining("textfield"));
         setFormElement(Locator.inputByNameContaining("textfield"), "12345");
-        click(Locator.tagWithText("span", "Refresh"));
+        click(Locator.tagWithText("span", "Update Report"));
         waitForText("Overview: 12345");
         waitForTextToDisappear("Loading...");
         //spot check a few of the data points
         assertTextPresent("2043365 / A1", "There are no active medications", "Rhesus");
         recallLocation();
         click(Locator.xpath("//label[.='Entire Database']/../input"));
-        click(Locator.tagWithText("span", "Refresh"));
+        click(Locator.tagWithText("span", "Update Report"));
         //check count and links for one subject
         DataRegionTable tbl = DataRegionTable.findDataRegionWithin(this, PortalHelper.Locators.webPart("Overview").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT));
         assertEquals(tbl.getDataRowCount(), 49);
@@ -485,7 +485,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
 
         setFormElement(Locator.inputByNameContaining("textfield"), "TEST1441142");
-        click(Locator.tagWithText("span", "Refresh"));
+        click(Locator.tagWithText("span", "Update Report"));
         _helper.verifyAllReportTabs(animalHistoryPage);
     }
 
