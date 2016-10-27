@@ -28,6 +28,7 @@
                             <fkColumnName>value</fkColumnName>
                             <fkDisplayColumnName>Description</fkDisplayColumnName>
                         </fk>
+                        <textAlign>left</textAlign>
                     </column>
                     <column columnName="dam">
                         <columnTitle>Dam</columnTitle>

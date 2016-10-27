@@ -16,12 +16,14 @@
                     </column>
                     <column columnName="acquisitionType">
                         <columnTitle>Acquisition Type</columnTitle>
+                        <textAlign>left</textAlign>
                     </column>
                     <column columnName="disp_date">
                         <columnTitle>Disposition Date</columnTitle>
                     </column>
                     <column columnName="dispositionType">
                         <columnTitle>Disposition Type</columnTitle>
+                        <textAlign>left</textAlign>
                     </column>
                 </columns>
             </table>
