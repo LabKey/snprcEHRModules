@@ -6,7 +6,12 @@
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
         <description>Copy to target</description>
         <source schemaName="snprcSrc" queryName="v_housing" />
-        <destination schemaName="study" queryName="housing" bulkLoad="true" targetOption="merge" />
+        <destination schemaName="study" queryName="housing" bulkLoad="true" targetOption="merge">
+            <columnTransforms>
+                <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+            </columnTransforms>
+        </destination>
     </transform>
 </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">

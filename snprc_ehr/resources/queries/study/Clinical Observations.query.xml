@@ -1,41 +1,50 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="Deaths" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="clinical_observations" tableDbType="TABLE">
                 <tableUrl />
                 <insertUrl />
                 <importUrl />
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="Id"/>
                     <column columnName="date">
-                        <columnTitle>Date of Death</columnTitle>
-                        <formatString>MM-dd-YY</formatString>
+                        <formatString>yyyy-MM-dd HH:mm</formatString>
                     </column>
-                    <column columnName="cause">
-                        <columnTitle>Type of Death</columnTitle>
+                    <column columnName="category">
+                        <columnTitle>Category</columnTitle>
+                    </column>
+                    <column columnName="area">
+                        <columnTitle>Area</columnTitle>
                         <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>valid_death_code</fkTable>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>observation_areas</fkTable>
                             <fkColumnName>value</fkColumnName>
-                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                            <fkDisplayColumnName useRawValue="true"/>
                         </fk>
                     </column>
-                    <column columnName="necropsy">
-                        <columnTitle>Necropsy Case No</columnTitle>
-                        <url>/query/executeQuery.view?schemaName=study&amp;
-                            query.queryName=Necropsies&amp;
-                            query.caseno~eq=${necropsy}&amp;
-                        </url>
+                    <column columnName="observation">
+                        <columnTitle>Observation/Score</columnTitle>
                     </column>
-                    <column columnName="objectid">
-                        <columnTitle>Key</columnTitle>
-                        <shownInInsertView>false</shownInInsertView>
-                        <shownInUpdateView>false</shownInUpdateView>
-                        <shownInDetailsView>false</shownInDetailsView>
+                    <column columnName="parentid">
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>encountersParent</fkTable>
+                            <fkColumnName>objectid</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="description">
                         <isHidden>true</isHidden>
-                        <!--<isKeyField>true</isKeyField>-->
+                    </column>
+                    <column columnName="project">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="account">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="code">
+                        <columnTitle>Code</columnTitle>
+                        <isHidden>true</isHidden>
                     </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>

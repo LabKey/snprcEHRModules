@@ -7,10 +7,10 @@
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_arc_animal_assignments" />
             <destination schemaName="study" queryName="assignment" bulkLoad="true" batchSize="500" targetOption="merge">
-                <!--<columnTransforms>-->
-                    <!--<column source="start_date" target="date"/>-->
-                    <!--<column source="status" target="animal_status"/>-->
-                <!--</columnTransforms>-->
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
             </destination>
         </transform>
     </transforms>

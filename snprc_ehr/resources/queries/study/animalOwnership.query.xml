@@ -1,27 +1,9 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="departure" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
+            <table tableName="animalOwnership" tableDbType="NOT_IN_DB">
+                <tableTitle>Animal Accounts</tableTitle>
                 <columns>
-                    <column columnName="Id">
-                        <columnTitle>Animal Id</columnTitle>
-                    </column>
-                    <column columnName="date">
-                        <columnTitle>Departure Date</columnTitle>
-                    </column>
-                    <column columnName="dispositionType">
-                        <columnTitle>Disposition Type</columnTitle>
-                        <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>DispositionType</fkTable>
-                            <fkDisplayColumn>description</fkDisplayColumn>
-                        </fk>
-                    </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>
                     </column>

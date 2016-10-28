@@ -10,6 +10,8 @@
                 <columnTransforms>
                     <column source="name" target="title" />
                     <column source="shortname" target="name" />
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                 </columnTransforms>
             </destination>
         </transform>

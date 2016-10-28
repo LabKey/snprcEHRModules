@@ -1,41 +1,45 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="Deaths" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="notes" tableDbType="TABLE" useColumnOrder="true">
+                <tableTitle>DCM Notes</tableTitle>
                 <tableUrl />
                 <insertUrl />
                 <importUrl />
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="Id"/>
-                    <column columnName="date">
-                        <columnTitle>Date of Death</columnTitle>
-                        <formatString>MM-dd-YY</formatString>
+                    <column columnName="Id">
+
                     </column>
-                    <column columnName="cause">
-                        <columnTitle>Type of Death</columnTitle>
+                    <column columnName="date">
+                        <formatString>yyyy-MM-dd</formatString>
+                    </column>
+                    <column columnName="actiondate">
+                        <columnTitle>Action Date</columnTitle>
+                        <formatString>yyyy-MM-dd</formatString>
+                    </column>
+                    <column columnName="enddate">
+                        <isHidden>false</isHidden>
+                        <formatString>yyyy-MM-dd</formatString>
+                    </column>
+                    <column columnName="category">
+                        <columnTitle>Category</columnTitle>
                         <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>valid_death_code</fkTable>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>notes_category</fkTable>
                             <fkColumnName>value</fkColumnName>
-                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                            <fkDisplayColumnName useRawValue="true"/>
                         </fk>
                     </column>
-                    <column columnName="necropsy">
-                        <columnTitle>Necropsy Case No</columnTitle>
-                        <url>/query/executeQuery.view?schemaName=study&amp;
-                            query.queryName=Necropsies&amp;
-                            query.caseno~eq=${necropsy}&amp;
-                        </url>
+                    <column columnName="value">
+                        <columnTitle>Note</columnTitle>
                     </column>
-                    <column columnName="objectid">
-                        <columnTitle>Key</columnTitle>
-                        <shownInInsertView>false</shownInInsertView>
-                        <shownInUpdateView>false</shownInUpdateView>
-                        <shownInDetailsView>false</shownInDetailsView>
+                    <column columnName="performedby">
+                        <columnTitle>Entered By</columnTitle>
+                    </column>
+                    <column columnName="project">
                         <isHidden>true</isHidden>
-                        <!--<isKeyField>true</isKeyField>-->
                     </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>

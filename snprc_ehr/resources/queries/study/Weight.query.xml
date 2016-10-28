@@ -1,41 +1,39 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="Deaths" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="weight" tableDbType="TABLE">
                 <tableUrl />
                 <insertUrl />
                 <importUrl />
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="Id"/>
                     <column columnName="date">
-                        <columnTitle>Date of Death</columnTitle>
-                        <formatString>MM-dd-YY</formatString>
+                        <formatString>yyyy-MM-dd HH:mm</formatString>
                     </column>
-                    <column columnName="cause">
-                        <columnTitle>Type of Death</columnTitle>
+                    <column columnName="percentChange" wrappedColumnName="lsid">
+                        <columnTitle>Percent Change</columnTitle>
+                        <isHidden>false</isHidden>
+                        <isUnselectable>true</isUnselectable>
                         <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>valid_death_code</fkTable>
-                            <fkColumnName>value</fkColumnName>
-                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>weightPctChange</fkTable>
+                            <fkColumnName>lsid</fkColumnName>
                         </fk>
                     </column>
-                    <column columnName="necropsy">
-                        <columnTitle>Necropsy Case No</columnTitle>
-                        <url>/query/executeQuery.view?schemaName=study&amp;
-                            query.queryName=Necropsies&amp;
-                            query.caseno~eq=${necropsy}&amp;
-                        </url>
+                    <column columnName="relChange" wrappedColumnName="lsid">
+                        <columnTitle>Relative Change</columnTitle>
+                        <isHidden>false</isHidden>
+                        <isUnselectable>true</isUnselectable>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>weightRelChange</fkTable>
+                            <fkColumnName>lsid</fkColumnName>
+                        </fk>
                     </column>
-                    <column columnName="objectid">
-                        <columnTitle>Key</columnTitle>
-                        <shownInInsertView>false</shownInInsertView>
-                        <shownInUpdateView>false</shownInUpdateView>
-                        <shownInDetailsView>false</shownInDetailsView>
-                        <isHidden>true</isHidden>
-                        <!--<isKeyField>true</isKeyField>-->
+                    <column columnName="weight">
+                        <columnTitle>Weight (kg)</columnTitle>
+                        <formatString>0.###</formatString>
                     </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>

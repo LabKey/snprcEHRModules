@@ -31,6 +31,28 @@
                     <column columnName="remark">
                         <columnTitle>Diagnosis</columnTitle>
                     </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

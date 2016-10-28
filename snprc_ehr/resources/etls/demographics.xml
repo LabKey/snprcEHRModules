@@ -10,6 +10,8 @@
             <columnTransforms>
                 <column source="dam_id" target="dam"/>
                 <column source="sire_id" target="sire"/>
+                <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
             </columnTransforms>
         </destination>
     </transform>

@@ -9,6 +9,8 @@
             <destination schemaName="study" queryName="Freezerworks" bulkLoad="true" batchSize="500" targetOption="merge">
                 <columnTransforms>
                     <column source="object_id" target="objectid"/>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                 </columnTransforms>
             </destination>
         </transform>

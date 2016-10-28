@@ -26,6 +26,18 @@
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Remark</propertyURI>
             </column>
+            <column columnName="diCreated">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="diCreatedBy">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="diModified">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="diModifiedBy">
+                <datatype>integer</datatype>
+            </column>
         </columns>
         <indices>
             <index type="non-unique">
