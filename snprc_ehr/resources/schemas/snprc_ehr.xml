@@ -40,6 +40,18 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="package_category" tableDbType="TABLE" useColumnOrder="true">
@@ -62,6 +74,18 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
@@ -96,6 +120,18 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="species" tableDbType="TABLE" useColumnOrder="true">
@@ -157,6 +193,18 @@
    </column>
    <column columnName="objectid" />
    <column columnName="tid" />
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="clinical_observation_datasets" tableDbType="TABLE" useColumnOrder="true">
@@ -245,6 +293,18 @@
   <nullable>false</nullable>
   <isHidden>true</isHidden>
  </column>
+ <column columnName="diCreated">
+  <isHidden>true</isHidden>
+ </column>
+ <column columnName="diCreatedBy">
+  <isHidden>true</isHidden>
+ </column>
+ <column columnName="diModified">
+  <isHidden>true</isHidden>
+ </column>
+ <column columnName="diModifiedBy">
+  <isHidden>true</isHidden>
+ </column>
 </columns>
 </table>
  <table tableName="lab_tests" tableDbType="TABLE" useColumnOrder="true" hidden="false">
@@ -316,6 +376,18 @@
    </column>
    <column columnName="container">
     <nullable>false</nullable>
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -405,6 +477,18 @@
     <nullable>false</nullable>
     <isHidden>true</isHidden>
    </column>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="validInstitutions" tableDbType="TABLE" useColumnOrder="true">
@@ -461,6 +545,18 @@
     <nullable>false</nullable>
     <isHidden>true</isHidden>
    </column>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="validVets" tableDbType="TABLE" useColumnOrder="true">
@@ -489,6 +585,18 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreated">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diCreatedBy">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModified">
+    <isHidden>true</isHidden>
+   </column>
+   <column columnName="diModifiedBy">
+    <isHidden>true</isHidden>
+   </column>
   </columns>
  </table>
  <table tableName="valid_bd_status" tableDbType="TABLE" useColumnOrder="true">
