@@ -40,16 +40,34 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -74,16 +92,34 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -120,16 +156,34 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -193,16 +247,34 @@
    </column>
    <column columnName="objectid" />
    <column columnName="tid" />
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -293,16 +365,34 @@
   <nullable>false</nullable>
   <isHidden>true</isHidden>
  </column>
+ <column columnName="diCreatedby">
+  <isUserEditable>false</isUserEditable>
+  <nullable>true</nullable>
+  <isHidden>true</isHidden>
+  <fk>
+   <fkDbSchema>core</fkDbSchema>
+   <fkTable>Users</fkTable>
+   <fkColumnName>UserId</fkColumnName>
+  </fk>
+ </column>
  <column columnName="diCreated">
+  <isUserEditable>false</isUserEditable>
+  <nullable>true</nullable>
   <isHidden>true</isHidden>
  </column>
- <column columnName="diCreatedBy">
+ <column columnName="diModifiedby">
+  <isUserEditable>false</isUserEditable>
+  <nullable>true</nullable>
   <isHidden>true</isHidden>
+  <fk>
+   <fkDbSchema>core</fkDbSchema>
+   <fkTable>Users</fkTable>
+   <fkColumnName>UserId</fkColumnName>
+  </fk>
  </column>
  <column columnName="diModified">
-  <isHidden>true</isHidden>
- </column>
- <column columnName="diModifiedBy">
+  <isUserEditable>false</isUserEditable>
+  <nullable>true</nullable>
   <isHidden>true</isHidden>
  </column>
 </columns>
@@ -378,16 +468,34 @@
     <nullable>false</nullable>
     <isHidden>true</isHidden>
    </column>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -477,16 +585,34 @@
     <nullable>false</nullable>
     <isHidden>true</isHidden>
    </column>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -545,16 +671,34 @@
     <nullable>false</nullable>
     <isHidden>true</isHidden>
    </column>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
@@ -585,16 +729,34 @@
    <column columnName="CreatedBy"/>
    <column columnName="Modified"/>
    <column columnName="ModifiedBy"/>
+   <column columnName="diCreatedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
+    <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
+   </column>
    <column columnName="diCreated">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
-   <column columnName="diCreatedBy">
+   <column columnName="diModifiedby">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
+    <fk>
+     <fkDbSchema>core</fkDbSchema>
+     <fkTable>Users</fkTable>
+     <fkColumnName>UserId</fkColumnName>
+    </fk>
    </column>
    <column columnName="diModified">
-    <isHidden>true</isHidden>
-   </column>
-   <column columnName="diModifiedBy">
+    <isUserEditable>false</isUserEditable>
+    <nullable>true</nullable>
     <isHidden>true</isHidden>
    </column>
   </columns>
