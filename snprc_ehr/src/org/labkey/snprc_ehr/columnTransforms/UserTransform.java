@@ -11,10 +11,17 @@ import java.util.Map;
 
 /**
  * Created by Marty on 10/26/2016.
+ *
+ * This transform is called in all the SNPRC ETLs to handle createdBy and modifiedBy columns.
+ * Compares incoming values with existing user email prefixes and if they exist pass on their
+ * user id to populate the column.  If they don't exist, create a new deactivated user and pass
+ * along the new user id to populate the column.
  */
 public class UserTransform extends AbstractColumnTransform
 {
     private final String _emailDomain = "noreply-txbiomed.org";
+
+    // To minimize queries, keep a temporary storage of users already looked up
     private Map<String, Integer> _userMap = new HashMap<>();
 
     public UserTransform()
@@ -27,6 +34,10 @@ public class UserTransform extends AbstractColumnTransform
         return new ValidEmail(user + "@" + _emailDomain);
     }
 
+    /**
+     * Search for the user by the email prefix (ie. jdoe@labkey.com matches jdoe).
+     * Return null if user not found.
+      */
     private Integer getUserByEmailPrefix(String user)
     {
         int index;
@@ -43,6 +54,10 @@ public class UserTransform extends AbstractColumnTransform
         return null;
     }
 
+    /**
+     * Performs user lookup or creation of new user. Returns the user id to populate the
+     * column with.
+     */
     @Override
     protected Object doTransform(Object inputValue)
     {
@@ -52,13 +67,16 @@ public class UserTransform extends AbstractColumnTransform
         // comparing with and making this an email name so case insensitive
         String input = inputValue.toString().toLowerCase();
 
+        // See if user has already been found anywhere
         Integer userId = _userMap.get(input);
 
+        // Attempt to look up user in user table
         if(null == userId)
         {
             userId = getUserByEmailPrefix(input);
         }
 
+        // First time encountering user, create deactivated account
         if (null == userId)
         {
             try
@@ -70,11 +88,11 @@ public class UserTransform extends AbstractColumnTransform
             }
             catch (ValidEmail.InvalidEmailException e)
             {
-                throw new ColumnTransformException("Unable to create email address for user: " + input, e.getCause());
+                throw new ColumnTransformException("Unable to create email address for user: " + input, e);
             }
             catch (SecurityManager.UserManagementException e)
             {
-                throw new ColumnTransformException("Unable to add user:" + input, e.getCause());
+                throw new ColumnTransformException("Unable to add user:" + input, e);
             }
         }
 
