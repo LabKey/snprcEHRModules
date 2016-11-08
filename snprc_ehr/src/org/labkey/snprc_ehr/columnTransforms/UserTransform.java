@@ -22,12 +22,7 @@ public class UserTransform extends AbstractColumnTransform
     private final String _emailDomain = "noreply-txbiomed.org";
 
     // To minimize queries, keep a temporary storage of users already looked up
-    private Map<String, Integer> _userMap = new HashMap<>();
-
-    public UserTransform()
-    {
-        super();
-    }
+    private Map<String, Integer> _userMap;
 
     private ValidEmail createEmail(String user) throws ValidEmail.InvalidEmailException
     {
@@ -52,6 +47,12 @@ public class UserTransform extends AbstractColumnTransform
         }
 
         return null;
+    }
+
+    @Override
+    public void reset()
+    {
+        _userMap = new HashMap<>();
     }
 
     /**
