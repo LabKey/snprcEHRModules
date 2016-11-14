@@ -10,7 +10,6 @@
                 <columns>
                     <column columnName="date">
                         <columnTitle>Admit Date</columnTitle>
-                        <formatString>MM-dd-yyyy</formatString>
                     </column>
                     <column columnName="caseid">
                         <columnTitle>Admit Id</columnTitle>

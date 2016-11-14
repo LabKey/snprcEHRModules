@@ -8,9 +8,6 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="date">
-                        <formatString>yyyy-MM-dd HH:mm</formatString>
-                    </column>
                     <column columnName="percentChange" wrappedColumnName="lsid">
                         <columnTitle>Percent Change</columnTitle>
                         <isHidden>false</isHidden>

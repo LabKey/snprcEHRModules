@@ -8,15 +8,6 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="Id">
-
-                    </column>
-                    <column columnName="date">
-                        <formatString>yyyy-MM-dd HH:mm</formatString>
-                    </column>
-                    <column columnName="project">
-
-                    </column>
                     <column columnName="billedby">
                         <columnTitle>Billed By</columnTitle>
                         <isHidden>false</isHidden>

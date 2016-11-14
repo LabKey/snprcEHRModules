@@ -8,7 +8,6 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="Id"/>
                     <column columnName="date">
                         <isHidden>true</isHidden>
                     </column>
@@ -60,6 +59,9 @@
                             query.queryName=Deaths&amp;
                             query.Id~eq=${Id}
                         </url>
+                    </column>
+                    <column columnName="lastDayAtCenter">
+                        <formatString>~~DEFAULTDATE~~</formatString>
                     </column>
                     <column columnName="status">
                         <shownInInsertView>false</shownInInsertView>
