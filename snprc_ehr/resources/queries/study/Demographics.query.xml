@@ -8,6 +8,7 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
+                    <column columnName="Id"/>
                     <column columnName="date">
                         <isHidden>true</isHidden>
                     </column>
@@ -61,7 +62,7 @@
                         </url>
                     </column>
                     <column columnName="lastDayAtCenter">
-                        <formatString>~~DEFAULTDATE~~</formatString>
+                        <formatString>Date</formatString>
                     </column>
                     <column columnName="status">
                         <shownInInsertView>false</shownInInsertView>

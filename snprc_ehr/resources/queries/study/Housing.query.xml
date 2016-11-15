@@ -8,6 +8,7 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
+                    <column columnName="Id"/>
                     <column columnName="date">
                         <columnTitle>In Date</columnTitle>
                     </column>

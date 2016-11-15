@@ -8,6 +8,7 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
+                    <column columnName="date"/>
                     <column columnName="percentChange" wrappedColumnName="lsid">
                         <columnTitle>Percent Change</columnTitle>
                         <isHidden>false</isHidden>

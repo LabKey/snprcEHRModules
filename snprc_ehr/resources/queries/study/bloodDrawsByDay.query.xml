@@ -9,7 +9,7 @@
                     </column>
                     <column columnName="dropDate">
                         <columnTitle>Date Volume Becomes Available</columnTitle>
-                        <formatString>~~DEFAULTDATE~~</formatString>
+                        <formatString>Date</formatString>
                     </column>
                 </columns>
             </table>

@@ -8,6 +8,8 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
+                    <column columnName="Id"/>
+                    <column columnName="date"/>
                     <column columnName="project">
                         <isHidden>true</isHidden>
                     </column>
