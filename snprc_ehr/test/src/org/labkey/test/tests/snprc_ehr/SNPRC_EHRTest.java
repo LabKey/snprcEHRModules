@@ -35,6 +35,7 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
+import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.snprc_ehr.ColonyOverviewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
@@ -604,5 +605,69 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertTextPresent(fileSearcher, animal1 + ", ,0.375");
         assertTextPresent(fileSearcher, animal2 + ",0.375,");
 
+    }
+
+    @Test
+    public void testDateFormat(){
+
+        String dateFormat = "yy-M-d";
+        String dateTimeFormat = "yy-M-d H:mm";
+        String expectedDate = "11-6-1";
+        String expectedTime = "8:58";
+
+        testDateFormat(dateFormat,dateTimeFormat, expectedDate, expectedTime);
+
+        dateFormat = "yyyy-MM-dd";
+        dateTimeFormat = dateFormat + " HH:mm";
+        expectedDate = "2011-06-01";
+        expectedTime = "08:58";
+
+        testDateFormat(dateFormat,dateTimeFormat, expectedDate, expectedTime);
+
+    }
+
+    private void testDateFormat(String dateFormat, String dateTimeFormat, String expectedDate, String expectedTime)
+    {
+        setProjectDateFormat(dateFormat,dateTimeFormat);
+
+        confirmJavascriptDrivenDateFormat(expectedDate);
+
+        confirmQueryDrivenDateFormat(expectedDate, expectedTime);
+    }
+
+    private void confirmQueryDrivenDateFormat(String expectedDate, String expectedTime)
+    {
+        goToSchemaBrowser();
+        selectQuery("study", "blood");
+        waitAndClick(Locator.linkWithText("view data"));
+        DataRegionTable table = new DataRegionTable("Dataset", this);
+        table.setFilter("Id", "Equals","TEST1020148");
+        table.setFilter("quantity", "Equals","3.0");
+        String date = table.getDataAsText(0,1);
+        Assert.assertEquals("Expected Date", expectedDate + " " + expectedTime, date);
+    }
+
+    private void confirmJavascriptDrivenDateFormat(String expectedDate)
+    {
+        goToProjectHome();
+
+        waitAndClick(Locator.linkWithText("Animal History"));
+
+        getAnimalHistorySubjField().setValue("TEST1020148");
+
+        //chronological history
+        AnimalHistoryPage animalHistoryPage = new AnimalHistoryPage(getDriver());
+        animalHistoryPage.clickCategoryTab("Clinical");
+        animalHistoryPage.clickReportTab("Clinical History");
+        assertTextPresentCaseInsensitive(expectedDate);
+    }
+
+    private void setProjectDateFormat(String dateFormat, String dateTimeFormat)
+    {
+        goToProjectSettings(PROJECT_NAME);
+
+        setFormElement(new Locator.NameLocator("defaultDateFormat"), dateFormat);
+        setFormElement(new Locator.NameLocator("defaultDateTimeFormat"), dateTimeFormat);
+        click(new Locator.LinkLocator("SAVE"));
     }
 }
