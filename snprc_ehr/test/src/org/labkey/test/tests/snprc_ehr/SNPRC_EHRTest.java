@@ -35,11 +35,13 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
+import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.snprc_ehr.ColonyOverviewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.ehr.AbstractGenericEHRTest;
+import org.labkey.test.util.APIAssayHelper;
 import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
@@ -48,6 +50,7 @@ import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
+import org.labkey.test.util.UIAssayHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -156,6 +159,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         initGenetics();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
+        _assayHelper = new UIAssayHelper(this); // API Helper is causing browser timeouts on experiment-showAddXarFile
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
@@ -168,6 +172,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         portalHelper.addWebPart("EHR Datasets");
         clickFolder(GENETICSFOLDER);
         portalHelper.addWebPart("Assay List");
+        _assayHelper = new APIAssayHelper(this);
         _assayHelper.importAssay(ASSAY_GENE_EXPRESSION, ASSAY_GENE_EXPRESSION_TSV, getGeneticsPath());
         _assayHelper.importAssay(ASSAY_MICROSATELLITES, ASSAY_MICROSATELLITES_TSV, getGeneticsPath());
         _assayHelper.importAssay(ASSAY_PHENOTYPES, ASSAY_PHENOTYPES_TSV, getGeneticsPath());
@@ -306,22 +311,40 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testAnimalSearch()
+    public void testAnimalSearch() throws Exception
     {
-        click(Locator.linkWithText("Animal Search"));
-        waitForElement(Locator.inputByNameContaining("Id"));
-        //pushLocation();
-        saveLocation();
-        setFormElement(Locator.inputByNameContaining("Id"), "1");
-        click(Ext4Helper.Locators.ext4Button("Submit"));
-        waitForElement(Locator.linkWithText("TEST1020148"));
-        recallLocation();
-        waitForElement(Locator.inputByNameContaining("Id/curLocation/cage"));
-        setFormElement(Locator.inputByNameContaining("Id/curLocation/cage"), "5426");
-        click(Ext4Helper.Locators.ext4Button("Submit"));
-        waitForElement(Locator.linkWithText("TEST499022"));
-        waitForElement(Locator.linkWithText("TEST6390238"));
+        SearchPanel searchPanel;
+        DataRegionTable searchResults;
 
+        beginAt("/project/" + getContainerPath() + "/begin.view");
+        waitAndClickAndWait(Locator.linkWithText("Animal Search"));
+        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel.selectValues("Gender", " All");
+        assertEquals("Selecting 'All' genders didn't set input correctly", "Female;Male;Unknown", getFormElement(Locator.input("gender")));
+        searchResults = searchPanel.submit();
+        assertEquals("Wrong number of rows for searching all genders", 43, searchResults.getDataRowCount());
+
+        goBack();
+        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel.selectValues("Species code (3 char)", "PCC");
+        assertEquals("Select 'PCC' species didn't set input correctly", "PCC", getFormElement(Locator.input("species")));
+        searchPanel.selectValues("Species code (3 char)", "CTJ");
+        assertEquals("Adding 'CTJ' to species filter didn't set input correctly", "PCC;CTJ", getFormElement(Locator.input("species")));
+        searchResults = searchPanel.submit();
+        assertEquals("Wrong number of rows: Species = PCC or CTJ", 14, searchResults.getDataRowCount());
+
+        goBack();
+        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel.setFilter("Id", null, "1");
+        searchResults = searchPanel.submit();
+        assertElementPresent(Locator.linkWithText("TEST1020148"));
+        assertEquals("Wrong number of rows: 'Id' contains '1'", 22, searchResults.getDataRowCount());
+
+        goBack();
+        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel.setFilter("Cage", null, "5426");
+        searchResults = searchPanel.submit();
+        assertEquals("Wrong animals for search: 'cage' contains '5426'", Arrays.asList("TEST499022", "TEST6390238"), searchResults.getColumnDataAsText("Id"));
     }
 
     @Test
