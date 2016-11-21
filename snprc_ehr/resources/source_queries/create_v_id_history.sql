@@ -27,7 +27,7 @@ GO
 /*==============================================================*/
 /* View: V_id_history                                           */
 /*==============================================================*/
-alter VIEW [labkey_etl].[V_ID_HISTORY] AS
+ALTER VIEW [labkey_etl].[V_ID_HISTORY] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 4/1/2015
@@ -35,26 +35,31 @@ alter VIEW [labkey_etl].[V_ID_HISTORY] AS
 -- Changes:
 --
 -- Changed missing value date to '1/1/1900'
+-- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
-SELECT ih.sfbr_id AS id,
-ih.id_date AS id_date,
-ISNULL(ih.id_date, CAST('01/01/1900 00:00' AS DATETIME)) AS date,
-ih.id_value AS value,
-ih.id_type AS id_type,
-vi.institution_name AS source_name,
-ih.comment AS comment,
-ih.object_id AS objectid,
-ih.user_name,
-ih.entry_date_tm,
-ih.timestamp
+SELECT
+  ih.sfbr_id                                               AS id,
+  ih.id_date                                               AS id_date,
+  ISNULL(ih.id_date, CAST('01/01/1900 00:00' AS DATETIME)) AS date,
+  ih.id_value                                              AS value,
+  ih.id_type                                               AS id_type,
+  vi.institution_name                                      AS source_name,
+  ih.comment                                               AS comment,
+  ih.object_id                                             AS objectid,
+  ih.entry_date_tm                                         AS modified,
+  dbo.f_map_username(ih.user_name)                         AS modifiedby,
+  tc.created                                               AS created,
+  tc.createdby                                             AS createdby,
+  ih.timestamp
 
- FROM id_history AS ih
-JOIN dbo.valid_institutions AS vi ON vi.institution_id = ih.institution_id
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ih.sfbr_id
+FROM id_history AS ih
+  JOIN dbo.valid_institutions AS vi ON vi.institution_id = ih.institution_id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ih.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ih.sfbr_id
 
-GO 
+GO
 
-GRANT SELECT ON Labkey_etl.V_ID_HISTORY TO z_labkey 
+GRANT SELECT ON Labkey_etl.V_ID_HISTORY TO z_labkey
 
 GO

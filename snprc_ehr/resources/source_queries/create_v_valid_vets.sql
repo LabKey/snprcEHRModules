@@ -22,35 +22,39 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
-
 ALTER VIEW [labkey_etl].[v_valid_vets] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 8/5/2016
 -- Description:	Selects the valid vets
 -- Note:
---
+-- Changes:
+-- 11/15/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
 --
 -- ==========================================================================================
 
 
-SELECT v.tid AS vetId,
-	   v.vet_name AS displayName,
-	   v.email_address as emailAddress,
-	   case when v.status = 'A' then 'Active' else 'Inactive' end AS status,
-	   v.user_name AS user_name,
-	   v.entry_date_tm AS entry_date_tm,
-	   v.object_id AS objectid,
-	   v.timestamp AS timestamp
-
+SELECT
+  v.tid                           AS vetId,
+  v.vet_name                      AS displayName,
+  v.email_address                 AS emailAddress,
+  CASE WHEN v.status = 'A'
+    THEN 'Active'
+  ELSE 'Inactive' END             AS status,
+  v.object_id                     AS objectid,
+  v.entry_date_tm                 AS modified,
+  dbo.f_map_username(v.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+  v.timestamp                     AS timestamp
 
 
 FROM dbo.valid_vet AS v
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = v.object_id
 
 GO
 
 
-grant SELECT on [labkey_etl].[v_valid_vets] to z_labkey
+GRANT SELECT ON [labkey_etl].[v_valid_vets] TO z_labkey
 
-go
+GO

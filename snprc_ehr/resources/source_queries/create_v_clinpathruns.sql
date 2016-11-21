@@ -24,7 +24,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-ALTER  VIEW Labkey_etl.v_clinPathRuns AS
+ALTER VIEW Labkey_etl.v_clinPathRuns AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 1/08/2015
@@ -32,32 +32,36 @@ ALTER  VIEW Labkey_etl.v_clinPathRuns AS
 -- Note:  Currently only selecting the following data types:
 --			Hematology, Biochemistry, Surveillance
 -- Changes:
+-- 11/10/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
 --
 --
 -- ==========================================================================================
-SELECT obr.animal_id AS [Id],
-	   obr.OBSERVATION_DATE_TM AS [Date],
-	   obr.message_id AS [objectId],
-	   obr.verified_date_tm as [dateFinalized],
-	   obr.SPECIMEN_NUM AS [sampleId], 
-	   obr.PROCEDURE_NAME AS [serviceRequested],
-	   obr.PV1_VISIT_NUM AS [animalVisit],
-	   obr.ENTRY_DATE_TM AS [entry_date_tm],
-	   obr.USER_NAME AS [user_name],
-	   obr.TIMESTAMP AS [timestamp]
+SELECT
+  obr.animal_id                     AS Id,
+  obr.OBSERVATION_DATE_TM           AS Date,
+  obr.message_id                    AS message_id,
+  obr.verified_date_tm              AS dateFinalized,
+  obr.SPECIMEN_NUM                  AS sampleId,
+  obr.PROCEDURE_NAME                AS serviceRequested,
+  obr.PV1_VISIT_NUM                 AS animalVisit,
+  obr.object_id                     AS objectid,
+  obr.entry_date_tm                 AS modified,
+  dbo.f_map_username(obr.user_name) AS modifiedby,
+  tc.created                        AS created,
+  tc.createdby                      AS createdby,
+  obr.TIMESTAMP                     AS timestamp
 FROM dbo.CLINICAL_PATH_OBR AS obr
 
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
-WHERE obr.PROCEDURE_ID IN (SELECT obr.PROCEDURE_ID FROM clinical_path_proc_id_lookup)
---WHERE (obr.PROCEDURE_NAME LIKE '%differential only%' 
---   OR obr.PROCEDURE_NAME LIKE '%CBC%' 
---   OR  obr.PROCEDURE_id IN (10200, 10201, 106262) )
-  AND obr.RESULT_STATUS in ('F', 'C', 'D')
-  AND obr.VERIFIED_DATE_TM IS NOT NULL
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obr.object_id
+WHERE obr.PROCEDURE_ID IN (SELECT obr.PROCEDURE_ID
+                           FROM clinical_path_proc_id_lookup)
+      AND obr.RESULT_STATUS IN ('F', 'C', 'D')
+      AND obr.VERIFIED_DATE_TM IS NOT NULL
 
 GO
 
 GRANT SELECT ON Labkey_etl.v_clinPathRuns TO z_labkey
-  
+
 GO

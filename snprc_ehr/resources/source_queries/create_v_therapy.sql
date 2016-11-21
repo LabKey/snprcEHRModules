@@ -23,7 +23,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
 /*==============================================================*/
 /* View: V_THERAPY                                              */
 /*==============================================================*/
@@ -34,27 +33,33 @@ ALTER VIEW [labkey_etl].[V_THERAPY] AS
 -- Object: v_therapy
 -- Author:	Terry Hawkins
 -- Create date: 8/20/2015
+-- Changes:
+-- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
-SELECT t.ID AS id, 
-	t.start_date AS date,
-	t.stop_date AS enddate,
-	'Therapy' AS category,
-	t.drug AS code,
-	t.dose	AS amount,
-	t.units	AS amount_units,
-	t.route	AS ROUTE,
-	vtf.tid	AS frequency,
-	t.dx AS reason,
-	t.tid AS visitRowId,
-	t.OBJECT_ID AS objectid,
-	t.entry_date_tm AS modified,
-	t.user_name AS user_name,
-	t.TIMESTAMP
+SELECT
+  t.ID                            AS id,
+  t.start_date                    AS date,
+  t.stop_date                     AS enddate,
+  'Therapy'                       AS category,
+  t.drug                          AS code,
+  t.dose                          AS amount,
+  t.units                         AS amount_units,
+  t.route                         AS ROUTE,
+  vtf.tid                         AS frequency,
+  t.dx                            AS reason,
+  t.tid                           AS visitRowId,
+  t.OBJECT_ID                     AS objectid,
+  t.entry_date_tm                 AS modified,
+  dbo.f_map_username(t.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+  t.TIMESTAMP
 FROM dbo.therapy AS t
-INNER JOIN dbo.valid_therapy_frequencies AS vtf ON vtf.frequency = t.frequency
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = t.id
+  INNER JOIN dbo.valid_therapy_frequencies AS vtf ON vtf.frequency = t.frequency
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = t.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = t.id
 
 GO
 

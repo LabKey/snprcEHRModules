@@ -24,7 +24,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
 ALTER VIEW [labkey_etl].[v_iacuc_protocols] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
@@ -33,32 +32,55 @@ ALTER VIEW [labkey_etl].[v_iacuc_protocols] AS
 -- Note: 
 --		
 -- Changes:
+-- 11/11/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
+-- 11/21/2016  exclude protocols with a status of withdrawn, pending, or deferred tjh
 --
 -- ==========================================================================================
 
 
-SELECT am.working_iacuc AS protocol,
-	ad.review_date AS lastAnnualReview,
-	ad.title AS title, 
-	ad.pi_name AS inves,
-	ad.approval_date AS approve,
-	am.termination_date AS enddate,
-	am.user_name AS user_name,
-	(SELECT Max(v)
-		FROM (VALUES (am.entry_date_tm), (ad.entry_date_tm) ) AS VALUE (v) ) AS entry_date_tm,
-	am.object_id AS objectid, 
-	(SELECT Max(v)
-		FROM (VALUES (am.timestamp), (ad.timestamp) ) AS VALUE (v) ) as timestamp
-	
+SELECT
+  am.working_iacuc                          AS protocol,
+  ad.review_date                            AS lastAnnualReview,
+  ad.title                                  AS title,
+  ad.pi_name                                AS inves,
+  ad.approval_date                          AS approve,
+  am.termination_date                       AS enddate,
+
+  CASE WHEN am.timestamp > ad.timestamp
+    THEN am.object_id
+  ELSE ad.object_id END                     AS object_id,
+
+  CASE WHEN am.timestamp > ad.timestamp
+    THEN am.entry_date_tm
+  ELSE ad.entry_date_tm END                 AS modified,
+
+  CASE WHEN am.timestamp > ad.timestamp
+    THEN dbo.f_map_username(am.user_name)
+  ELSE dbo.f_map_username(ad.user_name) END AS modifiedby,
+
+  tc.created                                AS created,
+  tc.createdby                              AS createdby,
+
+  CASE WHEN am.timestamp > ad.timestamp
+    THEN am.timestamp
+  ELSE ad.timestamp END                     AS timestamp
+
+
 FROM dbo.arc_master AS am
-JOIN dbo.arc_detail AS ad ON ad.arc_num_seq = am.arc_num_seq AND ad.arc_num_genus = am.arc_num_genus AND
-	ad.arc_num_amendment = (SELECT MAX(ad.arc_num_amendment) 
-							FROM arc_detail AS ad
-							WHERE ad.arc_num_seq = am.arc_num_seq 
-							  AND ad.arc_num_genus = am.arc_num_genus)
+  INNER JOIN dbo.arc_detail AS ad ON ad.arc_num_seq = am.arc_num_seq AND ad.arc_num_genus = am.arc_num_genus AND
+                                     ad.arc_num_amendment = (SELECT MAX(ad.arc_num_amendment)
+                                                             FROM arc_detail AS ad
+                                                             WHERE ad.arc_num_seq = am.arc_num_seq
+                                                                   AND ad.arc_num_genus = am.arc_num_genus)
+																   AND ad.application_status = 'A'
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = (SELECT CASE WHEN am.timestamp > ad.timestamp
+    THEN am.object_id ELSE ad.object_id END AS object_id)
+
+	WHERE ad.application_status = 'A' -- exclude those with a status of withdrawn, pending, or deferred.
+
 
 GO
 
-grant SELECT on [labkey_etl].[v_iacuc_protocols] to z_labkey
+GRANT SELECT ON [labkey_etl].[v_iacuc_protocols] TO z_labkey
 
-go
+GO

@@ -25,30 +25,36 @@ GO
 /*==============================================================*/
 /* View: V_ATTRIBUTES                                    */
 /*==============================================================*/
-ALTER VIEW [labkey_etl].[V_ATTRIBUTES] as
+ALTER VIEW [labkey_etl].[V_ATTRIBUTES] AS
 -- ====================================================================================================================
 -- Object: v_attributes
 -- Author:		Terry Hawkins
 -- Create date: 12/30/2015
+-- Changes:
+-- 11/10/2016  added modified, modifiedby, created, and createdby columns tjh
 --
 -- ==========================================================================================
 
-SELECT a.id ,
-	   a.entry_date_tm AS date,
-	   --a.attribute AS flag,
-	   fv.code AS flag,
-	   a.comment AS remark,
-	   a.object_id AS objectId,
-       a.user_name ,
-       a.timestamp  
-	   FROM dbo.attributes AS a
-	   INNER JOIN labkey_etl.flag_values AS fv ON a.attribute = fv.value
----- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.id
+SELECT
+  a.id,
+  a.entry_date_tm                 AS date,
+  fv.code                         AS flag,
+  a.comment                       AS remark,
+  a.object_id                     AS objectId,
+  a.entry_date_tm                 AS modified,
+  dbo.f_map_username(a.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+  a.timestamp
+FROM dbo.attributes AS a
+  INNER JOIN labkey_etl.flag_values AS fv ON a.attribute = fv.value
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = a.object_id
+  ---- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.id
 
 
-go
+GO
 
-grant SELECT on labkey_etl.V_ATTRIBUTES to z_labkey
+GRANT SELECT ON labkey_etl.V_ATTRIBUTES TO z_labkey
 
-go
+GO

@@ -1231,6 +1231,9 @@
             <column columnName="instructions">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="message_id">
+                <datatype>entityid</datatype>
+            </column>
             <column columnName="objectid">
                 <datatype>entityid</datatype>
                 <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
@@ -2322,12 +2325,6 @@
                 <datatype>entityid</datatype>
                 <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
                 <isKeyField>true</isKeyField>
-            </column>
-            <column columnName="user_name">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="entry_date_tm">
-                <datatype>datetime</datatype>
             </column>
             <column columnName="date">
                 <isHidden>true</isHidden>

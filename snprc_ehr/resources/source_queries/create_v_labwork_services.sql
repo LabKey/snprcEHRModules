@@ -28,20 +28,24 @@ ALTER VIEW labkey_etl.v_labwork_services AS
 -- Create date: 5/6/2016
 -- Description:	selects data for the snprc_ehr.labwork_services lookup table
 -- Changes:
---
+-- 11/14/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
 --
 -- ==========================================================================================
 SELECT
-     pil.procedure_id as [serviceid],
-     pil.procedure_name as [servicename],
-     pil.procedure_type as [dataset],
-     0 as [alertOnComplete],
- 	   pil.object_id AS [objectId],
-	   pil.ENTRY_DATE_TM AS [entryDateTm],
-	   pil.USER_NAME AS [userName]
+  pil.procedure_id                  AS serviceid,
+  pil.procedure_name                AS servicename,
+  pil.procedure_type                AS dataset,
+  0                                 AS alertOnComplete,
+  pil.object_id                     AS objectId,
+  pil.entry_date_tm                 AS modified,
+  dbo.f_map_username(pil.user_name) AS modifiedby,
+  tc.created                        AS created,
+  tc.createdby                      AS createdby,
+  pil.timestamp
 FROM dbo.CLINICAL_PATH_PROC_ID_LOOKUP AS pil
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = pil.object_id
 GO
 
 GRANT SELECT ON labkey_etl.v_labwork_services TO z_labkey
-  
+
 GO

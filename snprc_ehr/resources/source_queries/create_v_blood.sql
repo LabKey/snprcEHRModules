@@ -32,55 +32,69 @@ ALTER VIEW [labkey_etl].[V_BLOOD] AS
 -- AUTHOR: TERRY HAWKINS
 -- CREATE DATE: 8/3/2015
 -- DESCRIPTION:	View provides the blood draw data for LabKey
--- CHANGES:
+-- Changes:
+-- 11/10/2016  added modified, modifiedby, created, and createdby columns tjh
 --
 -- ==========================================================================================
 
-SELECT 
-	ID,
-	BLEED_DATE_TM AS date, 
-	ADMIT_CHARGE_ID,
-	project,
-	WORKING_IACUC,
-	CAST(BLOOD_VOLUME AS NUMERIC(7,3)) AS quantity,
-	REASON AS REMARK,
-	objectid,
-	USER_NAME,
-	ENTRY_DATE_TM,
-	TIMESTAMP
-FROM 
+SELECT
+  ID,
+  BLEED_DATE_TM                       AS date,
+  ADMIT_CHARGE_ID,
+  project,
+  WORKING_IACUC,
+  CAST(BLOOD_VOLUME AS NUMERIC(7, 3)) AS quantity,
+  REASON                              AS REMARK,
+  objectid,
+  modified,
+  modifiedby,
+  created,
+  createdby,
+  TIMESTAMP
+FROM
 
-( 
+    (
 
- SELECT 
-	AE.ANIMAL_ID AS ID,
-	AE.EVENT_DATE_TM AS BLEED_DATE_TM,
-	CASE WHEN AE.ADMIT_ID IS NULL OR AE.ADMIT_ID = 0
-		THEN CASE WHEN AE.CHARGE_ID = 0 OR AE.CHARGE_ID IS NULL THEN '*' ELSE CAST(AE.CHARGE_ID AS VARCHAR) END
-		ELSE CAST(AE.ADMIT_ID AS VARCHAR) END AS ADMIT_CHARGE_ID,
-	ca.charge_id AS project,
-	CASE WHEN AE.CHARGE_ID IS NULL OR AE.CHARGE_ID = 0 THEN '*' ELSE  CAST(ISNULL(CA.WORKING_IACUC,'*') AS VARCHAR) END AS WORKING_IACUC,
-	CAST(cp.OBJECT_ID AS VARCHAR(36)) AS objectid,	
-	CP.PROC_ID,
-	CPA.VALUE  AS VALUE,
-	CPA.ATTRIB_KEY,
-	CPA.USER_NAME,
-	CP.ENTRY_DATE_TM,
-	CP.TIMESTAMP
-	
- FROM CODED_PROCS CP
- JOIN DBO.BUDGET_ITEMS AS BI ON CP.BUDGET_ITEM_ID = BI.BUDGET_ITEM_ID
- JOIN DBO.SUPER_PKGS AS SP ON BI.SUPER_PKG_ID = SP.SUPER_PKG_ID
- JOIN ANIMAL_EVENTS AE ON CP.ANIMAL_EVENT_ID = AE.ANIMAL_EVENT_ID 
- JOIN CODED_PROC_ATTRIBS AS CPA ON CP.PROC_ID = CPA.PROC_ID
- LEFT OUTER JOIN CHARGE_ACCOUNT AS CA ON AE.CHARGE_ID = CA.CHARGE_ID AND CA.STOP_DATE IS NULL
+      SELECT
+        AE.ANIMAL_ID                                            AS ID,
+        AE.EVENT_DATE_TM                                        AS BLEED_DATE_TM,
+        CASE WHEN AE.ADMIT_ID IS NULL OR AE.ADMIT_ID = 0
+          THEN CASE WHEN AE.CHARGE_ID = 0 OR AE.CHARGE_ID IS NULL
+            THEN '*'
+               ELSE CAST(AE.CHARGE_ID AS VARCHAR) END
+        ELSE CAST(AE.ADMIT_ID AS VARCHAR) END                   AS ADMIT_CHARGE_ID,
+        ca.charge_id                                            AS project,
+        CASE WHEN AE.CHARGE_ID IS NULL OR AE.CHARGE_ID = 0
+          THEN '*'
+        ELSE CAST(ISNULL(CA.WORKING_IACUC, '*') AS VARCHAR) END AS WORKING_IACUC,
 
-  WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
-						INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
-						WHERE vct.DESCRIPTION = 'Cumulative Blood' )
- ) AS SRC
 
-PIVOT (MAX(SRC.VALUE) FOR SRC.ATTRIB_KEY IN (BLOOD_VOLUME, REASON)) AS P
+        CP.PROC_ID,
+        CPA.VALUE                                               AS VALUE,
+        CPA.ATTRIB_KEY,
+        --CAST(cp.OBJECT_ID AS VARCHAR(36))                       AS objectid,
+        cp.OBJECT_ID                                            AS objectid,
+        CP.entry_date_tm                                        AS modified,
+        dbo.f_map_username(CP.user_name)                        AS modifiedby,
+        tc.created                                              AS created,
+        tc.createdby                                            AS createdby,
+        CP.TIMESTAMP
+
+      FROM CODED_PROCS CP
+        LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = cp.object_id
+        INNER JOIN DBO.BUDGET_ITEMS AS BI ON CP.BUDGET_ITEM_ID = BI.BUDGET_ITEM_ID
+        INNER JOIN DBO.SUPER_PKGS AS SP ON BI.SUPER_PKG_ID = SP.SUPER_PKG_ID
+        INNER JOIN ANIMAL_EVENTS AE ON CP.ANIMAL_EVENT_ID = AE.ANIMAL_EVENT_ID
+        INNER JOIN CODED_PROC_ATTRIBS AS CPA ON CP.PROC_ID = CPA.PROC_ID
+        LEFT OUTER JOIN CHARGE_ACCOUNT AS CA ON AE.CHARGE_ID = CA.CHARGE_ID AND CA.STOP_DATE IS NULL
+
+      WHERE SP.PKG_ID IN (SELECT pc.PKG_ID
+                          FROM dbo.PKG_CATEGORY AS pc
+                            INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
+                          WHERE vct.DESCRIPTION = 'Cumulative Blood')
+    ) AS SRC
+
+  PIVOT (MAX(SRC.VALUE) FOR SRC.ATTRIB_KEY IN (BLOOD_VOLUME, REASON)) AS P
 GO
 
 

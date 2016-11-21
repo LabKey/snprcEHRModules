@@ -24,31 +24,31 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
-/*==============================================================*/
-/* View: V_HOUSING                                              */
-/*==============================================================*/
-
-
 ALTER VIEW [labkey_etl].[V_HOUSING] AS
 -- ====================================================================================================================
 -- Object: v_housing
 -- Author:	Terry Hawkins
 -- Create date: 1/2015
+-- Changes:
+-- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
-SELECT L.ID AS id, 
-	L.MOVE_DATE_TM AS date,
-	COALESCE(L.exit_date_tm, cd.disp_date_tm_max) AS enddate,
-	CAST(L.location AS VARCHAR(10)) AS room,
-	L.OBJECT_ID AS objectid,
-	L.entry_date_tm AS entry_date_tm,
-	L.user_name AS user_name,
-	L.TIMESTAMP
+SELECT
+  L.ID                                          AS id,
+  L.MOVE_DATE_TM                                AS date,
+  COALESCE(L.exit_date_tm, cd.disp_date_tm_max) AS enddate,
+  CAST(L.location AS VARCHAR(10))               AS room,
+  L.OBJECT_ID                                   AS objectid,
+  L.entry_date_tm                               AS modified,
+  dbo.f_map_username(L.user_name)               AS modifiedby,
+  tc.created                                    AS created,
+  tc.createdby                                  AS createdby,
+  L.TIMESTAMP
 FROM location AS L
-INNER JOIN dbo.current_data AS cd ON cd.id = L.id 
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = l.id
+  INNER JOIN dbo.current_data AS cd ON cd.id = L.id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = L.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = l.id
 
 GO
 

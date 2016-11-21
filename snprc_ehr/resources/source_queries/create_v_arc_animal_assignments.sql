@@ -22,7 +22,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-alter VIEW [labkey_etl].[v_arc_animal_assignments] AS
+ALTER VIEW [labkey_etl].[v_arc_animal_assignments] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 8/14/2015
@@ -30,25 +30,33 @@ alter VIEW [labkey_etl].[v_arc_animal_assignments] AS
 -- Note: 
 --		
 -- Changes:
+-- 11/4/2016  added modified, modifiedby, created, and createdby columns tjh
 --
 -- ==========================================================================================
 
-SELECT aaa.id, 
-	aaa.start_date AS date,
-	aaa.end_date AS enddate,
-	aaa.arc_num_seq, 
-	aaa.arc_num_genus,
-	aaa.working_iacuc AS protocol,
-	aaa.status AS assignmentStatus,
-	aaa.comments AS remark,
-	aaa.object_id as objectid,
-	aaa.user_name,
-	aaa.entry_date_tm,
-	aaa.timestamp AS timestamp
-	
- FROM dbo.arc_animal_assignments AS aaa
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aaa.id
+SELECT
+  aaa.id,
+  aaa.start_date                    AS date,
+  aaa.end_date                      AS enddate,
+  aaa.arc_num_seq,
+  aaa.arc_num_genus,
+  aaa.working_iacuc                 AS protocol,
+  aaa.status                        AS assignmentStatus,
+  aaa.comments                      AS remark,
+  aaa.object_id                     AS objectid,
+  aaa.user_name,
+  aaa.entry_date_tm,
+  aaa.entry_date_tm                 AS modified,
+  dbo.f_map_username(aaa.user_name) AS modifiedby,
+  tc.created                        AS created,
+  tc.createdby                      AS createdby,
+
+  aaa.timestamp                     AS timestamp
+
+FROM dbo.arc_animal_assignments AS aaa
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = aaa.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aaa.id
 GO
 
 GRANT SELECT ON labkey_etl.v_arc_animal_assignments TO z_labkey

@@ -24,34 +24,38 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+ALTER VIEW [labkey_etl].[v_charge_account] AS
+  -- ==========================================================================================
+  -- Author:		Terry Hawkins
+  -- Create date: 6/22/2015
+  -- Description:	Selects the charge_account data for LabKey ehr.project dataset
+  -- Note:
+  --
+  -- Changes:
+  -- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
+  --
+  -- ==========================================================================================
 
-CREATE VIEW [labkey_etl].[v_charge_account] AS
--- ==========================================================================================
--- Author:		Terry Hawkins
--- Create date: 6/22/2015
--- Description:	Selects the charge_account data for LabKey ehr.project dataset
--- Note:
---
--- Changes:
---
--- ==========================================================================================
 
-
-SELECT ca.charge_id AS project,
-	ca.cost_account AS account,
-	ca.working_iacuc AS protocol,
-	ca.start_date AS startdate,
-	ca.stop_date AS enddate,
-	ca.short_description AS shortName,
-	ca.long_description AS name,
-	ca.user_name AS user_name,
-	ca.entry_date_tm AS entry_date_tm,
-	ca.object_id AS objectid,
-	ca.timestamp AS timestamp
-FROM dbo.charge_account AS ca
+  SELECT
+    ca.charge_id                     AS project,
+    ca.cost_account                  AS account,
+    ca.working_iacuc                 AS protocol,
+    ca.start_date                    AS startdate,
+    ca.stop_date                     AS enddate,
+    ca.short_description             AS shortName,
+    ca.long_description              AS name,
+    ca.object_id                     AS objectid,
+    ca.entry_date_tm                 AS modified,
+    dbo.f_map_username(ca.user_name) AS modifiedby,
+    tc.created                       AS created,
+    tc.createdby                     AS createdby,
+    ca.timestamp                     AS timestamp
+  FROM dbo.charge_account AS ca
+    LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ca.object_id
 
 
 GO
-grant SELECT on [labkey_etl].[v_charge_account] to z_labkey
+GRANT SELECT ON [labkey_etl].[v_charge_account] TO z_labkey
 
-go
+GO

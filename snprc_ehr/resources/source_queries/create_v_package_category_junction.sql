@@ -23,7 +23,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
 ALTER VIEW [labkey_etl].[v_package_category_junction] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
@@ -32,25 +31,30 @@ ALTER VIEW [labkey_etl].[v_package_category_junction] AS
 -- Note:
 --
 -- Changes:
+-- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
 --
 -- ==========================================================================================
 
 
-SELECT pc.TID AS id,
-	pc.pkg_id AS packageId,
-	CAST(vct.code AS INT) AS categoryId,
-	pc.user_name AS user_name,
-	pc.entry_date_tm AS entry_date_tm,
-	pc.object_id AS objectid,
-	pc.timestamp AS timestamp
+SELECT
+  pc.TID                           AS rowId,
+  pc.pkg_id                        AS packageId,
+  CAST(vct.code AS INT)            AS categoryId,
+  pc.object_id                     AS objectid,
+  pc.entry_date_tm                 AS modified,
+  dbo.f_map_username(pc.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  pc.timestamp                     AS timestamp
 FROM dbo.PKG_CATEGORY AS pc
-INNER JOIN valid_code_table AS vct ON pc.CATEGORY_CODE = vct.CODE 
-				AND vct.TABLE_NAME = 'pkg_category'
-				AND vct.COLUMN_NAME = 'category_code'
-				AND vct.END_DATE_TM IS null
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = pc.object_id
+  INNER JOIN valid_code_table AS vct ON pc.CATEGORY_CODE = vct.CODE
+                                        AND vct.TABLE_NAME = 'pkg_category'
+                                        AND vct.COLUMN_NAME = 'category_code'
+                                        AND vct.END_DATE_TM IS NULL
 
 
 GO
-grant SELECT on [labkey_etl].[v_package_category_junction] to z_labkey
+GRANT SELECT ON [labkey_etl].[v_package_category_junction] TO z_labkey
 
-go
+GO

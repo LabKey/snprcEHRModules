@@ -25,7 +25,7 @@ GO
 /*==============================================================*/
 /* View: V_ANIMAL_EVENT_NARRATIVES                                    */
 /*==============================================================*/
-ALTER VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] as
+ALTER VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] AS
 -- ====================================================================================================================
 -- Object: v_animal_event_narratives
 -- Author:		Terry Hawkins
@@ -33,26 +33,31 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] as
 --
 -- 11/02/2015   Terry Hawkins   Renamed from v_animal_procedures to v_animal_event_narratives.
 -- 12/29/2015	Terry Hawkins	renamed visitRowId column to encounterId
+-- 11/3/2016  added modified, modifiedby, created, createdby columns tjh
 -- ==========================================================================================
 
 
-SELECT  ap.animal_event_id AS encounterId,
-        ap.animal_id AS id ,
-        ap.event_date_tm AS date ,
-        ap.ParticipantSequenceNum ,
-        ap.charge_id AS project ,
-        ap.proc_narrative AS remark ,
-        ap.objectid ,
-        ap.user_name ,
-        ap.entry_date_tm ,
-        CAST(ap.ts AS TIMESTAMP) AS timestamp
- from dbo.animal_event_narratives AS ap
----- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ap.animal_id
+SELECT
+  ap.animal_event_id               AS encounterId,
+  ap.animal_id                     AS id,
+  ap.event_date_tm                 AS date,
+  ap.ParticipantSequenceNum,
+  ap.charge_id                     AS project,
+  ap.proc_narrative                AS remark,
+  ap.objectid,
+  ap.entry_date_tm                 AS modified,
+  dbo.f_map_username(ap.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  CAST(ap.ts AS TIMESTAMP)         AS timestamp
+FROM dbo.animal_event_narratives AS ap
+  ---- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ap.animal_id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ap.objectid
 
 
-go
+GO
 
-grant SELECT on labkey_etl.V_ANIMAL_EVENT_NARRATIVES to z_labkey
+GRANT SELECT ON labkey_etl.V_ANIMAL_EVENT_NARRATIVES TO z_labkey
 
-go
+GO

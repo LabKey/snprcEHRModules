@@ -23,31 +23,35 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+ALTER VIEW [labkey_etl].[v_package] AS
+  -- ==========================================================================================
+  -- Author:		Terry Hawkins
+  -- Create date: 10/23/2015
+  -- Description:	selects the pkgs data
+  -- Note:
+  --
+  -- Changes:
+  -- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
+  --
+  -- ==========================================================================================
 
-CREATE VIEW [labkey_etl].[v_package] AS
--- ==========================================================================================
--- Author:		Terry Hawkins
--- Create date: 10/23/2015
--- Description:	selects the pkgs data
--- Note:
---
--- Changes:
---
--- ==========================================================================================
 
-
-SELECT p.PKG_ID AS id,
-	LEFT(p.DESCRIPTION, 100) AS name,
-	p.NARRATIVE AS descriptiong,
-	p.user_name AS user_name,
-	p.entry_date_tm AS entry_date_tm,
-	p.object_id AS objectid,
-	p.timestamp AS timestamp
-FROM dbo.PKGS AS p
+  SELECT
+    p.PKG_ID                        AS id,
+    LEFT(p.DESCRIPTION, 100)        AS name,
+    p.NARRATIVE                     AS descriptiong,
+    p.object_id                     AS objectid,
+    p.entry_date_tm                 AS modified,
+    dbo.f_map_username(p.user_name) AS modifiedby,
+    tc.created                      AS created,
+    tc.createdby                    AS createdby,
+    p.timestamp                     AS timestamp
+  FROM dbo.PKGS AS p
+    LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.object_id
 
 
 GO
-grant SELECT on [labkey_etl].[v_package] to z_labkey
+GRANT SELECT ON [labkey_etl].[v_package] TO z_labkey
 
-go
+GO
 

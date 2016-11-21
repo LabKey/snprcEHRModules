@@ -13,28 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE VIEW [labkey_etl].[V_VALID_INSTITUTIONS] AS
+ALTER VIEW [labkey_etl].[V_VALID_INSTITUTIONS] AS
 -- ====================================================================================================================
 -- Object: v_valid_institutions
 -- Author:		Terry Hawkins
 -- Create date: 5/25/2016
+-- Changes:
+-- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
-SELECT vi.institution_id ,
-       vi.institution_name ,
-       vi.short_name ,
-       vi.city ,
-       vi.state ,
-       vi.affiliate ,
-       vi.web as web_site,
-       vi.user_name as modifiedby,
-       vi.entry_date_tm as modified,
-       vi.object_id as objectid,
-       vi.timestamp
-	   FROM dbo.valid_institutions AS vi
+SELECT
+  vi.institution_id,
+  vi.institution_name,
+  vi.short_name,
+  vi.city,
+  vi.state,
+  vi.affiliate,
+  vi.web                           AS web_site,
+  vi.object_id                     AS objectid,
+  vi.entry_date_tm                 AS modified,
+  dbo.f_map_username(vi.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  vi.timestamp
+FROM dbo.valid_institutions AS vi
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = vi.object_id
 
 GO
 
-grant SELECT on labkey_etl.V_VALID_INSTITUTIONS to z_labkey
+GRANT SELECT ON labkey_etl.V_VALID_INSTITUTIONS TO z_labkey
 
-go
+GO

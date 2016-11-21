@@ -24,7 +24,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
 ALTER VIEW [labkey_etl].[v_apath_diagnoses] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
@@ -32,29 +31,34 @@ ALTER VIEW [labkey_etl].[v_apath_diagnoses] AS
 -- Description:	Rewrite of Marty's query to run as a view.
 --
 -- 6/25/2015 limited to selection of primates only. tjh
+-- 11/4/2016 added modified, modifiedby, created, createdby columns. tjh
 -- 
 -- ==========================================================================================
 SELECT
 
-a.animal_id AS Id,
-d.unique_it as visitRowId,
-COALESCE (a.biopsy, a.death) AS date,
-d.object_id AS objectid,
-a.object_id AS parentid,
-d.user_name AS performedby,
-d.morphology,
-d.organ,
-d.etiology_code,
-d.sp_etiology,
-d.timestamp
+  a.animal_id                     AS Id,
+  d.unique_it                     AS visitRowId,
+  COALESCE(a.biopsy, a.death)     AS date,
+  d.object_id                     AS objectid,
+  a.object_id                     AS parentid,
+  d.entry_date_tm                 AS modified,
+  dbo.f_map_username(d.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+  d.morphology,
+  d.organ,
+  d.etiology_code,
+  d.sp_etiology,
+  d.timestamp
 
-FROM apath.dbo.diagnosis d 
-INNER JOIN apath.dbo.apath a ON d.accession_num = a.accession_num
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d2 ON d2.id = a.animal_ID
+FROM apath.dbo.diagnosis d
+  INNER JOIN apath.dbo.apath a ON d.accession_num = a.accession_num
+  LEFT OUTER JOIN apath.dbo.TAC_COLUMNS AS tc ON tc.object_id = d.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d2 ON d2.id = a.animal_ID
 WHERE d.unique_it IS NOT NULL AND COALESCE(a.biopsy, a.death) IS NOT NULL
 
 GO
 
-GRANT SELECT on labkey_etl.v_apath_diagnoses TO z_labkey
-go
+GRANT SELECT ON labkey_etl.v_apath_diagnoses TO z_labkey
+GO

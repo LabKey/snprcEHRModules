@@ -27,41 +27,46 @@ GO
 /*==============================================================*/
 /* View: V_WEIGHT                                               */
 /*==============================================================*/
-ALTER view [labkey_etl].[V_WEIGHT] as
+ALTER VIEW [labkey_etl].[V_WEIGHT] AS
 -- ====================================================================================================================
 -- Object: v_weight
 -- Author:	Terry Hawkins
 -- Create date: 1/2015
 --  9/8/2015	Added capuchin weight code. tjh
 --  11/19/2015	Changed query to use the pkg_category/valid_code_table to find weight pkg codes. tjh
+-- 11/15/2016  added modified, modifiedby, created, and createdby, parentid columns + code cleanup tjh
 -- ==========================================================================================
 
-SELECT ae.ANIMAL_ID AS id, 
-	ae.EVENT_DATE_TM AS date,
-	CAST(cpa.VALUE AS NUMERIC(7,4)) AS weight,
-	CAST(cpa.OBJECT_ID AS VARCHAR(36)) as objectid,
-	cpa.USER_NAME AS user_name,
-	cpa.ENTRY_DATE_TM AS entry_date_tm,
-	cpa.TIMESTAMP
-	
-FROM dbo.coded_procs cp 
-INNER JOIN dbo.ANIMAL_EVENTS ae ON cp.animal_event_id = ae.animal_event_id
-INNER JOIN dbo.CODED_PROC_ATTRIBS cpa ON cp.PROC_ID = cpa.PROC_ID
-INNER JOIN dbo.budget_items bi ON bi.BUDGET_ITEM_ID = cp.BUDGET_ITEM_ID
-INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
+SELECT
+  ae.ANIMAL_ID                     AS id,
+  ae.EVENT_DATE_TM                 AS date,
+  CAST(cpa.VALUE AS NUMERIC(7, 4)) AS weight,
+  AE.OBJECT_ID                     AS parentid,
+  cp.OBJECT_ID                     AS objectid,
+  CP.entry_date_tm                 AS modified,
+  dbo.f_map_username(CP.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  CP.TIMESTAMP
 
---WHERE sp.PKG_ID in (6, 152, 158) AND cpa.ATTRIB_KEY = 'weight'
- WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
-						INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
-						WHERE vct.DESCRIPTION = 'weight' )
-AND CPA.DATA_TYPE = 'decimal' AND cpa.ATTRIB_KEY = 'weight'
+FROM dbo.coded_procs cp
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = cp.object_id
+  INNER JOIN dbo.ANIMAL_EVENTS ae ON cp.animal_event_id = ae.animal_event_id
+  INNER JOIN dbo.CODED_PROC_ATTRIBS cpa ON cp.PROC_ID = cpa.PROC_ID
+  INNER JOIN dbo.budget_items bi ON bi.BUDGET_ITEM_ID = cp.BUDGET_ITEM_ID
+  INNER JOIN dbo.SUPER_PKGS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
+
+WHERE SP.PKG_ID IN (SELECT pc.PKG_ID
+                    FROM dbo.PKG_CATEGORY AS pc
+                      INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE
+                    WHERE vct.DESCRIPTION = 'weight')
+      AND CPA.DATA_TYPE = 'decimal' AND cpa.ATTRIB_KEY = 'weight'
 
 GO
 
 GRANT SELECT ON Labkey_etl.V_WEIGHT TO z_labkey
-
 
 GO
 

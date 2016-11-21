@@ -14,7 +14,7 @@
             </destination>
         </transform>
     </transforms>
-    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="entrydatetm">
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
         <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_lab_tests" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>

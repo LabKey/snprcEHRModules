@@ -33,26 +33,29 @@ ALTER VIEW [labkey_etl].[V_DEPARTURE] AS
 -- Create date: 4/3/2015
 -- Description:	Selects the ETL records for LabKey study.departure dataset
 -- Changes:
+-- 11/11/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
 --
 --
 -- ==========================================================================================
 
-SELECT 
-	m.id AS id, 
-	ad.disp_date_tm AS date, 
-	vdc.description AS description,
-	ad.disp_code as dispositionType,
-	ad.user_name AS user_name,
-	ad.entry_date_tm AS entry_date_tm,
-	ad.object_id AS objectid,
-	ad.timestamp AS timestamp
+SELECT
+  ad.id                            AS id,
+  ad.disp_date_tm                  AS date,
+  vdc.description                  AS description,
+  ad.disp_code                     AS dispositionType,
+  ad.object_id                     AS objectid,
+  ad.entry_date_tm                 AS modified,
+  dbo.f_map_username(ad.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  ad.timestamp                     AS timestamp
 FROM dbo.acq_disp AS ad
-INNER JOIN master AS m ON m.id = ad.id
-INNER JOIN dbo.valid_disp_codes AS vdc ON vdc.disp_code = ad.disp_code
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ad.object_id
+  INNER JOIN dbo.valid_disp_codes AS vdc ON vdc.disp_code = ad.disp_code
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
 GO
 
-GRANT SELECT ON Labkey_etl.v_departure TO z_labkey 
+GRANT SELECT ON Labkey_etl.v_departure TO z_labkey
 GO
 

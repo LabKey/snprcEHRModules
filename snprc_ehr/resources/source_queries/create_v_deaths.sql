@@ -23,36 +23,35 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-/*==============================================================*/
-/* View: V_DEATHS		                                        */
-/*==============================================================*/
 ALTER VIEW [labkey_etl].[V_DEATHS] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 4/2/2015
 -- Description:	Selects the ETL records for LabKey study.deaths dataset
 -- Changes:
+-- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
 --
 --
 -- ==========================================================================================
 
-SELECT 
-	m.id AS id, 
-	m.death_date AS date, 
-	m.dd_status AS date_type,
-	m.death_code AS cause,
-	m.object_id AS objectid,
-	COALESCE((SELECT MIN(am.entry_date_tm) 
-									FROM audit.audit_master AS am
-									WHERE m.id = am.id), m.entry_date_tm) AS created,
-	m.entry_date_tm AS modified,
-	m.user_name AS user_name,
-	m.timestamp AS timestamp
+SELECT
+  m.id                             AS id,
+  m.death_date                     AS date,
+  m.dd_status                      AS date_type,
+  m.death_code                     AS cause,
+  m.object_id                      AS objectid,
+  m.entry_date_tm                 AS modified,
+  dbo.f_map_username(m.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  m.timestamp                      AS timestamp
 FROM master m
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = m.id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = m.object_id
 
-WHERE m.death_date IS NOT null
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = m.id
+
+WHERE m.death_date IS NOT NULL
 
 GO
 

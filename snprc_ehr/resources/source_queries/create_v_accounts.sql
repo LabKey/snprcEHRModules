@@ -33,6 +33,7 @@ ALTER VIEW [labkey_etl].[V_ACCOUNTS] as
 --
 -- 6/24/2015 added entry_date_tm. tjh
 -- 3/8/2016 updated column names. tjh
+-- 11/3/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
 
@@ -42,11 +43,15 @@ a.assign_date as date,
 a.account,
 a.end_date as enddate,
 a.object_id as objectid,
-a.user_name as username,
-a.entry_date_tm,
+a.entry_date_tm AS modified,
+dbo.f_map_username(a.user_name) as modifiedby,
+tc.created AS created,
+tc.createdby AS createdby,
 a.timestamp
 
 from dbo.accounts a
+
+LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = a.object_id
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.ID
 

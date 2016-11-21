@@ -22,32 +22,37 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER VIEW [labkey_etl].[V_pregnancy_confirmation] as
+ALTER VIEW [labkey_etl].[V_pregnancy_confirmation] AS
 -- ====================================================================================================================
 -- Author: Terry Hawkins
 -- Create date: 8/31/2015
 --
--- 
+-- Changes:
+-- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
 
- SELECT edc.id AS id ,
-		edc.edc AS date,
-		LTRIM(RTRIM(edc.sire_id)) AS sire,
-        edc.term_date AS termDate,
-        edc.term_code AS termCode,
-        edc.confirm_date AS confirmDate,
-		edc.last_obscan_date AS lastObscanDate,
-		edc.object_id AS objectid,
-        edc.user_name ,
-        edc.entry_date_tm ,
-        edc.timestamp
- FROM dbo.edc AS edc
- INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = edc.id
+SELECT
+  edc.id                            AS id,
+  edc.edc                           AS date,
+  LTRIM(RTRIM(edc.sire_id))         AS sire,
+  edc.term_date                     AS termDate,
+  edc.term_code                     AS termCode,
+  edc.confirm_date                  AS confirmDate,
+  edc.last_obscan_date              AS lastObscanDate,
+  edc.object_id                     AS objectid,
+  edc.entry_date_tm                 AS modified,
+  dbo.f_map_username(edc.user_name) AS modifiedby,
+  tc.created                        AS created,
+  tc.createdby                      AS createdby,
+  edc.timestamp
+FROM dbo.edc AS edc
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = edc.object_id
+  INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = edc.id
 
 
 GO
 
-grant SELECT on labkey_etl.V_PREGNANCY_CONFIRMATION to z_labkey
+GRANT SELECT ON labkey_etl.V_PREGNANCY_CONFIRMATION TO z_labkey
 
-go
+GO

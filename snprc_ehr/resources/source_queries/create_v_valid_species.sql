@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-ALTER  VIEW [labkey_etl].[v_valid_species]
+ALTER VIEW [labkey_etl].[v_valid_species]
 AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
@@ -22,27 +22,32 @@ AS
 -- Changes:
 --
 -- 2/1/2016 Added blood draw related columns. tjh
+-- 11/14/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
 -- ==========================================================================================
 
-SELECT  vs.tid AS rowid ,
-        vs.species_code ,
-        vs.common_name AS common ,
-        vs.scientific_name ,
-        vs.arc_species_code ,
-        avs.common_name AS arc_common_name ,
-        avs.scientific_name AS arc_scientific_name ,
-        vs.blood_per_kg ,
-        vs.blood_draw_interval ,
-        vs.max_draw_pct ,
-        vs.object_id AS objectId ,
-        vs.user_name ,
-        vs.entry_date_tm ,
-        ( SELECT    MAX(v)
-          FROM      ( VALUES ( vs.timestamp), ( avs.timestamp) ) AS VALUE ( v )
-        ) AS timestamp
-FROM    dbo.valid_species AS vs
-        INNER JOIN dbo.arc_valid_species_codes AS avs ON avs.arc_species_code = vs.arc_species_code
-                                                         AND avs.primate <> 'MD';
+SELECT
+  vs.tid                           AS rowid,
+  vs.species_code,
+  vs.common_name                   AS common,
+  vs.scientific_name,
+  vs.arc_species_code,
+  avs.primate,
+  avs.common_name                  AS arc_common_name,
+  avs.scientific_name              AS arc_scientific_name,
+  vs.blood_per_kg,
+  vs.blood_draw_interval,
+  vs.max_draw_pct,
+  vs.object_id                     AS objectid,
+  vs.entry_date_tm                 AS modified,
+  dbo.f_map_username(vs.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  (SELECT MAX(v)
+   FROM (VALUES (vs.timestamp), (avs.timestamp)) AS VALUE ( v )
+  )                                AS timestamp
+FROM dbo.valid_species AS vs
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = vs.object_id
+  INNER JOIN dbo.arc_valid_species_codes AS avs ON avs.arc_species_code = vs.arc_species_code
 
 GO
 

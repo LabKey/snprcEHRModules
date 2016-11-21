@@ -1,3 +1,4 @@
+ALTER VIEW [labkey_etl].[V_ANIMAL_OWNERSHIP] AS
 /*
  * Copyright (c) 2015-2016 LabKey Corporation
  *
@@ -20,26 +21,31 @@ CREATE VIEW [labkey_etl].[V_ANIMAL_OWNERSHIP] as
 -- Author:		Terry Hawkins
 -- Create date: 5/25/2016
 --
+-- 11/3/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
 
 SELECT
-a.id,
-a.assign_date as date,
-a.owner_institution_id as owner_institution,
-a.institution_acquired_from_id as institution_acquired_from,
-a.end_date as enddate,
-a.object_id as objectid,
-a.user_name as modifiedby,
-a.entry_date_tm modified,
-a.timestamp
+  a.id,
+  a.assign_date                   AS date,
+  a.owner_institution_id          AS owner_institution,
+  a.institution_acquired_from_id  AS institution_acquired_from,
+  a.end_date                      AS enddate,
+  a.entry_date_tm                 AS modified,
+  dbo.f_map_username(a.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+  a.object_id                     AS objectid,
 
-from dbo.animal_ownership a
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.ID
+  a.timestamp
 
-go
+FROM dbo.animal_ownership a
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = a.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.ID
 
-grant SELECT on labkey_etl.V_ANIMAL_OWNERSHIP to z_labkey
+GO
 
-go
+GRANT SELECT ON labkey_etl.V_ANIMAL_OWNERSHIP TO z_labkey
+
+GO

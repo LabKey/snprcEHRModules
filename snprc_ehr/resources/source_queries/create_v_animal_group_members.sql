@@ -25,7 +25,7 @@ GO
 /*==============================================================*/
 /* View: v_animal_group_members                                 */
 /*==============================================================*/
-ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
+ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] AS
 -- ====================================================================================================================
 -- Object: v_animal_group_members
 -- Author: Terry Hawkins
@@ -34,49 +34,64 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] as
 -- 11/12/15 - Added 'Breeding grp:' to groupName to match v_animal_groups. tjh
 -- 3/1/2016 - Added valid_pedigrees. tjh
 -- 3/3/2016 - Added account_group. tjh
+-- 11/3/2016  added modified, modifiedby, created, and createdby columns tjh
 -- ==========================================================================================
 
 
- SELECT LTRIM(RTRIM(bg.id)) AS id ,
-		'Breeding' AS GroupCategory,
-		'Breeding grp:'+CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName,
-        bg.start_date AS date,
-        bg.end_date AS enddate,
-        bg.user_name ,
-        bg.object_id as objectid,
-        bg.entry_date_tm ,
-        bg.timestamp
- FROM dbo.breeding_grp AS bg
- INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = bg.id
-
- UNION
- SELECT LTRIM(RTRIM(c.id)) AS id ,
-		'Colony' AS GroupCategory,
-		c.colony AS GroupName,
-        c.start_date_tm AS date,
-        c.end_date_tm AS enddate,
-        c.user_name ,
-        c.object_id as objectid,
-        c.entry_date_tm ,
-        c.timestamp 
-FROM dbo.colony AS c
-INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
+SELECT
+  LTRIM(RTRIM(bg.id))                                   AS id,
+  'Breeding'                                            AS GroupCategory,
+  'Breeding grp:' + CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName,
+  bg.start_date                                         AS date,
+  bg.end_date                                           AS enddate,
+  bg.object_id                                          AS objectid,
+  bg.entry_date_tm                                      AS modified,
+  dbo.f_map_username(bg.user_name)                      AS modifiedby,
+  tc.created                                            AS created,
+  tc.createdby                                          AS createdby,
+  bg.timestamp
+FROM dbo.breeding_grp AS bg
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = bg.object_id
+  INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = bg.id
 
 UNION
-SELECT LTRIM(RTRIM(p.id)) AS id,
-	   'Pedigree' AS GroupCategory,
-	    p.pedigree AS GroupName,
-       p.start_date AS date,
-       p.stop_date AS enddate,
-       p.user_name ,
-	   p.object_id AS objectid,
-       p.entry_date_tm ,
-       p.timestamp 
+SELECT
+  LTRIM(RTRIM(c.id))              AS id,
+  'Colony'                        AS GroupCategory,
+  c.colony                        AS GroupName,
+  c.start_date_tm                 AS date,
+  c.end_date_tm                   AS enddate,
+  c.object_id                     AS objectid,
+  c.entry_date_tm                 AS modified,
+  dbo.f_map_username(c.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+
+  c.timestamp
+FROM dbo.colony AS c
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = c.object_id
+  INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
+
+UNION
+SELECT
+  LTRIM(RTRIM(p.id))              AS id,
+  'Pedigree'                      AS GroupCategory,
+  p.pedigree                      AS GroupName,
+  p.start_date                    AS date,
+  p.stop_date                     AS enddate,
+  p.object_id                     AS objectid,
+  p.entry_date_tm                 AS modified,
+  dbo.f_map_username(p.user_name) AS modifiedby,
+  tc.created                      AS created,
+  tc.createdby                    AS createdby,
+
+  p.timestamp
 FROM dbo.pedigree AS p
-INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = p.id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.object_id
+  INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = p.id
 
 GO
 
-grant SELECT on labkey_etl.V_ANIMAL_GROUP_MEMBERS to z_labkey
+GRANT SELECT ON labkey_etl.V_ANIMAL_GROUP_MEMBERS TO z_labkey
 
-go
+GO

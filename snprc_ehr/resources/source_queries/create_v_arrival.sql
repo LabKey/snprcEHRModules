@@ -33,31 +33,37 @@ ALTER VIEW [labkey_etl].[V_ARRIVAL] AS
 -- Create date: 4/3/2015
 -- Description:	Selects the ETL records for LabKey study.arrival dataset
 -- Changes:
+-- 11/10/2016  added modified, modifiedby, created, and createdby columns tjh
 --
 --
 -- ==========================================================================================
 
-SELECT 
-	m.id AS id, 
-	ad.acq_date_tm AS date, 
-	ad.acq_code AS acquisitionType,
-	m.dam_id AS dam,
-	m.sex AS gender,
-	m.species AS species,
-	m.sire_id AS sire,
-	m.birth_date AS birth,
-	CASE WHEN m.bd_status <> 0 THEN 'True' ELSE 'False' END AS estimated,
-	m.entry_date_tm AS entry_date_tm,
-	ad.user_name AS user_name,
-	ad.object_id AS objectid,
-	ad.timestamp
+SELECT
+  ad.id                            AS id,
+  ad.acq_date_tm                   AS date,
+  ad.acq_code                      AS acquisitionType,
+  m.dam_id                         AS dam,
+  m.sex                            AS gender,
+  m.species                        AS species,
+  m.sire_id                        AS sire,
+  m.birth_date                     AS birth,
+  CASE WHEN m.bd_status <> 0
+    THEN 'True'
+  ELSE 'False' END                 AS estimated,
+  ad.object_id                     AS objectid,
+  ad.entry_date_tm                 AS modified,
+  dbo.f_map_username(ad.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
+  ad.timestamp
 FROM dbo.acq_disp AS ad
-INNER JOIN master AS m ON m.id = ad.id
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+  INNER JOIN master AS m ON m.id = ad.id
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ad.object_id
+  -- select primates only from the TxBiomed colony
+  INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
 
 GO
 
-GRANT SELECT ON Labkey_etl.v_arrival TO z_labkey 
+GRANT SELECT ON Labkey_etl.v_arrival TO z_labkey
 GO
 
