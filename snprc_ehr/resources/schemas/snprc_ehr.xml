@@ -129,7 +129,7 @@
         <tableTitle>Package Category Junction</tableTitle>
         <pkColumnName>rowId</pkColumnName>
         <columns>
-            <column columnName="rowId" />
+            <column columnName="rowId">
                 <isKeyField>true</isKeyField>
             </column>
             <column columnName="packageId">
