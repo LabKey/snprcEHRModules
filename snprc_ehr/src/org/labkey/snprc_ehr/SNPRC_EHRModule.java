@@ -21,6 +21,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
+import org.labkey.api.ehr.history.DefaultVitalsDataSource;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
@@ -127,6 +128,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
+
+        EHRService.get().registerHistoryDataSource(new DefaultVitalsDataSource(this));
 
         // demographics
         EHRService.get().registerDemographicsProvider(new ParentsDemographicsProvider(this));
