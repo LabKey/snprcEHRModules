@@ -407,8 +407,7 @@
         <insertUrl></insertUrl>
         <updateUrl></updateUrl>
         <deleteUrl></deleteUrl>
-        <tableUrl>/query/detailsQueryRow.view?schemaName=snprc_ehr&amp;query.queryName=lab_tests&amp;testid=${testid}
-        </tableUrl>
+        <tableUrl>/query/detailsQueryRow.view?schemaName=snprc_ehr&amp;query.queryName=lab_tests&amp;testid=${testid}</tableUrl>
         <pkColumnName>testid</pkColumnName>
         <columns>
             <column columnName="rowid">
