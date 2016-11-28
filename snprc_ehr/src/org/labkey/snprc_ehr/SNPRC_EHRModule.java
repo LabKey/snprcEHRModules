@@ -21,6 +21,8 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
+import org.labkey.api.ehr.history.DefaultNotesDataSource;
+import org.labkey.api.ehr.history.DefaultTBDataSource;
 import org.labkey.api.ehr.history.DefaultVitalsDataSource;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
@@ -33,21 +35,24 @@ import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
-import org.labkey.snprc_ehr.dataentry.dataentry.*;
+import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
+import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
+import org.labkey.snprc_ehr.dataentry.dataentry.FlagsFormType;
+import org.labkey.snprc_ehr.demographics.ActiveAnimalGroupsDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.BirthDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
+import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
-import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.ActiveAnimalGroupsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.BirthDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -105,7 +110,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerActionOverride("protocolDetails", this, "views/protocolDetails.html");
         EHRService.get().registerActionOverride("animalHistory", this, "views/animalHistory.html");
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
-        EHRService.get().registerLabworkType(new LabResultsLabworkType(this));
 
         EHRService.get().registerDemographicsProvider(new TBDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
@@ -129,7 +133,16 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
 
+        // Add ehr clinical history data sources
         EHRService.get().registerHistoryDataSource(new DefaultVitalsDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultTBDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultNotesDataSource(this));
+
+        // Add SNPRC clinical history data sources
+        EHRService.get().registerHistoryDataSource(new DietDataSource(this));
+
+        // Add SNPRC Labwork type
+        EHRService.get().registerLabworkType(new LabResultsLabworkType(this));
 
         // demographics
         EHRService.get().registerDemographicsProvider(new ParentsDemographicsProvider(this));
