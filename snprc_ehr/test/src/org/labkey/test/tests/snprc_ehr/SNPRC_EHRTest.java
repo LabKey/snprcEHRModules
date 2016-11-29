@@ -58,6 +58,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +67,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
 public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
@@ -418,22 +420,77 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testAnimalHistory()
+    public void testAnimalHistorySingleAnimalFilter()
     {
-        click(Locator.linkWithText("Animal History"));
-        saveLocation();
-        waitForElement(Locator.inputByNameContaining("textfield"));
-        setFormElement(Locator.inputByNameContaining("textfield"), "12345");
-        click(Locator.tagWithText("span", "Update Report"));
+        clickTab("Animal History");
+        new SNPRCAnimalHistoryPage(getDriver())
+                .searchSingleAnimal("12345");
         waitForText("Overview: 12345");
         waitForTextToDisappear("Loading...");
         //spot check a few of the data points
         assertTextPresent("2043365 / A1", "There are no active medications", "Rhesus");
-        recallLocation();
-        click(Locator.xpath("//label[.='Entire Database']/../input"));
-        click(Locator.tagWithText("span", "Update Report"));
+    }
+
+    @Test
+    public void testAnimalHistoryMultiAnimalFilter()
+    {
+        final String id = "12345";
+        final String alias = "ALIAS1";
+        final String aliasedId = "TEST3804589";
+        final String conflictedAlias = "ALIAS2";
+        final List<String> conflictedIds = Arrays.asList("TEST4551032", "TEST5904521");
+        final String notFound = "1234";
+
+        clickTab("Animal History");
+        final SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver())
+                .selectMultiAnimalSearch()
+                .replaceSubjects(id + ";" + alias + ";" + conflictedAlias + ";" + notFound)
+                .getPage();
+
+        assertEquals("Wrong found ID(s)", Arrays.asList(id), historyPage.getFoundIds());
+        assertEquals("Wrong aliased ID(s)", Arrays.asList(aliasedId), historyPage.getAliasIds());
+        assertEquals("Wrong conflicted ID(s)", conflictedIds, historyPage.getConflictedIds());
+        assertEquals("Wrong not-found ID(s)", Arrays.asList(notFound), historyPage.getNotFoundIds());
+
+        List<String> expectedIds = new ArrayList<>();
+        expectedIds.add(id);
+        expectedIds.add(aliasedId);
+        expectedIds.addAll(conflictedIds);
+        Collections.sort(expectedIds);
+
+        historyPage.clickReportTab("Demographics");
+        DataRegionTable demographics = historyPage.getActiveReportDataRegion();
+        assertEquals("Wrong animals in report", expectedIds, demographics.getColumnDataAsText("Id"));
+    }
+
+    @Test
+    public void testAnimalHistoryMultiAnimalFilterSNPRCOverrides()
+    {
+        clickTab("Animal History");
+        final SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver());
+        List<String> ids = historyPage.selectMultiAnimalSearch()
+                .replaceSubjects("1..5")
+                .getPage()
+                .getNotFoundIds();
+        assertEquals("Search for 1..5 did not work correctly", Arrays.asList("1", "2", "3", "4", "5"), ids);
+
+        ids = historyPage.selectMultiAnimalSearch()
+                .replaceSubjects("1 12345")
+                .getPage()
+                .getNotFoundIds();
+        assertEquals("Search for \"1 12345\" did not work correctly", Arrays.asList("1_12345"), ids);
+    }
+
+    @Test
+    public void testAnimalHistoryNoFilter()
+    {
+        clickTab("Animal History");
+        new SNPRCAnimalHistoryPage(getDriver())
+                .selectEntireDatabaseSearch()
+                .refreshReport();
         //check count and links for one subject
-        DataRegionTable tbl = DataRegionTable.findDataRegionWithin(this, PortalHelper.Locators.webPart("Overview").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT));
+        final WebElement overview = PortalHelper.Locators.webPart("Overview").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT);
+        DataRegionTable tbl = DataRegion(getDriver()).find(overview);
         assertEquals(tbl.getDataRowCount(), 49);
         assertElementPresent(Locator.linkWithText("TEST1020148"));
         assertElementPresent(Locator.linkWithText("Male"));
@@ -508,8 +565,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         clickAndWait(Locator.linkWithText("Animal History"));
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
 
-        setFormElement(Locator.inputByNameContaining("textfield"), "TEST1441142");
-        click(Locator.tagWithText("span", "Update Report"));
+        animalHistoryPage.searchSingleAnimal("TEST1441142");
         _helper.verifyAllReportTabs(animalHistoryPage);
     }
 
@@ -691,6 +747,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         setFormElement(new Locator.NameLocator("defaultDateFormat"), dateFormat);
         setFormElement(new Locator.NameLocator("defaultDateTimeFormat"), dateTimeFormat);
-        click(new Locator.LinkLocator("SAVE"));
+        clickAndWait(Locator.lkButton("Save"));
     }
 }
