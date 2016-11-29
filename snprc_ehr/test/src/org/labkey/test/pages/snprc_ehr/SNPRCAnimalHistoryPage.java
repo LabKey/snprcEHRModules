@@ -20,7 +20,7 @@ import org.labkey.test.WebTestHelper;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.openqa.selenium.WebDriver;
 
-public class SNPRCAnimalHistoryPage extends AnimalHistoryPage
+public class SNPRCAnimalHistoryPage extends AnimalHistoryPage<SNPRCAnimalHistoryPage>
 {
     public SNPRCAnimalHistoryPage(WebDriver driver)
     {
