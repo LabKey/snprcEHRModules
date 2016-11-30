@@ -43,6 +43,7 @@
                     <column columnName="result">
                         <columnTitle>Result</columnTitle>
                         <nullable>true</nullable>
+                        <measure>true</measure>
                     </column>
                     <column columnName="units">
                         <columnTitle>Units</columnTitle>
