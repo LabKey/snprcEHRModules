@@ -35,12 +35,14 @@ ALTER VIEW [labkey_etl].[V_WEIGHT] AS
 --  9/8/2015	Added capuchin weight code. tjh
 --  11/19/2015	Changed query to use the pkg_category/valid_code_table to find weight pkg codes. tjh
 -- 11/15/2016  added modified, modifiedby, created, and createdby, parentid columns + code cleanup tjh
+-- 11/29/2016  added project column. tjh
 -- ==========================================================================================
 
 SELECT
   ae.ANIMAL_ID                     AS id,
   ae.EVENT_DATE_TM                 AS date,
   CAST(cpa.VALUE AS NUMERIC(7, 4)) AS weight,
+  ae.charge_id                     AS project,
   AE.OBJECT_ID                     AS parentid,
   cp.OBJECT_ID                     AS objectid,
   CP.entry_date_tm                 AS modified,

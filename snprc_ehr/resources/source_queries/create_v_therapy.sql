@@ -35,6 +35,7 @@ ALTER VIEW [labkey_etl].[V_THERAPY] AS
 -- Create date: 8/20/2015
 -- Changes:
 -- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
+-- 11/29/2016  added project column. tjh
 -- ==========================================================================================
 
 SELECT
@@ -49,6 +50,7 @@ SELECT
   vtf.tid                         AS frequency,
   t.dx                            AS reason,
   t.tid                           AS visitRowId,
+  ae.CHARGE_ID                    AS project,
   t.OBJECT_ID                     AS objectid,
   t.entry_date_tm                 AS modified,
   dbo.f_map_username(t.user_name) AS modifiedby,
@@ -57,6 +59,7 @@ SELECT
   t.TIMESTAMP
 FROM dbo.therapy AS t
   INNER JOIN dbo.valid_therapy_frequencies AS vtf ON vtf.frequency = t.frequency
+  INNER JOIN dbo.animal_events AS ae ON t.animal_event_id = ae.ANIMAL_EVENT_ID
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = t.object_id
   -- select primates only from the TxBiomed colony
   INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS v ON v.id = t.id

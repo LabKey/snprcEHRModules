@@ -35,12 +35,14 @@ ALTER VIEW [labkey_etl].[V_VITALS] AS
 -- Description:	Select vitals data for Labkey ETL
 -- Changes:
 -- 11/15/2016  added modified, modifiedby, created, and createdby, parentid columns tjh
+-- 11/29/2016  added project column. tjh
 --
 -- ==========================================================================================
 
 SELECT
   ID,
   DATE_TM                     AS date,
+  project,
   CAST(RR AS NUMERIC(4, 0))   AS respRate,
   CAST(HR AS NUMERIC(4, 0))   AS heartRate,
   CAST(TEMP AS NUMERIC(5, 2)) AS temp,
@@ -48,8 +50,8 @@ SELECT
   objectid,
   modified,
   modifiedby,
-  NULL AS created,
-  NULL AS createdby,
+  NULL                        AS created,
+  NULL                        AS createdby,
   timestamp
 FROM
 
@@ -58,6 +60,7 @@ FROM
       SELECT
         AE.ANIMAL_ID                              AS ID,
         AE.EVENT_DATE_TM                          AS DATE_TM,
+        ae.charge_id                              AS project,
         CASE WHEN ISNUMERIC(cpa.value) <> 1
           THEN NULL
         ELSE CAST(CPA.VALUE AS NUMERIC(6, 2)) END AS VALUE,

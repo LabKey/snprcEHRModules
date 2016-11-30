@@ -39,6 +39,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
 
   SELECT
     ca.charge_id                     AS project,
+	CASE WHEN vcs.charge_id IS NULL THEN 'True' ELSE 'False' END AS research,
     ca.cost_account                  AS account,
     ca.working_iacuc                 AS protocol,
     ca.start_date                    AS startdate,
@@ -53,6 +54,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
     ca.timestamp                     AS timestamp
   FROM dbo.charge_account AS ca
     LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ca.object_id
+	LEFT OUTER JOIN (SELECT DISTINCT charge_id FROM dbo.valid_charge_by_species) AS vcs ON ca.charge_id = vcs.charge_id
 
 
 GO
