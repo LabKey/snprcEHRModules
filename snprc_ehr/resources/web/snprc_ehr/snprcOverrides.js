@@ -125,8 +125,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         }, this);
 
         Ext4.each(rows, function(r){
-            var d = LDK.ConvertUtils.parseDate(r.account_date,'m-d-Y');
-            text.push('<tr><td nowrap>' + d.format('m-d-Y')  +
+            var d = LDK.ConvertUtils.parseDate(r.account_date,LABKEY.extDefaultDateFormat);
+            text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat)  +
                     '</td><td style="padding-left: 5px;" nowrap>' + r.account + '</td></tr>');
         }, this);        }
 
@@ -147,8 +147,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }, this);
 
             Ext4.each(rows, function(r){
-                var d = LDK.ConvertUtils.parseDate(r.admit_date,'m-d-Y');
-                text.push(d.format('m-d-Y') + ' ' + r.admit_complaint);
+                var d = LDK.ConvertUtils.parseDate(r.admit_date,LABKEY.extDefaultDateFormat);
+                text.push(d.format(LABKEY.extDefaultDateFormat) + ' ' + r.admit_complaint);
             }, this);        }
 
         toSet['activeCases'] = text.length ? text.join(',<br>') : 'None';
@@ -167,8 +167,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }, this);
 
             Ext4.each(rows, function(r){
-                var d = LDK.ConvertUtils.parseDate(r.pedigree_date,'m-d-Y');
-                text.push('<tr><td nowrap>' + d.format('m-d-Y')  +
+                var d = LDK.ConvertUtils.parseDate(r.pedigree_date,LABKEY.extDefaultDateFormat);
+                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat)  +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.pedigree + '</td></tr>');
             }, this);        }
 
@@ -188,8 +188,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }, this);
 
             Ext4.each(rows, function(r){
-                var d = LDK.ConvertUtils.parseDate(r.diet_date,'m-d-Y');
-                text.push('<tr><td nowrap>' + d.format('m-d-Y')  +
+                var d = LDK.ConvertUtils.parseDate(r.diet_date,LABKEY.extDefaultDateFormat);
+                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat)  +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.diet + '</td></tr>');
             }, this);        }
 
