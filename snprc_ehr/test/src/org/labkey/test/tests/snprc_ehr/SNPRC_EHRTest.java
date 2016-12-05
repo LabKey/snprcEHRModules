@@ -36,7 +36,6 @@ import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
 import org.labkey.test.components.ext4.widgets.SearchPanel;
-import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.snprc_ehr.ColonyOverviewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
@@ -91,6 +90,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
     private static final String FOLDER_NAME = "SNPRC";
+    private static final String ANIMAL_HISTORY_URL = "/ehr/" + PROJECT_NAME + "/animalHistory.view?";
     private static Integer _pipelineJobCount = 0;
 
     private boolean _hasCreatedBirthRecords = false;
@@ -687,6 +687,29 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
+    public void testClinicalHistoryPanelOptions(){
+        beginAtAnimalHistoryTab();
+        openClinicalHistoryForAnimal("TEST1020148");
+        List<String> expectedLabels = new ArrayList<String>(
+                Arrays.asList(
+                        "Assignments",
+                        "Clinical",
+                        "Diet",
+                        "Labwork",
+                        "Notes",
+                        "TB",
+                        "Weights",
+
+                        "Blood Draws",
+                        "Deliveries",
+                        "Housing Transfers",
+                        "LabworkResults",
+                        "Pregnancy Confirmations",
+                        "Vitals"
+                        ));
+        checkClinicalHistoryType(expectedLabels);    }
+
+    @Test
     public void testDateFormat(){
 
         String dateFormat = "yy-M-d";
@@ -728,16 +751,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private void confirmJavascriptDrivenDateFormat(String expectedDate)
     {
-        goToProjectHome();
-
-        waitAndClick(Locator.linkWithText("Animal History"));
-
-        getAnimalHistorySubjField().setValue("TEST1020148");
-
-        //chronological history
-        AnimalHistoryPage animalHistoryPage = new AnimalHistoryPage(getDriver());
-        animalHistoryPage.clickCategoryTab("Clinical");
-        animalHistoryPage.clickReportTab("Clinical History");
+        beginAtAnimalHistoryTab();
         assertTextPresentCaseInsensitive(expectedDate);
     }
 
@@ -748,5 +762,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         setFormElement(new Locator.NameLocator("defaultDateFormat"), dateFormat);
         setFormElement(new Locator.NameLocator("defaultDateTimeFormat"), dateTimeFormat);
         clickAndWait(Locator.lkButton("Save"));
+    }
+
+    @Override
+    protected String getAnimalHistoryPath()
+    {
+        return ANIMAL_HISTORY_URL;
     }
 }
