@@ -100,12 +100,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         return "snprc_ehr";
     }
 
-    @Override
-    protected void goToEHRFolder()
-    {
-        clickProject(getProjectName());
-    }
-
     @Nullable
     @Override
     protected String getProjectName()
@@ -707,7 +701,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Pregnancy Confirmations",
                         "Vitals"
                         ));
-        checkClinicalHistoryType(expectedLabels);    }
+        checkClinicalHistoryType(expectedLabels);
+    }
 
     @Test
     public void testDateFormat(){
