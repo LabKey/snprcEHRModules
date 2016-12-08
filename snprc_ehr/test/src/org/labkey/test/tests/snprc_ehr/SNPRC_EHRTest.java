@@ -36,6 +36,7 @@ import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
 import org.labkey.test.components.ext4.widgets.SearchPanel;
+import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.snprc_ehr.ColonyOverviewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
@@ -747,6 +748,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private void confirmJavascriptDrivenDateFormat(String expectedDate)
     {
         beginAtAnimalHistoryTab();
+
+        //chronological history
+        AnimalHistoryPage animalHistoryPage = new AnimalHistoryPage(getDriver());
+        animalHistoryPage.searchSingleAnimal("TEST1020148");
+        animalHistoryPage.clickCategoryTab("Clinical");
+        animalHistoryPage.clickReportTab("Clinical History");
         assertTextPresentCaseInsensitive(expectedDate);
     }
 
