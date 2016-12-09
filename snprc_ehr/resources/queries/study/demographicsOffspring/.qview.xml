@@ -2,13 +2,7 @@
     <columns>
         <column name="id"/>
         <column name="Offspring"/>
-
-        <column name="Offspring/demographics/gender">
-            <properties>
-                <property name="columnTitle" value="Sex"/>
-            </properties>
-        </column>
-        <column name="Offspring/demographics/birth">
+        <column name="date">
             <properties>
                 <property name="columnTitle" value="Birth Date"/>
             </properties>
@@ -30,13 +24,10 @@
                 <property name="columnTitle" value="Death Type"/>
             </properties>
         </column>
-
-        <column name="Offspring/parents/sire"/>
-
-        <column name="Offspring/parents/dam"/>
-
+        <column name="sire"/>
+        <column name="dam"/>
     </columns>
     <sorts>
-        <sort column="Birth" descending="true" />
+        <sort column="date" descending="true" />
     </sorts>
 </customView>

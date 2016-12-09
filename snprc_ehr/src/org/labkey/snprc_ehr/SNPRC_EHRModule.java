@@ -51,6 +51,7 @@ import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
+import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
@@ -140,6 +141,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         // Add SNPRC clinical history data sources
         EHRService.get().registerHistoryDataSource(new DietDataSource(this));
+        EHRService.get().registerHistoryDataSource(new OffspringDataSource(this));
 
         // Add SNPRC Labwork type
         EHRService.get().registerLabworkType(new LabResultsLabworkType(this));
