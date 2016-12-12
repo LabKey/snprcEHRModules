@@ -1,0 +1,7 @@
+"Id"	"date"	"enddate"	"caseid"	"category"	"problem"	"sdx"	"admitcomplaint"	"assignedvet"
+"TEST3771679"	"2016-11-24 14:36:56.0"	"2016-12-01 14:50:12.0"	"122222"	"Research"	"PROJECT"	"PREGNANCY"	"Research 1010"	"12"
+"TEST2312318"	"2016-11-24 14:36:56.0"	"2016-11-26 12:30:12.0"	"99999"	"Research"	"PROJECT"	"ADMITTED WITH DAM"	"Research 1005"	"13"
+"TEST6390238"	"2016-12-03 14:36:56.0"	"2016-12-11 04:34:11.0"	"124444"	"Clinical"	"OBSERVATION"	"DIARRHEA"	"Thin and dehydrated"	"12"
+"TEST1112911"	"2016-12-04 14:36:56.0"	"2016-12-12 11:54:54.0"	"111111"	"Clinical"	"HEALTH CHECK"	"DEHYDRATION"	"Cramping and dehydrated"	"4"
+"TEST6390238"	"2016-12-11 14:50:12.0"	""	"98899"	"Research"	"PROJECT"	"PREGNANCY"	"Research 1099"	"10"
+"TEST2312318"	"2016-12-09 10:27:33.0"	""	"132222"	"Clinical"	"TRAUMA"	"ORPHAN"	"Nursery care"	"9"
