@@ -513,13 +513,16 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         List<Map<String, Object>> bloodRows = Arrays.asList(
                 Maps.of("Id", aliveRhesusId,
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))),
-                        "quantity", weight),
+                        "quantity", weight,
+                        "project", PROJECT_ID),
                 Maps.of("Id", aliveRhesusId,
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
-                        "quantity", (weight + 0.5) * maxDraw),
+                        "quantity", (weight + 0.5) * maxDraw,
+                        "project", PROJECT_ID),
                 Maps.of("Id", aliveRhesusId,
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
-                        "quantity", weight)
+                        "quantity", weight,
+                        "project", PROJECT_ID)
         );
 
         command = new InsertRowsCommand("study", "blood");
@@ -532,7 +535,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         participantViewPage.clickReportTab("Current Blood");
 
         WebElement svg = Locator.css("div[id^=snprc-bloodsummarypanel-] svg").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT);
-        assertEquals("Wrong number of data points", 5, svg.findElements(By.cssSelector("a.point")).size()); // Two blood draws, 3 refreshes
+        assertEquals("Wrong number of data points", 6, svg.findElements(By.cssSelector("a.point")).size()); // Two blood draws, 3 refreshes
     }
 
     /**
