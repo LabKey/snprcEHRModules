@@ -688,22 +688,28 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void testClinicalHistoryPanelOptions(){
         beginAtAnimalHistoryTab();
         openClinicalHistoryForAnimal("TEST1020148");
+
         List<String> expectedLabels = new ArrayList<String>(
                 Arrays.asList(
+                        "Accounts",
                         "Assignments",
                         "Clinical",
-                        "Diet",
-                        "Labwork",
-                        "Notes",
-                        "TB",
-                        "Weights",
-
-                        "Blood Draws",
                         "Deliveries",
                         "Housing Transfers",
                         "LabworkResults",
+                        "Offspring",
+                        "TB",
+                        "Vitals",
+
+                        "Arrival/Departure",
+                        "Blood Draws",
+                        "Cycles",
+                        "Diet",
+                        "Labwork",
+                        "Notes",
                         "Pregnancy Confirmations",
-                        "Vitals"
+                        "Therapy",
+                        "Weights"
                         ));
         checkClinicalHistoryType(expectedLabels);
     }
