@@ -55,7 +55,14 @@ SELECT
   d.species.blood_per_kg,
   d.species.max_draw_pct,
   bd.blood_draw_interval,
-  (d.id.mostRecentWeight.MostRecentWeight * d.species.blood_per_kg * d.species.max_draw_pct) as allowableBlood,
+  CASE WHEN d.species.arc_species_code = 'SM' OR d.species = 'TAM' OR d.species.arc_species_code = 'CJ' OR d.species = 'PMC'
+  THEN
+   	CASE WHEN d.id.mostRecentWeight.MostRecentWeight > .339 THEN 3
+   	ELSE 2
+   	END
+  ELSE
+  	(d.id.mostRecentWeight.MostRecentWeight * d.species.blood_per_kg * d.species.max_draw_pct)
+  END as allowableBlood,
   bd.minDate,
   bd.maxDate,
   COALESCE(
