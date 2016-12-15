@@ -55,7 +55,7 @@ SELECT
   d.species.blood_per_kg,
   d.species.max_draw_pct,
   bd.blood_draw_interval,
-  CASE WHEN d.species.arc_species_code = 'SM' OR d.species = 'TAM' OR d.species.arc_species_code = 'CJ' OR d.species = 'PMC'
+  CASE WHEN d.species.arc_species_code = 'SM' OR d.species.arc_species_code = 'CJ'
   THEN
    	CASE WHEN d.id.mostRecentWeight.MostRecentWeight > .339 THEN 3
    	ELSE 2
