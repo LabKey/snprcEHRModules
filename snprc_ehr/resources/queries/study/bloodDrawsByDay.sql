@@ -21,5 +21,5 @@ SELECT
   timestampadd('SQL_TSI_DAY', b.id.dataset.demographics.species.blood_draw_interval, cast(b.date as date)) as dropDate
 FROM study.blood b
 --NOTE: this has been changed to include pending requests in the total
-WHERE (b.countsAgainstVolume = true)
+WHERE (b.countsAgainstVolume = true AND b.project.research = true)
 GROUP BY b.id, b.id.dataset.demographics.species.blood_draw_interval, cast(b.date as date)
