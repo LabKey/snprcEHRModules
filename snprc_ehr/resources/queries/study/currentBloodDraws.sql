@@ -68,7 +68,7 @@ SELECT
   COALESCE(
     (SELECT SUM(coalesce(draws.quantity, 0)) AS _expr
     FROM study."Blood Draws" draws
-    WHERE draws.id = bd.id
+    WHERE draws.id = bd.id AND draws.project.research = true
       AND draws.dateOnly > bd.minDate
       AND draws.dateOnly <= bd.dateOnly
       --NOTE: this has been changed to include pending/non-approved draws
@@ -78,7 +78,7 @@ SELECT
   COALESCE(
     (SELECT SUM(coalesce(draws.quantity, 0)) AS _expr
     FROM study."Blood Draws" draws
-    WHERE draws.id = bd.id
+    WHERE draws.id = bd.id AND draws.project.research = true
       AND draws.dateOnly < bd.maxDate
       AND draws.dateOnly >= bd.dateOnly
       --NOTE: this has been changed to include pending/non-approved draws
