@@ -532,7 +532,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private void verifyRecentBloodDraws(ParticipantViewPage page, Map<String, List<String>> values)
     {
-        DataRegionTable recentBlood = page.getLastActiveReportDataRegion();
+        List<DataRegionTable> dataRegions = page.getActiveReportDataRegions();
+        DataRegionTable recentBlood = dataRegions.get(dataRegions.size() - 1);
 
         for (String col : values.keySet())
         {
