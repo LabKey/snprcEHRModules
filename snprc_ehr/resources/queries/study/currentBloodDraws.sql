@@ -57,7 +57,7 @@ SELECT
   bd.blood_draw_interval,
   CASE WHEN d.species.arc_species_code = 'SM' OR d.species.arc_species_code = 'CJ'
   THEN
-   	CASE WHEN d.id.mostRecentWeight.MostRecentWeight > .339 THEN 3
+   	CASE WHEN d.id.mostRecentWeight.MostRecentWeight >= .34 THEN 3
    	ELSE 2
    	END
   ELSE
