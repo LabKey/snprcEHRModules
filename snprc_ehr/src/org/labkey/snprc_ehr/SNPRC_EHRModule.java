@@ -21,7 +21,6 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
-import org.labkey.snprc_ehr.history.AccountDataSource;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
 import org.labkey.api.ehr.history.DefaultDepartureDataSource;
 import org.labkey.api.ehr.history.DefaultNotesDataSource;
@@ -52,6 +51,8 @@ import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
+import org.labkey.snprc_ehr.history.AccountDataSource;
+import org.labkey.snprc_ehr.history.AssignmentDataSource;
 import org.labkey.snprc_ehr.history.BloodDataSource;
 import org.labkey.snprc_ehr.history.CasesDataSource;
 import org.labkey.snprc_ehr.history.DietDataSource;
@@ -151,6 +152,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerHistoryDataSource(new DefaultVitalsDataSource(this));
         EHRService.get().registerHistoryDataSource(new TherapyDataSource(this));
         EHRService.get().registerHistoryDataSource(new BloodDataSource(this));
+        EHRService.get().registerHistoryDataSource(new AssignmentDataSource(this));
 
         // Add SNPRC clinical history data sources
         EHRService.get().registerHistoryDataSource(new DietDataSource(this));
