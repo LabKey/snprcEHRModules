@@ -276,6 +276,38 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         }
         command.setRows(loadedTsv);
         command.execute(connection, getProjectName());
+
+        // Valid accounts
+        List<Map<String, Object>> accountRows = Arrays.asList(
+                new HashMap<String, Object>(Maps.of("account", "1000-100-10",
+                        "description", "Doe, 1111MM",
+                        "accountStatus", "A",
+                        "accountGroup", "Doe",
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -20)))),
+                new HashMap<String, Object>(Maps.of("account", "2000-200-20",
+                        "description", "Smith, 2222PC",
+                        "accountStatus", "A",
+                        "accountGroup", "Smith 2222",
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -15)))),
+                new HashMap<String, Object>(Maps.of("account", "3000-300-30",
+                        "description", "Yu, Reseach 1212",
+                        "accountStatus", "A",
+                        "accountGroup", "Undefined",
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -2)))),
+                new HashMap<String, Object>(Maps.of("account", "4000-400-40",
+                        "description", "General clinical",
+                        "accountStatus", "I",
+                        "accountGroup", "Clinical",
+                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -112)))));
+
+        for (Map<String, Object> accountRow : accountRows)
+        {
+            accountRow.put("objectid", new GUID());
+        }
+
+        command = new InsertRowsCommand("snprc_ehr", "validAccounts");
+        command.setRows(accountRows);
+        command.execute(connection, getProjectName());
     }
 
     @Override
@@ -813,24 +845,25 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Accounts",
                         "Assignments",
                         "Clinical",
-                        "Deliveries",
-                        "Housing Transfers",
-                        "LabworkResults",
-                        "Offspring",
-                        "TB",
-                        "Vitals",
-
-                        "Arrival/Departure",
-                        "Blood Draws",
-                        "Cycles",
                         "Diet",
                         "Labwork",
                         "Notes",
                         "Pregnancy Confirmations",
                         "Therapy",
-                        "Weights"
+                        "Weights",
+
+                        "Arrival/Departure",
+                        "Blood Draws",
+                        "Deliveries",
+                        "Housing Transfers",
+                        "Labwork Results",
+                        "Offspring",
+                        "TB",
+                        "Vitals"
                         ));
         checkClinicalHistoryType(expectedLabels);
+
+
     }
 
     @Test

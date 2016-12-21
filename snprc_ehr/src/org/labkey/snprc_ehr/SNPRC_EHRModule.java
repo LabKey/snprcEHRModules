@@ -21,14 +21,11 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
-import org.labkey.api.ehr.history.DefaultAccountDataSource;
+import org.labkey.snprc_ehr.history.AccountDataSource;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
-import org.labkey.api.ehr.history.DefaultCasesDataSource;
-import org.labkey.api.ehr.history.DefaultCycleDatasource;
 import org.labkey.api.ehr.history.DefaultDepartureDataSource;
 import org.labkey.api.ehr.history.DefaultNotesDataSource;
 import org.labkey.api.ehr.history.DefaultTBDataSource;
-import org.labkey.api.ehr.history.DefaultTreatmentOrdersDataSource;
 import org.labkey.api.ehr.history.DefaultVitalsDataSource;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
@@ -55,6 +52,8 @@ import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
+import org.labkey.snprc_ehr.history.BloodDataSource;
+import org.labkey.snprc_ehr.history.CasesDataSource;
 import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
@@ -142,15 +141,16 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
 
         // Add ehr clinical history data sources
-        EHRService.get().registerHistoryDataSource(new DefaultAccountDataSource(this));
+        EHRService.get().registerHistoryDataSource(new AccountDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultArrivalDataSource(this));
-        EHRService.get().registerHistoryDataSource(new DefaultCasesDataSource(this));
-        EHRService.get().registerHistoryDataSource(new DefaultCycleDatasource(this));
+        EHRService.get().registerHistoryDataSource(new CasesDataSource(this));
+//        EHRService.get().registerHistoryDataSource(new CycleDatasource(this)); // Removed for performance. Restructuring data.
         EHRService.get().registerHistoryDataSource(new DefaultDepartureDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultNotesDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultTBDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultVitalsDataSource(this));
         EHRService.get().registerHistoryDataSource(new TherapyDataSource(this));
+        EHRService.get().registerHistoryDataSource(new BloodDataSource(this));
 
         // Add SNPRC clinical history data sources
         EHRService.get().registerHistoryDataSource(new DietDataSource(this));

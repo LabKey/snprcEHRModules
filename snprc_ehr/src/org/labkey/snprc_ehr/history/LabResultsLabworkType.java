@@ -63,7 +63,7 @@ public class LabResultsLabworkType extends DefaultLabworkType
     public LabResultsLabworkType(Module module)
     {
         //terry - is 'Lab Results' what you used for test_type?
-        super("LabworkResults", "study", "LabworkResults", module);
+        super("Labwork Results", "study", "LabworkResults", module);
         _testType = _default_testType;  // this is just a temporary value it will be updated for the specific
                                         // assay type in the getRows() method. tjh
         _normalRangeField = "refRange";
