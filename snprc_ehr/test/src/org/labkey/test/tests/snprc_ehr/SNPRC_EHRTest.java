@@ -871,14 +871,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         String dateFormat = "yy-M-d";
         String dateTimeFormat = "yy-M-d H:mm";
-        String expectedDate = "11-6-1";
+        String expectedDate = "16-6-1";
         String expectedTime = "8:58";
 
         testDateFormat(dateFormat,dateTimeFormat, expectedDate, expectedTime);
 
         dateFormat = "yyyy-MM-dd";
         dateTimeFormat = dateFormat + " HH:mm";
-        expectedDate = "2011-06-01";
+        expectedDate = "2016-06-01";
         expectedTime = "08:58";
 
         testDateFormat(dateFormat,dateTimeFormat, expectedDate, expectedTime);

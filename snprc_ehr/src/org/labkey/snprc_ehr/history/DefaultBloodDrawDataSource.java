@@ -13,9 +13,9 @@ import java.util.Set;
 /**
  * Created by Marty on 12/19/2016.
  */
-public class BloodDataSource extends AbstractDataSource
+public class DefaultBloodDrawDataSource extends AbstractDataSource
 {
-    public BloodDataSource(Module module)
+    public DefaultBloodDrawDataSource(Module module)
     {
         super("study", "Blood Draws", "Blood Draw", "Blood Draws", module);
         setShowTime(true);

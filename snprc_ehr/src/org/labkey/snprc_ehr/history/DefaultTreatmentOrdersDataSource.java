@@ -7,9 +7,9 @@ import org.labkey.api.module.Module;
 
 import java.sql.SQLException;
 
-public class TherapyDataSource extends AbstractDataSource
+public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
 {
-    public TherapyDataSource(Module module)
+    public DefaultTreatmentOrdersDataSource(Module module)
     {
         super("study", "Treatment Orders", "Therapy", "Therapy", module);
         setShowTime(true);

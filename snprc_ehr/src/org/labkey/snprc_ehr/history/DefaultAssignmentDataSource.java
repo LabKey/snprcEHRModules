@@ -12,11 +12,11 @@ import java.util.Set;
 /**
  * Created by Marty on 12/20/2016.
  */
-public class CasesDataSource extends AbstractDataSource
+public class DefaultAssignmentDataSource extends AbstractDataSource
 {
-    public CasesDataSource(Module module)
+    public DefaultAssignmentDataSource(Module module)
     {
-        super("study", "cases", "Case Opened", "Clinical", module);
+        super("study", "Assignment", "Assignment", "Assignments", module);
     }
 
     @Override
@@ -24,12 +24,8 @@ public class CasesDataSource extends AbstractDataSource
     {
         StringBuilder sb = new StringBuilder();
 
-        addStringField(rs, sb, "caseid", "Admit Id");
-        addStringField(rs, sb, "category", "Category");
-        addStringField(rs, sb, "problem", "PDX");
-        addStringField(rs, sb, "sdx", "SDX");
-        addStringField(rs, sb, "admitcomplaint", "Admitting Complaint");
-        addStringFieldLookup(rs, sb, "displayName", "assignedvet", "Assigned Vet");
+        addStringField(rs, sb, "protocol", "Protocol");
+        addStringFieldLookup(rs, sb, "description", "assignmentStatus", "Status");
         addDateField(c, rs, sb, "enddate", "End Date");
 
         return sb.toString();
@@ -38,6 +34,6 @@ public class CasesDataSource extends AbstractDataSource
     @Override
     protected Set<String> getColumnNames()
     {
-        return PageFlowUtil.set("Id", "date", "enddate", "category", "problem", "sdx", "admitcomplaint", "assignedvet/displayName");
+        return PageFlowUtil.set("Id", "date", "protocol", "assignmentStatus/description", "enddate");
     }
 }

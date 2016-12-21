@@ -8,8 +8,6 @@ import org.labkey.api.data.Container;
 import org.labkey.api.data.Results;
 import org.labkey.api.ehr.history.AbstractDataSource;
 import org.labkey.api.module.Module;
-import org.labkey.api.query.FieldKey;
-import org.labkey.api.util.DateUtil;
 
 import java.sql.SQLException;
 
@@ -26,25 +24,11 @@ public class DietDataSource extends AbstractDataSource
     {
         StringBuilder sb = new StringBuilder();
 
-        if (rs.hasColumn(FieldKey.fromString("code")) && rs.getObject("code") != null)
-        {
-            addRow(sb, "Diet", rs.getString("code"));
-        }
-
-        if (rs.hasColumn(FieldKey.fromString("enddate")) && rs.getObject("enddate") != null)
-        {
-            addRow(sb, "End Date", DateUtil.formatDate(c, rs.getDate("enddate")));
-        }
+        addStringFieldLookup(rs, sb, "meaning", "code", "Diet");
+        addStringField(rs, sb, "code", "SNOMED");
+        addDateField(c, rs, sb, "enddate", "End Date");
 
         return sb.toString();
-    }
-
-    private void addRow(StringBuilder sb, String displayLabel, String value)
-    {
-        sb.append(displayLabel);
-        sb.append(": ");
-        sb.append(value);
-        sb.append("\n");
     }
 }
 

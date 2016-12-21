@@ -52,13 +52,15 @@ import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.history.AccountDataSource;
-import org.labkey.snprc_ehr.history.AssignmentDataSource;
-import org.labkey.snprc_ehr.history.BloodDataSource;
-import org.labkey.snprc_ehr.history.CasesDataSource;
+import org.labkey.snprc_ehr.history.DefaultAssignmentDataSource;
+import org.labkey.snprc_ehr.history.DefaultBloodDrawDataSource;
+import org.labkey.snprc_ehr.history.DefaultCasesCloseDataSource;
+import org.labkey.snprc_ehr.history.DefaultCasesDataSource;
+import org.labkey.snprc_ehr.history.DefaultObservationsDataSource;
+import org.labkey.snprc_ehr.history.DefaultTreatmentOrdersDataSource;
 import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
-import org.labkey.snprc_ehr.history.TherapyDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
@@ -144,15 +146,17 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         // Add ehr clinical history data sources
         EHRService.get().registerHistoryDataSource(new AccountDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultArrivalDataSource(this));
-        EHRService.get().registerHistoryDataSource(new CasesDataSource(this));
 //        EHRService.get().registerHistoryDataSource(new CycleDatasource(this)); // Removed for performance. Restructuring data.
         EHRService.get().registerHistoryDataSource(new DefaultDepartureDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultNotesDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultTBDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultVitalsDataSource(this));
-        EHRService.get().registerHistoryDataSource(new TherapyDataSource(this));
-        EHRService.get().registerHistoryDataSource(new BloodDataSource(this));
-        EHRService.get().registerHistoryDataSource(new AssignmentDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultTreatmentOrdersDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultBloodDrawDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultAssignmentDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultObservationsDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultCasesDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultCasesCloseDataSource(this));
 
         // Add SNPRC clinical history data sources
         EHRService.get().registerHistoryDataSource(new DietDataSource(this));
