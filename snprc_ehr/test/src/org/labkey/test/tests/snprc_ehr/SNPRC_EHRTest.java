@@ -874,7 +874,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Labwork Results",
                         "Offspring",
                         "TB",
-                        "Vitals",
+                        "Virology",
+                        "Weights",
 
                         "Arrival/Departure",
                         "Blood Draws",
@@ -884,10 +885,40 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Notes",
                         "Pregnancy",
                         "Therapy",
-                        "Weights"
+                        "Vitals"
                         ));
         checkClinicalHistoryType(expectedLabels);
+        click(findButton("Submit"));
 
+        List<String> entries = new ArrayList<>(
+                Arrays.asList(
+                        "TEST1020148 (2016-06-13)",
+                        "TEST1020148 (2016-06-09)",
+                        "TEST1020148 (2016-05-31)",
+                        "TEST1020148 (2016-04-20)",
+                        "TEST1020148 (2016-01-17)",
+                        "TEST1020148 (2015-01-25)",
+                        "TEST1020148 (2014-12-27)",
+                        "Weight: 3.73 kg",
+                        "Charge Id: 7133145",
+                        "Service/Panel: X VIRUS",
+                        "Protocol: protocol101",
+                        "Service/Panel: FULL PANEL CULTURE",
+                        "Moved to: 950756 / 4420023",
+                        "Service/Panel: URINE CHEM"
+                )
+        );
+
+        assertTextPresentCaseInsensitive(entries);
+
+        // Deselect weight, blood and housing
+        waitAndClick(Locator.linkWithText("Show/Hide Types"));
+        click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4));
+        click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9));
+        click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11));
+        click(findButton("Submit"));
+
+        assertTextNotPresent("Weight: 3.73 kg", "Charge Id: 7133145", "Moved to: 950756 / 4420023");
 
     }
 
