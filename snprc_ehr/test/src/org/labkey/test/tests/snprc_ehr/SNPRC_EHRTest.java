@@ -308,6 +308,30 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         command = new InsertRowsCommand("snprc_ehr", "validAccounts");
         command.setRows(accountRows);
         command.execute(connection, getProjectName());
+
+        // Labwork types
+        List<Map<String, Object>> labworkTypeRows = Arrays.asList(
+                Maps.of("servicename", "BLOOD LAB SERVICES",
+                        "dataset", "Hematology",
+                        "serviceid", "11111",
+                        "objectid", new GUID()),
+                Maps.of("servicename", "X VIRUS",
+                        "dataset", "Surveillance",
+                        "serviceid", "22222",
+                        "objectid", new GUID()),
+                Maps.of("servicename", "FULL PANEL CULTURE",
+                        "dataset", "Microbiology",
+                        "serviceid", "33333",
+                        "objectid", new GUID()),
+                Maps.of("servicename", "URINE CHEM",
+                        "dataset", "Urinalysis",
+                        "serviceid", "44444",
+                        "objectid", new GUID())
+        );
+
+        command = new InsertRowsCommand("snprc_ehr", "labwork_services");
+        command.setRows(labworkTypeRows);
+        command.execute(connection, getProjectName());
     }
 
     @Override
@@ -844,22 +868,23 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 Arrays.asList(
                         "Accounts",
                         "Assignments",
-                        "Clinical",
+                        "Chemistry",
                         "Diet",
-                        "Labwork",
-                        "Notes",
-                        "Pregnancy Confirmations",
-                        "Therapy",
-                        "Weights",
-
-                        "Arrival/Departure",
-                        "Blood Draws",
-                        "Deliveries",
                         "Housing Transfers",
                         "Labwork Results",
                         "Offspring",
                         "TB",
-                        "Vitals"
+                        "Vitals",
+
+                        "Arrival/Departure",
+                        "Blood Draws",
+                        "Clinical",
+                        "Hematology",
+                        "Labwork",
+                        "Notes",
+                        "Pregnancy",
+                        "Therapy",
+                        "Weights"
                         ));
         checkClinicalHistoryType(expectedLabels);
 

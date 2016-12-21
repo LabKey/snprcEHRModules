@@ -22,7 +22,6 @@ import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
-import org.labkey.api.ehr.history.DefaultDepartureDataSource;
 import org.labkey.api.ehr.history.DefaultNotesDataSource;
 import org.labkey.api.ehr.history.DefaultTBDataSource;
 import org.labkey.api.ehr.history.DefaultVitalsDataSource;
@@ -56,7 +55,8 @@ import org.labkey.snprc_ehr.history.DefaultAssignmentDataSource;
 import org.labkey.snprc_ehr.history.DefaultBloodDrawDataSource;
 import org.labkey.snprc_ehr.history.DefaultCasesCloseDataSource;
 import org.labkey.snprc_ehr.history.DefaultCasesDataSource;
-import org.labkey.snprc_ehr.history.DefaultObservationsDataSource;
+import org.labkey.snprc_ehr.history.DefaultDepartureDataSource;
+import org.labkey.snprc_ehr.history.DefaultPregnanciesDataSource;
 import org.labkey.snprc_ehr.history.DefaultTreatmentOrdersDataSource;
 import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
@@ -154,9 +154,9 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerHistoryDataSource(new DefaultTreatmentOrdersDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultBloodDrawDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultAssignmentDataSource(this));
-        EHRService.get().registerHistoryDataSource(new DefaultObservationsDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultCasesDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultCasesCloseDataSource(this));
+        EHRService.get().registerHistoryDataSource(new DefaultPregnanciesDataSource(this));
 
         // Add SNPRC clinical history data sources
         EHRService.get().registerHistoryDataSource(new DietDataSource(this));
