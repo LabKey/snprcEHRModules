@@ -909,7 +909,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 )
         );
 
-        assertTextPresentCaseInsensitive(entries);
+        assertTextPresent(entries);
 
         // Deselect weight, blood and housing
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
@@ -919,6 +919,19 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         click(findButton("Submit"));
 
         assertTextNotPresent("Weight: 3.73 kg", "Charge Id: 7133145", "Moved to: 950756 / 4420023");
+
+        entries = new ArrayList<>(
+                Arrays.asList(
+                        "TEST1020148 (2016-06-13)",
+                        "TEST1020148 (2016-01-17)",
+                        "Service/Panel: X VIRUS",
+                        "Protocol: protocol101",
+                        "Service/Panel: FULL PANEL CULTURE",
+                        "Service/Panel: URINE CHEM"
+                )
+        );
+
+        assertTextPresent(entries);
 
     }
 
