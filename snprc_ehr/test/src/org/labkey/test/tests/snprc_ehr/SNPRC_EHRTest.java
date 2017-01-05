@@ -897,8 +897,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "TEST1020148 (2016-05-31)",
                         "TEST1020148 (2016-04-20)",
                         "TEST1020148 (2016-01-17)",
-                        "TEST1020148 (2015-01-25)",
-                        "TEST1020148 (2014-12-27)",
                         "Weight: 3.73 kg",
                         "Charge Id: 7133145",
                         "Service/Panel: X VIRUS",
