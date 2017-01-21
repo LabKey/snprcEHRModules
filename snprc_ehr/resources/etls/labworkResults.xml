@@ -6,21 +6,21 @@
     <transform id="step 1" type="TaskrefTransformStep">
         <taskref ref="org.labkey.di.steps.QueueJobTask">
             <settings>
-                <setting name="transformId" value="{snprc_ehr}/labworkChemistryResults"/>
+                <setting name="transformId" value="{SNPRC_EHR}/labworkChemistryResults"/>
             </settings>
         </taskref>
     </transform>
     <transform id="step 2" type="TaskrefTransformStep">
         <taskref ref="org.labkey.di.steps.QueueJobTask">
             <settings>
-                <setting name="transformId" value="{snprc_ehr}/labworkHematologyResults"/>
+                <setting name="transformId" value="{SNPRC_EHR}/labworkHematologyResults"/>
             </settings>
         </taskref>
     </transform>
     <transform id="step 3" type="TaskrefTransformStep">
         <taskref ref="org.labkey.di.steps.QueueJobTask">
             <settings>
-                <setting name="transformId" value="{snprc_ehr}/labworkSurveillanceResults"/>
+                <setting name="transformId" value="{SNPRC_EHR}/labworkSurveillanceResults"/>
             </settings>
         </taskref>
     </transform>
