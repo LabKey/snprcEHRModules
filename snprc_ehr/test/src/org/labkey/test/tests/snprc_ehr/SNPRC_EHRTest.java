@@ -892,11 +892,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         List<String> entries = new ArrayList<>(
                 Arrays.asList(
-                        "TEST1020148 (2016-06-13)",
-                        "TEST1020148 (2016-06-09)",
-                        "TEST1020148 (2016-05-31)",
-                        "TEST1020148 (2016-04-20)",
-                        "TEST1020148 (2016-01-17)",
+                        "TEST1020148 (2016-06-14)",
+                        "TEST1020148 (2016-06-10)",
+                        "TEST1020148 (2016-06-01)",
+                        "TEST1020148 (2016-04-21)",
+                        "TEST1020148 (2016-01-18)",
                         "Weight: 3.73 kg",
                         "Charge Id: 7133145",
                         "Service/Panel: X VIRUS",
@@ -920,8 +920,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         entries = new ArrayList<>(
                 Arrays.asList(
-                        "TEST1020148 (2016-06-13)",
-                        "TEST1020148 (2016-01-17)",
+                        "TEST1020148 (2016-06-14)",
+                        "TEST1020148 (2016-01-18)",
                         "Service/Panel: X VIRUS",
                         "Protocol: protocol101",
                         "Service/Panel: FULL PANEL CULTURE",
