@@ -35,6 +35,7 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
+import org.labkey.test.components.ehr.panel.AnimalSearchPanel;
 import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
@@ -371,14 +372,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         beginAt("/project/" + getContainerPath() + "/begin.view");
         waitAndClickAndWait(Locator.linkWithText("Animal Search"));
-        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel = new AnimalSearchPanel(getDriver());
         searchPanel.selectValues("Gender", " All");
         assertEquals("Selecting 'All' genders didn't set input correctly", "Female;Male;Unknown", getFormElement(Locator.input("gender")));
         searchResults = searchPanel.submit();
         assertEquals("Wrong number of rows for searching all genders", 43, searchResults.getDataRowCount());
 
         goBack();
-        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel = new AnimalSearchPanel(getDriver());
         searchPanel.selectValues("Species code (3 char)", "PCC");
         assertEquals("Select 'PCC' species didn't set input correctly", "PCC", getFormElement(Locator.input("species")));
         searchPanel.selectValues("Species code (3 char)", "CTJ");
@@ -387,14 +388,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertEquals("Wrong number of rows: Species = PCC or CTJ", 14, searchResults.getDataRowCount());
 
         goBack();
-        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel = new AnimalSearchPanel(getDriver());
         searchPanel.setFilter("Id", null, "1");
         searchResults = searchPanel.submit();
         assertElementPresent(Locator.linkWithText("TEST1020148"));
         assertEquals("Wrong number of rows: 'Id' contains '1'", 22, searchResults.getDataRowCount());
 
         goBack();
-        searchPanel = new SearchPanel("Search Criteria", getDriver());
+        searchPanel = new AnimalSearchPanel(getDriver());
         searchPanel.setFilter("Cage", null, "5426");
         searchResults = searchPanel.submit();
         assertEquals("Wrong animals for search: 'cage' contains '5426'", Arrays.asList("TEST499022", "TEST6390238"), searchResults.getColumnDataAsText("Id"));
