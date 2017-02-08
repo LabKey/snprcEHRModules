@@ -6,15 +6,15 @@
 
  --NOTE: this is joined to demographics such that animals never tested for TB
  --will still get a value for MonthsSinceLastTB
+ --Animals never tested will use birthdate as last tb date. tjh
 select
   d.Id,
   T2.lastDate as MostRecentTBDate,
-  case
-    WHEN T2.lastDate IS NULL THEN 9999
-    ELSE age_in_months(T2.lastDate, now())
+  CASE WHEN d.calculated_status = 'Alive' THEN age_in_months(COALESCE (T2.lastDate, d.birth), now())
+  ELSE NULL
   END AS MonthsSinceLastTB,
   case
-    WHEN T2.lastDate IS NULL THEN 6
+    WHEN T2.lastDate IS NULL THEN 0
     ELSE (6 - age_in_months(T2.lastDate, now()))
   END AS MonthsUntilDue,
 
@@ -25,7 +25,10 @@ select
 
 from study.demographics d
 
-LEFT JOIN (select id, max(date) as lastDate from study.tb WHERE tb.qcstate.publicdata = true group by id) T2
+LEFT JOIN (select tb.id, max(tb.date) as lastDate
+    from study.tb as tb
+    inner join study.demographics as d on d.id = tb.id and d.calculated_status = 'Alive'
+    WHERE tb.qcstate.publicdata = true group by tb.id) T2
 ON (d.id = t2.id)
 
 

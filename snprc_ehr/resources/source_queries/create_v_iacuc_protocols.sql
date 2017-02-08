@@ -45,6 +45,14 @@ SELECT
   ad.pi_name                                AS inves,
   ad.approval_date                          AS approve,
   am.termination_date                       AS enddate,
+  ad.tot_animals_appv						AS maxAnimals,
+  CASE WHEN usda_category_a > 0 THEN 'A'
+	   WHEN ad.usda_category_b > 0 THEN 'B'
+	   WHEN ad.usda_category_c > 0 THEN 'C'
+	   WHEN ad.usda_category_d > 0 THEN 'D'
+	   WHEN ad.usda_category_e > 0 THEN 'E'
+	   ELSE 'U'
+	   END AS usda_level,
 
   CASE WHEN am.timestamp > ad.timestamp
     THEN am.object_id
