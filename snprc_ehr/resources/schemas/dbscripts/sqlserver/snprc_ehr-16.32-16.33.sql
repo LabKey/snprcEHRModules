@@ -1,5 +1,5 @@
 CREATE TABLE snprc_ehr.animal_group_categories(
-  category_code int IDENTITY(1,1) NOT NULL,
+  category_code int NOT NULL,
   description varchar(128) NULL,
   comment varchar(128) NULL,
   displayable char(1) NOT NULL,
