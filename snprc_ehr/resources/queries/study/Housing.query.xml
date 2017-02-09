@@ -28,7 +28,7 @@
                         <columnTitle>Cage</columnTitle>
                         <url>/EHR/cageDetails.view?room=${room}&amp;cage=${cage}&amp;</url>
                     </column>
-                    <column columnName="cond">
+                    <column columnName="housingCondition">
                         <nullable>true</nullable>
                         <columnTitle>Condition</columnTitle>
                         <fk>
