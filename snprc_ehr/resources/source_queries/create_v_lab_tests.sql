@@ -41,7 +41,7 @@ SELECT
   0                                 AS alertOnAny,
   1                                 AS includeInPanel,
   til.sort_order                    AS sort_order,
-  til.object_id                     AS objectId,
+  til.object_id                     AS objectid,
   til.entry_date_tm                 AS modified,
   dbo.f_map_username(til.user_name) AS modifiedby,
   tc.created                        AS created,
