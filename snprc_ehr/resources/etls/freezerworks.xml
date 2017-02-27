@@ -6,9 +6,8 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_freezerworks" />
-            <destination schemaName="study" queryName="Freezerworks" bulkLoad="true" batchSize="500" targetOption="merge">
+            <destination schemaName="study" queryName="freezerworks" bulkLoad="true" batchSize="500" targetOption="merge">
                 <columnTransforms>
-                    <column source="object_id" target="objectid"/>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                     <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                 </columnTransforms>

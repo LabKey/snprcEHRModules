@@ -51,7 +51,7 @@ CREATE VIEW [labkey_etl].[v_iacuc_protocols] AS
     ad.max_usda_use_code AS usda_level,
     CASE WHEN am.timestamp > ad.timestamp
       THEN am.object_id
-    ELSE ad.object_id END                     AS object_id,
+    ELSE ad.object_id END                     AS objectid,
 
     CASE WHEN am.timestamp > ad.timestamp
       THEN am.entry_date_tm

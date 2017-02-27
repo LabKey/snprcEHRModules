@@ -39,18 +39,19 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] AS
 
 
 SELECT
-  LTRIM(RTRIM(bg.id))                                   AS id,
-  'Breeding'                                            AS GroupCategory,
-  'Breeding grp:' + CAST(bg.breeding_grp AS VARCHAR(2)) AS GroupName,
-  bg.start_date                                         AS date,
-  bg.end_date                                           AS enddate,
-  bg.object_id                                          AS objectid,
-  bg.entry_date_tm                                      AS modified,
-  dbo.f_map_username(bg.user_name)                      AS modifiedby,
-  tc.created                                            AS created,
-  tc.createdby                                          AS createdby,
+  LTRIM(RTRIM(bg.id))              AS id,
+  'Cycle'                          AS GroupCategory,
+  ag.code                          AS groupId,
+  CAST(bg.start_date AS DATE)      AS date,
+  CAST(bg.end_date AS DATE)        AS enddate,
+  bg.object_id                     AS objectid,
+  bg.entry_date_tm                 AS modified,
+  dbo.f_map_username(bg.user_name) AS modifiedby,
+  tc.created                       AS created,
+  tc.createdby                     AS createdby,
   bg.timestamp
 FROM dbo.breeding_grp AS bg
+  INNER JOIN animal_groups AS ag ON 'Cycle grp:' + CAST(bg.breeding_grp AS VARCHAR(2)) = ag.description
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = bg.object_id
   INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = bg.id
 
@@ -58,9 +59,9 @@ UNION
 SELECT
   LTRIM(RTRIM(c.id))              AS id,
   'Colony'                        AS GroupCategory,
-  c.colony                        AS GroupName,
-  c.start_date_tm                 AS date,
-  c.end_date_tm                   AS enddate,
+  ag.code                         AS groupId,
+  CAST(c.start_date_tm AS DATE)   AS date,
+  CAST(c.end_date_tm AS DATE)     AS enddate,
   c.object_id                     AS objectid,
   c.entry_date_tm                 AS modified,
   dbo.f_map_username(c.user_name) AS modifiedby,
@@ -69,6 +70,7 @@ SELECT
 
   c.timestamp
 FROM dbo.colony AS c
+  INNER JOIN animal_groups AS ag ON c.colony = ag.description
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = c.object_id
   INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = c.id
 
@@ -76,9 +78,9 @@ UNION
 SELECT
   LTRIM(RTRIM(p.id))              AS id,
   'Pedigree'                      AS GroupCategory,
-  p.pedigree                      AS GroupName,
-  p.start_date                    AS date,
-  p.stop_date                     AS enddate,
+  ag.code                         AS groupId,
+  CAST(p.start_date AS DATE)      AS date,
+  CAST(p.stop_date AS DATE)       AS enddate,
   p.object_id                     AS objectid,
   p.entry_date_tm                 AS modified,
   dbo.f_map_username(p.user_name) AS modifiedby,
@@ -87,11 +89,34 @@ SELECT
 
   p.timestamp
 FROM dbo.pedigree AS p
+
+  INNER JOIN animal_groups AS ag ON p.pedigree = ag.description
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.object_id
   INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = p.id
 
+UNION
+SELECT
+  LTRIM(RTRIM(agm.id))              AS id,
+  agc.description                   AS GroupCategory,
+  ag.code                           AS groupId,
+  agm.start_date                    AS date,
+  agm.end_date                      AS enddate,
+  agm.object_id                     AS objectid,
+  agm.entry_date_tm                 AS modified,
+  dbo.f_map_username(agm.user_name) AS modifiedby,
+  tc.created                        AS created,
+  tc.createdby                      AS createdby,
+  agm.timestamp
+FROM dbo.animal_group_members AS agm
+
+  INNER JOIN animal_groups AS ag ON ag.code = agm.code
+  INNER JOIN dbo.animal_group_categories AS agc ON agc.category_code = ag.category_code
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = agm.object_id
+  INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = agm.id
 GO
 
 GRANT SELECT ON labkey_etl.V_ANIMAL_GROUP_MEMBERS TO z_labkey
-
+GRANT SELECT ON dbo.pedigree TO z_labkey
+GRANT SELECT ON dbo.colony TO z_labkey
+GRANT SELECT ON dbo.cycle TO z_labkey
 GO

@@ -32,37 +32,18 @@ ALTER VIEW [labkey_etl].[V_DELETE_ANIMAL_GROUPS] as
 -- Create date: 8/28/2015
 -- 
 -- 3/1/2016 added valid_pedigrees. tjh
+-- 2/20/2017 re-writen to query data directly from audit_animal_groups table. tjh
 -- ==========================================================================================
 SELECT 
-	avc.object_id,
-	avc.audit_date_tm
+	ag.object_id,
+	ag.audit_date_tm
 
-FROM audit.audit_valid_colonies AS avc
-WHERE avc.AUDIT_ACTION = 'D' AND avc.OBJECT_ID IS NOT NULL
+FROM audit.audit_animal_groups AS ag
+WHERE ag.AUDIT_ACTION = 'D' AND ag.OBJECT_ID IS NOT NULL
 
-UNION
-
-SELECT 
-	avb.object_id,
-	avb.audit_date_tm
-
-FROM audit.audit_valid_breeding_grps AS avb
-WHERE avb.AUDIT_ACTION = 'D' AND avb.OBJECT_ID IS NOT NULL
-
-
-UNION
-
-SELECT 
-	vp.object_id,
-	vp.audit_date_tm
-
-FROM AUDIT.audit_valid_pedigrees AS vp
-WHERE vp.audit_action = 'D' AND vp.OBJECT_ID IS null
 GO
 
 GRANT SELECT on labkey_etl.V_DELETE_ANIMAL_GROUPS to z_labkey
-GRANT SELECT ON audit.audit_valid_breeding_grps TO z_labkey
-GRANT SELECT ON audit.audit_valid_colonies TO z_labkey
-GRANT SELECT ON audit.audit_valid_pedigrees TO z_labkey
+GRANT SELECT ON audit.audit_animal_groups TO z_labkey
 
 go

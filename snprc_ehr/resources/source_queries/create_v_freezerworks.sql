@@ -67,7 +67,7 @@ SELECT  f.[TBRI_id] AS id ,
         f.[POSITION3] ,
         f.[POSITION4] ,
         f.[POSITION5] ,
-        f.[object_id] ,
+        f.[object_id] as objectid,
         f.[user_name] ,
         f.[entry_date_tm] ,
         f.[timestamp]
