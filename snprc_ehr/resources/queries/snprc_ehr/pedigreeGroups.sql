@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 LabKey Corporation
+ * Copyright (c) 2016 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,4 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT * FROM ehr.animal_groups WHERE Category = 'Colony'
+SELECT ag.*
+FROM snprc_ehr.animal_groups AS ag
+  INNER JOIN snprc_ehr.animal_group_categories AS agc ON ag.category_code = agc.category_code
+WHERE agc.description LIKE '%pedigree%'

@@ -13,18 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT
-  d.id,
-  (SELECT MIN(cag.RowId)) AS ColonyGroup,
-  (SELECT MIN(bag.RowId)) AS BreedingGroup,
-  (SELECT MIN(pag.RowId)) AS PedigreeGroup
 
-FROM study.demographics d
-LEFT JOIN study.animal_group_members cagm ON (cagm.Id = d.Id AND cagm.isActive = true)
-LEFT JOIN ehr.animal_groups cag ON (cag.RowId = cagm.GroupId AND cag.Category = 'Colony')
-LEFT JOIN study.animal_group_members bagm ON (bagm.Id = d.Id AND bagm.isActive = true)
-LEFT JOIN ehr.animal_groups bag ON (bag.RowId = bagm.GroupId AND bag.Category = 'Breeding')
-LEFT JOIN study.animal_group_members pagm ON (pagm.Id = d.Id AND pagm.isActive = true)
-LEFT JOIN ehr.animal_groups pag ON (pag.RowId = pagm.GroupId AND pag.Category = 'Pedigree')
+SELECT d.id,
+-- special handling for colonies and pedigrees
+case when agc.description like '%colonies%' then 'Colony'
+         when agc.description like '%pedigree%' then 'Pedigree' else agc.description end as category,
+group_concat(ag.description) as animal_group
 
-GROUP BY d.Id
+FROM study.demographics as d
+INNER JOIN study.animal_group_members AS agm on d.id = agm.id
+INNER JOIN snprc_ehr.animal_groups AS ag ON agm.groupId = ag.code
+INNER JOIN snprc_ehr.animal_group_categories AS agc ON agc.category_code = ag.category_code
+
+WHERE agm.enddate is null
+AND agm.qcstate.publicdata = true
+
+group by d.id,
+      case when agc.description like '%colonies%' then 'Colony'
+           when agc.description like '%pedigree%' then 'Pedigree' else agc.description end
+
+PIVOT animal_group BY category IN
+(select case when description like '%colonies%' then 'Colony'
+             when description like '%pedigree%' then 'Pedigree' else description end as description
+ 	from snprc_ehr.animal_group_categories )

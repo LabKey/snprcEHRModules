@@ -13,6 +13,9 @@ function onInit(event, helper){
     });
 }
 
+/*  animal_groups table moved to snprc_ehr schema and no longer uses RowId as the foreign key
+    Code commented out, but please do not delete - it may be uncommented in the future.  tjh
+
 var cachedGroups = {};
 
 function onUpsert(helper, scriptErrors, row, oldRow){
@@ -50,3 +53,4 @@ function onUpsert(helper, scriptErrors, row, oldRow){
 
     }
 }
+ */

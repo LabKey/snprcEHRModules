@@ -1,4 +1,4 @@
-<customView xmlns="http://labkey.org/data/xml/queryCustomView" hidden="true">
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" hidden="false">
     <columns>
         <column name="Id"/>
         <column name="gender"/>
@@ -51,21 +51,21 @@
                 <property name="columnTitle" value="Account Group"/>
             </properties>
         </column>
-        <column name="Id/activeGroups/BreedingGroup">
+        <column name="Id/activeGroups/Cycle::animal_group">
             <properties>
-                <property name="columnTitle" value="Breeding Group"/>
+                <property name="columnTitle" value="Cycle Reading Group"/>
             </properties>
         </column>
-        <column name="Id/activeGroups/ColonyGroup">
-            <properties>
-                <property name="columnTitle" value="Colony Group"/>
-            </properties>
-        </column>
-        <column name="Id/activeGroups/PedigreeGroup">
-            <properties>
-                <property name="columnTitle" value="Pedigree"/>
-            </properties>
-        </column>
+        <!--<column name="Id/activeGroups/ColonyGroup">-->
+            <!--<properties>-->
+                <!--<property name="columnTitle" value="Colony Group"/>-->
+            <!--</properties>-->
+        <!--</column>-->
+        <!--<column name="Id/activeGroups/PedigreeGroup">-->
+            <!--<properties>-->
+                <!--<property name="columnTitle" value="Pedigree"/>-->
+            <!--</properties>-->
+        <!--</column>-->
         <column name="death">
             <properties>
                 <property name="columnTitle" value="Death Date 1"/>

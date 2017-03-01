@@ -8,7 +8,7 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="category">
+                    <column columnName="category_code">
                         <columnTitle>Category</columnTitle>
                         <isHidden>true</isHidden>
                         <fk>

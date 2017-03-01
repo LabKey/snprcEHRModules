@@ -5,27 +5,29 @@
                 <tableTitle>Animal Groups</tableTitle>
                 <columns>
                     <column columnName="Id">
-                        <isHidden>true</isHidden>
+                        <isHidden>false</isHidden>
                     </column>
-                    <column columnName="ColonyGroup">
+                    <column columnName="Cycle::animal_group">
                         <fk>
-                            <fkColumnName>RowId</fkColumnName>
-                            <fkDbSchema>ehr</fkDbSchema>
-                            <fkTable>colonyGroups</fkTable>
+                            <fkColumnName>description</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>cycleGroups</fkTable>
+                            <fkDisplayColumnName>description</fkDisplayColumnName>
                         </fk>
                     </column>
-                    <column columnName="BreedingGroup">
+                    <column columnName="Pedigree::animal_group">
                         <fk>
-                            <fkColumnName>RowId</fkColumnName>
-                            <fkDbSchema>ehr</fkDbSchema>
-                            <fkTable>breedingGroups</fkTable>
-                        </fk>
-                    </column>
-                    <column columnName="PedigreeGroup">
-                        <fk>
-                            <fkColumnName>RowId</fkColumnName>
-                            <fkDbSchema>ehr</fkDbSchema>
+                            <fkColumnName>description</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>pedigreeGroups</fkTable>
+
+                        </fk>
+                    </column>
+                    <column columnName="Colony::animal_group">
+                        <fk>
+                            <fkColumnName>description</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>colonyGroups</fkTable>
                         </fk>
                     </column>
                 </columns>

@@ -81,7 +81,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public double getVersion()
     {
-        return 16.33;
+        return 16.34;
     }
 
     @Override
@@ -119,10 +119,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");
         EHRService.get().registerActionOverride("protocolDetails", this, "views/protocolDetails.html");
         EHRService.get().registerActionOverride("animalHistory", this, "views/animalHistory.html");
+        EHRService.get().registerActionOverride("animalSearch", this, "views/animalSearch.html");
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
-
-        EHRService.get().registerDemographicsProvider(new TBDemographicsProvider(this));
-        EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new IdHistoryDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveAnimalGroupsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new CurrentAccountsDemographicsProvider(this));

@@ -907,5 +907,78 @@
         </columns>
     </table>
 
+    <table tableName="animal_groups" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>SNPRC Animal Groups</tableTitle>
+        <pkColumnName>code</pkColumnName>
+        <pkColumnName>category_code</pkColumnName>
+        <columns>
+            <column columnName="code">
+                <isKeyField>true</isKeyField>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="category_code">
+                <isKeyField>true</isKeyField>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="description">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="date">
+                <columnTitle>Start Date</columnTitle>
+            </column>
+            <column columnName="enddate">
+                <columnTitle>End Date</columnTitle>
+            </column>
+            <column columnName="comment">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="sort_order">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+
 </tables>
 

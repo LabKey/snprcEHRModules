@@ -20,12 +20,24 @@
                         <columnTitle>Date Removed</columnTitle>
                         <isHidden>false</isHidden>
                     </column>
+                    <!--<column columnName="groupId">-->
+                        <!--<columnTitle>Category</columnTitle>-->
+                        <!--<fk>-->
+                            <!--<fkDbSchema>snprc_ehr</fkDbSchema>-->
+                            <!--<fkTable>animal_groups</fkTable>-->
+                            <!--<fkColumnName>code</fkColumnName>-->
+                            <!--<fkDisplayColumnName>description</fkDisplayColumnName>-->
+                            <!--<fkMultiValued>junction</fkMultiValued>-->
+                            <!--<fkJunctionLookup>category_code</fkJunctionLookup>-->
+                        <!--</fk>-->
+                    <!--</column>-->
                     <column columnName="groupId">
+                        <columnTitle>Group</columnTitle>
                         <fk>
-                            <fkDbSchema>ehr</fkDbSchema>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>animal_groups</fkTable>
-                            <fkColumnName>rowid</fkColumnName>
-                            <fkDisplayColumnName>name</fkDisplayColumnName>
+                            <fkColumnName>code</fkColumnName>
+                            <fkDisplayColumnName>description</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="qcstate">
