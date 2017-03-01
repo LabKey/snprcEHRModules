@@ -32,13 +32,15 @@ ALTER VIEW [labkey_etl].[v_apath_encounters] AS
 --
 -- 6/25/2015 limited to selection of primates only. tjh
 -- 11/4/2016 added modified, modifiedby, created, createdby columns. tjh
--- 
+-- 2/28/2017	added encounter_type column. tjh
 -- ==========================================================================================
 SELECT
 
   a.animal_id                     AS Id,
   COALESCE(a.biopsy, a.death)     AS date,
   a.accession_num                 AS caseno,
+  CASE WHEN a.tissue IS NOT NULL THEN 'Tissue = ' + a.tissue ELSE NULL END AS remark,
+  'apath'                         AS encounter_type,
   a.object_id                     AS objectid,
   a.entry_date_tm                 AS modified,
   dbo.f_map_username(a.user_name) AS modifiedby,

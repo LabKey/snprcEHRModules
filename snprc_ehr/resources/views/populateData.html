@@ -315,6 +315,12 @@ Ext4.onReady(function(){
             queryName: 'encounter_roles',
             pk: 'rowid'
         },{
+            label: 'Encounter Types',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'encounter_types',
+            pk: 'rowid'
+        },{
             label: 'Blood Draw Tube Volumes',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

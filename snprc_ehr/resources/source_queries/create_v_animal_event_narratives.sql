@@ -34,6 +34,7 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] AS
 -- 11/02/2015   Terry Hawkins   Renamed from v_animal_procedures to v_animal_event_narratives.
 -- 12/29/2015	Terry Hawkins	renamed visitRowId column to encounterId
 -- 11/3/2016  added modified, modifiedby, created, createdby columns tjh
+-- 2/28/2017	added encounter_type column. tjh
 -- ==========================================================================================
 
 
@@ -44,6 +45,7 @@ SELECT
   ap.ParticipantSequenceNum,
   ap.charge_id                     AS project,
   ap.proc_narrative                AS remark,
+  'procedure'                      AS encounter_type,
   ap.objectid,
   ap.entry_date_tm                 AS modified,
   dbo.f_map_username(ap.user_name) AS modifiedby,

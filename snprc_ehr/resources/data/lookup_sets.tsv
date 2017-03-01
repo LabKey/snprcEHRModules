@@ -32,6 +32,7 @@ labworkChargeType	Labwork Charge Types	value
 notes_category	DCM Notes Category	value
 blood_draw_reason	Blood Draw Reason	value
 encounter_roles	Encounter Roles	value
+encounter_types	Encounter Types	value
 parentageRelationship	Parentage Relationship	value
 parentageMethod	Parentage Determination Methods	value
 serologyResultQualifier	Serology Result Qualifier	value

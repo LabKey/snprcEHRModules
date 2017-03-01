@@ -17,6 +17,13 @@
                     <column columnName="project">
                         <columnTitle>Charge Id</columnTitle>
                     </column>
+                    <column columnName="encounter_type">
+                    <fk>
+                        <fkColumnName>value</fkColumnName>
+                        <fkTable>encounter_types</fkTable>
+                        <fkDbSchema>ehr_lookups</fkDbSchema>
+                    </fk>
+                </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>
                     </column>

@@ -31,7 +31,11 @@
                 <property name="columnTitle" value="Date last modified"/>
             </properties>
         </column>
-
+        <column name="encounter_type">
+            <properties>
+                <property name="columnTitle" value="Encounter type"/>
+            </properties>
+        </column>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />
