@@ -13,10 +13,8 @@ select
   CASE WHEN d.calculated_status = 'Alive' THEN age_in_months(COALESCE (T2.lastDate, d.birth), now())
   ELSE NULL
   END AS MonthsSinceLastTB,
-  case
-    WHEN T2.lastDate IS NULL THEN 0
-    ELSE (6 - age_in_months(T2.lastDate, now()))
-  END AS MonthsUntilDue,
+
+  (6 - age_in_months(COALESCE (T2.lastDate, d.birth), now())) AS MonthsUntilDue,
 
   (select group_concat(tb.site) as eyeTested FROM study.tb tb WHERE tb.id = d.id and tb.date = T2.lastdate) as eyeTested,
   null as "24H",
