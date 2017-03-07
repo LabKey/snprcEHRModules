@@ -38,11 +38,12 @@ AS
 -- 3/3/2016 Added account_group. tjh
 -- 11/4/2016 added modified, modifiedby, created, createdby columns. tjh
 -- 2/20/2017  complete re-write.  Data now comes from animal_groups table. tjh
+-- 3/7/2017 aliased description column to name. tjh
 -- ==========================================================================================
 
 SELECT  ag.code ,
         ag.category_code ,
-        ag.description ,
+        ag.description as name,
         ag.start_date AS date ,
         ag.end_date AS enddate ,
         ag.comment ,

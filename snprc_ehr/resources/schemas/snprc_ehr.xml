@@ -910,7 +910,6 @@
     <table tableName="animal_groups" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>SNPRC Animal Groups</tableTitle>
         <pkColumnName>code</pkColumnName>
-        <pkColumnName>category_code</pkColumnName>
         <columns>
             <column columnName="code">
                 <isKeyField>true</isKeyField>
@@ -920,7 +919,7 @@
                 <isKeyField>true</isKeyField>
                 <nullable>false</nullable>
             </column>
-            <column columnName="description">
+            <column columnName="name">
                 <nullable>false</nullable>
             </column>
             <column columnName="date">
