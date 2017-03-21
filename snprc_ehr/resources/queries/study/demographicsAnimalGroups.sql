@@ -18,7 +18,7 @@ SELECT d.id,
 -- special handling for colonies and pedigrees
 case when agc.description like '%colonies%' then 'Colony'
          when agc.description like '%pedigree%' then 'Pedigree' else agc.description end as category,
-group_concat(ag.name) as animal_group
+         cast(group_concat(ag.name) as varchar(128)) as animal_group
 
 FROM study.demographics as d
 INNER JOIN study.animal_group_members AS agm on d.id = agm.id

@@ -19,5 +19,6 @@ SELECT
   agm.groupId.name as pedigree
 
 FROM study.animal_group_members as agm
-INNER JOIN ehr.animal_groups ag ON (ag.RowId = agm.GroupId AND ag.Category = 'Pedigree')
+INNER JOIN snprc_ehr.animal_groups as ag ON ag.code = agm.groupId
+INNER JOIN snprc_ehr.animal_group_categories as agc on ag.category_code = agc.category_code and agc.description like '%pedigree%'
 WHERE agm.isActive = true and agm.qcstate.PublicData = true

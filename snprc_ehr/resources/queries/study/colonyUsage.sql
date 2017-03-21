@@ -51,14 +51,16 @@ SELECT
     -- Pedigree --
     (SELECT
     protocol.inves AS investigator,
-    Id.activeGroups.PedigreeGroup.name AS pedigree,
-    Id.Demographics.species.arc_species_code AS species_code,
+    demographicsCurrentPedigree.pedigree AS pedigree,
+    a.Id.Demographics.species.arc_species_code AS species_code,
       count(*) AS grouptotal
 
-     FROM assignment
-     WHERE isActive = true AND Id.Demographics.gender IS NOT NULL AND Id.AgeClass.label IS NOT NULL AND protocol.inves IS NOT NULL
-     GROUP BY protocol.inves, Id.activeGroups.PedigreeGroup.name, Id.Demographics.species.arc_species_code
-     PIVOT grouptotal BY pedigree IN (SELECT name FROM ehr.pedigreeGroups)) ped
+     FROM study.assignment as a
+     inner join study.demographicsCurrentPedigree on a.id = demographicsCurrentPedigree.id
+     WHERE isActive = true AND a.Id.Demographics.gender IS NOT NULL AND a.Id.AgeClass.label IS NOT NULL AND protocol.inves IS NOT NULL
+     GROUP BY protocol.inves, demographicsCurrentPedigree.pedigree, a.Id.Demographics.species.arc_species_code
+
+     PIVOT grouptotal BY pedigree IN (SELECT name FROM snprc_ehr.pedigreeGroups))  ped
    ON gen.investigator = ped.investigator AND gen.species_code = ped.species_code
 
    INNER JOIN
