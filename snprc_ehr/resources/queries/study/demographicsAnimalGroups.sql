@@ -19,6 +19,8 @@ SELECT d.id,
 case when agc.description like '%colonies%' then 'Colony'
          when agc.description like '%pedigree%' then 'Pedigree' else agc.description end as category,
          cast(group_concat(ag.name) as varchar(128)) as animal_group
+-- CAST(group_concat(ag.name) AS VARCHAR) as animal_group
+-- min(ag.name) as animal_group
 
 FROM study.demographics as d
 INNER JOIN study.animal_group_members AS agm on d.id = agm.id
