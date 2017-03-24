@@ -7,6 +7,9 @@
         <description>Copy to target</description>
         <source schemaName="snprcSrc" queryName="v_demographics" />
         <destination schemaName="study" queryName="demographics" bulkLoad="true" batchSize="500" targetOption="merge">
+            <alternateKeys>
+                <column name="objectid"/>
+            </alternateKeys>
             <columnTransforms>
                 <column source="dam_id" target="dam"/>
                 <column source="sire_id" target="sire"/>

@@ -7,6 +7,9 @@
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_apath_diagnoses" />
             <destination schemaName="study" queryName="pathologyDiagnoses" bulkLoad="true" batchSize="500" targetOption="merge">
+                <alternateKeys>
+                    <column name="objectid"/>
+                </alternateKeys>
                 <columnTransforms>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                     <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>

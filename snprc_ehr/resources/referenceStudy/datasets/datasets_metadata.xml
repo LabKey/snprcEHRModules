@@ -48,7 +48,7 @@
             <index type="non-unique">
                 <column>taskid</column>
             </index>
-            <index type="unique">
+            <index type="non-unique">
                 <column>objectid</column>
             </index>
         </indices>
@@ -1519,11 +1519,6 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
-        <indices>
-            <index type="unique">
-                <column>objectid</column>
-            </index>
-        </indices>
         <tableTitle>Animal Accounts</tableTitle>
     </table>
     <table tableName="deaths" tableDbType="TABLE">
