@@ -38,10 +38,18 @@
             <column columnName="diModifiedBy">
                 <datatype>integer</datatype>
             </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
         </columns>
         <indices>
             <index type="non-unique">
                 <column>taskid</column>
+            </index>
+            <index type="unique">
+                <column>objectid</column>
             </index>
         </indices>
     </sharedConfig>
@@ -73,11 +81,6 @@
                 <fkColumnName>institution_id</fkColumnName>
                 <fkDisplayColumnName>short_name</fkDisplayColumnName>
             </fk>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="Modified">
                 <datatype>timestamp</datatype>
@@ -112,11 +115,6 @@
             <column columnName="sire">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
         </columns>
     </table>
     <table tableName="antibioticSensitivity" tableDbType="TABLE">
@@ -148,11 +146,6 @@
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="runid">
                 <datatype>varchar</datatype>
@@ -187,11 +180,6 @@
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="runid">
                 <datatype>varchar</datatype>
             </column>
@@ -222,11 +210,6 @@
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
         </columns>
         <tableTitle>Animal Record Flags</tableTitle>
@@ -261,11 +244,6 @@
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
         </columns>
         <tableTitle>Parentage</tableTitle>
@@ -309,11 +287,6 @@
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="runid">
                 <datatype>varchar</datatype>
             </column>
@@ -352,11 +325,6 @@
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
         </columns>
         <tableTitle>Tissue Measurements</tableTitle>
@@ -398,11 +366,6 @@
             </column>
             <column columnName="plan">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="vetreview">
                 <datatype>varchar</datatype>
@@ -455,11 +418,6 @@
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
         </columns>
         <tableTitle>Matings</tableTitle>
     </table>
@@ -488,10 +446,6 @@
             </column>
             <column columnName="birth_code">
                 <datatype>integer</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -539,11 +493,6 @@
             </column>
             <column columnName="num_tubes">
                 <datatype>integer</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="additionalServices">
                 <datatype>varchar</datatype>
@@ -596,11 +545,6 @@
             <column columnName="encounter_type">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="title">
                 <datatype>varchar</datatype>
             </column>
@@ -632,11 +576,6 @@
                 <datatype>timestamp</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="encounterId">
                 <datatype>integer</datatype>
@@ -721,11 +660,6 @@
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
@@ -753,11 +687,6 @@
             </column>
             <column columnName="category">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="vetreview">
                 <datatype>varchar</datatype>
@@ -870,11 +799,6 @@
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#VetReviewDate</propertyURI>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="caseid">
                 <datatype>varchar</datatype>
             </column>
@@ -919,11 +843,6 @@
             </column>
             <column columnName="code">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="caseid">
                 <datatype>varchar</datatype>
@@ -990,11 +909,6 @@
             <column columnName="frequency">
                 <datatype>integer</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="vetreview">
                 <datatype>varchar</datatype>
                 <propertyURI>urn:ehr.labkey.org/#VetReview</propertyURI>
@@ -1044,11 +958,6 @@
             <column columnName="weight">
                 <datatype>double</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
@@ -1082,11 +991,6 @@
             </column>
             <column columnName="respRate">
                 <datatype>double</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -1137,11 +1041,6 @@
             <column columnName="method">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="runid">
                 <datatype>varchar</datatype>
             </column>
@@ -1191,11 +1090,6 @@
             <column columnName="qualresult">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
@@ -1236,11 +1130,6 @@
             </column>
             <column columnName="message_id">
                 <datatype>entityid</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="units">
                 <datatype>varchar</datatype>
@@ -1321,11 +1210,6 @@
             <column columnName="abnormal_flags">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="runid">
                 <datatype>varchar</datatype>
             </column>
@@ -1356,11 +1240,6 @@
             </column>
             <column columnName="organism">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="runid">
                 <datatype>varchar</datatype>
@@ -1425,11 +1304,6 @@
             <column columnName="qualresult">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
@@ -1475,11 +1349,6 @@
             </column>
             <column columnName="source">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -1574,11 +1443,6 @@
                     <fkDisplayColumnName>description</fkDisplayColumnName>
                 </fk>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="projectedRelease">
                 <datatype>timestamp</datatype>
             </column>
@@ -1624,11 +1488,6 @@
             <column columnName="groupId">
                 <datatype>integer</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
         </columns>
         <tableTitle>Animal Group Members</tableTitle>
     </table>
@@ -1660,6 +1519,11 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
+        <indices>
+            <index type="unique">
+                <column>objectid</column>
+            </index>
+        </indices>
         <tableTitle>Animal Accounts</tableTitle>
     </table>
     <table tableName="deaths" tableDbType="TABLE">
@@ -1681,10 +1545,6 @@
             </column>
             <column columnName="necropsy">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
             </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>
@@ -1723,10 +1583,6 @@
                 <datatype>varchar</datatype>
                 <nullable>false</nullable>
                 <columnTitle>Species code (3 char)</columnTitle>
-            </column>
-            <column columnName="objectid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -1783,11 +1639,6 @@
             <column columnName="dispositionType">
                 <datatype>integer</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
@@ -1832,11 +1683,6 @@
             <column columnName="housingType">
                 <datatype>integer</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="reason">
                 <datatype>varchar</datatype>
             </column>
@@ -1863,11 +1709,6 @@
             </column>
             <column columnName="coefficient">
                 <datatype>double</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -1907,11 +1748,6 @@
             <column columnName="value">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
@@ -1932,11 +1768,6 @@
                 <datatype>timestamp</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -1964,11 +1795,6 @@
             </column>
             <column columnName="sort_order">
                 <datatype>integer</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="morphology">
                 <datatype>varchar</datatype>
@@ -2012,11 +1838,6 @@
             <column columnName="tissue">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
@@ -2050,11 +1871,6 @@
                 <datatype>timestamp</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
                 <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -2106,11 +1922,6 @@
             </column>
             <column columnName="tissueCondition">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -2198,11 +2009,6 @@
             <column columnName="project">
                 <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
             </column>
         </columns>
         <tableTitle>Pairing Observations</tableTitle>
