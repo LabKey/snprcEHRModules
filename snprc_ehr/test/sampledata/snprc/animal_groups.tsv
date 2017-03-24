@@ -1,8 +1,8 @@
-name	date	enddate	Purpose	Comment	Category
-baboon1	2/14/2014 13:29:39			Genetically characterized baboons	Pedigree
-baboon2	2/14/2014 13:29:39			Baboons that will be genotyped	Pedigree
-baboon3	2/14/2014 13:29:39			Baboons that will not be genotyped	Pedigree
-Breeding grp	2014-06-18			1 X week cycle reading	Breeding
-chimp	2014-01-01			chimpanzees	Colony
-cyno	2012-02-06	2013-06-01		cynomolgus	Colony
-unknown	1/1/1979 1:01:00			unknown dam or unassigned	Colony
+code	name	date	enddate	Purpose	Comment	Category	objectid
+1	baboon1	2/14/2014 13:29:39			Genetically characterized baboons	1	"dbe561b9-b7ba-102d-8c2a-9926f351b9ae"
+2	baboon2	2/14/2014 13:29:39			Baboons that will be genotyped	1	"dbe461b9-b7ba-102d-8c2a-9926f351b9ae"
+3	baboon3	2/14/2014 13:29:39			Baboons that will not be genotyped	1	"dbe361b9-b7ba-102d-8c2a-9926f351b9ae"
+4	Conventional #1	2014-06-18				2	"dbe261b9-b7ba-102d-8c2a-9926f351b9ae"
+5	chimp	2014-01-01			chimpanzees	3	"dbe161b9-b7ba-102d-8c2a-9926f351b9ae"
+6	cyno	2012-02-06	2013-06-01		cynomolgus	4	"dbe061b9-b7ba-102d-8c2a-9926f351b9ae"
+7	unknown	1/1/1979 1:01:00			unknown dam or unassigned	5	"dbe861b9-b7ba-102d-8c2a-9926f351b9ae"

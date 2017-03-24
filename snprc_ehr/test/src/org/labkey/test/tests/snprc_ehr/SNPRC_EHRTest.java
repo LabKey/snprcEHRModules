@@ -87,7 +87,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final File ASSAY_SNPS_TSV = TestFileUtils.getSampleData("snprc/assays/snps.tsv");
     private static final File LOOKUP_LIST_ARCHIVE = TestFileUtils.getSampleData("snprc/SNPRC_Test.lists.zip");
     private static final File ANIMAL_GROUPS_TSV = TestFileUtils.getSampleData("snprc/animal_groups.tsv");
-    private static final File ANIMAL_GROUP_MEMBERS_TSV = TestFileUtils.getSampleData("snprc/animal_group_members.tsv");
+    private static final File ANIMAL_GROUP_CATEGORIES_TSV = TestFileUtils.getSampleData("snprc/animal_group_categories.tsv");
     private static final String PROJECT_NAME = "SNPRC";
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
@@ -258,25 +258,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         super.populateHardTableRecords();
         Connection connection = createDefaultConnection(true);
 
-        InsertRowsCommand command = new InsertRowsCommand("ehr", "animal_groups");
+        InsertRowsCommand command = new InsertRowsCommand("snprc_ehr", "animal_groups");
         command.setRows(loadTsv(ANIMAL_GROUPS_TSV));
-        List<Map<String, Object>> savedRows = command.execute(connection, getProjectName()).getRows();
-        Map<String, Number> groupIds = new HashMap<>();
-        for (Map<String, Object> row : savedRows)
-        {
-            groupIds.put((String)row.get("name"), (Number)row.get("rowid"));
-        }
+        command.execute(connection, getProjectName()).getRows();
 
-        command = new InsertRowsCommand("study", "animal_group_members");
-        List<Map<String, Object>> loadedTsv = loadTsv(ANIMAL_GROUP_MEMBERS_TSV);
-        for (Map<String, Object> row : loadedTsv)
-        {
-            String group = (String)row.get("groupid");
-            row.put("groupid", groupIds.get(group));
-            row.put("objectid", new GUID());
-        }
-        command.setRows(loadedTsv);
-        command.execute(connection, getProjectName());
+        command = new InsertRowsCommand("snprc_ehr", "animal_group_categories");
+        command.setRows(loadTsv(ANIMAL_GROUP_CATEGORIES_TSV));
+        command.execute(connection, getProjectName()).getRows();
 
         // Valid accounts
         List<Map<String, Object>> accountRows = Arrays.asList(
