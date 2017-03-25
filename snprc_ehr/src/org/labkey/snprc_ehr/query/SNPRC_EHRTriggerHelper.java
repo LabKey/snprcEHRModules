@@ -15,38 +15,18 @@
  */
 package org.labkey.snprc_ehr.query;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
-import org.labkey.api.collections.CaseInsensitiveHashSet;
-import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
-import org.labkey.api.data.DbSchema;
-import org.labkey.api.data.DbScope;
-import org.labkey.api.data.Results;
-import org.labkey.api.data.ResultsImpl;
 import org.labkey.api.data.RuntimeSQLException;
-import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.Selector;
 import org.labkey.api.data.SimpleFilter;
-import org.labkey.api.data.Sort;
-import org.labkey.api.data.SqlExecutor;
-import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
-import org.labkey.api.ehr.EHRDemographicsService;
-import org.labkey.api.ehr.EHRService;
-import org.labkey.api.ehr.demographics.AnimalRecord;
-import org.labkey.api.exp.api.StorageProvisioner;
-import org.labkey.api.exp.property.Domain;
-import org.labkey.api.ldk.notification.NotificationService;
-import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.FieldKey;
-import org.labkey.api.query.FilteredTable;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
@@ -54,33 +34,16 @@ import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.security.UserManager;
-import org.labkey.api.security.UserPrincipal;
-import org.labkey.api.settings.AppProps;
-import org.labkey.api.study.DatasetTable;
-import org.labkey.api.util.GUID;
-import org.labkey.api.util.MailHelper;
 import org.labkey.api.util.PageFlowUtil;
-import org.labkey.api.util.Pair;
-import org.labkey.snprc_ehr.SNPRC_EHRManager;
-import org.labkey.snprc_ehr.SNPRC_EHRModule;
-import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 
-import javax.mail.Address;
-import javax.mail.Message;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 
 public class SNPRC_EHRTriggerHelper
