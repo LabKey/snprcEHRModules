@@ -32,7 +32,7 @@ ALTER PROCEDURE [labkey_etl].[p_update_animal_event_narratives]
 --
 --  11/02/2015   Terry Hawkins   Renamed from v_delete_animal_procedures to v_delete_animal_event_narratives.
 -- ==========================================================================================
-CREATE TABLE z.animal_event_narratives(
+CREATE TABLE #animal_event_narratives(
 	[animal_event_id] [INT] NOT NULL,
 	[animal_id] [VARCHAR](6) NULL,
 	[event_date_tm] [DATETIME] NULL,
@@ -94,7 +94,6 @@ INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc
 WHERE avsc.primate = 'Y'
 
 	AND ae.TIMESTAMP > @max_timestamp
-	AND ae.entry_date_tm >= '2/1/2017'
 
 UNION ALL
 
@@ -151,7 +150,7 @@ cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, p
   )
 
 
-  INSERT INTO z.animal_event_narratives
+  INSERT INTO #animal_event_narratives
           ( animal_event_id ,
             animal_id ,
             event_date_tm ,
@@ -223,40 +222,50 @@ cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, p
 
 
 
- -- -- delete rows that have been updated
- -- DELETE ap
-	--FROM dbo.animal_event_narratives AS ap
-	--WHERE ap.animal_event_id IN
-	--	(SELECT DISTINCT aae.ANIMAL_EVENT_ID
-	--		FROM dbo.animal_event_narratives AS ap
-	--		JOIN audit.audit_animal_events AS aae ON aae.ANIMAL_EVENT_ID = ap.animal_event_id
-	--		WHERE aae.AUDIT_TIMESTAMP > @max_timestamp
-	--		AND aae.AUDIT_ACTION = 'UI')
+ -- delete rows that have been updated
+ DELETE ap
+	FROM dbo.animal_event_narratives AS ap
+	WHERE ap.animal_event_id IN
+		(SELECT DISTINCT aae.ANIMAL_EVENT_ID
+			FROM dbo.animal_event_narratives AS ap
+			JOIN audit.audit_animal_events AS aae ON aae.ANIMAL_EVENT_ID = ap.animal_event_id
+			WHERE aae.AUDIT_TIMESTAMP > @max_timestamp
+			AND aae.AUDIT_ACTION = 'UI')
+ 
+ -- delete rows that have been deleted
+ DELETE ap
+	FROM dbo.animal_event_narratives AS ap
+	WHERE ap.animal_event_id IN
+		(SELECT DISTINCT aae.ANIMAL_EVENT_ID
+			FROM dbo.animal_event_narratives AS ap
+			JOIN audit.audit_animal_events AS aae ON aae.ANIMAL_EVENT_ID = ap.animal_event_id
+			WHERE aae.AUDIT_TIMESTAMP > @max_timestamp
+			AND aae.AUDIT_ACTION = 'D')
 
- -- -- insert the new rows
- -- INSERT INTO dbo.animal_event_narratives
- --         ( animal_event_id ,
- --           animal_id ,
- --           event_date_tm ,
- --           ParticipantSequenceNum ,
- --           charge_id ,
- --           proc_narrative ,
- --           objectid ,
- --           user_name ,
- --           entry_date_tm ,
- --           ts
- --         )
-	--SELECT animal_event_id ,
- --           animal_id ,
- --           event_date_tm ,
- --           ParticipantSequenceNum ,
- --           charge_id ,
- --           proc_narrative ,
- --           objectid ,
- --           user_name ,
- --           entry_date_tm ,
- --           ts
-	--		FROM z.animal_event_narratives
+ -- insert the new rows
+ INSERT INTO dbo.animal_event_narratives
+         ( animal_event_id ,
+           animal_id ,
+           event_date_tm ,
+           ParticipantSequenceNum ,
+           charge_id ,
+           proc_narrative ,
+           objectid ,
+           user_name ,
+           entry_date_tm ,
+           ts
+         )
+	SELECT animal_event_id ,
+           animal_id ,
+           event_date_tm ,
+           ParticipantSequenceNum ,
+           charge_id ,
+           proc_narrative ,
+           objectid ,
+           user_name ,
+           entry_date_tm ,
+           ts
+			FROM #animal_event_narratives
 
 	RETURN 0
 

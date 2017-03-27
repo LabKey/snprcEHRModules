@@ -1,22 +1,7 @@
-/*
- * Copyright (c) 2015 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_labwork_surveillance_results]    Script Date: 2/5/2015 8:51:28 AM ******/
+/****** Object:  View [labkey_etl].[V_LABWORK_SURVEILLANCE_RESULTS]    Script Date: 3/22/2017 11:46:23 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -24,7 +9,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-ALTER VIEW [labkey_etl].[v_labwork_surveillance_results] AS
+
+ALTER VIEW [labkey_etl].[V_LABWORK_SURVEILLANCE_RESULTS] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 1/19/2015
@@ -36,6 +22,7 @@ ALTER VIEW [labkey_etl].[v_labwork_surveillance_results] AS
 -- 6/19/2015 Removed spaces from observed_value string before converting to a decimal. tjh
 -- 8/28/2015 Normalized T. CRUZI results and reference range.  tjh
 -- 11/11/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
+-- 3/22/2017 remapped T.CRUZI test 965 to 850
 -- ==========================================================================================
 
 
@@ -43,23 +30,23 @@ SELECT
   obr.ANIMAL_ID                     AS id,
   obr.OBSERVATION_DATE_TM           AS date,
   NULL                              AS project,
-  obx.TEST_ID                       AS testid,
+  CASE WHEN obx.TEST_ID = 965 THEN 850 ELSE obx.TEST_ID END AS test_id,
   ''                                AS resultOORIndicator,
   obx.VALUE_TYPE                    AS value_type,
-  obx.TEST_NAME                     AS test_name,
+  CASE WHEN obx.TEST_ID = 965 THEN 'T. CRUZI AB' ELSE obx.TEST_name END AS test_name,
   CASE WHEN obx.VALUE_TYPE = 'NM' AND dbo.f_isNumeric(obx.OBSERVED_VALUE) = 1
     THEN CAST(LTRIM(RTRIM(REPLACE(obx.OBSERVED_VALUE, ' ', ''))) AS DECIMAL(10, 3))
   ELSE NULL END                     AS result,
-  -- 850 = T. CRUZI AB 876 = T.CRUZI BY PCR
-  CASE WHEN (test_id IN (850, 876) AND obx.OBSERVED_VALUE = 'SEROPOS')
+  -- 850/965 = T. CRUZI AB 876 = T. CRUZI BY PCR
+  CASE WHEN (test_id IN (850, 876, 965) AND obx.OBSERVED_VALUE = 'SEROPOS')
     THEN 'POSITIVE'
-  WHEN (test_id IN (850, 876) AND obx.OBSERVED_VALUE = 'SERONEG')
+  WHEN (test_id IN (850, 876, 965) AND obx.OBSERVED_VALUE = 'SERONEG')
     THEN 'NEGATIVE'
-  WHEN (test_id IN (850, 876) AND obx.OBSERVED_VALUE = 'IND')
+  WHEN (test_id IN (850, 876, 965) AND obx.OBSERVED_VALUE = 'IND')
     THEN 'INDETERMINATE'
   ELSE obx.OBSERVED_VALUE END       AS qualresult,
   obx.UNITS                         AS units,
-  CASE WHEN (test_id IN (850, 876))
+  CASE WHEN (test_id IN (850, 876, 965))
     THEN 'NEGATIVE'
   ELSE obx.REFERENCE_RANGE END      AS refRange,
   obx.ABNORMAL_FLAGS                AS abnormal_flags,
@@ -118,8 +105,7 @@ WHERE obr.PROCEDURE_name IN (SELECT PROCEDURE_name
       AND (obx.RESULT_STATUS = 'F' OR obx.RESULT_STATUS = 'C')
       AND obr.RESULT_STATUS = 'F'
 
+
 GO
 
 
-GRANT SELECT ON [labkey_etl].[v_labwork_surveillance_results] TO z_labkey
-GO
