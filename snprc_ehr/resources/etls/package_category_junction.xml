@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>packageCategoryJunction</name>
+    <name>_SNPRC packageCategoryJunction</name>
     <description>Packages/categories relationship (coded procs)</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
@@ -21,6 +21,6 @@
         <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_package_category_junction" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>
-        <poll interval="60m" />
+        <poll interval="365d" />
     </schedule>
 </etl>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>Valid species codes</name>
+    <name>_SNPRC Valid species codes</name>
     <description>Valid species codes (includes snprc 3-letter-codes</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">

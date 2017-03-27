@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>Animal group categories</name>
+    <name>_SNPRC Animal group categories</name>
     <description>Animal group categories</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">

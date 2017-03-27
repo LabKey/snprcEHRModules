@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>Labwork service types</name>
+    <name>_SNPRC Labwork service types</name>
     <description>Valid labwork service types</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">

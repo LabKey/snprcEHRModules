@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>Animal Assignments</name>
+    <name>Animal Assignments (IACUC assignments)</name>
     <description>Animal assignments data</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
