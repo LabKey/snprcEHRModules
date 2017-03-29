@@ -508,11 +508,11 @@
         <deleteUrl></deleteUrl>
         <pkColumnName>servicename</pkColumnName>
         <columns>
-            <column columnName="servicename">
+            <column columnName="serviceName">
                 <columnTitle>Service Name</columnTitle>
                 <isKeyField>true</isKeyField>
             </column>
-            <column columnName="serviceid">
+            <column columnName="serviceId">
                 <columnTitle>Service ID</columnTitle>
             </column>
             <column columnName="dataset">
@@ -522,7 +522,7 @@
                     <fkColumnName>value</fkColumnName>
                 </fk>
             </column>
-            <column columnName="chargetype">
+            <column columnName="chargeType">
                 <columnTitle>Group</columnTitle>
                 <fk>
                     <fkDbSchema>ehr_lookups</fkDbSchema>
@@ -538,7 +538,7 @@
                     <fkColumnName>code</fkColumnName>
                 </fk>
             </column>
-            <column columnName="collectionmethod">
+            <column columnName="collectionMethod">
                 <columnTitle>Collection Method</columnTitle>
                 <fk>
                     <fkDbSchema>ehr_lookups</fkDbSchema>
@@ -552,10 +552,10 @@
             <column columnName="alertOnComplete">
                 <columnTitle>Alert On Complete?</columnTitle>
             </column>
-            <column columnName="outsidelab">
+            <column columnName="outsideLab">
                 <columnTitle>From Outside Lab?</columnTitle>
             </column>
-            <column columnName="datedisabled">
+            <column columnName="dateDisabled">
                 <columnTitle>Date Disabled</columnTitle>
             </column>
             <column columnName="objectid">
