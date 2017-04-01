@@ -319,6 +319,9 @@
             <column columnName="container">
                 <nullable>false</nullable>
             </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+            </column>
         </columns>
     </table>
     <table tableName="validAccounts" tableDbType="TABLE" useColumnOrder="true">
@@ -508,6 +511,9 @@
         <deleteUrl></deleteUrl>
         <pkColumnName>servicename</pkColumnName>
         <columns>
+            <column columnName="rowid">
+                <nullable>false</nullable>
+            </column>
             <column columnName="serviceName">
                 <columnTitle>Service Name</columnTitle>
                 <isKeyField>true</isKeyField>
