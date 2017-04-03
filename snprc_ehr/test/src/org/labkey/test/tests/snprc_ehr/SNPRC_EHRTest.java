@@ -810,7 +810,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         List<List<String>> expectedRows = Arrays.asList(
                 Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", "3", "1", " ", "4"),
                 Arrays.asList("investigator101", "protocol101", "4", "8", "2", "8", "2", "12"));
-        assertEquals(String.join(", ", Arrays.asList(censusColumns)), expectedRows, rows);
+        assertEquals(expectedRows, rows);
     }
 
     @Test
@@ -905,6 +905,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11));
         click(findButton("Submit"));
 
+        waitForTextToDisappear("Weight: 3.73 kg");
         assertTextNotPresent("Weight: 3.73 kg", "Charge Id: 7133145", "Moved to: 950756 / 4420023");
 
         entries = new ArrayList<>(
