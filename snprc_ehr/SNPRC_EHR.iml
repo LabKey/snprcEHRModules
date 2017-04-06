@@ -8,9 +8,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Internal" />
-    <orderEntry type="module" module-name="EHR-API" />
-    <orderEntry type="module" module-name="LDK-API" />
+    <orderEntry type="module" module-name="API" exported="" />
+    <orderEntry type="module" module-name="ehr1" exported="" />
+    <orderEntry type="module" module-name="LDK" exported="" />
+    <orderEntry type="module" module-name="Study" exported="" />
+    <orderEntry type="library" exported="" name="SNPRC_Test.lists" level="project" />
   </component>
 </module>
-

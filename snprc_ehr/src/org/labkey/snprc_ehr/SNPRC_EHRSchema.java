@@ -17,17 +17,13 @@
 package org.labkey.snprc_ehr;
 
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.dialect.SqlDialect;
 
 public class SNPRC_EHRSchema
 {
-    private static final SNPRC_EHRSchema _instance = new SNPRC_EHRSchema();
     public static final String NAME = "snprc_ehr";
-
-    public static SNPRC_EHRSchema getInstance()
-    {
-        return _instance;
-    }
+    private static final SNPRC_EHRSchema _instance = new SNPRC_EHRSchema();
 
     private SNPRC_EHRSchema()
     {
@@ -35,6 +31,27 @@ public class SNPRC_EHRSchema
         // outside this class: this singleton should only be
         // accessed via org.labkey.snprc_ehr.SNPRC_EHRSchema.getInstance()
     }
+
+    public static SNPRC_EHRSchema getInstance()
+    {
+        return _instance;
+    }
+
+    public TableInfo getTableInfoAnimalGroupCategories()
+    {
+        return getSchema().getTable("animal_group_categories");
+    }
+
+    public TableInfo getTableInfoAnimalGroups()
+    {
+        return getSchema().getTable("animal_groups");
+    }
+
+    public TableInfo getTableInfoSpecies()
+    {
+        return getSchema().getTable("species");
+    }
+
 
     public DbSchema getSchema()
     {
@@ -45,4 +62,10 @@ public class SNPRC_EHRSchema
     {
         return getSchema().getSqlDialect();
     }
+
+    public DbSchema getStudySchema()
+    {
+        return DbSchema.get("study");
+    }
+
 }

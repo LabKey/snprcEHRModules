@@ -32,13 +32,16 @@ import org.labkey.api.query.DetailsURL;
 import org.labkey.api.resource.Resource;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
+import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.FlagsFormType;
+import org.labkey.snprc_ehr.dataentry.dataentry.GroupsCategoriesFormType;
 import org.labkey.snprc_ehr.demographics.ActiveAnimalGroupsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
@@ -61,6 +64,7 @@ import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
+import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
 import java.util.Collection;
@@ -100,6 +104,9 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     protected void init()
     {
         addController(SNPRC_EHRController.NAME, SNPRC_EHRController.class);
+        addController(AnimalGroupsController.NAME, AnimalGroupsController.class);
+
+        RoleManager.registerRole(new ManageGroupMembersRole());
     }
 
     @Override
@@ -184,6 +191,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
             }
         });
 
+
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(WeightFormType.class, this));
         //EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AnesthesiaFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DCMNotesFormType.class, this));
@@ -213,6 +221,12 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DepartureFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
+
+
+        //this becomes a marker - EHR will display a link referencing this entry form
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
+
+
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MatingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PregnancyConfirmationFormType.class, this));
