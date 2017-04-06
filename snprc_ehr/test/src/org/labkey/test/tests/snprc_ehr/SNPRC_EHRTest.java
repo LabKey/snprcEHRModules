@@ -895,8 +895,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Service/Panel: URINE CHEM"
                 )
         );
+        SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
+        WebElement activeReport = animalHistoryPage.getActiveReportPanel();
 
-        assertTextPresent(entries);
+        assertTextPresent(new TextSearcher(activeReport::getText), entries.toArray(new String[]{}));
 
         // Deselect weight, blood and housing
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
@@ -905,8 +907,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11));
         click(findButton("Submit"));
 
-        waitForTextToDisappear("Weight: 3.73 kg");
-        assertTextNotPresent("Weight: 3.73 kg", "Charge Id: 7133145", "Moved to: 950756 / 4420023");
+        animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
+        activeReport = animalHistoryPage.getActiveReportPanel();
+
+        assertTextNotPresent(new TextSearcher(activeReport::getText), "Weight: 3.73 kg", "Charge Id: 7133145", "Moved to: 950756 / 4420023");
 
         entries = new ArrayList<>(
                 Arrays.asList(
