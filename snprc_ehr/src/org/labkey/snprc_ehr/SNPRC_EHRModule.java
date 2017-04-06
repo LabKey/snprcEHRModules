@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
-import org.labkey.api.ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
 import org.labkey.api.ehr.history.DefaultNotesDataSource;
 import org.labkey.api.ehr.history.DefaultTBDataSource;
@@ -30,6 +29,7 @@ import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DetailsURL;
+import org.labkey.api.resource.Resource;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.view.ActionURL;
@@ -49,7 +49,6 @@ import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.history.AccountDataSource;
 import org.labkey.snprc_ehr.history.DefaultAssignmentDataSource;
 import org.labkey.snprc_ehr.history.DefaultBloodDrawDataSource;
@@ -107,6 +106,10 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     protected void doStartupAfterSpringConfig(ModuleContext moduleContext)
     {
         EHRService.get().registerModule(this);
+
+        Resource r = getModuleResource("/scripts/snprc_triggers.js");
+        assert r != null;
+        EHRService.get().registerTriggerScript(this, r);
 
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/ColonyUsage.js"), this);

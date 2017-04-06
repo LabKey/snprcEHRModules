@@ -77,6 +77,16 @@ public class SNPRC_EHRTriggerHelper
         return _container;
     }
 
+    // TODO: This is a dummy method intended only as an example
+    public String runSomeJavaCode(String Id, Date date)
+    {
+        //I can use any of the server-side APIs.
+        //I can interact with the DB more efficiently than in the JS triggers
+        //I can actually put breakpoints and debug!
+
+        //Sometimes these methods are used to make other changes in the server; however, they can also validate and return errors like this:
+        return "This is an error I generated";
+    }
 
     public Map<String, Object> getExtraContext()
     {
