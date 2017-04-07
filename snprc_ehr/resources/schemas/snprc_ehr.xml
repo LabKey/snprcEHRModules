@@ -842,6 +842,12 @@
             </column>
             <column columnName="displayable">
                 <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>yesno</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
+
             </column>
             <column columnName="species">
                 <nullable>true</nullable>
@@ -861,9 +867,19 @@
             </column>
             <column columnName="enforce_exclusivity">
                 <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>yesno</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
             </column>
             <column columnName="allow_future_date">
                 <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>yesno</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
             </column>
             <column columnName="sort_order">
                 <nullable>true</nullable>

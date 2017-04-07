@@ -27,6 +27,12 @@ Ext4.onReady(function(){
 
     var tables = [
         {
+            label: 'Yes/No lookup',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'yesno',
+            pk: 'value'
+        },{
             label: 'Valid birth date status',
             populateFn: 'populateFromFile',
             schemaName: 'snprc_ehr',

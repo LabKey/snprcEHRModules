@@ -78,3 +78,4 @@ preg_term_code	Pregnancy Termination Code	value
 proc_type	Procedure Type	code	description
 usda_levels	USDA Category	usda_level
 rearing_type	Rearing Type	value	Description
+yesno	Value
