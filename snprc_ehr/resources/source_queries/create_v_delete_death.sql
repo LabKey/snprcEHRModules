@@ -40,14 +40,19 @@ ALTER VIEW [labkey_etl].[V_DELETE_DEATH] AS
 SELECT am.object_id,
 	am.audit_date_tm
 FROM audit.audit_master AS am
+INNER JOIN dbo.master as m on m.id = am.id
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = am.id
-WHERE am.audit_action = 'D' AND am.object_id IS NOT NULL
-
+WHERE am.audit_action = 'D' 
+  OR
+	 (m.death_date is null and am.death_date IS null
+		AND am.audit_timestamp = (SELECT MAX(audit_timestamp) FROM audit.audit_master WHERE id = am.id)
+  )
+  AND am.object_id IS NOT NULL
 GO
 
 GRANT SELECT ON Labkey_etl.V_DELETE_DEATH TO z_labkey 
 GRANT SELECT ON audit.audit_acq_disp TO z_labkey
-
+GRANT SELECT ON dbo.master TO z_labkey
 GO
 
