@@ -48,9 +48,9 @@ import java.util.Map;
 
 public class SNPRC_EHRTriggerHelper
 {
+    private static final Logger _log = Logger.getLogger(SNPRC_EHRTriggerHelper.class);
     private Container _container = null;
     private User _user = null;
-    private static final Logger _log = Logger.getLogger(SNPRC_EHRTriggerHelper.class);
     private Map<String, TableInfo> _cachedTables = new HashMap<>();
 
 
@@ -77,15 +77,30 @@ public class SNPRC_EHRTriggerHelper
         return _container;
     }
 
-    // TODO: This is a dummy method intended only as an example
-    public String runSomeJavaCode(String Id, Date date)
+    /**
+     * Should we close datasets on animal departure?
+     *
+     * @param Id   Animal ID
+     * @param date departure Date
+     * @return true if datasets should be closed, false otherwise
+     */
+    public boolean shouldCloseDataSets(String Id, Date date)
     {
-        //I can use any of the server-side APIs.
-        //I can interact with the DB more efficiently than in the JS triggers
-        //I can actually put breakpoints and debug!
+        //Given Animal Id and Departure Date, Lookup Arrivals that occurred after the departure date; if any, return false; return true otherwise
+        UserSchema schema = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
+        TableInfo table = schema.getTable("Arrival");
 
-        //Sometimes these methods are used to make other changes in the server; however, they can also validate and return errors like this:
-        return "This is an error I generated";
+        SimpleFilter filter = new SimpleFilter();
+        filter.addCondition(FieldKey.fromString("id"), Id, CompareType.EQUAL);
+        filter.addCondition(FieldKey.fromString("date"), date, CompareType.DATE_GTE);
+
+
+        TableSelector tableSelector = new TableSelector(table, filter, null);
+        List<Object> arrivals = tableSelector.getArrayList(Object.class);
+
+        return arrivals.isEmpty();
+
+
     }
 
     public Map<String, Object> getExtraContext()
