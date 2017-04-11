@@ -88,6 +88,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final File LOOKUP_LIST_ARCHIVE = TestFileUtils.getSampleData("snprc/SNPRC_Test.lists.zip");
     private static final File ANIMAL_GROUPS_TSV = TestFileUtils.getSampleData("snprc/animal_groups.tsv");
     private static final File ANIMAL_GROUP_CATEGORIES_TSV = TestFileUtils.getSampleData("snprc/animal_group_categories.tsv");
+    private static final File SPECIES_TSV = TestFileUtils.getSampleData("snprc/species.tsv");
     private static final String PROJECT_NAME = "SNPRC";
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
@@ -264,6 +265,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         command = new InsertRowsCommand("snprc_ehr", "animal_group_categories");
         command.setRows(loadTsv(ANIMAL_GROUP_CATEGORIES_TSV));
+        command.execute(connection, getProjectName()).getRows();
+
+        command = new InsertRowsCommand("snprc_ehr", "species");
+        command.setRows(loadTsv(SPECIES_TSV));
         command.execute(connection, getProjectName()).getRows();
 
         // Valid accounts
