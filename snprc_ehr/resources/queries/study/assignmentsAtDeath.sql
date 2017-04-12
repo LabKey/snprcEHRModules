@@ -4,11 +4,19 @@
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 
+/*
+ * Copyright (c) 2016 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+
+
 SELECT
-asn.Id as id,
-group_concat(asn.protocol, ', ') as assignmentsAtDeath,
+a.Id as id,
+group_concat(a.protocol, ', ') as assignmentsAtDeath,
 
-FROM assignment as asn
-WHERE asn.Id.DataSet.deaths.date >= asn.date AND (asn.enddate IS NULL OR asn.Id.DataSet.deaths.date <= asn.enddate)
+FROM assignment as a
+INNER JOIN study.deaths as d on d.id = a.id and d.date >= a.date AND (a.enddate IS NULL OR d.date <= a.enddate)
 
-GROUP BY asn.Id
+GROUP BY a.Id
