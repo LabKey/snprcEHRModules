@@ -334,7 +334,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         super.deleteHardTableRecords();
         Connection connection = createDefaultConnection(true);
 
-        TruncateTableCommand command = new TruncateTableCommand("ehr", "animal_groups");
+        TruncateTableCommand command = new TruncateTableCommand("snprc_ehr", "animal_groups");
+        command.execute(connection, getProjectName());
+
+        command = new TruncateTableCommand("snprc_ehr", "animal_group_categories");
+        command.execute(connection, getProjectName());
+
+        command = new TruncateTableCommand("snprc_ehr", "species");
         command.execute(connection, getProjectName());
     }
 
