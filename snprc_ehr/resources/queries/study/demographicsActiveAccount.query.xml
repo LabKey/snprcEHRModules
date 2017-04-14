@@ -7,6 +7,10 @@
                     <column columnName="Id">
                         <isHidden>false</isHidden>
                     </column>
+                    <column columnName="date">
+                        <columnTitle>Account Date</columnTitle>
+                        <formatString>Date</formatString>
+                    </column>
                     <column columnName="Account">
                         <fk>
                             <fkColumnName>Account</fkColumnName>

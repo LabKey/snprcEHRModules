@@ -15,10 +15,11 @@
  */
 SELECT
   d.id,
+  a.date,
   MIN(a.account) as account,
   MIN(va.accountGroup) as accountGroup
 FROM study.demographics d
 INNER JOIN study.animalAccounts a ON a.id = d.id AND a.isActive = true
 LEFT OUTER JOIN snprc_ehr.validAccounts va ON va.account = a.account
 
-GROUP BY d.id
+GROUP BY d.id, a.date
