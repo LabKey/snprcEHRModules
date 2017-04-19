@@ -1,7 +1,6 @@
 package org.labkey.snprc_ehr.controllers;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
@@ -13,6 +12,7 @@ import org.labkey.api.action.SpringActionController;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.DbScope;
+import org.labkey.api.data.ObjectFactory;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.Sort;
@@ -39,6 +39,7 @@ import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
 import org.labkey.snprc_ehr.domain.AnimalSpecies;
 import org.labkey.snprc_ehr.domain.GroupMember;
 import org.labkey.snprc_ehr.enums.AssignmentFailureReason;
+import org.labkey.snprc_ehr.helpers.SortFilterHelper;
 import org.labkey.snprc_ehr.security.ManageGroupMembersPermission;
 import org.labkey.snprc_ehr.services.AnimalsGroupAssignor;
 import org.springframework.validation.BindException;
@@ -62,7 +63,7 @@ import java.util.Map;
  */
 public class AnimalGroupsController extends SpringActionController
 {
-    public static final String NAME = "animalgroups";
+    public static final String NAME = "AnimalGroups";
     private static final DefaultActionResolver _actionResolver = new DefaultActionResolver(AnimalGroupsController.class);
 
     public AnimalGroupsController()
@@ -78,7 +79,8 @@ public class AnimalGroupsController extends SpringActionController
         public NavTree appendNavTrail(NavTree root)
         {
 
-            return root.addChild("Animal Group Categories", new ActionURL(GroupCategoriesAction.class, getContainer()));
+            root.addChild("Animal Group Categories", new ActionURL(GroupCategoriesAction.class, getContainer()));
+            return root;
 
         }
 
@@ -104,38 +106,11 @@ public class AnimalGroupsController extends SpringActionController
         {
 
             Map<String, Object> props = new HashMap<String, Object>();
-            Sort sort = new Sort();
 
-            if (o.getSort() != null)
-            {
-                ObjectMapper m = new ObjectMapper();
-                JSONObject sortObject = m.readValue(o.getSort().replace('[', ' ').replace(']', ' '), JSONObject.class);
-                switch (((String) sortObject.get("direction")).toUpperCase())
-                {
-                    case "ASC":
-                        sort.appendSortColumn(FieldKey.fromString((String) sortObject.get("property")), Sort.SortDirection.ASC, false);
-                        break;
-                    case "DESC":
-                        sort.appendSortColumn(FieldKey.fromString((String) sortObject.get("property")), Sort.SortDirection.DESC, false);
-                        break;
-                }
-            }
-            SimpleFilter filter = new SimpleFilter();
-            if (o.getFilter() != null && !o.getFilter().equals(""))
-            {
-                ObjectMapper m = new ObjectMapper();
-                JSONObject filterObject = m.readValue(o.getFilter().replace('[', ' ').replace(']', ' '), JSONObject.class);
+            Sort sort = SortFilterHelper.getSort(o.getSort(), true);
 
-                filter.addCondition(FieldKey.fromString("description"), filterObject.get("value"), CompareType.CONTAINS);
-                /*
-                filter.addCondition(new SimpleFilter.OrClause(
-                        new CompareType.CompareClause(FieldKey.fromString("description"), CompareType.CONTAINS, o.getFilter()),
-                        new CompareType.CompareClause(FieldKey.fromString("comment"), o.getFilter(), CompareType.CONTAINS)
-                ));
-                */
+            SimpleFilter filter = SortFilterHelper.getFilter(o.getFilter());
 
-
-            }
             ArrayList<AnimalGroupCategory> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), filter, sort).getArrayList(AnimalGroupCategory.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
@@ -159,22 +134,30 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(AnimalGroupCategory o, BindException errors) throws Exception
         {
-            o.setContainerId(getContainer().getId());
+            ObjectFactory factory = ObjectFactory.Registry.getFactory(AnimalGroupCategory.class);
+
+
+
             Map<String, Object> props = new HashMap<String, Object>();
             try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
             {
-                if (o.getCategory_code() != 0)
+                if (o.getCategoryCode() != 0)
                 {
-                    Table.update(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), o, o.getCategory_code());
+                    Map categoryAsMap = factory.toMap(o, null);
+
+                    categoryAsMap.put("container", this.getContainer().getId());
+                    Table.update(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap, o.getCategoryCode());
 
                 }
                 else
                 {
-                    o.setCategory_code(this.getNextCategoryId());
-                    o.setObjectId((new GUID()).toString());
+                    o.setCategoryCode(this.getNextCategoryId());
+                    Map categoryAsMap = factory.toMap(o, null);
+                    categoryAsMap.put("objectId", new GUID().toString());
+
 
                     Table.insert(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), o);
-                    props.put("category_code", o.getCategory_code());
+                    props.put("categoryCode", o.getCategoryCode());
                 }
 
                 props.put("success", true);
@@ -209,7 +192,7 @@ public class AnimalGroupsController extends SpringActionController
 
             TableInfo table = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
             SimpleFilter filter = new SimpleFilter();
-            filter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategory_code(), CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
 
             List<AnimalGroup> groups = new TableSelector(table, filter, null).getArrayList(AnimalGroup.class);
 
@@ -219,7 +202,7 @@ public class AnimalGroupsController extends SpringActionController
             {
                 TableInfo categoriesTable = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories();
                 SimpleFilter categoriesFilter = new SimpleFilter();
-                categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategory_code(), CompareType.EQUAL);
+                categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
                 Table.delete(categoriesTable, categoriesFilter);
                 props.put("success", true);
 
@@ -250,11 +233,17 @@ public class AnimalGroupsController extends SpringActionController
             List<JSONObject> jsonRows = new ArrayList<>();
 
             Map<String, Object> props = new HashMap<String, Object>();
-            for (AnimalSpecies form : rows)
+
+            JSONObject noSpecies = new JSONObject();
+            noSpecies.put("arcSpeciesCode", "");
+            noSpecies.put("speciesName", "N/A");
+
+            jsonRows.add(noSpecies);
+            for (AnimalSpecies species : rows)
             {
-                jsonRows.add(form.toJSON());
+                jsonRows.add(species.toJSON());
             }
-            props.put("rows", jsonRows);
+            props.put("species", jsonRows);
             return new ApiSimpleResponse(props);
         }
     }
@@ -269,7 +258,7 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(AnimalGroup animalGroup, BindException errors) throws Exception
         {
             Map<String, Object> props = new HashMap<String, Object>();
-            ArrayList<AnimalGroup> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), new SimpleFilter().addCondition("category_code", animalGroup.getCategory_code(), CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
+            ArrayList<AnimalGroup> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), new SimpleFilter().addCondition("category_code", animalGroup.getCategoryCode(), CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
             for (AnimalGroup form : rows)
@@ -374,18 +363,20 @@ public class AnimalGroupsController extends SpringActionController
                     {
                         o.put("date", ((String) o.get("date")).substring(0, 10));
                     }
-                    if (o.get("enddate") != null)
+                    if (o.get("endDate") != null)
                     {
-                        o.put("enddate", ((String) o.get("enddate")).substring(0, 10));
+                        o.put("endDate", ((String) o.get("endDate")).substring(0, 10));
                     }
+
+                    o.put("category_code", o.get("categoryCode"));
 
                     Map primaryKey = new HashMap();
 
                     if (o.get("code") != null && (Integer) o.get("code") != 0)
                     {
                         primaryKey.put("code", o.get("code"));
-                        primaryKey.put("category_code", o.get("category_code"));
-
+                        primaryKey.put("category_code", o.get("categoryCode"));
+                        o.remove("categoryCode");
                         Table.update(getUser(), table, o, primaryKey);
 
                     }
@@ -394,7 +385,7 @@ public class AnimalGroupsController extends SpringActionController
                         o.put("code", this.getNextGroupCode());
                         o.put("container", this.getContainer().getEntityId());
                         o.put("objectid", new GUID());
-
+                        o.remove("categoryCode");
                         Table.insert(getUser(), table, o);
 
                     }
@@ -598,6 +589,7 @@ public class AnimalGroupsController extends SpringActionController
              * SELECT GROUP MEMBER FIRST -- We need objectId to be able to use QueryUpdateService
              */
 
+            Map props = new HashMap();
             SimpleFilter filter = new SimpleFilter();
             filter.addCondition(FieldKey.fromString("groupid"), groupMember.getGroupid(), CompareType.EQUAL);
             filter.addCondition(FieldKey.fromString("id"), groupMember.getId(), CompareType.EQUAL);
@@ -619,26 +611,21 @@ public class AnimalGroupsController extends SpringActionController
                 try
                 {
                     qus.deleteRows(this.getUser(), this.getContainer(), keys, null, null);
+                    props.put("success", true);
+                    return new ApiSimpleResponse(props);
                 }
-                catch (InvalidKeyException e)
+                catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e)
                 {
-                    e.printStackTrace();
-                }
-                catch (BatchValidationException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (QueryUpdateServiceException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (SQLException e)
-                {
-                    e.printStackTrace();
+                    props.put("success", false);
+                    props.put("message", e.getMessage());
+                    return new ApiSimpleResponse(props);
                 }
 
             }
-            return null;
+            //should not reach this point
+
+            props.put("success", false);
+            return new ApiSimpleResponse(props);
         }
     }
 }

@@ -12,12 +12,12 @@ public class AnimalGroup extends Entity
 {
     private int code;
 
-    private int category_code;
+    private int categoryCode;
     private String name;
     private Date date;
-    private Date enddate;
+    private Date endDate;
     private String comment;
-    private String sort_order;
+    private String sortOrder;
 
     public AnimalGroup()
     {
@@ -34,14 +34,14 @@ public class AnimalGroup extends Entity
         this.code = code;
     }
 
-    public int getCategory_code()
+    public int getCategoryCode()
     {
-        return category_code;
+        return categoryCode;
     }
 
-    public void setCategory_code(int category_code)
+    public void setCategoryCode(int categoryCode)
     {
-        this.category_code = category_code;
+        this.categoryCode = categoryCode;
     }
 
     public String getName()
@@ -64,14 +64,14 @@ public class AnimalGroup extends Entity
         this.date = date;
     }
 
-    public Date getEnddate()
+    public Date getEndDate()
     {
-        return enddate;
+        return endDate;
     }
 
-    public void setEnddate(Date enddate)
+    public void setEnddate(Date endDate)
     {
-        this.enddate = enddate;
+        this.endDate = endDate;
     }
 
     public String getComment()
@@ -84,26 +84,18 @@ public class AnimalGroup extends Entity
         this.comment = comment;
     }
 
-    public String getSort_order()
+    public String getSortOrder()
     {
-        return sort_order;
+        return sortOrder;
     }
 
-    public void setSort_order(String sort_order)
+    public void setSortOrder(String sortOrder)
     {
-        this.sort_order = sort_order;
+        this.sortOrder = sortOrder;
     }
 
     public JSONObject toJSON()
     {
-        JSONObject json = new JSONObject();
-        json.put("code", this.getCode());
-        json.put("category_code", this.getCategory_code());
-        json.put("name", this.getName());
-        json.put("date", this.getDate());
-        json.put("enddate", this.getEnddate());
-        json.put("comment", this.getComment());
-        json.put("sort_order", this.getSort_order());
-        return json;
+        return new JSONObject(this);
     }
 }

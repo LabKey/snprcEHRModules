@@ -3,19 +3,19 @@
  */
 Ext4.define("AnimalGroupsStore", {
     extend: 'Ext.data.Store',
-    fields: ['code', 'category_code', 'name', {name: 'date', type: 'date', submitFormat: 'Y-m-d'}, {
-        name: 'enddate',
+    fields: ['code', 'categoryCode', 'name', {name: 'date', type: 'date', submitFormat: 'Y-m-d'}, {
+        name: 'endDate',
         type: 'date',
         submitFormat: 'Y-m-d'
-    }, 'comment', 'sort_order'],
+    }, 'comment', 'sortOrder'],
     autoLoad: false,
     proxy: {
         type: 'ajax',
         api: {
-            read: LABKEY.ActionURL.buildURL("animalgroups", "GetGroupsByCategory"),
-            update: LABKEY.ActionURL.buildURL("animalgroups", "UpdateGroups"),
-            create: LABKEY.ActionURL.buildURL("animalgroups", "UpdateGroups"),
-            destroy: LABKEY.ActionURL.buildURL("animalgroups", "DeleteGroups")
+            read: LABKEY.ActionURL.buildURL("AnimalGroups", "GetGroupsByCategory"),
+            update: LABKEY.ActionURL.buildURL("AnimalGroups", "UpdateGroups"),
+            create: LABKEY.ActionURL.buildURL("AnimalGroups", "UpdateGroups"),
+            destroy: LABKEY.ActionURL.buildURL("AnimalGroups", "DeleteGroups")
         },
         reader: {
             type: 'json',

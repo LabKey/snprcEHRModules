@@ -52,6 +52,11 @@ public class SNPRC_EHRSchema
         return getSchema().getTable("species");
     }
 
+    public TableInfo getTableInfoValidInstitutions()
+    {
+        return getSchema().getTable("validInstitutions");
+    }
+
 
     public DbSchema getSchema()
     {

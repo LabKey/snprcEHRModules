@@ -8,7 +8,7 @@ Ext4.define("AnimalsComboStore", {
     proxy: {
         type: 'ajax',
         api: {
-            read: LABKEY.ActionURL.buildURL("animalgroups", "GetAnimalsByName")
+            read: LABKEY.ActionURL.buildURL("AnimalGroups", "GetAnimalsByName")
 
         },
         reader: {

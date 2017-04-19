@@ -21,7 +21,7 @@ Ext4.define("GroupsGridPanel", {
                 var store = this.up('grid').getStore();
 
                 if (store.getCategory()) {
-                    rec = store.add([{code: 0, category_code: store.getCategory(), sort_order: 0}]);
+                    rec = store.add([{code: 0, categoryCode: store.getCategory(), sortOrder: 0}]);
                     this.up('grid').getView().select(rec, true, true);
 
                 }
@@ -39,7 +39,7 @@ Ext4.define("GroupsGridPanel", {
         },
         {
             text: 'Category Code',
-            dataIndex: 'category code',
+            dataIndex: 'categoryCode',
             hidden: true,
             hideable: false
 
@@ -60,7 +60,7 @@ Ext4.define("GroupsGridPanel", {
             }
         }, {
             text: 'End Date',
-            dataIndex: 'enddate',
+            dataIndex: 'endDate',
             minWidth: 150,
             xtype: 'datecolumn',
             format: 'M d, Y',
@@ -77,7 +77,7 @@ Ext4.define("GroupsGridPanel", {
             }
         }, {
             text: 'Sort Order',
-            dataIndex: 'sort_order',
+            dataIndex: 'sortOrder',
             minWidth: 150,
             editor: {
                 xtype: 'numberfield',
@@ -111,7 +111,7 @@ Ext4.define("GroupsGridPanel", {
                             failure: function () {
                                 grid.getStore().load({
                                     params: {
-                                        'category_code': grid.getStore().getCategory()
+                                        'categoryCode': grid.getStore().getCategory()
                                     }
                                 });
                                 Ext4.Msg.alert('Error', 'Unable to delete this group');
@@ -134,13 +134,13 @@ Ext4.define("GroupsGridPanel", {
                     success: function () {
                         self.up('grid').getStore().load({
                             params: {
-                                'category_code': self.up('grid').getStore().getCategory()
+                                'categoryCode': self.up('grid').getStore().getCategory()
                             }
 
                         });
                     },
                     failure: function () {
-                        Ext4.MessageBox.alert("Something went Wrong!");
+                        Ext4.MessageBox.alert("Something went Wrong!", "Unable to add/update Group(s)");
                     }
 
                 });

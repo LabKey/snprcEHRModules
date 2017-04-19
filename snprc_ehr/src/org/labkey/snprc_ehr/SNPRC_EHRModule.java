@@ -18,6 +18,7 @@ package org.labkey.snprc_ehr;
 
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ObjectFactory;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
@@ -38,10 +39,14 @@ import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
+import org.labkey.snprc_ehr.controllers.AnimalsByLocationController;
+import org.labkey.snprc_ehr.controllers.InstitutionsController;
+import org.labkey.snprc_ehr.controllers.RelatedTablesController;
 import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.FlagsFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.GroupsCategoriesFormType;
+import org.labkey.snprc_ehr.dataentry.dataentry.RelatedTablesFormType;
 import org.labkey.snprc_ehr.demographics.ActiveAnimalGroupsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
@@ -52,6 +57,10 @@ import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
+import org.labkey.snprc_ehr.domain.AnimalGroup;
+import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
+import org.labkey.snprc_ehr.domain.AnimalSpecies;
+import org.labkey.snprc_ehr.domain.Institution;
 import org.labkey.snprc_ehr.history.AccountDataSource;
 import org.labkey.snprc_ehr.history.DefaultAssignmentDataSource;
 import org.labkey.snprc_ehr.history.DefaultBloodDrawDataSource;
@@ -65,6 +74,7 @@ import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
+import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 
 import java.util.Collection;
@@ -104,9 +114,22 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     protected void init()
     {
         addController(SNPRC_EHRController.NAME, SNPRC_EHRController.class);
-        addController(AnimalGroupsController.NAME, AnimalGroupsController.class);
+        //Controllers
+        addController(AnimalGroupsController.NAME.toLowerCase(), AnimalGroupsController.class);
+        addController(AnimalsByLocationController.NAME.toLowerCase(), AnimalsByLocationController.class);
+        addController(RelatedTablesController.NAME.toLowerCase(), RelatedTablesController.class);
+        addController(InstitutionsController.NAME.toLowerCase(), InstitutionsController.class);
 
+        //additional roles
         RoleManager.registerRole(new ManageGroupMembersRole());
+        RoleManager.registerRole(new ManageRelatedTablesRole());
+
+
+        //register factory beans to map foo_bar column names to fooBar
+        ObjectFactory.Registry.register(Institution.class, new SNPRCBeanFactory<>(Institution.class));
+        ObjectFactory.Registry.register(AnimalGroup.class, new SNPRCBeanFactory<>(AnimalGroup.class));
+        ObjectFactory.Registry.register(AnimalGroupCategory.class, new SNPRCBeanFactory<>(AnimalGroupCategory.class));
+        ObjectFactory.Registry.register(AnimalSpecies.class, new SNPRCBeanFactory<>(AnimalSpecies.class));
     }
 
     @Override
@@ -226,7 +249,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         //this becomes a marker - EHR will display a link referencing this entry form
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
 
-
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(RelatedTablesFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MatingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PregnancyConfirmationFormType.class, this));

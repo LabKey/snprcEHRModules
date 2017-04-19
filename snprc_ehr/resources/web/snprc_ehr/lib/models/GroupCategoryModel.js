@@ -5,7 +5,7 @@ Ext4.define("GroupCategoryModel", {
     extend: "Ext.data.Model",
     fields: [
         {
-            name: 'category_code'
+            name: 'categoryCode'
         },
         {
             name: 'description',
@@ -25,21 +25,21 @@ Ext4.define("GroupCategoryModel", {
             name: 'sex'
         },
         {
-            name: 'enforce_exclusivity',
+            name: 'enforceExclusivity',
             allowBlank: false
         },
         {
-            name: 'allow_future_date',
+            name: 'allowFutureDate',
             allowBlank: false
         }],
-    idProperty: "category_code",
+    idProperty: "categoryCode",
     proxy: {
         type: 'ajax',
         api: {
-            create: LABKEY.ActionURL.buildURL("animalgroups", "UpdateCategories"),
-            read: LABKEY.ActionURL.buildURL("animalgroups", "GetCategories"),
-            update: LABKEY.ActionURL.buildURL("animalgroups", "UpdateCategories"),
-            destroy: LABKEY.ActionURL.buildURL("animalgroups", "RemoveCategory")
+            create: LABKEY.ActionURL.buildURL("AnimalGroups", "UpdateCategories"),
+            read: LABKEY.ActionURL.buildURL("AnimalGroups", "GetCategories"),
+            update: LABKEY.ActionURL.buildURL("AnimalGroups", "UpdateCategories"),
+            destroy: LABKEY.ActionURL.buildURL("AnimalGroups", "RemoveCategory")
 
         },
         reader: {

@@ -16,7 +16,6 @@ Ext4.define("GroupCategoriesStore", {
                 Ext4.getCmp('group-category-form-panel').getForm().reset();
                 Ext4.getCmp('groups-grid-panel').getStore().loadData([], false);
             }
-            Ext4.getCmp('categories-grid-filter').focus();
 
         }
     }

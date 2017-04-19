@@ -7,20 +7,6 @@ Ext4.define("GroupCategoriesGridPanel", {
     id: 'group-categories-grid-panel',
     store: Ext4.create('GroupCategoriesStore'),
     listeners: {
-        cellclick: function (gridView, htmlElement, columnIndex, dataRecord) {
-            if (!dataRecord) {
-                return;
-            }
-
-            Ext4.getCmp('group-category-form-panel').loadRecord(dataRecord);
-            Ext4.getCmp('groups-grid-panel').getStore().load({
-                params: {
-                    'category_code': dataRecord.get("category_code")
-                }
-
-            });
-            Ext4.getCmp('groups-grid-panel').getStore().setCategory(dataRecord.get("category_code"));
-        },
         selectionchange: function (selectionModel, selected) {
             if (!selected[0]) {
                 return;
@@ -28,54 +14,91 @@ Ext4.define("GroupCategoriesGridPanel", {
             Ext4.getCmp('group-category-form-panel').loadRecord(selected[0]);
             Ext4.getCmp('groups-grid-panel').getStore().load({
                 params: {
-                    'category_code': selected[0].get("category_code")
+                    'categoryCode': selected[0].get("categoryCode")
                 }
 
             });
-            Ext4.getCmp('groups-grid-panel').getStore().setCategory(selected[0].get("category_code"));
+            Ext4.getCmp('groups-grid-panel').getStore().setCategory(selected[0].get("categoryCode"));
         }
     },
-    tbar: [
-        {
-            text: "Add",
-            handler: function () {
-                var store = this.up('grid').getStore();
+    tbar: Ext4.create('Ext.toolbar.Toolbar', {
+                defaults: {
+                    listeners: {
+                        change: function () {
+                            this.up('grid').setFilter();
+                        }
+                    }
+                },
+                items: [
+                    {
+                        text: "Add",
+                        iconCls: 'add-btn',
+                        handler: function () {
+                            var store = this.up('grid').getStore();
 
-                rec = store.add(Ext4.create("GroupCategoryModel", {category_code: 0, sort_order: 0}));
-                this.up('grid').getSelectionModel().select(rec, true, true);
-                this.up('grid').getSelectionModel().fireEvent('selectionchange', this.up('grid').getSelectionModel(), this.up('grid').getSelectionModel().getSelection());
+                            rec = store.add(Ext4.create("GroupCategoryModel", {categoryCode: 0, sortOrder: 0}));
+                            this.up('grid').getSelectionModel().select(rec, true, true);
+                            this.up('grid').getSelectionModel().fireEvent('selectionchange', this.up('grid').getSelectionModel(), this.up('grid').getSelectionModel().getSelection());
 
 
+                        }
+
+                    },
+
+                    {
+                        emptyText: "Filter...",
+                        text: 'Filter',
+                        xtype: 'textfield',
+                        id: 'categories-filter-by-description'
+                    },
+                    {
+                        xtype: 'combo',
+                        store: Ext4.create('SpeciesStore'),
+                        fieldLabel: 'Species:',
+                        labelWidth: 50,
+                        width: 300,
+                        padding: 5,
+                        id: 'categories-filter-by-species',
+                        valueField: 'arcSpeciesCode',
+                        displayField: 'speciesName',
+                        typeAhead: true,
+                        queryMode: 'local'
+
+                    },
+                    {
+                        xtype: 'combo',
+                        store: Ext4.create('GenderStore'),
+                        id: 'filter-by-gender',
+                        fieldLabel: 'Gender:',
+                        labelWidth: 50,
+                        width: 150,
+                        padding: 5,
+                        id: 'categories-filter-by-gender',
+                        valueField: 'value',
+                        displayField: 'text',
+                        typeAhead: true,
+                        queryMode: 'local'
+
+                    },
+
+                    {
+                        text: 'Reset',
+                        iconCls: 'reset-btn',
+                        handler: function () {
+                            Ext4.getCmp('categories-filter-by-description').reset();
+                            Ext4.getCmp('categories-filter-by-species').reset();
+                            Ext4.getCmp('categories-filter-by-gender').reset();
+                        }
+                    }
+                ]
             }
-
-        },
-        {
-            emptyText: "Filter...",
-            text: 'Filter',
-            xtype: 'textfield',
-            id: 'categories-grid-filter',
-            listeners: {
-                change: function () {
-                    var self = this;
-                    this.up('grid').setFilter(this.getValue());
-
-
-                }
-            }
-        },
-        {
-            text: 'Reset',
-            handler: function () {
-                Ext4.getCmp('categories-grid-filter').reset();
-            }
-        }
-    ],
+    ),
 
 
     columns: [
         {
             text: 'Code',
-            dataIndex: 'category_code',
+            dataIndex: 'categoryCode',
 
         }, {
             text: 'Description',
@@ -100,19 +123,19 @@ Ext4.define("GroupCategoriesGridPanel", {
             text: 'Sex',
             dataIndex: 'sex',
             renderer: function (value) {
-                return value == 'F' ? "Female" : (value == "M" ? "Male" : "")
+                return value == 'F' ? "Female" : (value == "M" ? "Male" : value)
             },
             minWidth: 150
         }, {
             text: 'Enforce Exclusivity',
-            dataIndex: 'enforce_exclusivity',
+            dataIndex: 'enforceExclusivity',
             minWidth: 150,
             renderer: function (value) {
                 return value == 'Y' ? "Yes" : "No";
             }
         }, {
             text: 'Allow Future Date',
-            dataIndex: 'allow_future_date',
+            dataIndex: 'allowFutureDate',
             renderer: function (value) {
                 return value == 'Y' ? "Yes" : "No"
             },
@@ -142,15 +165,18 @@ Ext4.define("GroupCategoriesGridPanel", {
         }
     ],
 
-    setFilter: function (filter) {
-        this.filter = filter;
+    setFilter: function () {
+
         this.getStore().clearFilter(true);
-        this.getStore().filter('filter', filter);
+        this.getStore().filter([{
+            property: 'description',
+            value: Ext4.getCmp('categories-filter-by-description').getValue()
+        }, {property: 'sex', value: Ext4.getCmp('categories-filter-by-gender').getValue()}, {
+            property: 'species',
+            value: Ext4.getCmp('categories-filter-by-species').getValue()
+        }]);
 
-    },
-
-    getFilter: function () {
-        return this.filter || null;
     }
+
 
 });

@@ -7,10 +7,10 @@ Ext4.define("GroupMemberModel", {
     proxy: {
         type: 'ajax',
         api: {
-            read: LABKEY.ActionURL.buildURL("animalgroups", "GetAnimalsByGroup"),
-            update: LABKEY.ActionURL.buildURL("animalgroups", "UpdateGroupMembers"),
-            create: LABKEY.ActionURL.buildURL("animalgroups", "UpdateGroupMembers"),
-            destroy: LABKEY.ActionURL.buildURL("animalgroups", "DeleteGroupMembers")
+            read: LABKEY.ActionURL.buildURL("AnimalGroups", "GetAnimalsByGroup"),
+            update: LABKEY.ActionURL.buildURL("AnimalGroups", "UpdateGroupMembers"),
+            create: LABKEY.ActionURL.buildURL("AnimalGroups", "UpdateGroupMembers"),
+            destroy: LABKEY.ActionURL.buildURL("AnimalGroups", "DeleteGroupMembers")
         },
         reader: {
             type: 'json',

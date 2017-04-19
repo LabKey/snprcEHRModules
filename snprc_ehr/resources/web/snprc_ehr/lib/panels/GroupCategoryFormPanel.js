@@ -4,7 +4,6 @@
 Ext4.define('GroupCategoryFormPanel', {
     extend: "Ext.form.Panel",
     alias: "widget.group-category-form-panel",
-    title: "Edit Groups Category",
     id: 'group-category-form-panel',
     bodyStyle: 'padding:5px 5px 0',
     labelWidth: 300,
@@ -13,7 +12,7 @@ Ext4.define('GroupCategoryFormPanel', {
     items: [
         {
             xtype: 'textfield',
-            name: 'category_code',
+            name: 'categoryCode',
             fieldLabel: 'Code',
             disabled: true
         },
@@ -43,8 +42,8 @@ Ext4.define('GroupCategoryFormPanel', {
             fieldLabel: 'Species',
             name: 'species',
             store: Ext4.create('SpeciesStore'),
-            valueField: 'arc_species_code',
-            displayField: 'species_name',
+            valueField: 'arcSpeciesCode',
+            displayField: 'speciesName',
             typeAhead: true,
             queryMode: 'local'
 
@@ -100,7 +99,6 @@ Ext4.define('GroupCategoryFormPanel', {
                     callback: function (record, response) {
                         if (response.success) {
                             Ext4.getCmp('group-categories-grid-panel').getStore().load({
-                                params: {filter: Ext4.getCmp('group-categories-grid-panel').getFilter()},
                                 callback: function () {
                                     Ext4.getCmp('group-categories-grid-panel').getSelectionModel().select(0);
 

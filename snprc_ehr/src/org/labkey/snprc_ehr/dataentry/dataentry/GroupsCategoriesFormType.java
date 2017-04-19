@@ -5,10 +5,11 @@ import org.labkey.api.ehr.dataentry.DataEntryForm;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
 import org.labkey.api.module.Module;
+import org.labkey.api.query.DetailsURL;
 import org.labkey.api.view.HttpView;
 import org.labkey.api.view.JspView;
+import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartView;
-import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.security.ManageGroupMembersPermission;
 
 import java.util.Arrays;
@@ -30,12 +31,10 @@ public class GroupsCategoriesFormType extends AbstractDataEntryForm
     @Override
     public HttpView createView()
     {
-        JspView<DataEntryForm> view = new JspView<>("/org/labkey/snprc_ehr/views/animal_groups.jsp", this);
+        JspView<DataEntryForm> view = new JspView<>("/org/labkey/snprc_ehr/views/AnimalGroups.jsp", this);
         view.setTitle(getLabel());
         view.setHidePageTitle(true);
         view.setFrame(WebPartView.FrameType.PORTAL);
-
-        view.addClientDependency(ClientDependency.fromPath("ehr/ehr_ext4_dataEntry"));
 
         view.addClientDependencies(getClientDependencies());
         return view;
@@ -53,5 +52,11 @@ public class GroupsCategoriesFormType extends AbstractDataEntryForm
         return super.canInsert();
     }
 
-
+    @Override
+    public NavTree appendNavTrail(NavTree root, String title)
+    {
+        root.addChild("Group Members", DetailsURL.fromString("/animalgroups/GroupCategories.view", getCtx().getContainer()).getActionURL());
+        root.addChild(title == null ? "Group Members" : title);
+        return root;
+    }
 }

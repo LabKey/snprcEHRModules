@@ -1,23 +1,22 @@
 package org.labkey.snprc_ehr.domain;
 
 import org.json.JSONObject;
-import org.labkey.api.data.Entity;
 
 /**
  * Created by lkacimi on 3/14/2017.
  */
-public class AnimalGroupCategory extends Entity
+public class AnimalGroupCategory
 {
-    private Integer category_code;
+    private Integer categoryCode;
     private String description;
     private String comment;
     private String displayable;
     private String species;
     private String sex;
-    private String enforce_exclusivity;
-    private String allow_future_date;
-    private Integer sort_order;
-    private String objectId;
+    private String enforceExclusivity;
+    private String allowFutureDate;
+    private Integer sortOrder;
+
 
     private String sort;
 
@@ -32,14 +31,14 @@ public class AnimalGroupCategory extends Entity
     }
 
 
-    public Integer getCategory_code()
+    public Integer getCategoryCode()
     {
-        return category_code;
+        return categoryCode;
     }
 
-    public void setCategory_code(Integer category_code)
+    public void setCategoryCode(Integer categoryCode)
     {
-        this.category_code = category_code;
+        this.categoryCode = categoryCode;
     }
 
     public String getDescription()
@@ -92,59 +91,41 @@ public class AnimalGroupCategory extends Entity
         this.sex = sex;
     }
 
-    public String getEnforce_exclusivity()
+    public String getEnforceExclusivity()
     {
-        return enforce_exclusivity;
+        return enforceExclusivity;
     }
 
-    public void setEnforce_exclusivity(String enforce_exclusivity)
+    public void setEnforceExclusivity(String enforceExclusivity)
     {
-        this.enforce_exclusivity = enforce_exclusivity;
+        this.enforceExclusivity = enforceExclusivity;
     }
 
-    public String getAllow_future_date()
+    public String getAllowFutureDate()
     {
-        return allow_future_date;
+        return allowFutureDate;
     }
 
-    public void setAllow_future_date(String allow_future_date)
+    public void setAllowFutureDate(String allowFutureDate)
     {
-        this.allow_future_date = allow_future_date;
+        this.allowFutureDate = allowFutureDate;
     }
 
-    public Integer getSort_order()
+    public Integer getSortOrder()
     {
-        return sort_order;
+        return sortOrder;
     }
 
-    public void setSort_order(Integer sort_order)
+    public void setSortOrder(Integer sortOrder)
     {
-        this.sort_order = sort_order;
+        this.sortOrder = sortOrder;
     }
 
-    public String getObjectId()
-    {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId)
-    {
-        this.objectId = objectId;
-    }
 
     public JSONObject toJSON()
     {
-        JSONObject json = new JSONObject();
-        json.put("category_code", this.getCategory_code());
-        json.put("description", this.getDescription());
-        json.put("comment", this.getComment());
-        json.put("displayable", this.getDisplayable());
-        json.put("species", this.getSpecies());
-        json.put("sex", this.getSex());
-        json.put("enforce_exclusivity", this.getEnforce_exclusivity());
-        json.put("allow_future_date", this.getAllow_future_date());
-        json.put("sort_order", this.getSort_order());
-        return json;
+        return new JSONObject(this);
+
     }
 
     public String getSort()

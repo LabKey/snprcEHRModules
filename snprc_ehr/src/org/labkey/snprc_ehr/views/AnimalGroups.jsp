@@ -53,6 +53,14 @@
         margin: 0 2px;
     }
 
+    .reset-btn {
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/reset-btn.png');
+        width: 16px;
+        height: 16px;
+        background-size: cover;
+        margin: 0 2px;
+    }
+
 </style>
 
 <div id="app-js-container"></div>

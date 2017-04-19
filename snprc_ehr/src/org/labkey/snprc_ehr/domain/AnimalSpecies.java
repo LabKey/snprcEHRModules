@@ -8,24 +8,34 @@ import org.labkey.api.data.Entity;
  */
 public class AnimalSpecies extends Entity
 {
-    private String species_code;
-    private String arc_species_code;
+    private String speciesCode;
+    private String arcSpeciesCode;
     private String common;
-    private String scientific_name;
+    private String scientificName;
 
     public AnimalSpecies()
     {
 
     }
 
-    public String getArc_species_code()
+    public String getSpeciesCode()
     {
-        return arc_species_code;
+        return speciesCode;
     }
 
-    public void setArc_species_code(String arc_species_code)
+    public void setSpeciesCode(String speciesCode)
     {
-        this.arc_species_code = arc_species_code;
+        this.speciesCode = speciesCode;
+    }
+
+    public String getArcSpeciesCode()
+    {
+        return arcSpeciesCode;
+    }
+
+    public void setArcSpeciesCode(String arcSpeciesCode)
+    {
+        this.arcSpeciesCode = arcSpeciesCode;
     }
 
     public String getCommon()
@@ -38,31 +48,21 @@ public class AnimalSpecies extends Entity
         this.common = common;
     }
 
-    public String getScientific_name()
+    public String getScientificName()
     {
-        return scientific_name;
+        return scientificName;
     }
 
-    public void setScientific_name(String scientific_name)
+    public void setScientificName(String scientificName)
     {
-        this.scientific_name = scientific_name;
-    }
-
-    public String getSpecies_code()
-    {
-        return species_code;
-    }
-
-    public void setSpecies_code(String species_code)
-    {
-        this.species_code = species_code;
+        this.scientificName = scientificName;
     }
 
     public JSONObject toJSON()
     {
         JSONObject json = new JSONObject();
-        json.put("arc_species_code", this.arc_species_code);
-        json.put("species_name", this.arc_species_code + " (" + this.common.trim() + ")");
+        json.put("arcSpeciesCode", this.arcSpeciesCode);
+        json.put("speciesName", this.arcSpeciesCode + " (" + this.getCommon().trim() + ")");
         return json;
     }
 

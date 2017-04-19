@@ -1,6 +1,7 @@
 package org.labkey.snprc_ehr.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
@@ -47,10 +48,10 @@ public class AnimalsGroupAssignor
         SimpleFilter filter = new SimpleFilter(FieldKey.fromString("code"), group, CompareType.EQUAL);
 
         this.group = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), filter, null).getObject(AnimalGroup.class);
-        this.category = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), new SimpleFilter(FieldKey.fromString("category_code"), this.group.getCategory_code(), CompareType.EQUAL), null).getObject(AnimalGroupCategory.class);
+        this.category = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), new SimpleFilter(FieldKey.fromString("category_code"), this.group.getCategoryCode(), CompareType.EQUAL), null).getObject(AnimalGroupCategory.class);
 
         this.groupMembers = this.getGroupAssignees();
-        if (this.category.getEnforce_exclusivity().equalsIgnoreCase("Y"))
+        if (this.category.getEnforceExclusivity().equalsIgnoreCase("Y"))
         {
             this.categoryMembers = this.getCategoryAssignees();
         }
@@ -109,7 +110,7 @@ public class AnimalsGroupAssignor
     {
         TableInfo table = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
         SimpleFilter filter = new SimpleFilter();
-        filter.addCondition(FieldKey.fromString("category_code"), this.category.getCategory_code(), CompareType.EQUAL);
+        filter.addCondition(FieldKey.fromString("category_code"), this.category.getCategoryCode(), CompareType.EQUAL);
 
         List<AnimalGroup> groups = new TableSelector(table, filter, null).getArrayList(AnimalGroup.class);
 
@@ -180,7 +181,7 @@ public class AnimalsGroupAssignor
                 notAssigned.add(failureReasonMap);
                 continue;
             }
-            if (this.category.getEnforce_exclusivity().equalsIgnoreCase("Y") && this.categoryMembers.contains(groupMember))
+            if (this.category.getEnforceExclusivity().equalsIgnoreCase("Y") && this.categoryMembers.contains(groupMember))
             {
                 Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
                 failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.ALREADY_IN_CATEGORY);
@@ -189,7 +190,7 @@ public class AnimalsGroupAssignor
 
             }
 
-            if (this.category.getAllow_future_date().equalsIgnoreCase("N") && groupMember.getDate().after(new Date()))
+            if (this.category.getAllowFutureDate().equalsIgnoreCase("N") && groupMember.getDate().after(new Date()))
             {
                 Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
                 failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.FUTURE_DATE_NOT_ALLOWED);
@@ -217,7 +218,7 @@ public class AnimalsGroupAssignor
                 {
                     continue;
                 }
-                if (!speciesObject.getSpecies_code().equalsIgnoreCase(demographicsMap.get(groupMember.getParticipantid()).get("species")))
+                if (!speciesObject.getSpeciesCode().equalsIgnoreCase(demographicsMap.get(groupMember.getParticipantid()).get("species")))
                 {
                     Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
                     failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.NOT_APPLICABLE_SPECIES);
@@ -227,7 +228,7 @@ public class AnimalsGroupAssignor
 
             }
 
-            Map groupMemberAsMap = oMapper.convertValue(groupMember, Map.class);
+            Map groupMemberAsMap = oMapper.convertValue(groupMember, CaseInsensitiveHashMap.class);
             groupMemberAsMap.remove("id");
             groupMemberAsMap.remove("Id");
             rows.add(groupMemberAsMap);
