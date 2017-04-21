@@ -455,6 +455,11 @@
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
             </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
         </columns>
         <tableTitle>Birth</tableTitle>
     </table>
@@ -1545,6 +1550,11 @@
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
             </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
         </columns>
         <tableTitle>Deaths</tableTitle>
     </table>
@@ -1607,6 +1617,11 @@
                     <fkColumnName>value</fkColumnName>
                     <fkDisplayColumnName>description</fkDisplayColumnName>
                 </fk>
+            </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
             </column>
         </columns>
         <tableTitle>Demographics</tableTitle>
