@@ -50,8 +50,8 @@ SELECT
   objectid,
   modified,
   modifiedby,
-  NULL                        AS created,
-  NULL                        AS createdby,
+  created,
+  createdby,
   timestamp
 FROM
 

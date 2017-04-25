@@ -256,6 +256,10 @@
             </column>
             <column columnName="objectid"/>
             <column columnName="tid"/>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
             <column columnName="diCreatedby">
                 <isUserEditable>false</isUserEditable>
                 <nullable>true</nullable>
