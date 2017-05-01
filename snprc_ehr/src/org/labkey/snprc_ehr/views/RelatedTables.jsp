@@ -33,8 +33,7 @@
 <ul class="list">
     <li><a href="<%=h(buildURL(RelatedTablesController.GetValidInstitutionsViewAction.class))%>">Valid Institutions</a>
     </li>
-    <li><a href="<%=h(buildURL(RelatedTablesController.GetValidTherapyFrequenciesViewAction.class))%>">Valid Therapy
-        Frequencies</a></li>
-    <li><a href="#">Valid Institutions</a></li>
+    <li><a href="<%=h(buildURL(RelatedTablesController.GetValidVetsAction.class))%>">Valid Vets</a></li>
+    <li><a href="<%=h(buildURL(RelatedTablesController.GetValidBirthDeathCodesViewAction.class))%>">Valid Birth / Death Codes</a></li>
 
 </ul>

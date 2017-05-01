@@ -34,7 +34,7 @@ Ext4.define("InstitutionModel", {
     proxy: {
         type: 'ajax',
         api: {
-            create: LABKEY.ActionURL.buildURL("ValidInstitutions", "UpdateInstitutions"),
+            create: LABKEY.ActionURL.buildURL("ValidInstitutions", "UpdateInstitution"),
             read: LABKEY.ActionURL.buildURL("ValidInstitutions", "GetInstitutions"),
             update: LABKEY.ActionURL.buildURL("ValidInstitutions", "UpdateInstitution"),
             destroy: LABKEY.ActionURL.buildURL("ValidInstitutions", "DeleteInstitution")

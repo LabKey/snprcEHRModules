@@ -60,7 +60,7 @@ Ext4.define('GroupCategoryFormPanel', {
         {
             xtype: 'combo',
             fieldLabel: 'Enforce Exclusivity',
-            name: 'enforce_exclusivity',
+            name: 'enforceExclusivity',
             store: Ext4.create('YesNoStore'),
             valueField: 'value',
             displayField: 'text',
@@ -70,7 +70,7 @@ Ext4.define('GroupCategoryFormPanel', {
         {
             xtype: 'combo',
             fieldLabel: 'Allow Future Date',
-            name: 'allow_future_date',
+            name: 'allowFutureDate',
             store: Ext4.create('YesNoStore'),
             valueField: 'value',
             displayField: 'text',
@@ -80,7 +80,7 @@ Ext4.define('GroupCategoryFormPanel', {
         {
             xtype: 'numberfield',
             fieldLabel: 'Sort Order',
-            name: 'sort_order',
+            name: 'sortOrder',
             stepValue: 1
         }
 

@@ -720,17 +720,31 @@
             </column>
             <column columnName="status">
                 <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>activeInactive</fkTable>
+                    <fkColumnName>Value</fkColumnName>
+                </fk>
             </column>
             <column columnName="container">
                 <nullable>false</nullable>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
-            <column columnName="Created"/>
-            <column columnName="CreatedBy"/>
-            <column columnName="Modified"/>
-            <column columnName="ModifiedBy"/>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
             <column columnName="diCreatedby">
                 <isUserEditable>false</isUserEditable>
                 <nullable>true</nullable>
@@ -797,14 +811,24 @@
             </column>
             <column columnName="container">
                 <nullable>false</nullable>
+                <isHidden>true</isHidden>
             </column>
             <column columnName="objectid">
-                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
-            <column columnName="Created"/>
-            <column columnName="CreatedBy"/>
-            <column columnName="Modified"/>
-            <column columnName="ModifiedBy"/>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
         </columns>
     </table>
     <table tableName="valid_death_code" tableDbType="TABLE" useColumnOrder="true">
@@ -819,14 +843,24 @@
             </column>
             <column columnName="container">
                 <nullable>false</nullable>
+                <isHidden>true</isHidden>
             </column>
             <column columnName="objectid">
-                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
-            <column columnName="Created"/>
-            <column columnName="CreatedBy"/>
-            <column columnName="Modified"/>
-            <column columnName="ModifiedBy"/>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
         </columns>
     </table>
 

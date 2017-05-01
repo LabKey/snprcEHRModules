@@ -26,9 +26,13 @@ Ext4.define("InstitutionsGridPanel", {
                 handler: function () {
                     var store = this.up('grid').getStore();
 
-                    rec = store.add(Ext4.create("InstitutionModel", {institution_id: 0}));
-                    this.up('grid').getSelectionModel().select(rec, true, true);
+                    var record = Ext4.create("InstitutionModel", {institutionId: 0});
+                    store.add(record);
+                    this.up('grid').getSelectionModel().select(record, true, true);
                     this.up('grid').getSelectionModel().fireEvent('selectionchange', this.up('grid').getSelectionModel(), this.up('grid').getSelectionModel().getSelection());
+                    var institutionWindow = Ext4.create('InstitutionWindow');
+                    institutionWindow.down('form').loadRecord(record);
+                    institutionWindow.show();
 
 
                 }

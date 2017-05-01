@@ -37,6 +37,7 @@ parentageRelationship	Parentage Relationship	value
 parentageMethod	Parentage Determination Methods	value
 serologyResultQualifier	Serology Result Qualifier	value
 app_score	Appetite Score	value
+activeInactive	Active-Inactive	value
 att_score	Attitude Score	value
 turgor_score	Turgor Score	value
 hyd_score	Hyd Score	value

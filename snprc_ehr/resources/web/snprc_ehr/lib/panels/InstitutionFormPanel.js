@@ -67,17 +67,14 @@ Ext4.define('InstitutionFormPanel', {
                 if (!this.up('form').isValid()) {
                     return;
                 }
+                var window = this.up('window');
 
                 this.up('form').getRecord().save({
                     callback: function (record, response) {
                         if (response.success) {
-                            Ext4.getCmp('institutions-grid-panel').getStore().load({
+                            Ext4.getCmp('institutions-grid-panel').getStore().load();
+                            window.close();
 
-                                /*callback: function () {
-                                 Ext4.getCmp('institutions-grid-panel').getSelectionModel().select(0);
-
-                                 }*/
-                            });
                         }
                         else {
                             Ext4.MessageBox.alert('Something went wrong', 'Unable to save/update Institution');

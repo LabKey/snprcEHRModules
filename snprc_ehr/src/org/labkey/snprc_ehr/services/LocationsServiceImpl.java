@@ -14,6 +14,7 @@ import org.labkey.snprc_ehr.domain.Location;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -56,28 +57,54 @@ public class LocationsServiceImpl implements LocationsService
         List<Location> locations = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Location.class);
 
         List<Location> rootLocations = new ArrayList<>();
-        List<Location> alreadySeenLocation = new ArrayList<Location>();
+        List<Location> alreadySeenLocations = new ArrayList<Location>();
 
         for (Location location : locations)
         {
             if (this.isRootLocation(location))
             {
-                if (!alreadySeenLocation.contains(location))
+                if (!alreadySeenLocations.contains(location))
                 {
                     rootLocations.add(location);
-                    alreadySeenLocation.add(location);
+                    alreadySeenLocations.add(location);
                 }
             }
             else
             {
                 Location rootLocation = this.getRootLocation(location);
-                if (!alreadySeenLocation.contains(rootLocation))
+                if (!alreadySeenLocations.contains(rootLocation))
                 {
                     rootLocations.add(rootLocation);
-                    alreadySeenLocation.add(rootLocation);
+                    alreadySeenLocations.add(rootLocation);
                 }
             }
         }
+
+        Collections.sort(rootLocations, new Comparator<Location>()
+        {
+            @Override
+            public int compare(Location o1, Location o2)
+            {
+                try{
+                    double location1RoomAsDouble = Double.parseDouble (o1.getRoom());
+                    double location2RoomAsDouble = Double.parseDouble(o2.getRoom());
+                    if(location1RoomAsDouble==location2RoomAsDouble){
+                        return 0;
+                    }
+                    if(location1RoomAsDouble>location2RoomAsDouble){
+                        return 1;
+                    }
+                    return -1;
+
+
+                }catch(Exception ex){
+                    return 0;
+                }
+
+
+            }
+        });
+
         return rootLocations;
     }
 

@@ -49,15 +49,15 @@ public class RelatedTablesController extends SpringActionController
     }
 
     @RequiresPermission(ManageRelatedTablesPermission.class)
-    public class GetValidTherapyFrequenciesViewAction extends SimpleViewAction<Object>
+    public class GetValidVetsAction extends SimpleViewAction<Object>
     {
 
         @Override
         public ModelAndView getView(Object form, BindException errors) throws Exception
         {
 
-            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidTherapyFrequencies.jsp", this);
-            view.setTitle("Valid Therapy Frequencies");
+            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidVets.jsp", this);
+            view.setTitle("Valid Vets");
             view.setHidePageTitle(true);
             view.setFrame(WebPartView.FrameType.PORTAL);
 
@@ -68,7 +68,30 @@ public class RelatedTablesController extends SpringActionController
         @Override
         public NavTree appendNavTrail(NavTree root)
         {
-            return root.addChild("Valid Therapy Frequencies");
+            return root.addChild("Valid Vets");
+        }
+    }
+    @RequiresPermission(ManageRelatedTablesPermission.class)
+    public class GetValidBirthDeathCodesViewAction extends SimpleViewAction<Object>
+    {
+
+        @Override
+        public ModelAndView getView(Object form, BindException errors) throws Exception
+        {
+
+            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidBirthAndDeathCodes.jsp", this);
+            view.setTitle("Valid Birth / Death Codes");
+            view.setHidePageTitle(true);
+            view.setFrame(WebPartView.FrameType.PORTAL);
+
+
+            return view;
+        }
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            return root.addChild("Valid Birth / Death Codes");
         }
     }
 

@@ -101,7 +101,7 @@ public class InstitutionsController extends SpringActionController
             try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
             {
 
-                if (institution.getInstitutionId() != 0)
+                if (institution.getInstitutionId() !=null && institution.getInstitutionId() != 0)
                 {
 
 

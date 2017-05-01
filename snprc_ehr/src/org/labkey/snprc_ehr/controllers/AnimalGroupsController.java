@@ -89,7 +89,7 @@ public class AnimalGroupsController extends SpringActionController
         public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors) throws Exception
         {
 
-            return new JspView<>("/org/labkey/snprc_ehr/views/animal_groups.jsp");
+            return new JspView<>("/org/labkey/snprc_ehr/views/AnimalGroups.jsp");
         }
 
 
@@ -154,9 +154,9 @@ public class AnimalGroupsController extends SpringActionController
                     o.setCategoryCode(this.getNextCategoryId());
                     Map categoryAsMap = factory.toMap(o, null);
                     categoryAsMap.put("objectId", new GUID().toString());
+                    categoryAsMap.put("container", this.getContainer().getId());
 
-
-                    Table.insert(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), o);
+                    Table.insert(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap);
                     props.put("categoryCode", o.getCategoryCode());
                 }
 
@@ -520,7 +520,7 @@ public class AnimalGroupsController extends SpringActionController
             if (groupMember.getEnddate() != null && groupMember.getDate().after(groupMember.getEnddate()))
             {
                 Map props = new HashMap();
-                props.put("success", true);
+                props.put("success", false);
 
                 Map dateFailure = new HashMap<>();
                 dateFailure.put("Invalid End Date", "End Date must be greater than Start Date");

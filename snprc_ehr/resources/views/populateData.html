@@ -27,6 +27,12 @@ Ext4.onReady(function(){
 
     var tables = [
         {
+            label: 'Active/Inactive lookup',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'activeInactive',
+            pk: 'value'
+        },{
             label: 'Yes/No lookup',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
