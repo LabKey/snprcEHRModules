@@ -260,7 +260,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         if (ds.getColumn("activeAssignments") == null)
         {
             ColumnInfo col = getWrappedCol(us, ds, "activeAssignments", "demographicsActiveAssignment", "Id", "Id");
-            col.setLabel("Assignments - Active");
+            col.setLabel("IACUC Assignments - Active");
             col.setDescription("Shows all protocols to which the animal is actively assigned on the current date");
             ds.addColumn(col);
         }

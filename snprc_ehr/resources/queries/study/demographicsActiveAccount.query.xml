@@ -5,21 +5,22 @@
                 <tableTitle>Active Account</tableTitle>
                 <columns>
                     <column columnName="Id">
-                        <isHidden>false</isHidden>
+                        <isHidden>true</isHidden>
                     </column>
                     <column columnName="date">
+                        <isHidden>true</isHidden>
                         <columnTitle>Account Date</columnTitle>
                         <formatString>Date</formatString>
                     </column>
                     <column columnName="Account">
-                        <fk>
-                            <fkColumnName>Account</fkColumnName>
-                            <fkTable>distinctAccounts</fkTable>
-                            <fkDbSchema>study</fkDbSchema>
-                            <fkDisplayColumnName useRawValue="true" />
-                        </fk>
+                        <columnTitle>Account/Date/Group</columnTitle>
+                        <displayColumnFactory>
+                            <className>org.labkey.snprc_ehr.table.AnimalAccountDisplayColumnFactory</className>
+                        </displayColumnFactory>
                     </column>
+
                     <column columnName="AccountGroup">
+                        <isHidden>true</isHidden>
                         <fk>
                             <fkColumnName>accountGroup</fkColumnName>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
