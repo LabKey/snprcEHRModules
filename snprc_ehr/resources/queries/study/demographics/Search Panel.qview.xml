@@ -56,16 +56,16 @@
                 <property name="columnTitle" value="Cycle Reading Group"/>
             </properties>
         </column>
-        <!--<column name="Id/activeGroups/ColonyGroup">-->
-            <!--<properties>-->
-                <!--<property name="columnTitle" value="Colony Group"/>-->
-            <!--</properties>-->
-        <!--</column>-->
-        <!--<column name="Id/activeGroups/PedigreeGroup">-->
-            <!--<properties>-->
-                <!--<property name="columnTitle" value="Pedigree"/>-->
-            <!--</properties>-->
-        <!--</column>-->
+        <column name="Id/activeGroups/Colony::animal_group">
+            <properties>
+                <property name="columnTitle" value="Colony"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/Pedigree::animal_group">
+            <properties>
+                <property name="columnTitle" value="Pedigree"/>
+            </properties>
+        </column>
         <column name="death">
             <properties>
                 <property name="columnTitle" value="Death Date 1"/>
