@@ -25,6 +25,14 @@ public class SNPRC_EHRSchema
     public static final String NAME = "snprc_ehr";
     private static final SNPRC_EHRSchema _instance = new SNPRC_EHRSchema();
 
+    public static final String TABLE_VALID_INSTITUTIONS = "validinstitutions";
+    public static final String TABLE_VALID_VETS = "validvets";
+    public static final String TABLE_VALID_BIRTH_CODES = "valid_birth_code";
+    public static final String TABLE_VALID_DEATH_CODES = "valid_death_code";
+    public static final String TABLE_GROUP_CATEGORIES = "animal_group_categories";
+    public static final String TABLE_ANIMAL_GROUPS = "animal_groups";
+
+
     private SNPRC_EHRSchema()
     {
         // private constructor to prevent instantiation from
