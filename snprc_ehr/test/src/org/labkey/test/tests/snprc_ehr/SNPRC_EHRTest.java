@@ -39,7 +39,7 @@ import org.labkey.test.components.ehr.panel.AnimalSearchPanel;
 import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
-import org.labkey.test.pages.snprc_ehr.ColonyOverviewPage;
+import org.labkey.test.pages.ehr.ColonyOverviewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.ehr.AbstractGenericEHRTest;
 import org.labkey.test.util.APIAssayHelper;
