@@ -1,6 +1,7 @@
 package org.labkey.snprc_ehr.columnTransforms;
 
-import org.labkey.api.di.columnTransform.AbstractColumnTransform;
+import org.labkey.api.di.columnTransform.ColumnTransform;
+import org.labkey.api.di.columnTransform.ColumnTransformException;
 import org.labkey.api.security.SecurityManager;
 import org.labkey.api.security.User;
 import org.labkey.api.security.UserManager;
@@ -17,12 +18,12 @@ import java.util.Map;
  * user id to populate the column.  If they don't exist, create a new deactivated user and pass
  * along the new user id to populate the column.
  */
-public class UserTransform extends AbstractColumnTransform
+public class UserTransform extends ColumnTransform
 {
     private final String _emailDomain = "noreply-txbiomed.org";
 
     // To minimize queries, keep a temporary storage of users already looked up
-    private Map<String, Integer> _userMap;
+    private transient Map<String, Integer> _userMap = new HashMap<>();
 
     private ValidEmail createEmail(String user) throws ValidEmail.InvalidEmailException
     {
