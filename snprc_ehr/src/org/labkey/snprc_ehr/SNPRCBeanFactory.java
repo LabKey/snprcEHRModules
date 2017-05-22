@@ -177,9 +177,14 @@ public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
                     String prop = properties[i];
                     if (null == prop)
                         continue;
+
                     try
                     {
                         Object value = rs.getObject(i);
+                        if (value == null)
+                        {
+                            continue;
+                        }
                         if (value instanceof Double)
                             value = ResultSetUtil.mapDatabaseDoubleToJavaDouble((Double) value);
                         BeanUtils.copyProperty(bean, prop, value);

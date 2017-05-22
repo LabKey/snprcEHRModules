@@ -5,8 +5,8 @@ package org.labkey.snprc_ehr.enums;
  */
 public enum AssignmentFailureReason
 {
-    INVALID_ANIMAL_ID("Invalid Animal IDs"),
-    DEAD_ANIMAL("Dead Animals"),
+    INVALID_ANIMAL_ID("Invalid Animal ID(s)"),
+    DEAD_ANIMAL("Dead Animal(s)"),
     NOT_APPLICABLE_GENDER("Gender Mismatch"),
     ALREADY_IN_GROUP("Animal(s) already assigned to group"),
     ALREADY_IN_CATEGORY("Animal(s) already assigned to category"),
@@ -15,7 +15,7 @@ public enum AssignmentFailureReason
 
     private String reason;
 
-    private AssignmentFailureReason(String reason)
+    AssignmentFailureReason(String reason)
     {
         this.reason = reason;
     }

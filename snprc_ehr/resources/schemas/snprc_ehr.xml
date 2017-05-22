@@ -711,6 +711,7 @@
         <columns>
             <column columnName="vetId">
                 <isKeyField>true</isKeyField>
+                <isReadOnly>true</isReadOnly>
             </column>
             <column columnName="displayName">
                 <nullable>false</nullable>

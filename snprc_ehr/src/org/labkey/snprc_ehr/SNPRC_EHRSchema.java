@@ -66,6 +66,11 @@ public class SNPRC_EHRSchema
     }
 
 
+    public TableInfo getTableInfoValidVets()
+    {
+        return getSchema().getTable("validVets");
+    }
+
     public DbSchema getSchema()
     {
         return DbSchema.get(NAME);

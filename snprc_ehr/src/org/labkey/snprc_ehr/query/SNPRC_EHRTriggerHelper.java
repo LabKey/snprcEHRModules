@@ -21,8 +21,10 @@ import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.RuntimeSQLException;
+import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.Selector;
 import org.labkey.api.data.SimpleFilter;
+import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.query.BatchValidationException;
@@ -35,6 +37,7 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.security.UserManager;
 import org.labkey.api.util.PageFlowUtil;
+import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -101,6 +104,20 @@ public class SNPRC_EHRTriggerHelper
         return arrivals.isEmpty();
 
 
+    }
+
+    /**
+     * Auto-generate the next vet ID
+     *
+     * @return integer
+     */
+    public Integer getNextVetCode()
+    {
+        SQLFragment sql = new SQLFragment("SELECT MAX(vetid) AS MAX_CODE FROM ");
+        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoValidVets());
+        SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
+
+        return sqlSelector.getObject(Integer.class) + 1;
     }
 
     public Map<String, Object> getExtraContext()
