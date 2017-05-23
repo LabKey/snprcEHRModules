@@ -30,7 +30,8 @@ ALTER PROCEDURE [labkey_etl].[p_update_animal_event_narratives]
 -- Create date: 7/13/15
 -- Description:	Does an incremental update of the animal_event_narratives table
 --
---  11/02/2015   Terry Hawkins   Renamed from v_delete_animal_procedures to v_delete_animal_event_narratives.
+--  11/02/2015  Terry Hawkins   Renamed from v_delete_animal_procedures to v_delete_animal_event_narratives.
+--  04/21/2017	Terry Hawkins	Fixed timestamp bug
 -- ==========================================================================================
 CREATE TABLE #animal_event_narratives(
 	[animal_event_id] [INT] NOT NULL,
@@ -46,17 +47,10 @@ CREATE TABLE #animal_event_narratives(
 
 
   DECLARE @max_timestamp BINARY(8)
-  SET @max_timestamp = 0
-
   SELECT @max_timestamp = COALESCE((SELECT MAX(ts) FROM dbo.animal_event_narratives), 0)
 
-  -- return if there is nothing to do
-  IF @max_timestamp = NULL
-	RETURN 0
-
-
-;  WITH CTE1 (ANIMAL_EVENT_ID, animal_id, event_date_tm, admit_id, charge_id, proc_id, parent_proc_id,
-	    proc_narrative, view_order, pkg_id, order_num, LEVEL, entry_date_tm, user_name, object_id, timestamp) AS
+; WITH CTE1 (ANIMAL_EVENT_ID, animal_id, event_date_tm, admit_id, charge_id, proc_id, parent_proc_id,
+	    proc_narrative, view_order, pkg_id, LEVEL, entry_date_tm, user_name, object_id, timestamp) AS
 
   (
 
@@ -71,19 +65,23 @@ SELECT
 	cp.proc_id,
 	CASE WHEN cp.parent_proc_id IS NULL THEN cp.PROC_ID ELSE cp.PARENT_PROC_ID END AS parent_proc_id,
 	dbo.f_decoded_narrative(cp.PROC_ID, 0) AS proc_narrative,
-	cp.view_order,
+	dbo.f_get_sp_path_for_bi (cp.budget_item_id) AS view_order,
 	sp.PKG_ID,
-	CASE WHEN cp.parent_proc_id IS NULL THEN -1 ELSE sp.order_num END AS order_num,
 	1 AS LEVEL,
 	ae.entry_date_tm,
 	ae.USER_NAME,
 	ae.OBJECT_ID,
-	ae.timestamp
+	-- get the maximum timestamp from the three tables
+	(SELECT MAX(v) FROM (VALUES  (ae.timestamp), (cp.timestamp), (cpa.timestamp) ) AS VALUE (v)) 
 FROM dbo.ANIMAL_EVENTS ae
-LEFT JOIN dbo.CODED_PROCS AS cp ON ae.ANIMAL_EVENT_ID = cp.ANIMAL_EVENT_ID
+LEFT OUTER JOIN dbo.CODED_PROCS AS cp ON ae.ANIMAL_EVENT_ID = cp.ANIMAL_EVENT_ID
 	AND cp.PARENT_PROC_ID IS NULL
-LEFT JOIN dbo.BUDGET_ITEMS bi ON cp.BUDGET_ITEM_ID = bi.BUDGET_ITEM_ID
-LEFT JOIN dbo.SUPER_PKGS sp ON bi.SUPER_PKG_ID = sp.SUPER_PKG_ID
+LEFT OUTER JOIN dbo.CODED_PROC_ATTRIBS AS cpa ON cpa.PROC_ID = cp.PROC_ID 
+	-- we only need the max(timestamp) value
+	AND cpa.TIMESTAMP = (SELECT MAX(timestamp) FROM dbo.CODED_PROC_ATTRIBS AS cpa2 WHERE cpa.PROC_ID = cpa2.PROC_ID)
+
+LEFT OUTER JOIN dbo.BUDGET_ITEMS bi ON cp.BUDGET_ITEM_ID = bi.BUDGET_ITEM_ID
+LEFT OUTER JOIN dbo.SUPER_PKGS sp ON bi.SUPER_PKG_ID = sp.SUPER_PKG_ID
 
 -- select primates only from the txbiomed colony
 INNER JOIN master AS m ON m.id = ae.animal_id
@@ -93,7 +91,8 @@ INNER JOIN current_data AS cd ON m.id = cd.id
 INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
 WHERE avsc.primate = 'Y'
 
-	AND ae.TIMESTAMP > @max_timestamp
+ AND (SELECT MAX(v) FROM (VALUES  (ae.timestamp), (cp.timestamp), (cpa.timestamp) ) AS VALUE (v))  > @max_timestamp
+
 
 UNION ALL
 
@@ -107,9 +106,8 @@ UNION ALL
 	cp.proc_id,
 	cp.parent_proc_id,
 	dbo.f_decoded_narrative(cp.PROC_ID, 0) AS proc_narrative,
-	cp.view_order,
+	dbo.f_get_sp_path_for_bi (cp.budget_item_id) AS view_order,
 	sp.pkg_id,
-	sp.order_num AS order_num,
 	LEVEL + 1,
 	c.entry_date_tm AS entry_date_tm,
 	c.user_name,
@@ -119,34 +117,36 @@ FROM cte1 AS c
 JOIN dbo.CODED_PROCS AS cp ON cp.parent_proc_id = c.proc_id
 INNER JOIN dbo.BUDGET_ITEMS bi ON cp.BUDGET_ITEM_ID = bi.BUDGET_ITEM_ID
 INNER JOIN dbo.SUPER_PKGS sp ON bi.SUPER_PKG_ID = sp.SUPER_PKG_ID
+ 
 ),
 
-cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, proc_id, parent_proc_id, pkg_id,
-	order_num, PROC_text, entry_date_tm, level, user_name, object_id, timestamp) AS
+cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, 
+	PROC_text, entry_date_tm, level, user_name, object_id, timestamp) AS
 (
 
 
-  (SELECT   c1.animal_event_id, c1.animal_id, c1.event_date_tm, c1.charge_id, c1.admit_id, c1.proc_id, c1.parent_proc_id,
-			c1.pkg_id, c1.order_num,
-				(
-					SELECT CASE WHEN level = 1 --c.parent_proc_id = c.proc_id
-						THEN '**' +  -- SPACE(level*2) +
-									dbo.f_format_narrative(LTRIM(RTRIM(c.proc_narrative)), 80 - LEVEL*2 , LEVEL * 2)
-						ELSE '--' +
-							dbo.f_format_narrative( LTRIM(RTRIM(c.proc_narrative)), 80 - LEVEL*2 , LEVEL * 2)
-						END +
-							' ('+ CAST(c.pkg_id AS VARCHAR) + ')' +' **NEWLINE**'
-					FROM  cte1 AS c
-					WHERE c.animal_event_id = c1.animal_event_id
-					ORDER BY c.view_order
-					FOR XML PATH('')				-- generates a concatenation of result set (for an xml doc)
-				),
-				 c1.entry_date_tm, level, c1.user_name, c1.object_id, c1.timestamp
-				FROM cte1 AS c1
-				--WHERE c1.animal_id = @animal_id
-				WHERE c1.LEVEL = 1)
-
-
+  (SELECT   c1.animal_event_id, c1.animal_id, c1.event_date_tm, c1.charge_id, c1.admit_id, 
+		--combine coded procs into a single animal_event
+		(
+			SELECT CASE WHEN level = 1 
+				THEN '**' +  
+							dbo.f_format_narrative(LTRIM(RTRIM(c.proc_narrative)), 80 - LEVEL*2 , LEVEL * 2)
+				ELSE '--' +
+					dbo.f_format_narrative( LTRIM(RTRIM(c.proc_narrative)), 80 - LEVEL*2 , LEVEL * 2)
+				END +
+					' ('+ CAST(c.pkg_id AS VARCHAR) + ')' +' **NEWLINE**'
+			FROM  cte1 AS c
+			WHERE c.animal_event_id = c1.animal_event_id
+			ORDER BY c.view_order
+			FOR XML PATH('')				-- generates a concatenation of coded procs
+		),
+		c1.entry_date_tm, level, c1.user_name, c1.object_id, c1.timestamp
+				
+		FROM cte1 AS c1
+		WHERE c1.LEVEL = 1
+		-- when combining multiple coded procedures, make sure we are grabbing the timestamp from the newest row
+		AND c1.timestamp = (SELECT MAX(timestamp) FROM cte1 AS c2 WHERE c1.ANIMAL_EVENT_ID = c2.ANIMAL_EVENT_ID)
+		)
   )
 
 
@@ -219,20 +219,12 @@ cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, p
 										WHERE aae.ANIMAL_EVENT_ID = ae.ANIMAL_EVENT_ID
 										  AND aae.AUDIT_ACTION = 'D')
 
-
-
-
- -- delete rows that have been updated
+ -- delete rows that have been updated (they will be re-added, from the #table)
  DELETE ap
 	FROM dbo.animal_event_narratives AS ap
-	WHERE ap.animal_event_id IN
-		(SELECT DISTINCT aae.ANIMAL_EVENT_ID
-			FROM dbo.animal_event_narratives AS ap
-			JOIN audit.audit_animal_events AS aae ON aae.ANIMAL_EVENT_ID = ap.animal_event_id
-			WHERE aae.AUDIT_TIMESTAMP > @max_timestamp
-			AND aae.AUDIT_ACTION = 'UI')
- 
- -- delete rows that have been deleted
+	WHERE ap.animal_event_id IN (select animal_event_id from #animal_event_narratives)
+
+ -- remove rows that have been deleted
  DELETE ap
 	FROM dbo.animal_event_narratives AS ap
 	WHERE ap.animal_event_id IN
@@ -255,18 +247,21 @@ cte_narrative (animal_event_id, animal_id, event_date_tm, charge_id, admit_id, p
            entry_date_tm ,
            ts
          )
-	SELECT animal_event_id ,
-           animal_id ,
-           event_date_tm ,
-           ParticipantSequenceNum ,
-           charge_id ,
-           proc_narrative ,
-           objectid ,
-           user_name ,
-           entry_date_tm ,
-           ts
-			FROM #animal_event_narratives
-
+	SELECT t1.animal_event_id ,
+           t1.animal_id ,
+           t1.event_date_tm ,
+           t1.ParticipantSequenceNum ,
+           t1.charge_id ,
+           t1.proc_narrative ,
+           t1.objectid ,
+           t1.user_name ,
+           t1.entry_date_tm ,
+           t1.ts
+			FROM #animal_event_narratives AS t1
+			INNER JOIN #animal_event_narratives AS t2 ON t1.animal_event_id = t2.animal_event_id
+				AND t1.ts = (SELECT MAX(ts) FROM #animal_event_narratives AS t3
+							WHERE t3.animal_event_id = t2.animal_event_id)
+			
 	RETURN 0
 
 	END
