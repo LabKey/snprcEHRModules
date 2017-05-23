@@ -462,13 +462,13 @@ Ext4.define("AnimalsByLocationTreePanel", {
 
     updateGrids: function (filter) {
         var gridsContainer = Ext4.getCmp('animals-by-location-ldk-grids-container');
-        gridsContainer.removeAll(true);
+
+        gridsContainer.items.each(function (item) {
+            item.removeAll(true);
+        });
+
         for (var i = 0; i < this.getAccordionSectionsAndTabs().length; i++) {
             var section = this.getAccordionSectionsAndTabs()[i];
-            var sectionPanel = Ext4.create('Ext.tab.Panel', {
-                title: section.sectionTitle
-            });
-
             for (var j = 0; j < section.tabs.length; j++) {
                 var tab = section.tabs[j].config;
                 var queryTab = Ext4.create('LDK.panel.QueryPanel', {
@@ -484,11 +484,11 @@ Ext4.define("AnimalsByLocationTreePanel", {
                     })
                 });
 
-                sectionPanel.add(queryTab);
+                gridsContainer.items.items[i].add(queryTab);
 
             }
 
-            gridsContainer.add(sectionPanel);
+
         }
 
         gridsContainer.doLayout();
