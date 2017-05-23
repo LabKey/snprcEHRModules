@@ -14,7 +14,6 @@ import org.labkey.snprc_ehr.domain.Location;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -30,8 +29,7 @@ import java.util.List;
  */
 public class LocationsServiceImpl implements LocationsService
 {
-
-    private ViewContext viewContext;
+    private final ViewContext viewContext;
 
     public LocationsServiceImpl(ViewContext viewContext)
     {
@@ -80,29 +78,30 @@ public class LocationsServiceImpl implements LocationsService
             }
         }
 
-        Collections.sort(rootLocations, new Comparator<Location>()
+        rootLocations.sort((o1, o2) ->
         {
-            @Override
-            public int compare(Location o1, Location o2)
+            try
             {
-                try{
-                    double location1RoomAsDouble = Double.parseDouble (o1.getRoom());
-                    double location2RoomAsDouble = Double.parseDouble(o2.getRoom());
-                    if(location1RoomAsDouble==location2RoomAsDouble){
-                        return 0;
-                    }
-                    if(location1RoomAsDouble>location2RoomAsDouble){
-                        return 1;
-                    }
-                    return -1;
-
-
-                }catch(Exception ex){
+                double location1RoomAsDouble = Double.parseDouble(o1.getRoom());
+                double location2RoomAsDouble = Double.parseDouble(o2.getRoom());
+                if (location1RoomAsDouble == location2RoomAsDouble)
+                {
                     return 0;
                 }
+                if (location1RoomAsDouble > location2RoomAsDouble)
+                {
+                    return 1;
+                }
+                return -1;
 
 
             }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+
+
         });
 
         return rootLocations;
@@ -127,7 +126,7 @@ public class LocationsServiceImpl implements LocationsService
         List<Location> locations = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Location.class);
 
         List<Location> subLocations = new ArrayList<>();
-        List<Location> alreadySeenLocation = new ArrayList<Location>();
+        List<Location> alreadySeenLocation = new ArrayList<>();
 
         for (Location l : locations)
         {
