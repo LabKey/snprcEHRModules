@@ -36,6 +36,7 @@ ALTER VIEW [labkey_etl].[V_VITALS] AS
 -- Changes:
 -- 11/15/2016  added modified, modifiedby, created, and createdby, parentid columns tjh
 -- 11/29/2016  added project column. tjh
+-- 4/25/2017   fixed created/createdby bug. tjh
 --
 -- ==========================================================================================
 
