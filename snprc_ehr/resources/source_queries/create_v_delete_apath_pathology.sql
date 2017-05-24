@@ -16,7 +16,7 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_delete_apath_encounters] Script Date: 6/25/2015 8:51:28 AM ******/
+/****** Object:  View [labkey_etl].[v_delete_apath_pathology] Script Date: 6/25/2015 8:51:28 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,7 +25,7 @@ GO
 
 
 
-CREATE VIEW [labkey_etl].[v_delete_apath_encounters] AS
+ALTER VIEW [labkey_etl].[v_delete_apath_pathology] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/23/15
@@ -33,7 +33,7 @@ CREATE VIEW [labkey_etl].[v_delete_apath_encounters] AS
 --
 -- 6/25/2015 limited to selection of primates only. tjh
 -- 6/29/2015 renamed 
---
+-- 5/23/2017 renamed (again).
 -- ==========================================================================================
 SELECT a.object_id,
       a.audit_date_tm
@@ -53,6 +53,6 @@ WHERE avsc.primate = 'Y'
   
 GO
 
-GRANT SELECT on labkey_etl.v_delete_apath_encounters TO z_labkey
+GRANT SELECT on labkey_etl.v_delete_apath_pathology TO z_labkey
 
 go

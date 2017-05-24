@@ -149,5 +149,8 @@
         <dataset name="diet" id="5037" category="Colony Management" demographicData= "false" type="Standard">
             <tags/>
         </dataset>
+        <dataset name="Pathology" id="5038" category="Pathology" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

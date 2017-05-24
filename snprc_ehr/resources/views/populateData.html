@@ -25,7 +25,13 @@ function importFile(config) {
 
 Ext4.onReady(function(){
 
-    var tables = [
+    var tables = [{
+            label: 'Pathology accession codes',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'accessionCode',
+            pk: 'value'
+        },
         {
             label: 'Active/Inactive lookup',
             populateFn: 'populateFromFile',

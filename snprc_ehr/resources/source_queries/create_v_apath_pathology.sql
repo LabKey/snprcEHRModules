@@ -16,7 +16,7 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_apath_encounters] Script Date: 6/25/2015 8:51:28 AM ******/
+/****** Object:  View [labkey_etl].[v_apath_pathology] Script Date: 6/25/2015 8:51:28 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -24,7 +24,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-ALTER VIEW [labkey_etl].[v_apath_encounters] AS
+ALTER VIEW [labkey_etl].[v_apath_pathology] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/23/15
@@ -33,15 +33,16 @@ ALTER VIEW [labkey_etl].[v_apath_encounters] AS
 -- 6/25/2015 limited to selection of primates only. tjh
 -- 11/4/2016 added modified, modifiedby, created, createdby columns. tjh
 -- 2/28/2017	added encounter_type column. tjh
+-- 5/23/2017	ETL was retargeted to study.pathology table. tjh
 -- ==========================================================================================
 SELECT
 
   a.animal_id                     AS Id,
   COALESCE(a.biopsy, a.death)     AS date,
-  a.accession_num                 AS caseno,
-  CASE WHEN a.tissue IS NOT NULL THEN 'Tissue = ' + a.tissue ELSE NULL END AS remark,
-  'apath'                         AS encounter_type,
+  a.accession_num                 AS AccessionNumber,
+  a.tissue                        AS Tissue,
   a.object_id                     AS objectid,
+  a.account						  AS project,
   a.entry_date_tm                 AS modified,
   dbo.f_map_username(a.user_name) AS modifiedby,
   tc.created                      AS created,
@@ -50,15 +51,9 @@ SELECT
 
   CASE
   WHEN vrs.description LIKE 'Pending%'
-    THEN 'Review Required'
-  ELSE 'Completed'
-  END                             AS QCStateLabel,
-
-  CASE
-  WHEN a.tissue IS NOT NULL
-    THEN (a.tissue + '-' + vac.description)
-  ELSE vac.description
-  END                             AS title
+    THEN 4
+  ELSE 2
+  END                             AS QCState
 
 FROM apath.dbo.apath a
   INNER JOIN apath.dbo.valid_accession_codes vac ON a.accession_code = vac.accession_code
@@ -70,5 +65,5 @@ WHERE a.animal_id IS NOT NULL AND COALESCE(a.biopsy, a.death) IS NOT NULL AND va
 
 GO
 
-GRANT SELECT ON labkey_etl.v_apath_encounters TO z_labkey
+GRANT SELECT ON labkey_etl.v_apath_pathology TO z_labkey
 GO

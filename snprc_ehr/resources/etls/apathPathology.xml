@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-<name>Apath (encounters)</name>
-<description>Apath encounters data</description>
+<name>Apath (Pathology)</name>
+<description>Apath data</description>
 <transforms>
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
         <description>Copy to target</description>
-        <source schemaName="snprcSrc" queryName="v_apath_encounters" />
-        <destination schemaName="study" queryName="Encounters" bulkLoad="true" batchSize="500" targetOption="merge">
+        <source schemaName="snprcSrc" queryName="v_apath_pathology" />
+        <destination schemaName="study" queryName="Pathology" bulkLoad="true" batchSize="500" targetOption="merge">
             <alternateKeys>
                 <column name="objectid"/>
             </alternateKeys>
@@ -18,7 +18,7 @@
     </transform>
 </transforms>
 <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
-    <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_apath_encounters" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+    <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_apath_pathology" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
 </incrementalFilter>
 <schedule>
     <poll interval="60m" />

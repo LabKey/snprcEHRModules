@@ -4,6 +4,7 @@ PregnancyConfirm	Pregnancy Confirmation Types
 housingDefinition	Housing Definition	
 housingTypes	Housing Types	
 DeliveryMode	Delivery Types	
+AccessionCode	Accession Code	Value	Description
 AcquisitionType	Acquisition Types	Value	Description
 DispositionType	Disposition Types	Value	Description
 MatingType	Mating Types	

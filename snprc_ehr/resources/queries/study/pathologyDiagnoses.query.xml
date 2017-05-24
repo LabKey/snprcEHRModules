@@ -20,12 +20,12 @@
                     <column columnName="sort_order">
                         <columnTitle>Sort Order</columnTitle>
                     </column>
-                    <column columnName="tissue">
-                        <columnTitle>Organ/Tissue</columnTitle>
+                    <column columnName="AccessionNumber">
+                        <columnTitle>Accession Number</columnTitle>
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>snomed</fkTable>
-                            <fkColumnName>code</fkColumnName>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>Pathology</fkTable>
+                            <fkColumnName>AccessionNumber</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="remark">

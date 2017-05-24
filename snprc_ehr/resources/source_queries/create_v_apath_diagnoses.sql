@@ -32,15 +32,14 @@ ALTER VIEW [labkey_etl].[v_apath_diagnoses] AS
 --
 -- 6/25/2015 limited to selection of primates only. tjh
 -- 11/4/2016 added modified, modifiedby, created, createdby columns. tjh
--- 
+-- 5/23/2017 tweaked column sources. tjh
 -- ==========================================================================================
 SELECT
 
   a.animal_id                     AS Id,
-  d.unique_it                     AS visitRowId,
+  d.accession_num                 AS AccessionNumber,
   COALESCE(a.biopsy, a.death)     AS date,
   d.object_id                     AS objectid,
-  a.object_id                     AS parentid,
   d.entry_date_tm                 AS modified,
   dbo.f_map_username(d.user_name) AS modifiedby,
   tc.created                      AS created,
