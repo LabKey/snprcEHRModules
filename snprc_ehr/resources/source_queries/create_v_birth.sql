@@ -63,8 +63,6 @@ FROM master m
   INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = m.id
 WHERE m.birth_date IS NOT NULL
 
-WHERE m.birth_date IS NOT null
-
 GO
 
 GRANT SELECT ON Labkey_etl.v_birth TO z_labkey
