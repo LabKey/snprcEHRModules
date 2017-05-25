@@ -12,6 +12,7 @@ import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartView;
 import org.labkey.snprc_ehr.domain.Animal;
+import org.labkey.snprc_ehr.domain.AnimalLocationPath;
 import org.labkey.snprc_ehr.domain.Location;
 import org.labkey.snprc_ehr.services.LocationsService;
 import org.labkey.snprc_ehr.services.LocationsServiceImpl;
@@ -130,12 +131,12 @@ public class AnimalsByLocationController extends SpringActionController
         public Object execute(Animal animal, BindException errors) throws Exception
         {
             LocationsService locationsService = new LocationsServiceImpl(this.getViewContext());
-            List<Location> locationsPath = locationsService.getLocationsPath(animal);
+            AnimalLocationPath animalLocationPath = locationsService.getLocationsPath(animal);
 
             List<JSONObject> jsonLocationsPath = new ArrayList<>();
 
 
-            for (Location location : locationsPath)
+            for (Location location : animalLocationPath.getLocations())
             {
                 jsonLocationsPath.add(location.toJSON());
             }
@@ -144,6 +145,7 @@ public class AnimalsByLocationController extends SpringActionController
 
 
             props.put("path", jsonLocationsPath);
+            props.put("animal", animalLocationPath.getAnimalId());
 
 
             return new ApiSimpleResponse(props);

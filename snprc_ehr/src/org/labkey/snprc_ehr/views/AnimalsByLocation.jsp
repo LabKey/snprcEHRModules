@@ -118,10 +118,12 @@
                                         //Received response from the server
                                         var path = Ext4.JSON.decode(response.responseText);
                                         var pathArray = path.path;
-                                        if (pathArray == undefined || pathArray.length == 0) {
+                                        var animalId = path.animal;
+                                        if (pathArray == undefined || pathArray.length == 0 || animalId == undefined || animalId == null) {
                                             Ext4.MessageBox.alert('Error loading Animal', 'Please make sure the animal ID is valid and try again');
                                             return;
                                         }
+
                                         var treePanel = Ext4.getCmp('locationsTree');
 
                                         var subPath = pathArray.shift();
@@ -137,12 +139,12 @@
                                                 if (node != undefined) {
                                                     node.expand(false, function () {
                                                         //select animal
-                                                        thisForm.selectAnimal();
+                                                        thisForm.selectAnimal(animalId);
 
                                                     });
                                                 }
                                                 else {
-                                                    thisForm.selectAnimal();
+                                                    thisForm.selectAnimal(animalId);
                                                 }
                                             });
                                         }
@@ -156,9 +158,9 @@
 
                                 }
                             ],
-                            selectAnimal: function () {
+                            selectAnimal: function (animal) {
                                 var treePanel = Ext4.getCmp('locationsTree');
-                                var record = treePanel.getStore().getNodeById(this.getValues()['participantid'].toUpperCase());
+                                var record = treePanel.getStore().getNodeById(animal.toUpperCase());
                                 treePanel.getSelectionModel().select(record);
                                 treePanel.fireEvent("itemclick", treePanel, record);
                                 treePanel.getView().scrollRowIntoView(record);

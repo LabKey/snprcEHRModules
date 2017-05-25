@@ -1,6 +1,7 @@
 package org.labkey.snprc_ehr.services;
 
 import org.labkey.snprc_ehr.domain.Animal;
+import org.labkey.snprc_ehr.domain.AnimalLocationPath;
 import org.labkey.snprc_ehr.domain.Location;
 
 import java.util.List;
@@ -24,5 +25,5 @@ public interface LocationsService
 
     Location getRootLocation(Location location);
 
-    List<Location> getLocationsPath(Animal animal);
+    AnimalLocationPath getLocationsPath(Animal animal);
 }

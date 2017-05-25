@@ -10,6 +10,7 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.view.ViewContext;
 import org.labkey.snprc_ehr.domain.Animal;
+import org.labkey.snprc_ehr.domain.AnimalLocationPath;
 import org.labkey.snprc_ehr.domain.Location;
 
 import java.util.ArrayList;
@@ -226,7 +227,7 @@ public class LocationsServiceImpl implements LocationsService
     }
 
     @Override
-    public List<Location> getLocationsPath(Animal animal)
+    public AnimalLocationPath getLocationsPath(Animal animal)
     {
         UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
         TableInfo housingTable = userSchema.getTable("housing");
@@ -236,23 +237,51 @@ public class LocationsServiceImpl implements LocationsService
 
         Location location = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Location.class);
 
+        AnimalLocationPath animalLocationPath = new AnimalLocationPath();
+        animalLocationPath.setAnimalId(animal.getParticipantid());
+
         List<Location> locationsPath = new ArrayList<Location>();
+        animalLocationPath.setLocations(locationsPath);
+
         if (location == null)
         {
-            return locationsPath;
+            //the id specified might be a secondary id, let's check it before returning an empty list
+            TableInfo idHistoryTable = userSchema.getTable("idHistory");
+            SimpleFilter idHistoryRecordsFilter = new SimpleFilter();
+            idHistoryRecordsFilter.addCondition(FieldKey.fromString("value"), animal.getParticipantid(), CompareType.EQUAL);
+            try
+            {
+                Map secondaryId = new TableSelector(idHistoryTable, idHistoryRecordsFilter, null).getObject(Map.class);
+                if (secondaryId == null)
+                {
+                    return animalLocationPath;
+                }
+                currentHousingRecordsFilter = new SimpleFilter();
+                currentHousingRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
+                currentHousingRecordsFilter.addCondition(FieldKey.fromString("participantid"), secondaryId.get("id"), CompareType.EQUAL);
+                location = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Location.class);
+                if (location == null)
+                {
+                    return animalLocationPath;
+                }
+                animalLocationPath.setAnimalId((String) secondaryId.get("id"));
+            }
+            catch (Exception ex)
+            {
+                return animalLocationPath; //if for some reason, the query above returns multiple rows
+            }
         }
-
 
         if (this.isRootLocation(location))
         {
             locationsPath.add(location);
-            return locationsPath;
+            return animalLocationPath;
         }
         else
         {
             locationsPath.add(this.getRootLocation(location));
             locationsPath.add(location);
         }
-        return locationsPath;
+        return animalLocationPath;
     }
 }
