@@ -9,6 +9,7 @@ public class Animal
 {
     private String id;
     private String participantid;
+    private String sex;
 
     private boolean leaf = true;
 
@@ -42,13 +43,25 @@ public class Animal
         this.leaf = leaf;
     }
 
+    public String getSex()
+    {
+        return sex;
+    }
+
+    public void setSex(String sex)
+    {
+        this.sex = sex;
+    }
+
     public JSONObject toJSON()
     {
         JSONObject json = new JSONObject();
         json.put("id", this.getId());
         json.put("text", this.getId());
+        json.put("sex", this.getSex());
         json.put("leaf", this.isLeaf());
         json.put("cls", "animal");
+        json.put("iconCls", "animal " + (this.getSex() != null ? (this.getSex().equalsIgnoreCase("F") ? "female" : "male") : ""));
         return json;
     }
 }

@@ -8,8 +8,8 @@ Ext4.define("AnimalsByLocationTreePanel", {
     id: 'locationsTree',
     rootVisible: false,
     styleHtmlContent: true,
-    height: 600,
-    width: 450,
+    height: 735,
+
     title: "Locations",
     listeners: {
         itemclick: function (view, rec, item, index, eventObj) {
@@ -26,12 +26,6 @@ Ext4.define("AnimalsByLocationTreePanel", {
                     case 'animal':
                         filter = LABKEY.Filter.create('id', rec.get('id'), LABKEY.Filter.Types.EQUAL);
                 }
-
-
-
-                //reload grids
-                console.log(rec.get('cls'));
-                console.log(rec);
 
                 this.updateGrids(filter);
 

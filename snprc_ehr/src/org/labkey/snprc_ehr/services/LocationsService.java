@@ -23,4 +23,6 @@ public interface LocationsService
     boolean hasAnimals(Location location);
 
     Location getRootLocation(Location location);
+
+    List<Location> getLocationsPath(Animal animal);
 }

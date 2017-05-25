@@ -15,7 +15,7 @@
  */
 Ext4.define("AnimalsByLocationTreeStore", {
     extend: "Ext.data.TreeStore",
-    fields: ['id', 'text', 'leaf', 'cls'],
+    fields: ['id', 'text', 'sex', 'leaf', 'cls', 'iconCls'],
     autoLoad: true,
     defaultRootId: '',
     proxy: {

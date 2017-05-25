@@ -14,7 +14,9 @@ import org.labkey.snprc_ehr.domain.Location;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lkacimi on 4/11/2017.
@@ -154,6 +156,32 @@ public class LocationsServiceImpl implements LocationsService
 
         List<Animal> animals = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Animal.class);
 
+        TableInfo demographicsTable = userSchema.getTable("demographics");
+        SimpleFilter filter = new SimpleFilter();
+
+        List<String> animalIds = new ArrayList<String>();
+        for (Animal animal : animals)
+        {
+            animalIds.add(animal.getId());
+        }
+
+
+        filter.addCondition(FieldKey.fromString("id"), animalIds, CompareType.IN);
+        Map<String, Map<String, String>> demographicsMap = new HashMap<>();
+        for (Map a : new TableSelector(demographicsTable, filter, null).getMapCollection())
+        {
+            Map oneAnimalDemographicsMap = new HashMap();
+            oneAnimalDemographicsMap.put("gender", a.get("gender"));
+            demographicsMap.put((String) a.get("id"), oneAnimalDemographicsMap);
+        }
+        for (Animal animal : animals)
+        {
+            if (demographicsMap.containsKey(animal.getId()))
+            {
+                animal.setSex(demographicsMap.get(animal.getId()).get("gender"));
+            }
+        }
+
         return animals;
     }
 
@@ -195,5 +223,36 @@ public class LocationsServiceImpl implements LocationsService
     public boolean hasSubLocations(Location location)
     {
         return !this.getSubLocations(location).isEmpty();
+    }
+
+    @Override
+    public List<Location> getLocationsPath(Animal animal)
+    {
+        UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
+        TableInfo housingTable = userSchema.getTable("housing");
+        SimpleFilter currentHousingRecordsFilter = new SimpleFilter();
+        currentHousingRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
+        currentHousingRecordsFilter.addCondition(FieldKey.fromString("participantid"), animal.getParticipantid(), CompareType.EQUAL);
+
+        Location location = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Location.class);
+
+        List<Location> locationsPath = new ArrayList<Location>();
+        if (location == null)
+        {
+            return locationsPath;
+        }
+
+
+        if (this.isRootLocation(location))
+        {
+            locationsPath.add(location);
+            return locationsPath;
+        }
+        else
+        {
+            locationsPath.add(this.getRootLocation(location));
+            locationsPath.add(location);
+        }
+        return locationsPath;
     }
 }
