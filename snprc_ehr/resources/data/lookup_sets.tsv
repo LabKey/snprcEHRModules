@@ -1,4 +1,5 @@
 setname	label	keyfield	titleColumn
+etiologycode	Etiology code	value	description
 housingStatus	Housing Status	value
 PregnancyConfirm	Pregnancy Confirmation Types	
 housingDefinition	Housing Definition	

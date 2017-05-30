@@ -28,6 +28,15 @@
                             <fkColumnName>AccessionNumber</fkColumnName>
                         </fk>
                     </column>
+                    <column columnName="etiology_code">
+                        <columnTitle>Etiology</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>etiologyCode</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                        </fk>
+                    </column>
                     <column columnName="remark">
                         <columnTitle>Diagnosis</columnTitle>
                     </column>

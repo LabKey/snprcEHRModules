@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="Pathology" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="PathologyCases" tableDbType="TABLE" useColumnOrder="true">
                 <tableUrl>/query/detailsQueryRow.view?schemaName=study&amp;query.queryName=Pathology&amp;lsid=${lsid}</tableUrl>
                 <insertUrl />
                 <importUrl />
@@ -12,8 +12,8 @@
                         <columnTitle>Accession Type</columnTitle>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>accessionCode</fkTable>
-                            <fkColumnName>code</fkColumnName>
+                            <fkTable>AccessionCode</fkTable>
+                            <fkColumnName>value</fkColumnName>
                             <fkDisplayColumnName>description</fkDisplayColumnName>
                         </fk>
                     </column>

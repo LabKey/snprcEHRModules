@@ -2228,7 +2228,7 @@
         </columns>
         <tableTitle>Diet</tableTitle>
     </table>
-    <table tableName="Pathology" tableDbType="TABLE">
+    <table tableName="PathologyCases" tableDbType="TABLE">
         <columns>
             <column columnName="Id">
                 <datatype>varchar</datatype>
@@ -2256,6 +2256,6 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
-        <tableTitle>Pathology </tableTitle>
+        <tableTitle>PathologyCases</tableTitle>
     </table>
 </tables>

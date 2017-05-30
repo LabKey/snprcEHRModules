@@ -1,4 +1,5 @@
 reportname	category	reporttype	reporttitle	visible	containerpath	schemaname	queryname	viewname	report	datefieldname	todayonly	queryhaslocation	sort_order	QCStateLabelFieldName	description
+apathHistoryReport	Pathology	query	APath History	true		study	apathHistoryReport			date	false	false	1	qcstate/publicdata	This report contains an overview of the animal\'s Pathology history
 acqAndDisp	General	query	Acq & Disp	true		study	acq_dispHistory			date	false	false		qcstate/publicdata	Displays arrival and departure dates
 breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
 breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
@@ -30,7 +31,7 @@ diets	General	query	Diet History	true		study	dietHistory	DietHistory		date	false
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
 clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 clinicalHistory2	General	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
-fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false	2	qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 birth	Colony Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
 birth2	Reproductive Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
 death	Colony Management	query	Death Records	true		study	deaths				false	false		qcstate/publicdata	Death records
