@@ -34,10 +34,24 @@ Ext4.define("AnimalsByLocationTreePanel", {
         }
     },
     initComponent: function () {
-        this.getStore().load();
+        this.loadReports();
         this.callParent(arguments);
     },
 
+    loadReports: function () {
+        Ext4.Ajax.request({
+            url: LABKEY.ActionURL.buildURL("AnimalsByLocation", "GetReports"),
+            method: 'POST',
+            success: function (response, options, eOpts) {
+                this.reports = Ext4.decode(response.responseText);
+                console.log(this.reports);
+            },
+            failure: function () {
+
+                Ext4.Msg.alert("Error", "Unable to initialize view")
+            }
+        });
+    },
     /**
      *
      * @returns an array of sections, each containing an array of tab configs

@@ -86,4 +86,19 @@ public class SNPRC_EHRSchema
         return DbSchema.get("study");
     }
 
+    public TableInfo getTableInfoLookupSets()
+    {
+        return DbSchema.get("ehr_lookups").getTable("lookup_sets");
+    }
+
+    public TableInfo getTableInfoLookupValues()
+    {
+        return DbSchema.get("ehr_lookups").getTable("lookups");
+    }
+
+    public TableInfo getTableInfoReports()
+    {
+        return DbSchema.get("ehr").getTable("reports");
+    }
+
 }

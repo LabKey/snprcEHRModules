@@ -2,15 +2,23 @@ package org.labkey.snprc_ehr.controllers;
 
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
+import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.data.CompareType;
+import org.labkey.api.data.SimpleFilter;
+import org.labkey.api.data.Sort;
+import org.labkey.api.data.TableInfo;
+import org.labkey.api.data.TableSelector;
 import org.labkey.api.ehr.dataentry.DataEntryForm;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartView;
+import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.domain.Animal;
 import org.labkey.snprc_ehr.domain.AnimalLocationPath;
 import org.labkey.snprc_ehr.domain.Location;
@@ -128,7 +136,7 @@ public class AnimalsByLocationController extends SpringActionController
     public class GetLocationsPath extends ApiAction<Animal>
     {
         @Override
-        public Object execute(Animal animal, BindException errors) throws Exception
+        public ApiResponse execute(Animal animal, BindException errors) throws Exception
         {
             LocationsService locationsService = new LocationsServiceImpl(this.getViewContext());
             AnimalLocationPath animalLocationPath = locationsService.getLocationsPath(animal);
@@ -150,6 +158,45 @@ public class AnimalsByLocationController extends SpringActionController
 
             return new ApiSimpleResponse(props);
 
+        }
+    }
+
+    @RequiresPermission(ReadPermission.class)
+    public class GetReportsAction extends ApiAction<Object>
+    {
+        public Object execute(Object o, BindException errors)
+        {
+
+
+            TableInfo reportsTable = SNPRC_EHRSchema.getInstance().getTableInfoReports();
+            SimpleFilter filter = new SimpleFilter();
+            filter.addCondition(FieldKey.fromString("visible"), 1, CompareType.EQUAL);
+            Sort sort = new Sort();
+            sort.appendSortColumn(FieldKey.fromString("category"), Sort.SortDirection.ASC, false);
+            sort.appendSortColumn(FieldKey.fromString("sort_order"), Sort.SortDirection.ASC, false);
+            sort.appendSortColumn(FieldKey.fromString("reportname"), Sort.SortDirection.ASC, false);
+
+
+            List<Map> reports = new TableSelector(reportsTable, filter, sort).getArrayList(Map.class);
+
+            JSONObject reportsJson = new JSONObject();
+
+            for (Map m : reports)
+            {
+                JSONObject reportObject = new JSONObject();
+
+                reportObject.put("title", m.get("reporttitle"));
+                reportObject.put("type", m.get("reporttype"));
+                reportObject.put("schemaName", m.get("schemaname"));
+                reportObject.put("queryName", m.get("queryname"));
+                reportObject.put("viewName", m.get("viewname"));
+                reportsJson.append((String) m.get("category"), reportObject);
+
+            }
+
+            Map props = new HashMap();
+            props.put("reports", reportsJson);
+            return new ApiSimpleResponse(props);
         }
     }
 }

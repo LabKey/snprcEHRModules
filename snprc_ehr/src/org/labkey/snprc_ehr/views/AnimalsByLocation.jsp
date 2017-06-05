@@ -68,7 +68,6 @@
     Ext4.onReady(function () {
         Ext4.tip.QuickTipManager.init();
 
-
         Ext4.create("Ext.panel.Panel", {
             layout: 'border',
             height: 800,
@@ -114,7 +113,7 @@
                                             });
                                         }
                                     },
-                                    onValidAnimal: function (response, opts) {
+                                    onValidAnimal: function (response) {
                                         //Received response from the server
                                         var path = Ext4.JSON.decode(response.responseText);
                                         var pathArray = path.path;
@@ -150,8 +149,7 @@
                                         }
 
                                     },
-                                    onWrongAnimal: function (err) {
-                                        //Alert the user about communication error
+                                    onWrongAnimal: function () {
                                         Ext4.MessageBox.alert('Error loading Animal', 'Please make sure the animal ID is valid and try again');
                                     }
 
