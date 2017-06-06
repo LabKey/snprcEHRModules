@@ -18,6 +18,7 @@ Ext4.define("LookupSetValuesGridPanel", {
     tbar: [
         {
             text: "Add",
+            iconCls: 'add-btn',
             handler: function () {
                 var store = this.up('grid').getStore();
 

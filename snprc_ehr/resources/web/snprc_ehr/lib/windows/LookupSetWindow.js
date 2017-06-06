@@ -23,7 +23,8 @@ Ext4.define('LookupSetWindow', {
                     xtype: 'textfield',
                     name: 'lookupSetLabel',
                     fieldLabel: 'Label',
-                    allowBlank: false
+                    allowBlank: false,
+                    width: 500
                 }
             ],
             buttons: [

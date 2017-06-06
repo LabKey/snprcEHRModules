@@ -21,6 +21,7 @@
 %>
 <script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsByLocationTreeStore.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByLocationTreePanel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByLocationReportsContainer.js"></script>
 <script src="<%= contextPath %>/LDK/panel/ContentResizingPanel.js"></script>
 <script src="<%= contextPath %>/LDK/panel/QueryPanel.js"></script>
 
@@ -38,7 +39,7 @@
     */
 
     .x4-grid-tree-node-expanded .x4-tree-icon-parent, .x4-tree-icon-parent {
-        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/location.png');
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/cage.ico');
         width: 16px;
         height: 16px;
         background-size: cover;
@@ -46,7 +47,7 @@
     }
 
     .x4-tree-icon.animal.female {
-        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/female.png');
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/female.ico');
         width: 16px;
         height: 16px;
         background-size: cover;
@@ -54,7 +55,15 @@
     }
 
     .x4-tree-icon.animal.male {
-        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/male.png');
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/male.ico');
+        width: 16px;
+        height: 16px;
+        background-size: cover;
+        margin: 0 2px;
+    }
+
+    .x4-tree-icon.animal.unknown-sex {
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/unknown-sex.ico');
         width: 16px;
         height: 16px;
         background-size: cover;
@@ -123,7 +132,7 @@
                                             return;
                                         }
 
-                                        var treePanel = Ext4.getCmp('locationsTree');
+                                        var treePanel = Ext4.getCmp('animals-by-location-tree-panel');
 
                                         var subPath = pathArray.shift();
                                         var node = treePanel.getStore().getById(subPath.id.toUpperCase());
@@ -157,7 +166,7 @@
                                 }
                             ],
                             selectAnimal: function (animal) {
-                                var treePanel = Ext4.getCmp('locationsTree');
+                                var treePanel = Ext4.getCmp('animals-by-location-tree-panel');
                                 var record = treePanel.getStore().getNodeById(animal.toUpperCase());
                                 treePanel.getSelectionModel().select(record);
                                 treePanel.fireEvent("itemclick", treePanel, record);
@@ -167,6 +176,7 @@
                         {
                             xtype: 'animals-by-location-tree-panel',
                             layout: 'fit',
+                            id: 'animals-by-location-tree-panel'
 
                         },
                     ]
@@ -174,93 +184,8 @@
                 },
 
                 {
-                    xtype:'panel',
+                    xtype: 'animals-by-location-reports-container',
                     id:'animals-by-location-ldk-grids-container',
-                    layout: {
-                        type: 'accordion',
-                        titleCollapse: true,
-                        animate: true
-                    },
-                    items:[
-                        {
-                            xtype:'tabpanel',
-                            title:'Assignment And Groups',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Behavior'
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Clinical',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Colony Management',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'General',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Genetics',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Lab Results',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Pathology',
-                            items:[
-
-                            ]
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Reproductive Management',
-                            items:[
-
-                            ]
-
-
-                        },
-                        {
-                            xtype:'tabpanel',
-                            title:'Surgery',
-                            items:[
-
-                            ]
-
-                        }
-                    ],
                     region:'center'
                 }
             ],

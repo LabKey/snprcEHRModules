@@ -61,7 +61,8 @@ public class Animal
         json.put("sex", this.getSex());
         json.put("leaf", this.isLeaf());
         json.put("cls", "animal");
-        json.put("iconCls", "animal " + (this.getSex() != null ? (this.getSex().equalsIgnoreCase("F") ? "female" : "male") : ""));
+
+        json.put("iconCls", "animal " + (this.getSex() != null ? (this.getSex().equalsIgnoreCase("F") ? "female" : ((this.getSex().equalsIgnoreCase("M") ? "male" : "unknown-sex"))) : "unknown-sex"));
         return json;
     }
 }
