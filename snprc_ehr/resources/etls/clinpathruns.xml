@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-<name>clinpathruns</name>
+<name>Clinpath Runs (OBR)</name>
 <description>Clinical Pathology OBR data</description>
 <transforms>
     <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
