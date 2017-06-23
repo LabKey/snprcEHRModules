@@ -93,7 +93,7 @@ Ext4.define("LookupSetValuesGridPanel", {
                     handler: function (grid, rowIndex, colIndex, item, e, record) {
                         var grid = this.up('grid');
 
-                        Ext4.MessageBox.confirm('Confirm', 'Are you sure you want to do this ?', function (btn) {
+                        Ext4.MessageBox.confirm('Confirm', 'Are you sure you want to do this?', function (btn) {
                             if (btn == 'yes') {
                                 grid.getStore().removeAt(rowIndex);
                                 grid.getStore().sync({

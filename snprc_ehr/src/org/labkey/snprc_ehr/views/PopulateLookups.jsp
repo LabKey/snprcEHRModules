@@ -119,22 +119,28 @@
                                 var lookupSetCombo = Ext4.getCmp("lookupSetsCombo");
                                 var set = lookupSetCombo.getValue();
                                 if (set) {
-                                    Ext4.Ajax.request({
-                                        url: LABKEY.ActionURL.buildURL("RelatedTables", "DeleteLookupSet"),
-                                        method: 'POST',
-                                        params: {lookupSetName: set},
-                                        success: function () {
-                                            lookupSetCombo.getStore().load({
-                                                callback: function () {
-                                                    lookupSetCombo.fireEvent("select");
+                                    Ext4.MessageBox.confirm('Confirm', 'Are you sure you want to do this?', function (btn) {
+                                        if (btn == 'yes') {
+                                            Ext4.Ajax.request({
+                                                url: LABKEY.ActionURL.buildURL("RelatedTables", "DeleteLookupSet"),
+                                                method: 'POST',
+                                                params: {lookupSetName: set},
+                                                success: function () {
+                                                    lookupSetCombo.getStore().load({
+                                                        callback: function () {
+                                                            lookupSetCombo.fireEvent("select");
+                                                        }
+                                                    });
+                                                },
+                                                failure: function () {
+
+                                                    Ext4.Msg.alert("Error", "Unable to Delete Lookup Set")
                                                 }
                                             });
-                                        },
-                                        failure: function () {
-
-                                            Ext4.Msg.alert("Error", "Unable to Delete Lookup Set")
                                         }
                                     });
+
+
                                 }
 
                             }

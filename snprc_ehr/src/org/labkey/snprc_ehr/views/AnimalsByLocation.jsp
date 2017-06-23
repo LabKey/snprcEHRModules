@@ -1,3 +1,5 @@
+<%@ page import="org.labkey.api.view.template.ClientDependencies" %>
+<%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%
     /*
      * Copyright (c) 2017 LabKey Corporation
@@ -15,29 +17,62 @@
      * limitations under the License.
      */
 %>
+<%!
+    @Override
+    public void addClientDependencies(ClientDependencies dependencies)
+    {
 
+        dependencies.add("clientapi/ext3");
+        dependencies.add("clientapi/ext4");
+        dependencies.add("extWidgets/DetailsPanel.js");
+        dependencies.add("vis/vis");
+    }
+%>
 <%
     String contextPath = request.getContextPath();
 %>
+
+<script>
+
+    Date.prototype.format = function (format) {
+        if (Date.formatFunctions[format] == null) {
+            Date.createFormat(format);
+        }
+        return Date.formatFunctions[format].call(this);
+    };
+
+</script>
+<script src="<%= contextPath %>/LDK/Utils.js"></script>
+<script src="<%= contextPath %>/LDK/Assert.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsByLocationTreeStore.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByLocationTreePanel.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByLocationReportsContainer.js"></script>
 <script src="<%= contextPath %>/LDK/panel/ContentResizingPanel.js"></script>
+<script src="<%= contextPath %>/LDK/ConvertUtils.js"></script>
+<script src="<%= contextPath %>/LDK/QueryHelper.js"></script>
+<script src="<%= contextPath %>/LDK/SelectRowsRow.js"></script>
 <script src="<%= contextPath %>/LDK/panel/QueryPanel.js"></script>
+<script src="<%= contextPath %>/LDK/field/NumberField.js"></script>
+<script src="<%= contextPath %>/LDK/panel/WebpartPanel.js"></script>
+<script src="<%= contextPath %>/LDK/panel/GraphPanel.js"></script>
+<script src="<%= contextPath %>/ehr/data/ClinicalHistoryStore.js"></script>
+<script src="<%= contextPath %>/ehr/panel/ClinicalHistoryPanel.js"></script>
+<script src="<%= contextPath %>/ehr/panel/SnapshotPanel.js"></script>
+<script src="<%= contextPath %>/ehr/panel/SmallFormSnapshotPanel.js"></script>
 
-<script src="<%= contextPath %>/LDK/Utils.js"></script>
+<script src="<%= contextPath %>/ehr/panel/WeightSummaryPanel.js"></script>
+<script src="<%= contextPath %>/ehr/panel/WeightGraphPanel.js"></script>
+<script src="<%= contextPath %>/ehr/utils.js"></script>
+<script src="<%= contextPath %>/ehr/DemographicsCache.js"></script>
+<script src="<%= contextPath %>/ehr/panel/KinShipPanel.js"></script>
+<script src="<%= contextPath %>/LDK/panel/DetailsPanel.js"></script>
+<script src="<%= contextPath %>/LDK/panel/MultiRecordDetailsPanel.js"></script>
+<script src="<%= contextPath %>/ehr/panel/BloodSummaryPanel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/Panel/BloodSummaryPanel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/DemographicsRecord.js"></script>
+
+
 <style>
-    /*Overriding tree default icons is not a great idea, but it works*/
-    /*
-    .x4-tree-icon.x4-tree-icon-leaf {
-        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/monkey.png');
-        width: 16px;
-        height: 16px;
-        background-size: cover;
-        margin: 0 2px;
-    }
-    */
-
     .x4-grid-tree-node-expanded .x4-tree-icon-parent, .x4-tree-icon-parent {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/cage.ico');
         width: 16px;

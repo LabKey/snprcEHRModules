@@ -14,7 +14,6 @@ Ext4.define("AnimalsByLocationTreePanel", {
     rootVisible: false,
     styleHtmlContent: true,
     height: 735,
-
     title: "Locations",
     listeners: {
         itemclick: function (view, rec, item, index, eventObj) {
@@ -33,7 +32,6 @@ Ext4.define("AnimalsByLocationTreePanel", {
                 }
                 var reportsContainerPanel = Ext4.getCmp('animals-by-location-ldk-grids-container');
                 reportsContainerPanel.updateGrids(filter);
-
             }
 
         }

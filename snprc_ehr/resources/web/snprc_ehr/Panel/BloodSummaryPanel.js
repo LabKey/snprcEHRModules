@@ -22,11 +22,18 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
 
         this.callParent();
 
-        this.add({
+        var target = this.add({
             xtype: 'ehr-bloodsummarypanel',
             subjects: this.subjects,
             getSubjectItems: this.summaryItems
         });
+
+
+        if (!Ext4.isFunction(target.getWith)) {
+            target.getWidth = function () {
+                return 700;
+            }
+        }
     },
 
     summaryItems: function(subject, demographics) {

@@ -36,7 +36,11 @@ Ext4.define("GroupCategoryModel", {
         {
             name: 'allowFutureDate',
             allowBlank: false
-        }],
+        },
+        {
+            name: 'sortOrder'
+        }
+    ],
     idProperty: "categoryCode",
     proxy: {
         type: 'ajax',
