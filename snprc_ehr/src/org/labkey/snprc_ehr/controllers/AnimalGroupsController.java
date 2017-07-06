@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
+import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
@@ -144,7 +145,7 @@ public class AnimalGroupsController extends SpringActionController
      * Update/Add category
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class UpdateCategoriesAction extends ApiAction<AnimalGroupCategory>
+    public class UpdateCategoriesAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory o, BindException errors) throws Exception
@@ -199,7 +200,7 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class RemoveCategoryAction extends ApiAction<AnimalGroupCategory>
+    public class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors) throws Exception
@@ -351,7 +352,7 @@ public class AnimalGroupsController extends SpringActionController
      * Edit/Add a new group
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class UpdateGroupsAction extends ApiAction<SimpleApiJsonForm>
+    public class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
@@ -479,7 +480,7 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class DeleteGroupsAction extends ApiAction<SimpleApiJsonForm>
+    public class DeleteGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
@@ -526,7 +527,7 @@ public class AnimalGroupsController extends SpringActionController
      * Assigns animals to a group using an instance of  {@link AnimalsGroupAssignor}
      */
     @RequiresPermission(ManageGroupMembersPermission.class)
-    public class UpdateGroupMembersAction extends ApiAction<GroupMember>
+    public class UpdateGroupMembersAction extends MutatingApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors) throws Exception
@@ -563,9 +564,9 @@ public class AnimalGroupsController extends SpringActionController
             Map<AssignmentFailureReason, String> failedAssignments = new HashMap<>();
             for (Map failedAssignment : notAssignedAnimals)
             {
-                if (failedAssignments.containsKey((AssignmentFailureReason) (failedAssignment.values().toArray()[0])))
+                if (failedAssignments.containsKey(failedAssignment.values().toArray()[0]))
                 {
-                    failedAssignments.put((AssignmentFailureReason) (failedAssignment.values().toArray()[0]), failedAssignments.get((AssignmentFailureReason) (failedAssignment.values().toArray()[0])) + ", " + (failedAssignment.keySet().toArray()[0]).toString());
+                    failedAssignments.put((AssignmentFailureReason) (failedAssignment.values().toArray()[0]), failedAssignments.get(failedAssignment.values().toArray()[0]) + ", " + (failedAssignment.keySet().toArray()[0]).toString());
                 }
                 else
                 {
@@ -591,7 +592,7 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(ManageGroupMembersPermission.class)
-    public class DeleteGroupMembersAction extends ApiAction<GroupMember>
+    public class DeleteGroupMembersAction extends MutatingApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)

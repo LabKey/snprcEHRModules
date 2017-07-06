@@ -182,7 +182,7 @@ Ext4.define("AnimalsByLocationReportsContainer", {
 
     },
     onDataRegionLoad: function (dr) {
-        var itemWidth = Ext4.get(dr.domId).getSize().width + 150;
+        var itemWidth = dr.domId && Ext4.get(dr.domId) && Ext4.isFunction(Ext4.get(dr.domId).getSize) ? Ext4.get(dr.domId).getSize().width + 150 : 850;
         this.doResize(itemWidth);
         LABKEY.Utils.signalWebDriverTest("LDK_reportTabLoaded");
     },

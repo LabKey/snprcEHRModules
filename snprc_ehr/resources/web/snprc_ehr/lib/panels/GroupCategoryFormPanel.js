@@ -105,7 +105,9 @@ Ext4.define('GroupCategoryFormPanel', {
                         if (response.success) {
                             Ext4.getCmp('group-categories-grid-panel').getStore().load({
                                 callback: function () {
-                                    Ext4.getCmp('group-categories-grid-panel').getSelectionModel().select(0);
+                                    var rowIndex = Ext4.getCmp('group-categories-grid-panel').getStore().find('categoryCode', record.getData().categoryCode);
+                                    Ext4.getCmp('group-categories-grid-panel').getView().select(rowIndex);
+
 
                                 }
                             });

@@ -39,8 +39,12 @@ import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.view.ActionURL;
+import org.labkey.api.view.BaseWebPartFactory;
 import org.labkey.api.view.NavTree;
+import org.labkey.api.view.Portal;
+import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
+import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsByLocationController;
@@ -80,7 +84,9 @@ import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
+import org.labkey.snprc_ehr.views.AnimalsByLocationWebPart;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -105,13 +111,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     public boolean hasScripts()
     {
         return true;
-    }
-
-    @Override
-    @NotNull
-    protected Collection<WebPartFactory> createWebPartFactories()
-    {
-        return Collections.emptyList();
     }
 
     @Override
@@ -309,5 +308,17 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
             });
         }
     }
+
+    protected Collection<WebPartFactory> createWebPartFactories()
+    {
+        return new ArrayList<>(Collections.singletonList(new BaseWebPartFactory("Animals By Location", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
+        {
+            public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
+            {
+                return new AnimalsByLocationWebPart();
+            }
+        }));
+    }
+
 
 }

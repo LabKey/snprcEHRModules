@@ -16,14 +16,13 @@
 package org.labkey.snprc_ehr.domain;
 
 import org.json.JSONObject;
-import org.labkey.api.data.Entity;
 
 import java.util.Date;
 
 /**
  * Created by lkacimi on 3/23/2017.
  */
-public class GroupMember extends Entity
+public class GroupMember
 {
     private int dsrowid;
     private String participantid;
