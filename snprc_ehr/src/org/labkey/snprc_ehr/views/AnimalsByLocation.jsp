@@ -128,14 +128,34 @@
                             xtype: 'form',
                             padding: 5,
                             layout: 'column',
-
                             items: [
                                 {
                                     'xtype': 'textfield',
                                     name: 'participantid',
                                     fieldLabel: 'Animal ID',
                                     allowBlank: false,
-                                    width: 280
+                                    width: 280,
+                                    listeners: {
+                                        specialkey: function (f, event) {
+                                            if (event.getKey() == event.ENTER) {
+                                                if (this.up('form').isValid()) {
+                                                    //create an AJAX request
+                                                    Ext4.Ajax.request({
+                                                        url: LABKEY.ActionURL.buildURL("AnimalsByLocation", "GetLocationsPath"),
+                                                        method: 'POST',
+                                                        params: {
+                                                            'participantid': this.up('form').getValues()['participantid']
+                                                        },
+                                                        scope: this,
+                                                        //method to call when the request is successful
+                                                        success: this.up('form').onValidAnimal,
+                                                        //method to call when the request is a failure
+                                                        failure: this.up('form').onWrongAnimal
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 {
                                     xtype: 'button',
@@ -151,52 +171,12 @@
                                                 },
                                                 scope: this,
                                                 //method to call when the request is successful
-                                                success: this.onValidAnimal,
+                                                success: this.up('form').onValidAnimal,
                                                 //method to call when the request is a failure
-                                                failure: this.onWrongAnimal
+                                                failure: this.up('form').onWrongAnimal
                                             });
                                         }
-                                    },
-                                    onValidAnimal: function (response) {
-                                        //Received response from the server
-                                        var path = Ext4.JSON.decode(response.responseText);
-                                        var pathArray = path.path;
-                                        var animalId = path.animal;
-                                        if (pathArray == undefined || pathArray.length == 0 || animalId == undefined || animalId == null) {
-                                            Ext4.MessageBox.alert('Error loading Animal', 'Please make sure the animal ID is valid and try again');
-                                            return;
-                                        }
-
-                                        var treePanel = Ext4.getCmp('animals-by-location-tree-panel');
-
-                                        var subPath = pathArray.shift();
-                                        var node = treePanel.getStore().getById(subPath.id.toUpperCase());
-                                        var thisForm = this.up('form');
-                                        if (node != undefined) {
-                                            node.expand(false, function () {
-                                                subPath = pathArray.shift();
-                                                node = undefined;
-                                                if (subPath && subPath.id) {
-                                                    node = treePanel.getStore().getById(subPath.id.toUpperCase());
-                                                }
-                                                if (node != undefined) {
-                                                    node.expand(false, function () {
-                                                        //select animal
-                                                        thisForm.selectAnimal(animalId);
-
-                                                    });
-                                                }
-                                                else {
-                                                    thisForm.selectAnimal(animalId);
-                                                }
-                                            });
-                                        }
-
-                                    },
-                                    onWrongAnimal: function () {
-                                        Ext4.MessageBox.alert('Error loading Animal', 'Please make sure the animal ID is valid and try again');
                                     }
-
 
                                 }
                             ],
@@ -206,6 +186,46 @@
                                 treePanel.getSelectionModel().select(record);
                                 treePanel.fireEvent("itemclick", treePanel, record);
                                 treePanel.getView().scrollRowIntoView(record);
+                            },
+
+                            onValidAnimal: function (response) {
+                                //Received response from the server
+                                var path = Ext4.JSON.decode(response.responseText);
+                                var pathArray = path.path;
+                                var animalId = path.animal;
+                                if (pathArray == undefined || pathArray.length == 0 || animalId == undefined || animalId == null) {
+                                    Ext4.MessageBox.alert('Error loading Animal', 'Please make sure the animal ID is valid and try again');
+                                    return;
+                                }
+
+                                var treePanel = Ext4.getCmp('animals-by-location-tree-panel');
+
+                                var subPath = pathArray.shift();
+                                var node = treePanel.getStore().getById(subPath.id.toUpperCase());
+                                var thisForm = this.up('form');
+                                if (node != undefined) {
+                                    node.expand(false, function () {
+                                        subPath = pathArray.shift();
+                                        node = undefined;
+                                        if (subPath && subPath.id) {
+                                            node = treePanel.getStore().getById(subPath.id.toUpperCase());
+                                        }
+                                        if (node != undefined) {
+                                            node.expand(false, function () {
+                                                //select animal
+                                                thisForm.selectAnimal(animalId);
+
+                                            });
+                                        }
+                                        else {
+                                            thisForm.selectAnimal(animalId);
+                                        }
+                                    });
+                                }
+
+                            },
+                            onWrongAnimal: function () {
+                                Ext4.MessageBox.alert('Error loading Animal', 'Please make sure the animal ID is valid and try again');
                             }
                         },
                         {
@@ -213,7 +233,7 @@
                             layout: 'fit',
                             id: 'animals-by-location-tree-panel'
 
-                        },
+                        }
                     ]
 
                 },
