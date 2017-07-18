@@ -142,7 +142,8 @@ Ext4.define("AnimalsByLocationReportsContainer", {
                         var queryTab = Ext4.create('LDK.panel.QueryPanel', {
                             title: tabConfig.title,
                             overflowY: 'auto',
-                            queryConfig: queryConfig
+                            queryConfig: queryConfig,
+                            autoScroll: true,
                         });
 
                         gridsContainer.items.items[i].add(queryTab);
