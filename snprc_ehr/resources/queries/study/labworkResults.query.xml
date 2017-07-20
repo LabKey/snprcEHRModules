@@ -2,11 +2,11 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="labworkResults" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
+                <tableUrl/>
+                <insertUrl/>
+                <importUrl/>
+                <updateUrl/>
+                <deleteUrl/>
                 <columns>
                     <column columnName="date">
                         <columnTitle>Observation Date</columnTitle>
@@ -19,16 +19,19 @@
                         <columnTitle>Procedure Type</columnTitle>
                         <nullable>true</nullable>
                     </column>
+                    <column columnName="serviceTestId">
+                        <columnTitle>Test Name</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>labwork_panels</fkTable>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkDisplayColumnName>TestName</fkDisplayColumnName>
+                        </fk>
+                    </column>
                     <column columnName="testid">
                         <nullable>false</nullable>
                         <columnTitle>Test Id</columnTitle>
-                        <displayWidth>10</displayWidth>
-                        <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>lab_tests</fkTable>
-                            <fkColumnName>testid</fkColumnName>
-                            <fkDisplayColumnName useRawValue="true"/>
-                        </fk>
+                        <isHidden>true</isHidden>
                     </column>
                     <column columnName="resultOORIndicator">
                         <nullable>true</nullable>
@@ -36,9 +39,6 @@
                     <column columnName="value_type">
                         <columnTitle>Value Type</columnTitle>
                         <nullable>true</nullable>
-                    </column>
-                    <column columnName="test_name">
-                        <columnTitle>Test Name</columnTitle>
                     </column>
                     <column columnName="result">
                         <columnTitle>Result</columnTitle>
@@ -92,7 +92,12 @@
                         <nullable>true</nullable>
                     </column>
                     <column columnName="runid">
-                        <isHidden>false</isHidden>
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>ClinpathRuns</fkTable>
+                            <fkColumnName>message_id</fkColumnName>
+                        </fk>
                     </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>

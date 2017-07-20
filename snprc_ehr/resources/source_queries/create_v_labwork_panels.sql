@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 LabKey Corporation
+ * Copyright (c) 2015-2016 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER VIEW labkey_etl.v_lab_tests AS
+CREATE VIEW labkey_etl.v_labwork_panels AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 5/6/2016
@@ -33,24 +33,25 @@ ALTER VIEW labkey_etl.v_lab_tests AS
 --
 -- ==========================================================================================
 SELECT
-  til.test_type                     AS type,
-  til.test_id                       AS testid,
-  til.test_name                     AS name,
-  til.units                         AS units,
-  0                                 AS alertOnAbnormal,
-  0                                 AS alertOnAny,
-  1                                 AS includeInPanel,
-  til.sort_order                    AS sort_order,
-  til.object_id                     AS objectid,
-  til.entry_date_tm                 AS modified,
-  dbo.f_map_username(til.user_name) AS modifiedby,
-  tc.created                        AS created,
-  tc.createdby                      AS createdby,
-  til.timestamp
-FROM dbo.CLINICAL_PATH_TEST_ID_LOOKUP AS til
-  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = til.object_id
+  lp.RowID                         AS RowId,
+  lp.ServiceId                     AS ServiceId,
+  lp.TestId                        AS TestId,
+  lp.TestName                      AS TestName,
+  lp.Units                         AS Units,
+  0                                AS AlertOnAbnormal,
+  0                                AS AlertOnAny,
+  1                                AS IncludeInPanel,
+  lp.SortOrder                     AS SortOrder,
+  lp.object_id                     AS ObjectId,
+  lp.entry_date_tm                 AS Modified,
+  dbo.f_map_username(lp.user_name) AS Modifiedby,
+  tc.Created                       AS Created,
+  tc.Createdby                     AS Createdby,
+  lp.timestamp
+FROM dbo.CLINICAL_PATH_LABWORK_PANELS AS lp
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = lp.object_id
 GO
 
-GRANT SELECT ON labkey_etl.v_lab_tests TO z_labkey
+GRANT SELECT ON labkey_etl.v_labwork_panels TO z_labkey
 
 GO

@@ -4,8 +4,9 @@
             <table tableName="hematologyPivot" tableDbType="TABLE">
                 <tableTitle>Hematology Results</tableTitle>
                 <columns>
-                    <column columnName="servicerequested">
-                        <columnTitle>Service Requested</columnTitle>
+                    <column columnName="panelName">
+                        <columnTitle>Hematology Panel Name</columnTitle>
+                        <displayWidth>200</displayWidth>
                     </column>
                     <column columnName="resultOORIndicator">
                         <isHidden>true</isHidden>
@@ -25,8 +26,8 @@
                         <shownInDetailsView>false</shownInDetailsView>
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
-                            <fkTable>Clinpath Runs</fkTable>
-                            <fkColumnName>objectid</fkColumnName>
+                            <fkTable>ClinpathRuns</fkTable>
+                            <fkColumnName>message_id</fkColumnName>
                         </fk>
                     </column>
                 </columns>

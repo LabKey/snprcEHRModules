@@ -1,18 +1,16 @@
-/*
- * Copyright (c) 2015-2016 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
- */
 SELECT
 b.Id,
 b.date,
+b.runid,
+b.panelName,
 b.TestName,
 MAX(b.result) as results
 
 FROM surveillancePivotInner b
 
-GROUP BY b.runid,b.id, b.date, b.TestName
+GROUP BY b.runid, b.panelName, b.id, b.date, b.TestName
 
 PIVOT results BY TestName IN
-(select name from snprc_ehr.lab_tests t WHERE t.includeInPanel = true AND Type='Surveillance')
+(select TestName from snprc_ehr.labwork_panels t
+ where t.includeInPanel = true AND t.ServiceId.Dataset='Surveillance')
 

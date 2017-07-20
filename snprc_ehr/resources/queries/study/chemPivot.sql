@@ -1,18 +1,17 @@
-/*
- * Copyright (c) 2013-2016 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
- */
 SELECT
 b.Id,
 b.date,
+b.runId,
+b.panelName,
 b.TestName,
 MAX(b.result) as results
 
 FROM chemPivotInner b
 
-GROUP BY b.runid,b.id, b.date, b.TestName
+GROUP BY b.runid,b.id, b.date, b.TestName, b.panelName
 
 PIVOT results BY TestName IN
-(select name from snprc_ehr.lab_tests t WHERE t.includeInPanel = true AND Type='Biochemistry')
+(select TestName from snprc_ehr.labwork_panels t
+ where t.includeInPanel = true AND t.ServiceId.Dataset='Biochemistry'
+)
 

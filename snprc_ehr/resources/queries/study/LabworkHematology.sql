@@ -1,0 +1,25 @@
+SELECT
+	l.id,
+	l.date,
+	l.project,
+	l.testid,
+	l.resultOORIndicator,
+	l.value_type,
+	l.test_name,
+	l.result,
+	l.qualresult,
+	l.units,
+	l.refRange,
+	l.abnormal_flags,
+	l.remark,
+	l.description,
+	l.runid,
+	l.taskid,
+	l.method,
+	l.objectid,
+	l.modified,
+	l.modifiedby,
+	l.created,
+	l.createdby
+FROM labworkResults as l
+inner join snprc_ehr.lab_tests as lt on l.test_name = lt.name and lt.type='Hematology'

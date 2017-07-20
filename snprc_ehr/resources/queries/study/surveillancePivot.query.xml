@@ -17,6 +17,19 @@
                             <fkColumnName>Id</fkColumnName>
                         </fk>
                     </column>
+                    <column columnName="panelName">
+                        <columnTitle>Surveillance Panel Name</columnTitle>
+                        <displayWidth>200</displayWidth>
+                    </column>
+                    <column columnName="runId">
+                        <isHidden>true</isHidden>
+                        <shownInDetailsView>false</shownInDetailsView>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>ClinpathRuns</fkTable>
+                            <fkColumnName>message_id</fkColumnName>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

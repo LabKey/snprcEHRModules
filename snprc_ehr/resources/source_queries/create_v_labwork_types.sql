@@ -22,23 +22,26 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-CREATE VIEW [labkey_etl].[V_DELETE_LAB_TESTS] AS
+ALTER VIEW labkey_etl.v_labwork_types AS
 -- ==========================================================================================
--- Object: v_delete_lab_tests
 -- Author:		Terry Hawkins
--- Create date: 5/6/2016
---
+-- Create date: 6/28/2017
+-- Description:	selects data for the snprc_ehr.labwork_types table
+-- Changes:
 -- ==========================================================================================
 SELECT
-	til.object_id,
-	til.audit_date_tm
-
-FROM audit.AUDIT_CLINICAL_PATH_TEST_ID_LOOKUP AS til
-WHERE til.AUDIT_ACTION = 'D' AND til.OBJECT_ID IS NOT NULL
-
+  lt.RowId,
+  lt.ServiceType,
+  lt.object_id                     AS objectid,
+  lt.entry_date_tm                 AS Modified,
+  dbo.f_map_username(lt.user_name) AS Modifiedby,
+  tc.created                       AS Created,
+  tc.createdBy                     AS Createdby,
+  lt.timestamp
+FROM dbo.CLINICAL_PATH_LABWORK_TYPES AS lt
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = lt.object_id
 GO
 
-GRANT SELECT ON labkey_etl.V_DELETE_LAB_TESTS TO z_labkey
-GRANT SELECT ON AUDIT.AUDIT_CLINICAL_PATH_TEST_ID_LOOKUP TO z_labkey
-go
+GRANT SELECT ON labkey_etl.v_labwork_types TO z_labkey
+
+GO

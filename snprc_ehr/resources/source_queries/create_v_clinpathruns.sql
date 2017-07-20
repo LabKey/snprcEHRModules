@@ -32,36 +32,40 @@ ALTER VIEW Labkey_etl.v_clinPathRuns AS
 -- Note:  Currently only selecting the following data types:
 --			Hematology, Biochemistry, Surveillance
 -- Changes:
--- 11/10/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
---
---
+-- 11/10/2016 added modified, modifiedby, created, and createdby columns + code cleanup tjh
+-- 6/16/2017  added serviceId and commented out serviceRequested and animalVisit. tjh
+-- 6/19/2017  casted dateFinalized to a datetime2 to round time up to seconds. tjh
+-- 6/20/2017  dateFinalized is managed in ehr\triggers.js by LK.  Created new column (verifiedDate) to 
+--			  store the verified date. tjh
 -- ==========================================================================================
 SELECT
-  obr.animal_id                     AS Id,
-  obr.OBSERVATION_DATE_TM           AS Date,
-  obr.message_id                    AS message_id,
-  obr.verified_date_tm              AS dateFinalized,
-  obr.SPECIMEN_NUM                  AS sampleId,
-  obr.PROCEDURE_NAME                AS serviceRequested,
-  obr.PV1_VISIT_NUM                 AS animalVisit,
-  obr.object_id                     AS objectid,
-  obr.entry_date_tm                 AS modified,
-  dbo.f_map_username(obr.user_name) AS modifiedby,
-  tc.created                        AS created,
-  tc.createdby                      AS createdby,
-  obr.TIMESTAMP                     AS timestamp
+  obr.animal_id                                                AS Id,
+  obr.OBSERVATION_DATE_TM                                      AS Date,
+  obr.message_id                                               AS message_id,
+  cast(cast(obr.verified_date_tm AS DATETIME2(0)) AS DATETIME) AS verifiedDate,
+  obr.SPECIMEN_NUM                                             AS sampleId,
+  lu.PROCEDURE_NAME        									   AS serviceRequested,
+  obr.PROCEDURE_ID                                             AS serviceId,
+  --  obr.PV1_VISIT_NUM										   AS animalVisit,
+  obr.object_id                                                AS objectid,
+  obr.entry_date_tm                                            AS modified,
+  dbo.f_map_username(obr.user_name)                            AS modifiedby,
+  tc.created                                                   AS created,
+  tc.createdby                                                 AS createdby,
+  obr.TIMESTAMP                                                AS timestamp
 FROM dbo.CLINICAL_PATH_OBR AS obr
 
   -- select primates only from the TxBiomed colony
   INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
+  INNER JOIN dbo.clinical_path_proc_id_lookup AS lu on obr.procedure_id = lu.PROCEDURE_ID
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obr.object_id
-WHERE obr.PROCEDURE_ID IN (SELECT obr.PROCEDURE_ID
-                           FROM clinical_path_proc_id_lookup)
-      AND obr.RESULT_STATUS IN ('F', 'C', 'D')
+
+WHERE obr.RESULT_STATUS IN ('F', 'C', 'D')
       AND obr.VERIFIED_DATE_TM IS NOT NULL
 
 GO
 
 GRANT SELECT ON Labkey_etl.v_clinPathRuns TO z_labkey
+GRANT SELECT ON dbo.CLINICAL_PATH_PROC_ID_LOOKUP TO z_labkey
 
 GO

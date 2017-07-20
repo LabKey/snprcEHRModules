@@ -8,7 +8,46 @@ Ext4.namespace('EHR.reports');
 //this contains SNPRC-specific reports that should be loaded on the animal history page
 //this file is registered with EHRService, and should auto-load whenever EHR's
 //dependencies are requested, provided this module is enabled
+EHR.reports.urinalysis = function(panel, tab) {
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
 
+    var config = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'urinalysisPivot',
+        title: "By Panel" + title,
+        titleField: 'Id',
+        filters: filterArray.nonRemovable,
+        removeableFilters: filterArray.removable,
+        sort: '-date'
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: config
+    });
+};
+EHR.reports.miscTests = function(panel, tab) {
+    var filterArray = panel.getFilterArray(tab);
+    var title = panel.getTitleSuffix();
+
+    var config = panel.getQWPConfig({
+        schemaName: 'study',
+        queryName: 'miscPivot',
+        title: "Under construction - additional work is still needed on this report", //By Panel" + title,
+        titleField: 'Id',
+        filters: filterArray.nonRemovable,
+        removeableFilters: filterArray.removable,
+        sort: '-date'
+    });
+
+    tab.add({
+        xtype: 'ldk-querypanel',
+        style: 'margin-bottom:20px;',
+        queryConfig: config
+    });
+};
 EHR.reports.hematology = function(panel, tab)
 {
     var filterArray = panel.getFilterArray(tab);
@@ -72,7 +111,7 @@ EHR.reports.bloodChemistry = function(panel, tab){
     var config = panel.getQWPConfig({
         schemaName: 'study',
         queryName: 'chemPivot',
-        title: "By Panel:",
+        title: "By Panel" + title,
         titleField: 'Id',
         sort: '-date',
         filters: filterArray.nonRemovable,
@@ -132,7 +171,7 @@ EHR.reports.surveillance = function(panel, tab){
     var config = panel.getQWPConfig({
         schemaName: 'study',
         queryName: 'surveillancePivot',
-        title: "By Panel:",
+        title: "By Panel" + title,
         titleField: 'Id',
         sort: '-date',
         filters: filterArray.nonRemovable,

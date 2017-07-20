@@ -16,7 +16,9 @@
 SELECT
   b.Id,
   b.date,
-  b.testId.name AS TestName,
+  b.runId.serviceRequested as panelName,
+  b.serviceTestId.testName AS TestName,
+
   coalesce(b.runId, b.objectid) as runId,
   b.resultoorindicator,
   CASE
@@ -24,4 +26,4 @@ SELECT
     ELSE CAST(CAST(b.result AS float) AS VARCHAR)
   END as result
 FROM study.labworkResults b
-WHERE b.testId.includeInPanel = true and b.qcstate.publicdata = true and b.testid.type = 'Biochemistry'
+WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Biochemistry'

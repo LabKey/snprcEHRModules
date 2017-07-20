@@ -1136,10 +1136,13 @@
             <column columnName="message_id">
                 <datatype>entityid</datatype>
             </column>
+            <column columnName="servicerequested">
+                <datatype>varchar</datatype>
+            </column>
             <column columnName="units">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="servicerequested">
+            <column columnName="serviceId">
                 <datatype>varchar</datatype>
             </column>
             <column columnName="collectedBy">
@@ -1163,10 +1166,18 @@
             <column columnName="chargetype">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="verifiedDate">
+                <datatype>timestamp</datatype>
+            </column>
             <column columnName="datefinalized">
                 <datatype>timestamp</datatype>
             </column>
         </columns>
+        <indices>
+            <index type="unique">
+                <column>message_id</column>
+            </index>
+        </indices>
         <tableTitle>Clinpath Runs</tableTitle>
     </table>
     <table tableName="labworkResults" tableDbType="TABLE">
@@ -1188,6 +1199,19 @@
                 <nullable>true</nullable>
                 <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
             </column>
+            <column columnName="serviceId">
+                <datatype>integer</datatype>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="serviceTestId">
+                <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>labwork_panels</fkTable>
+                    <fkColumnName>RowId</fkColumnName>
+                    <fkDisplayColumnName>TestName</fkDisplayColumnName>
+                </fk>
+            </column>
             <column columnName="testid">
                 <datatype>varchar</datatype>
             </column>
@@ -1195,9 +1219,6 @@
                 <datatype>varchar</datatype>
             </column>
             <column columnName="value_type">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="test_name">
                 <datatype>varchar</datatype>
             </column>
             <column columnName="result">
@@ -1216,9 +1237,8 @@
                 <datatype>varchar</datatype>
             </column>
             <column columnName="runid">
-                <datatype>varchar</datatype>
+                <datatype>entityid</datatype>
             </column>
-
             <column columnName="enddate">
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>

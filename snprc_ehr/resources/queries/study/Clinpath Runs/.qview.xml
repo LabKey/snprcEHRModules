@@ -1,0 +1,13 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="Date"/>
+        <column name="serviceRequested"/>
+        <column name="verifiedDate"/>
+        <column name="sampleId"/>
+        <column name="history"/>
+    </columns>
+    <sorts>
+        <sort column="verifiedDate" descending="true" />
+    </sorts>
+</customView>
