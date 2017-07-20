@@ -26,7 +26,7 @@ CREATE VIEW labkey_etl.v_labwork_panels AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 5/6/2016
--- Description:	selects data for the snprc_ehr.lab_tests lookup table
+-- Description:	selects data for the snprc_ehr.labwork_panels lookup table
 -- Changes:
 -- 11/11/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
 --

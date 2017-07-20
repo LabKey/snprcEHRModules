@@ -5,7 +5,7 @@ SELECT
 	l.testid,
 	l.resultOORIndicator,
 	l.value_type,
-	l.test_name,
+	lt.testName,
 	l.result,
 	l.qualresult,
 	l.units,
@@ -22,4 +22,4 @@ SELECT
 	l.created,
 	l.createdby
 FROM labworkResults as l
-inner join snprc_ehr.lab_tests as lt on l.test_name = lt.name and lt.type='Surveillance'
+inner join snprc_ehr.labwork_panels as lt on l.serviceTestid = lt.rowId and lt.ServiceId.Dataset='Surveillance'
