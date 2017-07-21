@@ -62,7 +62,7 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
         public AnimalAccountDisplayColumn(ColumnInfo col)
         {
             super(col,false);
-            setHtmlFiltered(false);
+            setRequiresHtmlFiltering(false);
         }
 
 

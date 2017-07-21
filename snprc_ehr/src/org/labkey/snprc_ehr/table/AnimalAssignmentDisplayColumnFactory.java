@@ -15,7 +15,6 @@
  */
 package org.labkey.snprc_ehr.table;
 
-import org.apache.commons.beanutils.ConvertUtils;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.CompareType;
@@ -33,15 +32,10 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.util.PageFlowUtil;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by thawkins on 4/24/2017.
@@ -73,7 +67,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
         public AnimalAssignmentDisplayColumn(ColumnInfo col)
         {
             super(col,false);
-            setHtmlFiltered(false);
+            setRequiresHtmlFiltering(false);
             this.col = col;
         }
 
