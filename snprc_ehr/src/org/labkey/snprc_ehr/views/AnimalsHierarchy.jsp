@@ -41,12 +41,14 @@
         return Date.formatFunctions[format].call(this);
     };
 
+
 </script>
+
 <script src="<%= contextPath %>/LDK/Utils.js"></script>
 <script src="<%= contextPath %>/LDK/Assert.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsByLocationTreeStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByLocationTreePanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByLocationReportsContainer.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsByNodeTreeStore.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByNodeTreePanel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByNodeReportsContainer.js"></script>
 <script src="<%= contextPath %>/LDK/panel/ContentResizingPanel.js"></script>
 <script src="<%= contextPath %>/LDK/ConvertUtils.js"></script>
 <script src="<%= contextPath %>/LDK/QueryHelper.js"></script>
@@ -73,7 +75,7 @@
 
 
 <style>
-    .x4-grid-tree-node-expanded .x4-tree-icon-parent, .x4-tree-icon-parent {
+    .x4-grid-tree-node-expanded .location .x4-tree-icon-parent, .location .x4-tree-icon-parent {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/cage.ico');
         width: 16px;
         height: 16px;
@@ -130,7 +132,33 @@
                             layout: 'column',
                             items: [
                                 {
-                                    'xtype': 'textfield',
+                                    xtype: 'combobox',
+                                    store: Ext4.create('Ext.data.Store', {
+                                        fields: ['viewBy'],
+                                        data: [
+                                            {'viewBy': 'locations'},
+                                            {'viewBy': 'groups'}
+                                        ]
+                                    }),
+                                    queryMode: 'local',
+                                    displayField: 'viewBy',
+                                    valueField: 'viewBy',
+                                    value: 'locations',
+                                    fieldLabel: 'Navigate By',
+                                    width: 280,
+                                    listeners: {
+                                        change: function () {
+                                            Ext4.getCmp("animals-by-node-tree-panel").getStore().getProxy().extraParams = {
+                                                viewBy: this.getValue()
+                                            };
+                                            this.up('form').setViewBy(this.getValue());
+                                            Ext4.getCmp("animals-by-node-tree-panel").getStore().load();
+                                        }
+                                    }
+
+                                },
+                                {
+                                    xtype: 'textfield',
                                     name: 'participantid',
                                     fieldLabel: 'Animal ID',
                                     allowBlank: false,
@@ -141,10 +169,11 @@
                                                 if (this.up('form').isValid()) {
                                                     //create an AJAX request
                                                     Ext4.Ajax.request({
-                                                        url: LABKEY.ActionURL.buildURL("AnimalsByLocation", "GetLocationsPath"),
+                                                        url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "GetLocationsPath"),
                                                         method: 'POST',
                                                         params: {
-                                                            'participantid': this.up('form').getValues()['participantid']
+                                                            participantid: this.up('form').getValues()['participantid'],
+                                                            viewBy: this.up('form').getViewBy()
                                                         },
                                                         scope: this,
                                                         //method to call when the request is successful
@@ -164,10 +193,11 @@
                                         if (this.up('form').isValid()) {
                                             //create an AJAX request
                                             Ext4.Ajax.request({
-                                                url: LABKEY.ActionURL.buildURL("AnimalsByLocation", "GetLocationsPath"),
+                                                url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "GetLocationsPath"),
                                                 method: 'POST',
                                                 params: {
-                                                    'participantid': this.up('form').getValues()['participantid']
+                                                    participantid: this.up('form').getValues()['participantid'],
+                                                    viewBy: this.up('form').getViewBy()
                                                 },
                                                 scope: this,
                                                 //method to call when the request is successful
@@ -180,8 +210,15 @@
 
                                 }
                             ],
+                            setViewBy: function (viewBy) {
+                                this.viewBy = viewBy;
+                            },
+
+                            getViewBy: function () {
+                                return this.viewBy ? this.viewBy : 'locations';
+                            },
                             selectAnimal: function (animal) {
-                                var treePanel = Ext4.getCmp('animals-by-location-tree-panel');
+                                var treePanel = Ext4.getCmp('animals-by-node-tree-panel');
                                 var record = treePanel.getStore().getNodeById(animal.toUpperCase());
                                 treePanel.getSelectionModel().select(record);
                                 treePanel.fireEvent("itemclick", treePanel, record);
@@ -198,7 +235,7 @@
                                     return;
                                 }
 
-                                var treePanel = Ext4.getCmp('animals-by-location-tree-panel');
+                                var treePanel = Ext4.getCmp('animals-by-node-tree-panel');
 
                                 var subPath = pathArray.shift();
                                 var node = treePanel.getStore().getById(subPath.id.toUpperCase());
@@ -229,9 +266,9 @@
                             }
                         },
                         {
-                            xtype: 'animals-by-location-tree-panel',
+                            xtype: 'animals-by-node-tree-panel',
                             layout: 'fit',
-                            id: 'animals-by-location-tree-panel'
+                            id: 'animals-by-node-tree-panel'
 
                         }
                     ]
@@ -239,8 +276,8 @@
                 },
 
                 {
-                    xtype: 'animals-by-location-reports-container',
-                    id:'animals-by-location-ldk-grids-container',
+                    xtype: 'animals-by-node-reports-container',
+                    id: 'animals-by-node-ldk-grids-container',
                     region:'center'
                 }
             ],

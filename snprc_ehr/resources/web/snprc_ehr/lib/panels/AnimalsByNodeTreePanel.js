@@ -6,31 +6,28 @@
 /**
  * Created by lkacimi on 4/11/2017.
  */
-Ext4.define("AnimalsByLocationTreePanel", {
+Ext4.define("AnimalsByNodeTreePanel", {
     extend: 'Ext.tree.Panel',
-    store: Ext4.create('AnimalsByLocationTreeStore'),
-    alias: 'widget.animals-by-location-tree-panel',
-    id: 'locationsTree',
+    store: Ext4.create('AnimalsByNodeTreeStore'),
+    alias: 'widget.animals-by-node-tree-panel',
     rootVisible: false,
     styleHtmlContent: true,
     height: 735,
-    title: "Locations",
+    title: "",
     listeners: {
         itemclick: function (view, rec, item, index, eventObj) {
-            if (rec.get('id') != this.getPreviousSelectedItem()) {
-                this.setPreviousSelectedItem(rec.get('id'));
+            if (rec.get('text') != this.getPreviousSelectedItem()) {
+                this.setPreviousSelectedItem(rec.get('text'));
                 var filter = null;
                 //Set appropriate filter // room or animal id
                 switch (rec.get('cls')) {
-                    case 'location':
-                        filter = LABKEY.Filter.create('room/room', rec.get('id'), LABKEY.Filter.Types.EQUAL);
-
-                        //Per Terry, refresh grids on animal selection only
-                        return;
                     case 'animal':
-                        filter = LABKEY.Filter.create('id', rec.get('id'), LABKEY.Filter.Types.EQUAL);
+                        filter = LABKEY.Filter.create('id', rec.get('text'), LABKEY.Filter.Types.EQUAL);
+                        break;
+                    default:
+                        return;
                 }
-                var reportsContainerPanel = Ext4.getCmp('animals-by-location-ldk-grids-container');
+                var reportsContainerPanel = Ext4.getCmp('animals-by-node-ldk-grids-container');
                 reportsContainerPanel.updateGrids(filter);
             }
 

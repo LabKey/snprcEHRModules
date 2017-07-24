@@ -20,32 +20,57 @@ import org.json.JSONObject;
 /**
  * Created by lkacimi on 4/10/2017.
  */
-public class Location
+public class Node
 {
-    private String room;
 
     private String node;
 
-    public Location()
+    private String text;
+
+    public String getText()
+    {
+        return text;
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
+    }
+
+    private String nodeClass;
+
+    public String getNodeClass()
+    {
+        return nodeClass;
+    }
+
+    public void setNodeClass(String nodeClass)
+    {
+        this.nodeClass = nodeClass;
+    }
+
+    public Node()
     {
 
     }
 
-    public Location(String room)
+    private String viewBy;
+
+    public String getViewBy()
     {
-        this.room = room;
+        return viewBy;
     }
 
-
-    public String getRoom()
+    public void setViewBy(String viewBy)
     {
-        return room;
+        this.viewBy = viewBy;
     }
 
-    public void setRoom(String room)
+    public Node(String nodeIdentifier)
     {
-        this.room = room;
+        this.node = nodeIdentifier;
     }
+
 
 
     public String getNode()
@@ -61,17 +86,17 @@ public class Location
     public JSONObject toJSON()
     {
         JSONObject json = new JSONObject();
-        json.put("id", this.getRoom());
-        json.put("text", this.getRoom());
+        json.put("id", this.getNode());
+        json.put("text", this.getText());
         json.put("leaf", false);
-        json.put("cls", "location");
+        json.put("cls", this.getNodeClass() != null ? this.getNodeClass() : "location");
         return json;
     }
 
     @Override
     public int hashCode()
     {
-        return this.room.hashCode();
+        return this.node.hashCode();
     }
 
     @Override
@@ -83,6 +108,10 @@ public class Location
             return false;
         }
 
-        return ((Location) obj).getRoom().equals(this.getRoom());
+        if (this.getNode() == null)
+        {
+            return false;
+        }
+        return ((Node) obj).getNode().equals(this.getNode());
     }
 }

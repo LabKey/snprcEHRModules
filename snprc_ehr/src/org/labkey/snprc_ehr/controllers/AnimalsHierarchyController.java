@@ -35,10 +35,11 @@ import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartView;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.domain.Animal;
-import org.labkey.snprc_ehr.domain.AnimalLocationPath;
-import org.labkey.snprc_ehr.domain.Location;
-import org.labkey.snprc_ehr.services.LocationsService;
-import org.labkey.snprc_ehr.services.LocationsServiceImpl;
+import org.labkey.snprc_ehr.domain.AnimalNodePath;
+import org.labkey.snprc_ehr.domain.Node;
+import org.labkey.snprc_ehr.services.GroupsHierarchyServiceImpl;
+import org.labkey.snprc_ehr.services.HierarchyService;
+import org.labkey.snprc_ehr.services.LocationHierarchyServiceImpl;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,30 +51,47 @@ import java.util.Map;
 /**
  * Created by lkacimi on 4/10/2017.
  */
-public class AnimalsByLocationController extends SpringActionController
+public class AnimalsHierarchyController extends SpringActionController
 {
 
-    public static final String NAME = "AnimalsByLocation";
-    private static final DefaultActionResolver _actionResolver = new DefaultActionResolver(AnimalsByLocationController.class);
+    public static final String NAME = "AnimalsHierarchy";
+    private static final DefaultActionResolver _actionResolver = new DefaultActionResolver(AnimalsHierarchyController.class);
 
-    public AnimalsByLocationController()
+
+    public AnimalsHierarchyController()
     {
         setActionResolver(_actionResolver);
     }
 
+    public static class ViewByForm
+    {
+        String viewBy;
+
+        public String getViewBy()
+        {
+            return viewBy;
+        }
+
+        public void setViewBy(String viewBy)
+        {
+            this.viewBy = viewBy;
+        }
+    }
+
     @RequiresPermission(ReadPermission.class)
-    public class GetViewAction extends SimpleViewAction<Object>
+    public class GetViewAction extends SimpleViewAction<ViewByForm>
     {
 
         @Override
-        public ModelAndView getView(Object form, BindException errors) throws Exception
+        public ModelAndView getView(ViewByForm form, BindException errors) throws Exception
         {
 
-            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/AnimalsByLocation.jsp", this);
-            view.setTitle("View Animals By Location");
+            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/AnimalsHierarchy.jsp", this);
+            String viewBy = form.getViewBy();
+            if (viewBy == null) viewBy = "locations";
+            view.setTitle("View Animals By locations, groups, and projects");
             view.setHidePageTitle(true);
             view.setFrame(WebPartView.FrameType.PORTAL);
-
 
             return view;
         }
@@ -81,28 +99,27 @@ public class AnimalsByLocationController extends SpringActionController
         @Override
         public NavTree appendNavTrail(NavTree root)
         {
-            return root.addChild("View Animals By Location");
+            return root.addChild("View Animals");
         }
     }
 
 
     @RequiresPermission(ReadPermission.class)
-    public class GetHierarchy extends ApiAction<Location>
+    public class GetHierarchy extends ApiAction<Node>
     {
         @Override
-        public Object execute(Location locationForm, BindException errors) throws Exception
+        public Object execute(Node nodeForm, BindException errors) throws Exception
         {
+            HierarchyService hierarchyService = getHiearchyService(nodeForm.getViewBy());
 
-            LocationsServiceImpl locationsService = new LocationsServiceImpl(this.getViewContext());
-
-            if (locationForm.getNode() == null)
+            if (nodeForm.getNode() == null)
             {
-                List<Location> rootLocations = locationsService.getRootLocations();
+                List<Node> rootNodes = hierarchyService.getRootNodes();
 
                 List<JSONObject> jsonRootLocations = new ArrayList<>();
-                for (Location location : rootLocations)
+                for (Node node : rootNodes)
                 {
-                    jsonRootLocations.add(location.toJSON());
+                    jsonRootLocations.add(node.toJSON());
                 }
 
                 Map props = new HashMap();
@@ -115,17 +132,17 @@ public class AnimalsByLocationController extends SpringActionController
 
             }
 
-            //Root location is given,
-            //1. load subLocations
+            //Root node is given,
+            //1. load subNodes
             //2. load assigned animals if any
-            locationForm.setRoom(locationForm.getNode());
-            List<Location> subLocations = locationsService.getSubLocations(locationForm);
-            List<Animal> animals = locationsService.getAnimals(locationForm);
+            nodeForm.setNode(nodeForm.getNode());
+            List<Node> subNodes = hierarchyService.getSubNodes(nodeForm);
+            List<Animal> animals = hierarchyService.getAnimals(nodeForm);
 
             List<JSONObject> jsonRootLocations = new ArrayList<>();
-            for (Location location : subLocations)
+            for (Node node : subNodes)
             {
-                jsonRootLocations.add(location.toJSON());
+                jsonRootLocations.add(node.toJSON());
             }
 
             for (Animal animal : animals)
@@ -153,27 +170,50 @@ public class AnimalsByLocationController extends SpringActionController
         @Override
         public ApiResponse execute(Animal animal, BindException errors) throws Exception
         {
-            LocationsService locationsService = new LocationsServiceImpl(this.getViewContext());
-            AnimalLocationPath animalLocationPath = locationsService.getLocationsPath(animal);
+            HierarchyService hierarchyService = getHiearchyService(animal.getViewBy());
+
+            AnimalNodePath animalNodePath = hierarchyService.getLocationsPath(animal);
 
             List<JSONObject> jsonLocationsPath = new ArrayList<>();
 
 
-            for (Location location : animalLocationPath.getLocations())
+            for (Node node : animalNodePath.getLocations())
             {
-                jsonLocationsPath.add(location.toJSON());
+                jsonLocationsPath.add(node.toJSON());
             }
 
             Map props = new HashMap();
 
 
             props.put("path", jsonLocationsPath);
-            props.put("animal", animalLocationPath.getAnimalId());
+            props.put("animal", animalNodePath.getAnimalId());
 
 
             return new ApiSimpleResponse(props);
 
         }
+    }
+
+    private HierarchyService getHiearchyService(String viewBy)
+    {
+        HierarchyService hierarchyService;
+        if (viewBy == null)
+        {
+            return new LocationHierarchyServiceImpl(this.getViewContext());
+        }
+        switch (viewBy)
+        {
+            case "locations":
+                hierarchyService = new LocationHierarchyServiceImpl(this.getViewContext());
+                break;
+            case "groups":
+                hierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
+                break;
+            default:
+                hierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
+        }
+
+        return hierarchyService;
     }
 
     @RequiresPermission(ReadPermission.class)

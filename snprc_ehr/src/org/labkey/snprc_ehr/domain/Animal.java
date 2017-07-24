@@ -23,10 +23,33 @@ import org.json.JSONObject;
 public class Animal
 {
     private String id;
+    private String text;
     private String participantid;
     private String sex;
 
+    private String viewBy;
+
+    public String getViewBy()
+    {
+        return viewBy;
+    }
+
+    public void setViewBy(String viewBy)
+    {
+        this.viewBy = viewBy;
+    }
+
     private boolean leaf = true;
+
+    public String getText()
+    {
+        return text;
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
+    }
 
     public String getId()
     {
@@ -72,7 +95,7 @@ public class Animal
     {
         JSONObject json = new JSONObject();
         json.put("id", this.getId());
-        json.put("text", this.getId());
+        json.put("text", this.getText() != null ? this.getText() : this.getId());
         json.put("sex", this.getSex());
         json.put("leaf", this.isLeaf());
         json.put("cls", "animal");
@@ -80,4 +103,26 @@ public class Animal
         json.put("iconCls", "animal " + (this.getSex() != null ? (this.getSex().equalsIgnoreCase("F") ? "female" : ((this.getSex().equalsIgnoreCase("M") ? "male" : "unknown-sex"))) : "unknown-sex"));
         return json;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return this.getParticipantid() != null ? this.getParticipantid().hashCode() : this.getId().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other)
+    {
+
+        if (this == other) return true;
+        if (other == null || (this.getClass() != other.getClass()))
+        {
+            return false;
+        }
+        Animal animal = (Animal) other;
+
+        return this.getParticipantid() != null ? this.getParticipantid().equals(animal.getId()) : this.getId().equals(animal.getId());
+
+    }
+
 }

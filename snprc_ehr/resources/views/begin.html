@@ -1,7 +1,9 @@
 <script type="text/javascript">
 
 Ext4.onReady(function(){
-    var webpart = <%=webpartContext%>;
+    var webpart =;
+    <
+    %= webpartContext % >;
     var ctx = EHR.Utils.getEHRContext(webpart.wrapperDivId);
     if(!ctx)
         return;
@@ -60,7 +62,10 @@ Ext4.onReady(function(){
             },
             items: [
                 {name: 'Search By Area or Room', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:roomCage'},
-                {name: 'View Animals By Location', url:'<%=contextPath%>/AnimalsByLocation' + ctx['EHRStudyContainer'] + '/getView.view'}
+                {
+                    name: 'View Animals By Locations, Groups, Projects',
+                    url: '<%=contextPath%>/AnimalsHierarchy' + ctx['EHRStudyContainer'] + '/getView.view'
+                }
             ]
         }]
     });

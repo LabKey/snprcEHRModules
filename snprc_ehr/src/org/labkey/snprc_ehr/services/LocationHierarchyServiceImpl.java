@@ -25,8 +25,8 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.view.ViewContext;
 import org.labkey.snprc_ehr.domain.Animal;
-import org.labkey.snprc_ehr.domain.AnimalLocationPath;
-import org.labkey.snprc_ehr.domain.Location;
+import org.labkey.snprc_ehr.domain.AnimalNodePath;
+import org.labkey.snprc_ehr.domain.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,11 +45,11 @@ import java.util.Map;
  * <p>
  * Will be making a lot of assumptions, will fix any issues that might arise
  */
-public class LocationsServiceImpl implements LocationsService
+public class LocationHierarchyServiceImpl implements HierarchyService
 {
-    private final ViewContext viewContext;
+    private ViewContext viewContext;
 
-    public LocationsServiceImpl(ViewContext viewContext)
+    public LocationHierarchyServiceImpl(ViewContext viewContext)
     {
         this.viewContext = viewContext;
     }
@@ -60,7 +60,7 @@ public class LocationsServiceImpl implements LocationsService
      * @return root locations as a list
      */
     @Override
-    public List<Location> getRootLocations()
+    public List<Node> getRootNodes()
     {
         UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
         TableInfo housingTable = userSchema.getTable("housing");
@@ -70,38 +70,42 @@ public class LocationsServiceImpl implements LocationsService
 
         sort.insertSortColumn(FieldKey.fromString("room"), Sort.SortDirection.ASC);
 
-        List<Location> locations = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Location.class);
+        List<Map> maps = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Map.class);
 
-        List<Location> rootLocations = new ArrayList<>();
-        List<Location> alreadySeenLocations = new ArrayList<Location>();
+        List<Node> rootNodes = new ArrayList<>();
+        List<Node> alreadySeenNodes = new ArrayList<Node>();
 
-        for (Location location : locations)
+        for (Map map : maps)
         {
-            if (this.isRootLocation(location))
+            Node node = new Node();
+            node.setNode((String) map.get("room"));
+            node.setText((String) map.get("room"));
+            node.setNodeClass("location");
+            if (this.isRootNode(node))
             {
-                if (!alreadySeenLocations.contains(location))
+                if (!alreadySeenNodes.contains(node))
                 {
-                    rootLocations.add(location);
-                    alreadySeenLocations.add(location);
+                    rootNodes.add(node);
+                    alreadySeenNodes.add(node);
                 }
             }
             else
             {
-                Location rootLocation = this.getRootLocation(location);
-                if (!alreadySeenLocations.contains(rootLocation))
+                Node rootNode = this.getRootNode(node);
+                if (!alreadySeenNodes.contains(rootNode))
                 {
-                    rootLocations.add(rootLocation);
-                    alreadySeenLocations.add(rootLocation);
+                    rootNodes.add(rootNode);
+                    alreadySeenNodes.add(rootNode);
                 }
             }
         }
 
-        rootLocations.sort((o1, o2) ->
+        rootNodes.sort((o1, o2) ->
         {
             try
             {
-                double location1RoomAsDouble = Double.parseDouble(o1.getRoom());
-                double location2RoomAsDouble = Double.parseDouble(o2.getRoom());
+                double location1RoomAsDouble = Double.parseDouble(o1.getNode());
+                double location2RoomAsDouble = Double.parseDouble(o2.getNode());
                 if (location1RoomAsDouble == location2RoomAsDouble)
                 {
                     return 0;
@@ -122,13 +126,13 @@ public class LocationsServiceImpl implements LocationsService
 
         });
 
-        return rootLocations;
+        return rootNodes;
     }
 
     @Override
-    public List<Location> getSubLocations(Location location)
+    public List<Node> getSubNodes(Node node)
     {
-        if (!this.isRootLocation(location))
+        if (!this.isRootNode(node))
         {
             return Collections.emptyList();
         }
@@ -137,36 +141,41 @@ public class LocationsServiceImpl implements LocationsService
         TableInfo housingTable = userSchema.getTable("housing");
         SimpleFilter currentHousingRecordsFilter = new SimpleFilter();
         currentHousingRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
-        currentHousingRecordsFilter.addCondition(FieldKey.fromString("room"), location.getRoom(), CompareType.NEQ);
-        currentHousingRecordsFilter.addCondition(FieldKey.fromString("room"), location.getRoom().substring(0, location.getRoom().length() - 2), CompareType.STARTS_WITH);
+        currentHousingRecordsFilter.addCondition(FieldKey.fromString("room"), node.getNode(), CompareType.NEQ);
+        currentHousingRecordsFilter.addCondition(FieldKey.fromString("room"), node.getNode().substring(0, node.getNode().length() - 2), CompareType.STARTS_WITH);
         Sort sort = new Sort();
         sort.insertSortColumn(FieldKey.fromString("room"), Sort.SortDirection.ASC);
-        List<Location> locations = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Location.class);
+        List<Map> maps = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Map.class);
 
-        List<Location> subLocations = new ArrayList<>();
-        List<Location> alreadySeenLocation = new ArrayList<>();
+        List<Node> subNodes = new ArrayList<>();
+        List<Node> alreadySeenNode = new ArrayList<>();
 
-        for (Location l : locations)
+        for (Map m : maps)
         {
-            if (!alreadySeenLocation.contains(l))
+            Node l = new Node();
+            l.setNode((String) m.get("room"));
+            l.setText((String) m.get("room"));
+            l.setNodeClass("location");
+
+            if (!alreadySeenNode.contains(l))
             {
-                subLocations.add(l);
-                alreadySeenLocation.add(l);
+                subNodes.add(l);
+                alreadySeenNode.add(l);
             }
         }
-        return subLocations;
+        return subNodes;
 
     }
 
     @Override
-    public List<Animal> getAnimals(Location location)
+    public List<Animal> getAnimals(Node node)
     {
 
         UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
         TableInfo housingTable = userSchema.getTable("housing");
         SimpleFilter currentHousingRecordsFilter = new SimpleFilter();
         currentHousingRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
-        currentHousingRecordsFilter.addCondition(FieldKey.fromString("room"), location.getRoom(), CompareType.EQUAL);
+        currentHousingRecordsFilter.addCondition(FieldKey.fromString("room"), node.getNode(), CompareType.EQUAL);
         Sort sort = new Sort();
         sort.insertSortColumn(FieldKey.fromString("participantid"), Sort.SortDirection.ASC);
 
@@ -203,46 +212,47 @@ public class LocationsServiceImpl implements LocationsService
 
 
     /**
-     * @param location
-     * @return true if location is a root location, false otherwise
+     * @param node
+     * @return true if node is a root node, false otherwise
      */
     @Override
-    public boolean isRootLocation(Location location)
+    public boolean isRootNode(Node node)
     {
-        return this.getRootLocation(location) == null;
+        return this.getRootNode(node) == null;
     }
 
 
     @Override
-    public boolean hasAnimals(Location location)
+    public boolean hasAnimals(Node node)
     {
-        return !this.getAnimals(location).isEmpty();
+        return !this.getAnimals(node).isEmpty();
     }
 
     @Override
-    public Location getRootLocation(Location location)
+    public Node getRootNode(Node node)
     {
-        if (location.getRoom() == null || location.getRoom().substring(location.getRoom().length() - 3).equals(".00"))
+        if (node.getNode() == null || node.getNode().substring(node.getNode().length() - 3).equals(".00"))
         {
             return null;
         }
 
-        Location rootLocation = new Location();
+        Node rootNode = new Node();
 
-        rootLocation.setRoom(location.getRoom().replaceAll("\\.[0-9]+", ".00"));
+        rootNode.setNode(node.getNode().replaceAll("\\.[0-9]+", ".00"));
+        rootNode.setText(node.getNode().replaceAll("\\.[0-9]+", ".00"));
 
 
-        return rootLocation;
+        return rootNode;
     }
 
     @Override
-    public boolean hasSubLocations(Location location)
+    public boolean hasSubNodes(Node node)
     {
-        return !this.getSubLocations(location).isEmpty();
+        return !this.getSubNodes(node).isEmpty();
     }
 
     @Override
-    public AnimalLocationPath getLocationsPath(Animal animal)
+    public AnimalNodePath getLocationsPath(Animal animal)
     {
         UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
         TableInfo housingTable = userSchema.getTable("housing");
@@ -250,15 +260,15 @@ public class LocationsServiceImpl implements LocationsService
         currentHousingRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
         currentHousingRecordsFilter.addCondition(FieldKey.fromString("participantid"), animal.getParticipantid(), CompareType.EQUAL);
 
-        Location location = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Location.class);
+        Map map = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Map.class);
 
-        AnimalLocationPath animalLocationPath = new AnimalLocationPath();
-        animalLocationPath.setAnimalId(animal.getParticipantid());
+        AnimalNodePath animalNodePath = new AnimalNodePath();
+        animalNodePath.setAnimalId(animal.getParticipantid());
 
-        List<Location> locationsPath = new ArrayList<Location>();
-        animalLocationPath.setLocations(locationsPath);
+        List<Node> locationsPath = new ArrayList<Node>();
+        animalNodePath.setLocations(locationsPath);
 
-        if (location == null)
+        if (map == null)
         {
             //the id specified might be a secondary id, let's check it before returning an empty list
             TableInfo idHistoryTable = userSchema.getTable("idHistory");
@@ -269,34 +279,38 @@ public class LocationsServiceImpl implements LocationsService
                 Map secondaryId = new TableSelector(idHistoryTable, idHistoryRecordsFilter, null).getObject(Map.class);
                 if (secondaryId == null)
                 {
-                    return animalLocationPath;
+                    return animalNodePath;
                 }
                 currentHousingRecordsFilter = new SimpleFilter();
                 currentHousingRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
                 currentHousingRecordsFilter.addCondition(FieldKey.fromString("participantid"), secondaryId.get("id"), CompareType.EQUAL);
-                location = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Location.class);
-                if (location == null)
+                map = new TableSelector(housingTable, currentHousingRecordsFilter, null).getObject(Map.class);
+                if (map == null)
                 {
-                    return animalLocationPath;
+                    return animalNodePath;
                 }
-                animalLocationPath.setAnimalId((String) secondaryId.get("id"));
+                animalNodePath.setAnimalId((String) secondaryId.get("id"));
             }
             catch (Exception ex)
             {
-                return animalLocationPath; //if for some reason, the query above returns multiple rows
+                return animalNodePath; //if for some reason, the query above returns multiple rows
             }
         }
 
-        if (this.isRootLocation(location))
+        Node node = new Node();
+        node.setNode((String) map.get("room"));
+        node.setText((String) map.get("room"));
+        node.setNodeClass("location");
+        if (this.isRootNode(node))
         {
-            locationsPath.add(location);
-            return animalLocationPath;
+            locationsPath.add(node);
+            return animalNodePath;
         }
         else
         {
-            locationsPath.add(this.getRootLocation(location));
-            locationsPath.add(location);
+            locationsPath.add(this.getRootNode(node));
+            locationsPath.add(node);
         }
-        return animalLocationPath;
+        return animalNodePath;
     }
 }

@@ -20,23 +20,23 @@ import java.util.List;
 /**
  * Created by lkacimi on 5/25/2017.
  */
-public class AnimalLocationPath
+public class AnimalNodePath
 {
     /**
      * Path to location, starting from a root location
      */
-    private List<Location> locations;
+    private List<Node> _nodes;
 
     private String animalId;
 
-    public List<Location> getLocations()
+    public List<Node> getLocations()
     {
-        return locations;
+        return _nodes;
     }
 
-    public void setLocations(List<Location> locations)
+    public void setLocations(List<Node> nodes)
     {
-        this.locations = locations;
+        this._nodes = nodes;
     }
 
     public String getAnimalId()

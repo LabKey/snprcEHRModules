@@ -6,9 +6,9 @@
 /**
  * Created by lkacimi on 6/6/2017.
  */
-Ext4.define("AnimalsByLocationReportsContainer", {
+Ext4.define("AnimalsByNodeReportsContainer", {
     extend: 'Ext.panel.Panel',
-    alias: "widget.animals-by-location-reports-container",
+    alias: "widget.animals-by-node-reports-container",
 
     layout: {
         type: 'accordion',
@@ -23,7 +23,7 @@ Ext4.define("AnimalsByLocationReportsContainer", {
     loadReports: function () {
         var self = this;
         Ext4.Ajax.request({
-            url: LABKEY.ActionURL.buildURL("AnimalsByLocation", "GetReports"),
+            url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "GetReports"),
             method: 'POST',
             success: function (response) {
                 self.reports = Ext4.decode(response.responseText);

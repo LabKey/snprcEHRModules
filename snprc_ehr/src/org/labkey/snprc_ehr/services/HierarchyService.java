@@ -16,29 +16,30 @@
 package org.labkey.snprc_ehr.services;
 
 import org.labkey.snprc_ehr.domain.Animal;
-import org.labkey.snprc_ehr.domain.AnimalLocationPath;
-import org.labkey.snprc_ehr.domain.Location;
+import org.labkey.snprc_ehr.domain.AnimalNodePath;
+import org.labkey.snprc_ehr.domain.Node;
 
 import java.util.List;
 
 /**
  * Created by lkacimi on 4/11/2017.
  */
-public interface LocationsService
+public interface HierarchyService
 {
-    List<Location> getRootLocations();
+    List<Node> getRootNodes();
 
-    List<Location> getSubLocations(Location location);
+    List<Node> getSubNodes(Node node);
 
-    boolean hasSubLocations(Location location);
+    boolean hasSubNodes(Node node);
 
-    List<Animal> getAnimals(Location location);
+    List<Animal> getAnimals(Node node);
 
-    boolean isRootLocation(Location location);
+    boolean isRootNode(Node node);
 
-    boolean hasAnimals(Location location);
+    boolean hasAnimals(Node node);
 
-    Location getRootLocation(Location location);
+    Node getRootNode(Node node);
 
-    AnimalLocationPath getLocationsPath(Animal animal);
+    AnimalNodePath getLocationsPath(Animal animal);
+
 }

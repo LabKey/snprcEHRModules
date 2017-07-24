@@ -6,18 +6,22 @@
 /**
  * Created by lkacimi on 4/11/2017.
  */
-Ext4.define("AnimalsByLocationTreeStore", {
+Ext4.define("AnimalsByNodeTreeStore", {
     extend: "Ext.data.TreeStore",
     fields: ['id', 'text', 'sex', 'leaf', 'cls', 'iconCls'],
     autoLoad: true,
     defaultRootId: '',
     proxy: {
         type: 'ajax',
-        url: LABKEY.ActionURL.buildURL("AnimalsByLocation", "GetHierarchy"),
+        url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "GetHierarchy"),
         reader: {
             type: 'json',
             idProperty: 'id',
             root: 'nodes'
+        },
+        extraParams: {
+            viewBy: "locations"
         }
     }
+
 });

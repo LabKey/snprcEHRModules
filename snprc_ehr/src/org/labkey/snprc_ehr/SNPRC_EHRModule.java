@@ -47,7 +47,7 @@ import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
-import org.labkey.snprc_ehr.controllers.AnimalsByLocationController;
+import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
 import org.labkey.snprc_ehr.controllers.InstitutionsController;
 import org.labkey.snprc_ehr.controllers.RelatedTablesController;
 import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
@@ -84,7 +84,7 @@ import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
-import org.labkey.snprc_ehr.views.AnimalsByLocationWebPart;
+import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -119,7 +119,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         addController(SNPRC_EHRController.NAME, SNPRC_EHRController.class);
         //Controllers
         addController(AnimalGroupsController.NAME.toLowerCase(), AnimalGroupsController.class);
-        addController(AnimalsByLocationController.NAME.toLowerCase(), AnimalsByLocationController.class);
+        addController(AnimalsHierarchyController.NAME.toLowerCase(), AnimalsHierarchyController.class);
         addController(RelatedTablesController.NAME.toLowerCase(), RelatedTablesController.class);
         addController(InstitutionsController.NAME.toLowerCase(), InstitutionsController.class);
 
@@ -311,13 +311,16 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
     protected Collection<WebPartFactory> createWebPartFactories()
     {
-        return new ArrayList<>(Collections.singletonList(new BaseWebPartFactory("Animals By Location", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
+        Collection<WebPartFactory> webPartFactories = new ArrayList<WebPartFactory>();
+        webPartFactories.add(new BaseWebPartFactory("Animals By Locations, Groups, and Projects", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
         {
             public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
-                return new AnimalsByLocationWebPart();
+                return new AnimalsHierarchyWebPart();
             }
-        }));
+        });
+
+        return webPartFactories;
     }
 
 
