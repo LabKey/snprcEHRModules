@@ -83,6 +83,14 @@
         margin: 0 2px;
     }
 
+    .x4-grid-tree-node-expanded .protocol .x4-tree-icon-parent, .protocol .x4-tree-icon-parent {
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/protocol.ico');
+        width: 16px;
+        height: 16px;
+        background-size: cover;
+        margin: 0 2px;
+    }
+
     .x4-tree-icon.animal.female {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/female.ico');
         width: 16px;
@@ -134,18 +142,22 @@
                                 {
                                     xtype: 'combobox',
                                     store: Ext4.create('Ext.data.Store', {
-                                        fields: ['viewBy'],
+                                        fields: ['viewBy', 'viewByLabel'],
                                         data: [
-                                            {'viewBy': 'locations'},
-                                            {'viewBy': 'groups'}
+                                            {'viewBy': 'locations', 'viewByLabel': 'Location'},
+                                            {'viewBy': 'protocols', 'viewByLabel': 'Protocol'},
+                                            {'viewBy': 'groups', 'viewByLabel': 'Group'}
                                         ]
                                     }),
                                     queryMode: 'local',
-                                    displayField: 'viewBy',
+                                    displayField: 'viewByLabel',
                                     valueField: 'viewBy',
                                     value: 'locations',
                                     fieldLabel: 'Navigate By',
                                     width: 280,
+                                    typeAhead: true,
+                                    forceSelection: true,
+                                    editable: false,
                                     listeners: {
                                         change: function () {
                                             Ext4.getCmp("animals-by-node-tree-panel").getStore().getProxy().extraParams = {

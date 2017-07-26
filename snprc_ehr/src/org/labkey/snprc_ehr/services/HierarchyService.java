@@ -40,6 +40,8 @@ public interface HierarchyService
 
     Node getRootNode(Node node);
 
-    AnimalNodePath getLocationsPath(Animal animal);
+    AnimalNodePath getNodePath(Animal animal);
+
+
 
 }

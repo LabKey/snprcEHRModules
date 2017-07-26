@@ -40,6 +40,7 @@ import org.labkey.snprc_ehr.domain.Node;
 import org.labkey.snprc_ehr.services.GroupsHierarchyServiceImpl;
 import org.labkey.snprc_ehr.services.HierarchyService;
 import org.labkey.snprc_ehr.services.LocationHierarchyServiceImpl;
+import org.labkey.snprc_ehr.services.ProtocolHierarchyServiceImpl;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -172,7 +173,7 @@ public class AnimalsHierarchyController extends SpringActionController
         {
             HierarchyService hierarchyService = getHiearchyService(animal.getViewBy());
 
-            AnimalNodePath animalNodePath = hierarchyService.getLocationsPath(animal);
+            AnimalNodePath animalNodePath = hierarchyService.getNodePath(animal);
 
             List<JSONObject> jsonLocationsPath = new ArrayList<>();
 
@@ -204,16 +205,14 @@ public class AnimalsHierarchyController extends SpringActionController
         switch (viewBy)
         {
             case "locations":
-                hierarchyService = new LocationHierarchyServiceImpl(this.getViewContext());
-                break;
+                return new LocationHierarchyServiceImpl(this.getViewContext());
             case "groups":
-                hierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
-                break;
+                return new GroupsHierarchyServiceImpl(this.getViewContext());
+            case "protocols":
+                return new ProtocolHierarchyServiceImpl(this.getViewContext());
             default:
-                hierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
+                return new GroupsHierarchyServiceImpl(this.getViewContext());
         }
-
-        return hierarchyService;
     }
 
     @RequiresPermission(ReadPermission.class)

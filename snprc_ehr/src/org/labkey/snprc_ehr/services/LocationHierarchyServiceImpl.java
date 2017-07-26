@@ -252,7 +252,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
     }
 
     @Override
-    public AnimalNodePath getLocationsPath(Animal animal)
+    public AnimalNodePath getNodePath(Animal animal)
     {
         UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
         TableInfo housingTable = userSchema.getTable("housing");

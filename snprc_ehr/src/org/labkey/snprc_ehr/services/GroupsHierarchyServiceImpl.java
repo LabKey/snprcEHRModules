@@ -117,8 +117,6 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
 
             List<Animal> animals = new ArrayList<>();
             List<GroupMember> groupMembers = new TableSelector(table, filter, null).getArrayList(GroupMember.class);
-
-            List<String> seenAnimals = new ArrayList<String>();
             for (GroupMember member : groupMembers)
             {
 
@@ -205,7 +203,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
     }
 
     @Override
-    public AnimalNodePath getLocationsPath(Animal animal)
+    public AnimalNodePath getNodePath(Animal animal)
     {
         UserSchema userSchema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
         TableInfo demographicsTable = userSchema.getTable("demographics");
@@ -237,19 +235,13 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                 {
                     return animalNodePath;
                 }
-                SimpleFilter currentAssignmentFilter = new SimpleFilter();
-                Date today = new Date();
-                currentAssignmentFilter.addClause(new SimpleFilter.OrClause(
-                        new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.ISBLANK, null),
-                        new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.DATE_GT, today)
-                ));
                 animalId = (String) secondaryId.get("id");
 
 
             }
             catch (Exception ex)
             {
-                return animalNodePath; //if for some reason, the query above returns multiple rows
+                return animalNodePath;
             }
 
         }
