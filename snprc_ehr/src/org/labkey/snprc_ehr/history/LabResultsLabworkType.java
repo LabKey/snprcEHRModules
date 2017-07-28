@@ -47,28 +47,30 @@ import java.util.TreeMap;
  * 2/5/2015  Changes made to getLine() to improve format of results. tjh
  * 2/13/2015 Merged with SortingLabworkType.java. tjh
  * 2/16/2015 Optimized _testType retrieval. tjh
+ * 7/21/2017 Fixed issue with labworkResults not populating. tjh
+ * 7/28/2017 Fixed sorting issue. tjh
  */
 public class LabResultsLabworkType extends DefaultLabworkType
 {
-    protected String _test_nameField = "test_name";
-    protected String _sortField = "sort_order";
-    protected String _runid_typeField = "runid/type";
+    protected String _test_nameField = "serviceTestId/testName";
+    protected String _sortField = "sortOrder";
+    protected String _runid_typeField = "runid/ServiceRequested/Dataset";
     protected String _default_testType = "LabworkResults";
 
     private static String _testType;
-    private String _testCol = "testid";
-    private String _sortCol = "sort_order";
+    private String _testCol = "RowId";
+    private String _sortCol = "sortOrder";
     private Map<String, Integer> _tests = null;
 
     public LabResultsLabworkType(Module module)
     {
-        //terry - is 'Lab Results' what you used for test_type?
         super("Labwork Results", "study", "LabworkResults", module);
         _testType = _default_testType;  // this is just a temporary value it will be updated for the specific
-                                        // assay type in the getRows() method. tjh
+        // assay type in the getRows() method. tjh
         _normalRangeField = "refRange";
         _unitsField = "units";
         _normalRangeStatusField = "abnormal_flags";
+        _testIdField = "serviceTestId";
     }
 
     /**
@@ -86,12 +88,12 @@ public class LabResultsLabworkType extends DefaultLabworkType
     {
         StringBuilder sb = new StringBuilder();
         String testId = getTestId(rs);
-        Double result = _resultField == null ?  null : rs.getDouble(FieldKey.fromString(_resultField));
-        String units = _unitsField == null ?  null : rs.getString(FieldKey.fromString(_unitsField));
-        String testName = _test_nameField == null ?  null : rs.getString(FieldKey.fromString(_test_nameField));
-        String qualResult = _qualResultField == null ?  null : rs.getString(FieldKey.fromString(_qualResultField));
-        String refRange = _normalRangeField == null ?  null : rs.getString(FieldKey.fromString(_normalRangeField));
-        String abnormalFlags = _normalRangeStatusField == null ?  null : rs.getString(FieldKey.fromString(_normalRangeStatusField));
+        Double result = _resultField == null ? null : rs.getDouble(FieldKey.fromString(_resultField));
+        String units = _unitsField == null ? null : rs.getString(FieldKey.fromString(_unitsField));
+        String testName = _test_nameField == null ? null : rs.getString(FieldKey.fromString(_test_nameField));
+        String qualResult = _qualResultField == null ? null : rs.getString(FieldKey.fromString(_qualResultField));
+        String refRange = _normalRangeField == null ? null : rs.getString(FieldKey.fromString(_normalRangeField));
+        String abnormalFlags = _normalRangeStatusField == null ? null : rs.getString(FieldKey.fromString(_normalRangeStatusField));
 
         if (result != null || qualResult != null)
         {
@@ -132,11 +134,12 @@ public class LabResultsLabworkType extends DefaultLabworkType
     {
         if (forceRefresh || _tests == null)
         {
-            TableInfo ti = DbSchema.get("snprc_ehr", DbSchemaType.Module).getTable("lab_tests");
+            TableInfo ti = DbSchema.get("snprc_ehr", DbSchemaType.Module).getTable("labwork_panels");
             assert ti != null;
 
             _tests = new CaseInsensitiveHashMap<>();
-            TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString("type"), _testType), null);
+            //
+            TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString("ServiceId/Dataset/ServiceType"), _testType), null);
             ts.forEach(new Selector.ForEachBlock<ResultSet>()
             {
                 @Override
@@ -157,18 +160,19 @@ public class LabResultsLabworkType extends DefaultLabworkType
         ts.forEach(new Selector.ForEachBlock<ResultSet>()
                    {
                        boolean forceRefresh = true;
+
                        @Override
                        public void exec(ResultSet object) throws SQLException
                        {
 
                            Results rs = new ResultsImpl(object, cols);
                            String runId = rs.getString(FieldKey.fromString("runId"));
-
+                           String tjh_assayType = rs.getString(FieldKey.fromString(_runid_typeField));
                            if (forceRefresh)
                            {
                                String assayType = rs.getString(FieldKey.fromString(_runid_typeField));
-                               if (assayType != _testType )
-                                 _testType = assayType == null ? _default_testType : assayType;
+                               if (assayType != _testType)
+                                   _testType = assayType == null ? _default_testType : assayType;
                                else
                                    forceRefresh = false;
                            }
@@ -178,7 +182,6 @@ public class LabResultsLabworkType extends DefaultLabworkType
                                map = new TreeMap<>();
 
                            Integer sort = getSortOrder(rs, forceRefresh);
-                           forceRefresh = false;
 
                            List<String> list = map.get(sort);
                            if (list == null)
@@ -192,7 +195,9 @@ public class LabResultsLabworkType extends DefaultLabworkType
                            map.put(sort, list);
                            rows.put(runId, map);
                        }
+
                    }
+
         );
 
         Map<String, List<String>> sortedResults = new HashMap<>();

@@ -24,7 +24,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE VIEW Labkey_etl.v_delete_labwork_results AS
+ALTER VIEW Labkey_etl.v_delete_labwork_results AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 6/26/2015
@@ -33,7 +33,7 @@ CREATE VIEW Labkey_etl.v_delete_labwork_results AS
 --
 --
 -- ==========================================================================================
-SELECT log.MESSAGE_ID,
+SELECT log.MESSAGE_ID AS objectid,
 	   log.ENTRY_DATE_TM
 
 FROM dbo.HL7_IMPORT_LOG AS log

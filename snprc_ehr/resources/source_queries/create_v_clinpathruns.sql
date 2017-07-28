@@ -37,17 +37,18 @@ ALTER VIEW Labkey_etl.v_clinPathRuns AS
 -- 6/19/2017  casted dateFinalized to a datetime2 to round time up to seconds. tjh
 -- 6/20/2017  dateFinalized is managed in ehr\triggers.js by LK.  Created new column (verifiedDate) to 
 --			  store the verified date. tjh
+-- 7/25/2017  removed message_id - data moved to objectid column.
 -- ==========================================================================================
 SELECT
   obr.animal_id                                                AS Id,
   obr.OBSERVATION_DATE_TM                                      AS Date,
-  obr.message_id                                               AS message_id,
+  --obr.message_id                                               AS message_id,
   cast(cast(obr.verified_date_tm AS DATETIME2(0)) AS DATETIME) AS verifiedDate,
   obr.SPECIMEN_NUM                                             AS sampleId,
   lu.PROCEDURE_NAME        									   AS serviceRequested,
   obr.PROCEDURE_ID                                             AS serviceId,
   --  obr.PV1_VISIT_NUM										   AS animalVisit,
-  obr.object_id                                                AS objectid,
+  obr.message_id                                                AS objectid,
   obr.entry_date_tm                                            AS modified,
   dbo.f_map_username(obr.user_name)                            AS modifiedby,
   tc.created                                                   AS created,

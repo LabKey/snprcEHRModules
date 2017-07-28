@@ -18,7 +18,7 @@
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
-        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_labwork_results" timestampColumnName="entry_date_tm" deletedSourceKeyColumnName="message_id" targetKeyColumnName="runid"/>
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_labwork_results" timestampColumnName="entry_date_tm" deletedSourceKeyColumnName="objectid" targetKeyColumnName="runid"/>
     </incrementalFilter>
     <schedule>
         <poll interval="365d" />

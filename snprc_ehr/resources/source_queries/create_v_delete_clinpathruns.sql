@@ -33,7 +33,7 @@ ALTER VIEW Labkey_etl.v_delete_clinPathRuns AS
 --
 --
 -- ==========================================================================================
-SELECT log.MESSAGE_ID,
+SELECT log.MESSAGE_ID as objectid,
 log.ENTRY_DATE_TM
 
 FROM dbo.HL7_IMPORT_LOG AS log

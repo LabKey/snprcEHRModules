@@ -1133,9 +1133,6 @@
             <column columnName="instructions">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="message_id">
-                <datatype>entityid</datatype>
-            </column>
             <column columnName="servicerequested">
                 <datatype>varchar</datatype>
             </column>
@@ -1173,11 +1170,6 @@
                 <datatype>timestamp</datatype>
             </column>
         </columns>
-        <indices>
-            <index type="unique">
-                <column>message_id</column>
-            </index>
-        </indices>
         <tableTitle>Clinpath Runs</tableTitle>
     </table>
     <table tableName="labworkResults" tableDbType="TABLE">

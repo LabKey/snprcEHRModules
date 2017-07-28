@@ -52,9 +52,9 @@
                     <column columnName="type">
                         <columnTitle>Category</columnTitle>
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>clinpath_types</fkTable>
-                            <fkColumnName>value</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>labwork_types</fkTable>
+                            <fkColumnName>ServiceType</fkColumnName>
                             <fkDisplayColumnName useRawValue="true"/>
                         </fk>
                     </column>
