@@ -1,3 +1,6 @@
+<%@ page import="org.labkey.api.view.template.ClientDependencies" %>
+<%@ page extends="org.labkey.api.jsp.JspBase" %>
+
 <%
     /*
      * Copyright (c) 2017 LabKey Corporation
@@ -16,6 +19,15 @@
      */
 %>
 
+<%!
+    @Override
+    public void addClientDependencies(ClientDependencies dependencies)
+    {
+
+        dependencies.add("clientapi/ext3");
+        dependencies.add("clientapi/ext4");
+    }
+%>
 <%
     String contextPath = request.getContextPath();
 %>
