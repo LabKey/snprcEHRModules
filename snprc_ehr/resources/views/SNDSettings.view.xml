@@ -1,0 +1,6 @@
+<view xmlns="http://labkey.org/data/xml/view" title="SND Settings">
+    <dependencies>
+        <dependency path="ehr.context" />
+        <dependency path="snprc_ehr/Panel/SNDSettingsPanel.js" />
+    </dependencies>
+</view>
