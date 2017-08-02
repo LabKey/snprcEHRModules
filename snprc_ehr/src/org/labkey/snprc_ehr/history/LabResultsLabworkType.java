@@ -167,7 +167,6 @@ public class LabResultsLabworkType extends DefaultLabworkType
 
                            Results rs = new ResultsImpl(object, cols);
                            String runId = rs.getString(FieldKey.fromString("runId"));
-                           String tjh_assayType = rs.getString(FieldKey.fromString(_runid_typeField));
                            if (forceRefresh)
                            {
                                String assayType = rs.getString(FieldKey.fromString(_runid_typeField));

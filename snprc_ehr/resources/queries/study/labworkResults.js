@@ -34,8 +34,6 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
 
 function assignServiceTestId (row, serviceId, testId ) {
 
-    // ctr += 1;
-    // console.log("ctr = " + ctr);
     var result = true;
 
     LABKEY.Query.selectRows({
@@ -51,7 +49,7 @@ function assignServiceTestId (row, serviceId, testId ) {
             if (data.rows && data.rows.length) {
                 row.serviceTestId = data.rows[0].RowId;
                 cachedIds[cacheKey] = row.serviceTestId;
-                console.log('caching ' + cacheKey + ': ' + row.serviceTestId);
+                //console.log('caching ' + cacheKey + ': ' + row.serviceTestId);
 
             }
             else {
