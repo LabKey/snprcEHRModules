@@ -36,6 +36,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 keys.sort();
 
                 for (var a in keys) {
+
                     if (Ext4.isFunction(keys[a])) {
                         continue;
                     }
@@ -43,9 +44,37 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                     sections.push(Ext4.create("Ext.tab.Panel", {
                         title: keys[a],
                         id: "report-" + keys[a].replace(" ", '-'),
-                        itemId: keys[a]
+                        itemId: keys[a],
+                        listeners: {
+                            'tabchange': function (tabPanel, tab) {
+                                var tabsCount = tabPanel.items.length;
+                                if (tabPanel.getTabsCount() == tabsCount) {
+                                    tabPanel.setActiveTabNumber(tabPanel.items.indexOf(tab));
+                                    //Ext4.getCmp("animals-by-node-tree-panel").setActiveTab(tabPanel.items.indexOf(tab));
+                                }
+                            }
+
+                        },
+
+                        getTabsCount: function () {
+                            return this.tabsCount;
+                        },
+
+                        setTabsCount: function (tabsCount) {
+                            this.tabsCount = tabsCount;
+                        },
+
+                        setActiveTabNumber: function (activeTab) {
+                            this.activeTabNumber = activeTab;
+                        },
+
+                        getActiveTabNumber: function () {
+                            return this.activeTabNumber || 0;
+                        }
                     }));
+
                 }
+
                 self.add(sections);
             },
             failure: function () {
@@ -104,12 +133,11 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
         for (var i = 0; i < this.getAccordionSectionsAndTabs().length; i++) {
             var section = this.getAccordionSectionsAndTabs()[i];
+            var tabsCount = 0;
             for (var j = 0; j < section.tabs.length; j++) {
                 var tabConfig = section.tabs[j].config;
                 switch (tabConfig.type) {
                     case 'query':
-
-
                         var queryConfig = {
                             title: tabConfig.title,
                             schemaName: tabConfig.schemaName,
@@ -143,22 +171,25 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                             title: tabConfig.title,
                             overflowY: 'auto',
                             queryConfig: queryConfig,
-                            autoScroll: true,
-                        });
+                            autoScroll: true
 
+                        });
                         gridsContainer.items.items[i].add(queryTab);
+                        tabsCount++;
                         break;
                     case 'js':
                         //Create a new Panel,
                         var jsTab = Ext4.create('LDK.panel.ContentResizingPanel', {
                             title: tabConfig.title,
-                            autoScroll: true,
+                            autoScroll: true
                         });
                         var jsFunction = tabConfig.queryName;
                         if (typeof this[jsFunction] == 'function') {
                             this[jsFunction](jsTab, filter);
                             gridsContainer.items.items[i].add(jsTab);
+                            tabsCount++;
                         }
+
                         break;
                     case 'report':
                         break;
@@ -174,11 +205,16 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                     default:
                         //unknown report type, Skip
                 }
+
             }
-
-
+            gridsContainer.items.items[i].setTabsCount(tabsCount);
+            gridsContainer.items.items[i].setActiveTab(gridsContainer.items.items[i].getActiveTabNumber());
         }
 
+        /*
+         var expandedSection = gridsContainer.up().down('#animals-by-node-ldk-grids-container > panel:not([collapsed])');
+         expandedSection.setActiveTab(Ext4.getCmp('animals-by-node-tree-panel').getActiveTab());
+         */
         gridsContainer.doLayout();
 
     },
