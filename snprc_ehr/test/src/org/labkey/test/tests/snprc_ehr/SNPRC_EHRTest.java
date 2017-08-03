@@ -154,8 +154,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         new RReportHelper(this).ensureRConfig();
         initProject("SNPRC EHR");
+        goToProjectHome();
+        _containerHelper.enableModules(Arrays.asList("SND"));
         createTestSubjects();
         initGenetics();
+        initSND();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
         _assayHelper = new UIAssayHelper(this); // API Helper is causing browser timeouts on experiment-showAddXarFile
@@ -244,6 +247,16 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         clickButton("Start Import"); // Validate queries page
         waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
+    }
+
+    protected void initSND()
+    {
+        goToProjectHome();
+        click(Locator.linkWithText("EHR Admin Page"));
+        click(Locator.linkWithText("SND SETTINGS"));
+        click(Locator.linkWithText("GENERATE CUSTOM COLUMNS"));
+        waitForText("Success");
+        goToProjectHome();
     }
 
     protected void initGenetics() throws Exception
@@ -464,7 +477,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testLookups()
+    public void testLookupsAndSND()
     {
         navigateToQuery("ehr", "animalExposure", 180000);
 
@@ -480,6 +493,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 Assert.fail("Broken lookup '" + cell + "' for column '" + header.get(i) + "'");
             }
         }
+
+        // Just verify these extensible columns were successfully added
+        navigateToQuery("snd", "Pkgs", 180000);
+        assertTextPresent("UsdaCode");
+
+        navigateToQuery("snd", "Projects", 180000);
+        assertTextPresent("VsNumber");
+        assertTextPresent("ProjectType");
     }
 
     @Test

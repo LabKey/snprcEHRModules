@@ -12,7 +12,7 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
                 style: 'padding-bottom: 20px'
             }, {
                 xtype: 'button',
-                text: 'Add additional columns to coded procedure tables',
+                text: 'Generate custom columns',
                 scope: this,
                 handler: this.createDomainHandler
             }
