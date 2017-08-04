@@ -252,8 +252,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     protected void initSND()
     {
         goToProjectHome();
-        click(Locator.linkWithText("EHR Admin Page"));
-        click(Locator.linkWithText("SND SETTINGS"));
+        clickAndWait(Locator.linkWithText("EHR Admin Page"));
+        clickAndWait(Locator.linkWithText("SND SETTINGS"));
         click(Locator.linkWithText("GENERATE CUSTOM COLUMNS"));
         waitForText("Success");
         goToProjectHome();
