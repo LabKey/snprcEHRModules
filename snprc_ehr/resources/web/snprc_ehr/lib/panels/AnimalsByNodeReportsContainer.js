@@ -47,10 +47,9 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                         itemId: keys[a],
                         listeners: {
                             'tabchange': function (tabPanel, tab) {
-                                var tabsCount = tabPanel.items.length;
-                                if (tabPanel.getTabsCount() == tabsCount) {
-                                    tabPanel.setActiveTabNumber(tabPanel.items.indexOf(tab));
-                                    //Ext4.getCmp("animals-by-node-tree-panel").setActiveTab(tabPanel.items.indexOf(tab));
+                                if (!tabPanel.up().isUpdating()) {
+                                    tabPanel.setActiveTabIndex(tabPanel.items.indexOf(tab));
+
                                 }
                             }
 
@@ -64,13 +63,14 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                             this.tabsCount = tabsCount;
                         },
 
-                        setActiveTabNumber: function (activeTab) {
-                            this.activeTabNumber = activeTab;
+                        setActiveTabIndex: function (activeTab) {
+                            this.activeTabIndex = activeTab;
                         },
 
-                        getActiveTabNumber: function () {
-                            return this.activeTabNumber || 0;
+                        getActiveTabIndex: function () {
+                            return this.activeTabIndex || 0;
                         }
+
                     }));
 
                 }
@@ -81,6 +81,14 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 Ext4.Msg.alert("Error", "Unable to initialize view");
             }
         });
+    },
+
+    setUpdating: function (value) {
+        this.updating = value;
+    },
+
+    isUpdating: function () {
+        return this.updating || false;
     },
 
     getReports: function () {
@@ -208,13 +216,10 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
             }
             gridsContainer.items.items[i].setTabsCount(tabsCount);
-            gridsContainer.items.items[i].setActiveTab(gridsContainer.items.items[i].getActiveTabNumber());
+            gridsContainer.items.items[i].setActiveTab(gridsContainer.items.items[i].getActiveTabIndex());
         }
 
-        /*
-         var expandedSection = gridsContainer.up().down('#animals-by-node-ldk-grids-container > panel:not([collapsed])');
-         expandedSection.setActiveTab(Ext4.getCmp('animals-by-node-tree-panel').getActiveTab());
-         */
+
         gridsContainer.doLayout();
 
     },

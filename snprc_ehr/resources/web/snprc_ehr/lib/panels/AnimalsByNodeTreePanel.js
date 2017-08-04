@@ -28,7 +28,9 @@ Ext4.define("AnimalsByNodeTreePanel", {
                         return;
                 }
                 var reportsContainerPanel = Ext4.getCmp('animals-by-node-ldk-grids-container');
+                reportsContainerPanel.setUpdating(true);
                 reportsContainerPanel.updateGrids(filter);
+                reportsContainerPanel.setUpdating(false);
             }
 
         }
