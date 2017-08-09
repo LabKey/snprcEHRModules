@@ -19,14 +19,12 @@
                         <columnTitle>Date Verified</columnTitle>
                     </column>
                     <column columnName="serviceId">
-                        <columnTitle>Service ID</columnTitle>
-                    </column>
-                    <column columnName="serviceRequested">
                         <columnTitle>Service Requested</columnTitle>
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>labwork_services</fkTable>
-                            <fkColumnName>serviceName</fkColumnName>
+                            <fkColumnName>serviceId</fkColumnName>
+                            <fkDisplayColumnName>ServiceRequested</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="sampleId">

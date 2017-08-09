@@ -21,6 +21,6 @@
         <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_labwork_results" timestampColumnName="entry_date_tm" deletedSourceKeyColumnName="objectid" targetKeyColumnName="runid"/>
     </incrementalFilter>
     <schedule>
-        <poll interval="365d" />
+        <poll interval="60m" />
     </schedule>
 </etl>
