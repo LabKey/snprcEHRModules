@@ -49,12 +49,13 @@ import java.util.TreeMap;
  * 2/16/2015 Optimized _testType retrieval. tjh
  * 7/21/2017 Fixed issue with labworkResults not populating. tjh
  * 7/28/2017 Fixed sorting issue. tjh
+ * 8/14/2017 Fixed _runid_typeField. tjh
  */
 public class LabResultsLabworkType extends DefaultLabworkType
 {
     protected String _test_nameField = "serviceTestId/testName";
     protected String _sortField = "sortOrder";
-    protected String _runid_typeField = "runid/ServiceRequested/Dataset";
+    protected String _runid_typeField = "runid/ServiceId/Dataset";
     protected String _default_testType = "LabworkResults";
 
     private static String _testType;
