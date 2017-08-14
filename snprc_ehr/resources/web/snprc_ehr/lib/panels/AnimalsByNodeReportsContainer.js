@@ -493,29 +493,23 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             xtype: 'panel',
             items: [
                 {
-                    xtype: 'panel',
-                    items: [
-                        {
-                            xtype: 'panel',
-                            title: 'Weights - ' + subject,
-                            style: 'margin-bottom: 20px;',
-                            border: false,
-                            items: [{
-                                xtype: 'ehr-weightsummarypanel',
-                                style: 'padding-bottom: 20px;',
-                                subjectId: subject
-                            }, {
-                                xtype: 'ehr-weightgraphpanel',
-                                itemId: 'tabArea',
-                                showRawData: true,
-                                border: false,
-                                subjectId: subject
-                            }]
-                        }
-                    ]
+                    xtype: 'ldk-webpartpanel',
+                    title: 'Weights - ' + subject,
+                    style: 'margin-bottom: 20px;',
+                    border: false,
+                    items: [{
+                        xtype: 'ehr-weightsummarypanel',
+                        style: 'padding-bottom: 20px;',
+                        subjectId: subject
+                    }, {
+                        xtype: 'ehr-weightgraphpanel',
+                        itemId: 'tabArea',
+                        showRawData: true,
+                        border: false,
+                        subjectId: subject
+                    }]
                 }
             ]
-
 
         }
     },
