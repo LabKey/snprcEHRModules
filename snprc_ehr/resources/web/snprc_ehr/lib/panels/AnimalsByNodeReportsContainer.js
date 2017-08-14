@@ -10,16 +10,33 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     extend: 'Ext.panel.Panel',
     alias: "widget.animals-by-node-reports-container",
 
-    layout: {
+    /*layout: {
         type: 'accordion',
         titleCollapse: true,
         animate: true
-    },
+     },*/
+    autScroll: true,
+    height: 735,
+    overflowY: 'scroll',
     initComponent: function () {
         this.loadReports();
         this.callParent(arguments);
     },
 
+    showSection: function (sectionTitle) {
+        this.items.each(function (item, index) {
+            if (index != 0) {
+                switch (item.title) {
+                    case sectionTitle:
+                        item.show();
+                        break;
+                    default:
+                        item.hide();
+                }
+            }
+
+        });
+    },
     loadReports: function () {
         var self = this;
         Ext4.Ajax.request({
@@ -35,16 +52,36 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 }
                 keys.sort();
 
+                var sectionRadios = [];
+                var first = true;
                 for (var a in keys) {
+
 
                     if (Ext4.isFunction(keys[a])) {
                         continue;
                     }
 
+                    sectionRadios.push({
+                        xtype: 'radio',
+                        boxLabel: keys[a],
+                        name: 'activeSection',
+                        inputValue: keys[a],
+                        style: 'margin:5px 30px 5px 5px',
+                        checked: first,
+                        listeners: {
+                            change: function (checkBox, newValue, oldValue) {
+                                if (newValue == true) {
+                                    self.showSection(checkBox.boxLabel);
+                                }
+                            }
+                        }
+                    });
                     sections.push(Ext4.create("Ext.tab.Panel", {
                         title: keys[a],
                         id: "report-" + keys[a].replace(" ", '-'),
                         itemId: keys[a],
+                        hidden: !first,
+                        autoScroll: true,
                         listeners: {
                             'tabchange': function (tabPanel, tab) {
                                 if (!tabPanel.up().isUpdating()) {
@@ -73,7 +110,13 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
                     }));
 
+                    first = false;
+
                 }
+                self.add(Ext4.create("Ext.form.Panel", {
+                    layout: 'hbox',
+                    items: sectionRadios
+                }));
 
                 self.add(sections);
             },
@@ -135,8 +178,11 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     updateGrids: function (filter) {
         var gridsContainer = this;
 
-        gridsContainer.items.each(function (item) {
-            item.removeAll(true);
+        gridsContainer.items.each(function (item, index) {
+            if (index != 0) {
+                item.removeAll(true);
+            }
+
         });
 
         for (var i = 0; i < this.getAccordionSectionsAndTabs().length; i++) {
@@ -182,7 +228,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                             autoScroll: true
 
                         });
-                        gridsContainer.items.items[i].add(queryTab);
+                        gridsContainer.items.items[i + 1].add(queryTab);
                         tabsCount++;
                         break;
                     case 'js':
@@ -194,7 +240,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                         var jsFunction = tabConfig.queryName;
                         if (typeof this[jsFunction] == 'function') {
                             this[jsFunction](jsTab, filter);
-                            gridsContainer.items.items[i].add(jsTab);
+                            gridsContainer.items.items[i + 1].add(jsTab);
                             tabsCount++;
                         }
 
@@ -215,8 +261,8 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 }
 
             }
-            gridsContainer.items.items[i].setTabsCount(tabsCount);
-            gridsContainer.items.items[i].setActiveTab(gridsContainer.items.items[i].getActiveTabIndex());
+            gridsContainer.items.items[i + 1].setTabsCount(tabsCount);
+            gridsContainer.items.items[i + 1].setActiveTab(gridsContainer.items.items[i + 1].getActiveTabIndex());
         }
 
 
@@ -444,21 +490,33 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     },
     renderWeightData: function (tab, subject) {
         return {
-            xtype: 'ldk-webpartpanel',
-            title: 'Weights - ' + subject,
-            style: 'margin-bottom: 20px;',
-            border: false,
-            items: [{
-                xtype: 'ehr-weightsummarypanel',
-                style: 'padding-bottom: 20px;',
-                subjectId: subject
-            }, {
-                xtype: 'ehr-weightgraphpanel',
-                itemId: 'tabArea',
-                showRawData: true,
-                border: false,
-                subjectId: subject
-            }]
+            xtype: 'panel',
+            items: [
+                {
+                    xtype: 'panel',
+                    items: [
+                        {
+                            xtype: 'panel',
+                            title: 'Weights - ' + subject,
+                            style: 'margin-bottom: 20px;',
+                            border: false,
+                            items: [{
+                                xtype: 'ehr-weightsummarypanel',
+                                style: 'padding-bottom: 20px;',
+                                subjectId: subject
+                            }, {
+                                xtype: 'ehr-weightgraphpanel',
+                                itemId: 'tabArea',
+                                showRawData: true,
+                                border: false,
+                                subjectId: subject
+                            }]
+                        }
+                    ]
+                }
+            ]
+
+
         }
     },
     weightGraph: function (tab, filter) {
