@@ -193,7 +193,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 switch (tabConfig.type) {
                     case 'query':
                         var queryConfig = {
-                            title: tabConfig.title,
+                            title: tabConfig.title + " - " + this.getCurrentCriteria(),
                             schemaName: tabConfig.schemaName,
                             queryName: tabConfig.queryName,
                             suppressRenderErrors: true,
@@ -367,7 +367,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             xtype: 'ldk-querypanel',
             style: 'margin-bottom:20px;',
             queryConfig: this.getQWPConfig({
-                title: 'Arrivals - ' + filter.getValue(),
+                title: 'Arrivals - ' + this.getCurrentCriteria(),
                 schemaName: 'study',
                 queryName: 'arrival',
                 filters: [filter],
@@ -379,7 +379,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             xtype: 'ldk-querypanel',
             style: 'margin-bottom:20px;',
             queryConfig: this.getQWPConfig({
-                title: 'Departures - ' + filter.getValue(),
+                title: 'Departures - ' + this.getCurrentCriteria(),
                 schemaName: 'study',
                 queryName: 'departure',
                 filters: [filter],
@@ -390,7 +390,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     kinshipSummary: function (tab, filter) {
         tab.add({
             xtype: 'ldk-webpartpanel',
-            title: 'Kinship - ' + filter.getValue(),
+            title: 'Kinship - ' + this.getCurrentCriteria(),
             style: 'margin-bottom: 20px;',
             border: false,
             items: [{
@@ -435,7 +435,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         });
 
         var configOffspring = this.getQWPConfig({
-            title: 'Offspring - ' + filter.getValue(),
+            title: 'Offspring - ' + this.getCurrentCriteria(),
             schemaName: 'study',
             queryName: 'demographicsOffspring',
             filters: [filter],
@@ -443,7 +443,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         });
 
         var configSibling = this.getQWPConfig({
-            title: 'Siblings - ' + filter.getValue(),
+            title: 'Siblings - ' + this.getCurrentCriteria(),
             schemaName: 'study',
             queryName: 'demographicsSiblings',
             filters: [filter],
@@ -465,25 +465,72 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     snapshot: function (tab, filter) {
         var toAdd = [];
 
-        toAdd.push({
-            xtype: 'ldk-webpartpanel',
-            title: 'Overview - ' + filter.getValue(),
-            items: [{
-                xtype: 'ehr-snapshotpanel',
-                showExtendedInformation: true,
-                showActionsButton: false,
-                hrefTarget: '_blank',
+        var animalIds = filter.getValue().split(";");
+        if (animalIds.length == 1) {
+            toAdd.push({
+                xtype: 'ldk-webpartpanel',
+                title: 'Overview - ' + filter.getValue(),
+                items: [{
+                    xtype: 'ehr-snapshotpanel',
+                    showExtendedInformation: true,
+                    showActionsButton: false,
+                    hrefTarget: '_blank',
+                    border: false,
+                    subjectId: filter.getValue()
+                }]
+            });
+
+            toAdd.push({
                 border: false,
-                subjectId: filter.getValue()
-            }]
-        });
+                height: 20
+            });
 
-        toAdd.push({
-            border: false,
-            height: 20
-        });
+            toAdd.push(this.renderWeightData(tab, filter.getValue()));
+        }
+        else if (animalIds.length <= 10) {
+            for (var i = 0; i < animalIds.length; i++) {
+                toAdd.push({
+                    xtype: 'ldk-webpartpanel',
+                    title: 'Overview: ' + animalIds[i],
+                    items: [{
+                        xtype: 'ehr-snapshotpanel',
+                        showExtendedInformation: true,
+                        showActionsButton: false,
+                        hrefTarget: '_blank',
+                        border: false,
+                        subjectId: animalIds[i]
+                    }]
+                });
 
-        toAdd.push(this.renderWeightData(tab, filter.getValue()));
+                toAdd.push({
+                    border: false,
+                    height: 20
+                });
+
+                toAdd.push(this.renderWeightData(tab, animalIds[i]));
+            }
+
+        }
+        else {
+            toAdd.push({
+                html: 'Because more than 10 subjects were selected, the condensed report is being shown.  Note that you can click the animal ID to open this same report in a different tab, showing that animal in more detail or click the link labeled \'Show Hx\'.',
+                style: 'padding-bottom: 20px;margin:10px',
+                border: false
+            });
+
+            toAdd.push({
+                xtype: 'ldk-querypanel',
+                style: 'margin-bottom:20px;',
+                queryConfig: {
+                    title: 'Overview' + this.getCurrentCriteria(),
+                    schemaName: 'study',
+                    queryName: 'demographics',
+                    viewName: 'Snapshot',
+                    filterArray: filter
+                }
+            });
+        }
+
 
 
         tab.add(toAdd);
@@ -514,14 +561,57 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         }
     },
     weightGraph: function (tab, filter) {
-        tab.add(this.renderWeightData(tab, filter.getValue()));
+        var subjects = filter.getValue().split(";");
+
+        if (!subjects.length) {
+            tab.add({
+                html: 'No animals were found.',
+                border: false,
+                style: "margin:10px"
+            });
+
+            return;
+        }
+
+        var toAdd = [];
+        if (subjects.length < 10) {
+            for (var i = 0; i < subjects.length; i++) {
+                var subject = subjects[i];
+                toAdd.push(this.renderWeightData(tab, subject));
+            }
+        }
+        else {
+            toAdd.push({
+                html: 'Because more than 10 subjects were selected, the condensed report is being shown.  Note that you can click the animal ID to open this same report in a different tab, showing that animal in more detail.',
+                style: 'padding-bottom: 20px; margin:10px;',
+                border: false,
+            });
+
+
+            toAdd.push({
+                xtype: 'ldk-querypanel',
+                style: 'margin-bottom:20px;',
+                queryConfig: {
+                    title: 'Overview' + this.getCurrentCriteria(),
+                    schemaName: 'study',
+                    queryName: 'weight',
+                    filterArray: filter
+                }
+            });
+        }
+
+        if (toAdd.length)
+            tab.add(toAdd)
+
+
+
     },
     bloodChemistry: function (tab, filter) {
 
-        var config = panel.getQWPConfig({
+        var config = this.getQWPConfig({
             schemaName: 'study',
             queryName: 'chemPivot',
-            title: "By Panel - " + filter.getValue(),
+            title: "By Panel - " + this.getCurrentCriteria(),
             titleField: 'Id',
             sort: '-date',
             filters: [filter]
@@ -533,10 +623,10 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             queryConfig: config
         });
 
-        config = panel.getQWPConfig({
+        config = this.getQWPConfig({
             schemaName: 'study',
             queryName: 'chemMisc',
-            title: "Misc Tests - " + filter.getValue(),
+            title: "Misc Tests - " + this.getCurrentCriteria(),
             titleField: 'Id',
             sort: '-date',
             filters: [filter]
@@ -548,11 +638,11 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             queryConfig: config
         });
 
-        config = panel.getQWPConfig({
+        config = this.getQWPConfig({
             schemaName: 'study',
             queryName: 'chemistryRefRange',
             //viewName: 'Plus Ref Range',
-            title: "Reference Ranges - " + filter.getValue(),
+            title: "Reference Ranges - " + this.getCurrentCriteria(),
             titleField: 'Id',
             sort: '-date',
             filters: [filter]
@@ -566,45 +656,78 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     },
 
     clinicalHistory: function (tab, filter, includeAll) {
+        var subjects = filter.getValue().split(";");
+        if (subjects.length > 10) {
+            tab.add({
+                html: 'Because more than 10 subjects were selected, the condensed report is being shown.  Note that you can click the animal ID to open this same report in a different tab, showing that animal in more detail or click the link labeled \'Show Hx\'.',
+                style: 'padding-bottom: 20px; margin:10px',
+                border: false
+            });
+
+
+            tab.add({
+                xtype: 'ldk-querypanel',
+                style: 'margin-bottom:20px;',
+                queryConfig: {
+                    title: 'Overview - ' + this.getCurrentCriteria(),
+                    schemaName: 'study',
+                    queryName: 'demographics',
+                    viewName: 'Snapshot',
+                    filterArray: filter
+                }
+            });
+
+            return;
+        }
+
+        if (!subjects.length) {
+            tab.add({
+                html: 'No animals were found.',
+                border: false
+            });
+
+            return;
+        }
+
         var minDate = includeAll ? null : Ext4.Date.add(new Date(), Ext4.Date.YEAR, -2);
         var toAdd = [];
-        var s = filter.getValue();
-        toAdd.push({
-            html: '<span style="font-size: large;"><b>Animal: ' + s + '</b></span>',
-            style: 'padding-bottom: 20px; padding-left:5px;',
-            border: false
-        });
 
-        toAdd.push({
-            xtype: 'ehr-smallformsnapshotpanel',
-            showActionsButton: false,
-            hrefTarget: '_blank',
-            border: false,
-            subjectId: s,
-            style: 'padding-left:5px;'
-        });
+        Ext4.each(subjects, function (s) {
+            toAdd.push({
+                html: '<span style="font-size: large;"><b>Animal: ' + s + '</b></span>',
+                style: 'padding-bottom: 20px;',
+                border: false
+            });
 
-        toAdd.push({
-            html: '<b>Chronological History:</b><hr>',
-            style: 'padding-top: 5px;padding-left:5px',
-            border: false
-        });
+            toAdd.push({
+                xtype: 'ehr-smallformsnapshotpanel',
+                showActionsButton: false,
+                hrefTarget: '_blank',
+                border: false,
+                subjectId: s
+            });
 
-        toAdd.push({
-            xtype: 'ehr-clinicalhistorypanel',
-            border: true,
-            subjectId: s,
-            autoLoadRecords: true,
-            minDate: minDate,
-            hrefTarget: '_blank',
-            style: 'margin-bottom: 20px; padding-left:5px'
-        });
+            toAdd.push({
+                html: '<b>Chronological History:</b><hr>',
+                style: 'padding-top: 5px;',
+                border: false
+            });
 
+            toAdd.push({
+                xtype: 'ehr-clinicalhistorypanel',
+                border: true,
+                subjectId: s,
+                autoLoadRecords: true,
+                minDate: minDate,
+                //maxGridHeight: 1000,
+                hrefTarget: '_blank',
+                style: 'margin-bottom: 20px;'
+            });
+        }, this);
 
         if (toAdd.length) {
             tab.add(toAdd);
         }
-
     },
     fullClinicalHistory: function (tab, filter) {
         this.clinicalHistory(tab, filter, true);
@@ -622,7 +745,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             xtype: 'ldk-querypanel',
             style: 'margin-bottom: 10px;',
             queryConfig: this.getQWPConfig({
-                title: 'Summary - ' + filter.getValue(),
+                title: 'Summary - ' + this.getCurrentCriteria(),
                 schemaName: 'study',
                 queryName: 'Demographics',
                 viewName: 'Blood Draws',
@@ -634,7 +757,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         tab.add({
             xtype: 'snprc-bloodsummarypanel',
 
-            subjects: [filter.getValue()]
+            subjects: filter.getValue().split(";")
         });
 
     },
@@ -644,7 +767,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             schemaName: 'study',
             queryName: 'encounters',
             viewName: 'ProceduresBeforeDisposition',
-            title: "Procedure Before Disposition " + filter.getValue(),
+            title: "Procedure Before Disposition " + this.getCurrentCriteria(),
             filters: [filter],
             removeableFilters: [LABKEY.Filter.create('survivorship/survivorshipInDays', 3, LABKEY.Filter.Types.LESS_THAN_OR_EQUAL)]
         });
@@ -660,7 +783,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         var config = this.getQWPConfig({
             schemaName: 'study',
             queryName: 'surveillancePivot',
-            title: "By Panel - " + filter.getValue(),
+            title: "By Panel - " + this.getCurrentCriteria(),
             titleField: 'Id',
             sort: '-date',
             filters: [filter]
@@ -678,7 +801,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         var config = this.getQWPConfig({
             schemaName: 'study',
             queryName: 'chemPivot',
-            title: "By Panel:",
+            title: "By Panel - " + this.getCurrentCriteria(),
             titleField: 'Id',
             sort: '-date',
             filters: [filter]
@@ -686,7 +809,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
         tab.add({
             xtype: 'ldk-querypanel',
-            style: 'margin-bottom:20px;',
+            style: 'margin-bottom:20px;min-width:500px;',
             queryConfig: config
         });
     },
@@ -695,7 +818,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         var config = this.getQWPConfig({
             schemaName: 'study',
             queryName: 'hematologyPivot',
-            title: "By Panel - " + filter.getValue(),
+            title: "By Panel - " + this.getCurrentCriteria(),
             titleField: 'Id',
             filters: [filter],
             sort: '-date'
@@ -706,5 +829,15 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             style: 'padding:5px; margin-bottom:20px;',
             queryConfig: config
         });
+    },
+
+    setCurrentCriteria: function (criteria) {
+        this.criteria = criteria;
+    },
+
+    getCurrentCriteria: function () {
+        return this.criteria || "";
     }
+
+
 });

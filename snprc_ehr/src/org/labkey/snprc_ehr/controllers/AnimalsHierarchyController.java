@@ -165,6 +165,102 @@ public class AnimalsHierarchyController extends SpringActionController
 
     }
 
+    public static class AnimalsBy
+    {
+        private String value;
+        private String by;
+
+        public String getValue()
+        {
+            return value;
+        }
+
+        public void setValue(String value)
+        {
+            this.value = value;
+        }
+
+        public String getBy()
+        {
+            return by;
+        }
+
+        public void setBy(String by)
+        {
+            this.by = by;
+        }
+    }
+
+    @RequiresPermission(ReadPermission.class)
+    public class GetAnimals extends ApiAction<AnimalsBy>
+    {
+        @Override
+        public Object execute(AnimalsBy animalsBy, BindException errors) throws Exception
+        {
+            List<Animal> animals = new ArrayList<Animal>();
+            Node node = new Node();
+            switch (animalsBy.getBy().toLowerCase())
+            {
+                case "location":
+                    LocationHierarchyServiceImpl locationHierarchyService = new LocationHierarchyServiceImpl(this.getViewContext());
+
+                    node.setNode(animalsBy.getValue());
+                    if (locationHierarchyService.isRootNode(node))
+                    {
+                        for (Node n : locationHierarchyService.getSubNodes(node))
+                        {
+                            animals.addAll(locationHierarchyService.getAnimals(n));
+                        }
+
+                    }
+                    else
+                    {
+                        animals = locationHierarchyService.getAnimals(node);
+                    }
+
+                    break;
+                case "protocol":
+                    ProtocolHierarchyServiceImpl protocolHierarchyService = new ProtocolHierarchyServiceImpl(this.getViewContext());
+                    node.setNode(animalsBy.getValue());
+                    animals = protocolHierarchyService.getAnimals(node);
+                    break;
+                case "category":
+                case "group":
+                    GroupsHierarchyServiceImpl groupsHierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
+                    node.setNode(animalsBy.getValue());
+                    if (groupsHierarchyService.isRootNode(node))
+                    {
+                        for (Node n : groupsHierarchyService.getSubNodes(node))
+                        {
+                            animals.addAll(groupsHierarchyService.getAnimals(n));
+                        }
+                    }
+                    else
+                    {
+                        animals = groupsHierarchyService.getAnimals(node);
+                    }
+
+                    break;
+
+
+            }
+            List<JSONObject> jsonRootLocations = new ArrayList<>();
+            for (Animal animal : animals)
+            {
+                jsonRootLocations.add(animal.toJSON());
+            }
+
+            Map props = new HashMap();
+
+
+            props.put("animals", jsonRootLocations);
+
+
+            return new ApiSimpleResponse(props);
+
+        }
+    }
+
     @RequiresPermission(ReadPermission.class)
     public class GetLocationsPath extends ApiAction<Animal>
     {

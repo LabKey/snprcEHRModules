@@ -24,10 +24,43 @@ Ext4.define("AnimalsByNodeTreePanel", {
                     case 'animal':
                         filter = LABKEY.Filter.create('id', rec.get('text'), LABKEY.Filter.Types.EQUAL);
                         break;
+                    case 'location':
+                    case 'protocol':
+                        //ajax call to retrieve all animals assigned/belonging to node
+                        Ext4.Ajax.request({
+                            url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "getAnimals"),
+                            method: 'POST',
+                            params: {value: rec.get('id'), by: rec.get('cls')},
+                            success: function (response) {
+                                var animalsArray = Ext4.decode(response.responseText);
+                                animalsArray = animalsArray.animals;
+                                var animalsIds = [];
+                                for (var i = 0; i < animalsArray.length; i++) {
+                                    animalsIds.push(animalsArray[i].text);
+                                }
+
+
+                                filter = LABKEY.Filter.create('id', animalsIds.join(';'), LABKEY.Filter.Types.IN);
+
+                                var reportsContainerPanel = Ext4.getCmp('animals-by-node-ldk-grids-container');
+                                reportsContainerPanel.setCurrentCriteria(rec.get('cls') + " (" + rec.get('text') + ")");
+                                reportsContainerPanel.setUpdating(true);
+                                reportsContainerPanel.updateGrids(filter);
+                                reportsContainerPanel.setUpdating(false);
+
+                            },
+                            failure: function () {
+
+                            }
+                        });
+
+                        return;
                     default:
                         return;
+
                 }
                 var reportsContainerPanel = Ext4.getCmp('animals-by-node-ldk-grids-container');
+                reportsContainerPanel.setCurrentCriteria("Animal " + rec.get('text'));
                 reportsContainerPanel.setUpdating(true);
                 reportsContainerPanel.updateGrids(filter);
                 reportsContainerPanel.setUpdating(false);
