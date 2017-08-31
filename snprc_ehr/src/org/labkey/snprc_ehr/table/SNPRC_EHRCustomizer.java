@@ -281,6 +281,25 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ds.addColumn(col);
         }
 
+        // Change label and description 8/31/2017 tjh
+        if (ds.getColumn("MostRecentArrival") != null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "MostRecentArrival", "demographicsArrival", "Id", "Id");
+            ds.removeColumn(col);
+            col.setLabel("Acquisition");
+            col.setDescription("Calculates the earliest and most recent acquisition per animal.");
+            ds.addColumn(col);
+
+        }
+        // Change label and description 8/31/2017 tjh
+        if (ds.getColumn("MostRecentDeparture") != null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "MostRecentDeparture", "demographicsMostRecentDeparture", "Id", "Id");
+            ds.removeColumn(col);
+            col.setLabel("Disposition");
+            col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
+            ds.addColumn(col);
+        }
         if(genetics != null)
         {
             if (ds.getColumn("geneticAssays") == null)

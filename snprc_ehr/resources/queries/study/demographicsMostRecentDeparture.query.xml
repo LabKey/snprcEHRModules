@@ -1,0 +1,53 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="demographicsMostRecentDeparture" tableDbType="NOT_IN_DB">
+            <columns>
+                <column columnName="Id">
+                    <isKeyField>true</isKeyField>
+                    <isHidden>true</isHidden>
+                </column>
+                <column columnName="MostRecentDisp">
+                    <url>/query/executeQuery.view?schemaName=study&amp;
+                        query.queryName=departure&amp;
+                        query.Id~eq=${Id}&amp;
+                        query.sort=-Date&amp;
+                    </url>
+                </column>
+                <column columnName="MostRecentDispType">
+                    <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                        query.queryName=DispositionType&amp;
+                        query.value~eq=${MostRecentDispType}&amp;
+                    </url>
+                </column>
+                <column columnName="MostRecentDispDesc">
+                    <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                        query.queryName=dispositionType&amp;
+                        query.description~eq=${MostRecentDispDesc}&amp;
+                    </url>
+                </column>
+                <column columnName="EarliestDisp">
+                    <url>/query/executeQuery.view?schemaName=study&amp;
+                        query.queryName=departure&amp;
+                        query.Id~eq=${Id}&amp;
+                        query.sort=-Date&amp;
+                    </url>
+                </column>
+                <column columnName="EarliestDispType">
+                    <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                        query.queryName=dispositionType&amp;
+                        query.value~eq=${MostRecentDispType}&amp;
+                    </url>
+                </column>
+                <column columnName="EarliestDispDesc">
+                    <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                        query.queryName=dispositionType&amp;
+                        query.description~eq=${MostRecentDispDesc}&amp;
+                    </url>
+                </column>
+            </columns>
+            <titleColumn>Dispositions</titleColumn>
+        </table>
+    </tables>
+</metadata>
+</query>
