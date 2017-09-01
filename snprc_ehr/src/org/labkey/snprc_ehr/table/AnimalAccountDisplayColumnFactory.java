@@ -98,7 +98,7 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
             StringBuilder sb = new StringBuilder();
-            sb.append("<table border=1 style='border-collapse: collapse;'><colgroup><col width='110'><col width='110'><col width='130'></colgroup>");
+            sb.append("<table border=1 style='border-collapse: collapse; border: 1px'><colgroup><col width='110'><col width='110'><col width='130'></colgroup>");
             //sb.append("<th>Account</th><th>Start Date</th><th>Group</th>");
             sb.append("<tr><td>" + PageFlowUtil.filter(dataMap.get("account")) + "</td>" );
             sb.append("<td>" + dateFormat.format(dataMap.get("date")) + "</td>");

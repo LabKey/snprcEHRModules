@@ -113,7 +113,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
             StringBuilder sb = new StringBuilder();
-            sb.append("<table border=1 style='border-collapse: collapse;'><colgroup><col width='80'><col width='110'><col width='40'><col width='150'></colgroup>");
+            sb.append("<table border=1 style='border-collapse: collapse;border: 3px'><colgroup><col width='80'><col width='110'><col width='40'><col width='150'></colgroup>");
             //sb.append("<th>Protocol</th><th>Date</th><th>Status</th><th>Comment</th>");
 
             ts.forEach(new Selector.ForEachBlock<ResultSet>()
