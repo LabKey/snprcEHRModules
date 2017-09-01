@@ -323,8 +323,8 @@ public class AnimalsHierarchyController extends SpringActionController
             filter.addCondition(FieldKey.fromString("visible"), 1, CompareType.EQUAL);
             Sort sort = new Sort();
             sort.appendSortColumn(FieldKey.fromString("category"), Sort.SortDirection.ASC, false);
+            sort.appendSortColumn(FieldKey.fromString("reporttitle"), Sort.SortDirection.ASC, false);
             sort.appendSortColumn(FieldKey.fromString("sort_order"), Sort.SortDirection.ASC, false);
-            sort.appendSortColumn(FieldKey.fromString("reportname"), Sort.SortDirection.ASC, false);
 
 
             List<Map> reports = new TableSelector(reportsTable, filter, sort).getArrayList(Map.class);

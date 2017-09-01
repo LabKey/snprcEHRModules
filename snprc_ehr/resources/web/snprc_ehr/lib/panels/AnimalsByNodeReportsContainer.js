@@ -15,20 +15,38 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         titleCollapse: true,
         animate: true
      },*/
-    autScroll: true,
-    height: 735,
     overflowY: 'scroll',
+    height: 735,
+
     initComponent: function () {
         this.loadReports();
         this.callParent(arguments);
     },
 
+    getFilter: function () {
+        return this.filter;
+    },
+    setFilter: function (filter) {
+        this.filter = filter;
+    },
+    setActiveSectionIndex: function (sectionIndex) {
+        this.sectionIndex = sectionIndex;
+    },
+
+    getSectionIndex: function () {
+        return this.sectionIndex || 1;
+    },
+
+
     showSection: function (sectionTitle) {
+        var self = this;
         this.items.each(function (item, index) {
             if (index != 0) {
                 switch (item.title) {
                     case sectionTitle:
                         item.show();
+                        this.up().setActiveSectionIndex(index);
+                        self.updateGrid(self.getFilter(), index, self.items.items[index].getActiveTabIndex(), self.items.items[index].getActiveTab());
                         break;
                     default:
                         item.hide();
@@ -39,6 +57,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     },
     loadReports: function () {
         var self = this;
+        self.setLoading(true);
         Ext4.Ajax.request({
             url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "GetReports"),
             method: 'POST',
@@ -53,7 +72,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 keys.sort();
 
                 var sectionRadios = [];
-                var first = true;
+
                 for (var a in keys) {
 
 
@@ -67,7 +86,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                         name: 'activeSection',
                         inputValue: keys[a],
                         style: 'margin:5px 30px 5px 5px',
-                        checked: first,
+                        checked: keys[a] == 'General',
                         listeners: {
                             change: function (checkBox, newValue, oldValue) {
                                 if (newValue == true) {
@@ -76,21 +95,36 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                             }
                         }
                     });
+                    tabs = [];
+                    for (var i = 0; i < self.reports.reports[keys[a]].length; i++) {
+                        if (self.reports.reports[keys[a]][i].type != 'js' && self.reports.reports[keys[a]][i].type != 'query') {
+                            continue;
+                        }
+                        tabs.push({
+                                    type: 'tabpanel',
+                                    title: self.reports.reports[keys[a]][i].title,
+                                    filter: "",
+                                    minHeight: 25,
+                                    overflowX: 'auto',
+
+                                }
+                        )
+                    }
+
                     sections.push(Ext4.create("Ext.tab.Panel", {
                         title: keys[a],
                         id: "report-" + keys[a].replace(" ", '-'),
                         itemId: keys[a],
-                        hidden: !first,
-                        autoScroll: true,
+                        hidden: !(keys[a] == 'General'),
+                        activeTab: (keys[a] == 'General') ? 8 : 0,
                         listeners: {
                             'tabchange': function (tabPanel, tab) {
-                                if (!tabPanel.up().isUpdating()) {
-                                    tabPanel.setActiveTabIndex(tabPanel.items.indexOf(tab));
-
-                                }
+                                tabPanel.up().updateGrid(tabPanel.up().getFilter(), tabPanel.up().getSectionIndex(), tabPanel.items.indexOf(tab), tab);
+                                tabPanel.setActiveTabIndex(tabPanel.items.indexOf(tab));
                             }
 
                         },
+                        items: tabs,
 
                         getTabsCount: function () {
                             return this.tabsCount;
@@ -105,12 +139,15 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                         },
 
                         getActiveTabIndex: function () {
-                            return this.activeTabIndex || 0;
+                            return this.activeTabIndex != undefined ? this.activeTabIndex : (this.getSection() == 'General' ? 8 : 0);
+                        },
+
+                        getSection: function () {
+                            return this.title;
                         }
 
                     }));
 
-                    first = false;
 
                 }
                 self.add(Ext4.create("Ext.form.Panel", {
@@ -119,10 +156,14 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 }));
 
                 self.add(sections);
+                self.setActiveSectionIndex(5);
+
+                //self.setLoading(false);
             },
             failure: function () {
                 Ext4.Msg.alert("Error", "Unable to initialize view");
             }
+
         });
     },
 
@@ -175,107 +216,98 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
         return sectionsAndTabs;
     },
-    updateGrids: function (filter) {
-        var gridsContainer = this;
 
-        gridsContainer.items.each(function (item, index) {
-            if (index != 0) {
-                item.removeAll(true);
-            }
+    getUpdatedPanel: function (filter, sectionIndex, tabIndex) {
+        var tabConfig = this.getAccordionSectionsAndTabs()[sectionIndex]['tabs'][tabIndex].config;
+        switch (tabConfig.type) {
+            case 'query':
+                var queryConfig = {
+                    title: tabConfig.title + " - " + this.getCurrentCriteria(),
+                    schemaName: tabConfig.schemaName,
+                    queryName: tabConfig.queryName,
+                    suppressRenderErrors: true,
+                    allowChooseQuery: false,
+                    allowChooseView: true,
+                    showInsertNewButton: false,
+                    showDeleteButton: false,
+                    showDetailsColumn: true,
+                    showUpdateColumn: false,
+                    showRecordSelectors: true,
+                    showReports: false,
+                    allowHeaderLock: false,
+                    //tab: gridsContainer.items.items[i],
+                    frame: 'portal',
+                    buttonBarPosition: 'top',
+                    timeout: 0,
+                    filters: [filter],
+                    linkTarget: '_blank',
+                    success: this.onDataRegionLoad,
+                    failure: LDK.Utils.getErrorCallback(),
+                    scope: this
+                };
 
-        });
+                //special case these two properties because they are common
+                if (tabConfig.viewName) {
+                    queryConfig.viewName = tabConfig.viewName;
+                }
+                var queryTab = Ext4.create('LDK.panel.QueryPanel', {
+                    queryConfig: queryConfig,
+                    autoScroll: true,
+                    filter: filter,
+                    minHeight: 25
 
-        for (var i = 0; i < this.getAccordionSectionsAndTabs().length; i++) {
-            var section = this.getAccordionSectionsAndTabs()[i];
-            var tabsCount = 0;
-            for (var j = 0; j < section.tabs.length; j++) {
-                var tabConfig = section.tabs[j].config;
-                switch (tabConfig.type) {
-                    case 'query':
-                        var queryConfig = {
-                            title: tabConfig.title + " - " + this.getCurrentCriteria(),
-                            schemaName: tabConfig.schemaName,
-                            queryName: tabConfig.queryName,
-                            suppressRenderErrors: true,
-                            allowChooseQuery: false,
-                            allowChooseView: true,
-                            showInsertNewButton: false,
-                            showDeleteButton: false,
-                            showDetailsColumn: true,
-                            showUpdateColumn: false,
-                            showRecordSelectors: true,
-                            showReports: false,
-                            allowHeaderLock: false,
-                            tab: gridsContainer.items.items[i],
-                            frame: 'portal',
-                            buttonBarPosition: 'top',
-                            timeout: 0,
-                            filters: [filter],
-                            linkTarget: '_blank',
-                            success: this.onDataRegionLoad,
-                            failure: LDK.Utils.getErrorCallback(),
-                            scope: this
-                        };
-
-                        //special case these two properties because they are common
-                        if (tabConfig.viewName) {
-                            queryConfig.viewName = tabConfig.viewName;
-                        }
-                        var queryTab = Ext4.create('LDK.panel.QueryPanel', {
-                            title: tabConfig.title,
-                            overflowY: 'auto',
-                            queryConfig: queryConfig,
-                            autoScroll: true
-
-                        });
-                        gridsContainer.items.items[i + 1].add(queryTab);
-                        tabsCount++;
-                        break;
-                    case 'js':
-                        //Create a new Panel,
-                        var jsTab = Ext4.create('LDK.panel.ContentResizingPanel', {
-                            title: tabConfig.title,
-                            autoScroll: true
-                        });
-                        var jsFunction = tabConfig.queryName;
-                        if (typeof this[jsFunction] == 'function') {
-                            this[jsFunction](jsTab, filter);
-                            gridsContainer.items.items[i + 1].add(jsTab);
-                            tabsCount++;
-                        }
-
-                        break;
-                    case 'report':
-                        break;
-                        //TO DO
-                        var reportTab = Ext4.create('LDK.panel.ContentResizingPanel', {
-                            minHeight: 50
-                        });
-                        var target = gridsContainer.items.items[i].add(reportTab);
-
-                        this.loadReport(target, tabConfig, filter);
-                        //gridsContainer.items.items[i].add(reportTab);
-                        break;
-                    default:
-                        //unknown report type, Skip
+                });
+                return queryTab;
+            case 'js':
+                //Create a new Panel,
+                var jsTab = Ext4.create('LDK.panel.ContentResizingPanel', {
+                    autoScroll: true,
+                    filter: filter,
+                    minHeight: 25
+                });
+                var jsFunction = tabConfig.queryName;
+                if (typeof this[jsFunction] == 'function') {
+                    this[jsFunction](jsTab, filter);
+                    return jsTab;
                 }
 
-            }
-            gridsContainer.items.items[i + 1].setTabsCount(tabsCount);
-            gridsContainer.items.items[i + 1].setActiveTab(gridsContainer.items.items[i + 1].getActiveTabIndex());
+                break;
+            case 'report':
+                break;
+                //TO DO
+                var reportTab = Ext4.create('LDK.panel.ContentResizingPanel', {
+                    minHeight: 50
+                });
+                var target = gridsContainer.items.items[i].add(reportTab);
+
+                this.loadReport(target, tabConfig, filter);
+
+                break;
+            default:
+                //unknown report type, Skip
         }
+        return null;
 
-
-        gridsContainer.doLayout();
-
+    },
+    updateGrid: function (filter, sectionIndex, tabIndex, tab) {
+        if (tab.filter == filter.getValue()) {
+            return;
+        }
+        var newPanel = this.getUpdatedPanel(filter, sectionIndex - 1, tabIndex);
+        if (newPanel) {
+            tab.removeAll();
+            tab.add(newPanel);
+            tab.filter = filter.getValue();
+        }
+        this.forceComponentLayout();
     },
     onDataRegionLoad: function (dr) {
-        var itemWidth = dr.domId && Ext4.get(dr.domId) && Ext4.isFunction(Ext4.get(dr.domId).getSize) ? Ext4.get(dr.domId).getSize().width + 150 : 850;
+        /*var itemWidth = dr.domId && Ext4.get(dr.domId) && Ext4.isFunction(Ext4.get(dr.domId).getSize) ? Ext4.get(dr.domId).getSize().width + 150 : 850;
         this.doResize(itemWidth);
-        LABKEY.Utils.signalWebDriverTest("LDK_reportTabLoaded");
+         LABKEY.Utils.signalWebDriverTest("LDK_reportTabLoaded");*/
     },
     doResize: function (itemWidth) {
-        var width2 = this.getWidth();
+        /*var width2 = this.getWidth();
         if (itemWidth > width2) {
             this.setWidth(itemWidth);
             this.doLayout();
@@ -285,7 +317,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 this.setWidth(Math.max(this.originalWidth, itemWidth));
                 this.doLayout();
             }
-        }
+         }*/
     },
     loadReport: function (tab, tabConfig, filter) {
         var filterArray = [filter];
@@ -522,11 +554,11 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 xtype: 'ldk-querypanel',
                 style: 'margin-bottom:20px;',
                 queryConfig: {
-                    title: 'Overview' + this.getCurrentCriteria(),
+                    title: 'Overview - ' + this.getCurrentCriteria(),
                     schemaName: 'study',
                     queryName: 'demographics',
                     viewName: 'Snapshot',
-                    filterArray: filter
+                    filters: [filter]
                 }
             });
         }
@@ -673,7 +705,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                     schemaName: 'study',
                     queryName: 'demographics',
                     viewName: 'Snapshot',
-                    filterArray: filter
+                    filters: [filter]
                 }
             });
 
@@ -695,7 +727,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
         Ext4.each(subjects, function (s) {
             toAdd.push({
                 html: '<span style="font-size: large;"><b>Animal: ' + s + '</b></span>',
-                style: 'padding-bottom: 20px;',
+                style: 'padding-bottom: 20px; margin:5px',
                 border: false
             });
 
@@ -709,7 +741,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
             toAdd.push({
                 html: '<b>Chronological History:</b><hr>',
-                style: 'padding-top: 5px;',
+                style: 'padding-top: 5px;margin:5px',
                 border: false
             });
 
@@ -721,7 +753,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 minDate: minDate,
                 //maxGridHeight: 1000,
                 hrefTarget: '_blank',
-                style: 'margin-bottom: 20px;'
+                style: 'margin-bottom: 20px;margin:5px'
             });
         }, this);
 
@@ -749,7 +781,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                 schemaName: 'study',
                 queryName: 'Demographics',
                 viewName: 'Blood Draws',
-                filterArray: [filter]
+                filters: [filter]
             })
         });
 
