@@ -9,7 +9,7 @@
 Ext4.define("AnimalsByNodeTreeStore", {
     extend: "Ext.data.TreeStore",
     fields: ['id', 'text', 'sex', 'leaf', 'cls', 'iconCls'],
-    autoLoad: false,
+    autoLoad: true,
     defaultRootId: '',
     proxy: {
         type: 'ajax',

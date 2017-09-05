@@ -12,18 +12,10 @@ Ext4.define("AnimalsByNodeTreePanel", {
     alias: 'widget.animals-by-node-tree-panel',
     rootVisible: false,
     styleHtmlContent: true,
-    height: 735,
+    height: 800,
     title: "",
     listeners: {
-        afterrender: function () {
-            var self = this;
-            self.setLoading(true);
-            self.getStore().load({
-                callback: function () {
-                    self.setLoading(false);
-                }
-            });
-        },
+
         itemclick: function (view, rec, item, index, eventObj) {
             if (rec.get('text') != this.getPreviousSelectedItem()) {
                 this.setPreviousSelectedItem(rec.get('text'));
@@ -78,7 +70,8 @@ Ext4.define("AnimalsByNodeTreePanel", {
 
                             },
                             failure: function () {
-
+                                /*Ext4.Msg.alert('Error', 'Filter must contain at least one animal ID');
+                                 reportsContainerPanel.up().setLoading(false);*/
                             }
                         });
 

@@ -124,7 +124,7 @@
 
         Ext4.create("Ext.panel.Panel", {
             layout: 'border',
-            height: 800,
+            height: 900,
             items: [
 
                 {
