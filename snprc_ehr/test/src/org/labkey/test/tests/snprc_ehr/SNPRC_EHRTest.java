@@ -227,7 +227,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
         setPipelineRoot(path.getPath());
 
-        beginAt(getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");
+        beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");
         clickButton("Process and Import Data", defaultWaitForPage);
 
         _fileBrowserHelper.expandFileBrowserRootNode();
@@ -372,7 +372,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected void populateInitialData()
     {
-        beginAt(getBaseURL() + "/" + getModuleDirectory() + "/" + getContainerPath() + "/populateData.view");
+        beginAt(WebTestHelper.getBaseURL() + "/" + getModuleDirectory() + "/" + getContainerPath() + "/populateData.view");
 
         repopulate("Lookup Sets");
         repopulate("Procedures");
@@ -449,7 +449,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testCustomQueries()
     {
-        BodyWebPart dashboard = new BodyWebPart(this, "Electronic Health Record", 1);
+        BodyWebPart dashboard = new BodyWebPart(getDriver(), "Electronic Health Record", 1);
         clickAndWait(Locator.linkWithText("Room Utilization").findElement(dashboard));
 
         DataRegionTable table = new DataRegionTable("query", this);
@@ -464,7 +464,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         additionalReports.put("Listing of Cages", Arrays.asList());
         additionalReports.put("Mature Female Exposed To Fertile Male", Arrays.asList("TEST3844307", "TEST5598475"));
 
-        BodyWebPart dashboard = new BodyWebPart(this, "Electronic Health Record", 1);
+        BodyWebPart dashboard = new BodyWebPart(getDriver(), "Electronic Health Record", 1);
         clickAndWait(Locator.linkWithText("More Reports").findElement(dashboard));
         saveLocation();
 
@@ -489,7 +489,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
             String cell = row.get(i);
             if (cell != null && cell.startsWith("<"))
             {
-                List<String> header = query.getColumnHeaders();
+                List<String> header = query.getColumnLabels();
                 Assert.fail("Broken lookup '" + cell + "' for column '" + header.get(i) + "'");
             }
         }
@@ -619,7 +619,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         }
     }
 
-    private void verifyRecentBloodDraws(ParticipantViewPage page, Map<String, List<String>> values)
+    private void verifyRecentBloodDraws(ParticipantViewPage<?> page, Map<String, List<String>> values)
     {
         sleep(1000);
         List<DataRegionTable> dataRegions = page.getActiveReportDataRegions();
@@ -778,7 +778,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testSnprcFrontPageView()
     {
-        BodyWebPart frontPage = new BodyWebPart(this, "Electronic Health Record");
+        BodyWebPart frontPage = new BodyWebPart(getDriver(), "Electronic Health Record");
         WebElement browseData = Locator.tagWithText("a", "Browse Data").findElement(frontPage);
         WebElement enterData = Locator.tagWithText("a", "Enter Data").findElement(frontPage);
         WebElement colonyOverview = Locator.tagWithText("a", "Colony Overview").findElement(frontPage);
@@ -812,7 +812,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 "Notes"
         ));
 
-        BodyWebPart datasets = new BodyWebPart(this, "EHR Datasets");
+        BodyWebPart datasets = new BodyWebPart(getDriver(), "EHR Datasets");
         List<WebElement> datasetLabelElements = Locator.css(".ldk-navpanel-section-row div.x4-box-item.x4-panel").findElements(datasets);
         List<String> datasetLabels = new ArrayList<>();
         for (WebElement el : datasetLabelElements)
@@ -897,7 +897,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         beginAtAnimalHistoryTab();
         openClinicalHistoryForAnimal("TEST1020148");
 
-        List<String> expectedLabels = new ArrayList<String>(
+        List<String> expectedLabels = new ArrayList<>(
                 Arrays.asList(
                         "Accounts",
                         "Assignments",
@@ -921,7 +921,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Vitals"
                         ));
         checkClinicalHistoryType(expectedLabels);
-        click(findButton("Submit"));
+        findButton("Submit").click();
 
         List<String> entries = new ArrayList<>(
                 Arrays.asList(
@@ -946,10 +946,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         // Deselect weight, blood and housing
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
-        click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4));
-        click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9));
-        click(Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11));
-        click(findButton("Submit"));
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4).click();
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click();
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11).click();
+        findButton("Submit").click();
 
         animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
         activeReport = animalHistoryPage.getActiveReportPanel();
