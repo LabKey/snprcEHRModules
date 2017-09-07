@@ -38,8 +38,8 @@ import org.labkey.test.components.BodyWebPart;
 import org.labkey.test.components.ehr.panel.AnimalSearchPanel;
 import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
-import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.ehr.ColonyOverviewPage;
+import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.ehr.AbstractGenericEHRTest;
 import org.labkey.test.util.APIAssayHelper;
@@ -52,6 +52,7 @@ import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.UIAssayHelper;
+import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -896,6 +897,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void testClinicalHistoryPanelOptions(){
         beginAtAnimalHistoryTab();
         openClinicalHistoryForAnimal("TEST1020148");
+
+        Ext4FieldRef.getForLabel(this, "Min Date").setValue("09/01/2015");
+        clickButtonContainingText("Reload", "Hematology");
 
         List<String> expectedLabels = new ArrayList<>(
                 Arrays.asList(
