@@ -152,5 +152,8 @@
         <dataset name="PathologyCases" id="5038" category="Pathology" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="MhcStatus" id="5039" category="Colony Management" demographicData="true" type="Standard">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

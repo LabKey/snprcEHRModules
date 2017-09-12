@@ -1139,6 +1139,75 @@
             </column>
         </columns>
     </table>
-
+    <table tableName="MhcData" tableDbType="TABLE">
+        <pkColumnName>RowId</pkColumnName>
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="OcId">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="MhcValue">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="Haplotype">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="DataFileSource">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="RowId">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>MhcData</tableTitle>
+    </table>
 </tables>
 

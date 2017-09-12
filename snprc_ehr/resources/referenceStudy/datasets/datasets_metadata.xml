@@ -2270,4 +2270,42 @@
         </columns>
         <tableTitle>PathologyCases</tableTitle>
     </table>
+    <table tableName="MhcStatus" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="A001Status">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="B003Status">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="B008Status">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="B017Status">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="LabComments">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="FileSource">
+            <datatype>varchar</datatype>
+        </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
+        </columns>
+        <tableTitle>MhcStatus</tableTitle>
+    </table>
 </tables>
