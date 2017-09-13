@@ -209,7 +209,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
                 if (!demographicsMap.get(animal.getId()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
                 {
 
-                    notAliveAnimals.remove(animal);
+                    notAliveAnimals.add(animal);
                 }
             }
 

@@ -163,7 +163,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                     if (!demographicsMap.get(animal.getText()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
                     {
 
-                        notAliveAnimals.remove(animal);
+                        notAliveAnimals.add(animal);
                     }
                 }
             }
