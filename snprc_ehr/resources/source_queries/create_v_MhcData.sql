@@ -40,7 +40,7 @@ SELECT  m.[Animal ID] AS id ,
         m.[Data File Source] AS DataFileSource,
 		m.objectid AS objectid
 FROM    dbo.MhcData AS m -- select primates only from the TxBiomed colony
-        INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = m.[Animal ID];
+        INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = RIGHT(SPACE(6) + m.[Animal ID], 6);
 
 GO
 
