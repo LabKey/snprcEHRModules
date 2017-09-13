@@ -21,7 +21,7 @@
                             query.Id~eq=${Id}&amp;
                             query.sort=haplotype&amp;
                         </url>
-                        <columnTitle>B003 Statsu</columnTitle>
+                        <columnTitle>B003 Status</columnTitle>
                     </column>
                     <column columnName="B008Status">
                         <url>/query/executeQuery.view?schemaName=snprc_ehr&amp;
