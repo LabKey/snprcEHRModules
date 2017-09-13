@@ -221,6 +221,7 @@ public class AnimalsHierarchyController extends SpringActionController
                     {
                         for (Node n : locationHierarchyService.getSubNodes(node))
                         {
+                            n.setAliveOnly(animalsBy.isAliveOnly());
                             animals.addAll(locationHierarchyService.getAnimals(n));
                         }
 
@@ -246,6 +247,7 @@ public class AnimalsHierarchyController extends SpringActionController
                     {
                         for (Node n : groupsHierarchyService.getSubNodes(node))
                         {
+                            n.setAliveOnly(animalsBy.isAliveOnly());
                             animals.addAll(groupsHierarchyService.getAnimals(n));
                         }
                     }
