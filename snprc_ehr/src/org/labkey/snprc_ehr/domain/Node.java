@@ -24,8 +24,17 @@ public class Node
 {
 
     private String node;
-
     private String text;
+    private String nodeClass;
+
+    private String viewBy;
+    private boolean aliveOnly;
+
+    public Node()
+    {
+
+    }
+
 
     public String getText()
     {
@@ -37,7 +46,7 @@ public class Node
         this.text = text;
     }
 
-    private String nodeClass;
+
 
     public String getNodeClass()
     {
@@ -49,12 +58,6 @@ public class Node
         this.nodeClass = nodeClass;
     }
 
-    public Node()
-    {
-
-    }
-
-    private String viewBy;
 
     public String getViewBy()
     {
@@ -81,6 +84,16 @@ public class Node
     public void setNode(String node)
     {
         this.node = node;
+    }
+
+    public boolean isAliveOnly()
+    {
+        return aliveOnly;
+    }
+
+    public void setAliveOnly(boolean aliveOnly)
+    {
+        this.aliveOnly = aliveOnly;
     }
 
     public JSONObject toJSON()

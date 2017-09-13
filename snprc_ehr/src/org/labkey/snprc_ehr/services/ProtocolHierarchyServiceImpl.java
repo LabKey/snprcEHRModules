@@ -111,16 +111,24 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
         {
             Map oneAnimalDemographicsMap = new HashMap();
             oneAnimalDemographicsMap.put("gender", a.get("gender"));
+            oneAnimalDemographicsMap.put("status", a.get("calculated_status"));
             demographicsMap.put((String) a.get("id"), oneAnimalDemographicsMap);
         }
+        List<Animal> notAliveAnimals = new ArrayList<Animal>();
         for (Animal animal : distinctAnimals)
         {
             if (demographicsMap.containsKey(animal.getText()))
             {
                 animal.setSex(demographicsMap.get(animal.getText()).get("gender"));
+                if (!demographicsMap.get(animal.getText()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
+                {
+
+                    notAliveAnimals.add(animal);
+                }
             }
         }
 
+        distinctAnimals.removeAll(notAliveAnimals);
         return distinctAnimals;
     }
 

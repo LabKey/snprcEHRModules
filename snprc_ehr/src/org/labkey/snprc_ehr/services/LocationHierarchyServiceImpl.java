@@ -197,15 +197,24 @@ public class LocationHierarchyServiceImpl implements HierarchyService
         {
             Map oneAnimalDemographicsMap = new HashMap();
             oneAnimalDemographicsMap.put("gender", a.get("gender"));
+            oneAnimalDemographicsMap.put("status", a.get("calculated_status"));
             demographicsMap.put((String) a.get("id"), oneAnimalDemographicsMap);
         }
+        List<Animal> notAliveAnimals = new ArrayList<Animal>();
         for (Animal animal : animals)
         {
             if (demographicsMap.containsKey(animal.getId()))
             {
                 animal.setSex(demographicsMap.get(animal.getId()).get("gender"));
+                if (!demographicsMap.get(animal.getId()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
+                {
+
+                    notAliveAnimals.remove(animal);
+                }
             }
+
         }
+        animals.removeAll(notAliveAnimals);
 
         return animals;
     }

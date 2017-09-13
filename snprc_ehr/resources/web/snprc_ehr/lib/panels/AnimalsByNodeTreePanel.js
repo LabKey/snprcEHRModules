@@ -45,11 +45,20 @@ Ext4.define("AnimalsByNodeTreePanel", {
                         Ext4.Ajax.request({
                             url: LABKEY.ActionURL.buildURL("AnimalsHierarchy", "getAnimals"),
                             method: 'POST',
-                            params: {value: rec.get('id'), by: rec.get('cls')},
+                            params: {
+                                value: rec.get('id'),
+                                by: rec.get('cls'),
+                                aliveOnly: self.getStore().getProxy().extraParams.aliveOnly
+                            },
                             success: function (response) {
                                 var animalsArray = Ext4.decode(response.responseText);
                                 animalsArray = animalsArray.animals;
                                 var animalsIds = [];
+                                if (!animalsArray.length) {
+                                    reportsContainerPanel.up().setLoading(false);
+                                    Ext4.Msg.alert('Error', 'No Animals');
+                                    return;
+                                }
                                 for (var i = 0; i < animalsArray.length; i++) {
                                     animalsIds.push(animalsArray[i].text);
                                 }
@@ -70,8 +79,7 @@ Ext4.define("AnimalsByNodeTreePanel", {
 
                             },
                             failure: function () {
-                                /*Ext4.Msg.alert('Error', 'Filter must contain at least one animal ID');
-                                 reportsContainerPanel.up().setLoading(false);*/
+
                             }
                         });
 

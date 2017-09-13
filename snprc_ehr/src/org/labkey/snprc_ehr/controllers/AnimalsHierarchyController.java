@@ -111,7 +111,7 @@ public class AnimalsHierarchyController extends SpringActionController
         @Override
         public Object execute(Node nodeForm, BindException errors) throws Exception
         {
-            HierarchyService hierarchyService = getHiearchyService(nodeForm.getViewBy());
+            HierarchyService hierarchyService = getHierarchyService(nodeForm.getViewBy());
 
             if (nodeForm.getNode() == null)
             {
@@ -169,6 +169,7 @@ public class AnimalsHierarchyController extends SpringActionController
     {
         private String value;
         private String by;
+        private boolean aliveOnly;
 
         public String getValue()
         {
@@ -189,6 +190,16 @@ public class AnimalsHierarchyController extends SpringActionController
         {
             this.by = by;
         }
+
+        public boolean isAliveOnly()
+        {
+            return aliveOnly;
+        }
+
+        public void setAliveOnly(boolean aliveOnly)
+        {
+            this.aliveOnly = aliveOnly;
+        }
     }
 
     @RequiresPermission(ReadPermission.class)
@@ -205,6 +216,7 @@ public class AnimalsHierarchyController extends SpringActionController
                     LocationHierarchyServiceImpl locationHierarchyService = new LocationHierarchyServiceImpl(this.getViewContext());
 
                     node.setNode(animalsBy.getValue());
+                    node.setAliveOnly(animalsBy.isAliveOnly());
                     if (locationHierarchyService.isRootNode(node))
                     {
                         for (Node n : locationHierarchyService.getSubNodes(node))
@@ -222,12 +234,14 @@ public class AnimalsHierarchyController extends SpringActionController
                 case "protocol":
                     ProtocolHierarchyServiceImpl protocolHierarchyService = new ProtocolHierarchyServiceImpl(this.getViewContext());
                     node.setNode(animalsBy.getValue());
+                    node.setAliveOnly(animalsBy.isAliveOnly());
                     animals = protocolHierarchyService.getAnimals(node);
                     break;
                 case "category":
                 case "group":
                     GroupsHierarchyServiceImpl groupsHierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
                     node.setNode(animalsBy.getValue());
+                    node.setAliveOnly(animalsBy.isAliveOnly());
                     if (groupsHierarchyService.isRootNode(node))
                     {
                         for (Node n : groupsHierarchyService.getSubNodes(node))
@@ -267,7 +281,7 @@ public class AnimalsHierarchyController extends SpringActionController
         @Override
         public ApiResponse execute(Animal animal, BindException errors) throws Exception
         {
-            HierarchyService hierarchyService = getHiearchyService(animal.getViewBy());
+            HierarchyService hierarchyService = getHierarchyService(animal.getViewBy());
 
             AnimalNodePath animalNodePath = hierarchyService.getNodePath(animal);
 
@@ -291,7 +305,7 @@ public class AnimalsHierarchyController extends SpringActionController
         }
     }
 
-    private HierarchyService getHiearchyService(String viewBy)
+    private HierarchyService getHierarchyService(String viewBy)
     {
         HierarchyService hierarchyService;
         if (viewBy == null)

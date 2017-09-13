@@ -24,7 +24,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
     },
 
     getFilter: function () {
-        return this.filter;
+        return this.filter || null;
     },
     setFilter: function (filter) {
         this.filter = filter;
@@ -119,8 +119,9 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                         activeTab: (keys[a] == 'General') ? 8 : 0,
                         listeners: {
                             'tabchange': function (tabPanel, tab) {
-                                tabPanel.up().updateGrid(tabPanel.up().getFilter(), tabPanel.up().getSectionIndex(), tabPanel.items.indexOf(tab), tab);
                                 tabPanel.setActiveTabIndex(tabPanel.items.indexOf(tab));
+                                tabPanel.up().updateGrid(tabPanel.up().getFilter(), tabPanel.up().getSectionIndex(), tabPanel.items.indexOf(tab), tab);
+
                             }
 
                         },
@@ -290,7 +291,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
 
     },
     updateGrid: function (filter, sectionIndex, tabIndex, tab) {
-        if (tab.filter == filter.getValue()) {
+        if (!filter || tab.filter == filter.getValue()) {
             return;
         }
         var newPanel = this.getUpdatedPanel(filter, sectionIndex - 1, tabIndex);
@@ -300,6 +301,14 @@ Ext4.define("AnimalsByNodeReportsContainer", {
             tab.filter = filter.getValue();
         }
         this.forceComponentLayout();
+    },
+    reset: function () {
+        for (var i = 1; i < this.items.items.length; i++) {
+            for (var j = 0; j < this.items.items[i].items.items.length; j++) {
+                this.items.items[i].items.items[j].removeAll();
+            }
+        }
+
     },
     onDataRegionLoad: function (dr) {
         /*var itemWidth = dr.domId && Ext4.get(dr.domId) && Ext4.isFunction(Ext4.get(dr.domId).getSize) ? Ext4.get(dr.domId).getSize().width + 150 : 850;
