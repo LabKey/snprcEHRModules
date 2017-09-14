@@ -8,6 +8,11 @@
             <dat:columns>
                 <dat:column columnName="UsdaCode">
                     <dat:rangeURI>string</dat:rangeURI>
+                    <dat:fk>
+                        <dat:fkDbSchema>ehr_lookups</dat:fkDbSchema>
+                        <dat:fkTable>usda_levels</dat:fkTable>
+                        <dat:fkColumnName>usda_level</dat:fkColumnName>
+                    </dat:fk>
                 </dat:column>
             </dat:columns>
         </table>
