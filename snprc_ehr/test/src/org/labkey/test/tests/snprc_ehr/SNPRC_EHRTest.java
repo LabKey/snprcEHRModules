@@ -870,7 +870,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         historyPage.clickReportTab("Kinship");
 
         DataRegionTable tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 16);
+        assertEquals(tbl.getDataRowCount(), 14);
 
         _ext4Helper.checkCheckbox(Locator.ehrCheckboxIdContaining("limitRawDataToSelection"));
 
