@@ -39,6 +39,7 @@ import org.labkey.api.security.UserManager;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 
+import javax.validation.constraints.Null;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -117,8 +118,12 @@ public class SNPRC_EHRTriggerHelper
         sql.append(SNPRC_EHRSchema.getInstance().getTableInfoValidVets());
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
-        return sqlSelector.getObject(Integer.class) + 1;
+        Integer vetId = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the vetId at 1
+        return (vetId == null) ? 1 : vetId + 1;
     }
+
 
     public Map<String, Object> getExtraContext()
     {
