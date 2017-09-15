@@ -74,6 +74,7 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
 public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
 {
+    {setIsBootstrapWhitelisted(true);}
     private static final String ASSAY_GENE_EXPRESSION = "Gene Expression";
     private static final File ASSAY_GENE_EXPRESSION_XAR = TestFileUtils.getSampleData("snprc/assays/Gene Expression.xar");
     private static final File ASSAY_GENE_EXPRESSION_TSV = TestFileUtils.getSampleData("snprc/assays/gene_expression.tsv");
