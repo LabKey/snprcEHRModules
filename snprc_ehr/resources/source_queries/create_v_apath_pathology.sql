@@ -52,9 +52,10 @@ SELECT
 
   CASE
   WHEN vrs.description LIKE 'Pending%'
-    THEN 4
-  ELSE 2
-  END                             AS QCState
+    THEN 'In Progress'
+  ELSE 'Completed'
+  END                             AS QCStateLabel,
+  null as QCState
 
 FROM apath.dbo.apath a
   INNER JOIN apath.dbo.valid_accession_codes vac ON a.accession_code = vac.accession_code
