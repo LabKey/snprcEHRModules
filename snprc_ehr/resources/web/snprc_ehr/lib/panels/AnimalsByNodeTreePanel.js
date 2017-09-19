@@ -48,7 +48,7 @@ Ext4.define("AnimalsByNodeTreePanel", {
                             params: {
                                 value: rec.get('id'),
                                 by: rec.get('cls'),
-                                aliveOnly: self.getStore().getProxy().extraParams.aliveOnly
+                                includeAllAnimals: self.getStore().getProxy().extraParams.includeAllAnimals
                             },
                             success: function (response) {
                                 var animalsArray = Ext4.decode(response.responseText);

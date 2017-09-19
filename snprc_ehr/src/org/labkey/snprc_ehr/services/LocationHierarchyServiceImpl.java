@@ -206,7 +206,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
             if (demographicsMap.containsKey(animal.getId()))
             {
                 animal.setSex(demographicsMap.get(animal.getId()).get("gender"));
-                if (!demographicsMap.get(animal.getId()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
+                if (!demographicsMap.get(animal.getId()).get("status").equalsIgnoreCase("alive") && !node.isIncludeAllAnimals())
                 {
 
                     notAliveAnimals.add(animal);

@@ -28,7 +28,7 @@ public class Node
     private String nodeClass;
 
     private String viewBy;
-    private boolean aliveOnly;
+    private boolean includeAllAnimals;
 
     public Node()
     {
@@ -86,14 +86,14 @@ public class Node
         this.node = node;
     }
 
-    public boolean isAliveOnly()
+    public boolean isIncludeAllAnimals()
     {
-        return aliveOnly;
+        return includeAllAnimals;
     }
 
-    public void setAliveOnly(boolean aliveOnly)
+    public void setIncludeAllAnimals(boolean includeAllAnimals)
     {
-        this.aliveOnly = aliveOnly;
+        this.includeAllAnimals = includeAllAnimals;
     }
 
     public JSONObject toJSON()

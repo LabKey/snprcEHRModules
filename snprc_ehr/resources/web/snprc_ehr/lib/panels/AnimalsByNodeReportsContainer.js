@@ -106,6 +106,7 @@ Ext4.define("AnimalsByNodeReportsContainer", {
                                     filter: "",
                                     minHeight: 25,
                                     overflowX: 'auto',
+                            style: "padding:5px"
 
                                 }
                         )

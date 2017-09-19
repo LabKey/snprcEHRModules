@@ -40,7 +40,9 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
     public List<Node> getRootNodes()
     {
         List<Node> categoryNodes = new ArrayList<Node>();
-        ArrayList<AnimalGroupCategory> categories = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), null, null).getArrayList(AnimalGroupCategory.class);
+        SimpleFilter displayable = new SimpleFilter();
+        displayable.addCondition(FieldKey.fromString("displayable"), "Y", CompareType.EQUAL);
+        ArrayList<AnimalGroupCategory> categories = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), displayable, null).getArrayList(AnimalGroupCategory.class);
         for (AnimalGroupCategory category : categories)
         {
             Node categoryNode = new Node();
@@ -110,6 +112,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                         new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.ISBLANK, null),
                         new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.DATE_GT, today)
                 ));
+
             }
 
             UserSchema schema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
@@ -160,7 +163,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                 if (demographicsMap.containsKey(animal.getText()))
                 {
                     animal.setSex(demographicsMap.get(animal.getText()).get("gender"));
-                    if (!demographicsMap.get(animal.getText()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
+                    if (!demographicsMap.get(animal.getText()).get("status").equalsIgnoreCase("alive") && !node.isIncludeAllAnimals())
                     {
 
                         notAliveAnimals.add(animal);

@@ -169,7 +169,7 @@ public class AnimalsHierarchyController extends SpringActionController
     {
         private String value;
         private String by;
-        private boolean aliveOnly;
+        private boolean includeAllAnimals;
 
         public String getValue()
         {
@@ -191,14 +191,14 @@ public class AnimalsHierarchyController extends SpringActionController
             this.by = by;
         }
 
-        public boolean isAliveOnly()
+        public boolean isIncludeAllAnimals()
         {
-            return aliveOnly;
+            return includeAllAnimals;
         }
 
-        public void setAliveOnly(boolean aliveOnly)
+        public void setIncludeAllAnimals(boolean includeAllAnimals)
         {
-            this.aliveOnly = aliveOnly;
+            this.includeAllAnimals = includeAllAnimals;
         }
     }
 
@@ -216,12 +216,12 @@ public class AnimalsHierarchyController extends SpringActionController
                     LocationHierarchyServiceImpl locationHierarchyService = new LocationHierarchyServiceImpl(this.getViewContext());
 
                     node.setNode(animalsBy.getValue());
-                    node.setAliveOnly(animalsBy.isAliveOnly());
+                    node.setIncludeAllAnimals(animalsBy.isIncludeAllAnimals());
                     if (locationHierarchyService.isRootNode(node))
                     {
                         for (Node n : locationHierarchyService.getSubNodes(node))
                         {
-                            n.setAliveOnly(animalsBy.isAliveOnly());
+                            n.setIncludeAllAnimals(animalsBy.isIncludeAllAnimals());
                             animals.addAll(locationHierarchyService.getAnimals(n));
                         }
 
@@ -235,19 +235,19 @@ public class AnimalsHierarchyController extends SpringActionController
                 case "protocol":
                     ProtocolHierarchyServiceImpl protocolHierarchyService = new ProtocolHierarchyServiceImpl(this.getViewContext());
                     node.setNode(animalsBy.getValue());
-                    node.setAliveOnly(animalsBy.isAliveOnly());
+                    node.setIncludeAllAnimals(animalsBy.isIncludeAllAnimals());
                     animals = protocolHierarchyService.getAnimals(node);
                     break;
                 case "category":
                 case "group":
                     GroupsHierarchyServiceImpl groupsHierarchyService = new GroupsHierarchyServiceImpl(this.getViewContext());
                     node.setNode(animalsBy.getValue());
-                    node.setAliveOnly(animalsBy.isAliveOnly());
+                    node.setIncludeAllAnimals(animalsBy.isIncludeAllAnimals());
                     if (groupsHierarchyService.isRootNode(node))
                     {
                         for (Node n : groupsHierarchyService.getSubNodes(node))
                         {
-                            n.setAliveOnly(animalsBy.isAliveOnly());
+                            n.setIncludeAllAnimals(animalsBy.isIncludeAllAnimals());
                             animals.addAll(groupsHierarchyService.getAnimals(n));
                         }
                     }

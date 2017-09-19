@@ -171,11 +171,11 @@
                                 },
                                 {
                                     xtype: 'checkboxfield',
-                                    fieldLabel: 'Alive Animals',
-                                    checked: true,
+                                    fieldLabel: 'All animals',
+                                    checked: false,
                                     listeners: {
                                         change: function () {
-                                            Ext4.getCmp("animals-by-node-tree-panel").getStore().getProxy().extraParams.aliveOnly = this.getValue();
+                                            Ext4.getCmp("animals-by-node-tree-panel").getStore().getProxy().extraParams.includeAllAnimals = this.getValue();
                                             Ext4.getCmp("animals-by-node-tree-panel").getStore().load();
                                             Ext4.getCmp("animals-by-node-tree-panel").setPreviousSelectedItem("");
                                             Ext4.getCmp('animals-by-node-ldk-grids-container').reset();

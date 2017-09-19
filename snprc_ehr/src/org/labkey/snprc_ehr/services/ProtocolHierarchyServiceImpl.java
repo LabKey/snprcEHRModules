@@ -37,7 +37,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
         TableInfo assignmentTable = userSchema.getTable("assignment");
         SimpleFilter currentAssignmentsRecordsFilter = new SimpleFilter();
         currentAssignmentsRecordsFilter.addCondition(FieldKey.fromString("enddate"), null, CompareType.ISBLANK);
-        currentAssignmentsRecordsFilter.addCondition(FieldKey.fromString("assignmentStatus"), "A", CompareType.EQUAL);
+        //currentAssignmentsRecordsFilter.addCondition(FieldKey.fromString("assignmentStatus"), "A", CompareType.EQUAL);
         Sort sort = new Sort();
 
         sort.insertSortColumn(FieldKey.fromString("protocol"), Sort.SortDirection.ASC);
@@ -59,6 +59,33 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
                 alreadySeenNodes.add(node);
             }
         }
+        rootNodes.sort((n1, n2) ->
+        {
+            try
+            {
+                String protocolOne = n1.getText();
+                String protocolTwo = n2.getText();
+
+                int protocolOneId = Integer.parseInt(protocolOne.substring(0, protocolOne.length() - 2));
+                int protocolTwoId = Integer.parseInt(protocolTwo.substring(0, protocolTwo.length() - 2));
+
+                if (protocolOneId == protocolTwoId)
+                {
+                    return 0;
+                }
+                if (protocolOneId > protocolTwoId)
+                {
+                    return 1;
+                }
+
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+
+        });
         return rootNodes;
     }
 
@@ -120,7 +147,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
             if (demographicsMap.containsKey(animal.getText()))
             {
                 animal.setSex(demographicsMap.get(animal.getText()).get("gender"));
-                if (!demographicsMap.get(animal.getText()).get("status").equalsIgnoreCase("alive") && node.isAliveOnly())
+                if (!demographicsMap.get(animal.getText()).get("status").equalsIgnoreCase("alive") && !node.isIncludeAllAnimals())
                 {
 
                     notAliveAnimals.add(animal);

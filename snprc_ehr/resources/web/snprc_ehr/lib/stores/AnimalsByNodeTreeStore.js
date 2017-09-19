@@ -21,7 +21,7 @@ Ext4.define("AnimalsByNodeTreeStore", {
         },
         extraParams: {
             viewBy: "locations",
-            aliveOnly: true
+            includeAllAnimals: false
         }
     }
 
