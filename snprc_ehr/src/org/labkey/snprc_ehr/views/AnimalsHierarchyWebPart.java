@@ -11,7 +11,7 @@ public class AnimalsHierarchyWebPart extends JspView
     {
         super("/org/labkey/snprc_ehr/views/AnimalsHierarchy.jsp", null);
 
-        setTitle("Animals By Locations, Groups, and Projects");
+        setTitle("Animal Tree View Navigation");
 
     }
 }

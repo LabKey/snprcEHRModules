@@ -90,7 +90,7 @@ public class AnimalsHierarchyController extends SpringActionController
             JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/AnimalsHierarchy.jsp", this);
             String viewBy = form.getViewBy();
             if (viewBy == null) viewBy = "locations";
-            view.setTitle("View Animals By locations, groups, and projects");
+            view.setTitle("Animal Tree View Navigation");
             view.setHidePageTitle(true);
             view.setFrame(WebPartView.FrameType.PORTAL);
 
