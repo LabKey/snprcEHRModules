@@ -155,5 +155,8 @@
         <dataset name="MhcStatus" id="5039" category="Colony Management" demographicData="true" type="Standard">
             <tags/>
         </dataset>
+        <dataset name="Alopecia" id="5040" category="Colony Management" demographicData="false" type="Standard">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

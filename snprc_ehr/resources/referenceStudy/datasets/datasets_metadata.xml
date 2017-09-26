@@ -2308,4 +2308,28 @@
         </columns>
         <tableTitle>MhcStatus</tableTitle>
     </table>
+    <table tableName="Alopecia" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="AlopeciaScore">
+                <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>alopecia_score</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                    <fkDisplayColumnName>description</fkDisplayColumnName>
+                </fk>
+            </column>
+        </columns>
+        <tableTitle>Alopecia</tableTitle>
+    </table>
 </tables>
