@@ -18,7 +18,9 @@
                             <className>org.labkey.snprc_ehr.table.AnimalAccountDisplayColumnFactory</className>
                         </displayColumnFactory>
                     </column>
-
+                    <column columnName="accountOnly">
+                        <columnTitle>Account</columnTitle>
+                    </column>
                     <column columnName="AccountGroup">
                         <isHidden>true</isHidden>
                         <fk>
