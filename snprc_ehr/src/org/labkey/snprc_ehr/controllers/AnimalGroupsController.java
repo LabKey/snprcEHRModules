@@ -25,6 +25,7 @@ import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.audit.AuditLogService;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.DbScope;
@@ -49,6 +50,7 @@ import org.labkey.api.util.GUID;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
+import org.labkey.query.audit.QueryAuditProvider;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
 import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
@@ -219,7 +221,12 @@ public class AnimalGroupsController extends SpringActionController
                 TableInfo categoriesTable = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories();
                 SimpleFilter categoriesFilter = new SimpleFilter();
                 categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
+                Map<String, String> animalGroupsCategory = new TableSelector(categoriesTable, categoriesFilter, null).getObject(Map.class);
+                QueryAuditProvider.QueryAuditEvent event = new QueryAuditProvider.QueryAuditEvent(this.getContainer().getId(), animalGroupsCategory.get("objectid"));
+                event.setQueryName("animal_group_categories");
+                event.setSchemaName("snprc_ehr");
                 Table.delete(categoriesTable, categoriesFilter);
+                AuditLogService.get().addEvent(this.getUser(), event);
                 props.put("success", true);
 
             }
@@ -384,6 +391,11 @@ public class AnimalGroupsController extends SpringActionController
                         o.put("endDate", ((String) o.get("endDate")).substring(0, 10));
                     }
 
+                    if (o.get("sortOrder") != null)
+                    {
+                        o.put("sort_order", o.get("sortOrder"));
+                    }
+
                     o.put("category_code", o.get("categoryCode"));
 
                     Map primaryKey = new HashMap();
@@ -485,6 +497,7 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
         {
+
             Map<String, Object> props = new HashMap<String, Object>();
             JSONObject json = simpleApiJsonForm.getJsonObject();
             JSONArray rows;
@@ -514,11 +527,18 @@ public class AnimalGroupsController extends SpringActionController
             }
             else
             {
+
                 SimpleFilter deleteFilter = new SimpleFilter();
                 deleteFilter.addCondition(FieldKey.fromString("code"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
+                Map<String, String> animalGroup = new TableSelector(groupTable, deleteFilter, null).getObject(Map.class);
+                QueryAuditProvider.QueryAuditEvent event = new QueryAuditProvider.QueryAuditEvent(this.getContainer().getId(), animalGroup.get("objectid"));
+                event.setQueryName("animal_groups");
+                event.setSchemaName("snprc_ehr");
                 Table.delete(groupTable, deleteFilter);
+                AuditLogService.get().addEvent(this.getUser(), event);
                 props.put("success", true);
             }
+
             return new ApiSimpleResponse(props);
         }
     }
