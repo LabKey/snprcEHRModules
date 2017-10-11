@@ -47,7 +47,7 @@ public class ActiveAnimalGroupsDemographicsProvider extends AbstractListDemograp
         keys.add(FieldKey.fromString("enddate"));
         keys.add(FieldKey.fromString("groupId"));
         keys.add(FieldKey.fromString("groupId/name"));
-        keys.add(FieldKey.fromString("groupId/Category"));
+        keys.add(FieldKey.fromString("groupId/category_code/description"));
 
         return keys;
     }

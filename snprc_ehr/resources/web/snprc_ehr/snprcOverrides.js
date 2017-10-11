@@ -201,7 +201,13 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         var values = [];
         if (results){
             Ext4.each(results, function(row){
-                values.push(row['groupId/Category'] + ': ' + row['groupId/name']);
+
+                if (row['groupId/category_code/description'] === null ){
+                    values.push(row['groupId/name']);
+                }
+                else {
+                    values.push(row['groupId/category_code/description'] + ': ' + row['groupId/name']);
+                }
             }, this);
         }
 
