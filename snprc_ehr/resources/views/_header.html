@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<style>
+<style type="text/css">
     .labkey-main-title .bootstrap-theme, .labkey-page-header .old-theme {
         display: none;
     }
@@ -54,7 +54,7 @@
     }
 </style>
 
-<script>
+<script type="text/javascript">
     //apply theme color to title
     window.addEventListener('load', function () {
         var menuBar = document.getElementById('menubar');
@@ -62,5 +62,4 @@
             document.getElementsByClassName('old-theme')[0].style.color = window.getComputedStyle(menuBar, null).getPropertyValue('background-color');
         }
     });
-
 </script>
