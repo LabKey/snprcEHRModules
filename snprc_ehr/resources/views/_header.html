@@ -6,7 +6,6 @@
     </div>
     <div class="bootstrap-theme">
         <div class="hidden-xs md-title lg-title">
-            <br style="clear: both"/>
             <h2>Total Animal Care (TAC)</h2>
             <h3>Electronic Health Record System</h3>
             <p>Powered by LabKey</p>
@@ -21,6 +20,24 @@
 <style type="text/css">
     .labkey-main-title .bootstrap-theme, .labkey-page-header .old-theme {
         display: none;
+    }
+
+    /* This section is to override the top page header */
+    .labkey-page-header {
+        background-color: white;
+    }
+
+    /* This section is to override the color for the header text and icons (admin, user, etc.) */
+    .labkey-page-header .navbar-nav-lk>li>a.fa, .labkey-page-header .navbar-nav-lk>li>a>i.fa,
+    .labkey-page-header .navbar-nav-lk>li>a, .labkey-page-header .navbar-nav-lk>li>span,
+    .tac-title .bootstrap-theme {
+        color: #9b0000; /*use this to match the LabKey "Madison" theme*/
+        /*color: #116596; !*use this to match the LabKey "Overcast" theme*!*/
+        /*color: #e86130; !*use this to match the LabKey "Harvest" theme*!*/
+    }
+
+    .tac-title {
+        display: inline-block;
     }
 
     .sm-title {
