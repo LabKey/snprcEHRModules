@@ -29,6 +29,7 @@ import org.labkey.remoteapi.Connection;
 import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
@@ -253,7 +254,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     protected void initSND()
     {
         goToProjectHome();
-        clickAndWait(Locator.linkWithText("EHR Admin Page"));
+        waitAndClickAndWait(Locators.bodyPanel().append(Locator.tagContainingText("a", "EHR Admin Page")));
         clickAndWait(Locator.linkWithText("SND SETTINGS"));
         waitAndClick(Locator.linkWithSpan("Generate custom columns"));
         waitForText("Success");
