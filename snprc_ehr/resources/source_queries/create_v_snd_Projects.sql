@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE VIEW [labkey_etl].[v_snd_Projects] AS
+ALTER VIEW [labkey_etl].[v_snd_Projects] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 09/27/2017
@@ -37,7 +37,14 @@ SELECT
   dbo.f_map_username(b.user_name) AS modifiedby,
   tc.created                        AS created,
   tc.createdby                      AS createdby,
-  b.timestamp                     AS timestamp
+  b.timestamp                     AS timestamp,
+          CASE WHEN ( SELECT DISTINCT
+                            aep.BUDGET_ID
+                    FROM    dbo.v_aep AS aep
+                    WHERE   aep.BUDGET_ID = b.BUDGET_ID
+                  ) IS NOT NULL THEN 'true'
+             ELSE 'false'
+        END AS Active
 FROM dbo.budgets AS b
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = b.object_id
 

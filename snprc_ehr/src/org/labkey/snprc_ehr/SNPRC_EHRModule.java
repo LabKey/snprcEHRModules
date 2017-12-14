@@ -48,6 +48,7 @@ import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
+//import org.labkey.snprc_ehr.controllers.FeeScheduleController;
 import org.labkey.snprc_ehr.controllers.InstitutionsController;
 import org.labkey.snprc_ehr.controllers.RelatedTablesController;
 import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
@@ -83,10 +84,13 @@ import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabResultsLabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
+//import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
+//import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
+//import org.labkey.api.pipeline.PipelineService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -106,7 +110,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public double getVersion()
     {
-        return 17.21;
+        return 17.22;
     }
 
     @Override
@@ -124,6 +128,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         addController(AnimalsHierarchyController.NAME.toLowerCase(), AnimalsHierarchyController.class);
         addController(RelatedTablesController.NAME.toLowerCase(), RelatedTablesController.class);
         addController(InstitutionsController.NAME.toLowerCase(), InstitutionsController.class);
+//        addController(FeeScheduleController.NAME.toLowerCase(), FeeScheduleController.class);
 
         //additional roles
         RoleManager.registerRole(new ManageGroupMembersRole());
@@ -223,6 +228,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
                 }
             }
         });
+        // Register pipeline provider to import FeeSchedule
+//        PipelineService.get().registerPipelineProvider(new FeeSchedulePipelineProvider(this));
 
 
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(WeightFormType.class, this));
@@ -319,7 +326,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     protected Collection<WebPartFactory> createWebPartFactories()
     {
         Collection<WebPartFactory> webPartFactories = new ArrayList<WebPartFactory>();
-        webPartFactories.add(new BaseWebPartFactory("Animals By Locations, Groups, and Projects", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
+        webPartFactories.add(new BaseWebPartFactory("Animals Treeview", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
         {
             public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
@@ -327,6 +334,14 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
             }
         });
 
+//        webPartFactories.add(new BaseWebPartFactory("SNPRC Fee Schedule Management", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
+//        {
+//            public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
+//            {
+//                return new FeeScheduleWebPart();
+//            }
+//        });
+//
         return webPartFactories;
     }
 
