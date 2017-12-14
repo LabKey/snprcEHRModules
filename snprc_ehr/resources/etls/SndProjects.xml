@@ -14,11 +14,10 @@
             </destination>
         </transform>
     </transforms>
-    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp" />
-        <!--
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp" >
+
        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd_Projects" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
--->
     <schedule>
         <poll interval="60m" />
     </schedule>
