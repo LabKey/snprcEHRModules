@@ -46,7 +46,6 @@ SELECT  a.ID AS id ,
         tc.createdby AS createdby ,
         a.TIMESTAMP AS timestamp
 FROM    dbo.v_alopecia a
-        INNER JOIN dbo.acq_disp AS ad ON ad.id = a.ID
         LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = a.OBJECT_ID
 
   -- select primates only from the TxBiomed colony
