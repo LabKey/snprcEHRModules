@@ -24,7 +24,9 @@ procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear		
 dailyObsPivot	Clinical	query	Daily Obs	true		study	dailyObsPivot			date	false	false			Contains daily observations
 clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
+Alopecia	Clinical	query	Alopecia Scores	true		study	Alopecia			date	false	false		qcstate/publicdata	This report contains the alopecia scores for the animal
 behaviorRemarks	Behavior	js	Behavior Remarks	true		study	underDevelopment	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
+Alopecia	Behavior	query	Alopecia Scores	true		study	Alopecia			date	false	false		qcstate/publicdata	This report contains the alopecia scores for the anima
 drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
 treatments	Clinical	query	Therapies	true		study	Treatment Orders	Therapies		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 diets	General	query	Diet History	true		study	dietHistory	DietHistory		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
