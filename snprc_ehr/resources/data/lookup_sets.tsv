@@ -47,7 +47,7 @@ stool_score	Stool Score	value
 sib_score	SIB Score	value
 incision_score	Incision Score	value
 alopecia_type	Alopecia Type	value
-alopecia_score	Alopecia Type	value
+alopecia_score	Alopecia Score	value
 alopecia_regrowth	Alopecia Regrowth	value
 mens_score	Mens Score	value
 tissue_sample_type	Tissue Distribution Sample Type	value
