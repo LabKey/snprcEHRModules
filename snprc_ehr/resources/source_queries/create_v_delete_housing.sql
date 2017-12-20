@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
 SET ANSI_NULLS ON
 GO
 
@@ -30,20 +27,61 @@ ALTER VIEW [labkey_etl].[v_delete_housing] as
 -- Object: v_audit_location
 -- Author:		Terry Hawkins
 -- Create date: 6/12/2015
---
+-- Changes:
+-- 12/20/2017 added audit.audit_cage_position records tjh
 -- ==========================================================================================
 SELECT 
-	al.object_id,
+	CAST(al.object_id AS VARCHAR(36)) AS object_id,
 	al.audit_date_tm
 
 FROM audit.audit_location AS al
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = al.id
 WHERE al.audit_action = 'D' AND al.object_id IS NOT NULL
- 
+
+UNION
+-- get records from cage_position/location
+SELECT 
+	CAST(l.object_id AS VARCHAR(36)) + '/' + CAST(cp.cage_position AS VARCHAR(10)) AS object_id,
+	cp.audit_date_tm
+
+FROM audit.audit_cage_position AS cp
+LEFT OUTER JOIN dbo.location AS l ON l.id = cp.id 
+	AND CAST(cp.move_date_tm AS DATE) >=
+
+		 (SELECT CAST(MIN(l2.move_date_tm) AS DATE) FROM dbo.location AS l2
+		  WHERE cp.id = l2.id 
+			AND CAST(cp.move_date_tm AS DATE) >= CAST(l2.move_date_tm AS DATE))
+	
+	AND cp.move_date_tm < CAST(COALESCE(l.exit_date_tm, GETDATE())  AS DATE)
+
+
+WHERE cp.audit_action = 'D' AND l.object_id IS NOT NULL
+
+UNION
+-- get records from cage_position/audit_location
+SELECT 
+	CAST(l.object_id AS VARCHAR(36)) + '/' + CAST(cp.cage_position AS VARCHAR(10)) AS object_id,
+	cp.audit_date_tm
+
+FROM audit.audit_cage_position AS cp
+LEFT OUTER JOIN audit.audit_location AS l ON l.id = cp.id 
+	AND CAST(cp.move_date_tm AS DATE) >=
+
+		 (SELECT CAST(MIN(l2.move_date_tm) AS DATE) FROM dbo.location AS l2
+		  WHERE cp.id = l2.id 
+			AND CAST(cp.move_date_tm AS DATE) >= CAST(l2.move_date_tm AS DATE))
+	
+	AND cp.move_date_tm < CAST(COALESCE(l.exit_date_tm, GETDATE())  AS DATE)
+
+
+WHERE cp.audit_action = 'D' 
+  AND l.audit_action = 'D'
+  AND l.object_id IS NOT NULL
+
 go
 
 GRANT SELECT on labkey_etl.v_delete_housing to z_labkey
 GRANT SELECT ON audit.audit_location TO z_labkey
-
+GRANT SELECT ON audit.audit_cage_position TO z_labkey
 go
