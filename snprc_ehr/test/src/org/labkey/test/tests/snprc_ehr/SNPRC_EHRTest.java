@@ -47,6 +47,7 @@ import org.labkey.test.util.APIAssayHelper;
 import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
+import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
@@ -61,7 +62,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +96,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String GENETICSFOLDER = "Genetics";
     private static final String FOLDER_NAME = "SNPRC";
     private static final String ANIMAL_HISTORY_URL = "/ehr/" + PROJECT_NAME + "/animalHistory.view?";
+    private static final String SNPRC_ROOM_ID = "S824778";
+    private static final String SNPRC_ROOM_ID2 = "S043365";
+
     private static Integer _pipelineJobCount = 0;
 
     private boolean _hasCreatedBirthRecords = false;
@@ -196,7 +199,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected String[] getRooms()
     {
-        return new String[] {"2043365", "6824778", "2043365"};
+        return new String[] {SNPRC_ROOM_ID2, SNPRC_ROOM_ID, SNPRC_ROOM_ID2};
     }
 
     @Override
@@ -355,6 +358,15 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         command.execute(connection, getProjectName());
     }
 
+    @LogMethod
+    protected void populateRoomRecords() throws Exception
+    {
+        InsertRowsCommand insertCmd = new InsertRowsCommand("ehr_lookups", "rooms");
+        insertCmd.addRow(Maps.of("room", SNPRC_ROOM_ID));
+        insertCmd.addRow(Maps.of("room", SNPRC_ROOM_ID2));
+        insertCmd.execute(createDefaultConnection(false), getContainerPath());
+    }
+
     @Override
     protected void deleteHardTableRecords() throws CommandException, IOException
     {
@@ -369,6 +381,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         command = new TruncateTableCommand("snprc_ehr", "species");
         command.execute(connection, getProjectName());
+    }
+
+    @LogMethod
+    protected  void deleteRoomRecords() throws CommandException, IOException
+    {
+        deleteIfNeeded("ehr_lookups", "rooms", Maps.of("room", SNPRC_ROOM_ID), "room");
+        deleteIfNeeded("ehr_lookups", "rooms", Maps.of("room", SNPRC_ROOM_ID2), "room");
     }
 
     @Override
@@ -514,7 +533,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         waitForText("Overview: 12345");
         waitForTextToDisappear("Loading...");
         //spot check a few of the data points
-        assertTextPresent("2043365 / A1", "There are no active medications", "Rhesus");
+        assertTextPresent("S043365 / A1", "There are no active medications", "Rhesus");
     }
 
     @Test
@@ -539,10 +558,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertEquals("Wrong not-found ID(s)", Arrays.asList(notFound), historyPage.getNotFoundIds());
 
         List<String> expectedIds = new ArrayList<>();
-        expectedIds.add(id);
         expectedIds.add(aliasedId);
         expectedIds.addAll(conflictedIds);
-        Collections.sort(expectedIds);
+        expectedIds.add(id);
 
         historyPage.clickReportTab("Demographics");
         DataRegionTable demographics = historyPage.getActiveReportDataRegion();
