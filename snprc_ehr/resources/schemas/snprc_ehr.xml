@@ -1268,5 +1268,24 @@
         </columns>
         <tableTitle>Valid Charge by Species</tableTitle>
     </table>
+    <table tableName="FeeSchedule" tableDbType="TABLE">
+    <pkColumnName>RowId</pkColumnName>
+    <columns>
+        <column columnName="RowId" />
+        <column columnName="ActivityId" />
+        <column columnName="Species" />
+        <column columnName="Description" />
+        <column columnName="BudgetYear" />
+        <column columnName="Cost" />
+        <column columnName="FileName" />
+        <column columnName="objectid" />
+        <column columnName="Created"/>
+        <column columnName="CreatedBy"/>
+        <column columnName="Modified"/>
+        <column columnName="ModifiedBy"/>
+        <column columnName="Container" />
+    </columns>
+    <tableTitle>Fee Schedule</tableTitle>
+    </table>
 </tables>
 
