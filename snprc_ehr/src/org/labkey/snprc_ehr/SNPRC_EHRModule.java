@@ -89,7 +89,7 @@ import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
-import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
+//import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
 import org.labkey.api.pipeline.PipelineService;
 
 import java.util.ArrayList;
