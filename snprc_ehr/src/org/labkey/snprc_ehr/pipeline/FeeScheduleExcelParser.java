@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONObject;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
@@ -19,6 +20,7 @@ import org.labkey.api.reader.ExcelFactory;
 import org.labkey.api.security.User;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,17 +69,21 @@ public class FeeScheduleExcelParser
         String value;
         Double doubleValue;
         boolean hasData = false;
+        Workbook workbook = null;
+        Sheet sheet;
 
         // only parse the file once
         if (_parsed) return;
 
         try
         {
-            Workbook workbook = ExcelFactory.create(_importFile);
-            Sheet sheet = workbook.getSheet(_feeScheduleSheetName);
+            workbook = ExcelFactory.create(_importFile);
+//            FileInputStream stream = new FileInputStream(_importFile);
+//            workbook = new XSSFWorkbook(stream);
+            sheet = workbook.getSheet(_feeScheduleSheetName);
             if (sheet == null)
             {
-                throw new PipelineJobException("Fee Schedule tab sheet not found in workbook.");
+                throw new PipelineJobException("Fee Schedule tab sheet ("  + _feeScheduleSheetName + ") not found in workbook.");
             }
 
             rowIdx = _numberOfSkipHeaderRows;
@@ -92,7 +98,7 @@ public class FeeScheduleExcelParser
                         _colNames.add(ExcelFactory.getCellStringValue(cell).trim());
                 }
                 // skip second header row
-                rowIdx += 4;
+                rowIdx += 3;
             }
             else
             {
@@ -173,8 +179,8 @@ public class FeeScheduleExcelParser
 
             _parsed = true;
 
-        }   // end function
 
+        }   // end try
 
         catch (IOException e)
         {
@@ -184,11 +190,27 @@ public class FeeScheduleExcelParser
         {
             throw new PipelineJobException("Failed to parse file as Excel: " + _importFile.getName(), e);
         }
+        finally
+        {
+            try
+            {
+                if (workbook != null) workbook.close();
+            }
+            catch (IOException e)
+            {
+                throw new PipelineJobException("File IO error when closing: " + _importFile.getName(), e);
+            }
+
+        }
     }
 
 
     public int loadTable() throws PipelineJobException
     {
+        if (!_parsed) {
+            throw new PipelineJobException("File not parsed prior to calling loadTable().");
+        }
+
         //TODO: need to handle existing data - add archive date?
 
         DbSchema schema = DbSchema.get("snprc_ehr", DbSchemaType.Module);
@@ -222,7 +244,6 @@ public class FeeScheduleExcelParser
                     Table.insert(_user, ti, o);
                 }
             }
-
 
             trans.commit();
             return _feeScheduleMap.size();
