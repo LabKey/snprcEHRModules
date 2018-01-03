@@ -7,7 +7,7 @@ CREATE TABLE [snprc_ehr].[FeeSchedule](
   [Species] NVARCHAR(128) NOT NULL,
   [Description] NVARCHAR (256) NOT NULL,
   [BudgetYear] NVARCHAR (256) NOT NULL,
-  [Cost] NUMERIC (5,2) NOT NULL,
+  [Cost] NUMERIC (9,2) NOT NULL,
   [FileName] NVARCHAR (256) NOT NULL,
   [ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
   [Created] [DATETIME] NULL,

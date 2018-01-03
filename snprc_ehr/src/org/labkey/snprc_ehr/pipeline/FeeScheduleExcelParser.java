@@ -63,7 +63,7 @@ public class FeeScheduleExcelParser
 
     public void parseFile() throws PipelineJobException
     {
-        Map<String, Double> costValueMap = new LinkedHashMap<>();
+
         int rowIdx;
         Row row;
         String value;
@@ -108,7 +108,6 @@ public class FeeScheduleExcelParser
             // parse data
 
             int j = sheet.getLastRowNum();
-
             for (int i = rowIdx; i < sheet.getLastRowNum(); i++)
             {
                 hasData = true;
@@ -117,7 +116,7 @@ public class FeeScheduleExcelParser
                 if (row != null)
                 {
                     FeeScheduleDataRow dataRow = new FeeScheduleDataRow();
-
+                    Map<String, Double> costValueMap = new LinkedHashMap<>();
                     for (int col = 0; col < row.getLastCellNum(); col++)
                     {
                         Cell cell = row.getCell(col);

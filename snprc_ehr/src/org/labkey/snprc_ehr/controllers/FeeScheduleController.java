@@ -55,7 +55,7 @@ public class FeeScheduleController extends SpringActionController
 
             if (file != null)
             {
-                fileSize = file.length() >= 1000 ? Long.toString(file.length() / 1000) + " kb" : Long.toString(file.length());
+                fileSize = file.length() >= 1024 ? Long.toString(file.length() / 1024) + " KB" : Long.toString(file.length()) + " bytes";
 
                 try
                 {
@@ -182,7 +182,7 @@ public class FeeScheduleController extends SpringActionController
     public static class FeeScheduleImportForm
     {
         private String _filePath;
-        private String name;
+        private String _name;
         private String _size;
         private String _date;
         private String _navTrail;
@@ -209,7 +209,7 @@ public class FeeScheduleController extends SpringActionController
 
         public String getNavtrail()
         {
-            return " - " + name;
+            return " - " + _name;
         }
 
         public String getFilePath()
@@ -225,12 +225,12 @@ public class FeeScheduleController extends SpringActionController
 
         public String getName()
         {
-            return name;
+            return _name;
         }
 
         public void setName(String name)
         {
-            this.name = name;
+            this._name = name;
         }
     }
 }
