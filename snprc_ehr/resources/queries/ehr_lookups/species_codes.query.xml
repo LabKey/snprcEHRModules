@@ -3,7 +3,7 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="species_codes" tableDbType="TABLE">
                 <tableTitle>Species</tableTitle>
-                <javaCustomizer>org.labkey.ehr.table.DefaultEHRCustomizer</javaCustomizer>
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <columns>
                     <column columnName="common_name">
                         <isKeyField>true</isKeyField>

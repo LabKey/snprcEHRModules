@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="Animal" tableDbType="NOT_IN_DB">
-                <javaCustomizer>org.labkey.ehr.table.DefaultEHRCustomizer</javaCustomizer>
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <tableTitle>Animal Events</tableTitle>
                 <columns>
                     <column columnName="assignmentsAtDeath" wrappedColumnName="id">
