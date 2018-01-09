@@ -54,7 +54,7 @@ tissue_sample_type	Tissue Distribution Sample Type	value
 tissue_distribution_category	Tissue Distribution Request Category	value
 cage_status	Cage Status	value
 project_use_category	Center Project Use Categories	value
-project_type	Center Project Types	value
+project_type	Project Types	value	description	title	sort_order	date_disabled
 procedure_drug_templates	Procedure Drug Templates	value
 behavior_types	Behavior Types	value
 fecal_smear_score	Fecal Smear Scores	value
