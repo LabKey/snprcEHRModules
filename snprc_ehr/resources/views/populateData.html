@@ -379,7 +379,7 @@ Ext4.onReady(function(){
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',
             queryName: 'project_type',
-            pk: 'code'
+            pk: 'value'
         },{
             label: 'Project Use Categories',
             populateFn: 'populateFromFile',
@@ -700,7 +700,13 @@ Ext4.onReady(function(){
             schemaName: 'ehr_lookups',
             queryName: 'proc_type',
             pk: 'rowid'
-        }
+        },{
+            label: 'Fee Schedule Types',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'fee_schedule_type',
+            pk: 'value'
+        },
     ];
 
     tables.sort(function(a, b) {
