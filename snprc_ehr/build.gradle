@@ -7,6 +7,7 @@ repositories
 dependencies
         {
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:customModules:ehr", depProjectConfig: "apiCompile")
+            BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:customModules:snd", depProjectConfig: "apiCompile")
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":externalModules:labModules:LDK", depProjectConfig: "apiCompile")
             compile project(":server:modules:query")
 

@@ -8,6 +8,7 @@ apply plugin: 'org.labkey.distribution'
 Distribution.inheritDependencies(project, ":server:distributions:legacy")
 
 BuildUtils.addModuleDistributionDependencies(project, [":server:customModules:snprc_ehr",
+                                                       ":server:customModules:snd",
                                                        ":externalModules:snprcEHRModules:snprc_genetics",
                                                        ":server:customModules:ehr",
                                                        ":externalModules:labModules:laboratory",
