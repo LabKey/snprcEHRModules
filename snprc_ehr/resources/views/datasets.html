@@ -1,17 +1,19 @@
+// To add additional datasets (not in the study schema) to this page, add additional unions to the Study.BrowseDataSets.sql query
+
 <script type="text/javascript">
 
     Ext4.onReady(function () {
         var webpart = <%=webpartContext%>;
         Ext4.get(webpart.wrapperDivId).update('Loading...');
 
-        var config = {displayField: 'Label', headerField: 'categoryId/label', target: webpart.wrapperDivId};
+        var config = {displayField: 'Label', headerField: 'CategoryId', target: webpart.wrapperDivId};
 
         EHR.Security.init({
             success: function(){
                 LABKEY.Query.selectRows({
                     schemaName: 'study',
-                    queryName: 'DataSets',
-                    columns: 'categoryId/label,label,ShowByDefault',
+                    queryName: 'BrowseDataSets',
+                    columns: "Schema, CategoryId, Label, Name, ShowByDefault, isAnimal",
                     success: function(results){
                         onSuccess(results)
                     },
@@ -22,6 +24,7 @@
                 });
             },
             scope: this
+
         });
 
         function onSuccess(data){
@@ -31,25 +34,48 @@
                 sectionHeaderCls: 'class',
                 renderer: function(record){
                     var item = {
-                        schemaName: 'study',
-                        queryName: record.data.Label
+                        label: record.data.Label,
+                        schemaName: record.data.Schema,
+                        queryName: record.data.Name
                     };
-
-                    var cfg = {
-                        layout: 'hbox',
-                        bodyStyle: 'background-color: transparent;',
-                        defaults: LDK.panel.NavPanel.ITEM_DEFAULTS,
-                        items: [
-                            this.getLabelItemCfg(item),
-                            this.getBrowseItemCfg(item, {
-                                url: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {schemaName: item.schemaName, 'query.queryName': item.queryName})
-                            }),{
-                                xtype: 'ldk-linkbutton',
-                                tooltip: item.searchTooltip || 'Click to display a table of all records for living animals',
-                                href: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {schemaName: item.schemaName, 'query.queryName': item.queryName,
-                                    'query.Id/Demographics/calculated_status~eq':'Alive' }),
-                                text: 'Browse All Living Animals'
-                        }]
+                    var cfg;
+                    if (record.data.isAnimal) {
+                        cfg = {
+                            layout: 'hbox',
+                            bodyStyle: 'background-color: transparent;',
+                            defaults: LDK.panel.NavPanel.ITEM_DEFAULTS,
+                            items: [
+                                this.getLabelItemCfg(item),
+                                this.getBrowseItemCfg(item, {
+                                    url: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {
+                                        schemaName: item.schemaName,
+                                        'query.queryName': item.queryName
+                                    })
+                                }), {
+                                    xtype: 'ldk-linkbutton',
+                                    tooltip: item.searchTooltip || 'Click to display a table of all records for living animals',
+                                    href: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {
+                                        schemaName: item.schemaName, 'query.queryName': item.queryName,
+                                        'query.Id/Demographics/calculated_status~eq': 'Alive'
+                                    }),
+                                    text: 'Browse All Living Animals'
+                                }]
+                        };
+                    }
+                    else {
+                        cfg = {
+                            layout: 'hbox',
+                            bodyStyle: 'background-color: transparent;',
+                            defaults: LDK.panel.NavPanel.ITEM_DEFAULTS,
+                            items: [
+                                this.getLabelItemCfg(item),
+                                this.getBrowseItemCfg(item, {
+                                    url: LABKEY.ActionURL.buildURL("query", "executeQuery", null, {
+                                        schemaName: item.schemaName,
+                                        'query.queryName': item.queryName
+                                    })
+                                })
+                            ]};
                     };
 
                     return cfg;
@@ -83,5 +109,6 @@
         }
 
     });
+
 
 </script>

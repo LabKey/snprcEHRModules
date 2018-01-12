@@ -1,0 +1,18 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="ValidChargeBySpecies" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Project"/>
+                    <column columnName="Species"/>
+                    <column columnName="Purpose" />
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

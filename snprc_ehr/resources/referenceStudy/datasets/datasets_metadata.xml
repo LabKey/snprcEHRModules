@@ -2268,7 +2268,7 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
-        <tableTitle>PathologyCases</tableTitle>
+        <tableTitle>Pathology Cases</tableTitle>
     </table>
     <table tableName="MhcStatus" tableDbType="TABLE">
         <columns>
