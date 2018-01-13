@@ -14,5 +14,6 @@
     <sorts>
         <sort column="Id" />
         <sort column="date" descending="true"  />
+        <sort column="duration" descending="true" />
     </sorts>
 </customView>

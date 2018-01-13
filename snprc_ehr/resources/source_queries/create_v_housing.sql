@@ -32,7 +32,7 @@ ALTER VIEW [labkey_etl].[V_HOUSING] AS
 -- ==========================================================================================
 SELECT f.id,
   f.startDate AS date,
-  COALESCE(LAG(f.startDate) OVER (PARTITION BY f.id ORDER BY f.startDate desc), cd.disp_date_tm_max) AS endDate,
+  COALESCE(LAG(f.startDate) OVER (PARTITION BY f.id ORDER BY f.startDate DESC, f.timestamp asc), cd.disp_date_tm_max) AS endDate,
   CAST(f.room AS VARCHAR(10)) AS room,
   f.cage,
   f.group_housing_flag,
@@ -47,7 +47,6 @@ FROM labkey_etl.f_get_location_with_cage_position() AS f
   INNER JOIN dbo.current_data AS cd ON cd.id = f.id
   INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = f.id
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = f.base_objectId
-
 
 GO
 

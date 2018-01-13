@@ -6,6 +6,7 @@
         <column name="room"/>
     </columns>
     <sorts>
-        <sort column="Date" descending="true" />
+        <sort column="date" descending="true" />
+        <sort column="enddate" descending="true" />
     </sorts>
 </customView>
