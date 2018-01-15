@@ -20,16 +20,24 @@ import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ForeignKey;
+import org.labkey.api.data.JdbcType;
+import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ehr.EHRService;
+import org.labkey.api.exp.api.StorageProvisioner;
+import org.labkey.api.exp.property.Domain;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.DetailsURL;
+import org.labkey.api.query.ExprColumn;
+import org.labkey.api.query.FilteredTable;
 import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
+
+import java.util.Calendar;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -90,16 +98,17 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     }
 */
+
     /**
      * This should contain java code that will act upon any table in the EHR, which includes
      * core ehr and ehr_lookups schema, study datasets, etc.
-     *
+     * <p>
      * This gives you the opportunity to apply standardized configuration across all tables that
      * use this customizer, which can be more efficient than editing each XML file.
-     *
+     * <p>
      * It also gives the opportunity to make conditional changes, such as only adding a URL if the user has
      * specific permissions.
-     *
+     * <p>
      * Finally, you can add calculated columns, such as SQL expressions.  This can be very useful, as the LK API typically
      * only lets you act on single columns.  An example could be a column created by concatenating 2 columns (ie. drug amount + units in a single col),
      * or coalescing a series of columns (preferentially displaying col 1, but showing col 2 if null)
@@ -158,11 +167,16 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         if (matches(ti, "study", "Animal"))
         {
             customizeAnimalTable(ti);
-        }    
+        }
         if (matches(ti, "study", "Animal Events") || matches(ti, "study", "encounters"))
         {
             customizeEncounterTable(ti);
         }
+        if (matches(ti, "study", "housing"))
+        {
+            customizeHousingTable((AbstractTableInfo) ti);
+        }
+
     }
 
     /**
@@ -180,6 +194,76 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     private void customizeEncounterTable(AbstractTableInfo ti)
     {
         ti.getColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
+    }
+
+    private void customizeHousingTable(AbstractTableInfo ti)
+    {
+        if (ti.getColumn("effectiveCage") == null)
+        {
+            UserSchema us = getUserSchema(ti, "study");
+            ;
+            if (us != null)
+            {
+                ColumnInfo lsidCol = ti.getColumn("lsid");
+                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "effectiveCage"));
+                col.setLabel("Lowest Joined Cage");
+                col.setUserEditable(false);
+                col.setIsUnselectable(true);
+                col.setFk(new QueryForeignKey(us, null, "housingEffectiveCage", "lsid", "effectiveCage"));
+            }
+        }
+
+        if (ti.getColumn("daysInRoom") == null)
+        {
+            TableInfo realTable = getRealTable(ti);
+            if (realTable != null && realTable.getColumn("participantid") != null && realTable.getColumn("date") != null && realTable.getColumn("enddate") != null)
+            {
+                SQLFragment roomSql = new SQLFragment(realTable.getSqlDialect().getDateDiff(Calendar.DATE, "{fn curdate()}", "(SELECT max(h2.enddate) as d FROM " + realTable.getSelectName() + " h2 WHERE h2.enddate IS NOT NULL AND h2.enddate <= " + ExprColumn.STR_TABLE_ALIAS + ".date AND h2.participantid = " + ExprColumn.STR_TABLE_ALIAS + ".participantid and h2.room != " + ExprColumn.STR_TABLE_ALIAS + ".room)"));
+                ExprColumn roomCol = new ExprColumn(ti, "daysInRoom", roomSql, JdbcType.INTEGER, realTable.getColumn("participantid"), realTable.getColumn("date"), realTable.getColumn("enddate"));
+                roomCol.setLabel("Days In Room");
+                ti.addColumn(roomCol);
+
+                SQLFragment sql = new SQLFragment(realTable.getSqlDialect().getDateDiff(Calendar.DATE, "{fn curdate()}", "(SELECT max(h2.enddate) as d FROM " + realTable.getSelectName() + " h2 LEFT JOIN ehr_lookups.rooms r1 ON (r1.room = h2.room) WHERE h2.enddate IS NOT NULL AND h2.enddate <= " + ExprColumn.STR_TABLE_ALIAS + ".date AND h2.participantid = " + ExprColumn.STR_TABLE_ALIAS + ".participantid and r1.area != (select area FROM ehr_lookups.rooms r WHERE r.room = " + ExprColumn.STR_TABLE_ALIAS + ".room))"));
+                ExprColumn areaCol = new ExprColumn(ti, "daysInArea", sql, JdbcType.INTEGER, realTable.getColumn("participantid"), realTable.getColumn("date"), realTable.getColumn("enddate"));
+                areaCol.setLabel("Days In Area");
+                ti.addColumn(areaCol);
+
+            }
+        }
+
+        String cagePosition = "cagePosition";
+        if (ti.getColumn(cagePosition) == null && ti.getColumn("cage") != null)
+        {
+            UserSchema us = getUserSchema(ti, "ehr_lookups");
+            if (us != null)
+            {
+                WrappedColumn wrapped = new WrappedColumn(ti.getColumn("cage"), cagePosition);
+                wrapped.setLabel("Cage Position");
+                wrapped.setIsUnselectable(true);
+                wrapped.setUserEditable(false);
+                wrapped.setFk(new QueryForeignKey(us, null, "cage_positions", "cage", "cage"));
+                ti.addColumn(wrapped);
+            }
+        }
+
+        if (ti.getColumn("cond") != null)
+        {
+            ti.getColumn("cond").setHidden(true);
+        }
+
+        if (ti.getColumn("previousLocation") == null)
+        {
+            UserSchema us = getUserSchema(ti, "study");
+            if (us != null)
+            {
+                ColumnInfo lsidCol = ti.getColumn("lsid");
+                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "previousLocation"));
+                col.setLabel("Previous Location");
+                col.setUserEditable(false);
+                col.setIsUnselectable(true);
+                col.setFk(new QueryForeignKey(us, null, "housingPreviousLocation", "lsid", "location"));
+            }
+        }
     }
 
     private void customizeAnimalTable(AbstractTableInfo ds)
@@ -300,7 +384,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
             ds.addColumn(col);
         }
-        if(genetics != null)
+        if (genetics != null)
         {
             if (ds.getColumn("geneticAssays") == null)
             {
@@ -309,7 +393,8 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 col.setDescription("Show if genetic assays exist for ID");
                 ds.addColumn(col);
             }
-        } else
+        }
+        else
         {
             _log.info("Linked Schema: " + geneticsSchema + " - Not found");
         }
@@ -327,4 +412,25 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         return col;
     }
 
+
+    private TableInfo getRealTable(TableInfo targetTable)
+    {
+        TableInfo realTable = null;
+        if (targetTable instanceof FilteredTable)
+        {
+            if (targetTable instanceof DatasetTable)
+            {
+                Domain domain = targetTable.getDomain();
+                if (domain != null)
+                {
+                    realTable = StorageProvisioner.createTableInfo(domain);
+                }
+            }
+            else if (targetTable.getSchema() != null)
+            {
+                realTable = targetTable.getSchema().getTable(targetTable.getName());
+            }
+        }
+        return realTable;
+    }
 }
