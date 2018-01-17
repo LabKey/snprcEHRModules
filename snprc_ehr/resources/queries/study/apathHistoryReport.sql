@@ -13,13 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT pc.id,
+SELECT
+  pc.id,
+  pc.id.demographics.gender as gender,
+  --d.gender as gender,
+  pc.id.demographics.species.arc_species_code.code as species,
+  pc.id.demographics.birth as birth,
+  pc.Id.Age.yearsAndMonths as age,
   pc.date,
   pc.AccessionCode,
   pc.AccessionNumber,
   pd.morphology,
   pd.organ,
-  pd.etiology_code
-FROM PathologyCases as pc
-  LEFT JOIN PathologyDiagnoses as pd on pc.AccessionNumber = pd.AccessionNumber
-where pc.qcstate.publicdata = true
+  pd.etiology_code,
+  pd.sp_etiology
+FROM study.PathologyCases AS pc
+  LEFT JOIN study.PathologyDiagnoses AS pd ON pc.AccessionNumber = pd.AccessionNumber
+--INNER JOIN study.demographics AS d ON d.id = pc.id
+--WHERE pc.qcstate.publicdata = TRUE

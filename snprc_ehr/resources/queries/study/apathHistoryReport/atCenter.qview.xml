@@ -1,0 +1,35 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date">
+            <properties>
+                <property name="columnTitle" value="Biopsy/Death Date"/>
+            </properties>
+        </column>
+        <!--<column name="Id/Demographics/dam"/> -->
+        <column name="age">
+            <properties>
+                <property name="columnTitle" value="Age at Time"/>
+            </properties>
+        </column>
+        <column name="gender"/>
+        <column name="species">
+            <properties>
+                <property name="columnTitle" value="Species Code"/>
+            </properties>
+        </column>
+        <column name="birth"/>
+        <column name="AccessionCode"/>
+        <column name="AccessionNumber"/>
+        <column name="morphology"/>
+        <column name="organ"/>
+        <column name="etiology_code"/>
+        <column name="sp_etiology"/>
+    </columns>
+    <filters>
+        <filter column="Id/Demographics/calculated_status" operator="eq" value="Alive"/>
+    </filters>
+    <sorts>
+        <sort column="Date" descending="true"/>
+    </sorts>
+</customView>

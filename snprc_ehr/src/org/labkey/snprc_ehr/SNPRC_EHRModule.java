@@ -189,7 +189,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
-
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Search Apath History", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=apathHistoryReport"), "Pathololgy");
         // Add ehr clinical history data sources
         EHRService.get().registerHistoryDataSource(new AccountDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultArrivalDataSource(this));

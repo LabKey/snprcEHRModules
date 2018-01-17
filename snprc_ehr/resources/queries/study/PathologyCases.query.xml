@@ -9,7 +9,7 @@
                 <deleteUrl />
                 <columns>
                     <column columnName="AccessionCode">
-                        <columnTitle>Accession Type</columnTitle>
+                        <columnTitle>Accession Code</columnTitle>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>AccessionCode</fkTable>
