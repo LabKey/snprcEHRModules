@@ -2274,6 +2274,10 @@
             <column columnName="Tissue">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="ApathRecordStatus">
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
         </columns>
         <indices>
             <index type="unique">

@@ -83,3 +83,4 @@ usda_levels	USDA Category	usda_level
 rearing_type	Rearing Type	value	Description
 yesno	Value
 fee_schedule_type	Fee Schedule Types	value	description	title	sort_order	date_disabled
+apath_record_status	Apath Record Status	value	description

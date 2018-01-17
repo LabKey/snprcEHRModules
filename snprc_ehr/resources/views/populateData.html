@@ -32,6 +32,12 @@ Ext4.onReady(function(){
         queryName: 'etiologyCode',
         pk: 'value'
     },{
+        label: 'APath record status',
+        populateFn: 'populateFromFile',
+        schemaName: 'ehr_lookups',
+        queryName: 'apath_record_status',
+        pk: 'value'
+    },{
             label: 'Pathology accession codes',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

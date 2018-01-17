@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="PathologyCases" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl>/query/detailsQueryRow.view?schemaName=study&amp;query.queryName=Pathology&amp;lsid=${lsid}</tableUrl>
+
                 <insertUrl />
                 <importUrl />
                 <updateUrl />
@@ -13,6 +13,15 @@
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>AccessionCode</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="ApathRecordStatus">
+                        <columnTitle>APath Record Status</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>Apath_record_status</fkTable>
                             <fkColumnName>value</fkColumnName>
                             <fkDisplayColumnName>description</fkDisplayColumnName>
                         </fk>

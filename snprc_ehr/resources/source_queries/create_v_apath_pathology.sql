@@ -49,7 +49,7 @@ SELECT
   tc.created                      AS created,
   tc.createdby                    AS createdby,
   a.timestamp,
-
+  a.record_status as ApathRecordStatus,
   CASE
   WHEN vrs.description LIKE 'Pending%'
     THEN 'In Progress'
