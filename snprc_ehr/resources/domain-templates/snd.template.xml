@@ -25,6 +25,21 @@
                 </dat:column>
                 <dat:column columnName="ProjectType">
                     <dat:rangeURI>string</dat:rangeURI>
+                    <dat:fk>
+                        <dat:fkDbSchema>ehr_lookups</dat:fkDbSchema>
+                        <dat:fkTable>project_type</dat:fkTable>
+                        <dat:fkColumnName>value</dat:fkColumnName>
+                        <dat:fkDisplayColumnName>description</dat:fkDisplayColumnName>
+                    </dat:fk>
+                </dat:column>
+                <dat:column columnName="FeeSchedule">
+                    <dat:rangeURI>string</dat:rangeURI>
+                    <dat:fk>
+                        <dat:fkDbSchema>ehr_lookups</dat:fkDbSchema>
+                        <dat:fkTable>fee_schedule_type</dat:fkTable>
+                        <dat:fkColumnName>value</dat:fkColumnName>
+                        <dat:fkDisplayColumnName>description</dat:fkDisplayColumnName>
+                    </dat:fk>
                 </dat:column>
             </dat:columns>
         </table>
