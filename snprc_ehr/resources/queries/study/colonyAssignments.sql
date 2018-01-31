@@ -5,11 +5,10 @@
  */
 SELECT
 
-agm.id,
-agm.date,
-agm.enddate,
-ag.name,
-ag.comment
+  agm.id,
+  agm.date,
+  agm.enddate,
+  agm.groupId.name
 
 FROM study.animal_group_members as agm
-JOIN ehr.animal_groups ag on (ag.category = 'Colony' and agm.groupId = ag.rowid)
+where agm.groupId.category_code.description like '%colonies%'
