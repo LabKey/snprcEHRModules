@@ -1518,6 +1518,7 @@
             </column>
             <column columnName="account">
                 <datatype>varchar</datatype>
+                <scale>128</scale>
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
                     <fkTable>validAccounts</fkTable>
@@ -1536,6 +1537,11 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
+        <indices>
+            <index type="non-unique">
+                <column>account</column>
+            </index>
+    </indices>
         <tableTitle>Animal Accounts</tableTitle>
     </table>
     <table tableName="deaths" tableDbType="TABLE">
