@@ -904,7 +904,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         _ext4Helper.clickExt4Tab("Matrix");
         File csv = doAndWaitForDownload(() -> click(Ext4Helper.Locators.ext4Button("Export")));
-        TextSearcher fileSearcher = new TextSearcher(()-> TestFileUtils.getFileContents(csv));
+        TextSearcher fileSearcher = new TextSearcher(csv);
 
         assertTextPresent(fileSearcher, "," + animal1 + "," + animal2);
         assertTextPresent(fileSearcher, animal1 + ", ,0.375");
