@@ -1,0 +1,31 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="demographicsActiveAccount" tableDbType="NOT_IN_DB">
+                <tableTitle>Active Account</tableTitle>
+                <columns>
+                    <column columnName="Id">
+                        <isHidden>false</isHidden>
+                    </column>
+                    <column columnName="date">
+                        <isHidden>false</isHidden>
+                        <columnTitle>Account Date</columnTitle>
+                        <formatString>Date</formatString>
+                    </column>
+                    <column columnName="Account">
+                        <columnTitle>Account</columnTitle>
+                    </column>
+                    <column columnName="AccountGroup">
+                        <isHidden>false</isHidden>
+                        <fk>
+                            <fkColumnName>accountGroup</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>distinctAccountGroups</fkTable>
+                            <fkDisplayColumnName>accountGroup</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
