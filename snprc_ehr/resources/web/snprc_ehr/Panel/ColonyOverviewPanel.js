@@ -5,15 +5,16 @@
  */
 Ext4.define('SNPRC_EHR.panel.ColonyOverviewPanel', {
     extend: 'EHR.panel.ColonyOverviewPanel',
+    alias: 'widget.snprc-ehr-colonyoverviewpanel',
 
-    initComponent: function(){
+    initComponent: function () {
         this.filterArray = [
             LABKEY.Filter.create('calculated_status', 'Alive', LABKEY.Filter.Types.EQUAL)
             //LABKEY.Filter.create('gender/meaning', 'Unknown', LABKEY.Filter.Types.NEQ)
         ];
         this.childFilterArray = [
-            LABKEY.Filter.create('Id/demographics/calculated_status', 'Alive', LABKEY.Filter.Types.EQUAL),
-            LABKEY.Filter.create('Id/demographics/gender/meaning', 'Unknown', LABKEY.Filter.Types.NEQ)
+            LABKEY.Filter.create('Id/demographics/calculated_status', 'Alive', LABKEY.Filter.Types.EQUAL)
+            //LABKEY.Filter.create('Id/demographics/gender/meaning', 'Unknown', LABKEY.Filter.Types.NEQ)
         ];
 
         Ext4.apply(this, {
@@ -24,14 +25,14 @@ Ext4.define('SNPRC_EHR.panel.ColonyOverviewPanel', {
             items: [{
                 html: 'This page is designed to give an overview of the colony',
                 style: 'padding-bottom: 20px;'
-            },{
+            }, {
                 xtype: 'tabpanel',
                 border: true,
                 defaults: {
                     border: false,
                     listeners: {
                         scope: this,
-                        activate: function(tab){
+                        activate: function (tab) {
                             Ext4.History.add('tab=' + tab.itemId);
                         }
                     }
@@ -42,17 +43,7 @@ Ext4.define('SNPRC_EHR.panel.ColonyOverviewPanel', {
 
         this.activeTab = 1;
 
-        var tokens = document.location.hash.split('#');
-        if (tokens && tokens.length > 1){
-            tokens = tokens[1].split('&');
-            for (var i=0;i<tokens.length;i++){
-                var t = tokens[i].split('=');
-                if (t.length == 2 && t[0] == 'tab'){
-                    //this.activeTab = t[0];
-                }
-            }
-        }
-
-        this.callParent();
+        // maintain context in callbacks and events //this.callParent(); replaced with...
+        this.superclass.superclass.initComponent.apply(this);
     }
 });
