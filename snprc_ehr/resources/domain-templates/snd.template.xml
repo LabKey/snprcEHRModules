@@ -54,7 +54,7 @@
         </table>
     </template>
     <template xsi:type="SNDTemplateType">
-        <table tableName="CodedEvents" tableDbType="NOT_IN_DB">
+        <table tableName="EventData" tableDbType="NOT_IN_DB">
             <dat:columns>
                 <dat:column columnName="UsdaCode">
                     <dat:rangeURI>string</dat:rangeURI>
