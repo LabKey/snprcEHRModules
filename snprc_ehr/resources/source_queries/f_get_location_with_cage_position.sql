@@ -50,7 +50,7 @@ AS
                             l.object_id      AS objectId,
                             l.entry_date_tm  AS entry_date_tm,
                             l.user_name      AS user_name,
-                            l.timestamp      AS timestamp
+							(SELECT MAX(v) FROM (VALUES (l.timestamp), (cp.timestamp)) AS VALUE ( v )) AS timestamp
                     FROM
                             dbo.location        AS l
                         LEFT OUTER JOIN
@@ -102,7 +102,7 @@ AS
                             cp.object_id     AS objectId,
                             cp.entry_date_tm AS entry_date_tm,
                             cp.user_name     AS user_name,
-                            cp.timestamp     AS timestamp
+                            (SELECT MAX(v) FROM (VALUES (l.timestamp), (cp.timestamp)) AS VALUE ( v )) AS timestamp
                     FROM
                             dbo.location        AS l
                         LEFT OUTER JOIN
