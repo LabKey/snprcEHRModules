@@ -19,7 +19,7 @@
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp" >
 
-       <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd_lookup_table" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+       <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd_lookups" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>
         <poll interval="60m" />
