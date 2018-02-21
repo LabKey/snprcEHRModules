@@ -1,40 +1,34 @@
-//
-// require("ehr/triggers").initScript(this);
-//
-// function onInit(event, helper){
-//     helper.setScriptOptions({
-//         allowFutureDates: true
-//     });
-// }
 
-/*  animal_groups table moved to snprc_ehr schema and no longer uses RowId as the foreign key
-    Code commented out, but please do not delete - it may be uncommented in the future.  tjh
+ require("ehr/triggers").initScript(this);
 
-var cachedGroups = {};
+ function onInit(event, helper){
+     helper.setScriptOptions({
+         allowFutureDates: true
+     });
+ }
+
+
 
 function onUpsert(helper, scriptErrors, row, oldRow){
-    // If we don't have the RowId of the group, try resolving it based on the category and name
-    if(!row.GroupId && row.GroupCategory && row.GroupName) {
-        var cacheKey = row.GroupCategory + '~~~~~' + row.GroupName;
-        row.GroupId = cachedGroups[cacheKey];
-        if (row.GroupId === undefined || row.GroupId == 'undefined')
+
+        if (row.LookupSetId === undefined || row.LookupSetId == 'undefined')
         {
             LABKEY.Query.selectRows({
-                schemaName: 'ehr',
-                queryName: 'animal_groups',
-                columns: 'RowId',
+                schemaName: 'snd',
+                queryName: 'LookupSets',
+                columns: 'LookupSetId',
                 scope: this,
                 filterArray: [
-                    LABKEY.Filter.create('Category', row.GroupCategory, LABKEY.Filter.Types.EQUAL),
-                    LABKEY.Filter.create('Name', row.GroupName, LABKEY.Filter.Types.EQUAL)
+                    LABKEY.Filter.create('SetName', row.SetName, LABKEY.Filter.Types.EQUAL),
+                    
                 ],
                 success: function (data)
                 {
                     if (data.rows && data.rows.length)
                     {
-                        row.GroupId = data.rows[0].rowid;
-                        cachedGroups[cacheKey] = row.GroupId;
-                        console.log('caching ' + cacheKey + ': ' + row.GroupId);
+                        row.LookupSetId = data.rows[0].LookupSetId;
+                     
+                      //  console.log('caching ' + cacheKey + ': ' + row.GroupId);
                     }
                 },
                 failure: function (error)
@@ -46,5 +40,5 @@ function onUpsert(helper, scriptErrors, row, oldRow){
         }
 
     }
-}
- */
+
+
