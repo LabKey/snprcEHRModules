@@ -7,6 +7,8 @@ ALTER FUNCTION labkey_etl.f_get_location_with_cage_position ()
 -- Author:		Terry Hawkins
 -- Create date: 12/20/2017
 -- Description:	Combines location and cage position data
+-- changes:
+-- 2/27/2018 - fixed issue with date range (added 1 day to account for casting) tjh
 -- =============================================
 
 RETURNS @moveTable TABLE
@@ -115,9 +117,8 @@ AS
                             dbo.cage_position AS cp
                                 ON l.id = cp.id
                                    AND CAST(cp.move_date_tm AS DATE) > CAST(l.move_date_tm AS DATE)
-                                   AND cp.move_date_tm < CAST(COALESCE(l.exit_date_tm, GETDATE()) AS DATE)
+                                   AND cp.move_date_tm < CAST(COALESCE(l.exit_date_tm, DATEADD(DAY, 1, GETDATE())) AS DATE)
                                    AND vl.group_housing_flag = 'N'
-
         RETURN;
     END;
 GO
