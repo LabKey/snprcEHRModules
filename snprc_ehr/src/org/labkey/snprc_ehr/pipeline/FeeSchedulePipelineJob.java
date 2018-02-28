@@ -10,10 +10,8 @@ import org.labkey.api.util.FileUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewBackgroundInfo;
-import org.labkey.snprc_ehr.controllers.FeeScheduleController;
 
 import java.io.File;
-import java.sql.SQLException;
 
 /**
  * Created by thawkins 10/23/2017
@@ -24,10 +22,10 @@ public class FeeSchedulePipelineJob extends PipelineJob
 
     private File _importFile;
     private Container _container;
-    private FeeScheduleController.FeeScheduleImportForm _form;
+    private FeeScheduleImportForm _form;
     private User _user;
 
-    public FeeSchedulePipelineJob(Container c, User user, ActionURL url, PipeRoot pipeRoot, File importFile, FeeScheduleController.FeeScheduleImportForm form)
+    public FeeSchedulePipelineJob(Container c, User user, ActionURL url, PipeRoot pipeRoot, File importFile, FeeScheduleImportForm form)
     {
         super(null, new ViewBackgroundInfo(c, user, url), pipeRoot);
         _importFile = importFile;
@@ -82,7 +80,7 @@ public class FeeSchedulePipelineJob extends PipelineJob
     private void importFile() throws PipelineJobException
     {
         int rows;
-        FeeScheduleExcelParser fsep = new FeeScheduleExcelParser(_container, _user, _importFile);
+        FeeScheduleExcelParser fsep = new FeeScheduleExcelParser(_container, _user, _importFile, _form);
         try
         {
             fsep.parseFile();
@@ -95,8 +93,6 @@ public class FeeSchedulePipelineJob extends PipelineJob
             setStatus(TaskStatus.error);
             getLogger().warn(e.getMessage());
         }
-
         getLogger().info("Ran import job: FeeSchedulePipelineJob.importFile()");
-
     }
 }

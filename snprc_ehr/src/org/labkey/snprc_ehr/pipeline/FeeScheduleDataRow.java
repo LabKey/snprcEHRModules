@@ -17,6 +17,8 @@ public class FeeScheduleDataRow
     private int _activityId;
     private Map<String, Double> _cost;
     private int _rowId;
+    private int _startingYear;
+    private String _versionLabel;
 
     private String _fileName;
     private Date _parseDate;
@@ -116,5 +118,25 @@ public class FeeScheduleDataRow
     public void setLsid(String lsid)
     {
         _lsid = lsid;
+    }
+
+    public int getStartingYear()
+    {
+        return _startingYear;
+    }
+
+    public void setStartingYear(int startingYear)
+    {
+        _startingYear = startingYear;
+    }
+
+    public String getVersionLabel()
+    {
+        return _versionLabel;
+    }
+
+    public void setVersionLabel(String versionLabel)
+    {
+        _versionLabel = versionLabel;
     }
 }
