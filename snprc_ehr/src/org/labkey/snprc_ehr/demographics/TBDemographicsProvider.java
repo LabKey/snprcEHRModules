@@ -42,6 +42,8 @@ public class TBDemographicsProvider extends AbstractListDemographicsProvider
         Set<FieldKey> keys = new HashSet<>();
         keys.add(FieldKey.fromString("Id"));
         keys.add(FieldKey.fromString("MostRecentTBDate"));
+        keys.add(FieldKey.fromString("DaysSinceLastTB"));
+        keys.add(FieldKey.fromString("DaysUntilDue"));
         keys.add(FieldKey.fromString("MonthsSinceLastTB"));
         keys.add(FieldKey.fromString("MonthsUntilDue"));
 
