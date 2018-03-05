@@ -49,7 +49,7 @@ select
 
   CASE WHEN d.calculated_status = 'Alive' THEN  (6 - age_in_months(COALESCE (p2.lastDate, d.birth), now()))
   ELSE NULL
-  END  AS MonthsUntilDue,
+  END  AS MonthsUntilDue
 
 FROM study.demographics d
 

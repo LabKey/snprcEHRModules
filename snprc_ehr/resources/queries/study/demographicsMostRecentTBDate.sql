@@ -55,7 +55,7 @@ select
 
   CASE WHEN d.calculated_status = 'Alive' THEN  (select group_concat(tb.site) as eyeTested FROM study.tb tb WHERE tb.id = d.id and tb.date = T2.lastdate)
   ELSE NULL
-  END AS eyeTested
+  END AS SiteTested
 
 from study.demographics d
 
