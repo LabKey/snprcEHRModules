@@ -3,7 +3,7 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="Animal" tableDbType="NOT_IN_DB">
                 <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
-                <tableTitle>Animal Events</tableTitle>
+                <tableTitle>Animal</tableTitle>
                 <columns>
                     <column columnName="assignmentsAtDeath" wrappedColumnName="id">
                         <shownInInsertView>false</shownInInsertView>
