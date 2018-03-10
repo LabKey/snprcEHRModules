@@ -1276,6 +1276,8 @@
     <pkColumnName>RowId</pkColumnName>
     <columns>
         <column columnName="RowId" />
+        <column columnName="StartingYear" />
+        <column columnName="VersionLabel" />
         <column columnName="ActivityId" />
         <column columnName="Species" />
         <column columnName="Description" />
@@ -1290,6 +1292,20 @@
         <column columnName="Container" />
     </columns>
     <tableTitle>Fee Schedule</tableTitle>
+    </table>
+    <table tableName="FeeScheduleSpeciesLookup" tableDbType="TABLE">
+        <pkColumnName>FsSpecies, SpeciesCode</pkColumnName>
+        <columns>
+            <column columnName="FsSpecies" />
+            <column columnName="SpeciesCode" />
+            <column columnName="ObjectId" />
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container" />
+        </columns>
+        <tableTitle>Fee Schedule Species Lookup</tableTitle>
     </table>
 </tables>
 
