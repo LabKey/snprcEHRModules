@@ -2277,6 +2277,16 @@
             <column columnName="AccessionCode">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="deathType">
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>apath_death_type</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                    <fkDisplayColumnName>description</fkDisplayColumnName>
+                </fk>
+            </column>
             <column columnName="Tissue">
                 <datatype>varchar</datatype>
             </column>

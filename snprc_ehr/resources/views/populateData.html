@@ -26,6 +26,12 @@ function importFile(config) {
 Ext4.onReady(function(){
 
     var tables = [{
+        label: 'Apath Death Type',
+        populateFn: 'populateFromFile',
+        schemaName: 'ehr_lookups',
+        queryName: 'apath_death_type',
+        pk: 'value'
+    },{
         label: 'Etiology codes',
         populateFn: 'populateFromFile',
         schemaName: 'ehr_lookups',

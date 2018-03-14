@@ -6,6 +6,11 @@
                 <property name="columnTitle" value="Biopsy/Death Date"/>
             </properties>
         </column>
+        <column name="deathType">
+            <properties>
+                <property name="columnTitle" value="Death Type"/>
+            </properties>
+        </column>
         <column name="AccessionNumber"/>
         <column name="AccessionCode"/>
         <column name="Tissue"/>

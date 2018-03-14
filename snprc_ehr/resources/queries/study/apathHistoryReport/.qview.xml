@@ -21,6 +21,11 @@
         <column name="birth"/>
         <column name="AccessionCode"/>
         <column name="AccessionNumber"/>
+        <column name="deathType">
+            <properties>
+                <property name="columnTitle" value="Death Type"/>
+            </properties>
+        </column>
         <column name="morphology"/>
         <column name="organ"/>
         <column name="etiology_code"/>

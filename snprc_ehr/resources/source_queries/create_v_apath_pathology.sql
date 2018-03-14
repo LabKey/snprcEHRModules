@@ -44,6 +44,7 @@ SELECT
   a.tissue                        AS Tissue,
   a.object_id                     AS objectid,
   --a.account						  AS project,
+  a.death_type                    AS deathType,
   a.entry_date_tm                 AS modified,
   dbo.f_map_username(a.user_name) AS modifiedby,
   tc.created                      AS created,

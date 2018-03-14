@@ -21,6 +21,7 @@
         <column name="birth"/>
         <column name="AccessionCode"/>
         <column name="AccessionNumber"/>
+        <column name="deathType" />
         <column name="morphology"/>
         <column name="organ"/>
         <column name="etiology_code"/>
