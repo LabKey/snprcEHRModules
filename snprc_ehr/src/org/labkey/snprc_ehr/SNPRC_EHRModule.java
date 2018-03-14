@@ -136,7 +136,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         RoleManager.registerRole(new ManageGroupMembersRole());
         RoleManager.registerRole(new ManageRelatedTablesRole());
 
-        SNDService.get().registerEventTriggerFactory(new SNPRCEventTriggerFactory());
+        SNDService.get().registerEventTriggerFactory(this, new SNPRCEventTriggerFactory());
 
         //register factory beans to map foo_bar column names to fooBar
         ObjectFactory.Registry.register(Institution.class, new SNPRCBeanFactory<>(Institution.class));
