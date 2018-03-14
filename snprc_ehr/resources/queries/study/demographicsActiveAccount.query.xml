@@ -21,14 +21,14 @@
                     <column columnName="accountOnly">
                         <columnTitle>Account</columnTitle>
                     </column>
+                    <column columnName="accountDate">
+                        <columnTitle>Account Date</columnTitle>
+                    </column>
+                    <column columnName="accountDescription">
+                        <columnTitle>Account Description</columnTitle>
+                    </column>
                     <column columnName="AccountGroup">
-                        <isHidden>true</isHidden>
-                        <fk>
-                            <fkColumnName>accountGroup</fkColumnName>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>distinctAccountGroups</fkTable>
-                            <fkDisplayColumnName>accountGroup</fkDisplayColumnName>
-                        </fk>
+                        <columnTitle>Account Group</columnTitle>
                     </column>
                 </columns>
             </table>

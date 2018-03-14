@@ -17,10 +17,12 @@ SELECT
   d.id,
   a.date,
   GROUP_CONCAT(a.account) as account,
+  GROUP_CONCAT(cast(cast(a.date as date) as varchar(12))) as accountDate,
   GROUP_CONCAT(a.account) as accountOnly,
-  GROUP_CONCAT(va.accountGroup) as accountGroup
+  GROUP_CONCAT(va.accountGroup) as accountGroup,
+  GROUP_CONCAT(va.description) as accountDescription
 FROM study.demographics d
-INNER JOIN study.animalAccounts a ON a.id = d.id AND a.isActive = true
-LEFT OUTER JOIN snprc_ehr.validAccounts va ON va.account = a.account
+  INNER JOIN study.animalAccounts a ON a.id = d.id AND a.isActive = true
+  LEFT OUTER JOIN snprc_ehr.validAccounts va ON va.account = a.account
 
 GROUP BY d.id, a.date
