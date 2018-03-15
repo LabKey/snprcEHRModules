@@ -88,7 +88,7 @@ import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
-import org.labkey.snprc_ehr.snd.SNPRCEventTriggerFactory;
+import org.labkey.snprc_ehr.snd.SNPRCEventDataTriggerFactory;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
 //import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
@@ -136,7 +136,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         RoleManager.registerRole(new ManageGroupMembersRole());
         RoleManager.registerRole(new ManageRelatedTablesRole());
 
-        SNDService.get().registerEventTriggerFactory(this, new SNPRCEventTriggerFactory());
+        SNDService.get().registerEventTriggerFactory(this, new SNPRCEventDataTriggerFactory());
 
         //register factory beans to map foo_bar column names to fooBar
         ObjectFactory.Registry.register(Institution.class, new SNPRCBeanFactory<>(Institution.class));

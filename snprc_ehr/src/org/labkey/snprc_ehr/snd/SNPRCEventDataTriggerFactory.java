@@ -1,16 +1,16 @@
 package org.labkey.snprc_ehr.snd;
 
-import org.labkey.api.snd.EventTrigger;
-import org.labkey.api.snd.EventTriggerFactory;
+import org.labkey.api.snd.EventDataTrigger;
+import org.labkey.api.snd.EventDataTriggerFactory;
 import org.labkey.snprc_ehr.snd.triggers.TestTrigger;
 
-public class SNPRCEventTriggerFactory implements EventTriggerFactory
+public class SNPRCEventDataTriggerFactory implements EventDataTriggerFactory
 {
 
     @Override
-    public EventTrigger createTrigger(String category)
+    public EventDataTrigger createTrigger(String category)
     {
-        EventTrigger trigger;
+        EventDataTrigger trigger;
 
         switch (category)
         {
