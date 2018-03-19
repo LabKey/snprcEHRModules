@@ -6,20 +6,20 @@ import org.labkey.api.security.User;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.EventData;
 import org.labkey.api.snd.EventDataTrigger;
-import org.labkey.api.snd.Package;
+import org.labkey.api.snd.SuperPackage;
 
 import java.util.List;
 
 public class TestTrigger implements EventDataTrigger
 {
     @Override
-    public void onInsert(Container c, User u, EventData eventData, Event event, List<Package> pkgs, BatchValidationException errors)
+    public void onInsert(Container c, User u, EventData eventData, Event event, List<SuperPackage> superPkgs, BatchValidationException errors)
     {
 
     }
 
     @Override
-    public void onUpdate(Container c, User u, EventData eventData, Event event, List<Package> pkgs, BatchValidationException errors)
+    public void onUpdate(Container c, User u, EventData eventData, Event event, List<SuperPackage> superPkgs, BatchValidationException errors)
     {
 
     }
