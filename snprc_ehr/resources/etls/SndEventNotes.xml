@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>_SND Events</name>
-    <description>Events (from animal_events) for SND module</description>
+    <name>_SND Event Notes</name>
+    <description>Event Notes for SND module</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="v_snd_events" />
-            <destination schemaName="snd" queryName="Events" bulkLoad="true" batchSize="5000" targetOption="merge">
+            <source schemaName="snprcSrc" queryName="v_snd_event_notes" />
+            <destination schemaName="snd" queryName="EventNotes" bulkLoad="true" batchSize="5000" targetOption="merge">
                 <columnTransforms>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                     <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
-                    <column source="ParticipantId" target="SubjectId"/>
                 </columnTransforms>
             </destination>
         </transform>
