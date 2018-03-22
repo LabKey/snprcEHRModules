@@ -707,7 +707,7 @@
                 schemaName: 'ehr_lookups',
                 queryName: 'fee_schedule_type',
                 pk: 'value'
-            },
+            }
         ];
 
         tables.sort(function (a, b) {
@@ -723,9 +723,7 @@
             queryName: 'lookup_sets'
         });
 
-        var webpart =
-    <
-        %= webpartContext % >;
+        var webpart = <%=webpartContext%>;
         Ext4.define('SNPRC_EHR.panel.PopulateDataPanel', {
             extend: 'Ext.panel.Panel',
 
