@@ -20,6 +20,12 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
                 text: 'Generate custom columns',
                 scope: this,
                 handler: this.createDomainHandler
+            }, {
+                xtype: 'button',
+                style: 'margin-left:10px',
+                text: 'Refresh event narrative cache',
+                scope: this,
+                handler: this.refreshNarrativeCacheHandler
             }
             ]
         });
@@ -28,7 +34,7 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
     },
 
     success: function () {
-        LABKEY.Utils.alert("Success","Tables updated successfully.");
+        LABKEY.Utils.alert("Success","Action executed successfully.");
     },
 
     failure: function (e) {
@@ -44,5 +50,15 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
             module: "snprc_ehr",
             importData: false
             });
+    },
+
+    refreshNarrativeCacheHandler: function () {
+        LABKEY.Ajax.request({
+            success: this.success,
+            failure: this.failure,
+            url: LABKEY.ActionURL.buildURL('snd', 'refreshNarrativeCache.api'),
+            params: {},
+            scope: this,
+        });
     }
 });
