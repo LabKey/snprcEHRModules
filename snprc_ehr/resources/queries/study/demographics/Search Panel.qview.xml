@@ -51,22 +51,21 @@
                 <property name="columnTitle" value="Account Group"/>
             </properties>
         </column>
-        <!-- temporarily removed - see snprc issue #204 tjh -->
-        <!--<column name="Id/activeGroups/Cycle::animal_group">-->
-            <!--<properties>-->
-                <!--<property name="columnTitle" value="Cycle Reading Group"/>-->
-            <!--</properties>-->
-        <!--</column>-->
-        <!--<column name="Id/activeGroups/Colony::animal_group">-->
-            <!--<properties>-->
-                <!--<property name="columnTitle" value="Colony"/>-->
-            <!--</properties>-->
-        <!--</column>-->
-        <!--<column name="Id/activeGroups/Pedigree::animal_group">-->
-            <!--<properties>-->
-                <!--<property name="columnTitle" value="Pedigree"/>-->
-            <!--</properties>-->
-        <!--</column>-->
+        <column name="Id/activeGroups/Cycle::animal_group">
+            <properties>
+                <property name="columnTitle" value="Cycle Reading Group"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/Colony::animal_group">
+            <properties>
+                <property name="columnTitle" value="Colony"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/Pedigree::animal_group">
+            <properties>
+                <property name="columnTitle" value="Pedigree"/>
+            </properties>
+        </column>
         <column name="death">
             <properties>
                 <property name="columnTitle" value="Death Date 1"/>
