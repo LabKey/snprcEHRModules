@@ -1,4 +1,4 @@
-ALTER VIEW [labkey_etl].[v_snd_EventData]
+CREATE VIEW [labkey_etl].[v_snd_attributeData]
 AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins

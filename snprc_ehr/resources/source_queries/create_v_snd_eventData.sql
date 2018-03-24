@@ -1,15 +1,4 @@
-USE [animal]
-GO
-
-/****** Object:  View [labkey_etl].[v_snd_eventData]    Script Date: 3/23/2018 5:49:25 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-ALTER VIEW [labkey_etl].[v_snd_eventData]
+CREATE VIEW [labkey_etl].[v_snd_eventData]
 AS
     -- ==========================================================================================
     -- Author:		Terry Hawkins

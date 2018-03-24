@@ -5,15 +5,16 @@ CREATE VIEW [labkey_etl].[v_delete_snd_eventData] AS
 -- Description:	Selects the records to delete from snd.EventData dataset
 -- Note:
 --
--- Changes:
+-- Changes: Modified to use EventDataId as key (instead of ObjectId) (by Binal on Mar 23, 2018)
 --
 -- ==========================================================================================
 
 
-SELECT a.object_id,
-  a.audit_date_tm
+SELECT
+PROC_ID as EventDataId,
+audit_date_tm
 FROM audit.audit_coded_procs AS a
-WHERE a.audit_action = 'D' AND a.OBJECT_ID IS NOT NULL
+WHERE a.audit_action = 'D'
 
 GO
 
