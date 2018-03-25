@@ -5,20 +5,16 @@
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="v_snd_EventData_only" />
+            <source schemaName="snprcSrc" queryName="v_snd_eventData" />
             <destination schemaName="snd" queryName="EventData" bulkLoad="true" batchSize="5000" targetOption="merge">
-                <columnTransforms>
-                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
-                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
-                </columnTransforms>
                 <alternateKeys>
-                    <column name="ObjectId"/>
+                    <column name="EventDataId"/>
                 </alternateKeys>
             </destination>
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp" >
-        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd_eventData" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="ObjectId"/>
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd_eventData" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="EventDataId" targetKeyColumnName="EventDataId"/>
     </incrementalFilter>
     <schedule>
         <poll interval="60m" />
