@@ -418,16 +418,16 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         beginAt("/project/" + getContainerPath() + "/begin.view");
         waitAndClickAndWait(Locator.linkWithText("Animal Search"));
         searchPanel = new AnimalSearchPanel(getDriver());
-        searchPanel.selectValues("Gender", " All");
+        searchPanel.selectValues("Gender", false, " All");
         assertEquals("Selecting 'All' genders didn't set input correctly", "Female;Male;Unknown", getFormElement(Locator.input("gender")));
         searchResults = searchPanel.submit();
         assertEquals("Wrong number of rows for searching all genders", 43, searchResults.getDataRowCount());
 
         goBack();
         searchPanel = new AnimalSearchPanel(getDriver());
-        searchPanel.selectValues("Species code (3 char)", "PCC");
+        searchPanel.selectValues("Species code (3 char)", false, "PCC");
         assertEquals("Select 'PCC' species didn't set input correctly", "PCC", getFormElement(Locator.input("species")));
-        searchPanel.selectValues("Species code (3 char)", "CTJ");
+        searchPanel.selectValues("Species code (3 char)", true, "CTJ");
         assertEquals("Adding 'CTJ' to species filter didn't set input correctly", "PCC;CTJ", getFormElement(Locator.input("species")));
         searchResults = searchPanel.submit();
         assertEquals("Wrong number of rows: Species = PCC or CTJ", 14, searchResults.getDataRowCount());
