@@ -4,7 +4,22 @@
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 
-SELECT * from study.colonyUsageQuery
+SELECT
+  investigator,
+  protocol,
+  species_code,
+  M,
+  F,
+  U,
+  Infant,
+  Juvenile,
+  Adult,
+  Senior,
+  SPF,
+  Conventional,
+  total
+
+from study.colonyUsageQuery
 
   UNION
 
@@ -22,4 +37,4 @@ select
   sum(SPF),
   sum(Conventional),
   sum(total)
-from study.colonyUsageQuery where species_code = 'PC'
+from study.colonyUsageQuery
