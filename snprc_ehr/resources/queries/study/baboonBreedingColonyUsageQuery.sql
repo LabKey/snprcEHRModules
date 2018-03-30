@@ -15,6 +15,8 @@ SELECT
   age."Juvenile::ageTotal" as Juvenile,
   age."Adult::ageTotal" as Adult,
   age."Senior::ageTotal" as Senior,
+  col."pc_SPF::colonytotal" as SPF,
+  col."pc_Conv::colonytotal" as Conventional,
   gt.total
 
 FROM
@@ -48,6 +50,21 @@ FROM
    PIVOT agetotal BY ageClass IN ('Infant', 'Juvenile', 'Adult', 'Senior')) age
     ON gen.accountGroup = age.accountGroup AND gen.species_code = age.species_code
 
+    INNER JOIN
+    -- Colonies (pc_SPF, pc_Conv)
+    (SELECT
+       aag.accountGroup AS accountGroup,
+       dcc.colony AS colony,
+       aag.Id.Demographics.species.arc_species_code AS species_code,
+       count(*) AS colonytotal
+
+     FROM study.ActiveAccountsWithGroup as aag
+       INNER JOIN study.demographicsCurrentColony as dcc on aag.id = dcc.id
+     WHERE aag.Id.Demographics.gender IS NOT NULL AND aag.Id.Demographics.calculated_status = 'Alive'
+     GROUP BY aag.accountGroup, dcc.colony, aag.Id.Demographics.species.arc_species_code
+
+     PIVOT colonytotal BY colony IN (SELECT name FROM snprc_ehr.BaboonColonyGroups))  col -- ('pc_SPF', 'pc_Conv')) col
+      ON gen.accountGroup = col.accountGroup AND gen.species_code = col.species_code
   INNER JOIN
   -- Total --
   (SELECT

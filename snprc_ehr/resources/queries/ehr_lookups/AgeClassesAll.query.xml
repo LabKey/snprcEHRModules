@@ -1,0 +1,15 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="AgeClassesAll" tableDbType="NOT_IN_DB">
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
+                <tableTitle>Age Classes All</tableTitle>
+                <columns>
+                        <column columnName="species_code">
+                            <isHidden>true</isHidden>
+                        </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

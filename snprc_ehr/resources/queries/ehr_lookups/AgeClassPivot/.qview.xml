@@ -1,0 +1,21 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Label">
+            <properties>
+                <property name="columnTitle" value="Age Class"/>
+            </properties>
+        </column>
+        <column name="M"/>
+        <column name="F"/>
+        <column name="result"/>
+        <column name="U"/>
+        <column name="species_code">
+            <properties>
+                <property name="columnTitle" value="Species"/>
+            </properties>
+        </column>
+    </columns>
+    <sorts>
+        <sort column="ageClass" />
+    </sorts>
+</customView>

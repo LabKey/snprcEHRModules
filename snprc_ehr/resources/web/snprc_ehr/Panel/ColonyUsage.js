@@ -25,7 +25,7 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
 
         this.add(this.getBaboonUnassignedTable());
 
-        //this.add(this.getBaboonAgeClassTable());
+        this.add(this.getBaboonAgeClassTable());
     },
 
     getAssignedTable: function(){
@@ -77,7 +77,7 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
             queryConfig: {
                 title: 'Age Classes (in years)',
                 containerPath: this.containerPath,
-                schemaName: 'study',
+                schemaName: 'ehr_lookups',
                 queryName: 'AgeClassPivot',
                 filterArray: this.filterArray,
                 failure: LDK.Utils.getErrorCallback()

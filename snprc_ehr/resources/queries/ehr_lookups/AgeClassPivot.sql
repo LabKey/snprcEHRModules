@@ -2,7 +2,8 @@ SELECT label,
   "M::ageRange" as M,
   "F::ageRange" as F,
   "U::ageRange" as U,
-  species as species_code
+  species as species_code,
+  ageclass
 FROM
   (
     SELECT label,
@@ -11,7 +12,7 @@ FROM
       ageclass,
       species
 
-    FROM study.AgeClassesRanges
+    FROM ehr_lookups.AgeClassRanges
 
     GROUP BY Label, gender, ageClass, species
 
