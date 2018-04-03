@@ -1,3 +1,16 @@
+USE [animal]
+GO
+
+/****** Object:  View [labkey_etl].[v_snd_attributeData]    Script Date: 4/2/2018 7:17:41 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
 ALTER VIEW [labkey_etl].[v_snd_attributeData]
 AS
 -- ==========================================================================================
@@ -7,8 +20,7 @@ AS
 -- Changes:
 --
 -- ==========================================================================================
-
-SELECT
+SELECT TOP (99.999999999) PERCENT
   cp.ANIMAL_EVENT_ID               AS EventId,
   sp.PKG_ID                        AS PkgId,
   -- snd.EventData columns
@@ -43,6 +55,7 @@ INNER JOIN dbo.PKG_ATTRIBS AS pa ON pa.PKG_ID = p.PKG_ID AND pa.ATTRIB_KEY = cpa
 
 
 -- select primates only from the TxBiomed colony
-INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID;
+INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID
+ORDER BY EventDataId
 
 GO
