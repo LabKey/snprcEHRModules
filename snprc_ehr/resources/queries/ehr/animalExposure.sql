@@ -16,11 +16,11 @@
 SELECT DISTINCT
   a.demographics.id As Animal,
   a.demographics.gender As Gender,
-  a.ageclass.ageclass As "AgeClass",
+  a.ageclass.label As "AgeClass",
   h.room,
   hr.roommateId.id As Roommate,
   rd.demographics.gender As "Roommate Gender",
-  rd.ageclass.ageclass As "Roommate Age Class"
+  rd.ageclass.label As "Roommate Age Class"
 
 FROM study.Animal a
 
