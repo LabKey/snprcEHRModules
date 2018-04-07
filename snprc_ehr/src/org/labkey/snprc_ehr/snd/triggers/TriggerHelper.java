@@ -3,6 +3,8 @@ package org.labkey.snprc_ehr.snd.triggers;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.ehr.EHRDemographicsService;
+import org.labkey.api.ehr.demographics.AnimalRecord;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
@@ -100,5 +102,25 @@ public class TriggerHelper
         }
 
         return ti;
+    }
+
+    @Nullable
+    public static String getGender(Container c, String subjectId, List<ValidationException> errors)
+    {
+        String gender = null;
+
+        AnimalRecord ar = EHRDemographicsService.get().getAnimal(c, subjectId);
+        if (ar == null)
+        {
+            errors.add(new ValidationException("Animal Id not found", ValidationException.SEVERITY.ERROR));
+            return gender;
+        }
+
+        return ar.getGender();
+    }
+
+    public static boolean verifyGender(Container c, String subjectId, String expectedGender, List<ValidationException> errors)
+    {
+        return expectedGender.equals(getGender(c, subjectId, errors));
     }
 }
