@@ -4,3 +4,4 @@ category_code	description	displayable	enforce_exclusivity	allow_future_date	obje
 3	Chimp colonies	N	Y	N	"dbe36139-b7ba-102d-8c2a-9926f351b9ae"
 4	Cynomolgus colonies	N	Y	N	"dbe26149-b7ba-102d-8c2a-9926f351b9ae"
 5	Misc colonies	Y	N	N	"dbe16159-b7ba-102d-8c2a-9926f351b9ae"
+6	baboon colonies	Y	Y	N	"dbe56119-b7ba-102d-8c2a-9926f351b9ae"
