@@ -16,6 +16,11 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
                 html: 'This page provides settings and actions for the SND module.',
                 style: 'padding-bottom: 20px'
             }, {
+                id: 'snd-refreshcache',
+                html: '<i class="fa fa-spinner fa-spin">&nbsp</i> Refreshing cache...',
+                style: 'padding-bottom: 20px',
+                hidden: true
+            }, {
                 xtype: 'button',
                 text: 'Generate custom columns',
                 scope: this,
@@ -52,10 +57,21 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
             });
     },
 
+    narrativeCacheSuccess: function () {
+        Ext4.getCmp('snd-refreshcache').hide();
+        LABKEY.Utils.alert("Success","Narrative cache refreshed");
+    },
+
+    narrativeCacheFailure: function (e) {
+        Ext4.getCmp('snd-refreshcache').hide();
+        LABKEY.Utils.alert("Error", e.exception);
+    },
+
     refreshNarrativeCacheHandler: function () {
+        Ext4.getCmp('snd-refreshcache').show();
         LABKEY.Ajax.request({
-            success: this.success,
-            failure: this.failure,
+            success: this.narrativeCacheSuccess,
+            failure: this.narrativeCacheFailure,
             url: LABKEY.ActionURL.buildURL('snd', 'refreshNarrativeCache.api'),
             params: {},
             scope: this,
