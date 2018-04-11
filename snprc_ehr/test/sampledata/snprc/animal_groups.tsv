@@ -6,5 +6,5 @@ code	name	date	enddate	Purpose	Comment	Category	objectid
 5	chimp	2014-01-01			chimpanzees	3	"dbe161b9-b7ba-102d-8c2a-9926f351b9ae"
 6	cyno	2012-02-06	2013-06-01		cynomolgus	4	"dbe061b9-b7ba-102d-8c2a-9926f351b9ae"
 7	unknown	1/1/1979 1:01:00			unknown dam or unassigned	5	"dbe861b9-b7ba-102d-8c2a-9926f351b9ae"
-8	pc_SPF	2/14/2014 13:29:39			Genetically characterized baboons	6	"dbe561b9-b7ba-102d-8c2a-9926f351b9ae"
-9	pc_Conv	2/14/2014 13:29:39			Baboons that will be genotyped	6	"dbe461b9-b7ba-102d-8c2a-9926f351b9ae"
+8	pc_SPF	2/14/2014 13:29:39			Genetically characterized baboons	6	"dbe561b9-b7ba-102d-8c2a-9926f361b9ae"
+9	pc_Conv	2/14/2014 13:29:39			Baboons that will be genotyped	6	"dbe461b9-b7ba-102d-8c2a-9926f371b9ae"
