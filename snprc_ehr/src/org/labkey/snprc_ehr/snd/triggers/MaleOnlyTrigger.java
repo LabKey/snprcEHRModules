@@ -5,25 +5,25 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.EventData;
-import org.labkey.api.snd.EventDataTrigger;
+import org.labkey.api.snd.EventTrigger;
 import org.labkey.api.snd.TriggerAction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MaleOnlyTrigger implements EventDataTrigger
+public class MaleOnlyTrigger implements EventTrigger
 {
     private static final String expectedGender = "M";
 
     @Override
     public void onInsert(Container c, User u, TriggerAction triggerAction, Map<String, Object> extraContext)
     {
-        Event event = triggerAction.getIncomingEvent();
-        EventData eventData = triggerAction.getIncomingEventData();
+        Event event = triggerAction.getEvent();
+        EventData eventData = triggerAction.getEventData();
 
         List<ValidationException> errors = new ArrayList<>();
-        boolean genderMatches = TriggerHelper.verifyGender(c, triggerAction.getIncomingEvent().getSubjectId(), expectedGender, errors);
+        boolean genderMatches = TriggerHelper.verifyGender(c, triggerAction.getEvent().getSubjectId(), expectedGender, errors);
 
         if (errors.size() > 0)
         {

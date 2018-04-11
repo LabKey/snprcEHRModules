@@ -1,9 +1,10 @@
 package org.labkey.snprc_ehr.snd;
 
-import org.labkey.api.snd.EventDataTrigger;
+import org.labkey.api.snd.EventTrigger;
 import org.labkey.api.snd.EventTriggerFactory;
 import org.labkey.snprc_ehr.snd.triggers.BloodDrawTrigger;
 import org.labkey.snprc_ehr.snd.triggers.FemaleOnlyTrigger;
+import org.labkey.snprc_ehr.snd.triggers.KetamineReactorTrigger;
 import org.labkey.snprc_ehr.snd.triggers.MaleOnlyTrigger;
 import org.labkey.snprc_ehr.snd.triggers.TestTrigger;
 
@@ -11,9 +12,9 @@ public class SNPRCEventTriggerFactory implements EventTriggerFactory
 {
 
     @Override
-    public EventDataTrigger createTrigger(String category)
+    public EventTrigger createTrigger(String category)
     {
-        EventDataTrigger trigger;
+        EventTrigger trigger;
 
         switch (category)
         {
@@ -28,6 +29,9 @@ public class SNPRCEventTriggerFactory implements EventTriggerFactory
                 break;
             case "Female Only":
                 trigger = new FemaleOnlyTrigger();
+                break;
+            case "Ketamine Reactor":
+                trigger = new KetamineReactorTrigger();
                 break;
             default:
                 trigger = null;

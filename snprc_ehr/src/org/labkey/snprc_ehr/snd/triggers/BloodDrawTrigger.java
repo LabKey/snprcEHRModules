@@ -16,7 +16,7 @@ import org.labkey.api.security.User;
 import org.labkey.api.snd.AttributeData;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.EventData;
-import org.labkey.api.snd.EventDataTrigger;
+import org.labkey.api.snd.EventTrigger;
 import org.labkey.api.snd.Package;
 import org.labkey.api.snd.TriggerAction;
 import org.labkey.api.util.PageFlowUtil;
@@ -24,14 +24,13 @@ import org.labkey.api.util.PageFlowUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class BloodDrawTrigger implements EventDataTrigger
+public class BloodDrawTrigger implements EventTrigger
 {
 
     public static class BloodInfo implements Comparable<BloodInfo>
@@ -207,8 +206,8 @@ public class BloodDrawTrigger implements EventDataTrigger
 
     private void validateBloodDraw(Container c, User u, TriggerAction triggerAction)
     {
-        Event event = triggerAction.getIncomingEvent();
-        EventData eventData = triggerAction.getIncomingEventData();
+        Event event = triggerAction.getEvent();
+        EventData eventData = triggerAction.getEventData();
         Package pkg = triggerAction.getSuperPackage().getPkg();
 
         AttributeData quantityAttribute = TriggerHelper.getAttribute("quantity", eventData, pkg);
