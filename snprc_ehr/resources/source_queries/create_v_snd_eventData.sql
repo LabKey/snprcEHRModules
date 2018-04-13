@@ -1,10 +1,10 @@
-CREATE VIEW [labkey_etl].[v_snd_eventData]
+ALTER VIEW [labkey_etl].[v_snd_eventData]
 AS
     -- ==========================================================================================
     -- Author:		Terry Hawkins
     -- Create date: 2/23/2018
     -- Description:	View provides the datasource for event data with attribute/values
-    -- Changes:
+    -- Changes: 4/12/2018 Added permissions
     --
     -- ==========================================================================================
 
@@ -29,4 +29,7 @@ AS
         -- select primates only from the TxBiomed colony
         INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.ANIMAL_ID;
 
+GO
+
+GRANT SELECT ON Labkey_etl.v_snd_eventData TO z_labkey
 GO

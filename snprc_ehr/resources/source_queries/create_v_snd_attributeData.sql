@@ -18,7 +18,7 @@ AS
 -- Create date: 2/23/2018
 -- Description:	View provides the datasource for event data with attribute/values
 -- Changes:
---
+-- 4/12/2018 added permnissions and trimmed leading and trailing spaces from attrib_keys. tjh
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
   cp.ANIMAL_EVENT_ID               AS EventId,
@@ -29,7 +29,7 @@ SELECT TOP (99.999999999) PERCENT
   pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
 
   -- exp.ObjectProperty columns
-  cpa.ATTRIB_KEY AS [ KEY],
+  ltrim(rtrim(cpa.ATTRIB_KEY)) AS [ KEY],
 
   CASE WHEN (LOWER(pa.DATA_TYPE) = 'numeric' OR
     LOWER(pa.DATA_TYPE) = 'decimal')
@@ -58,4 +58,7 @@ INNER JOIN dbo.PKG_ATTRIBS AS pa ON pa.PKG_ID = p.PKG_ID AND pa.ATTRIB_KEY = cpa
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID
 ORDER BY EventDataId
 
+GO
+
+GRANT SELECT ON Labkey_etl.v_snd_attributeData TO z_labkey
 GO
