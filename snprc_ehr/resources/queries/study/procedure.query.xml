@@ -15,8 +15,9 @@
                         <columnTitle>Pkg Id</columnTitle>
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>package_category_junction</fkTable>
+                            <fkTable>packageCategoryJunctionGroup</fkTable>
                             <fkColumnName>packageId</fkColumnName>
+                            <fkDisplayColumnName>packageId</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="diCreated">
