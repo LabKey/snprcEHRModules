@@ -12,8 +12,10 @@ import org.labkey.api.query.ValidationError;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.AttributeData;
+import org.labkey.api.snd.Event;
 import org.labkey.api.snd.EventData;
 import org.labkey.api.snd.Package;
+import org.labkey.api.snd.SuperPackage;
 
 import java.util.List;
 
@@ -122,5 +124,66 @@ public class TriggerHelper
     public static boolean verifyGender(Container c, String subjectId, String expectedGender, List<ValidationException> errors)
     {
         return expectedGender.equals(getGender(c, subjectId, errors));
+    }
+
+    private static SuperPackage getSuperPackage(int superPkgId, List<SuperPackage> superPkgs)
+    {
+        for (SuperPackage superPkg : superPkgs)
+        {
+            if (superPkg.getSuperPkgId() != null && superPkg.getSuperPkgId() == superPkgId)
+            {
+                return superPkg;
+            }
+        }
+
+        return null;
+    }
+
+    private static boolean eventDataHasCategory(String category, EventData eventData, SuperPackage superPackage)
+    {
+        boolean found = false;
+
+        if (superPackage.getPkg() != null)
+        {
+            // First check current event data
+            if (superPackage.getPkg().getCategories().containsValue(category))
+            {
+                found = true;
+            }
+            // Then check subpackages
+            else if (eventData.getSubPackages() != null)
+            {
+                for (EventData data : eventData.getSubPackages())
+                {
+                    if (eventDataHasCategory(category, data, getSuperPackage(data.getSuperPkgId(), superPackage.getChildPackages())))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return found;
+    }
+
+    public static boolean eventHasDataWithCategory(String category, Event event, List<SuperPackage> superPackages)
+    {
+        boolean found = false;
+
+        if (event != null && event.getEventData() != null)
+        {
+            for (EventData eventData : event.getEventData())
+            {
+                if (eventDataHasCategory(category, eventData, getSuperPackage(eventData.getSuperPkgId(), superPackages)))
+                {
+                    found = true;
+                    break;
+                }
+
+            }
+        }
+
+        return found;
     }
 }

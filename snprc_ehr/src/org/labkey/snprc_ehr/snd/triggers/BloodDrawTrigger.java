@@ -289,13 +289,20 @@ public class BloodDrawTrigger implements EventTrigger
     @Override
     public void onInsert(Container c, User u, TriggerAction triggerAction, Map<String, Object> extraContext)
     {
-        validateBloodDraw(c, u, triggerAction);
+        if (TriggerHelper.eventHasDataWithCategory("Cumulative Blood Draw", triggerAction.getEvent(), triggerAction.getTopLevelPkgs()))
+        {
+            validateBloodDraw(c, u, triggerAction);
+        }
+        else
+        {
+            triggerAction.getEventData().setException(triggerAction.getEvent(), new ValidationException("A blood draw was found without a cumulative blood draw."));
+        }
     }
 
     @Override
     public void onUpdate(Container c, User u, TriggerAction triggerAction, Map<String, Object> extraContext)
     {
-        validateBloodDraw(c, u, triggerAction);
+        onInsert(c, u, triggerAction, extraContext);
     }
 
     @Override
