@@ -8,7 +8,6 @@ import org.labkey.api.ehr.demographics.AnimalRecord;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
-import org.labkey.api.query.ValidationError;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.AttributeData;
@@ -18,6 +17,7 @@ import org.labkey.api.snd.Package;
 import org.labkey.api.snd.SuperPackage;
 
 import java.util.List;
+import java.util.Map;
 
 public class TriggerHelper
 {
@@ -167,7 +167,7 @@ public class TriggerHelper
         return found;
     }
 
-    public static boolean eventHasDataWithCategory(String category, Event event, List<SuperPackage> superPackages)
+    public static boolean eventHasDataWithCategory(String category, Event event, Map<Integer, SuperPackage> superPackages)
     {
         boolean found = false;
 
@@ -175,7 +175,7 @@ public class TriggerHelper
         {
             for (EventData eventData : event.getEventData())
             {
-                if (eventDataHasCategory(category, eventData, getSuperPackage(eventData.getSuperPkgId(), superPackages)))
+                if (eventDataHasCategory(category, eventData, superPackages.get(eventData.getEventDataId())))
                 {
                     found = true;
                     break;

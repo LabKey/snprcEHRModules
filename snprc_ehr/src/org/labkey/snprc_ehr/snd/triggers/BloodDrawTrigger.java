@@ -289,7 +289,7 @@ public class BloodDrawTrigger implements EventTrigger
     @Override
     public void onInsert(Container c, User u, TriggerAction triggerAction, Map<String, Object> extraContext)
     {
-        if (TriggerHelper.eventHasDataWithCategory("Cumulative Blood Draw", triggerAction.getEvent(), triggerAction.getTopLevelPkgs()))
+        if (TriggerHelper.eventHasDataWithCategory("Cumulative Blood Draw", triggerAction.getEvent(), triggerAction.getTopLevelEventDataSuperPkgs()))
         {
             validateBloodDraw(c, u, triggerAction);
         }
