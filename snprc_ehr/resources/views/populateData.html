@@ -26,6 +26,12 @@
     Ext4.onReady(function () {
 
         var tables = [{
+            label: 'Package Types',
+            populateFn: 'populateFromFile',
+            schemaName: 'ehr_lookups',
+            queryName: 'pkg_type',
+            pk: 'value'
+        },{
             label: 'Apath Death Type',
             populateFn: 'populateFromFile',
             schemaName: 'ehr_lookups',

@@ -32,14 +32,17 @@ ALTER VIEW [labkey_etl].[v_package] AS
   --
   -- Changes:
   -- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
-  --
+  -- 4/16/2018   added pkg_type column (P=primitive, S=super-package)
   -- ==========================================================================================
 
 
   SELECT
     p.PKG_ID                        AS id,
     LEFT(p.DESCRIPTION, 100)        AS name,
-    p.NARRATIVE                     AS descriptiong,
+    p.NARRATIVE                     AS description,
+    CASE WHEN EXISTS (SELECT 1 FROM dbo.SUPER_PKGS AS sp2
+      WHERE sp2.PARENT_PKG_ID = p.PKG_ID) THEN 'S' ELSE 'P' END AS pkgType,
+
     p.object_id                     AS objectid,
     p.entry_date_tm                 AS modified,
     dbo.f_map_username(p.user_name) AS modifiedby,
@@ -47,7 +50,9 @@ ALTER VIEW [labkey_etl].[v_package] AS
     tc.createdby                    AS createdby,
     p.timestamp                     AS timestamp
   FROM dbo.PKGS AS p
-    LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.object_id
+  INNER JOIN dbo.SUPER_PKGS AS sp ON sp.PKG_ID = p.PKG_ID AND sp.PARENT_PKG_ID IS null
+  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.object_id
+
 
 
 GO

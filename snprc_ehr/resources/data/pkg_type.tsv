@@ -1,0 +1,4 @@
+value	description	sort_order
+P	Primitive	0
+S	Super-package	1
+U	Unknown	2

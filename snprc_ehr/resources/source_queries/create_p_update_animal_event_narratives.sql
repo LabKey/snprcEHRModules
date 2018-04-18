@@ -32,6 +32,7 @@ ALTER PROCEDURE [labkey_etl].[p_update_animal_event_narratives]
 --
 --  11/02/2015  Terry Hawkins   Renamed from v_delete_animal_procedures to v_delete_animal_event_narratives.
 --  04/21/2017	Terry Hawkins	Fixed timestamp bug
+--  4/14/2018  Terry Hawkins changed criteria from primates only to all species execpt monos
 -- ==========================================================================================
 CREATE TABLE #animal_event_narratives(
 	[animal_event_id] [INT] NOT NULL,
@@ -83,13 +84,12 @@ LEFT OUTER JOIN dbo.CODED_PROC_ATTRIBS AS cpa ON cpa.PROC_ID = cp.PROC_ID
 LEFT OUTER JOIN dbo.BUDGET_ITEMS bi ON cp.BUDGET_ITEM_ID = bi.BUDGET_ITEM_ID
 LEFT OUTER JOIN dbo.SUPER_PKGS sp ON bi.SUPER_PKG_ID = sp.SUPER_PKG_ID
 
--- select primates only from the txbiomed colony
+-- exclude monos
 INNER JOIN master AS m ON m.id = ae.animal_id
 INNER JOIN valid_species vs ON m.species = vs.species_code
 INNER JOIN arc_valid_species_codes avs ON vs.arc_species_code = avs.arc_species_code
 INNER JOIN current_data AS cd ON m.id = cd.id
-INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code
-WHERE avsc.primate = 'Y'
+INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code and avsc.arc_species_code <> 'MD'
 
  AND (SELECT MAX(v) FROM (VALUES  (ae.timestamp), (cp.timestamp), (cpa.timestamp) ) AS VALUE (v))  > @max_timestamp
 

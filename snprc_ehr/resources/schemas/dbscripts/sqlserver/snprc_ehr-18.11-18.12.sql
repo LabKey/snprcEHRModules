@@ -1,0 +1,1 @@
+ALTER TABLE snprc_ehr.package ADD pkgType NVARCHAR(1) not null default 'U';

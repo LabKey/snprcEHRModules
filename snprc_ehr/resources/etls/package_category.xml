@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<etl xmlns="http://labkey.org/etl/xml" standalone="false">
+<etl xmlns="http://labkey.org/etl/xml" standalone="true">
     <name>_SNPRC PackageCategory</name>
     <description>Package Categories from (valid_code_table)</description>
     <transforms>
