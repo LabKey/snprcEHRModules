@@ -9,6 +9,7 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
     initComponent: function () {
         Ext4.apply(this, {
             border: false,
+            width: 400,
             defaults: {
                 border: false
             },
@@ -16,8 +17,12 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
                 html: 'This page provides settings and actions for the SND module.',
                 style: 'padding-bottom: 10px'
             }, {
-                html: "<a href='" + LABKEY.ActionURL.buildURL('snd', 'admin') + "'>SND Module Admin Settings</a>",
-                style: 'padding-bottom: 10px'
+                xtype: 'button',
+                text: 'Go to SND Module Admin Settings',
+                href: LABKEY.ActionURL.buildURL('snd', 'admin'),
+                style: {
+                    marginBottom: '10px'
+                }
             }, {
                 xtype: 'button',
                 text: 'Generate SNPRC custom columns',
