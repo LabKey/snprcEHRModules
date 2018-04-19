@@ -17,12 +17,8 @@ Ext4.define('EHR.panel.SNDSettingsPanel', {
                 html: 'This page provides settings and actions for the SND module.',
                 style: 'padding-bottom: 10px'
             }, {
-                xtype: 'button',
-                text: 'Go to SND Module Admin Settings',
-                href: LABKEY.ActionURL.buildURL('snd', 'admin'),
-                style: {
-                    marginBottom: '10px'
-                }
+                html: "<a class='labkey-text-link' href='" + LABKEY.ActionURL.buildURL('snd', 'admin') + "'>SND Module Admin Settings</a>",
+                style: 'padding-bottom: 10px'
             }, {
                 xtype: 'button',
                 text: 'Generate SNPRC custom columns',
