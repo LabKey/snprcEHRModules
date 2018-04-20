@@ -71,6 +71,7 @@
                 <nullable>true</nullable>
                 <isHidden>true</isHidden>
             </column>
+            <column columnName="pkgType"/>
         </columns>
     </table>
     <table tableName="package_category" tableDbType="TABLE" useColumnOrder="true">
