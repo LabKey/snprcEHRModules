@@ -22,9 +22,9 @@ import org.labkey.api.ehr.dataentry.FormSection;
 import org.labkey.api.ehr.dataentry.SimpleFormSection;
 import org.labkey.api.ehr.dataentry.TaskForm;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 import org.labkey.api.ehr.security.EHRPathologyEntryPermission;
 import org.labkey.api.module.Module;
-import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.security.PrincipalType;
 import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.view.template.ClientDependency;
@@ -47,7 +47,7 @@ public class PathologyTissuesFormType extends TaskForm
         super(ctx, owner, NAME, LABEL, "Pathology", Arrays.<FormSection>asList(
                 new TaskFormSection(),
                 new AnimalDetailsFormSection(),
-                new DrugAdministrationFormSection(EHRService.FORM_SECTION_LOCATION.Tabs),
+                new DrugAdministrationFormSection(EHRService.FORM_SECTION_LOCATION.Tabs, DrugAdministrationFormSection.LABEL, true),
                 new SimpleFormSection("study", "tissue_samples", "Tissues/Weights", "snprc_ehr-dragdropgridpanel", EHRService.FORM_SECTION_LOCATION.Tabs),
                 new TissueDistFormSection(),
                 new SimpleFormSection("study", "measurements", "Measurements", "snprc_ehr-dragdropgridpanel", EHRService.FORM_SECTION_LOCATION.Tabs)

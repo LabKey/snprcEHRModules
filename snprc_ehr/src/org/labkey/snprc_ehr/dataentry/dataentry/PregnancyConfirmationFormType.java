@@ -18,8 +18,10 @@ package org.labkey.snprc_ehr.dataentry.dataentry;
 import org.labkey.api.ehr.dataentry.AnimalDetailsFormSection;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
+import org.labkey.api.ehr.dataentry.SimpleGridPanel;
 import org.labkey.api.ehr.dataentry.TaskForm;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 import org.labkey.api.ehr.security.EHRClinicalEntryPermission;
 import org.labkey.api.module.Module;
 import org.labkey.api.view.template.ClientDependency;
@@ -42,7 +44,7 @@ public class PregnancyConfirmationFormType extends TaskForm
             new AnimalDetailsFormSection(),
             new ClinicalEncountersFormSection(),
             new SimpleGridPanel("study", "pregnancyConfirmation", "Pregnancies"),
-            new DrugAdministrationFormSection()
+            new DrugAdministrationFormSection(true)
         ));
 
         addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalDefaults.js"));

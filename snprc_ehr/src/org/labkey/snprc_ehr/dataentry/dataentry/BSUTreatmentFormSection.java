@@ -16,6 +16,7 @@
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
 import org.labkey.api.ehr.EHRService;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class BSUTreatmentFormSection extends DrugAdministrationFormSection
 {
     public BSUTreatmentFormSection(EHRService.FORM_SECTION_LOCATION location)
     {
-        super(location);
+        super(location, DrugAdministrationFormSection.LABEL, true);
         setLabel("Treatments Given");
         setTabName(getLabel());
         _showAddTreatments = false;

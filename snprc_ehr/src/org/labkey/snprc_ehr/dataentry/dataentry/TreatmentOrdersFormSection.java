@@ -16,6 +16,7 @@
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
 import org.labkey.api.ehr.EHRService;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class TreatmentOrdersFormSection extends DrugAdministrationFormSection
 
     public TreatmentOrdersFormSection(EHRService.FORM_SECTION_LOCATION location)
     {
-        super(location);
+        super(location, DrugAdministrationFormSection.LABEL, true);
         setName("Treatment Orders");
         setLabel("Medication/Treatment Orders");
         setQueryName("Treatment Orders");

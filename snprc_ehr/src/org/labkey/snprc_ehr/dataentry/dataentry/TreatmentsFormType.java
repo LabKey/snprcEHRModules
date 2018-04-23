@@ -15,15 +15,14 @@
  */
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
-import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.AnimalDetailsFormSection;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
 import org.labkey.api.ehr.dataentry.TaskForm;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 import org.labkey.api.ehr.security.EHRClinicalEntryPermission;
 import org.labkey.api.module.Module;
-import org.labkey.api.module.ModuleLoader;
 
 import java.util.Arrays;
 
@@ -45,7 +44,7 @@ public class TreatmentsFormType extends TaskForm
            // new NonStoreFormSection("Treatment Template Helper", "Treatment Template Helper", "snprc_AddScheduledTreatmentPanel", Arrays.asList(ClientDependency.fromPath("/snprc_ehr/panel/AddScheduledTreatmentPanel.js"))),
 
             new AnimalDetailsFormSection(),
-            new DrugAdministrationFormSection(),
+            new DrugAdministrationFormSection(true),
             new TreatmentOrdersFormSection()
         ));
 

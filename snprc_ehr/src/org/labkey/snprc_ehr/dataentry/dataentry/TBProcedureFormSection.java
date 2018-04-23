@@ -15,6 +15,7 @@
  */
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
+import org.labkey.api.ehr.dataentry.SimpleGridPanel;
 import org.labkey.api.view.template.ClientDependency;
 
 /**

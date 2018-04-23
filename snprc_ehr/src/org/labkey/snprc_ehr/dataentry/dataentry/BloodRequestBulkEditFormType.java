@@ -15,6 +15,7 @@
  */
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
+import org.labkey.api.ehr.dataentry.BloodDrawFormSection;
 import org.labkey.api.ehr.dataentry.BulkEditFormType;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;

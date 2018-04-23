@@ -16,10 +16,12 @@
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
 import org.labkey.api.ehr.dataentry.AnimalDetailsFormSection;
+import org.labkey.api.ehr.dataentry.BloodDrawFormSection;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
 import org.labkey.api.ehr.dataentry.RequestForm;
 import org.labkey.api.ehr.dataentry.RequestFormSection;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 import org.labkey.api.module.Module;
 
 import java.util.Arrays;
@@ -37,7 +39,7 @@ public class GeneralRequestFormType extends RequestForm
                 new RequestFormSection(),
                 new AnimalDetailsFormSection(),
                 new BloodDrawFormSection(true),
-                new DrugAdministrationFormSection()
+                new DrugAdministrationFormSection(true)
         ));
     }
 }

@@ -16,10 +16,14 @@
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
 import org.labkey.api.ehr.dataentry.AnimalDetailsFormSection;
+import org.labkey.api.ehr.dataentry.BloodDrawFormSection;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
+import org.labkey.api.ehr.dataentry.SimpleGridPanel;
 import org.labkey.api.ehr.dataentry.TaskForm;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
+import org.labkey.api.ehr.dataentry.WeightFormSection;
+import org.labkey.api.ehr.dataentry.DrugAdministrationFormSection;
 import org.labkey.api.ehr.security.EHRClinicalEntryPermission;
 import org.labkey.api.module.Module;
 import org.labkey.api.view.template.ClientDependency;
@@ -42,7 +46,7 @@ public class ProcessingFormType extends TaskForm
                 new AnimalDetailsFormSection(),
                 new SimpleGridPanel("study", "encounters", "Procedures"),
                 new BloodDrawFormSection(false),
-                new DrugAdministrationFormSection(),
+                new DrugAdministrationFormSection(true),
                 new WeightFormSection()
         ));
 

@@ -34,7 +34,7 @@ public class MedicationsQueryFormSection extends SingleQueryFormSection
         setClientStoreClass("EHR.data.DrugAdministrationRunsClientStore");
         addClientDependency(ClientDependency.fromPath("ehr/data/DrugAdministrationRunsClientStore.js"));
         addClientDependency(ClientDependency.fromPath("ehr/window/SedationWindow.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/AddScheduledTreatmentWindow.js"));
+        addClientDependency(ClientDependency.fromPath("ehr/window/AddScheduledTreatmentWindow.js"));
         addClientDependency(ClientDependency.fromPath("ehr/model/sources/SingleQuery.js"));
     }
 }

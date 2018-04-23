@@ -16,6 +16,7 @@
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
 import org.labkey.api.ehr.EHRService;
+import org.labkey.api.ehr.dataentry.SimpleGridPanel;
 
 import java.util.ArrayList;
 import java.util.List;
