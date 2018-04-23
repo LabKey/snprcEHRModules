@@ -259,7 +259,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         goToProjectHome();
         waitAndClickAndWait(Locators.bodyPanel().append(Locator.tagContainingText("a", "EHR Admin Page")));
         clickAndWait(Locator.linkWithText("SND SETTINGS"));
-        waitAndClick(Locator.linkWithSpan("Generate custom columns"));
+        waitAndClick(Locator.linkWithSpan("Generate SNPRC custom columns"));
         waitForText("Success");
         goToProjectHome();
     }
