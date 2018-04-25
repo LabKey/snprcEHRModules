@@ -32,7 +32,8 @@ ALTER PROCEDURE [labkey_etl].[p_update_animal_event_narratives]
 --
 --  11/02/2015  Terry Hawkins   Renamed from v_delete_animal_procedures to v_delete_animal_event_narratives.
 --  04/21/2017	Terry Hawkins	Fixed timestamp bug
---  4/14/2018  Terry Hawkins changed criteria from primates only to all species execpt monos
+--  4/14/2018  Terry Hawkins	Changed criteria from primates only to all species execpt monos
+--  4/24/2018 Terry Hawkins		Fixed another timestamp bug & simplified species join
 -- ==========================================================================================
 CREATE TABLE #animal_event_narratives(
 	[animal_event_id] [INT] NOT NULL,
@@ -73,7 +74,7 @@ SELECT
 	ae.USER_NAME,
 	ae.OBJECT_ID,
 	-- get the maximum timestamp from the three tables
-	(SELECT MAX(v) FROM (VALUES  (ae.timestamp), (cp.timestamp), (cpa.timestamp) ) AS VALUE (v)) 
+	(SELECT MAX(v) FROM (VALUES  (ae.timestamp), (COALESCE (cp_ts.timestamp, 0)), (COALESCE(cpa.timestamp,0)) ) AS VALUE (v))  AS timestamp
 FROM dbo.ANIMAL_EVENTS ae
 LEFT OUTER JOIN dbo.CODED_PROCS AS cp ON ae.ANIMAL_EVENT_ID = cp.ANIMAL_EVENT_ID
 	AND cp.PARENT_PROC_ID IS NULL
@@ -81,17 +82,17 @@ LEFT OUTER JOIN dbo.CODED_PROC_ATTRIBS AS cpa ON cpa.PROC_ID = cp.PROC_ID
 	-- we only need the max(timestamp) value
 	AND cpa.TIMESTAMP = (SELECT MAX(timestamp) FROM dbo.CODED_PROC_ATTRIBS AS cpa2 WHERE cpa.PROC_ID = cpa2.PROC_ID)
 
+LEFT OUTER JOIN dbo.CODED_PROCS AS cp_ts ON cp_ts.ANIMAL_EVENT_ID = ae.ANIMAL_EVENT_ID 
+	-- we only need the max(timestamp) value
+	AND cp_ts.TIMESTAMP = (SELECT MAX(timestamp) FROM dbo.CODED_PROCS AS cp_ts2 WHERE cp_ts.ANIMAL_EVENT_ID = cp_ts2.ANIMAL_EVENT_ID)
+
 LEFT OUTER JOIN dbo.BUDGET_ITEMS bi ON cp.BUDGET_ITEM_ID = bi.BUDGET_ITEM_ID
 LEFT OUTER JOIN dbo.SUPER_PKGS sp ON bi.SUPER_PKG_ID = sp.SUPER_PKG_ID
 
 -- exclude monos
-INNER JOIN master AS m ON m.id = ae.animal_id
-INNER JOIN valid_species vs ON m.species = vs.species_code
-INNER JOIN arc_valid_species_codes avs ON vs.arc_species_code = avs.arc_species_code
-INNER JOIN current_data AS cd ON m.id = cd.id
-INNER JOIN dbo.arc_valid_species_codes AS avsc ON cd.arc_species_code = avsc.arc_species_code and avsc.arc_species_code <> 'MD'
+INNER JOIN master AS m ON m.id = ae.animal_id AND m.species <> 'MDA'
 
- AND (SELECT MAX(v) FROM (VALUES  (ae.timestamp), (cp.timestamp), (cpa.timestamp) ) AS VALUE (v))  > @max_timestamp
+ WHERE (SELECT MAX(v) FROM (VALUES  (ae.timestamp), (COALESCE (cp_ts.timestamp, 0)), (COALESCE(cpa.timestamp,0)) ) AS VALUE (v))  > @max_timestamp
 
 
 UNION ALL
