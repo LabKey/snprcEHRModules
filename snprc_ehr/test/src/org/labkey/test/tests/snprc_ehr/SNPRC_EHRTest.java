@@ -870,11 +870,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         ColonyOverviewPage overviewPage = ColonyOverviewPage.beginAt(this, getProjectName());
         ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
         String[] censusColumns = {"Investigator", "Protocol", "M", "F", "SPF", "Conventional", "Total"};
-        List<List<String>> rows = baboonColonyTab.getAssignedFundedDataRegion().getRows(censusColumns);
-        List<List<String>> expectedRows = Arrays.asList(
-                Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", "3", "1", " ", "4"),
-                Arrays.asList("investigator101", "protocol101", "4", "8", "2", "8", "2", "12"));
-        assertEquals(expectedRows, rows);
+        List<String> row = baboonColonyTab.getAssignedFundedDataRegion().getRows(censusColumns).get(0);
+        List<String> expectedRows =
+                Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", " ", "1", "4");
+        assertEquals(expectedRows, row);
     }
 
     @Test
