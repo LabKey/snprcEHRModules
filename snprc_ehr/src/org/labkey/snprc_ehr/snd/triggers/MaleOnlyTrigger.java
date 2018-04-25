@@ -27,7 +27,7 @@ public class MaleOnlyTrigger implements EventTrigger
 
         if (errors.size() > 0)
         {
-            event.setEventException(errors.get(0));
+            event.setException(errors.get(0));
         }
 
         if (!genderMatches)

@@ -26,7 +26,7 @@ public class KetamineReactorTrigger implements EventTrigger
         AnimalRecord ar = EHRDemographicsService.get().getAnimal(c, subjectId);
         if (ar == null)
         {
-            event.setEventException(new ValidationException("Animal Id not found", ValidationException.SEVERITY.ERROR));
+            event.setException(new ValidationException("Animal Id not found", ValidationException.SEVERITY.ERROR));
         }
         else
         {

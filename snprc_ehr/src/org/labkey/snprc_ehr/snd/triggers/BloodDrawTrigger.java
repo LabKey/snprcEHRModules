@@ -218,7 +218,7 @@ public class BloodDrawTrigger implements EventTrigger
         if (subjectId == null || date == null)
         {
             // By default ValidationExceptions have severity level of Error
-            event.setEventException(new ValidationException("There was a problem with the event data. Ensure animal id and date are filled in."));
+            event.setException(new ValidationException("There was a problem with the event data. Ensure animal id and date are filled in."));
             return;
         }
 
@@ -231,14 +231,14 @@ public class BloodDrawTrigger implements EventTrigger
         if (ar == null)
         {
             // Although Error by default, you can explicitly declare Validation Exception as severity level Error
-            event.setEventException(new ValidationException("Animal Id not found", ValidationException.SEVERITY.ERROR));
+            event.setException(new ValidationException("Animal Id not found", ValidationException.SEVERITY.ERROR));
             return;
         }
 
         String species = ar.getSpecies();
         if (species == null)
         {
-            event.setEventException(new ValidationException("Animal species not found"));
+            event.setException(new ValidationException("Animal species not found"));
             return;
         }
 
