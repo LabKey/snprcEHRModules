@@ -109,7 +109,7 @@ public abstract class AbstractSSRSNotification implements Notification
 
     @Nullable
     @Override
-    public MimeMessage createMessage(Container c, User u) throws MessagingException
+    public MimeMessage createMessage(Container c, User u)
     {
         String user = SSRSConfigManager.getInstance().getUser(c);
         String password = SSRSConfigManager.getInstance().getPassword(c);

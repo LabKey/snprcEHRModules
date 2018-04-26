@@ -36,7 +36,7 @@ public class DefaultObservationsDataSource extends AbstractDataSource
     }
 
     @Override
-    protected String getHtml(Container c, Results rs, boolean redacted) throws SQLException
+    protected String getHtml(Container c, Results rs, boolean redacted)
     {
         return null;
     }

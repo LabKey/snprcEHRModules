@@ -147,7 +147,7 @@ public class FeeScheduleController extends SpringActionController
             }
         }
         @Override
-        public boolean handlePost(FeeScheduleImportForm form, BindException errors) throws PipelineJobException
+        public boolean handlePost(FeeScheduleImportForm form, BindException errors)
         {
             //queues up the pipeline job
             try

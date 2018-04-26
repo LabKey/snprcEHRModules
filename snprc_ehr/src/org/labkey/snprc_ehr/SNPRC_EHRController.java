@@ -96,7 +96,7 @@ public class SNPRC_EHRController extends SpringActionController
         }
 
         @Override
-        public ModelAndView getView(SSRSConfigForm form, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(SSRSConfigForm form, boolean reshow, BindException errors)
         {
             if (!reshow)
             {

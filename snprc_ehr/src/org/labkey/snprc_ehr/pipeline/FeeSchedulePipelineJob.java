@@ -77,7 +77,7 @@ public class FeeSchedulePipelineJob extends PipelineJob
         return "Import SNPRC Fee Schedule from Excel file";
     }
 
-    private void importFile() throws PipelineJobException
+    private void importFile()
     {
         int rows;
         FeeScheduleExcelParser fsep = new FeeScheduleExcelParser(_container, _user, _importFile, _form);

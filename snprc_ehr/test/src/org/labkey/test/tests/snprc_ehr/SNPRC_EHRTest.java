@@ -264,7 +264,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         goToProjectHome();
     }
 
-    protected void initGenetics() throws Exception
+    protected void initGenetics()
     {
         beginAt(WebTestHelper.buildURL("ehr", getProjectName(), "doGeneticCalculations"));
         clickButton("OK");
@@ -410,7 +410,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testAnimalSearch() throws Exception
+    public void testAnimalSearch()
     {
         SearchPanel searchPanel;
         DataRegionTable searchResults;
@@ -770,7 +770,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
      * Report based off of Animal Events dataset: referenceStudy/datasets/dataset1067.tsv
      */
     @Test
-    public void testProceduresBeforeDispositionReport() throws Exception
+    public void testProceduresBeforeDispositionReport()
     {
         final String deadAnimalId = "TEST1441142";
         ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, deadAnimalId);
@@ -848,7 +848,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testProcedureLookups() throws Exception
+    public void testProcedureLookups()
     {
         final String animalId = "TEST3771679";
         ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, animalId);
@@ -865,7 +865,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testBaboonCensus() throws Exception
+    public void testBaboonCensus()
     {
         ColonyOverviewPage overviewPage = ColonyOverviewPage.beginAt(this, getProjectName());
         ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
@@ -877,7 +877,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testKinshipReport() throws Exception
+    public void testKinshipReport()
     {
         final String animal1 = "TEST2312318";
         final String animal2 = "TEST3844307";

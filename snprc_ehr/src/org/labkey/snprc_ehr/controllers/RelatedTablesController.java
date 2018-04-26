@@ -67,7 +67,7 @@ public class RelatedTablesController extends SpringActionController
     {
 
         @Override
-        public ModelAndView getView(Object form, BindException errors) throws Exception
+        public ModelAndView getView(Object form, BindException errors)
         {
 
             JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidInstitutions.jsp", this);
@@ -91,7 +91,7 @@ public class RelatedTablesController extends SpringActionController
     {
 
         @Override
-        public ModelAndView getView(Object form, BindException errors) throws Exception
+        public ModelAndView getView(Object form, BindException errors)
         {
 
             JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidVets.jsp", this);
@@ -114,7 +114,7 @@ public class RelatedTablesController extends SpringActionController
     {
 
         @Override
-        public ModelAndView getView(Object form, BindException errors) throws Exception
+        public ModelAndView getView(Object form, BindException errors)
         {
 
             JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidBirthAndDeathCodes.jsp", this);
@@ -142,7 +142,7 @@ public class RelatedTablesController extends SpringActionController
     public class GetPopulateLookupsViewAction extends SimpleViewAction<SimpleApiJsonForm>
     {
         @Override
-        public ModelAndView getView(SimpleApiJsonForm form, BindException errors) throws Exception
+        public ModelAndView getView(SimpleApiJsonForm form, BindException errors)
         {
 
             JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/PopulateLookups.jsp", this);
@@ -294,7 +294,7 @@ public class RelatedTablesController extends SpringActionController
     public class UpdateLookupSetValuesAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
-        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
             JSONObject json;
@@ -354,7 +354,7 @@ public class RelatedTablesController extends SpringActionController
     public class DeleteLookupSetValuesAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
-        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
 
@@ -382,7 +382,7 @@ public class RelatedTablesController extends SpringActionController
     public class UpdateLookupSetAction extends ApiAction<LookupSetForm>
     {
         @Override
-        public ApiResponse execute(LookupSetForm lookupSetForm, BindException errors) throws Exception
+        public ApiResponse execute(LookupSetForm lookupSetForm, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
 
@@ -435,7 +435,7 @@ public class RelatedTablesController extends SpringActionController
     public class DeleteLookupSetAction extends ApiAction<LookupSetForm>
     {
         @Override
-        public ApiResponse execute(LookupSetForm lookupSetForm, BindException errors) throws Exception
+        public ApiResponse execute(LookupSetForm lookupSetForm, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
 

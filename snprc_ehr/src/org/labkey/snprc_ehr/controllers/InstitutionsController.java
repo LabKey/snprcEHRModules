@@ -92,7 +92,7 @@ public class InstitutionsController extends SpringActionController
     public class GetStatesAction extends ApiAction<Object>
     {
         @Override
-        public ApiResponse execute(Object o, BindException errors) throws Exception
+        public ApiResponse execute(Object o, BindException errors)
         {
 
             Map<String, Object> props = new HashMap<String, Object>();

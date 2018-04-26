@@ -104,7 +104,7 @@ public class AnimalGroupsController extends SpringActionController
 
 
         @Override
-        public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors) throws Exception
+        public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors)
         {
 
             return new JspView<>("/org/labkey/snprc_ehr/views/AnimalGroups.jsp");
@@ -120,7 +120,7 @@ public class AnimalGroupsController extends SpringActionController
     public class GetCategoriesAction extends ApiAction<AnimalGroupCategory>
     {
         @Override
-        public ApiResponse execute(AnimalGroupCategory o, BindException errors) throws Exception
+        public ApiResponse execute(AnimalGroupCategory o, BindException errors)
         {
 
             Map<String, Object> props = new HashMap<String, Object>();
@@ -150,7 +150,7 @@ public class AnimalGroupsController extends SpringActionController
     public class UpdateCategoriesAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
-        public ApiResponse execute(AnimalGroupCategory o, BindException errors) throws Exception
+        public ApiResponse execute(AnimalGroupCategory o, BindException errors)
         {
             ObjectFactory factory = ObjectFactory.Registry.getFactory(AnimalGroupCategory.class);
 
@@ -205,7 +205,7 @@ public class AnimalGroupsController extends SpringActionController
     public class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
-        public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors) throws Exception
+        public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors)
         {
 
             TableInfo table = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
@@ -250,7 +250,7 @@ public class AnimalGroupsController extends SpringActionController
     public class GetSpeciesAction extends ApiAction<AnimalSpecies>
     {
         @Override
-        public ApiResponse execute(AnimalSpecies o, BindException errors) throws Exception
+        public ApiResponse execute(AnimalSpecies o, BindException errors)
         {
             ArrayList<AnimalSpecies> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoSpecies(), null, null).getArrayList(AnimalSpecies.class);
             List<JSONObject> jsonRows = new ArrayList<>();
@@ -278,7 +278,7 @@ public class AnimalGroupsController extends SpringActionController
     public class GetGroupsByCategoryAction extends ApiAction<AnimalGroup>
     {
         @Override
-        public ApiResponse execute(AnimalGroup animalGroup, BindException errors) throws Exception
+        public ApiResponse execute(AnimalGroup animalGroup, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
             ArrayList<AnimalGroup> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), new SimpleFilter().addCondition("category_code", animalGroup.getCategoryCode(), CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
@@ -300,7 +300,7 @@ public class AnimalGroupsController extends SpringActionController
     public class GetAnimalsByGroupAction extends ApiAction<GroupMember>
     {
         @Override
-        public ApiResponse execute(GroupMember groupMember, BindException errors) throws Exception
+        public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
             TableInfo table = schema.getTable("animal_group_members");
@@ -337,7 +337,7 @@ public class AnimalGroupsController extends SpringActionController
     public class GetAnimalsByNameAction extends ApiAction<GroupMember>
     {
         @Override
-        public ApiResponse execute(GroupMember groupMember, BindException errors) throws Exception
+        public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
             TableInfo table = SNPRC_EHRSchema.getInstance().getStudySchema().getTable("Participant");
             SimpleFilter filter = new SimpleFilter();
@@ -362,7 +362,7 @@ public class AnimalGroupsController extends SpringActionController
     public class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
-        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
             JSONObject json = simpleApiJsonForm.getJsonObject();
@@ -495,7 +495,7 @@ public class AnimalGroupsController extends SpringActionController
     public class DeleteGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
-        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
 
             Map<String, Object> props = new HashMap<String, Object>();
@@ -550,7 +550,7 @@ public class AnimalGroupsController extends SpringActionController
     public class UpdateGroupMembersAction extends MutatingApiAction<GroupMember>
     {
         @Override
-        public ApiResponse execute(GroupMember groupMember, BindException errors) throws Exception
+        public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
 
             if (groupMember.getEnddate() != null && groupMember.getDate().after(groupMember.getEnddate()))

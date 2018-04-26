@@ -84,7 +84,7 @@ public class AnimalsHierarchyController extends SpringActionController
     {
 
         @Override
-        public ModelAndView getView(ViewByForm form, BindException errors) throws Exception
+        public ModelAndView getView(ViewByForm form, BindException errors)
         {
 
             JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/AnimalsHierarchy.jsp", this);
@@ -109,7 +109,7 @@ public class AnimalsHierarchyController extends SpringActionController
     public class GetHierarchy extends ApiAction<Node>
     {
         @Override
-        public Object execute(Node nodeForm, BindException errors) throws Exception
+        public Object execute(Node nodeForm, BindException errors)
         {
             HierarchyService hierarchyService = getHierarchyService(nodeForm.getViewBy());
 
@@ -206,7 +206,7 @@ public class AnimalsHierarchyController extends SpringActionController
     public class GetAnimals extends ApiAction<AnimalsBy>
     {
         @Override
-        public Object execute(AnimalsBy animalsBy, BindException errors) throws Exception
+        public Object execute(AnimalsBy animalsBy, BindException errors)
         {
             List<Animal> animals = new ArrayList<Animal>();
             Node node = new Node();
@@ -281,7 +281,7 @@ public class AnimalsHierarchyController extends SpringActionController
     public class GetLocationsPath extends ApiAction<Animal>
     {
         @Override
-        public ApiResponse execute(Animal animal, BindException errors) throws Exception
+        public ApiResponse execute(Animal animal, BindException errors)
         {
             HierarchyService hierarchyService = getHierarchyService(animal.getViewBy());
 
