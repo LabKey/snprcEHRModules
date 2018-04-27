@@ -26,8 +26,11 @@ import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.Selector;
+import org.labkey.api.data.Selector.ForEachBlock;
 import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.data.SqlSelector;
+import org.labkey.api.data.StopIteratingException;
 import org.labkey.api.data.Table;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.ehr.dataentry.DataEntryForm;
@@ -167,44 +170,28 @@ public class RelatedTablesController extends SpringActionController
     {
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
         {
-
             SQLFragment sql = new SQLFragment("SELECT setname, label FROM ");
             sql.append(SNPRC_EHRSchema.getInstance().getTableInfoLookupSets());
             sql.append(" ORDER BY label");
-            SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
-            ResultSet result = sqlSelector.getResultSet();
             List<JSONObject> sets = new ArrayList<JSONObject>();
             Map<String, Object> props = new HashMap<String, Object>();
-            try
+
+            new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql).forEach(new ForEachBlock<ResultSet>()
             {
-                while (result.next())
+                @Override
+                public void exec(ResultSet rs) throws SQLException
                 {
                     JSONObject set = new JSONObject();
-                    set.put("value", result.getString("setname"));
-                    set.put("label", result.getString("label"));
+                    set.put("value", rs.getString("setname"));
+                    set.put("label", rs.getString("label"));
 
                     sets.add(set);
                 }
+            });
 
-            }
-            catch (SQLException ex)
-            {
-                //do nothing
-            }
-            finally
-            {
-                try
-                {
-                    result.close();
-                }
-                catch (SQLException e)
-                {
-                    //
-                }
-            }
             props.put("sets", sets);
-            return new ApiSimpleResponse(props);
 
+            return new ApiSimpleResponse(props);
         }
     }
 
@@ -239,7 +226,6 @@ public class RelatedTablesController extends SpringActionController
     {
         public ApiResponse execute(LookupSetForm form, BindException errors)
         {
-
             if (form.getLookupSetName() == null)
             {
                 return null;
@@ -248,45 +234,30 @@ public class RelatedTablesController extends SpringActionController
             sql.append(SNPRC_EHRSchema.getInstance().getTableInfoLookupValues());
             sql.append(" WHERE set_name = ?");
             sql.addAll((String) form.getLookupSetName());
-            SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
-            ResultSet result = sqlSelector.getResultSet();
             List<JSONObject> values = new ArrayList<JSONObject>();
             Map<String, Object> props = new HashMap<String, Object>();
-            try
+
+            new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql).forEach(new ForEachBlock<ResultSet>()
             {
-                while (result.next())
+                @Override
+                public void exec(ResultSet rs) throws SQLException
                 {
                     JSONObject value = new JSONObject();
 
-                    value.put("rowid", result.getString("rowid"));
-                    value.put("value", result.getString("value"));
-                    value.put("title", result.getString("title"));
-                    value.put("description", result.getString("description"));
-                    value.put("set_name", result.getString("set_name"));
-                    value.put("category", result.getString("category"));
+                    value.put("rowid", rs.getString("rowid"));
+                    value.put("value", rs.getString("value"));
+                    value.put("title", rs.getString("title"));
+                    value.put("description", rs.getString("description"));
+                    value.put("set_name", rs.getString("set_name"));
+                    value.put("category", rs.getString("category"));
 
                     values.add(value);
                 }
+            });
 
-            }
-            catch (SQLException ex)
-            {
-                //do nothing
-            }
-            finally
-            {
-                try
-                {
-                    result.close();
-                }
-                catch (SQLException e)
-                {
-
-                }
-            }
             props.put("values", values);
-            return new ApiSimpleResponse(props);
 
+            return new ApiSimpleResponse(props);
         }
     }
 
