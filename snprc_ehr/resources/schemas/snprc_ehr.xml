@@ -1279,7 +1279,7 @@
         <column columnName="RowId" />
         <column columnName="StartingYear" />
         <column columnName="VersionLabel" />
-        <column columnName="ActivityId" />
+        <columncolumnName="ActivityId" />
         <column columnName="Species" />
         <column columnName="Description" />
         <column columnName="BudgetYear" />
@@ -1292,8 +1292,7 @@
         <column columnName="ModifiedBy"/>
         <column columnName="Container" />
     </columns>
-    <tableTitle>Fee Schedule</tableTitle>
-    </table>
+    <tableTitle>Fee Schedule</tableTitle></table>
     <table tableName="FeeScheduleSpeciesLookup" tableDbType="TABLE">
         <pkColumnName>FsSpecies, SpeciesCode</pkColumnName>
         <columns>
