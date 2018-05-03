@@ -1279,7 +1279,7 @@
         <column columnName="RowId" />
         <column columnName="StartingYear" />
         <column columnName="VersionLabel" />
-        <columncolumnName="ActivityId" />
+        <column columnName="ActivityId" />
         <column columnName="Species" />
         <column columnName="Description" />
         <column columnName="BudgetYear" />
