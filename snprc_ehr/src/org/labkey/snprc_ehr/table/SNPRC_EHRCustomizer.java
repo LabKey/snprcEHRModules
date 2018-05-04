@@ -176,7 +176,9 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             customizeHousingTable((AbstractTableInfo) ti);
         }
-
+        if (matches(ti, "ehr", "project")) {
+            customizeProjectTable((AbstractTableInfo) ti);
+        }
     }
 
     /**
@@ -195,13 +197,31 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     {
         ti.getColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
     }
+    private void customizeProjectTable(AbstractTableInfo ti)
+    {
 
+        if (ti.getColumn("species") == null)
+        {
+            UserSchema us = getUserSchema(ti, "ehr");
+
+            if (us != null)
+            {
+                ColumnInfo project = ti.getColumn("project");
+                ColumnInfo col = ti.addColumn(new WrappedColumn(project, "species"));
+                col.setLabel("Species");
+                col.setUserEditable(false);
+                col.setIsUnselectable(false);
+                col.setFk(new QueryForeignKey(us, null, "projectSpecies", "project", "species"));
+            }
+        }
+
+    }
     private void customizeHousingTable(AbstractTableInfo ti)
     {
         if (ti.getColumn("effectiveCage") == null)
         {
             UserSchema us = getUserSchema(ti, "study");
-            ;
+
             if (us != null)
             {
                 ColumnInfo lsidCol = ti.getColumn("lsid");
