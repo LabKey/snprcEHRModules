@@ -19,6 +19,8 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
 
         this.callParent();
 
+        this.add(this.getIacucAssignedTable());
+
         this.add(this.getAssignedTable());
 
         this.add(this.getBaboonBreederTable());
@@ -27,7 +29,20 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
 
         this.add(this.getBaboonAgeClassTable());
     },
-
+    getIacucAssignedTable: function(){
+        return {
+            xtype: 'ldk-querypanel',
+            style: 'margin: 5px;',
+            queryConfig: {
+                title: 'Active IACUC Assignments',
+                containerPath: this.containerPath,
+                schemaName: 'study',
+                queryName: 'colonyUsage',
+                filterArray: this.filterArray,
+                failure: LDK.Utils.getErrorCallback()
+            }
+        }
+    },
     getAssignedTable: function(){
         return {
             xtype: 'ldk-querypanel',
@@ -36,7 +51,7 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
                 title: 'Assigned (funded)',
                 containerPath: this.containerPath,
                 schemaName: 'study',
-                queryName: 'colonyUsage',
+                queryName: 'baboonAssignedColonyUsage',
                 filterArray: this.filterArray,
                 failure: LDK.Utils.getErrorCallback()
             }
