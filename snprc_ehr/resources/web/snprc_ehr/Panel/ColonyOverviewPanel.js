@@ -7,6 +7,11 @@ Ext4.define('SNPRC_EHR.panel.ColonyOverviewPanel', {
     extend: 'EHR.panel.ColonyOverviewPanel',
     alias: 'widget.snprc-ehr-colonyoverviewpanel',
 
+    border: false,
+    defaults: {
+        border: false
+    },
+
     initComponent: function () {
         this.filterArray = [
             LABKEY.Filter.create('calculated_status', 'Alive', LABKEY.Filter.Types.EQUAL)
@@ -17,31 +22,11 @@ Ext4.define('SNPRC_EHR.panel.ColonyOverviewPanel', {
             //LABKEY.Filter.create('Id/demographics/gender/meaning', 'Unknown', LABKEY.Filter.Types.NEQ)
         ];
 
-        Ext4.apply(this, {
-            border: false,
-            defaults: {
-                border: false
-            },
-            items: [{
-                html: 'This page is designed to give an overview of the colony',
-                style: 'padding-bottom: 20px;'
-            }, {
-                xtype: 'tabpanel',
-                border: true,
-                defaults: {
-                    border: false,
-                    listeners: {
-                        scope: this,
-                        activate: function (tab) {
-                            Ext4.History.add('tab=' + tab.itemId);
-                        }
-                    }
-                },
-                items: this.getTabs()
-            }]
-        });
-
-        this.activeTab = 1;
+        this.items = [{
+            xtype: 'labkey-bootstraptabpanel',
+            description: 'This page is designed to give an overview of the colony.',
+            items: this.getItems()
+        }];
 
         // maintain context in callbacks and events //this.callParent(); replaced with...
         this.superclass.superclass.initComponent.apply(this);
