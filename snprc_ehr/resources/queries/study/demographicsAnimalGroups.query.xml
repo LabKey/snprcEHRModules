@@ -9,15 +9,15 @@
                     </column>
                     <column columnName="Cycle::animal_group">
                         <fk>
-                            <fkColumnName>description</fkColumnName>
+                            <fkColumnName>name</fkColumnName>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>cycleGroups</fkTable>
-                            <fkDisplayColumnName>description</fkDisplayColumnName>
+                            <fkDisplayColumnName>name</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="Pedigree::animal_group">
                         <fk>
-                            <fkColumnName>description</fkColumnName>
+                            <fkColumnName>name</fkColumnName>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>pedigreeGroups</fkTable>
 
@@ -25,7 +25,7 @@
                     </column>
                     <column columnName="Colony::animal_group">
                         <fk>
-                            <fkColumnName>description</fkColumnName>
+                            <fkColumnName>name</fkColumnName>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>colonyGroups</fkTable>
                         </fk>
