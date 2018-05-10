@@ -50,10 +50,4 @@ public class KetamineReactorTrigger implements EventTrigger
     {
         onInsert(c, u, triggerAction, extraContext);
     }
-
-    @Override
-    public Integer getOrder()
-    {
-        return null;
-    }
 }

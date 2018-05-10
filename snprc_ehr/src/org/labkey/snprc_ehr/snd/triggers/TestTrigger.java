@@ -24,6 +24,6 @@ public class TestTrigger implements EventTrigger
     @Override
     public Integer getOrder()
     {
-        return null;
+        return 1;
     }
 }
