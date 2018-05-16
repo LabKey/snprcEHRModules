@@ -43,11 +43,13 @@ SELECT  m.[Animal ID] AS id ,
 		m.objectid AS objectid
 
 FROM    dbo.MhcStatus AS m -- select primates only from the TxBiomed colony
-INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = RIGHT(SPACE(6) + m.[Animal ID], 6);
+INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = RIGHT(SPACE(6) + m.[Animal ID], 6)
+WHERE [A001 Status] IS NOT NULL AND [B008 Status] IS NOT NULL AND [B017 Status] IS NOT NULL AND [B003 Status] IS NOT NULL
 
 GO
 
 GRANT SELECT ON labkey_etl.V_MhcStatus TO z_labkey;
+
 
 GO
 

@@ -22,29 +22,68 @@ GO
 SET QUOTED_IDENTIFIER ON;
 GO
 
-ALTER VIEW [labkey_etl].[V_MhcData]
-AS
-    -- ==========================================================================================
+ALTER VIEW [labkey_etl].[V_MhcData] AS
+-- ==========================================================================================
 -- Author:		Terry Hawkins
--- Create date: 9/8/2017
--- Description:
+-- Create date: 5/16/2017
+-- Description:	
 -- Changes:
 --
 --
 -- ==========================================================================================
 
-SELECT  m.[Animal ID] AS id ,
-        m.[OC ID] AS OcId ,
-        m.[MHC value] AS MhcValue ,
-        m.Haplotype AS Haplotype ,
-        m.[Data File Source] AS DataFileSource,
-		m.objectid AS objectid
-FROM    dbo.MhcData AS m -- select primates only from the TxBiomed colony
-        INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = RIGHT(SPACE(6) + m.[Animal ID], 6);
+SELECT
+	RIGHT(SPACE(6) + u.[Animal ID], 6) AS Id,
+	u.[File Source] AS DataFileSource,
+	u.[OC ID] AS OcId,
+	u.Haplotype AS Haplotype,
+	u.[MHC Value] AS MhcValue
 
-GO
+FROM (SELECT
+	[ANIMAL ID],
+    [File Source],
+    [OC ID],
+    [Mamu-A Haplotype 1],
+    [Mamu-A Haplotype 2],
+    [Mamu-B Haplotype 1],
+    [Mamu-B Haplotype 2],
+    [Mamu-DRB Haplotype 1],
+    [Mamu-DRB Haplotype 2],
+    [Mamu-DQA Haplotype 1],
+    [Mamu-DQA Haplotype 2],
+    [Mamu-DQB Haplotype 1],
+    [Mamu-DQB Haplotype 2],
+    [Mamu-DPA Haplotype 1],
+    [Mamu-DPA Haplotype 2],
+    [Mamu-DPB Haplotype 1],
+    [Mamu-DPB Haplotype 2],
+    Comments1 AS [Lab Comments]
+	FROM dbo.MhcStaging AS M
+	-- select primates only from the TxBiomed colony
+    INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = RIGHT(SPACE(6) + m.[Animal ID], 6)
+	
+	) AS P
+
+UNPIVOT ([MHC Value] FOR Haplotype IN
+  ([Mamu-A Haplotype 1],
+    [Mamu-A Haplotype 2],
+    [Mamu-B Haplotype 1],
+    [Mamu-B Haplotype 2],
+    [Mamu-DRB Haplotype 1],
+    [Mamu-DRB Haplotype 2],
+    [Mamu-DQA Haplotype 1],
+    [Mamu-DQA Haplotype 2],
+    [Mamu-DQB Haplotype 1],
+    [Mamu-DQB Haplotype 2],
+    [Mamu-DPA Haplotype 1],
+    [Mamu-DPA Haplotype 2],
+    [Mamu-DPB Haplotype 1],
+    [Mamu-DPB Haplotype 2])) AS u
+
+	WHERE LEN(u.[MHC Value]) > 0
+
+	GO
 
 GRANT SELECT ON labkey_etl.V_MhcData TO z_labkey;
 
 GO
-
