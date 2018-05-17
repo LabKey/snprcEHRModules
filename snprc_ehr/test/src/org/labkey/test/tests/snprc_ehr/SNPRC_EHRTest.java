@@ -28,6 +28,7 @@ import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.TruncateTableCommand;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
@@ -73,6 +74,7 @@ import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category ({CustomModules.class, EHR.class, SNPRC.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 45)
 public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
 {
     private static final String ASSAY_GENE_EXPRESSION = "Gene Expression";
