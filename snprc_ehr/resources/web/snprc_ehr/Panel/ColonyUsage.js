@@ -10,94 +10,35 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
     alias: 'widget.snprc-colonyusagepanel',
 
     initComponent: function(){
-        Ext4.apply(this, {
-            minHeight: 400,
-            border: false,
-            autoScroll: true,
-            style: 'padding: 5px;'
-        });
+
+        this.items = [
+            this.getQueryCmpConfig('Active IACUC Assignments', 'study', 'colonyUsage'),
+            this.getQueryCmpConfig('Assigned (funded)', 'study', 'baboonAssignedColonyUsage'),
+            this.getQueryCmpConfig('Breeding/Colony Use', 'study', 'baboonBreedingColonyUsage'),
+            this.getQueryCmpConfig('Unassigned', 'study', 'baboonUnassignedColonyUsage'),
+            this.getQueryCmpConfig('Age Classes (in years)', 'ehr_lookups', 'AgeClassPivot')
+        ];
 
         this.callParent();
-
-        this.add(this.getIacucAssignedTable());
-
-        this.add(this.getAssignedTable());
-
-        this.add(this.getBaboonBreederTable());
-
-        this.add(this.getBaboonUnassignedTable());
-
-        this.add(this.getBaboonAgeClassTable());
     },
-    getIacucAssignedTable: function(){
+
+    getQueryCmpConfig: function(title, schemaName, queryName) {
         return {
-            xtype: 'ldk-querypanel',
-            style: 'margin: 5px;',
+            xtype: 'ldk-querycmp',
+            margin: '0 0 20px 0',
             queryConfig: {
-                title: 'Active IACUC Assignments',
+                title: title,
+                frame: 'dialog',
                 containerPath: this.containerPath,
-                schemaName: 'study',
-                queryName: 'colonyUsage',
+                schemaName: schemaName,
+                queryName: queryName,
                 filterArray: this.filterArray,
-                failure: LDK.Utils.getErrorCallback()
-            }
-        }
-    },
-    getAssignedTable: function(){
-        return {
-            xtype: 'ldk-querypanel',
-            style: 'margin: 5px;',
-            queryConfig: {
-                title: 'Assigned (funded)',
-                containerPath: this.containerPath,
-                schemaName: 'study',
-                queryName: 'baboonAssignedColonyUsage',
-                filterArray: this.filterArray,
-                failure: LDK.Utils.getErrorCallback()
-            }
-        }
-    },
-    getBaboonBreederTable: function(){
-        return {
-            xtype: 'ldk-querypanel',
-            style: 'margin: 5px;',
-            queryConfig: {
-                title: 'Breeding/Colony Use',
-                containerPath: this.containerPath,
-                schemaName: 'study',
-                queryName: 'baboonBreedingColonyUsage',
-                filterArray: this.filterArray,
-                failure: LDK.Utils.getErrorCallback()
-            }
-        }
-    },
-    getBaboonUnassignedTable: function(){
-        return {
-            xtype: 'ldk-querypanel',
-            style: 'margin: 5px;',
-            queryConfig: {
-                title: 'Unassigned',
-                containerPath: this.containerPath,
-                schemaName: 'study',
-                queryName: 'baboonUnassignedColonyUsage',
-                filterArray: this.filterArray,
-                failure: LDK.Utils.getErrorCallback()
-            }
-        }
-    },
-    getBaboonAgeClassTable: function(){
-        return {
-            xtype: 'ldk-querypanel',
-            style: 'margin: 5px;',
-            queryConfig: {
-                title: 'Age Classes (in years)',
-                containerPath: this.containerPath,
-                schemaName: 'ehr_lookups',
-                queryName: 'AgeClassPivot',
-                filterArray: this.filterArray,
-                failure: LDK.Utils.getErrorCallback()
+                failure: LDK.Utils.getErrorCallback(),
+                scope: this,
+                success: function() {
+                    this.doLayout();
+                }
             }
         }
     }
-
 });

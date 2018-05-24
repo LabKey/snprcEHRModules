@@ -45,7 +45,7 @@ Ext4.define('SNPRC.panel.BloodSummaryPanel', {
         });
 
         toAdd.push({
-            xtype: 'ldk-querypanel',
+            xtype: 'ldk-querycmp',
             style: 'margin-bottom: 10px;',
             queryConfig: LDK.Utils.getReadOnlyQWPConfig({
                 title: 'Recent Blood Draws: ' + subject,

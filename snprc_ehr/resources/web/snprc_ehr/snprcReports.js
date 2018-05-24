@@ -23,7 +23,7 @@ EHR.reports.urinalysis = function(panel, tab) {
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom:20px;',
         queryConfig: config
     });
@@ -43,7 +43,7 @@ EHR.reports.miscTests = function(panel, tab) {
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom:20px;',
         queryConfig: config
     });
@@ -64,7 +64,7 @@ EHR.reports.hematology = function(panel, tab)
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom:20px;',
         queryConfig: config
     });
@@ -81,7 +81,7 @@ EHR.reports.hematology = function(panel, tab)
     //});
     //
     //tab.add({
-    //    xtype: 'ldk-querypanel',
+    //    xtype: 'ldk-querycmp',
     //    style: 'margin-bottom:20px;',
     //    queryConfig: miscConfig
     //});
@@ -98,7 +98,7 @@ EHR.reports.hematology = function(panel, tab)
     //});
     //
     //tab.add({
-    //    xtype: 'ldk-querypanel',
+    //    xtype: 'ldk-querycmp',
     //    style: 'margin-bottom:20px;',
     //    queryConfig: resultsConfig
     //});
@@ -119,7 +119,7 @@ EHR.reports.bloodChemistry = function(panel, tab){
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom:20px;',
         queryConfig: config
     });
@@ -138,7 +138,7 @@ EHR.reports.bloodChemistry = function(panel, tab){
     //});
     //
     //tab.add({
-    //    xtype: 'ldk-querypanel',
+    //    xtype: 'ldk-querycmp',
     //    style: 'margin-bottom:20px;',
     //    queryConfig: config
     //});
@@ -158,7 +158,7 @@ EHR.reports.bloodChemistry = function(panel, tab){
     //});
     //
     //tab.add({
-    //    xtype: 'ldk-querypanel',
+    //    xtype: 'ldk-querycmp',
     //    style: 'margin-bottom:20px;',
     //    queryConfig: config
     //});
@@ -179,7 +179,7 @@ EHR.reports.surveillance = function(panel, tab){
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom:20px;',
         queryConfig: config
     });
@@ -198,7 +198,7 @@ EHR.reports.surveillance = function(panel, tab){
     //});
     //
     //tab.add({
-    //    xtype: 'ldk-querypanel',
+    //    xtype: 'ldk-querycmp',
     //    style: 'margin-bottom:20px;',
     //    queryConfig: config
     //});
@@ -218,7 +218,7 @@ EHR.reports.surveillance = function(panel, tab){
     //});
     //
     //tab.add({
-    //    xtype: 'ldk-querypanel',
+    //    xtype: 'ldk-querycmp',
     //    style: 'margin-bottom:20px;',
     //    queryConfig: config
     //});
@@ -238,7 +238,7 @@ EHR.reports.proceduresBeforeDisposition = function(panel, tab){
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom:20px;',
         queryConfig: config
     });
@@ -256,7 +256,7 @@ EHR.reports.currentBlood = function(panel, tab){
     });
 
     tab.add({
-        xtype: 'ldk-querypanel',
+        xtype: 'ldk-querycmp',
         style: 'margin-bottom: 10px;',
         queryConfig: panel.getQWPConfig({
             title: 'Summary',
