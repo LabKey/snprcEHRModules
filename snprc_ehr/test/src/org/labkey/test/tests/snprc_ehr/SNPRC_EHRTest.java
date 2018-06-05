@@ -399,6 +399,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         repopulate("Lookup Sets");
         repopulate("Procedures");
+        repopulate("Labwork Types");
         repopulate("All");
         repopulate("SNOMED Codes");
     }
