@@ -36,7 +36,7 @@ public class AnimalNodePath
 
     public void setLocations(List<Node> nodes)
     {
-        this._nodes = nodes;
+        _nodes = nodes;
     }
 
     public String getAnimalId()

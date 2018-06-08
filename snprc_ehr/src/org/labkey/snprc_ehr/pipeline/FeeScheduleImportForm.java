@@ -86,7 +86,7 @@ public class FeeScheduleImportForm //extends PipelinePathForm
 
     public void setName(String name)
     {
-        this._name = name;
+        _name = name;
     }
 
     public String getTabPage()
