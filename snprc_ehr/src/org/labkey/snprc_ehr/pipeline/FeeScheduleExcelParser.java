@@ -87,17 +87,17 @@ public class FeeScheduleExcelParser
                 sheetName = workbook.getSheetName(i);
                 sheet = workbook.getSheet(sheetName);
 
-                if (sheet == null || sheetName.equalsIgnoreCase("Fee Calculations"))
+                if (sheet == null || !sheetName.contains("Fee Schedule") || sheetName.contains("Addendum")) //Fee Calculations
                 {
                     // skip
                 }
                 else
                 {
                     // get fee schedule header
-                    r = sheet.getRow(0);
+                    r = sheet.getRow(1);
                     if (r != null)
                     {
-                        cellValue = ExcelFactory.getCellStringValue(r.getCell(1)).trim(); // row 1, col b
+                        cellValue = ExcelFactory.getCellStringValue(r.getCell(0)).trim(); // row 2, col a
                         if (cellValue.contains("Fee Schedule"))
                         {
                             // add sheet to list
@@ -174,8 +174,9 @@ public class FeeScheduleExcelParser
                 if (r != null)
                 {
                     String s = ExcelFactory.getCellStringValue(r.getCell(0)).trim();
-                    String t[] = s.split(" ");
-                    _yearPublished = t[1];
+                    //String t[] = s.split(":");
+                    //_yearPublished = t[1].trim();
+                    _yearPublished = org.apache.commons.lang.StringUtils.right( s, 4 );
                 }
                 else
                 {

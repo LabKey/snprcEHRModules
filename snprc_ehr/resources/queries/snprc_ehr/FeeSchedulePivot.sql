@@ -4,6 +4,8 @@
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 SELECT
+  c.startingYear,
+  c.VersionLabel,
   c.ActivityId,
   c.Description,
   c.Species,
@@ -14,6 +16,8 @@ SELECT
 FROM (
 
        SELECT
+         fs.StartingYear,
+         fs.VersionLabel,
          fs.ActivityId,
          fs.Description,
          fs.ObjectId,
@@ -24,11 +28,11 @@ FROM (
       -- WHERE co.qcstate.publicdata = true
      ) c
 
-GROUP BY c.ActivityId, c.BudgetYear, Description, Species
+GROUP BY c.StartingYear, c.VersionLabel, c.ActivityId, c.BudgetYear, Description, Species
 
 PIVOT Cost BY BudgetYear IN
 (select
 distinct BudgetYear from snprc_ehr.FeeSchedule
 order by BudgetYear)
 
-order by Species, ActivityId
+order by StartingYear, VersionLabel, Species, ActivityId

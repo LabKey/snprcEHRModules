@@ -17,10 +17,10 @@
         <dataset name="microbiology" id="5018" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="flags" id="5019" category="Colony Management" type="Standard" showByDefault="false">
+        <dataset name="flags" id="5019" category="Colony Management" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="parentage" id="5025" category="Colony Management" type="Standard" showByDefault="false">
+        <dataset name="parentage" id="5025" category="Colony Management" type="Standard">
             <tags/>
         </dataset>
         <dataset name="miscTests" id="5013" category="ClinPath" type="Standard" showByDefault="false">

@@ -15,3 +15,7 @@ UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Valid Charge by Species' as Label, 'ValidChargeBySpecies' as Name,  true as ShowByDefault, false as isAnimal
 UNION
 select 'study' as schema, 'Colony Management' as CategoryId,'Animal Accounts & Groups' as Label, 'ActiveAccountsWithGroup' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'snprc_ehr' as schema, 'Misc' as CategoryId,'MHC Data' as Label, 'MhcData' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Clinical' as CategoryId,'Daily Observations' as Label, 'dailyObsPivot' as Name,  true as ShowByDefault, true as isAnimal
