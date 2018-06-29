@@ -14,6 +14,16 @@
                         <dat:fkColumnName>usda_level</dat:fkColumnName>
                     </dat:fk>
                 </dat:column>
+                <dat:column columnName="FeeScheduleActivityId">
+                <dat:rangeURI>int</dat:rangeURI>
+                <dat:fk>
+                    <dat:fkDbSchema>snprc_ehr</dat:fkDbSchema>
+                    <dat:fkTable>FeeScheduleActivityIdLookup</dat:fkTable>
+                    <dat:fkColumnName>ActivityId</dat:fkColumnName>
+                    <dat:fkDisplayColumnName>description</dat:fkDisplayColumnName>
+                </dat:fk>
+            </dat:column>
+
             </dat:columns>
         </table>
     </template>
