@@ -791,10 +791,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testAnimalHistoryReports()
     {
-        clickAndWait(Locator.linkWithText("Animal History"));
+        clickTab("Animal History");
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
-
-        animalHistoryPage.searchSingleAnimal("TEST1441142");
+        animalHistoryPage.searchSingleAnimal("TEST1441142", "No active housing");
         _helper.verifyAllReportTabs(animalHistoryPage);
     }
 
