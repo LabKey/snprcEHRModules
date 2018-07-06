@@ -53,7 +53,7 @@
         <dataset name="clinremarks" id="1047" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="drug" id="1014" category="Clinical" type="Standard">
+        <dataset name="drug" id="1014" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="problem" id="1030" category="Clinical" type="Standard">
