@@ -134,7 +134,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         _containerHelper.createProject(getProjectName(), type);
         _containerHelper.createSubfolder(getProjectName(), getProjectName(), COREFACILITIES, "Collaboration", null);
         _containerHelper.createSubfolder(getProjectName(), COREFACILITIES, GENETICSFOLDER, "Laboratory Folder", new String[]{"SequenceAnalysis", "SNPRC_Genetics"});
-        clickFolder(getProjectName());
     }
 
     @Override
@@ -174,9 +173,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_SNPS_XAR, 4);
         clickFolder(GENETICSFOLDER);
-        String containerPath = getContainerPath();
         _listHelper.importListArchive(LOOKUP_LIST_ARCHIVE);
-        clickFolder(PROJECT_NAME);
+        clickProject(PROJECT_NAME);
         PortalHelper portalHelper = new PortalHelper(this);
         portalHelper.addWebPart("EHR Datasets");
         clickFolder(GENETICSFOLDER);
