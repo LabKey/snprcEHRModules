@@ -72,6 +72,7 @@
 <script src="<%= contextPath %>/ehr/panel/BloodSummaryPanel.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/Panel/BloodSummaryPanel.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/DemographicsRecord.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/snprcOverrides.js"></script>
 
 
 <style>
