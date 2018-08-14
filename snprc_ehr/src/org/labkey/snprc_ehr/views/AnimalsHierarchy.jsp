@@ -93,7 +93,7 @@
 
     .x4-tree-icon.animal.female {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/female.ico');
-        width: 16px;
+        width: 18px;
         background-size: cover;
         margin: 0 2px;
     }
@@ -103,7 +103,7 @@
         width: 16px;
         height: 16px;
         background-size: cover;
-        margin: 2px 2px;
+        margin: 2px 4px;
     }
 
     .x4-tree-icon.animal.unknown-sex {
