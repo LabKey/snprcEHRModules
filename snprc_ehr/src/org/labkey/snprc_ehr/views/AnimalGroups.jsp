@@ -95,7 +95,7 @@
                 {
                     xtype: 'group-category-form-panel',
                     region: 'east',
-                    width: '25%'
+                    width: '30%'
                 },
                 {
                     xtype: 'groups-grid-panel',

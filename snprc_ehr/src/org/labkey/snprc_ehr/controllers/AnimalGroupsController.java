@@ -129,6 +129,10 @@ public class AnimalGroupsController extends SpringActionController
 
             SimpleFilter filter = SortFilterHelper.getFilter(o.getFilter());
 
+            // Category codes less than  11 are static categories reserved for cycles, pedigrees, and colonies.
+            // These tables (cycles, pedigree, colonies) must be updated directly. Insert not permitted. tjh
+            filter.addCondition(FieldKey.fromString("category_code"), 11, CompareType.GTE);
+
             ArrayList<AnimalGroupCategory> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), filter, sort).getArrayList(AnimalGroupCategory.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
