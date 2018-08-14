@@ -74,7 +74,6 @@
 <script src="<%= contextPath %>/snprc_ehr/DemographicsRecord.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/snprcOverrides.js"></script>
 
-
 <style>
     .x4-grid-tree-node-expanded .location .x4-tree-icon-parent, .location .x4-tree-icon-parent {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/cage.ico');
@@ -95,7 +94,6 @@
     .x4-tree-icon.animal.female {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/female.ico');
         width: 16px;
-        height: 16px;
         background-size: cover;
         margin: 0 2px;
     }
@@ -105,13 +103,12 @@
         width: 16px;
         height: 16px;
         background-size: cover;
-        margin: 0 2px;
+        margin: 2px 2px;
     }
 
     .x4-tree-icon.animal.unknown-sex {
-        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/unknown-sex.ico');
-        width: 16px;
-        height: 16px;
+        background-image: url('<%=contextPath%>/snprc_ehr/lib/images/unknown.ico');
+        width: 20px;
         background-size: cover;
         margin: 0 2px;
     }
