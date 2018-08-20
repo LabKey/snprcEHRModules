@@ -28,9 +28,9 @@ SELECT d.Id,
 
 FROM demographics d
 left join study.demographicsMostRecentPhysicalDate as p on p.id = d.id
-left join study.animal_group_members as agm on agm.id = d.id and agm.groupId.category_code.description = 'Misc Colonies' and agm.enddate is null
+--left join study.animal_group_members as agm on agm.id = d.id and agm.groupId.category_code.description = 'Misc Colonies' and agm.enddate is null
 where d.calculated_status = 'Alive'
-  and agm.groupId.Name is null
+  --and agm.groupId.Name is null
   and d.species.arc_species_code not in ('CJ', 'SM', 'RA', 'MD', 'RB', 'PT', 'CL')
   and d.id.curLocation.room not in ('0.0', '100.01', '105.00', '35.02') -- exclude corrals, unknown & BSL4
   and ( d.id.MostRecentTBDate.TbStatus <> 'Okay' or p.phyStatus <> 'Okay')
