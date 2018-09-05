@@ -11,7 +11,7 @@
                     <column columnName="Id"/>
                     <column columnName="date">
                         <columnTitle>Date of Death</columnTitle>
-                        <formatString>MM-dd-YY</formatString>
+                        <formatString>MM-dd-yy</formatString>
                     </column>
                     <column columnName="cause">
                         <columnTitle>Type of Death</columnTitle>
