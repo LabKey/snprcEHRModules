@@ -25,6 +25,9 @@ public class FeeSchedulePipelineJob extends PipelineJob
     private FeeScheduleImportForm _form;
     private User _user;
 
+    // For serialization
+    protected FeeSchedulePipelineJob() {}
+
     public FeeSchedulePipelineJob(Container c, User user, ActionURL url, PipeRoot pipeRoot, File importFile, FeeScheduleImportForm form)
     {
         super(null, new ViewBackgroundInfo(c, user, url), pipeRoot);
@@ -33,6 +36,12 @@ public class FeeSchedulePipelineJob extends PipelineJob
         _form = form;
         _container = c;
         _user = user;
+    }
+
+    @Override
+    public boolean hasJacksonSerialization()
+    {
+        return true;
     }
 
     @Override
