@@ -20,6 +20,7 @@ import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
 import org.labkey.api.ehr.dataentry.SimpleGridPanel;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
+import org.labkey.api.ehr.dataentry.forms.DocumentArchiveFormSection;
 import org.labkey.api.module.Module;
 
 import java.util.Arrays;

@@ -32,6 +32,7 @@ public class LockAnimalsFormSection extends AbstractFormSection
     {
         super("LockAnimals", "Lock Animal Creation", "snprc-lockanimalspanel");
 
+        addClientDependency(ClientDependency.fromPath("ehr/panel/LockAnimalsPanel.js"));
         addClientDependency(ClientDependency.fromPath("snprc_ehr/panel/LockAnimalsPanel.js"));
     }
 
