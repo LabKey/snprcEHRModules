@@ -2364,4 +2364,74 @@
         </columns>
         <tableTitle>Alopecia</tableTitle>
     </table>
+    <table tableName="assay_clinpathRuns" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+            </column>
+            <column columnName="enddate">
+                <datatype>timestamp</datatype>
+                <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
+            </column>
+            <column columnName="type">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="tissue">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="project">
+                <datatype>integer</datatype>
+                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
+            </column>
+            <column columnName="instructions">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="servicerequested">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="units">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="serviceId">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="collectedBy">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="sampleId">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="collectionMethod">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="method">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="sampleQuantity">
+                <datatype>double</datatype>
+            </column>
+            <column columnName="quantityUnits">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="chargetype">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="verifiedDate">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="datefinalized">
+                <datatype>timestamp</datatype>
+            </column>
+        </columns>
+        <tableTitle>Assay Clinpath Runs</tableTitle>
+    </table>
 </tables>

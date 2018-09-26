@@ -56,7 +56,7 @@
         <dataset name="drug" id="1014" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="problem" id="1030" category="Clinical" type="Standard">
+        <dataset name="problem" id="1030" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="tb" id="1035" category="Clinical" type="Standard">
@@ -83,7 +83,7 @@
         <dataset name="labworkResults" id="1060" category="ClinPath" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="parasitologyResults" id="1052" category="ClinPath" type="Standard">
+        <dataset name="parasitologyResults" id="1052" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="urinalysisResults" id="1081" category="ClinPath" type="Standard">
@@ -156,6 +156,9 @@
             <tags/>
         </dataset>
         <dataset name="Alopecia" id="5040" category="Colony Management" demographicData="false" type="Standard">
+            <tags/>
+        </dataset>
+        <dataset name="assay_clinpathRuns" id="5041" demographicData="false" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
     </datasets>
