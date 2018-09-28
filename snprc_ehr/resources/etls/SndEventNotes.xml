@@ -21,6 +21,6 @@
         <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd_eventNotes" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="eventId" targetKeyColumnName="eventId"/>
     </incrementalFilter>
     <schedule>
-        <poll interval="60m" />
+        <poll interval="365d" />
     </schedule>
 </etl>
