@@ -37,6 +37,7 @@ CREATE VIEW [labkey_etl].[v_iacuc_protocols] AS
   -- 11/21/2016  exclude protocols with a status of withdrawn, pending, or deferred tjh
   -- 12/30/2016  usda_level changed to max_usda_use_code column. tjh
   -- 4/14/2017   Use arc_master object id exclusively. tjh
+  -- 9/28/2018   added veterinarian column. tjh
   -- ==========================================================================================
 
 
@@ -49,6 +50,7 @@ CREATE VIEW [labkey_etl].[v_iacuc_protocols] AS
     am.termination_date                       AS enddate,
     ad.tot_animals_appv						            AS maxAnimals,
     ad.max_usda_use_code AS usda_level,
+    ad.supervising_vet as veterinarian,
     am.object_id                  AS objectid,
 
     CASE WHEN am.timestamp > ad.timestamp
