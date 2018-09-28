@@ -1,0 +1,6 @@
+<view xmlns="http://labkey.org/data/xml/view" title="Ehr Extensible Columns">
+    <dependencies>
+        <dependency path="ehr.context" />
+        <dependency path="snprc_ehr/Panel/EhrColumnsPanel.js" />
+    </dependencies>
+</view>
