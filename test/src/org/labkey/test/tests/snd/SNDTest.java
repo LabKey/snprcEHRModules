@@ -40,7 +40,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.CustomModules;
+import org.labkey.test.categories.Git;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.bootstrap.ModalDialog;
 import org.labkey.test.components.snd.AttributeGridRow;
@@ -80,7 +80,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.WebTestHelper.buildURL;
 
-@Category ({CustomModules.class})
+@Category ({Git.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 15)
 public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 {
