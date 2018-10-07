@@ -29,7 +29,7 @@ SELECT TOP (99.999999999) PERCENT
   pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
 
   -- exp.ObjectProperty columns
-  ltrim(rtrim(cpa.ATTRIB_KEY)) AS [ KEY],
+  ltrim(rtrim(cpa.ATTRIB_KEY)) AS [KEY],
 
   CASE WHEN (LOWER(pa.DATA_TYPE) = 'numeric' OR
     LOWER(pa.DATA_TYPE) = 'decimal')
