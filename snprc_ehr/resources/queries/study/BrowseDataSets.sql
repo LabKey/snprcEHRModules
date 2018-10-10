@@ -8,6 +8,12 @@ from study.datasets
 UNION
   select 'study' as schema, 'ClinPath' as CategoryId,'Surveillance Results' as Label, 'surveillancePivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Hematology Results' as Label, 'hematologyPivot' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Biochemistry Results' as Label, 'chemPivot' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Misc Lab Results' as Label, 'miscPivot' as Name,  true as ShowByDefault, true as isAnimal
+UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Fee Schedule' as Label, 'FeeSchedulePivot' as Name,  true as ShowByDefault, false as isAnimal
 UNION
 select 'ehr_lookups' as schema, 'Lookup Tables' as CategoryId,'Lookup sets' as Label, 'lookup_sets' as Name,  true as ShowByDefault, false as isAnimal

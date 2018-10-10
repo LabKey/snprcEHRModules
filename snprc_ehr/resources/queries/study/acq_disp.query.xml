@@ -19,7 +19,7 @@
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>AcquisitionType</fkTable>
-                            <fkColumn>value</fkColumn>
+                            <fkColumnName>value</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="disp_date">
@@ -30,7 +30,7 @@
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>DispositionType</fkTable>
-                            <fkColumn>value</fkColumn>
+                            <fkColumnName>value</fkColumnName>
                         </fk>
                     </column>
                 </columns>

@@ -47,15 +47,6 @@
                     <column columnName="remark">
                         <columnTitle>Remark</columnTitle>
                     </column>
-                    <column columnName="type">
-                        <columnTitle>Category</columnTitle>
-                        <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>labwork_types</fkTable>
-                            <fkColumnName>ServiceType</fkColumnName>
-                            <fkDisplayColumnName useRawValue="true"/>
-                        </fk>
-                    </column>
                     <column columnName="instructions">
                         <columnTitle>Special Instructions</columnTitle>
                         <inputType>textarea</inputType>

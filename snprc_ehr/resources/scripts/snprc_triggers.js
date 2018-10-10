@@ -30,7 +30,7 @@ exports.init = function (EHR) {
         });
 
         // remove clinpathRuns trigger event handlers (defined in ehr/Clinpath Runs.js)
-         EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'Clinpath Runs', EHR.Server.TriggerManager.Events.BEFORE_UPSERT);
+         EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'clinpathRuns', EHR.Server.TriggerManager.Events.BEFORE_UPSERT);
     });
 
 
