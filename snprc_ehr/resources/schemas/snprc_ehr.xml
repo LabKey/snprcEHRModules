@@ -807,7 +807,7 @@
         </columns>
     </table>
     <table tableName="validVets" tableDbType="TABLE" useColumnOrder="true">
-        <tableTitle>Valid Veternarians</tableTitle>
+        <tableTitle>Valid Veterinarians</tableTitle>
         <pkColumnName>vetId</pkColumnName>
         <columns>
             <column columnName="vetId">
