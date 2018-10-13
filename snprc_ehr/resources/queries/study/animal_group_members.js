@@ -13,44 +13,20 @@ function onInit(event, helper){
     });
 }
 
-/*  animal_groups table moved to snprc_ehr schema and no longer uses RowId as the foreign key
-    Code commented out, but please do not delete - it may be uncommented in the future.  tjh
+// animal_group_member validation is being done in \snprc_ehr\src\org\labkey\snprc_ehr\services\AnimalsGroupAssignor.java - assign()
 
-var cachedGroups = {};
+// function onUpsert(helper, scriptErrors, row, oldRow) {
+//
+//     console.log("beforeUpdate triggered on animal_groups table");
+//     console.log ("row = " + row);
+//
+//     row['_recordId'] = 1;
+//     console.log (row);
+//     scriptErrors['Id'] = [];
+//     scriptErrors['Id'].push({
+//         message: 'Fake error.',
+//         severity: 'ERROR'
+//     });
+//     console.log(scriptErrors);
+// }
 
-function onUpsert(helper, scriptErrors, row, oldRow){
-    // If we don't have the RowId of the group, try resolving it based on the category and name
-    if(!row.GroupId && row.GroupCategory && row.GroupName) {
-        var cacheKey = row.GroupCategory + '~~~~~' + row.GroupName;
-        row.GroupId = cachedGroups[cacheKey];
-        if (row.GroupId === undefined || row.GroupId == 'undefined')
-        {
-            LABKEY.Query.selectRows({
-                schemaName: 'ehr',
-                queryName: 'animal_groups',
-                columns: 'RowId',
-                scope: this,
-                filterArray: [
-                    LABKEY.Filter.create('Category', row.GroupCategory, LABKEY.Filter.Types.EQUAL),
-                    LABKEY.Filter.create('Name', row.GroupName, LABKEY.Filter.Types.EQUAL)
-                ],
-                success: function (data)
-                {
-                    if (data.rows && data.rows.length)
-                    {
-                        row.GroupId = data.rows[0].rowid;
-                        cachedGroups[cacheKey] = row.GroupId;
-                        console.log('caching ' + cacheKey + ': ' + row.GroupId);
-                    }
-                },
-                failure: function (error)
-                {
-                    console.log('Select rows error');
-                    console.log(error);
-                }
-            });
-        }
-
-    }
-}
- */

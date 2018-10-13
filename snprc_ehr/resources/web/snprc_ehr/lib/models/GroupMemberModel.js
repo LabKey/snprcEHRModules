@@ -8,7 +8,7 @@
  */
 Ext4.define("GroupMemberModel", {
     extend: "Ext.data.Model",
-    fields: ['groupid', 'id', 'date', 'enddate'],
+    fields: ['groupid', 'id', {name:'date', type: 'date'} , {name: 'enddate', type: 'date'}, 'objectid'],
     proxy: {
         type: 'ajax',
         api: {

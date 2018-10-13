@@ -24,10 +24,12 @@ import org.labkey.api.data.TableSelector;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.DuplicateKeyException;
 import org.labkey.api.query.FieldKey;
+import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.view.ViewContext;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
@@ -141,9 +143,11 @@ public class AnimalsGroupAssignor
 
     /**
      * @param groupMembers: Animals to be assigned (animalId, start date, and end date)
-     * @return list of animals that couldn't be assigned,
+     * @return - Nothing - Animals are either assigned or an exception is thrown
      */
-    public List<Map<String, AssignmentFailureReason>> assign(List<GroupMember> groupMembers)
+    public void assign(List<GroupMember> groupMembers) throws InvalidKeyException, BatchValidationException, QueryUpdateServiceException,
+        DuplicateKeyException, NullPointerException, SQLException, ValidationException
+
     {
         List<Map<String, AssignmentFailureReason>> notAssigned = new ArrayList<>();
         List<Map<String, Object>> rows = new ArrayList<>();
@@ -161,7 +165,7 @@ public class AnimalsGroupAssignor
         TableInfo demographicsTable = userSchema.getTable("demographics");
         SimpleFilter filter = new SimpleFilter();
         filter.addCondition(FieldKey.fromString("id"), animalIds, CompareType.IN);
-        Map<String, Map<String, String>> demographicsMap = new HashMap<>();
+        Map<String, Map<String, Object>> demographicsMap = new HashMap<>();
         for (Map a : new TableSelector(demographicsTable, filter, null).getMapCollection())
         {
             Map oneAnimalDemographicsMap = new HashMap();
@@ -174,53 +178,62 @@ public class AnimalsGroupAssignor
 
         for (GroupMember groupMember : groupMembers)
         {
+            // check for valid animal id
             if (!demographicsMap.containsKey(groupMember.getParticipantid()))
             {
-                Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.INVALID_ANIMAL_ID);
-                notAssigned.add(failureReasonMap);
-                continue;
-            }
-            if (demographicsMap.get(groupMember.getParticipantid()).get("death") != null)
-            {
-                Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.DEAD_ANIMAL);
-                notAssigned.add(failureReasonMap);
-                continue;
-
-            }
-            if (this.groupMembers.contains(groupMember))
-            {
-                Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.ALREADY_IN_GROUP);
-                notAssigned.add(failureReasonMap);
-                continue;
-            }
-            if (this.category.getEnforceExclusivity().equalsIgnoreCase("Y") && this.categoryMembers.contains(groupMember))
-            {
-                Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.ALREADY_IN_CATEGORY);
-                notAssigned.add(failureReasonMap);
-                continue;
-
+                throw new ValidationException(AssignmentFailureReason.INVALID_ANIMAL_ID.toString());
             }
 
+            // Make sure animal is alive on start date
+            String animalId = groupMember.getParticipantid();
+            Map<String, Object> rowMap = demographicsMap.get(animalId);
+
+            Date dod = (Date) rowMap.get("death");
+            Date startDate = groupMember.getDate();
+            Date endDate = groupMember.getEnddate();
+
+
+            if ( (dod != null) && (dod.compareTo(startDate) < 0))
+            {
+                throw new ValidationException(AssignmentFailureReason.START_DATE_AFTER_DEATH.toString());
+            }
+
+            // make sure animal is alive on end date
+            if ( (dod != null) && (endDate != null) && (dod.compareTo(endDate) < 0))
+            {
+                throw new ValidationException(AssignmentFailureReason.END_DATE_AFTER_DEATH.toString());
+            }
+
+            // make sure animal is not already assigned to group
+            // if objectid is null, then it is a new assignment
+            if (this.groupMembers.contains(groupMember) && groupMember.getObjectid() == null)
+            {
+                throw new ValidationException(AssignmentFailureReason.ALREADY_IN_GROUP.toString());
+            }
+
+            // if category groups are mutually exclusive, then we need to make sure animal
+            // hasn't already been assigned to another category
+            if (this.category.getEnforceExclusivity().equalsIgnoreCase("Y") &&
+                    this.categoryMembers.contains(groupMember) &&
+                    groupMember.getObjectid() == null)
+            {
+                throw new ValidationException(AssignmentFailureReason.ALREADY_IN_CATEGORY.toString());
+
+            }
+
+            // if future dates are not allowed, then we need to make sure a future date is not being entered
             if (this.category.getAllowFutureDate().equalsIgnoreCase("N") && groupMember.getDate().after(new Date()))
             {
-                Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.FUTURE_DATE_NOT_ALLOWED);
-                notAssigned.add(failureReasonMap);
-                continue;
-
+                throw new ValidationException(AssignmentFailureReason.FUTURE_DATE_NOT_ALLOWED.toString());
             }
-            if (this.category.getSex() != null && !this.category.getSex().equalsIgnoreCase(demographicsMap.get(groupMember.getParticipantid()).get("gender")))
+
+            // if category has a gender restriction, then we need to validate gender
+            if (this.category.getSex() != null && !this.category.getSex().equalsIgnoreCase((String) demographicsMap.get(groupMember.getParticipantid()).get("gender")))
             {
-                Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.NOT_APPLICABLE_GENDER);
-                notAssigned.add(failureReasonMap);
-                continue;
-
+                throw new ValidationException(AssignmentFailureReason.NOT_APPLICABLE_GENDER.toString());
             }
+
+            // if category has a species restriction, then we need to validate species
             if (this.category.getSpecies() != null)
             {
                 //demographics uses arc_species
@@ -233,18 +246,49 @@ public class AnimalsGroupAssignor
                 {
                     continue;
                 }
-                if (!speciesObject.getSpeciesCode().equalsIgnoreCase(demographicsMap.get(groupMember.getParticipantid()).get("species")))
+                if (!speciesObject.getSpeciesCode().equalsIgnoreCase((String) demographicsMap.get(groupMember.getParticipantid()).get("species")))
                 {
-                    Map<String, AssignmentFailureReason> failureReasonMap = new HashMap<>();
-                    failureReasonMap.put(groupMember.getParticipantid(), AssignmentFailureReason.NOT_APPLICABLE_SPECIES);
-                    notAssigned.add(failureReasonMap);
-                    continue;
+                    throw new ValidationException(AssignmentFailureReason.NOT_APPLICABLE_SPECIES.toString());
+                }
+
+            }
+
+            // date (startdate) and enddate must be bracketed by animal_groups start and enddate
+            {
+                Date today = new Date();
+                TableInfo animalGroupsTable = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
+                SimpleFilter groupsFilter = new SimpleFilter();
+                groupsFilter.addCondition(FieldKey.fromString("code"), groupMember.getGroupid(), CompareType.EQUAL);
+                AnimalGroup animalGroupsObject = new TableSelector(animalGroupsTable, groupsFilter, null).getObject(AnimalGroup.class);
+                // validate group
+                if (animalGroupsObject == null)
+                {
+                    //animal group does not exist
+                    throw new ValidationException(AssignmentFailureReason.GROUP_DOES_NOT_EXIST.toString());
+                }
+                // validate start date
+                if (groupMember.getDate().before(animalGroupsObject.getDate()) )
+                {
+                    throw new ValidationException(AssignmentFailureReason.INVALID_DATE.toString());
+                }
+                // start date must be before end date
+                if ( animalGroupsObject.getEndDate() != null && groupMember.getDate().after( animalGroupsObject.getEndDate()) )
+                {
+                    throw new ValidationException(AssignmentFailureReason.INVALID_DATE.toString());
+                }
+                // validate end date
+                if (groupMember.getEnddate() != null && animalGroupsObject.getEndDate() != null)
+                {
+                    if (groupMember.getEnddate().before(animalGroupsObject.getDate()) ||  groupMember.getEnddate().after( animalGroupsObject.getEndDate()))
+                    {
+                        throw new ValidationException(AssignmentFailureReason.INVALID_DATE.toString());
+                    }
                 }
 
             }
 
             Map groupMemberAsMap = oMapper.convertValue(groupMember, CaseInsensitiveHashMap.class);
-            groupMemberAsMap.remove("id");
+            groupMemberAsMap.remove("Id");
             groupMemberAsMap.remove("Id");
             rows.add(groupMemberAsMap);
 
@@ -256,36 +300,33 @@ public class AnimalsGroupAssignor
             TableInfo table = schema.getTable("animal_group_members");
 
             QueryUpdateService qus = table.getUpdateService();
-            try
+            for (Map<String, Object> row : rows)
             {
-                qus.insertRows(this.viewContext.getUser(), this.viewContext.getContainer(), rows, new BatchValidationException(), null, null);
-            }
-            catch (DuplicateKeyException e)
-            {
-                e.printStackTrace();
 
-            }
-            catch (BatchValidationException e)
-            {
-                e.getRowErrors();
-                e.printStackTrace();
+                List<Map<String, Object>> newrows = new ArrayList<>();
+                newrows.add(row);
+                try
+                {
+                    if (row.get("objectid") == null)
+                    {
+                        // insert a new row
+                        qus.insertRows(this.viewContext.getUser(), this.viewContext.getContainer(), newrows, new BatchValidationException(), null, null);
+                    }
+                    else
+                    {
+                        // update existing row
+                        qus.updateRows(this.viewContext.getUser(), this.viewContext.getContainer(), newrows, null, null, null);
+                    }
+                }
+                // catch trigger script errors (BatchValidationException) and other SQL related errors
+                catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
+                        DuplicateKeyException | NullPointerException | SQLException e) {
 
+                    throw e;
+                }
             }
-            catch (QueryUpdateServiceException e)
-            {
-                e.printStackTrace();
-
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-
-            }
-
         }
-
-
-        return notAssigned;
+        //return;
     }
 
 }

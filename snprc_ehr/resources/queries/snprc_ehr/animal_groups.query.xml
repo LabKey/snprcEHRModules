@@ -2,11 +2,6 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="animal_groups" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
                 <columns>
                     <column columnName="category_code">
                         <columnTitle>Category</columnTitle>

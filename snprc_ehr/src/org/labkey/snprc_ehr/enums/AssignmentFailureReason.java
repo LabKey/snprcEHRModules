@@ -22,11 +22,15 @@ public enum AssignmentFailureReason
 {
     INVALID_ANIMAL_ID("Invalid Animal ID(s)"),
     DEAD_ANIMAL("Dead Animal(s)"),
+    START_DATE_AFTER_DEATH("Animal was dead on the start date"),
+    END_DATE_AFTER_DEATH("Animal was dead on the end date"),
     NOT_APPLICABLE_GENDER("Gender Mismatch"),
     ALREADY_IN_GROUP("Animal(s) already assigned to group"),
     ALREADY_IN_CATEGORY("Animal(s) already assigned to category"),
     FUTURE_DATE_NOT_ALLOWED("Future Dates not allowed"),
-    NOT_APPLICABLE_SPECIES("Species Mismatch");
+    NOT_APPLICABLE_SPECIES("Species Mismatch"),
+    GROUP_DOES_NOT_EXIST("Animal group does not exist"),
+    INVALID_DATE("Assignment start and end date must be between groups start and end date.");
 
     private String reason;
 

@@ -9,9 +9,10 @@
 Ext4.define("AssignAnimalsToGroupWindow", {
     extend: "Ext.window.Window",
     modal: true,
-    title: "Assigning Animals to Groups",
+    title: "Assigning Animals to Groups - ",
+    alias: "widget.assign-members-panel",
     width: 680,
-    id: 'group-members-window',
+    id: 'assign-members-panel',
     resizable: false,
     items: [
         {
@@ -22,7 +23,9 @@ Ext4.define("AssignAnimalsToGroupWindow", {
                 type: 'accordion',
                 titleCollapse: false,
                 animate: true,
-                activeOnTop: true
+                activeOnTop: true,
+                height: 300,
+
             },
             items: [
                 {
@@ -226,32 +229,44 @@ Ext4.define("AssignAnimalsToGroupWindow", {
         },
         {
             xtype: 'panel',
-            title: 'Members',
-            height: 400,
+            height: 500,
             items: [
                 {
-                    xtype: "members-grid-panel"
+                    xtype: "members-grid-panel",
+                    title: 'Animals',
+                    height: 500
                 }
             ]
         }
-
-
-    ],
-
+    ]
+    ,
     setGroup: function (groupId) {
         this.groupId = groupId;
         return this;
-    },
+    }
+    ,
     getGroup: function () {
         return this.groupId || null;
-    },
+    }
+    ,
+    setGroupName: function (groupName) {
+        this.groupName = groupName;
+        return this;
+    }
+    ,
+    getGroupName: function () {
+        return this.groupName || null;
+    }
+    ,
 
     setActiveOnly: function (activeOnly) {
         this.activeOnly = activeOnly;
-    },
+    }
+    ,
     getActiveOnly: function () {
         return this.activeOnly || false;
-    },
+    }
+    ,
 
 
     loadMembersStore: function () {
@@ -262,11 +277,12 @@ Ext4.define("AssignAnimalsToGroupWindow", {
             }
         });
 
-
-    },
+        this.setTitle('Assigning Animals to Group: ' + this.getGroupName());
+    }
+    ,
     initComponent: function () {
         this.setActiveOnly(true);
         this.callParent(arguments);
-
     }
-});
+})
+;

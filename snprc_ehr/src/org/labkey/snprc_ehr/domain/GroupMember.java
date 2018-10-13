@@ -32,10 +32,7 @@ public class GroupMember
     private String description;
     private String remark;
     private String id;
-
-
     private String objectid;
-
     private boolean activeOnly;
 
 
@@ -51,9 +48,7 @@ public class GroupMember
 
     public void setId(String id)
     {
-
         this.id = id;
-
     }
 
     public String getParticipantid()
@@ -136,6 +131,7 @@ public class GroupMember
         json.put("date", this.getDate());
         json.put("enddate", this.getEnddate());
         json.put("description", this.getDescription());
+        json.put("objectid", this.getObjectid());
         return json;
 
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<etl xmlns="http://labkey.org/etl/xml">
+<etl xmlns="http://labkey.org/etl/xml" standalone="true">
     <name>Animal group members</name>
     <description>Animal group membership</description>
     <transforms>

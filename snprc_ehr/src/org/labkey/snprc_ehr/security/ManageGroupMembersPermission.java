@@ -24,7 +24,7 @@ public class ManageGroupMembersPermission extends AbstractPermission
 {
     public ManageGroupMembersPermission()
     {
-        super("ManageGroupMembersPermission", "This is the base permission required to be able to manage group categories and group members");
+        super("ManageGroupMembersPermission", "This is the base permission required to manage animal groups (categories groups, and members)");
     }
 
 }

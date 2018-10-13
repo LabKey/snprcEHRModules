@@ -85,7 +85,7 @@
         Ext4.create("Ext.panel.Panel", {
             layout: 'border',
             title: "Animal Group Categories",
-            height: 800,
+            height: 700,
             items: [
 
                 {
@@ -101,7 +101,7 @@
                     xtype: 'groups-grid-panel',
                     title: 'Animal Groups',
                     region: 'south',
-                    height: 400
+                    height: 350
                 }
 
             ],

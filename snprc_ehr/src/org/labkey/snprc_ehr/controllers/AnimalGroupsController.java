@@ -16,6 +16,9 @@
 package org.labkey.snprc_ehr.controllers;
 
 
+//import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
@@ -26,6 +29,7 @@ import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.audit.AuditLogService;
+import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.DbScope;
@@ -39,12 +43,14 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
 import org.labkey.api.query.BatchValidationException;
+import org.labkey.api.query.DuplicateKeyException;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.util.GUID;
 import org.labkey.api.view.ActionURL;
@@ -56,13 +62,13 @@ import org.labkey.snprc_ehr.domain.AnimalGroup;
 import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
 import org.labkey.snprc_ehr.domain.AnimalSpecies;
 import org.labkey.snprc_ehr.domain.GroupMember;
-import org.labkey.snprc_ehr.enums.AssignmentFailureReason;
 import org.labkey.snprc_ehr.helpers.SortFilterHelper;
 import org.labkey.snprc_ehr.security.ManageGroupMembersPermission;
 import org.labkey.snprc_ehr.services.AnimalsGroupAssignor;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -157,7 +163,6 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(AnimalGroupCategory o, BindException errors)
         {
             ObjectFactory factory = ObjectFactory.Registry.getFactory(AnimalGroupCategory.class);
-
 
 
             Map<String, Object> props = new HashMap<String, Object>();
@@ -361,6 +366,7 @@ public class AnimalGroupsController extends SpringActionController
 
     /**
      * Edit/Add a new group
+     * validation of the data takes place in the animal_groups.js trigger script
      */
     @RequiresPermission(EHRDataEntryPermission.class)
     public class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
@@ -370,7 +376,9 @@ public class AnimalGroupsController extends SpringActionController
         {
             Map<String, Object> props = new HashMap<String, Object>();
             JSONObject json = simpleApiJsonForm.getJsonObject();
+
             JSONArray rows;
+
             try
             {
                 rows = (JSONArray) json.get("rows");
@@ -380,57 +388,62 @@ public class AnimalGroupsController extends SpringActionController
                 rows = new JSONArray();
                 rows.put(0, (JSONObject) json.get("rows"));
             }
-            TableInfo table = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
-            try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
+            UserSchema schema = QueryService.get().getUserSchema(this.getViewContext().getUser(), this.getViewContext().getContainer(), "snprc_ehr");
+            TableInfo table = schema.getTable("animal_groups");
+            DbScope scope = schema.getDbSchema().getScope();
+            QueryUpdateService qus = table.getUpdateService();
+            BatchValidationException batchErrors = new BatchValidationException();
+
+            try (DbScope.Transaction transaction = scope.ensureTransaction())
             {
                 for (int i = 0; i < rows.length(); i++)
                 {
                     JSONObject o = rows.getJSONObject(i);
-                    if (o.get("date") != null)
-                    {
-                        o.put("date", ((String) o.get("date")).substring(0, 10));
-                    }
-                    if (o.get("endDate") != null)
-                    {
-                        o.put("endDate", ((String) o.get("endDate")).substring(0, 10));
-                    }
-
-                    if (o.get("sortOrder") != null)
-                    {
-                        o.put("sort_order", o.get("sortOrder"));
-                    }
-
-                    o.put("category_code", o.get("categoryCode"));
+                    Map<String, Object> mappedRows = new ObjectMapper().readValue(o.toString(), ArrayListMap.class);
+                    List<Map<String, Object>> rowsList = new ArrayList<>();
 
                     Map primaryKey = new HashMap();
+                    List pk = new ArrayList();
 
-                    if (o.get("code") != null && (Integer) o.get("code") != 0)
+                    if (mappedRows.get("code") != null && (Integer) mappedRows.get("code") != 0)
                     {
+                        mappedRows.put("category_code", o.get("categoryCode"));
+                        mappedRows.put("sort_order", o.get("sortOrder"));
+
+                        // update existing row
+                        rowsList.add(mappedRows);
+
                         primaryKey.put("code", o.get("code"));
                         primaryKey.put("category_code", o.get("categoryCode"));
-                        o.remove("categoryCode");
-                        Table.update(getUser(), table, o, primaryKey);
+
+                        pk.add(primaryKey);
+
+                        qus.updateRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, pk, null, null);
 
                     }
-                    else
+                    else // insert a new row
                     {
-                        o.put("code", this.getNextGroupCode());
-                        o.put("container", this.getContainer().getEntityId());
-                        o.put("objectid", new GUID());
-                        o.remove("categoryCode");
-                        Table.insert(getUser(), table, o);
-
+                        mappedRows.put("code", -1);
+                        mappedRows.put("objectId", GUID.makeGUID());
+                        mappedRows.put("category_code", o.get("categoryCode"));
+                        mappedRows.put("sort_order", o.get("sortOrder"));
+                        rowsList.add(mappedRows);
+                        qus.insertRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, batchErrors, null, null);
+                        if (batchErrors.hasErrors()) throw batchErrors;
                     }
-                }
 
+                }
                 props.put("success", true);
                 transaction.commit();
             }
-            catch (Exception e)
+
+            catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
+                        DuplicateKeyException | NullPointerException | IOException |SQLException e)
             {
                 props.put("success", false);
-                errors.reject("ERROR", e.getMessage());
+                props.put("message", e.getMessage());
             }
+
             return new ApiSimpleResponse(props);
         }
 
@@ -547,6 +560,7 @@ public class AnimalGroupsController extends SpringActionController
         }
     }
 
+
     /**
      * Assigns animals to a group using an instance of  {@link AnimalsGroupAssignor}
      */
@@ -580,39 +594,27 @@ public class AnimalGroupsController extends SpringActionController
                 animalForm.setEnddate(groupMember.getEnddate());
                 animalForm.setDescription(groupMember.getDescription());
                 animalForm.setGroupid(groupMember.getGroupid());
+                animalForm.setObjectid(groupMember.getObjectid());
                 groupMembers.add(animalForm);
 
             }
-            List<Map<String, AssignmentFailureReason>> notAssignedAnimals = animalsGroupAssignor.assign(groupMembers);
-
-            Map<AssignmentFailureReason, String> failedAssignments = new HashMap<>();
-            for (Map failedAssignment : notAssignedAnimals)
+            Map props = new HashMap();
+            try
             {
-                if (failedAssignments.containsKey(failedAssignment.values().toArray()[0]))
-                {
-                    failedAssignments.put((AssignmentFailureReason) (failedAssignment.values().toArray()[0]), failedAssignments.get(failedAssignment.values().toArray()[0]) + ", " + (failedAssignment.keySet().toArray()[0]).toString());
-                }
-                else
-                {
-                    failedAssignments.put((AssignmentFailureReason) (failedAssignment.values().toArray()[0]), (failedAssignment.keySet().toArray()[0]).toString());
+                animalsGroupAssignor.assign(groupMembers);
 
-                }
+                props.put("success", true);
 
             }
-
-
-            Map props = new HashMap();
-            props.put("success", true);
-            if (!failedAssignments.isEmpty())
+            catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
+                    DuplicateKeyException | NullPointerException | SQLException | ValidationException e)
             {
-                props.put("failure", failedAssignments);
-
+                props.put("success", false);
+                props.put("message", e.getMessage());
             }
 
             return new ApiSimpleResponse(props);
         }
-
-
     }
 
     @RequiresPermission(ManageGroupMembersPermission.class)

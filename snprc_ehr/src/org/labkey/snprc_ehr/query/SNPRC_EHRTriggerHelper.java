@@ -39,7 +39,6 @@ import org.labkey.api.security.UserManager;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 
-import javax.validation.constraints.Null;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -123,6 +122,24 @@ public class SNPRC_EHRTriggerHelper
         // if table has been truncated - reseed the vetId at 1
         return (vetId == null) ? 1 : vetId + 1;
     }
+
+    /**
+     * Auto-generate the next animal group code
+     *
+     * @return integer
+     */
+    public Integer getNextAnimalGroup()
+    {
+        SQLFragment sql = new SQLFragment("SELECT MAX(code) AS MAX_CODE FROM ");
+        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups());
+        SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
+
+        Integer code = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the code at 1
+        return (code == null) ? 1 : code + 1;
+    }
+
 
 
     public Map<String, Object> getExtraContext()

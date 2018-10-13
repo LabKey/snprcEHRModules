@@ -15,17 +15,27 @@ Ext4.define("GroupsGridPanel", {
     setType: 'cellmodel',
     plugins: [
         {
-            ptype: 'cellediting',
+            ptype: 'rowediting',
             clicksToEdit: 2
         }
     ],
+    listeners: {
+
+        edit: function (src, e) {
+            var record = e.record;
+            if (record.dirty) {
+                this.updateGroups();
+            }
+        }
+    },
     tbar: [
         {
             text: "Add",
             handler: function () {
                 var store = this.up('grid').getStore();
-
+                console.log('Add group');
                 if (store.getCategory()) {
+                    console.log('in if');
                     rec = store.add([{code: 0, categoryCode: store.getCategory(), sortOrder: 0}]);
                     this.up('grid').getView().select(rec, true, true);
 
@@ -97,10 +107,12 @@ Ext4.define("GroupsGridPanel", {
                     tooltip: 'Assign Animals',
                     handler: function (grid, rowIndex, colIndex, item, e, record) {
                         var assignAnimalsToGroupWindow = Ext4.create("AssignAnimalsToGroupWindow").setGroup(record.get("code"));
+
                         if (!assignAnimalsToGroupWindow.getGroup()) {
                             Ext4.Msg.alert("Save first", 'Please submit to save this group first, before trying to assign Animals');
                             return;
                         }
+                        assignAnimalsToGroupWindow.setGroupName(record.get("name"));
                         assignAnimalsToGroupWindow.show();
                         assignAnimalsToGroupWindow.loadMembersStore();
                     },
@@ -129,7 +141,8 @@ Ext4.define("GroupsGridPanel", {
                 }
             ]
         }
-    ],
+    ]
+    ,
     buttons: [
         {
             text: 'Submit',
@@ -154,4 +167,36 @@ Ext4.define("GroupsGridPanel", {
             }
         }
     ]
+
+    ,
+    updateGroups: function () {
+            var store = this.getStore();
+            store.save({
+                success: function (batch) {
+
+                    var success = batch.operations[0].request.scope.reader.jsonData["success"];
+                    if (success) {
+                        console.log('Successfully updated animal group');
+                        store.load({
+                            params: {
+                                'categoryCode': store.getCategory()
+                            }
+
+                        });
+                    }
+                    else {
+                        var message = batch.operations[0].request.scope.reader.jsonData["message"];
+                        Ext4.Msg.alert('Update failed: ' + message);
+                    }
+
+
+                },
+                failure: function (batch) {
+                    var message = batch.operations[0].request.scope.reader.jsonData["message"];
+                    Ext4.Msg.alert('Update failed: ', message);
+                }
+            });
+
+
+        }
 });

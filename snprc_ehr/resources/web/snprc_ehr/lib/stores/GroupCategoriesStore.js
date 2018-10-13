@@ -14,12 +14,16 @@ Ext4.define("GroupCategoriesStore", {
     remoteFilter: true,
     listeners: {
         load: function () {
-            if (Ext4.getCmp('group-categories-grid-panel').getStore().count()) {
-                Ext4.getCmp('group-categories-grid-panel').getSelectionModel().select(0);
-            }
-            else {
-                Ext4.getCmp('group-category-form-panel').getForm().reset();
-                Ext4.getCmp('groups-grid-panel').getStore().loadData([], false);
+            var component = Ext4.getCmp('group-categories-grid-panel');
+            if (component !== undefined) {
+
+                if (Ext4.getCmp('group-categories-grid-panel').getStore().count()) {
+                    Ext4.getCmp('group-categories-grid-panel').getSelectionModel().select(0);
+                }
+                else {
+                    Ext4.getCmp('group-category-form-panel').getForm().reset();
+                    Ext4.getCmp('groups-grid-panel').getStore().loadData([], false);
+                }
             }
 
         }
