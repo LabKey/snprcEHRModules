@@ -39,12 +39,6 @@ public class FeeSchedulePipelineJob extends PipelineJob
     }
 
     @Override
-    public boolean hasJacksonSerialization()
-    {
-        return true;
-    }
-
-    @Override
     public void run()
     {
         try
