@@ -236,19 +236,30 @@ public class AnimalsGroupAssignor
             // if category has a species restriction, then we need to validate species
             if (this.category.getSpecies() != null)
             {
-                //demographics uses arc_species
+                //demographics uses 3 char species
                 //animal_group_categories uses the 2 characters species code
                 TableInfo speciesTable = SNPRC_EHRSchema.getInstance().getTableInfoSpecies();
                 SimpleFilter speciesFilter = new SimpleFilter();
-                speciesFilter.addCondition(FieldKey.fromString("species_code"), demographicsMap.get(groupMember.getParticipantid()).get("species"), CompareType.EQUAL);
+                String animal_genus = demographicsMap.get(groupMember.getParticipantid()).get("species").toString();
+                String animal_species = null;
+
+                FieldKey key = FieldKey.fromString("species_code");
+
+                speciesFilter.addCondition(key, animal_genus, CompareType.EQUAL);
+
+
+
                 AnimalSpecies speciesObject = new TableSelector(speciesTable, speciesFilter, null).getObject(AnimalSpecies.class);
-                if (speciesObject == null)
+                if (speciesObject != null)
                 {
-                    continue;
+                    animal_species = speciesObject.getArcSpeciesCode();
                 }
-                if (!speciesObject.getSpeciesCode().equalsIgnoreCase((String) demographicsMap.get(groupMember.getParticipantid()).get("species")))
+
+                String category_speciesCode = this.category.getSpecies();
+
+                if (!animal_species.equalsIgnoreCase(category_speciesCode))
                 {
-                    throw new ValidationException(AssignmentFailureReason.NOT_APPLICABLE_SPECIES.toString());
+                    throw new ValidationException(AssignmentFailureReason.NOT_APPLICABLE_SPECIES.toString() + " Id: " + groupMember.getParticipantid() + "  Species: " + animal_species);
                 }
 
             }

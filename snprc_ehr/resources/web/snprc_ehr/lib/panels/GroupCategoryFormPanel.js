@@ -101,21 +101,19 @@ Ext4.define('GroupCategoryFormPanel', {
                 }
 
                 this.up('form').getRecord().save({
-                    callback: function (record, response) {
-                        if (response.success) {
+                    callback: function (record, action) {
+                        if (action.success) {
                             Ext4.getCmp('group-categories-grid-panel').getStore().load({
-                                callback: function () {
-                                    var rowIndex = Ext4.getCmp('group-categories-grid-panel').getStore().find('categoryCode', record.getData().categoryCode);
-                                    Ext4.getCmp('group-categories-grid-panel').getView().select(rowIndex);
+                               callback: function () {
+                                  var rowIndex = Ext4.getCmp('group-categories-grid-panel').getStore().find('categoryCode', record.getData().categoryCode);
+                                   Ext4.getCmp('group-categories-grid-panel').getView().select(rowIndex);
 
-
-                                }
-                            });
-                        }
+                                    }
+                                });
+                            }
                         else {
-                            Ext4.MessageBox.alert('Something went wrong', 'Unable to update the record');
+                            Ext4.Msg.alert("Update Failure", "<br><strong>" + action.error + "</strong> ");
                         }
-
                     }
                 });
 

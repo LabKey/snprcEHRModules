@@ -15,7 +15,7 @@ function onInit(event, helper) {
 
 function onUpsert(helper, scriptErrors, row, oldRow) {
 
-    if (row.code === -1) {
+    if (row.code === 0) {
         row.code = snprcTriggerHelper.getNextAnimalGroup();
     }
 

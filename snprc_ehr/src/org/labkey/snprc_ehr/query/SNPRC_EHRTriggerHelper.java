@@ -139,6 +139,22 @@ public class SNPRC_EHRTriggerHelper
         // if table has been truncated - reseed the code at 1
         return (code == null) ? 1 : code + 1;
     }
+    /**
+     * Auto-generate the next animal group category code
+     *
+     * @return integer
+     */
+    public Integer getNextAnimalGroupCategory()
+    {
+        SQLFragment sql = new SQLFragment("SELECT MAX(category_code) AS MAX_CODE FROM ");
+        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories());
+        SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
+
+        Integer category_code = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the code at 11 (codes below 11 are reserved)
+        return (category_code == null) ? 11 : category_code + 1;
+    }
 
 
 

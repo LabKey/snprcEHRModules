@@ -163,27 +163,46 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(AnimalGroupCategory o, BindException errors)
         {
             ObjectFactory factory = ObjectFactory.Registry.getFactory(AnimalGroupCategory.class);
-
+            UserSchema schema = QueryService.get().getUserSchema(this.getViewContext().getUser(), this.getViewContext().getContainer(), "snprc_ehr");
+            TableInfo table = schema.getTable("animal_group_categories");
+            DbScope scope = schema.getDbSchema().getScope();
+            QueryUpdateService qus = table.getUpdateService();
+            BatchValidationException batchErrors = new BatchValidationException();
 
             Map<String, Object> props = new HashMap<String, Object>();
+            Map primaryKey = new HashMap();
+            List pk = new ArrayList();
+            List<Map<String, Object>> rowsList = new ArrayList<>();
+
             try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
             {
                 if (o.getCategoryCode() != 0)
                 {
                     Map categoryAsMap = factory.toMap(o, null);
-
                     categoryAsMap.put("container", this.getContainer().getId());
-                    Table.update(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap, o.getCategoryCode());
+                    primaryKey.put("category_code", o.getCategoryCode());
+
+                    pk.add(primaryKey);
+                    rowsList.add(categoryAsMap);
+
+                    //Table.update(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap, o.getCategoryCode());
+                    qus.updateRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, pk, null, null);
 
                 }
                 else
                 {
                     o.setCategoryCode(this.getNextCategoryId());
                     Map categoryAsMap = factory.toMap(o, null);
-                    categoryAsMap.put("objectId", new GUID().toString());
+
+                    categoryAsMap.put("objectId", GUID.makeGUID());
                     categoryAsMap.put("container", this.getContainer().getId());
 
-                    Table.insert(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap);
+                    rowsList.add(categoryAsMap);
+
+                    //Table.insert(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap);
+                    qus.insertRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, batchErrors, null, null);
+                    if (batchErrors.hasErrors()) throw batchErrors;
+
                     props.put("categoryCode", o.getCategoryCode());
                 }
 
@@ -193,7 +212,8 @@ public class AnimalGroupsController extends SpringActionController
             catch (Exception e)
             {
                 props.put("success", false);
-                errors.reject(ERROR_MSG, e.getMessage());
+                //errors.reject(ERROR_MSG, e.getMessage());
+                props.put("message", e.getMessage());
             }
 
             return new ApiSimpleResponse(props);
@@ -261,21 +281,37 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(AnimalSpecies o, BindException errors)
         {
-            ArrayList<AnimalSpecies> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoSpecies(), null, null).getArrayList(AnimalSpecies.class);
             List<JSONObject> jsonRows = new ArrayList<>();
-
             Map<String, Object> props = new HashMap<String, Object>();
 
-            JSONObject noSpecies = new JSONObject();
-            noSpecies.put("arcSpeciesCode", "");
-            noSpecies.put("speciesName", "N/A");
-
-            jsonRows.add(noSpecies);
-            for (AnimalSpecies species : rows)
+            try
             {
-                jsonRows.add(species.toJSON());
+                SQLFragment sql = new SQLFragment("SELECT sc.code AS arcSpeciesCode,\n" +
+                        "       sc.common_name AS common,\n" +
+                        "       sc.scientific_name AS scientificName\n" +
+                        "   FROM ehr_lookups.species_codes AS sc\n" +
+                        "   JOIN (SELECT DISTINCT arc_species_code, primate\n" +
+                        "           FROM snprc_ehr.species AS s\n" +
+                        "           WHERE s.dateDisabled IS NULL AND s.primate = 'Y' ) AS s on s.arc_species_code = sc.code");
+                SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
+                ArrayList<AnimalSpecies> rows = sqlSelector.getArrayList(AnimalSpecies.class);
+
+                JSONObject noSpecies = new JSONObject();
+                noSpecies.put("arcSpeciesCode", "");
+                noSpecies.put("speciesName", "N/A");
+
+                jsonRows.add(noSpecies);
+                for (AnimalSpecies species : rows)
+                {
+                    jsonRows.add(species.toJSON());
+                }
+                props.put("species", jsonRows);
             }
-            props.put("species", jsonRows);
+            catch (Exception e)
+            {
+                String msg = e.getMessage();
+            }
+
             return new ApiSimpleResponse(props);
         }
     }
@@ -423,7 +459,7 @@ public class AnimalGroupsController extends SpringActionController
                     }
                     else // insert a new row
                     {
-                        mappedRows.put("code", -1);
+                        //mappedRows.put("code", -1);
                         mappedRows.put("objectId", GUID.makeGUID());
                         mappedRows.put("category_code", o.get("categoryCode"));
                         mappedRows.put("sort_order", o.get("sortOrder"));
@@ -438,7 +474,7 @@ public class AnimalGroupsController extends SpringActionController
             }
 
             catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
-                        DuplicateKeyException | NullPointerException | IOException |SQLException e)
+                    DuplicateKeyException | NullPointerException | IOException | SQLException e)
             {
                 props.put("success", false);
                 props.put("message", e.getMessage());

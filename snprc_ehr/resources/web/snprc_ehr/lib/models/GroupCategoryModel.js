@@ -53,7 +53,8 @@ Ext4.define("GroupCategoryModel", {
         },
         reader: {
             type: 'json',
-            root: 'rows'
+            root: 'rows',
+            messageProperty: 'message'
         }
     }
 });

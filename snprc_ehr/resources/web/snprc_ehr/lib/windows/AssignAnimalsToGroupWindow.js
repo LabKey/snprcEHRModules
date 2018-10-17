@@ -87,34 +87,20 @@ Ext4.define("AssignAnimalsToGroupWindow", {
                                         var activeOnly = this.up('window').getActiveOnly();
                                         var formPanel = this.up('form');
                                         memberRecord.save({
-                                            callback: function (record, response) {
-                                                if (response.success) {
-                                                    var response = Ext4.JSON.decode(response.response.responseText);
+                                            callback: function (record, action) {
+                                                if (action.success) {
                                                     Ext4.getCmp('group-members-grid').getStore().load({
                                                         params: {
                                                             groupid: groupId,
                                                             activeOnly: activeOnly
                                                         }
-                                                    });
-                                                    if (response.failure != undefined) {
-                                                        var messageText = "";
-                                                        for (var property in response.failure) {
-                                                            if (response.failure.hasOwnProperty(property)) {
-                                                                messageText = messageText + "<br><strong>" + property + "</strong> : " + response.failure[property];
-                                                            }
+                                                    })
 
-                                                        }
-                                                        Ext4.Msg.alert("Failures", messageText);
-                                                    }
-                                                    else {
-                                                        formPanel.getForm().reset();
-                                                    }
-
+                                                    formPanel.getForm().reset();
                                                 }
                                                 else {
-                                                    Ext4.MessageBox.alert('Something went wrong', 'Unable to update the record');
-                                                }
-
+                                                        Ext4.Msg.alert("Update Failure", "<br><strong>" + action.error + "</strong> ");
+                                                    }
                                             }
                                         });
                                     }

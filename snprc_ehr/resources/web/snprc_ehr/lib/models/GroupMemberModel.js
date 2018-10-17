@@ -19,7 +19,8 @@ Ext4.define("GroupMemberModel", {
         },
         reader: {
             type: 'json',
-            root: 'animals'
+            root: 'animals',
+            messageProperty: 'message'
         }
 
     }
