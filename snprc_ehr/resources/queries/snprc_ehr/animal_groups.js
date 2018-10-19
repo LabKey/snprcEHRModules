@@ -19,53 +19,34 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
         row.code = snprcTriggerHelper.getNextAnimalGroup();
     }
 
-    var errors = validate(row, oldRow);
-
-    if (errors) {
-        scriptErrors[errors['field']] = [];
-        scriptErrors[errors['field']].push({
-            message: errors['message'],
-            severity: errors['severity']
-        });
-    }
-}
-
-
-function validate(row, oldRow) {
-
-    var errors = {};
+    var message = undefined;
 
     // if there is an endDate, it must be >= startDate (date)
     if (row.enddate) {
 
-
         var startDate = new Date(row.date);
         var endDate = new Date(row.enddate);
+
         if (startDate > endDate) {
-            errors = {
-                field: 'enddate',
-                message: 'End date must occur on or after the start date.',
-                severity: 'ERROR'
-            };
+            message = 'End date must occur on or after the start date.';
+            EHR.Server.Utils.addError(scriptErrors, 'enddate', message, 'ERROR');
+
         }
     }
 
-    //Category codes less than  11 are static categories reserved for cycles, pedigrees, and colonies.
-    if (row.category_code) {
-        if (row.category_code < 11) {
-            errors = {
-                field: 'category_code',
-                message: 'Category codes less than  11 are static categories reserved for cycles, pedigrees, and colonies. Updates are not permitted.',
-                severity: 'ERROR'
-            };
-        }
-    }
+    // //Category codes less than  11 are static categories reserved for cycles, pedigrees, and colonies.
+    // if (row.category_code) {
+    //     if (row.category_code < 11) {
+    //         message = 'Category codes less than  11 are static categories reserved for cycles, pedigrees, and colonies.';
+    //         EHR.Server.Utils.addError(scriptErrors, 'category_code', message, 'ERROR');
+    //     }
+    // }
 
     // enddate changes
     var old_enddate, new_enddate;
-    if (oldRow && row.enddate) {
+    if (message === undefined && oldRow && row.enddate) {
 
-        if ( oldRow.enddate === undefined) {
+        if (oldRow.enddate === undefined) {
             old_enddate = new Date(row.enddate)
         }
         else {
@@ -78,8 +59,6 @@ function validate(row, oldRow) {
         if ((row.enddate && oldRow.enddate === undefined) || (new_enddate.getTime() !== old_enddate.getTime())) {
 
             // can't end date an entry that still has active group members
-            var message = undefined;
-
             LABKEY.Query.selectRows({
                 schemaName: 'study',
                 queryName: 'animal_group_members',
@@ -99,16 +78,11 @@ function validate(row, oldRow) {
             });
 
             if (message) {
-                errors = {
-                    field: 'category_code',
-                    message: message,
-                    severity: 'ERROR'
-                };
+                EHR.Server.Utils.addError(scriptErrors, 'enddate', message, 'ERROR');
             }
 
             // End date must be greater than or equal to the max end date for assigned group members
             if (message === undefined) {
-
                 LABKEY.Query.selectRows({
                     schemaName: 'study',
                     queryName: 'MaxEndDateForAnimalGroup',
@@ -127,16 +101,13 @@ function validate(row, oldRow) {
                         message = 'Error reading from study.animal_group_members table';
                     }
                 });
-            }
-            if (message) {
-                errors = {
-                    field: 'category_code',
-                    message: message,
-                    severity: 'ERROR'
-                };
+
+                if (message) {
+                    if (message) {
+                        EHR.Server.Utils.addError(scriptErrors, 'enddate', message, 'ERROR');
+                    }
+                }
             }
         }
     }
-
-    return (Object.keys(errors).length > 0) ? errors : undefined;
 }

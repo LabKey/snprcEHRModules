@@ -39,13 +39,22 @@ Ext4.define("GroupCategoriesGridPanel", {
                         text: "Add",
                         iconCls: 'add-btn',
                         handler: function () {
-                            var store = this.up('grid').getStore();
+                            var grid = this.up('grid');
+                            var store = grid.getStore();
 
-                            rec = store.add(Ext4.create("GroupCategoryModel", {categoryCode: 0, sortOrder: 0}));
-                            this.up('grid').getSelectionModel().select(rec, true, true);
-                            this.up('grid').getSelectionModel().fireEvent('selectionchange', this.up('grid').getSelectionModel(), this.up('grid').getSelectionModel().getSelection());
+                            // has a row already been inserted?
+                            var row = store.getRange();
+                            for (var i = 0; i < row.length; i++) {
 
+                                if (row[i].getData().categoryCode === 0) return;
+                            }
 
+                            rec = store.insert(0, Ext4.create("GroupCategoryModel", {categoryCode: 0, sortOrder: 0}));
+
+                            grid.getSelectionModel().select(rec, true, true);
+                            //var rowIndex = store.indexOf(rec);
+                            grid.getView().scrollRowIntoView(0);
+                            grid.getSelectionModel().fireEvent('selectionchange', grid.getSelectionModel(), grid.getSelectionModel().getSelection());
                         }
 
                     },

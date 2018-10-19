@@ -33,10 +33,11 @@ Ext4.define("GroupsGridPanel", {
             text: "Add",
             handler: function () {
                 var store = this.up('grid').getStore();
-                console.log('Add group');
+
+                if (store.isDirty()) { return }
+                //console.log('Add group');
                 if (store.getCategory()) {
-                    console.log('in if');
-                    rec = store.add([{code: 0, categoryCode: store.getCategory(), sortOrder: 0}]);
+                    rec = store.insert(0, {code: 0, categoryCode: store.getCategory(), sortOrder: 0});
                     this.up('grid').getView().select(rec, true, true);
 
                 }
@@ -176,7 +177,7 @@ Ext4.define("GroupsGridPanel", {
 
                     var success = batch.operations[0].request.scope.reader.jsonData["success"];
                     if (success) {
-                        console.log('Successfully updated animal group');
+                        //console.log('Successfully updated animal group');
                         store.load({
                             params: {
                                 'categoryCode': store.getCategory()

@@ -103,9 +103,11 @@ Ext4.define('GroupCategoryFormPanel', {
                 this.up('form').getRecord().save({
                     callback: function (record, action) {
                         if (action.success) {
+                            var categoryCode = Ext4.JSON.decode(action.response.responseText).categoryCode;
+
                             Ext4.getCmp('group-categories-grid-panel').getStore().load({
                                callback: function () {
-                                  var rowIndex = Ext4.getCmp('group-categories-grid-panel').getStore().find('categoryCode', record.getData().categoryCode);
+                                  var rowIndex = Ext4.getCmp('group-categories-grid-panel').getStore().find('categoryCode', categoryCode);
                                    Ext4.getCmp('group-categories-grid-panel').getView().select(rowIndex);
 
                                     }

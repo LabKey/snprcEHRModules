@@ -36,5 +36,8 @@ Ext4.define("AnimalGroupsStore", {
     },
     getCategory: function () {
         return this.category || null;
+    },
+    isDirty: function() {
+        return (this.getNewRecords().length > 0 || this.getUpdatedRecords().length > 0 || this.getRemovedRecords().length > 0);
     }
 });

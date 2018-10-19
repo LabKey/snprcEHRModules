@@ -58,7 +58,7 @@ Ext4.define('GroupMembersFormPanel', {
                     return;
                 };
 
-                console.log(form.getValues());
+                //console.log(form.getValues());
 
 
                 var memberRecord = Ext4.create("GroupMemberModel", {
@@ -75,7 +75,7 @@ Ext4.define('GroupMembersFormPanel', {
 
                 memberRecord.save({
                     callback: function (record, response) {
-                        console.log(record);
+                        //console.log(record);
                         if (response.success) {
                             var response = Ext4.JSON.decode(response.response.responseText);
                             Ext4.getCmp('group-members-grid').getStore().load({
@@ -110,7 +110,7 @@ Ext4.define('GroupMembersFormPanel', {
 
 
 
-                console.log('GroupMembersFormPanel - Submit clicked')
+                //console.log('GroupMembersFormPanel - Submit clicked')
 
             }
         }
