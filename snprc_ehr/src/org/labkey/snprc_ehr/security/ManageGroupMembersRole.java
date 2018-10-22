@@ -25,7 +25,7 @@ public class ManageGroupMembersRole extends AbstractRole
 {
     public ManageGroupMembersRole()
     {
-        super("SNPRC Group Members", "This role is required in order to manage group categories, groups and group members.",
+        super("SNPRC Animal Groups", "This role is required in order to manage group categories, groups and animal group members.",
                 ManageGroupMembersPermission.class
         );
 
