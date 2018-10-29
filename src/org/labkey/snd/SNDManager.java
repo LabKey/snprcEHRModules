@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONObject;
 import org.labkey.api.cache.CacheManager;
 import org.labkey.api.cache.StringKeyCache;
 import org.labkey.api.collections.ArrayListMap;
@@ -3062,18 +3061,17 @@ public class SNDManager
     /**
      * Returns a list of active projects with a list of project items
      */
-    public List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters)
+    //public List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters)
+
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters)
     {
-        List<JSONObject> projectList = new ArrayList<>();
+       List<Map<String, Object>> projectList = new ArrayList<>();
 
         UserSchema schema = getSndUserSchema(c, u);
         TableInfo projectsTable = getTableInfo(schema, SNDSchema.PROJECTS_TABLE_NAME);
 
         // Get from projects table
         SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Active"), true, CompareType.EQUAL);
-
-//        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectId"), 28, CompareType.EQUAL);
-//        filter.addCondition(FieldKey.fromParts("RevisionNum"), 1, CompareType.EQUAL);
 
         // apply filters that are passed as an argument
         if (filters != null) {
@@ -3095,7 +3093,8 @@ public class SNDManager
 
             // add extra fields
             Project project = projectTs.getObject(Project.class);
-            JSONObject projectJson = project.toJSON(c, u);
+
+            Map<String, Object> projectMap = project.toShallowMap(c, u);
             addExtraFieldsToProject(c, u, project, projectTs.getMap());
 
             Map<GWTPropertyDescriptor, Object> extraFields = project.getExtraFields();
@@ -3124,7 +3123,7 @@ public class SNDManager
                                 SimpleFilter luFilter = new SimpleFilter();
                                 luFilter.addCondition(FieldKey.fromString(pk), pd.getValue(), CompareType.EQUAL);
                                 Map<String, Object> lookupValues = new TableSelector(luTi, luFilter, null).getMap();
-                                projectJson.put(pd.getKey().getName(), lookupValues.get(title));
+                                projectMap.put(pd.getKey().getName(), lookupValues.get(title));
                             }
                         }
                         catch (NullPointerException e)
@@ -3134,7 +3133,7 @@ public class SNDManager
                     }
                     else
                     {
-                        projectJson.put(pd.getKey().getName(), pd.getValue());
+                        projectMap.put(pd.getKey().getName(), pd.getValue());
                     }
                 }
             }
@@ -3144,30 +3143,12 @@ public class SNDManager
 
             if (pItems.size() > 0)
             {
-                // create json object list from projectItems
-                List<JSONObject> projectItemList = new ArrayList();
-
-                for (Map<String, Object> pItem : pItems)
-                {
-                    JSONObject projectItemJson = new JSONObject(pItem);
-                    projectItemList.add(projectItemJson);
-                }
-                projectJson.put("ProjectItems", projectItemList);
-//                try
-//                {
-//                    Map<String, Object> mappedRows = new ObjectMapper().readValue(projectJson.toString(), ArrayListMap.class);
-//
-//                }
-//                catch (Exception e) {
-//                    //ignore
-//                }
-                projectList.add(projectJson);
+                projectMap.put("ProjectItems", pItems);
             }
+
+            // add project to the return list
+            projectList.add(projectMap);
         }
-
-
-//        Map<String, Object> mappedRows = new ObjectMapper().readValue(o.toString(), ArrayListMap.class);
-//        List<Map<String, Object>> rowsList = new ArrayList<>();
 
         return projectList;
     }

@@ -422,7 +422,7 @@ public class SNDServiceImpl implements SNDService
     }
 
     @Override
-    public List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters) {
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters) {
         return SNDManager.get().getActiveProjects(c, u, filters);
     }
 }
