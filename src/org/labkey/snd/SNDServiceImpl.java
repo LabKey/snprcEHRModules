@@ -15,12 +15,14 @@
  */
 package org.labkey.snd;
 
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbScope;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.dataiterator.DataIterator;
@@ -38,8 +40,8 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.Category;
 import org.labkey.api.snd.Event;
-import org.labkey.api.snd.EventTriggerFactory;
 import org.labkey.api.snd.EventNarrativeOption;
+import org.labkey.api.snd.EventTriggerFactory;
 import org.labkey.api.snd.Package;
 import org.labkey.api.snd.PackageDomainKind;
 import org.labkey.api.snd.Project;
@@ -58,7 +60,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import org.apache.log4j.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -155,7 +156,6 @@ public class SNDServiceImpl implements SNDService
 
         return project;
     }
-
     @Override
     public void registerAttributeLookup(Container c, User u, String schema, @Nullable String table)
     {
@@ -419,5 +419,10 @@ public class SNDServiceImpl implements SNDService
     public Map<Integer, Category> getAllCategories(Container c, User u)
     {
         return SNDManager.get().getAllCategories(c, u);
+    }
+
+    @Override
+    public List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters) {
+        return SNDManager.get().getActiveProjects(c, u, filters);
     }
 }
