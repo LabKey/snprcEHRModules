@@ -19,8 +19,10 @@ package org.labkey.snd;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 import org.labkey.api.cache.CacheManager;
 import org.labkey.api.cache.StringKeyCache;
 import org.labkey.api.collections.ArrayListMap;
@@ -94,8 +96,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
-import org.apache.log4j.Logger;
 
 import static org.labkey.api.snd.EventNarrativeOption.HTML_NARRATIVE;
 import static org.labkey.api.snd.EventNarrativeOption.REDACTED_HTML_NARRATIVE;
@@ -3058,4 +3058,153 @@ public class SNDManager
 
         return categoryMap;
     }
+
+    /**
+     * Returns a list of active projects with a list of project items
+     */
+    public List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters)
+    {
+        List<JSONObject> projectList = new ArrayList<>();
+
+        UserSchema schema = getSndUserSchema(c, u);
+        TableInfo projectsTable = getTableInfo(schema, SNDSchema.PROJECTS_TABLE_NAME);
+
+        // Get from projects table
+        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Active"), true, CompareType.EQUAL);
+
+//        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectId"), 28, CompareType.EQUAL);
+//        filter.addCondition(FieldKey.fromParts("RevisionNum"), 1, CompareType.EQUAL);
+
+        // apply filters that are passed as an argument
+        if (filters != null) {
+            for (SimpleFilter f: filters) {
+                filter.addAllClauses(f);
+            }
+        }
+        TableSelector ts = new TableSelector(projectsTable, filter, null);
+
+        // Iterate over list of projects
+        List<Project> projects = ts.getArrayList(Project.class);
+        for (Project p : projects)
+        {
+
+            // Add extensible columns
+            SimpleFilter projectFilter = new SimpleFilter(FieldKey.fromParts("ProjectId"), p.getProjectId(), CompareType.EQUAL);
+            projectFilter.addCondition(FieldKey.fromParts("RevisionNum"), p.getRevisionNum(), CompareType.EQUAL);
+            TableSelector projectTs = new TableSelector(projectsTable, projectFilter, null);
+
+            // add extra fields
+            Project project = projectTs.getObject(Project.class);
+            JSONObject projectJson = project.toJSON(c, u);
+            addExtraFieldsToProject(c, u, project, projectTs.getMap());
+
+            Map<GWTPropertyDescriptor, Object> extraFields = project.getExtraFields();
+
+            if (extraFields.size() > 0)
+            {
+                for (Map.Entry<GWTPropertyDescriptor, Object> pd : extraFields.entrySet())
+                {
+                    String lookupSchema = pd.getKey().getLookupSchema();
+
+                    // get lookup displayValue from lookup table
+                    if (lookupSchema != null && pd.getValue() != null)
+                    {
+                        String lookupQuery = pd.getKey().getLookupQuery();
+                        UserSchema luSchema = QueryService.get().getUserSchema(u, c, lookupSchema);
+                        TableInfo luTi = luSchema.getTable(lookupQuery);
+
+                        try
+                        {
+                            String pk, title;
+                            pk = luTi.getPkColumnNames().get(0); // Only handling single value pks
+                            title = luTi.getTitleColumn();
+
+                            if (pk != null)
+                            {
+                                SimpleFilter luFilter = new SimpleFilter();
+                                luFilter.addCondition(FieldKey.fromString(pk), pd.getValue(), CompareType.EQUAL);
+                                Map<String, Object> lookupValues = new TableSelector(luTi, luFilter, null).getMap();
+                                projectJson.put(pd.getKey().getName(), lookupValues.get(title));
+                            }
+                        }
+                        catch (NullPointerException e)
+                        {
+                            // ignore
+                        }
+                    }
+                    else
+                    {
+                        projectJson.put(pd.getKey().getName(), pd.getValue());
+                    }
+                }
+            }
+
+            // add projectItems
+            List<Map<String, Object>> pItems = getProjectItemsList(c, u, project.getProjectId(), project.getRevisionNum());
+
+            if (pItems.size() > 0)
+            {
+                // create json object list from projectItems
+                List<JSONObject> projectItemList = new ArrayList();
+
+                for (Map<String, Object> pItem : pItems)
+                {
+                    JSONObject projectItemJson = new JSONObject(pItem);
+                    projectItemList.add(projectItemJson);
+                }
+                projectJson.put("ProjectItems", projectItemList);
+//                try
+//                {
+//                    Map<String, Object> mappedRows = new ObjectMapper().readValue(projectJson.toString(), ArrayListMap.class);
+//
+//                }
+//                catch (Exception e) {
+//                    //ignore
+//                }
+                projectList.add(projectJson);
+            }
+        }
+
+
+//        Map<String, Object> mappedRows = new ObjectMapper().readValue(o.toString(), ArrayListMap.class);
+//        List<Map<String, Object>> rowsList = new ArrayList<>();
+
+        return projectList;
+    }
+
+    public List<Map<String, Object>> getProjectItemsList(Container c, User u, int projectId, int revNum)
+    {
+        UserSchema schema = getSndUserSchema(c, u);
+
+        SQLFragment sql = new SQLFragment("SELECT pi.ProjectItemId, pi.superPkgId, p.pkgId, p.description FROM ");
+        sql.append(schema.getTable(SNDSchema.PROJECTITEMS_TABLE_NAME), "pi");
+        sql.append(" JOIN ");
+        sql.append(schema.getTable(SNDSchema.PROJECTS_TABLE_NAME), "pr");
+        sql.append(" ON pi.ParentObjectId = pr.ObjectId");
+        sql.append(" JOIN ");
+        sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp");
+        sql.append(" ON sp.SuperPkgId = pi.SuperPkgId");
+        sql.append(" JOIN ");
+        sql.append(schema.getTable(SNDSchema.PKGS_TABLE_NAME), "p");
+        sql.append(" ON sp.PkgId = p.PkgId");
+        sql.append(" WHERE ProjectId = ? AND RevisionNum = ?");
+        sql.add(projectId).add(revNum);
+        SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
+
+        List<Map<String, Object>> projectItems = new ArrayList<>();
+        try (TableResultSet rs = selector.getResultSet())
+        {
+            for (Map<String, Object> row : rs)
+            {
+                projectItems.add(row);
+            }
+        }
+        catch (SQLException e)
+        {
+            // ignore
+        }
+
+        return projectItems;
+    }
+
 }

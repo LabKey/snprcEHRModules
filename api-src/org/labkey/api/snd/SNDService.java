@@ -15,10 +15,11 @@
  */
 package org.labkey.api.snd;
 
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
@@ -31,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
-import org.apache.log4j.Logger;
 
 /**
  * Created by marty on 8/4/2017.
@@ -68,4 +68,5 @@ public interface SNDService
     Map<Integer, Category> getAllCategories(Container c, User u);
     Integer getQCStateId(Container c, User u, QCStateEnum qcState);
     QCStateEnum getQCState(Container c, User u, int qcStateId);
+    List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters);
 }
