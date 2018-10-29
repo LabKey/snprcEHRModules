@@ -346,4 +346,22 @@ public class Project
 
         return json;
     }
+
+    @NotNull
+    public Map<String, Object> toShallowMap(Container c, User u)
+    {
+        Map<String, Object> map = new ArrayListMap<>();
+
+        map.put(PROJECT_ID, getProjectId());
+        map.put(PROJECT_DESCRIPTION, getDescription());
+        map.put(PROJECT_ACTIVE, isActive());
+        map.put(PROJECT_STARTDATE, startDateToString());
+        map.put(PROJECT_REVNUM, getRevisionNum());
+        map.put(PROJECT_REFID, getReferenceId());
+        map.put(PROJECT_HASEVENT, hasEvent());
+        if (getEndDate() != null)
+            map.put(PROJECT_ENDDATE, endDateToString());
+
+        return map;
+    }
 }
