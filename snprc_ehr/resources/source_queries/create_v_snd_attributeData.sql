@@ -19,6 +19,7 @@ AS
 -- Description:	View provides the datasource for event data with attribute/values
 -- Changes:
 -- 4/12/2018 added permnissions and trimmed leading and trailing spaces from attrib_keys. tjh
+-- 10/11/2018 removing rows that have attribute values that are '' or null. tjh
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
   cp.ANIMAL_EVENT_ID               AS EventId,
@@ -27,7 +28,7 @@ SELECT TOP (99.999999999) PERCENT
   cp.PROC_ID                       AS EventDataId,
   sp.SUPER_PKG_ID                  AS SuperPkgId,
   pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
-
+  cpa.value AS value,
   -- exp.ObjectProperty columns
   ltrim(rtrim(cpa.ATTRIB_KEY)) AS [KEY],
 
@@ -56,6 +57,8 @@ INNER JOIN dbo.PKG_ATTRIBS AS pa ON pa.PKG_ID = p.PKG_ID AND pa.ATTRIB_KEY = cpa
 
 -- select primates only from the TxBiomed colony
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID
+WHERE LTRIM(RTRIM(cpa.VALUE)) <> '' AND  cpa.VALUE IS NOT NULL
+
 ORDER BY EventDataId
 
 GO
