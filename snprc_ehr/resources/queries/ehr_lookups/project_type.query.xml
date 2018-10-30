@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="project_type" tableDbType="TABLE">
-                <titleColumn>Value</titleColumn>
+                <titleColumn>Description</titleColumn>
             </table>
         </tables>
     </metadata>

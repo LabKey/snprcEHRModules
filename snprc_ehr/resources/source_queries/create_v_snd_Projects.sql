@@ -31,6 +31,8 @@ SELECT
   b.charge_id AS referenceId,
   b.start_date_tm AS StartDate,
   b.end_date_tm AS EndDate,
+  b.BUDGET_TYPE AS ProjectType,
+  CASE WHEN b.VS_NUM = 0 THEN NULL ELSE b.VS_NUM END AS VsNumber,
   b.description as Description,
   b.object_id                     AS objectid,
   b.entry_date_tm                 AS modified,
@@ -42,6 +44,7 @@ SELECT
           
 FROM dbo.budgets AS b
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = b.object_id
+  
 
 GO
 GRANT SELECT ON [labkey_etl].[v_snd_Projects] TO z_labkey
