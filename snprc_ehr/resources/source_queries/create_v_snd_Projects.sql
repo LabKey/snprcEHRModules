@@ -38,13 +38,8 @@ SELECT
   tc.created                        AS created,
   tc.createdby                      AS createdby,
   b.timestamp                     AS timestamp,
-          CASE WHEN ( SELECT DISTINCT
-                            aep.BUDGET_ID
-                    FROM    dbo.v_aep AS aep
-                    WHERE   aep.BUDGET_ID = b.BUDGET_ID
-                  ) IS NOT NULL THEN 'true'
-             ELSE 'false'
-        END AS Active
+  CASE WHEN COALESCE(b.end_date_tm, GETDATE()) < GETDATE() THEN 'false' ELSE 'true' END AS Active
+          
 FROM dbo.budgets AS b
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = b.object_id
 
