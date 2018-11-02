@@ -16,3 +16,4 @@ where p.ReferenceId < 4000 and p.ReferenceId > 0
   and p.ReferenceId.protocol is not null
   and now() between p.StartDate and coalesce(p.EndDate, now())
   and now() between a.date and coalesce(a.endDate, now())
+  and a.assignmentStatus in ('A', 'S')
