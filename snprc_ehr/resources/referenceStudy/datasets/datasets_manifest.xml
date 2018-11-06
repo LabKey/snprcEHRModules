@@ -77,10 +77,10 @@
         <dataset name="anesthesia" id="5030" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="clinpathRuns" id="1073" category="ClinPath" type="Standard">
+        <dataset name="clinpathRuns" id="1073" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="labworkResults" id="1060" category="ClinPath" type="Standard">
+        <dataset name="labworkResults" id="1060" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="parasitologyResults" id="1052" category="ClinPath" type="Standard" showByDefault="false">
@@ -159,6 +159,9 @@
             <tags/>
         </dataset>
         <dataset name="assay_clinpathRuns" id="5041" demographicData="false" category="ClinPath" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="assay_labworkResults" id="5042" demographicData="false" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
     </datasets>
