@@ -361,6 +361,7 @@ public class Project
         map.put(PROJECT_HASEVENT, hasEvent());
         if (getEndDate() != null)
             map.put(PROJECT_ENDDATE, endDateToString());
+        map.put(PROJECT_OBJECTID, getObjectId());
 
         return map;
     }
