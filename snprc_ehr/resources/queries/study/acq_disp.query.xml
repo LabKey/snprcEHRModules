@@ -15,6 +15,10 @@
                         <columnTitle>Acquisition Date</columnTitle>
                     </column>
                     <column columnName="acq_code">
+                        <columnTitle>Acquisition code</columnTitle>
+                        <
+                    </column>
+                    <column columnName="acq_type">
                         <columnTitle>Acquisition Type</columnTitle>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
@@ -26,6 +30,9 @@
                         <columnTitle>Disposition Date</columnTitle>
                     </column>
                     <column columnName="disp_code">
+                        <columnTitle>Disposition code</columnTitle>
+                    </column>
+                    <column columnName="disp_type">
                         <columnTitle>Disposition Type</columnTitle>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
