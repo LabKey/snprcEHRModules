@@ -1,0 +1,7 @@
+node_modules
+.labkey
+etlLogs
+import
+kinship
+assaydata
+/snprc_ehr/resources/referenceStudy/kinship.txt
