@@ -107,7 +107,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     public String getModuleDirectory()
     {
-        return "snprc_ehr";
+        return "snprcEHRModules/snprc_ehr";
     }
 
     @Nullable
@@ -229,7 +229,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
+        File path = new File(TestFileUtils.getLabKeyRoot(), getExternalModulePath() + "/resources/referenceStudy");
         setPipelineRoot(path.getPath());
 
         beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");
@@ -393,7 +393,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected void populateInitialData()
     {
-        beginAt(WebTestHelper.getBaseURL() + "/" + getModuleDirectory() + "/" + getContainerPath() + "/populateData.view");
+        beginAt(WebTestHelper.getBaseURL() + "/SNPRC_EHR/" + getContainerPath() + "/populateData.view");
 
         repopulate("Lookup Sets");
         repopulate("Procedures");
