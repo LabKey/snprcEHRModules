@@ -16,7 +16,6 @@
                     </column>
                     <column columnName="acq_code">
                         <columnTitle>Acquisition code</columnTitle>
-                        <
                     </column>
                     <column columnName="acq_type">
                         <columnTitle>Acquisition Type</columnTitle>
