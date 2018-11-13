@@ -1,0 +1,46 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="demographicsMhcStatus" tableDbType="NOT_IN_DB">
+                <columns>
+                    <column columnName="Id">
+                        <isKeyField>true</isKeyField>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="A001Status">
+                        <url>/query/executeQuery.view?schemaName=snprc_ehr&amp;
+                            query.queryName=MhcData&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.sort=haplotype&amp;
+                        </url>
+                        <columnTitle>A001 Status</columnTitle>
+                    </column>
+                    <column columnName="B003Status">
+                        <url>/query/executeQuery.view?schemaName=snprc_ehr&amp;
+                            query.queryName=MhcData&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.sort=haplotype&amp;
+                        </url>
+                        <columnTitle>B003 Status</columnTitle>
+                    </column>
+                    <column columnName="B008Status">
+                        <url>/query/executeQuery.view?schemaName=snprc_ehr&amp;
+                            query.queryName=MhcData&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.sort=haplotype&amp;
+                        </url>
+                        <columnTitle>B008 Status</columnTitle>
+                    </column>
+                    <column columnName="B017Status">
+                        <url>/query/executeQuery.view?schemaName=snprc_ehr&amp;
+                            query.queryName=MhcData&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.sort=haplotype&amp;
+                        </url>
+                        <columnTitle>B017 Status</columnTitle>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

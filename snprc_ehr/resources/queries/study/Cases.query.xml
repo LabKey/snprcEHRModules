@@ -1,0 +1,99 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="cases" tableDbType="TABLE">
+                <tableUrl></tableUrl>
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="date">
+                        <columnTitle>Admit Date</columnTitle>
+                        <formatString>Date</formatString>
+                    </column>
+                    <column columnName="caseid">
+                        <columnTitle>Admit Id</columnTitle>
+                        <isHidden>false</isHidden>
+                    </column>
+                    <column columnName="enddate">
+                        <columnTitle>Release Date</columnTitle>
+                        <isHidden>false</isHidden>
+                    </column>
+                    <column columnName="reviewdate">
+                        <columnTitle>Next Review Date</columnTitle>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="category">
+                        <columnTitle>Case Category</columnTitle>
+                        <isUserEditable>false</isUserEditable>
+                        <nullable>false</nullable>
+                    </column>
+                    <column columnName="assignedvet">
+                        <columnTitle>Assigned Vet</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>validVets</fkTable>
+                            <fkColumnName>VetId</fkColumnName>
+                            <fkDisplayColumnName>DisplayName</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="problem">
+                        <columnTitle>PDX</columnTitle>
+                    </column>
+                    <column columnName="sdx">
+                        <columnTitle>SDX</columnTitle>
+                    </column>
+                    <column columnName="admitcomplaint">
+                        <columnTitle>Admitting Complaint</columnTitle>
+                    </column>
+                    <column columnName="resolution">
+                        <columnTitle>Resolution</columnTitle>
+                    </column>
+                    <column columnName="reviewfrequency">
+                        <columnTitle>Review Frequency</columnTitle>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="remark">
+                        <columnTitle>Description/Notes</columnTitle>
+                        <inputType>textarea</inputType>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="plan">
+                        <columnTitle>P2</columnTitle>
+                        <inputType>textarea</inputType>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="performedby">
+                        <columnTitle>Opened By</columnTitle>
+                    </column>
+                    <column columnName="project">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

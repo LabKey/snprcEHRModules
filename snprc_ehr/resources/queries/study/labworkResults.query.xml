@@ -1,0 +1,128 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="labworkResults" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl/>
+                <insertUrl/>
+                <importUrl/>
+                <updateUrl/>
+                <deleteUrl/>
+                <columns>
+                    <column columnName="date">
+                        <columnTitle>Observation Date</columnTitle>
+                    </column>
+                    <column columnName="project">
+                        <nullable>true</nullable>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="type">
+                        <columnTitle>Procedure Type</columnTitle>
+                        <nullable>true</nullable>
+                    </column>
+                    <column columnName="serviceTestId">
+                        <columnTitle>Test Name</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>labwork_panels</fkTable>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkDisplayColumnName>TestName</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="testid">
+                        <nullable>false</nullable>
+                        <columnTitle>Test Id</columnTitle>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="resultOORIndicator">
+                        <nullable>true</nullable>
+                    </column>
+                    <column columnName="value_type">
+                        <columnTitle>Value Type</columnTitle>
+                        <nullable>true</nullable>
+                    </column>
+                    <column columnName="result">
+                        <columnTitle>Result</columnTitle>
+                        <nullable>true</nullable>
+                        <measure>true</measure>
+                    </column>
+                    <column columnName="units">
+                        <columnTitle>Units</columnTitle>
+                        <displayWidth>60</displayWidth>
+                    </column>
+                    <column columnName="refRange" wrappedColumnName="lsid">
+                        <columnTitle>Ref Range</columnTitle>
+                        <isUnselectable>true</isUnselectable>
+                        <isHidden>false</isHidden>
+                        <!-- <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>labRefRange</fkTable>
+                            <fkColumnName>lsid</fkColumnName>
+                        </fk> -->
+                    </column>
+                    <column columnName="abnormal_flags">
+                        <columnTitle>Abnormal Flags</columnTitle>
+                        <nullable>true</nullable>
+                    </column>
+                    <column columnName="remark">
+                        <columnTitle>Remarks</columnTitle>
+                        <nullable>true</nullable>
+                    </column>
+                    <column columnName="description">
+                        <nullable>true</nullable>
+                        <columnTitle>Description</columnTitle>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="method">
+                        <nullable>true</nullable>
+                        <columnTitle>Method</columnTitle>
+                        <!--
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>chemistry_method</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk> -->
+                    </column>
+
+                    <column columnName="parentid">
+                        <!--<fk>-->
+                        <!--<fkDbSchema>study</fkDbSchema>-->
+                        <!--<fkTable>chemistryRuns</fkTable>-->
+                        <!--<fkColumnName>objectid</fkColumnName>-->
+                        <!--</fk>-->
+                        <nullable>true</nullable>
+                    </column>
+                    <column columnName="runid">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>ClinpathRuns</fkTable>
+                            <fkColumnName>objectid</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

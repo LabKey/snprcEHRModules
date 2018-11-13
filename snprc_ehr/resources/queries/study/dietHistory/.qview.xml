@@ -1,0 +1,11 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="enddate"/>
+        <column name="code"/>
+        <column name="duration"/>
+        <column name="history"/>
+
+    </columns>
+</customView>

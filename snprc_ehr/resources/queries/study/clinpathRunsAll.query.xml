@@ -1,0 +1,119 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="clinpathRunsAll" tableDbType="NOT_IN_DB" useColumnOrder="true">
+                <tableUrl>/ehr/clinpathDetails.view?lsid=${lsid}&amp;objectid=${objectid}</tableUrl>
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <titleColumn>servicerequested</titleColumn>
+                <columns>
+                    <column columnName="Id">
+                    <fk>
+                        <fkDbSchema>study</fkDbSchema>
+                        <fkTable>animal</fkTable>
+                        <fkColumnName>Id</fkColumnName>
+                        <fkDisplayColumnName>Id</fkDisplayColumnName>
+                    </fk>
+                    </column>
+                    <column columnName="date">
+                        <columnTitle>Observation Date</columnTitle>
+                    </column>
+                    <column columnName="verifiedDate">
+                        <columnTitle>Date Verified</columnTitle>
+                    </column>
+                    <column columnName="serviceId">
+                        <columnTitle>Service Requested</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>labwork_services</fkTable>
+                            <fkColumnName>serviceId</fkColumnName>
+                            <fkDisplayColumnName>ServiceName</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="sampleId">
+                        <columnTitle>Specimen Num</columnTitle>
+                    </column>
+                    <column columnName="collectedBy">
+                        <columnTitle>Collected By</columnTitle>
+                    </column>
+                    <column columnName="collectionMethod">
+                        <columnTitle>Collection Method</columnTitle>
+                        <fk>
+                          <fkDbSchema>ehr_lookups</fkDbSchema>
+                          <fkTable>clinpath_collection_method</fkTable>
+                          <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="method">
+                        <columnTitle>Method</columnTitle>
+                    </column>
+                    <column columnName="remark">
+                        <columnTitle>Remark</columnTitle>
+                    </column>
+                    <column columnName="instructions">
+                        <columnTitle>Special Instructions</columnTitle>
+                        <inputType>textarea</inputType>
+                    </column>
+                    <column columnName="reviewedBy">
+                        <columnTitle>Reviewed By</columnTitle>
+                    </column>
+                    <column columnName="dateReviewed">
+                        <columnTitle>Date Reviewed</columnTitle>
+                    </column>
+                    <column columnName="parentid">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="objectid">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="lsid">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="description">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="dataset">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="ts">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="units">
+                        <columnTitle>Units</columnTitle>
+                    </column>
+                    <column columnName="clinremark">
+                        <columnTitle>Clinical Remark</columnTitle>
+                    </column>
+                    <column columnName="condition">
+                        <columnTitle>Condition</columnTitle>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+                <tableTitle>Clinpath Runs</tableTitle>
+            </table>
+        </tables>
+    </metadata>
+</query>

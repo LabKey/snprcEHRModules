@@ -1,0 +1,6 @@
+value	description	title	sort_order	date_disabled
+R	Research	Research Protocols	0
+M	Maintenance	Colony Management Protocols	3
+C	Clinical	Colony Clinical Protocols	2
+B	Behaviour	Colony Behavior Management	4
+L	Legacy	Legacy Data	99	5/12/2015 23:59:59

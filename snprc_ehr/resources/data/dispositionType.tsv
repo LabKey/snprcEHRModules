@@ -1,0 +1,51 @@
+value	description
+0	Alive at TBRI (for historical data before 01/01/2000 only)                           
+1	Natural death (other than research)                                                  
+2	Sacrifice for research reasons                                                       
+3	Research related death                                                               
+4	Sold (to outside TBRI)                                                               
+5	TBRI Loan (to outside TBRI)                                                          
+6	Gift (to outside TBRI)                                                               
+7	Exchange (to outside TBRI)                                                           
+8	Return of outside loan                                                               
+9	Release from TBRI from treatment                                                     
+10	Release from TBRI from boarding                                                      
+11	Sacrifice for humane/management reasons (Euthanasia)                                 
+12	Stillbirth                                                                           
+13	Abortion                                                                             
+14	Return as inadequate model                                                           
+15	Died while on treatment                                                              
+16	End NON TxBiomed data acquisition                                                    
+17	Research related death (outside TBRI)                                                
+18	Surgical Removal of dead fetus                                                       
+19	Euthanized for humane reasons                                                        
+20	Euthanized for management reasons                                                    
+21	UTHS - Animal taken to UT Health Sciences Center                                     
+50	Lost to ambiguous id (DBA deletion,  animal not removed from colony)                 
+61	AC   -Accidental death                                                               
+62	DE   -Dead                                                                           
+63	EX   -Experimental related death                                                     
+65	SWRI -Animal taken to SWRI                                                           
+66	TR   -Animal taken to Trinity University                                             
+68	ACTR -Accidental death due to trauma                                                 
+69	ACWL -Accidental death (water bottle leaked)                                         
+70	ACWM -Accidental death (no water bottle)                                             
+71	ES   -Escaped                                                                        
+72	EXBA -Experimental death due to blood collection/anesthesia                          
+73	EXEP -Experimental death due to experimental endpoint (tissue collection or necropsy)
+74	EXSA -Experimental death due to surgery/anesthesia                                   
+75	EXSH -Experimental death due to shaving/anesthesia                                   
+76	IC   -Inflamed Cloaca                                                                
+77	KI   -Killed by mate or siblings                                                     
+78	MI   -Missing animal (no book, no animal)                                            
+79	MO   -Moribund (near death, very ill, euthanized)                                    
+80	PR   -Prolapse                                                                       
+81	SA   -Sacrificed (cull list)                                                         
+82	SO   -Sold                                                                           
+83	SP   -Spontaneous death                                                              
+84	SC   -Surgical Complications                                                         
+85	SD   -Spontaneous death, diet related                                                
+86	PP   -Prolapsed Placenta                                                             
+97	Parental data only, animal never at SFBR                                             
+98	Unknown (id only)                                                                    
+99	Unknown                                                                              

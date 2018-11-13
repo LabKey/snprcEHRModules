@@ -1,0 +1,8 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" hidden="true">
+    <filters>
+        <filter column="AgeClass" operator="eq" value="3"/>            <!-- Mature -->
+        <filter column="Roommate Age Class" operator="eq" value="3"/>
+        <filter column="Roommate Gender/code" operator="eq" value="M"/>     <!-- Fertile male -->
+        <filter column="Gender/Code" operator="in" value="F;c"/>  <!-- Female, including ovexed -->
+    </filters>
+</customView>

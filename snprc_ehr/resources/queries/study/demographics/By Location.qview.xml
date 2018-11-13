@@ -1,0 +1,58 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id/curLocation/room">
+            <properties>
+                <property name="columnTitle" value="Location"/>
+            </properties>
+        </column>
+        <column name="Id/curLocation/date">
+            <properties>
+                <property name="columnTitle" value="Move Date"/>
+            </properties>
+        </column>
+        <column name="Id"/>
+        <column name="species"/>
+        <column name="gender">
+            <properties>
+                <property name="columnTitle" value="Sex"/>
+            </properties>
+        </column>
+        <column name="calculated_status">
+            <properties>
+                <property name="columnTitle" value="Status"/>
+            </properties>
+        </column>
+        <column name="birth"/>
+        <column name="Id/age/yearAndDays"/>
+        <column name="Id/MostRecentWeight/MostRecentWeight">
+            <properties>
+                <property name="columnTitle" value="Current Weight (kg)"/>
+            </properties>
+        </column>
+        <column name="Id/MostRecentWeight/MostRecentWeightDate">
+            <properties>
+                <property name="columnTitle" value="Weight Date"/>
+            </properties>
+        </column>
+        <column name="Id/MostRecentTBDate/MostRecentTBDate">
+            <properties>
+                <property name="columnTitle" value="Last TB Test"/>
+            </properties>
+        </column>
+        <column name="Id/activeAccounts/account">
+            <properties>
+                <property name="columnTitle" value="Account"/>
+            </properties>
+        </column>
+        <column name="Id/idHistoryList/idHistoryList">
+            <properties>
+                <property name="columnTitle" value="Id history"/>
+            </properties>
+        </column>
+        <column name="history"/>
+    </columns>
+    <sorts>
+        <sort column="Id/curLocation/room"/>
+        <sort column="Id" />
+    </sorts>
+</customView>

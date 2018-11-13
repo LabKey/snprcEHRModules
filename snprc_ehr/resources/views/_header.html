@@ -1,0 +1,82 @@
+<div class="tac-title">
+    <div class="old-theme">
+        <h2>Total Animal Care (TAC)</h2>
+        <h3>Electronic Health Record System</h3>
+        <p>Powered by LabKey</p>
+    </div>
+    <div class="bootstrap-theme">
+        <div class="hidden-xs md-title lg-title">
+            <h2>Total Animal Care (TAC)</h2>
+            <h3>Electronic Health Record System</h3>
+            <p>Powered by LabKey</p>
+        </div>
+        <div class="hidden-sm hidden-md hidden-lg sm-title">
+            <h2>Total Animal Care (TAC)</h2>
+            <p>Powered by LabKey</p>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .labkey-main-title .bootstrap-theme, .labkey-page-header .old-theme {
+        display: none;
+    }
+
+    /* This section is to override the top page header */
+    .labkey-page-header {
+        background-color: white;
+    }
+
+    /* This section is to override the color for the header text and icons (admin, user, etc.) */
+    .labkey-page-header .navbar-nav-lk>li>a.fa, .labkey-page-header .navbar-nav-lk>li>a>i.fa,
+    .labkey-page-header .navbar-nav-lk>li>a, .labkey-page-header .navbar-nav-lk>li>span,
+    .tac-title .bootstrap-theme {
+        color: #9b0000; /*use this to match the LabKey "Madison" theme*/
+        /*color: #116596; !*use this to match the LabKey "Overcast" theme*!*/
+        /*color: #e86130; !*use this to match the LabKey "Harvest" theme*!*/
+    }
+
+    .tac-title {
+        display: inline-block;
+    }
+
+    .sm-title {
+        text-align: center;
+    }
+
+    .md-title {
+        text-align: center;
+    }
+
+    .old-theme {
+        text-align: center;
+    }
+
+    .old-theme h2, .bootstrap-theme h2 {
+        font-size: 22px;
+        font-style: italic;
+        margin: 2px 0;
+    }
+
+    .old-theme h3, .bootstrap-theme h3{
+        font-size: 20px;
+        margin: 2px 0;
+    }
+    .old-theme p, .bootstrap-theme p {
+        font-size: 16px;
+        margin: 2px 0;
+    }
+    .labkey-main-title-area .labkey-main-title:hover {
+        text-decoration: none;
+    }
+</style>
+
+<script type="text/javascript">
+    //apply theme color to title
+    window.addEventListener('load', function () {
+        var menuBar = document.getElementById('menubar');
+        if (menuBar) {
+            document.getElementsByClassName('old-theme')[0].style.color = window.getComputedStyle(menuBar, null).getPropertyValue('background-color');
+        }
+    });
+</script>

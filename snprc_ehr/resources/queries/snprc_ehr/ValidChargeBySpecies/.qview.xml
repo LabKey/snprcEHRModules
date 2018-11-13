@@ -1,0 +1,12 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Project/project"/>
+        <column name="Project/title"/>
+        <column name="Project/protocol" />
+        <column name="Species" />
+        <column name="Purpose"/>
+    </columns>
+    <sorts>
+        <sort column="Project/project" />
+    </sorts>
+</customView>

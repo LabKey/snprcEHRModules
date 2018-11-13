@@ -1,0 +1,43 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date">
+            <properties>
+                <property name="columnTitle" value = "Event date"/>
+            </properties>
+        </column>
+        <column name="project">
+          <properties>
+              <property name="columnTitle" value="Charge ID"/>
+          </properties>
+        </column>
+        <column name="project/protocol/protocol">
+            <properties>
+                <property name="columnTitle" value="IACUC #"/>
+            </properties>
+        </column>
+        <column name="remark">
+            <properties>
+                <property name="columnTitle" value="Proc narrative"/>
+            </properties>
+        </column>
+        <column name="modifiedBy">
+            <properties>
+                <property name="columnTitle" value="Modified by"/>
+            </properties>
+        </column>
+        <column name="modified">
+            <properties>
+                <property name="columnTitle" value="Date last modified"/>
+            </properties>
+        </column>
+        <column name="encounter_type">
+            <properties>
+                <property name="columnTitle" value="Encounter type"/>
+            </properties>
+        </column>
+    </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
+</customView>

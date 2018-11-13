@@ -1,0 +1,37 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="MhcStatus" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Id"/>
+                    <column columnName="A001Status">
+                        <columnTitle>A001 Status</columnTitle>
+                    </column>
+                    <column columnName="B003Status">
+                        <columnTitle>B003 Status</columnTitle>
+                    </column>
+                    <column columnName="B008Status">
+                        <columnTitle>B008 Status</columnTitle>
+                    </column>
+                    <column columnName="B017Status">
+                        <columnTitle>B017 Status</columnTitle>
+                    </column>
+                    <column columnName="objectid">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="LabComments">
+                        <columnTitle>Lab Comments</columnTitle>
+                    </column>
+                    <column columnName="FileSource">
+                        <columnTitle>File Source</columnTitle>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

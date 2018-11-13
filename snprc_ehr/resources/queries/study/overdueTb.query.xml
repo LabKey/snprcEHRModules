@@ -1,0 +1,39 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="overdueTb" tableDbType="NOT_IN_DB">
+                <tableTitle>Due/Overdue TB Test Report</tableTitle>
+                <columns>
+                    <column columnName="Id">
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="Location">
+                        <sortDescending>true</sortDescending>
+                    </column>
+                    <column columnName="LastTB">
+                        <formatString>MM-dd-yy</formatString>
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=encounters&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.Date~eq=${LastTB}
+                        </url>
+                        <columnTitle>Last TB</columnTitle>
+                    </column>
+                    <column columnName="LastPhysical">
+                    <formatString>MM-dd-yy</formatString>
+                    <url>/query/executeQuery.view?schemaName=study&amp;
+                        query.queryName=encounters&amp;
+                        query.Id~eq=${Id}&amp;
+                        query.Date~eq=${LastPhysical}
+                    </url>
+                    <columnTitle>Last Physical</columnTitle>
+                </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

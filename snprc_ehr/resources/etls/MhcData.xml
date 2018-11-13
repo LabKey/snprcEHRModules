@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>MHC Data</name>
+    <description>MHC data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_MhcData" />
+            <destination schemaName="snprc_ehr" queryName="MhcData" bulkLoad="true" targetOption="append" />
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>

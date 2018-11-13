@@ -1,0 +1,17 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="AnimalChargeAdmitJunction" tableDbType="NOT_IN_DB">
+                <tableTitle>Animal Charge Admit Junction</tableTitle>
+                <columns>
+                    <column columnName="Id" />
+                    <column columnName="Protocol" />
+                    <column columnName="ProjectName" />
+                    <column columnName="ChargeId" />
+                    <column columnName="AdmitId" />
+                    <column columnName="ProjectType" />
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

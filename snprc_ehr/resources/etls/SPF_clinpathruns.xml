@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+<name>SPF Clinpath Runs</name>
+<description>Clinical Pathology SPF Workflow ETL daily at 00:34:00</description>
+<transforms>
+    <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+        <source schemaName="spf_workflow" queryName="spfWorkflow" />
+        <destination schemaName="study" queryName="assay_clinpathRuns" bulkLoad="true" batchSize="10000" targetOption="truncate">
+        </destination>
+    </transform>
+</transforms>
+<schedule>
+    <cron expression="0 34 0 * * ?" />
+</schedule>
+</etl>

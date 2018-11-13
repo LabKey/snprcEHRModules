@@ -1,0 +1,42 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="Id/Demographics/species/species_code">
+            <properties>
+                <property name="columnTitle" value="Species Code"/>
+            </properties>
+        </column>
+        <column name="Id/Demographics/death"/>
+        <column name="project">
+            <properties>
+                <property name="columnTitle" value="Charge ID"/>
+            </properties>
+        </column>
+        <column name="project/account"/>
+        <column name="project/protocol">
+            <properties>
+                <property name="columnTitle" value="IACUC"/>
+            </properties>
+        </column>
+        <column name="date"/>
+        <column name="title">
+            <properties>
+                <property name="columnTitle" value="Title"/>
+            </properties>
+        </column>
+        <column name="remark"/>
+        <column name="performedBy"/>
+        <column name="caseno"/>
+        <column name="datefinalized">
+            <properties>
+                <property name="columnTitle" value="Finalized"/>
+            </properties>
+        </column>
+        <column name="history"/>
+        <column name="survivorship/survivorshipInDays"/>
+        <column name="Id/assignmentsAtDeath/assignmentsAtDeath"/>
+    </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
+</customView>

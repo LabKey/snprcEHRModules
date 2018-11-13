@@ -1,0 +1,127 @@
+ <query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="Assignment" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Id">
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="project">
+                        <fk>
+                            <fkDbSchema>ehr</fkDbSchema>
+                            <fkTable>project</fkTable>
+                            <fkColumnName>project</fkColumnName>
+                        </fk>
+                        <!-- Not populated for SNPRC -->
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="protocol">
+                        <columnTitle>Protocol</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr</fkDbSchema>
+                            <fkTable>protocol</fkTable>
+                            <fkColumnName>protocol</fkColumnName>
+                            <fkDisplayColumnName>Protocol</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="date">
+                        <columnTitle>Assign Date</columnTitle>
+                    </column>
+                    <column columnName="projectedRelease">
+                        <columnTitle>Projected Release Date</columnTitle>
+                    </column>
+                    <column columnName="enddate">
+                        <columnTitle>Release Date</columnTitle>
+                        <isHidden>false</isHidden>
+                        <shownInInsertView>true</shownInInsertView>
+                        <shownInDetailsView>true</shownInDetailsView>
+                    </column>
+                    <column columnName="account">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="assignCondition">
+                        <columnTitle>Condition At Assignment</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>animal_condition</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="projectedReleaseCondition">
+                        <columnTitle>Projected Release Condition</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>animal_condition</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="releaseCondition">
+                        <columnTitle>Condition At Release</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>animal_condition</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="performedby">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="releaseType">
+                        <columnTitle>Release Type</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>assignmentReleaseType</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="enddatefinalized">
+                        <columnTitle>Date Assignment End Entered</columnTitle>
+                        <description>This records the date the end of the assignment was actually entered, which may differ from the enddate itself</description>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="CoAssignments" wrappedColumnName="lsid">
+                        <columnTitle>CoAssignments</columnTitle>
+                        <isHidden>false</isHidden>
+                        <isUnselectable>true</isUnselectable>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>assignmentTotalCoAssigned</fkTable>
+                            <fkColumnName>lsid</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

@@ -1,0 +1,32 @@
+﻿value	description
+0	Unknown
+1	Colony-born, Vaginal delivery (at TBRI)
+2	Colony-born, Cesarean delivery (at TBRI)
+3	Stillbirth/Abortion
+4	Trapped by TBRI
+5	Received by trade
+6	Surgical Removal of dead fetus
+7	New Purchase
+8	Gift (from outside source)
+9	Return of TBRI Loan
+10	Outside Loan to TBRI
+11	Re-Purchase
+12	Admission to TBRI for treatment
+13	Admission to TBRI for boarding
+14	Purchase, wild-born, known provenance
+15	Purchase, wild-born, unknown provenance
+16	Purchase, colony-born, other colony
+17	Gift, wild-born
+18	Gift, colony-born
+19	Loan, wild-born
+20	Loan, colony-born
+21	Returned to TBRI (inadequate model)
+22	Colony-born, other colony, by Cesarean Section (dam resides or intending to be returned to SFBR)
+23	Colony-born, other colony, by Vaginal delivery (dam resides or intending to be returned to SFBR)
+24	Admit to TBRI for quarantine period (tether, surgery...prior to release)
+25	NON TxBiomed data acquisition
+26	Research related (return to TBRI)
+27	Reacquired to complete medical history
+28	euthanized in utero, colony management
+50	Re-IDed (DBA addition, not physical addition to colony)
+97	Parental data only, animal never at TBRI

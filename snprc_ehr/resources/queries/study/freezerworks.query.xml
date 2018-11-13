@@ -1,0 +1,114 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="freezerworks" tableDbType="NOT_IN_DB">
+                <tableTitle>Freezerworks</tableTitle>
+                <columns>
+                    <column columnName="aliq_create_date">
+                        <columnTitle>Aliq Create Date</columnTitle>
+                    </column>
+                    <column columnName="aliq_mod_date">
+                        <columnTitle>Aliq Mod Date</columnTitle>
+                    </column>
+                    <column columnName="sample_create_date">
+                        <columnTitle>Sample Create Date</columnTitle>
+                    </column>
+                    <column columnName="NECROPSY">
+                        <columnTitle>Necropsy</columnTitle>
+                    </column>
+                    <column columnName="SHIPMENTSTATUS">
+                        <columnTitle>Shipment Status</columnTitle>
+                    </column>
+                    <column columnName="sample_deleted">
+                        <columnTitle>Sample Deleted</columnTitle>
+                    </column>
+                    <column columnName="aliq_deleted">
+                        <columnTitle>Aliq Deleted</columnTitle>
+                    </column>
+                    <column columnName="PK_SAMPLEUID">
+                        <columnTitle>PK Sample UID</columnTitle>
+                    </column>
+                    <column columnName="PK_ALIQUOTUID">
+                        <columnTitle>PK Aliquot UID</columnTitle>
+                    </column>
+                    <column columnName="SAMPLE_TYPES">
+                        <columnTitle>Sample Types</columnTitle>
+                    </column>
+                    <column columnName="COMMENTS">
+                        <columnTitle>Comments</columnTitle>
+                    </column>
+                    <column columnName="NUMBEROFALIQUOTSWITHPOSITIONS">
+                        <columnTitle>Number of Aliq With Positions</columnTitle>
+                    </column>
+                    <column columnName="CURRMAXALIQUOTNUMBER">
+                        <columnTitle>Curr Max Aliq Number</columnTitle>
+                    </column>
+                    <column columnName="NUMBEROFALIQUOTSTOTAL">
+                        <columnTitle>Number of Aliq Total</columnTitle>
+                    </column>
+                    <column columnName="INITIALAMOUNT">
+                        <columnTitle>Initial Amount</columnTitle>
+                    </column>
+                    <column columnName="STORAGE_VIAL">
+                        <columnTitle>Storage Vial</columnTitle>
+                    </column>
+                    <column columnName="CONCENTRATION">
+                        <columnTitle>Concentration</columnTitle>
+                    </column>
+                    <column columnName="CURRENTAMOUNT">
+                        <columnTitle>Current Amount</columnTitle>
+                    </column>
+                    <column columnName="Freezer_desc">
+                        <columnTitle>Freezer Desc</columnTitle>
+                    </column>
+                    <column columnName="FREEZERNAME">
+                        <columnTitle>Freezer Name</columnTitle>
+                    </column>
+                    <column columnName="POSITION1">
+                        <columnTitle>Position1</columnTitle>
+                    </column>
+                    <column columnName="POSITION2">
+                        <columnTitle>Position2</columnTitle>
+                    </column>
+                    <column columnName="POSITION3">
+                        <columnTitle>Position3</columnTitle>
+                    </column>
+                    <column columnName="POSITION4">
+                        <columnTitle>Position4</columnTitle>
+                    </column>
+                    <column columnName="POSITION5">
+                        <columnTitle>Position5</columnTitle>
+                    </column>
+                    <column columnName="objectid">
+                        <columnTitle>Object Id</columnTitle>
+                    </column>
+                    <column columnName="user_name">
+                        <columnTitle>User Name</columnTitle>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

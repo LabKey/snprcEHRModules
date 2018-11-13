@@ -1,0 +1,53 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="encounters" tableDbType="NOT_IN_DB">
+                <tableTitle>Animal Events</tableTitle>
+                <columns>
+                    <column columnName="encounterId">
+                        <columnTitle>animalEventId</columnTitle>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="date">
+                        <columnTitle>Proc Date</columnTitle>
+                    </column>
+                    <column columnName="remark">
+                        <columnTitle>Procedure Text</columnTitle>
+                    </column>
+                    <column columnName="project">
+                        <columnTitle>Charge Id</columnTitle>
+                    </column>
+                    <column columnName="encounter_type">
+                    <fk>
+                        <fkColumnName>value</fkColumnName>
+                        <fkTable>encounter_types</fkTable>
+                        <fkDbSchema>ehr_lookups</fkDbSchema>
+                    </fk>
+                </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

@@ -1,0 +1,1311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+ * Copyright (c) 2014-2017 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
+ -->
+<tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd"
+        xmlns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <table tableName="package" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Package</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="id">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="name">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="description">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="pkgType"/>
+        </columns>
+    </table>
+    <table tableName="package_category" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Package Category</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="id">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="description">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Package Category Junction</tableTitle>
+        <pkColumnName>rowId</pkColumnName>
+        <columns>
+            <column columnName="rowId">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="packageId">
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>package</fkTable>
+                    <fkColumnName>id</fkColumnName>
+                    <fkDisplayColumnName>name</fkDisplayColumnName>
+                </fk>
+            </column>
+            <column columnName="categoryId">
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>package_category</fkTable>
+                    <fkColumnName>id</fkColumnName>
+                    <fkDisplayColumnName>description</fkDisplayColumnName>
+                </fk>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="species" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Species</tableTitle>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>species_code</pkColumnName>
+        <columns>
+            <column columnName="species_code">
+                <columnTitle>Species Code (3 char)</columnTitle>
+                <description>This is the three character species code that includes species and hybrid information
+                </description>
+            </column>
+            <column columnName="common">
+                <columnTitle>Common name</columnTitle>
+                <description>This is the common name for the species, which includes hybrid descriptions.</description>
+                <displayWidth>100</displayWidth>
+            </column>
+            <column columnName="scientific_name">
+                <description>This is the scientific name for the species, which includes hybrid descriptions.
+                </description>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="primate">
+                <description>This is a yes/no field that indicates whether or not the species is a primate.
+                </description>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="id_prefix">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="mhc_prefix">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="blood_per_kg">
+                <columnTitle>Max Blood Draw (mL/kg)</columnTitle>
+                <description>This is the maximum blood that can be drawn per kg</description>
+            </column>
+            <column columnName="max_draw_pct">
+                <columnTitle>Max Percent Blood Drawn</columnTitle>
+                <description>This is the maximum percent of the animal's blood that can be drawn (expressed as a
+                    decimal, where 1 indicates 100%)
+                </description>
+            </column>
+            <column columnName="blood_draw_interval">
+                <columnTitle>Blood Reconstitution Interval (Days)</columnTitle>
+                <description>This is the number of days that must elapse to full reconstitute from a max blood draw
+                </description>
+            </column>
+            <column columnName="cites_code">
+                <columnTitle>Cites Code</columnTitle>
+            </column>
+            <column columnName="dateDisabled">
+                <columnTitle>Date Disabled</columnTitle>
+            </column>
+            <column columnName="arc_species_code">
+                <columnTitle>Species Code (2 char)</columnTitle>
+                <description>This is the two character species code that is used by the IACUC to group like species.
+                </description>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>species_codes</fkTable>
+                    <fkColumnName>code</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="objectid"/>
+            <column columnName="tid"/>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="clinical_observation_datasets" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Clinical Observation Datasets</tableTitle>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>rowId</pkColumnName>
+        <columns>
+            <column columnName="rowId">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="dataset_name">
+                <columnTitle>Dataset Name</columnTitle>
+                <nullable>false</nullable>
+                <description>Determines which dataset the row belongs to (e.g. cycle_data, daily_observations)
+                </description>
+            </column>
+            <column columnName="category_name">
+                <columnTitle>Category Name</columnTitle>
+                <nullable>false</nullable>
+                <description>The category to which the data belongs (e.g. cycle data includes 'tumescence_index',
+                    'vaginal_bleeding', 'purple_color', etc.)
+                </description>
+            </column>
+            <column columnName="sort_order">
+                <columnTitle>Sort Order</columnTitle>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+            </column>
+        </columns>
+    </table>
+    <table tableName="validAccounts" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid SNPRC Animal Accounts</tableTitle>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>account</pkColumnName>
+        <columns>
+            <column columnName="account">
+                <isKeyField>true</isKeyField>
+                <columnTitle>Account Number</columnTitle>
+                <nullable>false</nullable>
+                <description>Animal account made up of three parts: project(xxx)-point(xx)-subpoint(xx)</description>
+            </column>
+            <column columnName="accountStatus">
+                <columnTitle>Account Status</columnTitle>
+                <nullable>false</nullable>
+                <description>Account status code (A = Active, I = Inactive)</description>
+            </column>
+            <column columnName="date">
+                <columnTitle>Start Date</columnTitle>
+            </column>
+            <column columnName="enddate">
+                <columnTitle>Enddate</columnTitle>
+            </column>
+            <column columnName="description">
+                <columnTitle>Account Description</columnTitle>
+                <nullable>false</nullable>
+                <displayWidth>300</displayWidth>
+                <facetingBehavior>ALWAYS_OFF</facetingBehavior>
+                <propertyURI>urn:ehr.labkey.org/#Descrption</propertyURI>
+            </column>
+            <column columnName="accountGroup">
+                <columnTitle>Account Group</columnTitle>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="labwork_services" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Labwork Service Types</tableTitle>
+        <description>This table lists all the types of labwork that can be ordered</description>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>ServiceId</pkColumnName>
+        <columns>
+            <column columnName="RowId">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="ServiceId">
+                <columnTitle>Service ID</columnTitle>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="ServiceName">
+                <columnTitle>Service Name</columnTitle>
+            </column>
+            <column columnName="Dataset">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>labwork_types</fkTable>
+                    <fkColumnName>ServiceType</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="ChargeType">
+                <columnTitle>Group</columnTitle>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>labworkChargeType</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="CollectionMethod">
+                <columnTitle>Collection Method</columnTitle>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>clinpath_collection_method</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="AlertOnComplete">
+                <columnTitle>Alert On Complete?</columnTitle>
+            </column>
+            <column columnName="Tissue">
+                <columnTitle>Tissue</columnTitle>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>snomed</fkTable>
+                    <fkColumnName>code</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="OutsideLab">
+                <columnTitle>From Outside Lab?</columnTitle>
+            </column>
+            <column columnName="DateDisabled">
+                <columnTitle>Date Disabled</columnTitle>
+            </column>
+            <column columnName="Method">
+                <columnTitle>Method</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Active">
+                <columnTitle>Active</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Bench">
+                <columnTitle>Bench</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ObjectId">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="DiCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="DiCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="DiModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="DiModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+
+    <table tableName="labwork_panels" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Labwork Panels</tableTitle>
+        <description>This table includes all the tests associated with their panels</description>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>RowId</pkColumnName>
+        <columns>
+            <column columnName="RowId">
+                <nullable>false</nullable>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="ServiceId">
+                <columnTitle>Service ID</columnTitle>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>labwork_services</fkTable>
+                    <fkColumnName>ServiceId</fkColumnName>
+                    <fkDisplayColumnName>ServiceName</fkDisplayColumnName>
+                </fk>
+            </column>
+            <column columnName="TestId">
+                <columnTitle>Test Id</columnTitle>
+            </column>
+            <column columnName="TestName">
+                <columnTitle>Test Name</columnTitle>
+            </column>
+            <column columnName="Units">
+                <columnTitle>Units</columnTitle>
+            </column>
+            <column columnName="SortOrder">
+                <columnTitle>Sort Order</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Aliases">
+                <columnTitle>Aliases</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="AlertOnAbnormal">
+                <columnTitle>Alert on Abnormal?</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="AlertOnAny">
+                <columnTitle>Alert on Any?</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="IncludeInPanel">
+                <columnTitle>Include in Panel?</columnTitle>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ObjectId">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="DiCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="DiCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="DiModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="DiModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="labwork_types" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Labwork Types</tableTitle>
+        <description>This table contains the valid lists of labwork types</description>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>RowId</pkColumnName>
+        <columns>
+            <column columnName="RowId">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="ServiceType">
+                <columnTitle>Service Type</columnTitle>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="ObjectId">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="DiCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="DiCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="DiModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="DiModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+
+    <table tableName="validInstitutions" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid Institutions</tableTitle>
+        <description>This table lists the non-TxBiomed instutional IDs</description>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl></importUrl>
+        <insertUrl></insertUrl>
+        <updateUrl></updateUrl>
+        <deleteUrl></deleteUrl>
+        <pkColumnName>institution_id</pkColumnName>
+        <columns>
+            <column columnName="institution_id">
+                <isKeyField>true</isKeyField>
+                <columnTitle>Institution ID</columnTitle>
+            </column>
+            <column columnName="institution_name">
+                <columnTitle>Institution Name</columnTitle>
+            </column>
+            <column columnName="short_name">
+                <columnTitle>Institution Short Name</columnTitle>
+            </column>
+            <column columnName="city">
+                <columnTitle>City</columnTitle>
+            </column>
+            <column columnName="state">
+                <columnTitle>State</columnTitle>
+            </column>
+            <column columnName="affiliate">
+                <columnTitle>Affiliate</columnTitle>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="web_site">
+                <nullable>true</nullable>
+                <columnTitle>Institution's website</columnTitle>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="CreatedBy">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Modified">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="ModifiedBy">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="validVets" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid Veterinarians</tableTitle>
+        <pkColumnName>vetId</pkColumnName>
+        <columns>
+            <column columnName="vetId">
+                <isKeyField>true</isKeyField>
+                <isReadOnly>true</isReadOnly>
+            </column>
+            <column columnName="displayName">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="emailAddress">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="status">
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>activeInactive</fkTable>
+                    <fkColumnName>Value</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="valid_bd_status" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid birth date status</tableTitle>
+        <pkColumnName>value</pkColumnName>
+        <columns>
+            <column columnName="value">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="description">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+        </columns>
+    </table>
+    <table tableName="valid_birth_code" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid birth code</tableTitle>
+        <pkColumnName>value</pkColumnName>
+        <columns>
+            <column columnName="value">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="description">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="objectid">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="valid_death_code" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid death codes</tableTitle>
+        <pkColumnName>value</pkColumnName>
+        <columns>
+            <column columnName="value">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="description">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="objectid">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+
+    <table tableName="animal_group_categories" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Animal Group Categories</tableTitle>
+        <pkColumnName>category_code</pkColumnName>
+        <columns>
+            <column columnName="category_code">
+                <isKeyField>true</isKeyField>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="description">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="comment">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="displayable">
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>yesno</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
+
+            </column>
+            <column columnName="species">
+                <nullable>true</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>species_codes</fkTable>
+                    <fkColumnName>code</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="sex">
+                <nullable>true</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>gender_codes</fkTable>
+                    <fkColumnName>code</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="enforce_exclusivity">
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>yesno</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="allow_future_date">
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>yesno</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="sort_order">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+
+    <table tableName="animal_groups" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>SNPRC Animal Groups</tableTitle>
+        <pkColumnName>code</pkColumnName>
+        <columns>
+            <column columnName="code">
+                <isKeyField>true</isKeyField>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="category_code">
+                <isKeyField>true</isKeyField>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="name">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="date">
+                <columnTitle>Start Date</columnTitle>
+            </column>
+            <column columnName="enddate">
+                <columnTitle>End Date</columnTitle>
+            </column>
+            <column columnName="comment">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="sort_order">
+                <nullable>true</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+    </table>
+    <table tableName="MhcData" tableDbType="TABLE">
+        <pkColumnName>RowId</pkColumnName>
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="OcId">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="MhcValue">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="Haplotype">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="DataFileSource">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="RowId">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>MhcData</tableTitle>
+    </table>
+    <table tableName="ValidChargeBySpecies" tableDbType="TABLE">
+        <pkColumnName>RowId</pkColumnName>
+        <columns>
+            <column columnName="Project" >
+                <fk>
+                    <fkDbSchema>ehr</fkDbSchema>
+                    <fkTable>project</fkTable>
+                    <fkColumnName>project</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="Species">
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>species_codes</fkTable>
+                    <fkColumnName>code</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="Purpose" />
+            <column columnName="objectid">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>Valid Charge by Species</tableTitle>
+    </table>
+    <table tableName="FeeSchedule" tableDbType="TABLE">
+    <pkColumnName>RowId</pkColumnName>
+    <columns>
+        <column columnName="RowId" />
+        <column columnName="StartingYear" />
+        <column columnName="VersionLabel" />
+        <column columnName="ActivityId" />
+        <column columnName="Species" />
+        <column columnName="Description" />
+        <column columnName="BudgetYear" />
+        <column columnName="Cost" />
+        <column columnName="FileName" />
+        <column columnName="objectid" />
+        <column columnName="Created"/>
+        <column columnName="CreatedBy"/>
+        <column columnName="Modified"/>
+        <column columnName="ModifiedBy"/>
+        <column columnName="Container" />
+    </columns>
+    <tableTitle>Fee Schedule</tableTitle></table>
+    <table tableName="FeeScheduleSpeciesLookup" tableDbType="TABLE">
+        <pkColumnName>FsSpecies, SpeciesCode</pkColumnName>
+        <columns>
+            <column columnName="FsSpecies" />
+            <column columnName="SpeciesCode" />
+            <column columnName="ObjectId" />
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container" />
+        </columns>
+        <tableTitle>Fee Schedule Species Lookup</tableTitle>
+    </table>
+</tables>
+

@@ -1,0 +1,150 @@
+type	testid	name	units	alertOnAbnormal	alertOnAny	includeInPanel	sort_order
+Hematology	1	WBC	THOUS/MM3	false	false	true	1
+Hematology	7	RBC	MILLION/MM3	false	false	true	2
+Hematology	2	Hemoglobin	GMS/DL	false	false	true	3
+Hematology	3	Hematocrit	%	false	false	true	4
+Hematology	4	MCV	FL	false	false	true	5
+Hematology	5	MCH	PG	false	false	true	6
+Hematology	6	MCHC	G/DL	false	false	true	7
+Hematology	62	RDW	%	false	false	true	8
+Hematology	54	platelet count	K X CMM	false	false	true	9
+Hematology	858	nrbc%	%	false	false	true	10
+Hematology	649	nrbc_per_100_wbc	%	false	false	true	11
+Hematology	630	mpv	FL	false	false	true	12
+Hematology	770	gran_absolute	THOUS/MM3	false	false	true	13
+Hematology	608	gran%	%	false	false	true	14
+Hematology	797	bands_absolute		false	false	true	15
+Hematology	11	bands%	% 	false	false	true	16
+Hematology	771	lymphs_absolute	THOUS/MM3	false	false	true	17
+Hematology	13	lymphs%	%	false	false	true	18
+Hematology	772	monos_absolute	THOUS/MM3	false	false	true	19
+Hematology	14	monos%	%	false	false	true	20
+Hematology	773	eos_absolute	THOUS/MM3	false	false	true	21
+Hematology	9	eos%	% 	false	false	true	22
+Hematology	774	baso_absolute	THOUS/MM3	false	false	true	23
+Hematology	8	baso%	% 	false	false	true	24
+Hematology	643	meta%	%	false	false	true	25
+Hematology	799	meta_absolute		false	false	true	26
+Hematology	644	myelo%	%	false	false	true	27
+Hematology	800	myelo_absolute		false	false	true	28
+Hematology	801	pro_absolute		false	false	true	29
+Hematology	802	pro_myelo_absolute		false	false	true	30
+Hematology	646	blasts%	%	false	false	true	31
+Hematology	803	blasts_absolute		false	false	true	32
+Hematology	648	other%		false	false	true	33
+Hematology	768	absolute_neutrophil	THOUS/MM3	false	false	true	34
+Hematology	650	calc_tot_diff		false	false	true	35
+Hematology	798	absolute_calc_tot_diff		false	false	true	36
+Hematology	651	polychrom		false	false	true	37
+Hematology	652	hypochrom		false	false	true	38
+Hematology	653	poik		false	false	true	39
+Hematology	654	target_cells		false	false	true	40
+Hematology	642	atypical_lymphs		false	false	true	41
+Hematology	655	spherocytes		false	false	true	42
+Hematology	656	aniso		false	false	true	43
+Hematology	660	micro		false	false	true	44
+Hematology	657	macro		false	false	true	45
+Hematology	706	burr_cells		false	false	true	46
+Hematology	796	wbc_corrected_for_nrbc		false	false	true	47
+Hematology	592	morphology		false	false	true	48
+Hematology	713	comments		false	false	true	49
+Biochemistry	141	glucose	mg/dL	false	false	true	1
+Biochemistry	205	bun	mg/dL	false	false	true	2
+Biochemistry	60	creatine	mg/dL	false	false	true	3
+Biochemistry	612	bun_creat_ratio	(NER)	false	false	true	4
+Biochemistry	135	tot_protein	g/dL	false	false	true	5
+Biochemistry	136	albumin	g/dL	false	false	true	6
+Biochemistry	137	globulin	g/dL	false	false	true	7
+Biochemistry	138	a_g_ratio	1F	false	false	true	8
+Biochemistry	142	cholesterol	mg/dL	false	false	true	9
+Biochemistry	272	alt_sgpt	U/L	false	false	true	10
+Biochemistry	90	ast_sgot	U/L	false	false	true	11
+Biochemistry	139	alk_phos	U/L	false	false	true	12
+Biochemistry	17	sodium	meq/L	false	false	true	13
+Biochemistry	18	potassium	meq/L	false	false	true	14
+Biochemistry	19	chloride	meq/L	false	false	true	15
+Biochemistry	631	carbon_dioxide	meq/L	false	false	true	16
+Biochemistry	632	anion_gap	meq/L	false	false	true	17
+Biochemistry	611	ggt	U/L	false	false	true	18
+Biochemistry	87	cpk	U/L	false	false	true	19
+Biochemistry	81	tot_bilirubin	mg/dL	false	false	true	20
+Biochemistry	633	direct_bilirubin	mg/dL	false	false	true	21
+Biochemistry	86	calcium	mg/dL	false	false	true	22
+Biochemistry	140	phosphorus	mg/dL	false	false	true	23
+Biochemistry	143	triglycerides	mg/dL	false	false	true	24
+Surveillance	118	HEARTWORM ANTIGEN		false	false	true	1
+Surveillance	691	HIV AG/AB		false	false	true	2
+Surveillance	692	HIV-1 ULTRA	copies/mL	false	false	true	3
+Surveillance	694	HEP C Ab		false	false	true	4
+Surveillance	695	HBsAb		false	false	true	5
+Surveillance	755	HEP B CORE ANTIBODY		false	false	true	6
+Surveillance	784	 VIRUS PANEL A1 - PE		false	false	true	7
+Surveillance	785	B VIRUS		false	false	true	8
+Surveillance	786	MEASLES		false	false	true	9
+Surveillance	787	SRV AB		false	false	true	10
+Surveillance	788	SIV AB		false	false	true	11
+Surveillance	789	STLV-1 AB		false	false	true	12
+Surveillance	792	SRL VIRUS PANEL		false	false	true	13
+Surveillance	793	STLV AB		false	false	true	141
+Surveillance	794	WESTERN BLOT		false	false	true	15
+Surveillance	797	SRV-1,3 TAQ		false	false	true	16
+Surveillance	798	SRV-2		false	false	true	17
+Surveillance	799	STLV ELISA		false	false	true	18
+Surveillance	800	STLV PCR		false	false	true	19
+Surveillance	815	 VIRUS PANEL I		false	false	true	20
+Surveillance	831	HEPATITIS A TOTAL AB		false	false	true	21
+Surveillance	832	HEPATITIS A IgM AB		false	false	true	22
+Surveillance	842	REOVIRUS AB		false	false	true	23
+Surveillance	850	T. CRUZI AB		false	false	true	24
+Surveillance	852	SIV PCR		false	false	true	25
+Surveillance	853	 VIRUS PANEL B - PER		false	false	true	26
+Surveillance	854	SA 8 AB		false	false	true	27
+Surveillance	855	HSV-1 AB		false	false	true	28
+Surveillance	856	SA-6 AB		false	false	true	29
+Surveillance	863	TETANUS Ab IgG	IU/mL	false	false	true	30
+Surveillance	875	SRV PCR		false	false	true	31
+Surveillance	876	T.CRUZI BY PCR		false	false	true	32
+Surveillance	883	BABESIA MICROTI IgG		false	false	true	33
+Surveillance	887	EMC Ab		false	false	true	34
+Surveillance	896	MRSA SCREEN		false	false	true	35
+Surveillance	898	STLV-1 BY PCR		false	false	true	36
+Surveillance	900	QUANTITATIVE HEPATIT		false	false	true	37
+Surveillance	901	METHODOLOGY, RESULTS		false	false	true	38
+Surveillance	906	BABESIA BY PCR		false	false	true	39
+Surveillance	907	FILOVIRUS AB		false	false	true	40
+Surveillance	909	HERPES B SURROGATE M		false	false	true	41
+Surveillance	913	ADENOVIRUS, GRP SPEC		false	false	true	42
+Surveillance	914	HTLV-1/2		false	false	true	43
+Surveillance	915	SIV gp130		false	false	true	44
+Surveillance	916	SIV mac		false	false	true	45
+Surveillance	917	HVP-2		false	false	true	46
+Surveillance	918	SRV gp-20		false	false	true	47
+Surveillance	920	SPF VIRAL SCREEN I		false	false	true	48
+Surveillance	929	LYMPHOCRYPTOVIRUS BY		false	false	true	49
+Surveillance	935	SRV-5		false	false	true	50
+Surveillance	936	TB ELISA		false	false	true	51
+Surveillance	940	HBeAb		false	false	true	52
+Surveillance	941	STLV p21		false	false	true	53
+Surveillance	942	BV GLYCOPROTEIN B		false	false	true	54
+Surveillance	943	SRV1 WB		false	false	true	55
+Surveillance	947	STLV WB		false	false	true	56
+Surveillance	948	SIV WB		false	false	true	57
+Surveillance	10637	RHESUS SPF SCREEN		false	false	true	58
+Surveillance	10641	RHESUS SPF SCREEN REDO		false	false	true	59
+Culture	10404	CULTURE, ROUTINE		false	false	true	60
+Culture	10410	SUSCEPT., GRAM-POS		false	false	true	61
+Culture	10413	CULTURE, ANAEROBIC		false	false	true	62
+Culture	10456	CULTURE, BRUCELLA		false	false	true	63
+Culture	10353	TISSUE, EVALUATION		false	false	true	64
+Culture	10403	CULTURE, ROUTINE		false	false	true	65
+Culture	10416	SHIGELLA SCREEN		false	false	true	66
+Culture	10400	SMEAR, GRAM STAIN		false	false	true	68
+Culture	19013	COMPREHENSIVE UNKNOW		false	false	true	69
+Culture	10407	CULTURE, CAGE WASH		false	false	true	70
+Culture	10464	CULTURE, B VIRUS		false	false	true	72
+Culture	10409	SUSCEPT., GRAM-NEG		false	false	true	73
+Culture	10200	CHEM PROFILE		false	false	true	74
+Culture	10411	SUSCEPTIBILITY		false	false	true	75
+Culture	10417	MRSA SCREEN		false	false	true	76
+Culture	10412	CULTURE, FUNGAL		false	false	true	77
+Culture	10405	CULTURE, STOOL		false	false	true	78

@@ -1,0 +1,16 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="id"/>
+        <column name="date"/>
+        <column name="pkgId"/>
+        <column name="pkgId/pkg_name"/>
+        <column name="pkgId/categories" />
+        <column name="procNarrative" />
+        <column name="procType"/>
+        <column name="encounterId/project"/>
+    </columns>
+    <sorts>
+        <sort column="id" />
+        <sort column="date"/>
+    </sorts>
+</customView>

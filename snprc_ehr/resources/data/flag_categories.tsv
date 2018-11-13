@@ -1,0 +1,6 @@
+category	enforceUnique	omitFromOverview	doHighlight
+Origin	false	false	false
+Behavior	true	false	true
+Clinical	false	false	true
+Breeding	false	false	false
+Misc	false	false	false

@@ -1,0 +1,27 @@
+<script type="text/javascript">
+
+    Ext4.onReady(function(){
+        var webpart = <%=webpartContext%>;
+        Ext4.create('SNPRC_EHR.panel.ColonyOverviewPanel', {
+            getItems: function(){
+                return [{
+                    title: 'Population Composition',
+                    itemId: 'population',
+                    items: [{
+                        xtype: 'snprc-ehr-populationpanel',
+                        filterArray: this.filterArray,
+                        rowField: SNPRC_EHR.panel.PopulationPanel.FIELDS.species,
+                        colFields: [EHR.panel.PopulationPanel.FIELDS.ageclass, EHR.panel.PopulationPanel.FIELDS.gender]
+                    }]
+                },{
+                    title: 'Baboon Colony',
+                    itemId: 'baboon',
+                    items: [{
+                        xtype: 'snprc-colonyusagepanel',
+                        filterArray: [LABKEY.Filter.create('species_code', 'PC', LABKEY.Filter.Types.EQUALS)]
+                    }]
+                }];
+            }
+        }).render(webpart.wrapperDivId);
+    });
+</script>

@@ -1,0 +1,9 @@
+﻿species_code	common	scientific_name	id_prefix	mhc_prefix	blood_per_kg	max_draw_pct	blood_draw_interval	cites_code	dateDisabled	arc_species_code	objectid	tid
+CEB	Capuchin monkey	Cebus spp.			3.0000	0.1000	14.0000			CB	"dbe561b9-b7ba-102d-8c2a-9926f351b1ae"
+CTJ	Marmoset	Callithrix spp.			3.0000	0.1000	14.0000			CJ	"dbe561b9-b7ba-102d-8c2a-9926f351b8ae"
+MAF	Crab-eating macaque	Macaca fascicularis			10.0000	1.0000	42.0000			MF	"dbe561b9-b7ba-102d-8c2a-9926f351b7ae"
+MML	Rhesus monkey	Macaca mulatta			10.0000	1.0000	42.0000			MM	"dbe561b9-b7ba-102d-8c2a-9926f351b6ae"
+PCC	Yellow baboon	Papio hamadryas cynocephalus			10.0000	1.0000	42.0000			PC	"dbe561b9-b7ba-102d-8c2a-9926f351b5ae"
+PON	Orangutan	Pongo pygmaeus			10.0000	1.0000	42.0000			PO	"dbe561b9-b7ba-102d-8c2a-9926f351b4ae"
+PTS	Chimpanzee	Pan troglodytes schweinfurthii			10.0000	1.0000	42.0000			PT	"dbe561b9-b7ba-102d-8c2a-9926f351b3ae"
+SMT	Mustache tamarin	Saguinus mystax			3.0000	0.1000	14.0000			SM	"dbe561b9-b7ba-102d-8c2a-9926f351b2ae"

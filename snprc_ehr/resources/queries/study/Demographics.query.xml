@@ -1,0 +1,229 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="Demographics" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Id"/>
+                    <column columnName="date">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="project">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="gender">
+                        <columnTitle>Gender</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>gender_codes</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="species">
+                        <columnTitle>Species code (3 char)</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>species</fkTable>
+                            <fkColumnName>species_code</fkColumnName>
+                            <fkDisplayColumnName useRawValue="true"/>
+                        </fk>
+                    </column>
+                    <column columnName="geographic_origin">
+                        <columnTitle>Geographic Origin</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>geographic_origins</fkTable>
+                            <fkColumnName>meaning</fkColumnName>
+                            <fkDisplayColumnName useRawValue="true"/>
+                        </fk>
+                    </column>
+                    <column columnName="birth">
+                        <formatString>MM-dd-yy</formatString>
+                        <!--<shownInInsertView>false</shownInInsertView>-->
+                        <columnTitle>Date of Birth</columnTitle>
+                        <url>/query/executeQuery.view?
+                            schemaName=study&amp;
+                            query.queryName=Birth&amp;
+                            query.Id~eq=${Id}
+                        </url>
+                    </column>
+                    <column columnName="death">
+                        <formatString>MM-dd-yy</formatString>
+                        <!--<shownInInsertView>false</shownInInsertView>-->
+                        <columnTitle>Date of Death</columnTitle>
+                        <url>/query/executeQuery.view?
+                            schemaName=study&amp;
+                            query.queryName=Deaths&amp;
+                            query.Id~eq=${Id}
+                        </url>
+                    </column>
+                    <column columnName="lastDayAtCenter">
+                        <formatString>Date</formatString>
+                    </column>
+                    <column columnName="status">
+                        <shownInInsertView>false</shownInInsertView>
+                        <isHidden>true</isHidden>
+                        <columnTitle>Status</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>status_codes</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="calculated_status">
+                        <shownInInsertView>false</shownInInsertView>
+                        <columnTitle>Status</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>calculated_status_codes</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="remark">
+
+                    </column>
+                    <column columnName="QCState">
+                        <columnTitle>Record Status</columnTitle>
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="dam">
+                        <columnTitle>Dam</columnTitle>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>id</fkColumnName>
+                        </fk>
+                        <url>/ehr/participantView.view?participantId=${dam}</url>
+                    </column>
+                    <column columnName="sire">
+                        <columnTitle>Sire</columnTitle>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>id</fkColumnName>
+                        </fk>
+                        <url>/ehr/participantView.view?participantId=${sire}</url>
+                    </column>
+                    <column columnName="origin">
+                        <columnTitle>Origin</columnTitle>
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>source</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+
+                    <column columnName="departdate">
+                        <isHidden>true</isHidden>
+                        <shownInInsertView>false</shownInInsertView>
+                        <formatString>MM-dd-yy</formatString>
+                        <columnTitle>Departure Date</columnTitle>
+                    </column>
+                    <column columnName="room">
+                        <isHidden>true</isHidden>
+                        <shownInInsertView>false</shownInInsertView>
+                        <columnTitle>Room</columnTitle>
+                        <url>/ehr/cageDetails.view?
+                            room=${room}&amp;
+                        </url>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>rooms</fkTable>
+                            <fkColumnName>room</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="cage">
+                        <isHidden>true</isHidden>
+                        <shownInInsertView>false</shownInInsertView>
+                        <columnTitle>Cage</columnTitle>
+                        <url>/ehr/cageDetails.view?
+                            room=${room}&amp;
+                            cage=${cage}&amp;
+                        </url>
+                    </column>
+                    <column columnName="cond">
+                        <isHidden>true</isHidden>
+                        <shownInInsertView>false</shownInInsertView>
+                        <displayWidth>30</displayWidth>
+                        <columnTitle>Condition</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>housing_condition_codes</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="weight">
+                        <isHidden>false</isHidden>
+                        <shownInInsertView>false</shownInInsertView>
+                        <columnTitle>Current Weight (kg)</columnTitle>
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=Weight&amp;
+                            query.id~eq=${id}
+                        </url>
+                    </column>
+                    <column columnName="wdate">
+                        <shownInInsertView>false</shownInInsertView>
+                        <isHidden>false</isHidden>
+                        <formatString>MM-dd-yy</formatString>
+                        <columnTitle>Weight Date</columnTitle>
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=Weight&amp;
+                            query.id~eq=${id}&amp;
+                            query.date~eq=${wdate}
+                        </url>
+                    </column>
+                    <column columnName="tbdate">
+                        <shownInInsertView>false</shownInInsertView>
+                        <isHidden>false</isHidden>
+                        <formatString>MM-dd-yy</formatString>
+                        <columnTitle>Last TB Date</columnTitle>
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=TB Tests&amp;
+                            query.id~eq=${id}&amp;
+                            query.sort=-Date
+                        </url>
+                    </column>
+                    <column columnName="v_status">
+                        <columnTitle>Viral Status</columnTitle>
+                        <isHidden>true</isHidden>
+                        <fk>
+                          <fkDbSchema>ehr_lookups</fkDbSchema>
+                          <fkTable>viral_status</fkTable>
+                          <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="parentid">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

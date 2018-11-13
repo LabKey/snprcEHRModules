@@ -1,0 +1,4 @@
+rowid	meaning	description	sort_order	active
+0	No males in cage	Female not exposed to male	1	true
+1	One male in cage	Female exposed to a single male identified in male_id field	2	true
+2	Multiple males in cage	Female exposed to multiple males, which are not identified in male_id field.	3	true

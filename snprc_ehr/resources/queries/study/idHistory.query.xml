@@ -1,0 +1,60 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="idHistory" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="Id">
+                        <columnTitle>TxBiomed ID</columnTitle>
+                    </column>
+                    <column columnName="id_date">
+                        <columnTitle>Date Added</columnTitle>
+                    </column>
+                    <column columnName="value">
+                        <columnTitle>ID Value</columnTitle>
+                    </column>
+                    <column columnName="id_type">
+                        <columnTitle>ID Type</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>id_type</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                            </fk>
+                    </column>
+                    <column columnName="source_name">
+                       <columnTitle>Source Institution</columnTitle>
+                    </column>
+                    <column columnName="objectid">
+                        <columnTitle>Object ID</columnTitle>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkColumnName>UserId</fkColumnName>
+                            <fkTable>Users</fkTable>
+                            <fkDbSchema>core</fkDbSchema>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

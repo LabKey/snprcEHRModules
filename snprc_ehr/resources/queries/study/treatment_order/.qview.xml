@@ -1,0 +1,30 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="enddate"/>
+        <column name="category"/>
+        <column name="meaning"/>
+        <column name="code"/>
+        <column name="qualifier"/>
+        <column name="frequency"/>
+        <column name="route"/>
+        <column name="concentration"/>
+        <column name="conc_units"/>
+        <column name="dosage"/>
+        <column name="dosage_units"/>
+        <column name="volume"/>
+        <column name="vol_units"/>
+        <column name="amount"/>
+        <column name="amount_units"/>
+        <column name="performedby"/>
+        <column name="remark"/>
+        <column name="description"/>
+        <column name="isActive"/>
+        <column name="isExpired"/>
+        <column name="history"/>
+    </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
+</customView>

@@ -1,0 +1,32 @@
+<div class="ehr-nav-menu-panel"></div>
+
+<script type="text/javascript">
+
+    Ext4.onReady(function(){
+        Ext4.QuickTips.init();
+
+        var webpart = <%=webpartContext%>;
+        var div = Ext4.get(webpart.wrapperDivId).down('.ehr-nav-menu-panel');
+
+        Ext4.create('EHR.panel.NavigationMenuPanel', {
+            renderTo: div.id,
+            items: [{
+                title: 'EHR',
+                itemId: 'ehr'
+            },{
+                itemId: 'admin',
+                title: 'Admin'
+            },{
+                itemId: 'dcm',
+                title: 'DCM'
+            },{
+                title: 'Labs',
+                itemId: 'labs'
+            },{
+                title: 'Cores & Resources',
+                itemId: 'cores'
+            }]
+        });
+    });
+
+</script>

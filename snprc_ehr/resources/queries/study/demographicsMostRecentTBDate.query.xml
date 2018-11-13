@@ -1,0 +1,38 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="demographicsMostRecentTBDate" tableDbType="NOT_IN_DB">
+                <tableTitle>Most Recent TB Date</tableTitle>
+                <columns>
+                    <column columnName="Id">
+                    </column>
+                    <column columnName="MostRecentTBDate">
+                        <formatString>MM-dd-yy</formatString>
+                        <url>/query/executeQuery.view?schemaName=study&amp;
+                            query.queryName=encounters&amp;
+                            query.Id~eq=${Id}&amp;
+                            query.Date~eq=${MostRecentTBDate}
+                        </url>
+                        <columnTitle>Most Recent TB Date</columnTitle>
+                    </column>
+                    <column columnName="DaysSinceLastTB">
+                        <columnTitle>Days Since Last TB</columnTitle>
+                    </column>
+                    <column columnName="DaysUntilDue">
+                        <columnTitle>Days Until Due</columnTitle>
+                    </column>
+                    <column columnName="MonthsSinceLastTB">
+                        <columnTitle>Months Since Last TB</columnTitle>
+                    </column>
+                    <column columnName="MonthsUntilDue">
+                        <columnTitle>Months Until Due</columnTitle>
+                    </column>
+                    <column columnName="TbStatus">
+                        <columnTitle>TB Status</columnTitle>
+                    </column>
+                </columns>
+                <titleColumn>MostRecentTBDate</titleColumn>
+            </table>
+        </tables>
+    </metadata>
+</query>

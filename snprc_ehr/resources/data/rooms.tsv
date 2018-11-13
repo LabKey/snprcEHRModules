@@ -1,0 +1,1041 @@
+﻿room	building	sort_order	date	date_disabled	modified	created	area
+0.00	Unknown location	1	12/5/1996		1/2/2013	1/2/2013	0
+0.01	aaa.aa (absent) last  _seen_ at SFBR	2	9/24/1996		1/2/2013	1/2/2013	0
+0.02	JCC.AA (location indicating last location animal was _seen_, Juvenile Corral )	3	9/24/1996		1/2/2013	1/2/2013	0
+0.03	mia.aa (missing in action,animal has not been _seen_ for some time)	4	9/24/1996		1/2/2013	1/2/2013	0
+0.04	Unknown, outside of SFBR	5	2/17/1999		1/2/2013	1/2/2013	0
+1.00	Holding Area, Building 1	6	4/24/1996		2/11/2016	2/11/2016	1
+1.01	Building 1, indoor/outdoor pen 1	7	4/22/1996		8/7/2013	8/7/2013	1
+1.02	Building 1, indoor/outdoor pen 2	8	4/22/1996		8/7/2013	8/7/2013	1
+1.03	Building 1, indoor/outdoor pen 3	9	4/22/1996		8/7/2013	8/7/2013	1
+1.04	Building 1, indoor/outdoor pen 4	10	4/22/1996		8/7/2013	8/7/2013	1
+1.05	Building 1, indoor/outdoor pen 5	11	4/22/1996		8/7/2013	8/7/2013	1
+1.06	Building 1, indoor/outdoor pen 6	12	4/22/1996		8/7/2013	8/7/2013	1
+1.07	Building 1, indoor/outdoor pen 7	13	4/22/1996		8/7/2013	8/7/2013	1
+1.08	Building 1, indoor/outdoor pen 8	14	4/22/1996		8/7/2013	8/7/2013	1
+1.09	Building 1, indoor/outdoor pen 9	15	4/22/1996		8/7/2013	8/7/2013	1
+1.10	Building 1, indoor/outdoor pen 10	16	4/22/1996		8/7/2013	8/7/2013	1
+1.11	Building 1, indoor/outdoor pen 11	17	4/22/1996		8/7/2013	8/7/2013	1
+1.12	Building 1, indoor/outdoor pen 12	18	4/22/1996		8/7/2013	8/7/2013	1
+1.13	Building 1, indoor/outdoor pen 13	19	4/22/1996		8/7/2013	8/7/2013	1
+1.14	Building 1, indoor/outdoor pen 14	20	4/22/1996		8/7/2013	8/7/2013	1
+1.15	Building 1, indoor/outdoor pen 15	21	4/22/1996		8/7/2013	8/7/2013	1
+1.16	Building 1, indoor/outdoor pen 16	22	4/22/1996		8/7/2013	8/7/2013	1
+1.17	Building 1, indoor/outdoor pen 17	23	4/22/1996		8/7/2013	8/7/2013	1
+1.18	Building 1, indoor/outdoor pen 18	24	4/22/1996		8/7/2013	8/7/2013	1
+1.19	Building 1, indoor/outdoor pen 19	25	4/22/1996		8/7/2013	8/7/2013	1
+1.20	Building 1, indoor/outdoor pen 20	26	4/22/1996		8/7/2013	8/7/2013	1
+1.21	Building 1, indoor/outdoor pen 21	27	4/22/1996		8/7/2013	8/7/2013	1
+1.22	Building 1, indoor/outdoor pen 22	28	4/22/1996		8/7/2013	8/7/2013	1
+1.23	Building 1, indoor/outdoor pen 23	29	4/22/1996		8/7/2013	8/7/2013	1
+1.24	Building 1, indoor/outdoor pen 24	30	4/22/1996		8/7/2013	8/7/2013	1
+1.25	Building 1, indoor/outdoor pen 25	31	4/22/1996		8/7/2013	8/7/2013	1
+1.26	Building 1, indoor/outdoor pen 26	32	4/22/1996		8/7/2013	8/7/2013	1
+1.27	Building 1, indoor/outdoor pen 27	33	4/22/1996		8/7/2013	8/7/2013	1
+1.28	Building 1, indoor/outdoor pen 28	34	4/22/1996		8/7/2013	8/7/2013	1
+1.29	Building 1, indoor/outdoor pen 29	35	4/22/1996		8/7/2013	8/7/2013	1
+1.30	Building 1, indoor/outdoor pen 30	36	4/22/1996		8/7/2013	8/7/2013	1
+1.31	Building 1, indoor/outdoor pen 31	37	4/22/1996		8/7/2013	8/7/2013	1
+1.32	Building 1, indoor/outdoor pen 32	38	4/22/1996		8/7/2013	8/7/2013	1
+1.33	Building 1, indoor/outdoor pen 33	39	4/22/1996		8/7/2013	8/7/2013	1
+1.34	Building 1, indoor/outdoor pen 34	40	4/22/1996		8/7/2013	8/7/2013	1
+1.99	Building 1 historical data. Prior to Feb. 11, 2016 was location 1.00.	1031	4/24/1996	9/24/1996	2/11/2016	2/11/2016	1
+2.00	Building 2	41	1/1/1996		12/18/2012	12/18/2012	2
+4.00	Building 4, sm nursery-front section 1968,closed->10.01	42	1/1/1996		12/18/2012	12/18/2012	4
+4.01	Building 4, bay 1	43	5/27/1999		12/18/2012	12/18/2012	4
+4.02	Building 4, bay2	44	5/27/1999		12/18/2012	12/18/2012	4
+4.03	Building 4, bay 3	45	5/27/1999		12/18/2012	12/18/2012	4
+5.00	Building 5, new nursery opened Jan. 1991	46	1/8/1991	11/8/1996	12/18/2012	12/18/2012	5
+5.03	Building 5, Bay 3	47	11/8/1996		12/18/2012	12/18/2012	5
+5.05	Building 5, Bay 5	48	11/8/1996		12/18/2012	12/18/2012	5
+5.07	Building 5, Bay 7	49	11/8/1996		12/18/2012	12/18/2012	5
+5.08	Building 5, Treatment Room	50	11/8/1996		12/18/2012	12/18/2012	5
+5.09	Building 5, Bay 9	51	11/8/1996		12/18/2012	12/18/2012	5
+5.10	Building 5, Bay 10	52	11/8/1996		12/18/2012	12/18/2012	5
+5.11	Building 5, Bay 11	53	11/8/1996		12/18/2012	12/18/2012	5
+5.13	Building 5, Bay 13, incubator room	54	11/8/1996		12/18/2012	12/18/2012	5
+5.15	Building 5, Bay 15, incubator room	55	11/8/1996		12/18/2012	12/18/2012	5
+6.00	Coates-Kerns Building, opened ~1979	56	9/24/1996		12/18/2012	12/18/2012	6
+6.01	Coates-Kerns Building, Bay 1	57	1/1/1996		12/18/2012	12/18/2012	6
+6.02	Coates-Kerns Building, Bay 2 BS2 level surgery + prep room	58	1/1/1996		12/18/2012	12/18/2012	6
+6.03	Coates-Kerns Building, Bay 3	59	1/1/1996		12/18/2012	12/18/2012	6
+6.04	Coates-Kerns Building, Bay 4	60	1/1/1996		12/18/2012	12/18/2012	6
+6.05	Coates-Kerns Building, Bay 5	61	1/1/1996		12/18/2012	12/18/2012	6
+6.06	Coates-Kerns Building, Bay 6	62	1/1/1996		12/18/2012	12/18/2012	6
+6.07	Coates-Kerns Building, Bay 7	63	1/1/1996		12/18/2012	12/18/2012	6
+6.08	Coates-Kerns Building, Bay 8	64	8/1/1990	9/24/1996	12/18/2012	12/18/2012	6
+6.09	Coates-Kerns Building, Necropsy Room	65	1/1/1996		12/18/2012	12/18/2012	6
+6.10	Coates-Kerns Building, Surgery Room	66	1/1/1996		12/18/2012	12/18/2012	6
+6.11	Coates-Kerns Building, NICU	67	1/1/1996		12/18/2012	12/18/2012	6
+6.12	Coates-Kerns Building, NICU, Day Room	68	9/24/1996		12/18/2012	12/18/2012	6
+7.00	Chimp Building, original building before bays	69	1/1/1998		12/18/2012	12/18/2012	7
+7.01	Chimp Building, indoor/outdoor cage 1	70	1/1/1996		12/18/2012	8/26/1998	7
+7.02	Chimp Building, indoor/outdoor cage 2	71	1/1/1996		12/18/2012	8/26/1998	7
+7.03	Chimp Building, indoor/outdoor cage 3	72	1/1/1996		12/18/2012	8/26/1998	7
+7.04	Chimp Building, indoor/outdoor cage 4	73	1/1/1996		12/18/2012	8/26/1998	7
+7.05	Chimp Building, indoor/outdoor cage 5	74	1/1/1996		12/18/2012	8/26/1998	7
+7.06	Chimp Building, indoor/outdoor cage 6	75	1/1/1996		12/18/2012	8/26/1998	7
+7.07	Chimp Building, indoor/outdoor cage 7	76	1/1/1996		12/18/2012	8/26/1998	7
+7.08	Chimp Building, indoor/outdoor cage 8	77	1/1/1996		12/18/2012	8/26/1998	7
+7.09	Chimp Building, indoor/outdoor cage 9	78	1/1/1996		12/18/2012	8/26/1998	7
+7.10	Chimp Building, indoor/outdoor cage 10	79	1/1/1996		12/18/2012	8/26/1998	7
+7.11	Chimp Building, indoor/outdoor cage 11	80	1/1/1996		12/18/2012	8/26/1998	7
+7.12	Chimp Building, indoor/outdoor cage 12	81	1/1/1996		12/18/2012	8/26/1998	7
+7.13	Chimp Building, indoor/outdoor cage 13	82	1/1/1996		12/18/2012	8/26/1998	7
+7.14	Chimp Building, indoor/outdoor cage 14	83	1/1/1996		12/18/2012	8/26/1998	7
+7.15	Chimp Building, Nursery	84	1/1/1996		12/18/2012	8/26/1998	7
+7.16	Chimp Building, Treatment Room/Juvenile Room	85	1/1/1996		12/18/2012	8/26/1998	7
+8.00	Building 8, first small structure, opened ~1975	86	12/31/1979	9/24/1996	12/18/2012	12/18/2012	8
+8.01	Building 8, Bay 1	87	1/1/1996		12/18/2012	12/18/2012	8
+8.02	Building 8, Bay 2	88	1/1/1996		12/18/2012	12/18/2012	8
+8.03	Building 8, Bay 3	89	1/1/1996		12/18/2012	12/18/2012	8
+8.04	Building 8, Bay 4	90	1/1/1996		12/18/2012	12/18/2012	8
+8.05	Building 8, Bay 5	91	1/1/1996		12/18/2012	12/18/2012	8
+8.06	Building 8, Bay 6	92	1/1/1996		12/18/2012	12/18/2012	8
+8.07	Building 8, Bay 7	93	1/1/1996		12/18/2012	12/18/2012	8
+8.08	Building 8, Bay 8	94	1/1/1996		12/18/2012	12/18/2012	8
+8.09	Building 8, Bay 9	95	1/1/1996		12/18/2012	12/18/2012	8
+8.10	Building 8, Bay 10	96	1/1/1996		12/18/2012	12/18/2012	8
+8.11	Building 8, Bay 11	97	1/1/1996		12/18/2012	12/18/2012	8
+8.12	Building 8, Bay 12	98	1/1/1996		12/18/2012	12/18/2012	8
+8.13	Building 8, Bay 13	99	1/1/1996		12/18/2012	12/18/2012	8
+8.14	Building 8, Bay 14	100	1/1/1996		12/18/2012	12/18/2012	8
+10.00	Hixson Building, first small structure built	101	9/24/1996		12/18/2012	12/18/2012	10
+10.01	Hixson Building, DLAM Hospital Bay 1	102	1/1/1996		12/18/2012	12/18/2012	10
+10.02	Hixson Building, DLAM Hospital Bay 2	103	1/1/1996		12/18/2012	12/18/2012	10
+10.03	Hixson Building, DLAM Hospital Bay 3	104	1/1/1996		12/18/2012	12/18/2012	10
+10.04	Hixson Building, DLAM Hospital Bay 4	105	1/1/1996		12/18/2012	12/18/2012	10
+10.05	Hixson Building, DLAM Hospital Bay 5	106	9/24/1996		12/18/2012	12/18/2012	10
+10.06	Hixson Building, DLAM treatment/surgery room	107	9/24/1996		12/18/2012	12/18/2012	10
+10.07	Hixson Building, DLAM Necropsy Room	108	9/24/1996		12/18/2012	12/18/2012	10
+15.00	Microbiology Building(dirty surgery)housed experiment animals 1979->1982,currently a virology lab-19	109	1/1/1979	7/20/1982	1/18/2013	1/18/2013	15
+16.01	Herff Building(S.W. END)housed experimental animals 1979->1986,currently office areas-1997	110	1/1/1979	9/2/1986	1/18/2013	1/18/2013	16
+17.01	Herff Building(N.E. END)germ free1981,currently a lab-1997	111	5/4/1981	11/10/1981	1/18/2013	1/18/2013	17
+18.00	DBES Small Primate Building-housed experimental animals 1981->1984,office area 6/90,Tech Publish+Pur	112	4/16/1981	8/29/1984	1/18/2013	1/18/2013	18
+19.00	NASA Air Chambers Building-housed experimental animals 1978->1983,currently Biomedical Ill.+Info Sys	113	1/1/1983	6/1/1991	1/18/2013	1/18/2013	19
+20.00	Diesel Emissions Building-housed experimental animals in 10/86	114	10/1/1986	10/20/1986	1/18/2013	1/18/2013	20
+22.00	Cox Building Addition (Bay 1 opened)1980->1986,bays 2,3,4,5 opened as building completed	115	11/19/1980	3/12/1986	1/18/2013	1/18/2013	22
+22.01	Cox Building Addition, Bay 1,1986->1996,currently a storeroom-1997	116	6/20/1986	2/5/1996	1/18/2013	1/18/2013	22
+22.02	Cox Building, Bay 2	117	1/1/1996		1/18/2013	1/18/2013	22
+22.03	Cox Building, Bay 3	118	1/1/1996		1/18/2013	1/18/2013	22
+22.04	Cox Building, Bay 4	119	1/1/1996		1/18/2013	1/18/2013	22
+22.05	Cox Building, Bay 5	120	1/1/1996		1/18/2013	1/18/2013	22
+23.01	Quarantine, Bay 1	121	1/1/1996		12/18/2012	12/18/2012	23
+23.02	Quarantine, Bay 2	122	1/1/1996		12/18/2012	12/18/2012	23
+23.03	Quarantine, Bay 3	123	1/1/1996		12/18/2012	12/18/2012	23
+23.04	Quarantine, Bay 4	124	1/1/1996		12/18/2012	12/18/2012	23
+23.05	Quarantine, Chimpanzee housing, Bay 5	125	1/1/1996		12/18/2012	8/28/1998	23
+23.06	Quarantine, Chimpanzee housing, Bay 6	126	1/1/1996		12/18/2012	8/28/1998	23
+23.07	Quarantine, Chimpanzee housing, Bay 7	127	1/1/1996		12/18/2012	8/28/1998	23
+23.08	Quarantine, Chimpanzee housing, Bay 8	128	1/1/1996		12/18/2012	8/28/1998	23
+23.09	Quarantine, Chimpanzee housing, Bay 9	129	1/1/1996		12/18/2012	8/28/1998	23
+23.10	Quarantine, Chimpanzee housing, Bay 10	130	1/1/1996		12/18/2012	8/28/1998	23
+23.11	Quarantine, Chimpanzee housing, Bay 11	131	1/1/1996		12/18/2012	12/18/2012	23
+23.12	Quarantine, Chimpanzee housing, Bay 12	132	1/1/1996		12/18/2012	8/28/1998	23
+23.13	Quarantine, Chimpanzee housing, Bay 13	133	1/1/1996		12/18/2012	8/28/1998	23
+23.14	Quarantine, Chimpanzee housing, Bay 14	134	1/1/1996		12/18/2012	8/28/1998	23
+23.15	Quarantine, Chimpanzee housing, Bay 15	135	1/1/1996		12/18/2012	8/28/1998	23
+23.16	Quarantine, Chimpanzee housing, Bay 16	136	1/1/1996		12/18/2012	8/28/1998	23
+23.17	Quarantine, Chimpanzee housing, Bay 17	137	1/1/1996		12/18/2012	8/28/1998	23
+23.18	Quarantine, Chimpanzee housing, Bay 18	138	1/1/1996		12/18/2012	8/28/1998	23
+23.99	bogus, temporary bay. srr	139	3/27/2006		12/18/2012	12/18/2012	23
+24.01	ABSL3 - Bay 1 (rm. 111)	140	1/1/1996		12/18/2012	12/18/2012	24
+24.02	ABSL3 - Bay 2 (rm. 110)	141	1/1/1996		12/18/2012	12/18/2012	24
+24.03	ABSL3 - Bay 3 (rm. 109)	142	1/1/1996		12/18/2012	12/18/2012	24
+24.04	ABSL3 - Bay 4 (rm. 108)	143	1/1/1996		12/18/2012	12/18/2012	24
+24.05	ABSL3 - Bay 5 (rm. 113)	144	1/1/2007		12/18/2012	12/18/2012	24
+24.06	ABSL3 - Bay 6 (rm. 114)	145	1/1/2007		12/18/2012	12/18/2012	24
+25.00	Feed and Records Storage Building	146	11/18/1997		1/18/2013	1/18/2013	25
+27.00	Building 27, Dougherty	147	9/24/1996		1/18/2013	1/18/2013	27
+27.01	Building 27, Dougherty, Lab, Room 01	148	1/1/1996		1/18/2013	1/18/2013	27
+27.02	Building 27, Dougherty, Storage, Room 02	149	1/1/1996		1/18/2013	1/18/2013	27
+27.03	Building 27, Dougherty, Moinodelphis, Room 03	150	1/21/2008		12/18/2012	1/21/2008	27
+27.04	Building 27, Dougherty, Moinodelphis, Room 04	151	1/21/2008		12/18/2012	1/21/2008	27
+27.05	Building 27, Dougherty, Moinodelphis, Room 05	152	1/21/2008		12/18/2012	1/21/2008	27
+27.06	Building 27, Dougherty, Moinodelphis, Room 06	153	1/21/2008		12/18/2012	1/21/2008	27
+27.07	Building 27, Dougherty, Marmosets, Room 07	154	1/1/1996		12/18/2012	1/21/2008	27
+27.08	Building 27, Dougherty, Storage Room 08	155	1/21/2008		12/18/2012	12/18/2012	27
+27.09	Building 27, Dougherty, Monodelphis, Room 09	156	1/21/2008		12/18/2012	12/18/2012	27
+27.10	Building 27, Dougherty, Monodelphis, Room 10	157	8/23/2005		12/18/2012	12/18/2012	27
+27.11	Building 27, Dougherty, Monodelphis, Room 11	158	1/21/2008		12/18/2012	1/29/2008	27
+27.12	Building 27, Dougherty, Monodelphis, Room 12	159	1/21/2008		12/18/2012	1/29/2008	27
+27.13	Building 27, Dougherty, Monodelphis, Room 13	160	1/21/2008		12/18/2012	1/29/2008	27
+27.14	Building 27, Dougherty, Monodelphis, Room 14	161	1/21/2008		12/18/2012	1/29/2008	27
+27.15	Building 27, Dougherty, Monodelphis, Room 15	162	1/21/2008		12/18/2012	1/29/2008	27
+27.16	Building 27, Dougherty, Monodelphis, Room 16	163	1/21/2008		12/18/2012	1/29/2008	27
+27.17	Building 27, Dougherty, Monodelphis, Room 17	164	1/21/2008		12/18/2012	1/29/2008	27
+27.18	Building 27, Dougherty, Monodelphis, Room 18	165	1/21/2008		12/18/2012	1/29/2008	27
+27.19	Building 27,  Dougherty, Monodelphis, Room 19	166	1/21/2008		12/18/2012	1/29/2008	27
+27.20	Building 27, Dougherty, Marmosets, Room 20	167	1/1/1996		12/18/2012	12/18/2012	27
+27.21	Building 27, Dougherty, Marmosets, Room 21	168	1/1/1996		12/18/2012	12/18/2012	27
+27.22	Building 27, Dougherty, Marmosets, Room 22	169	1/1/1996		12/18/2012	12/18/2012	27
+27.23	Building 27, Dougherty, Marmosets, Room 23	170	1/1/1996		12/18/2012	12/18/2012	27
+27.24	Building 27, Dougherty, Marmosets, Room 24	171	1/1/1996		12/18/2012	12/18/2012	27
+27.25	Building 27, Dougherty , Prep Room 25	172	1/21/2008		12/18/2012	12/18/2012	27
+27.26	Building 27, Dougherty Procedure Room 26	173	1/21/2008		12/18/2012	12/18/2012	27
+27.27	Building 27, Dougherty, Wash area 27, dirty side	174	1/21/2008		12/18/2012	12/18/2012	27
+27.28	Building 27, Dougherty, Wash area 28, clean side	175	1/21/2008		12/18/2012	12/18/2012	27
+27.29	Building 27, Dougherty, Storage Room 29	176	1/21/2008		12/18/2012	12/18/2012	27
+27.30	Building 27, Dougherty, Rodent Room 30	177	1/21/2008		12/18/2012	1/21/2008	27
+27.31	Building 27, Dougherty, Rodent Room 31	178	1/21/2008		12/18/2012	12/18/2012	27
+27.32	Building 27, Dougherty, Rodent Room 32	179	1/21/2008		12/18/2012	12/18/2012	27
+27.33	Building 27, Dougherty, Rodent Room 33	180	1/21/2008		12/18/2012	12/18/2012	27
+27.34	Building 27, Dougherty, Rodent Room 34	181	1/21/2008		12/18/2012	12/18/2012	27
+27.35	Building 27, Dougherty, Procedure Room 35	182	1/21/2008		12/18/2012	12/18/2012	27
+27.36	Building 27, Dougherty, Monodelphis Room 36	183	1/21/2008		12/18/2012	1/21/2008	27
+27.37	Building 27, Dougherty, Monodelphis Room 37	184	1/21/2008		12/18/2012	1/21/2008	27
+27.38	Building 27, Dougherty, Monodelphis Room 38	185	1/21/2008		12/18/2012	1/21/2008	27
+27.39	Building 27, Dougherty, Monodelphis Room 39	186	1/21/2008		12/18/2012	1/21/2008	27
+27.40	Building 27, Dougherty, Monodelphis Room 40	187	1/21/2008		12/18/2012	1/21/2008	27
+27.41	Building 27, Dougherty, Monodelphis Room 41	188	1/21/2008		12/18/2012	1/21/2008	27
+27.42	Building 27, Dougherty, Monodelphis Room 42	189	1/21/2008		12/18/2012	1/21/2008	27
+27.43	Building 27, Dougherty, Monodelphis Room 43	190	1/21/2008		12/18/2012	1/21/2008	27
+27.44	Building 27, Dougherty, Monodelphis Room 44	191	1/21/2008		12/18/2012	1/21/2008	27
+27.45	Building 27, Dougherty, Monodelphis Room 45	192	1/21/2008		12/18/2012	1/21/2008	27
+27.46	Building 27, Dougherty, Monodelphis Room 46	193	1/21/2008		12/18/2012	1/21/2008	27
+27.47	Building 27, Dougherty, Lab, Room 47 (former lab rm 120)	194	1/21/2008		1/18/2013	1/18/2013	27
+27.48	Building 27, Dougherty, Men's Restroom, Room 48	195	1/21/2008		1/18/2013	1/18/2013	27
+27.49	Building 27, Dougherty, Office, Room 49	196	1/21/2008		1/18/2013	1/18/2013	27
+27.50	Building 27, Dougherty, Women's Restroom, Room 50	197	1/21/2008		1/18/2013	1/18/2013	27
+27.51	Building 27, Dougherty, Office, Room 51	198	1/21/2008		1/18/2013	1/18/2013	27
+27.52	Building 27, Dougherty, Washer & Dryer, Room 52	199	1/21/2008		1/18/2013	1/18/2013	27
+27.53	Building 27, Dougherty, Boiler, Room 53	200	1/21/2008		1/18/2013	1/18/2013	27
+27.54	Building 27, Dougherty, Bedding Storage, Room 54	201	1/21/2008		1/18/2013	1/18/2013	27
+27.55	Building 27, Dougherty, Feed Cooler,  Room 55	202	1/21/2008		1/18/2013	1/18/2013	27
+28.00	Marsupial Building	203	1/1/1981		12/18/2012	12/18/2012	28
+28.01	Building 28, north wing, marmosets and tamarins	204	1/1/1996		8/11/2015	8/11/2015	28
+28.02	Building 28, south  wing, marmosets and tamarins	205	1/1/1996		8/11/2015	8/11/2015	28
+29.00	Goat Pen	206	1/1/1991		1/18/2013	1/18/2013	29
+30.01	Corn Cribs, Crib 1	207	1/1/1994		1/18/2013	1/18/2013	30
+30.02	Corn Cribs, Crib 2	208	1/1/1994		1/18/2013	1/18/2013	30
+30.03	Corn Cribs, Crib 3	209	1/1/1994		1/18/2013	1/18/2013	30
+30.04	Corn Cribs, Crib 4	210	1/1/1994		1/18/2013	1/18/2013	30
+31.01	Breeding Pens, Pen 1	211	1/1/1994		12/18/2012	12/18/2012	31
+31.02	Breeding Pens, Pen 2	212	1/1/1994		12/18/2012	12/18/2012	31
+31.03	Breeding Pens, Pen 3	213	1/1/1994		12/18/2012	12/18/2012	31
+31.04	Breeding Pens, Pen 4	214	1/1/1994		12/18/2012	12/18/2012	31
+31.05	Breeding Pens, Pen 5	215	1/14/1999		12/18/2012	12/18/2012	31
+31.06	Breeding Pens, Pen 6	216	1/14/1999		12/18/2012	12/18/2012	31
+31.07	Breeding Pens, Pen 7	217	1/14/1999		12/18/2012	12/18/2012	31
+31.08	Breeding Pens, Pen 8	218	1/14/1999		12/18/2012	12/18/2012	31
+35.01	Virology BSL4 Lab, Building 35, room 125	219	8/1/2003		1/18/2013	1/18/2013	35
+35.02	Virology BSL3 Lab, room 128	220	8/18/2004		1/18/2013	1/18/2013	35
+41.00	Building 41; Conditioning trailer for DI animals	221	6/1/2004		12/18/2012	12/18/2012	41
+100.00	Breeding Corral, Adult	222	1/1/1996	4/21/1999	12/18/2012	12/18/2012	100
+100.01	Breeding Corral, Adult	223	3/29/1999		12/18/2012	12/18/2012	100
+100.02	Breedng Corral, Adult,  holding area outside adult corral (100.01)	224	4/21/1999		12/18/2012	12/18/2012	100
+101.01	Area A  Gang Cage, Cage 1	225	1/1/1996		1/18/2013	1/18/2013	101
+101.02	Area A Gang Cage, Cage 2	226	1/1/1996		1/18/2013	1/18/2013	101
+101.03	Area A Gang Cage, Cage 3	227	1/1/1996		1/18/2013	1/18/2013	101
+101.04	Area A Gang Cage, Cage 4	228	1/1/1996		1/18/2013	1/18/2013	101
+101.05	Area A Gang Cage, Cage 5	229	1/1/1996		1/18/2013	1/18/2013	101
+101.06	Area A Gang Cage, Cage 6	230	1/1/1996		1/18/2013	1/18/2013	101
+101.07	Area A Gang Cage, Cage 7	231	1/1/1996		1/18/2013	1/18/2013	101
+101.08	Area A Gang Cage, Cage 8	232	1/1/1996		1/18/2013	1/18/2013	101
+101.09	Area A Gang Cage, Cage 9	233	1/1/1996		1/18/2013	1/18/2013	101
+101.10	Area A Gang Cage, Cage 10	234	1/1/1996		1/18/2013	1/18/2013	101
+101.11	Area A Gang Cage, Cage 11	235	1/1/1996		1/18/2013	1/18/2013	101
+101.12	Area A Gang Cage, Cage 12	236	1/1/1996		1/18/2013	1/18/2013	101
+102.01	Area B Gang Cage, Cage 1	237	1/1/1996		12/18/2012	12/18/2012	102
+102.02	Area B Gang Cage, Cage 2	238	1/1/1996		12/18/2012	12/18/2012	102
+102.03	Area B Gang Cage, Cage 3	239	1/1/1996		12/18/2012	12/18/2012	102
+102.04	Area B Gang Cage, Cage 4	240	1/1/1996		12/18/2012	12/18/2012	102
+102.05	Area B Gang Cage, Cage 5	241	1/1/1996		12/18/2012	12/18/2012	102
+102.06	Area B Gang Cage, Cage 6	242	1/1/1996		12/18/2012	12/18/2012	102
+102.07	Area B Gang Cage, Cage 7	243	1/1/1996		12/18/2012	12/18/2012	102
+102.08	Area B Gang Cage, Cage 8	244	1/1/1996		12/18/2012	12/18/2012	102
+102.09	Area B Gang Cage, Cage 9	245	1/1/1996		12/18/2012	12/18/2012	102
+102.10	Area B Gang Cage, Cage 10	246	1/1/1996		12/18/2012	12/18/2012	102
+102.11	Area B Gang Cage, Cage 11	247	1/1/1996		12/18/2012	12/18/2012	102
+102.12	Area B Gang Cage, Cage 12	248	1/1/1996		12/18/2012	12/18/2012	102
+102.13	Area B Gang Cage, Cage 13	249	1/1/1996		12/18/2012	12/18/2012	102
+102.14	Area B Gang Cage, Cage 14	250	1/1/1996		12/18/2012	12/18/2012	102
+102.15	Area B Gang Cage, Cage 15	251	1/1/1996		12/18/2012	12/18/2012	102
+102.16	Area B Gang Cage, Cage 16	252	1/1/1996		12/18/2012	12/18/2012	102
+103.01	Area C Gang Cage, Cage 1	253	1/1/1996		12/18/2012	12/18/2012	103
+103.02	Area C Gang Cage, Cage 2	254	1/1/1996		12/18/2012	12/18/2012	103
+103.03	Area C Gang Cage, Cage 3	255	1/1/1996		12/18/2012	12/18/2012	103
+103.04	Area C Gang Cage, Cage 4	256	1/1/1996		12/18/2012	12/18/2012	103
+103.05	Area C Gang Cage, Cage 5	257	1/1/1996		12/18/2012	12/18/2012	103
+103.06	Area C Gang Cage, Cage 6	258	1/1/1996		12/18/2012	12/18/2012	103
+103.07	Area C Gang Cage, Cage 7	259	1/1/1996		12/18/2012	12/18/2012	103
+103.08	Area C Gang Cage, Cage 8	260	1/1/1996		12/18/2012	12/18/2012	103
+103.09	Area C Gang Cage, Cage 9	261	1/1/1996		12/18/2012	12/18/2012	103
+103.10	Area C Gang Cage, Cage 10	262	1/1/1996		12/18/2012	12/18/2012	103
+103.11	Area C Gang Cage, Cage 11	263	1/1/1996		12/18/2012	12/18/2012	103
+103.12	Area C Gang Cage, Cage 12	264	1/1/1996		12/18/2012	12/18/2012	103
+103.13	Area C Gang Cage, Cage 13	265	1/1/1996		12/18/2012	12/18/2012	103
+103.14	Area C Gang Cage, Cage 14	266	1/1/1996		12/18/2012	12/18/2012	103
+103.15	Area C Gang Cage, Cage 15	267	1/1/1996		12/18/2012	12/18/2012	103
+103.16	Area C Gang Cage, Cage 16	268	1/1/1996		12/18/2012	12/18/2012	103
+103.17	Area C Gang Cage, Cage 17	269	1/1/1996		12/18/2012	12/18/2012	103
+103.18	Area C Gang Cage, Cage 18	270	1/1/1996		12/18/2012	12/18/2012	103
+103.19	Area C Gang Cage, Cage 19	271	1/1/1996		12/18/2012	12/18/2012	103
+103.20	Area C Gang Cage, Cage 20	272	1/1/1996		12/18/2012	12/18/2012	103
+103.21	Area C Gang Cage, Cage 21	273	1/1/1996		12/18/2012	12/18/2012	103
+103.22	Area C Gang Cage, Cage 22	274	1/1/1996		12/18/2012	12/18/2012	103
+103.23	Area C Gang Cage, Cage 23	275	1/1/1996		12/18/2012	12/18/2012	103
+103.24	Area C Gang Cage, Cage 24	276	1/1/1996		12/18/2012	12/18/2012	103
+103.25	Area C Gang Cage, Cage 25	277	1/1/1996		12/18/2012	12/18/2012	103
+103.26	Area C Gang Cage, Cage 26	278	1/1/1996		12/18/2012	12/18/2012	103
+103.27	Area C Gang Cage, Cage 27	279	1/1/1996		12/18/2012	12/18/2012	103
+103.28	Area C Gang Cage, Cage 28	280	1/1/1996		12/18/2012	12/18/2012	103
+103.29	Area C Gang Cage, Cage 29	281	1/1/1996		12/18/2012	12/18/2012	103
+103.30	Area C Gang Cage, Cage 30	282	1/1/1996		12/18/2012	12/18/2012	103
+103.31	Area C Gang Cage, Cage 31	283	1/1/1996		12/18/2012	12/18/2012	103
+103.32	Area C Gang Cage, Cage 32	284	1/1/1996		12/18/2012	12/18/2012	103
+103.33	Area C Gang Cage, Cage 33	285	1/1/1996		12/18/2012	12/18/2012	103
+103.34	Area C Gang Cage, Cage 34	286	1/1/1996		12/18/2012	12/18/2012	103
+103.35	Area C Gang Cage, Cage 35	287	1/1/1996		12/18/2012	12/18/2012	103
+103.36	Area C Gang Cage, Cage 36	288	1/1/1996		12/18/2012	12/18/2012	103
+103.37	Area C Gang Cage, Cage 37	289	1/1/1996		12/18/2012	12/18/2012	103
+103.38	Area C Gang Cage, Cage 38	290	1/1/1996		12/18/2012	12/18/2012	103
+103.39	Area C Gang Cage, Cage 39	291	1/1/1996		12/18/2012	12/18/2012	103
+103.40	Area C Gang Cage, Cage 40	292	1/1/1996		12/18/2012	12/18/2012	103
+104.01	Area D Gang Cage, Cage 1	293	1/1/1996		12/18/2012	12/18/2012	104
+104.02	Area D Gang Cage, Cage 2	294	1/1/1996		12/18/2012	12/18/2012	104
+104.03	Area D Gang Cage, Cage 3	295	1/1/1996		12/18/2012	12/18/2012	104
+104.04	Area D Gang Cage, Cage 4	296	1/1/1996		12/18/2012	12/18/2012	104
+104.05	Area D Gang Cage, Cage 5	297	1/1/1996		12/18/2012	12/18/2012	104
+104.06	Area D Gang Cage, Cage 6	298	1/1/1996		12/18/2012	12/18/2012	104
+104.07	Area D Gang Cage, Cage 7	299	1/1/1996		12/18/2012	12/18/2012	104
+104.08	Area D Gang Cage, Cage 8	300	1/1/1996		12/18/2012	12/18/2012	104
+104.09	Area D Gang Cage, Cage 9	301	1/1/1996		12/18/2012	12/18/2012	104
+104.10	Area D Gang Cage, Cage 10	302	1/1/1996		12/18/2012	12/18/2012	104
+104.11	Area D Gang Cage, Cage 11	303	1/1/1996		12/18/2012	12/18/2012	104
+104.12	Area D Gang Cage, Cage 12	304	1/1/1996		12/18/2012	12/18/2012	104
+104.13	Area D Gang Cage, Cage 13	305	1/1/1996		12/18/2012	12/18/2012	104
+104.14	Area D Gang Cage, Cage 14	306	1/1/1996		12/18/2012	12/18/2012	104
+104.15	Area D Gang Cage, Cage 15	307	1/1/1996		12/18/2012	12/18/2012	104
+104.16	Area D Gang Cage, Cage 16	308	1/1/1996		12/18/2012	12/18/2012	104
+104.17	Area D Gang Cage, Cage 17	309	1/1/1996		12/18/2012	12/18/2012	104
+104.18	Area D Gang Cage, Cage 18	310	1/1/1996		12/18/2012	12/18/2012	104
+104.19	Area D Gang Cage, Cage 19	311	1/1/1996		12/18/2012	12/18/2012	104
+104.20	Area D Gang Cage, Cage 20	312	1/1/1996		12/18/2012	12/18/2012	104
+104.21	Area D Gang Cage, Cage 21	313	1/1/1996		12/18/2012	12/18/2012	104
+104.22	Area D Gang Cage, Cage 22	314	1/1/1996		12/18/2012	12/18/2012	104
+105.00	Breeding Corral, Juvenile	315	1/1/1996	5/1/2015	8/17/2015	8/17/2015	105
+106.01	Area E Gang Cage, Cage 1	316	1/1/1996		12/18/2012	12/18/2012	106
+106.02	Area E Gang Cage, Cage 2	317	1/1/1996		12/18/2012	12/18/2012	106
+106.03	Area E Gang Cage, Cage 3	318	1/1/1996		12/18/2012	12/18/2012	106
+106.04	Area E Gang Cage, Cage 4	319	1/1/1996		12/18/2012	12/18/2012	106
+106.05	Area E Gang Cage, Cage 5	320	1/1/1996		12/18/2012	12/18/2012	106
+106.06	Area EGang Cage, Cage 6	321	1/1/1996		12/18/2012	12/18/2012	106
+106.07	Area E Gang Cage, Cage 7	322	1/1/1996		12/18/2012	12/18/2012	106
+106.08	Area E Gang Cage, Cage 8	323	1/1/1996		12/18/2012	12/18/2012	106
+106.09	Area E Gang Cage, Cage 9	324	1/1/1996		12/18/2012	12/18/2012	106
+106.10	Area E Gang Cage, Cage 10	325	1/1/1996		12/18/2012	12/18/2012	106
+106.11	Area E Gang Cage, Cage 11	326	1/1/1996		12/18/2012	12/18/2012	106
+106.12	Area E Gang Cage, Cage 12	327	1/1/1996		12/18/2012	12/18/2012	106
+106.13	Area E Gang Cage, Cage 13	328	1/1/1996		12/18/2012	12/18/2012	106
+106.14	Area E Gang Cage, Cage 14	329	1/1/1996		12/18/2012	12/18/2012	106
+106.15	Area E Gang Cage, Cage 15	330	1/1/1996		12/18/2012	12/18/2012	106
+106.16	Area E Gang Cage, Cage 16	331	1/1/1996		12/18/2012	12/18/2012	106
+106.17	Area E Gang Cage, Cage 17	332	1/1/1996		12/18/2012	12/18/2012	106
+106.18	Area E Gang Cage, Cage 18	333	1/1/1996		12/18/2012	12/18/2012	106
+106.19	Area E Gang Cage, Cage 19	334	1/1/1996		12/18/2012	12/18/2012	106
+106.20	Area E Gang Cage, Cage 20	335	1/1/1996		12/18/2012	12/18/2012	106
+106.21	Area E Gang Cage, Cage 21	336	10/12/2003		12/18/2012	12/18/2012	106
+106.22	Area E Gang Cage, Cage 22	337	10/12/2003		12/18/2012	12/18/2012	106
+106.23	Area E Gang Cage, Cage 23	338	10/12/2003		12/18/2012	12/18/2012	106
+106.24	Area E Gang Cage, Cage 24	339	10/12/2003		12/18/2012	12/18/2012	106
+106.25	Area E Gang Cage, Cage 25	340	10/12/2003		12/18/2012	12/18/2012	106
+106.26	Area E Gang Cage, Cage 26	341	10/12/2003		12/18/2012	12/18/2012	106
+106.27	Area E Gang Cage, Cage 27	342	10/12/2003		12/18/2012	12/18/2012	106
+106.28	Area E Gang Cage, Cage 28	343	10/12/2003		12/18/2012	12/18/2012	106
+106.29	Area E Gang Cage, Cage 29	344	10/12/2003		12/18/2012	12/18/2012	106
+106.30	Area E Gang Cage, Cage 30	345	10/12/2003		12/18/2012	12/18/2012	106
+106.31	Area E Gang Cage, Cage 31	346	10/12/2003		12/18/2012	12/18/2012	106
+106.32	Area E Gang Cage, Cage 32	347	10/12/2003		12/18/2012	12/18/2012	106
+106.33	Area E Gang Cage, Cage 33	348	10/12/2003		12/18/2012	12/18/2012	106
+106.34	Area E Gang Cage, Cage 34	349	10/12/2003		12/18/2012	12/18/2012	106
+106.35	Area E Gang Cage, Cage 35	350	10/12/2003		12/18/2012	12/18/2012	106
+106.36	Area E Gang Cage, Cage 36	351	10/12/2003		12/18/2012	12/18/2012	106
+106.37	Area E Gang Cage, Cage 37	352	10/12/2003		12/18/2012	12/18/2012	106
+106.38	Area E Gang Cage, Cage 38	353	10/12/2003		12/18/2012	12/18/2012	106
+106.39	Area E Gang Cage, Cage 39	354	10/12/2003		12/18/2012	12/18/2012	106
+106.40	Area E Gang Cage, Cage 40	355	10/12/2003		12/18/2012	12/18/2012	106
+107.00	Holding Area, Building 107	1030	1/25/2016		1/25/2016	1/25/2016	107
+107.01	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 1	356	12/1/1997		9/23/2014	9/23/2014	107
+107.02	Cynomologus Breeding Colony, Building 107, indoor/outdoor pen 2	357	12/1/1997		9/23/2014	9/23/2014	107
+107.03	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 3	358	12/1/1997		9/23/2014	9/23/2014	107
+107.04	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 4	359	12/1/1997		9/23/2014	9/23/2014	107
+107.05	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 5	360	12/1/1997		9/23/2014	9/23/2014	107
+107.06	Cynomologus Breeding Colony, Building 107, indoor/outdoor pen 6	361	12/1/1997		9/23/2014	9/23/2014	107
+107.07	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 7	362	12/1/1997		9/23/2014	9/23/2014	107
+107.08	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 8	363	12/1/1997		9/23/2014	9/23/2014	107
+107.09	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 9	364	12/1/1997		9/23/2014	9/23/2014	107
+107.10	Cynomologus Breeding Colony, Building 107, indoor/outdoor pen 10	365	12/1/1997		9/23/2014	9/23/2014	107
+107.11	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 11	366	12/1/1997		9/23/2014	9/23/2014	107
+107.12	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 12	367	12/1/1997		9/23/2014	9/23/2014	107
+107.13	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 13	368	12/1/1997		9/23/2014	9/23/2014	107
+107.14	Cynomologus Breeding Colony, Building 107,  indoor/outdoor pen 14	369	12/1/1997		9/23/2014	9/23/2014	107
+108.00	Cynomologus Breeding Colony, Building 108	1021	9/1/2015		9/11/2015	9/11/2015	108
+108.01	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 1	370	12/1/1997		9/11/2015	9/11/2015	108
+108.02	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 2	371	12/1/1997		9/11/2015	2/9/2007	108
+108.03	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 3	372	12/1/1997		9/11/2015	2/9/2007	108
+108.04	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 4	373	12/1/1997		9/11/2015	2/9/2007	108
+108.05	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 5	374	12/1/1997		9/11/2015	2/9/2007	108
+108.06	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 6	375	12/1/1997		9/11/2015	2/9/2007	108
+108.07	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 7	376	12/1/1997		9/11/2015	2/9/2007	108
+108.08	Cynomologus Breeding Colony, Buiding 108, indoor/outdoor pen 8	377	12/1/1997		9/11/2015	2/9/2007	108
+108.09	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 9	378	12/1/1997		9/21/2015	2/9/2007	108
+108.10	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 10	379	12/1/1997		9/11/2015	2/9/2007	108
+108.11	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 11	380	12/1/1997		9/11/2015	2/9/2007	108
+108.12	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 12	381	12/1/1997		9/11/2015	2/9/2007	108
+108.13	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 13	382	12/1/1997		9/11/2015	2/9/2007	108
+108.14	Cynomologus Breeding Colony, Building 108, indoor/outdoor pen 14	383	12/1/1997		9/11/2015	2/9/2007	108
+108.15	Cynomologus Breeding Colony, Building 108, Treatment/Hospital	384	12/1/1997		9/16/2015	1/30/2007	108
+109.00	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1033	9/1/2016		9/23/2016	9/23/2016	109
+109.01	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 1	385	12/1/1997		12/18/2012	12/18/2012	109
+109.02	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 2	386	12/1/1997		12/18/2012	12/18/2012	109
+109.03	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 3	387	12/1/1997		12/18/2012	12/18/2012	109
+109.04	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 4	388	12/1/1997		12/18/2012	12/18/2012	109
+109.05	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 5	389	12/1/1997		12/18/2012	12/18/2012	109
+109.06	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 6	390	12/1/1997		12/18/2012	12/18/2012	109
+109.07	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen 7	391	12/1/1997		12/18/2012	12/18/2012	109
+109.08	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen 8	392	12/1/1997		12/18/2012	12/18/2012	109
+109.09	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen 9	393	12/1/1997		12/18/2012	12/18/2012	109
+109.10	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 10	394	12/1/1997		12/18/2012	12/18/2012	109
+109.11	Cynomologus Breeding Colony, Building 109,  indoor/outdoor pen 11	395	12/1/1997		12/18/2012	12/18/2012	109
+109.12	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen 12	396	12/1/1997		12/18/2012	12/18/2012	109
+109.13	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen 13	397	12/1/1997		12/18/2012	12/18/2012	109
+109.14	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen 14	398	12/1/1997		12/18/2012	12/18/2012	109
+109.15	Cynomologus Breeding Colony, Building 109, Treatment/Hospital	399	12/15/1999		12/18/2012	12/18/2012	109
+109.16	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1034	9/1/2016		9/23/2016	9/23/2016	109
+109.17	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1035	9/1/2016		9/23/2016	9/23/2016	109
+109.18	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1036	9/1/2016		9/23/2016	9/23/2016	109
+109.19	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1037	9/1/2016		9/23/2016	9/23/2016	109
+109.20	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1038	9/1/2016		9/23/2016	9/23/2016	109
+109.21	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1039	9/1/2016		9/23/2016	9/23/2016	109
+109.22	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1040	9/1/2016		9/23/2016	9/23/2016	109
+109.23	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1041	9/1/2016		9/23/2016	9/23/2016	109
+109.24	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1042	9/1/2016		9/23/2016	9/23/2016	109
+109.25	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1043	9/1/2016		9/23/2016	9/23/2016	109
+109.26	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1044	9/1/2016		9/23/2016	9/23/2016	109
+109.27	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1045	9/1/2016		9/23/2016	9/23/2016	109
+109.28	Cynomologus Breeding Colony, Building 109, indoor/outdoor pen	1046	9/1/2016		9/23/2016	9/23/2016	109
+110.01	SPF Breeding Colony, Building 110, indoor/outdoor pen 1	400	12/1/1997		6/25/2014	10/1/1998	110
+110.02	SPF Breeding Colony, Building 110, indoor/outdoor pen 2	401	12/1/1997		6/25/2014	10/1/1998	110
+110.03	SPF Breeding Colony, Building 110, indoor/outdoor pen 3	402	12/1/1997		6/25/2014	10/1/1998	110
+110.04	SPF Breeding Colony, Building 110, indoor/outdoor pen 4	403	12/1/1997		6/25/2014	10/1/1998	110
+110.05	SPF Breeding Colony, Building 110, indoor/outdoor pen 5	404	12/1/1997		6/25/2014	10/1/1998	110
+110.06	SPF Breeding Colony, Building 110, indoor/outdoor pen 6	405	12/1/1997		6/25/2014	10/1/1998	110
+110.07	SPF Breeding Colony, Building 110, indoor/outdoor pen 7	406	12/1/1997		6/25/2014	10/1/1998	110
+110.08	SPF Breeding Colony, Building 110, indoor/outdoor pen 8	407	12/1/1997		6/25/2014	10/1/1998	110
+110.09	SPF Breeding Colony, Building 110, indoor/outdoor pen 9	408	12/1/1997		6/25/2014	10/1/1998	110
+110.10	SPF Breeding Colony, Building 110, indoor/outdoor pen 10	409	12/1/1997		6/25/2014	10/1/1998	110
+110.11	SPF Breeding Colony, Building 110, indoor/outdoor pen 11	410	12/1/1997		6/25/2014	10/1/1998	110
+110.12	SPF Breeding Colony, Building 110, indoor/outdoor pen 12	411	12/1/1997		6/25/2014	10/1/1998	110
+110.13	SPF Breeding Colony, Building 110, indoor/outdoor pen 13	412	12/1/1997		6/25/2014	6/25/2014	110
+110.14	SPF Breeding Colony, Building 110, indoor/outdoor pen 14	413	12/1/1997		6/25/2014	10/1/1998	110
+111.00	Cynomologus Breeding Colony, Building 111	1022	9/1/2015		9/11/2015	9/11/2015	111
+111.01	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 1	414	12/1/1997		9/11/2015	10/1/1998	111
+111.02	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 2	415	12/1/1997		9/11/2015	10/1/1998	111
+111.03	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 3	416	12/1/1997		9/11/2015	10/1/1998	111
+111.04	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 4	417	12/1/1997		9/11/2015	10/1/1998	111
+111.05	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 5	418	12/1/1997		9/11/2015	10/1/1998	111
+111.06	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 6	419	12/1/1997		9/11/2015	10/1/1998	111
+111.07	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 7	420	12/1/1997		9/11/2015	10/1/1998	111
+111.08	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 8	421	12/1/1997		9/11/2015	10/1/1998	111
+111.09	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 9	422	12/1/1997		9/11/2015	9/11/2015	111
+111.10	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 10	423	12/1/1997		9/11/2015	9/11/2015	111
+111.11	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 11	424	12/1/1997		9/11/2015	10/1/1998	111
+111.12	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 12	425	12/1/1997		9/11/2015	10/1/1998	111
+111.13	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 13	426	12/1/1997		9/11/2015	10/1/1998	111
+111.14	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen 14	427	12/1/1997		9/11/2015	10/1/1998	111
+111.15	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	428	3/12/2015		9/11/2015	9/11/2015	111
+111.16	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	429	3/12/2015		9/11/2015	9/11/2015	111
+111.17	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	430	3/12/2015		9/11/2015	9/11/2015	111
+111.18	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	431	3/12/2015		9/11/2015	9/11/2015	111
+111.19	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	432	3/12/2015		9/11/2015	9/11/2015	111
+111.20	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	433	3/12/2015		9/11/2015	9/11/2015	111
+111.21	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	434	3/12/2015		9/11/2015	9/11/2015	111
+111.22	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	435	3/12/2015		9/11/2015	9/11/2015	111
+111.23	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	436	3/12/2015		9/11/2015	9/11/2015	111
+111.24	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	437	3/12/2015		9/11/2015	9/11/2015	111
+111.25	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	438	3/12/2015		9/11/2015	9/11/2015	111
+111.26	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	439	3/12/2015		9/11/2015	9/11/2015	111
+111.27	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	440	3/12/2015		9/11/2015	9/11/2015	111
+111.28	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	441	3/12/2015		9/11/2015	9/11/2015	111
+111.29	Cynomologus Breeding Colony, Building 111, indoor/outdoor pen	442	3/12/2015		9/16/2015	9/16/2015	111
+112.01	Chimpanzee renovations	443	12/1/1997		12/18/2012	10/1/1998	112
+112.02	Chimpanzee renovations	444	12/1/1997		12/18/2012	10/1/1998	112
+112.03	Chimpanzee renovations	445	12/1/1997		12/18/2012	10/1/1998	112
+112.04	Chimpanzee renovations	446	12/1/1997		12/18/2012	10/1/1998	112
+112.05	Chimpanzee renovations	447	12/1/1997		12/18/2012	10/1/1998	112
+112.06	Chimpanzee renovations	448	12/1/1997		12/18/2012	10/1/1998	112
+112.07	Chimpanzee renovations	449	12/1/1997		12/18/2012	10/1/1998	112
+112.08	Chimpanzee renovations	450	12/1/1997		12/18/2012	10/1/1998	112
+112.09	Chimpanzee renovations	451	12/1/1997		12/18/2012	10/1/1998	112
+112.10	Chimpanzee renovations	452	12/1/1997		12/18/2012	10/1/1998	112
+112.11	Chimpanzee renovations	453	12/1/1997		12/18/2012	10/1/1998	112
+112.12	Chimpanzee renovations	454	12/1/1997		12/18/2012	10/1/1998	112
+112.13	Chimpanzee renovations	455	12/1/1997		12/18/2012	10/1/1998	112
+112.14	Chimpanzee renovations	456	12/1/1997		12/18/2012	10/1/1998	112
+113.01	Dog Kennel	457	4/21/2005		12/18/2012	12/18/2012	113
+114.00	Holding Area, Building 114	1023	9/1/2015		9/11/2015	9/11/2015	114
+114.01	Holding Area, pen 1	458	12/30/2002		9/11/2015	9/11/2015	114
+114.02	Holding Area, pen 2	459	12/30/2002		9/11/2015	9/11/2015	114
+114.03	Holding Area, pen 3	460	12/30/2002		9/11/2015	9/11/2015	114
+114.04	Holding Area, pen 4	461	12/30/2002		9/11/2015	9/11/2015	114
+114.05	Holding Area, pen 5	462	12/30/2002		9/11/2015	9/11/2015	114
+114.06	Holding Area, pen 6	463	12/30/2002		9/11/2015	9/11/2015	114
+114.07	Holding Area, pen 7	464	12/30/2002		9/11/2015	9/11/2015	114
+114.08	Holding Area, pen 8	465	12/30/2002		9/11/2015	9/11/2015	114
+114.09	Holding Area, pen 9	466	12/30/2002		9/11/2015	9/11/2015	114
+114.10	Holding Area, pen 10	467	12/30/2002		9/11/2015	9/11/2015	114
+114.11	Holding Area, pen 11	468	12/30/2002		9/11/2015	9/11/2015	114
+114.12	Holding Area, pen 12	469	12/30/2002		9/11/2015	9/11/2015	114
+114.13	Holding Area, pen 13	470	12/30/2002		9/11/2015	9/11/2015	114
+114.14	Holding Area, pen 14	471	12/30/2002		9/11/2015	9/11/2015	114
+114.15	Holding Area, pen 15	472	12/30/2002		9/11/2015	9/11/2015	114
+114.16	Holding Area, pen 16	473	12/30/2002		9/11/2015	9/11/2015	114
+114.17	Holding Area, pen 17	474	12/30/2002		9/11/2015	9/11/2015	114
+114.18	Holding Area, pen 18	475	12/30/2002		9/11/2015	9/11/2015	114
+114.19	Holding Area, pen 19	476	12/30/2002		9/11/2015	9/11/2015	114
+114.20	Holding Area, pen 20	477	12/30/2002		9/11/2015	9/11/2015	114
+114.21	Holding Area, pen 21	478	12/30/2002		9/11/2015	9/11/2015	114
+114.22	Holding Area, pen 22	479	12/30/2002		9/11/2015	9/11/2015	114
+114.23	Clinic	480	12/30/2002		9/16/2015	12/30/2002	114
+114.24	Holding Area, pen 24	481	12/30/2002		9/11/2015	12/30/2002	114
+115.06	Building 115, room 106	482	6/16/2005		12/18/2012	12/18/2012	115
+115.07	Building 115, room 107	483	6/16/2005		12/18/2012	12/18/2012	115
+115.08	Building 115, room 108	484	6/16/2005		12/18/2012	12/18/2012	115
+115.09	Building 115, room 109	485	6/16/2005		12/18/2012	12/18/2012	115
+115.10	Building 115, room 110	486	6/16/2005		12/18/2012	12/18/2012	115
+116.08	Building 116, room 108, marmoset modular	487	12/19/2005		12/18/2012	12/18/2012	116
+116.09	Building 116, room 109, marmoset modular	488	12/19/2005		12/18/2012	12/18/2012	116
+116.10	Building 116, room 110, marmoset modular	489	12/19/2005		12/18/2012	12/18/2012	116
+116.11	Building 116, room 111, marmoset modular	490	12/19/2005		12/18/2012	12/18/2012	116
+116.12	Building 116, room 112, marmoset modular	491	12/19/2005		12/18/2012	12/18/2012	116
+117.03	Building 117, room 03, marmoset production modular, right	492	2/28/2006		12/18/2012	12/18/2012	117
+117.04	Building 117, room 04, marmoset production modular, left	493	2/28/2006		12/18/2012	12/18/2012	117
+120.01	Primadome Long term chimp housing Cage 1	494	9/8/2004		12/18/2012	9/8/2004	120
+120.02	Primadome Long term chimp housing Cage 2	495	9/8/2004		12/18/2012	9/8/2004	120
+120.03	Primadome Long term chimp housing Cage 3	496	9/8/2004		12/18/2012	9/8/2004	120
+120.04	Primadome Long term chimp housing Cage 4	497	9/8/2004		12/18/2012	9/8/2004	120
+121.01	Primadome Long term chimp housing Cage 1	498	9/8/2004		12/18/2012	9/8/2004	121
+121.02	Primadome Long term chimp housing Cage 2	499	9/8/2004		12/18/2012	9/8/2004	121
+121.03	Primadome Long term chimp housing Cage 3	500	9/8/2004		12/18/2012	9/8/2004	121
+121.04	Primadome Long term chimp housing Cage 4	501	9/8/2004		12/18/2012	9/8/2004	121
+122.01	Primadome Long term chimp housing Cage 1	502	9/8/2004		12/18/2012	9/8/2004	122
+122.02	Primadome Long term chimp housing Cage 2	503	9/8/2004		12/18/2012	9/8/2004	122
+122.03	Primadome Long term chimp housing Cage 3	504	9/8/2004		12/18/2012	9/8/2004	122
+122.04	Primadome Long term chimp housing Cage 4	505	9/8/2004		12/18/2012	9/8/2004	122
+130.00	Building 130 - Rhesus SPF Clinic	506	11/1/2005	6/30/2017	7/11/2017	12/19/2012	130
+130.01	Building 130 - Rhesus SPF clinic Bay 1	1050	7/1/2017		7/11/2017	7/11/2017	130
+130.02	Building 130 - Rhesus SPF clinic Bay 2	1053	7/1/2017		7/11/2017	7/11/2017	130
+131.00	Holding Area, Building 131	1024	9/1/2015		9/11/2015	9/11/2015	131
+131.01	Building 131.01 - Rhesus SPF indoor and outdoor group housing	507	11/1/2005		9/11/2015	9/11/2015	131
+131.02	Building 131.02 - Rhesus SPF indoor and outdoor group housing	508	11/1/2005		9/11/2015	9/11/2015	131
+131.03	Building 131.03 - Rhesus SPF indoor and outdoor group housing	509	11/1/2005		9/11/2015	9/11/2015	131
+131.04	Building 131.04 - Rhesus SPF indoor and outdoor group housing	510	11/1/2005		9/11/2015	9/11/2015	131
+131.05	Building 131.05 - Rhesus SPF indoor and outdoor group housing	511	11/1/2005		9/11/2015	9/11/2015	131
+131.06	Building 131.06 - Rhesus SPF indoor and outdoor group housing	512	11/1/2005		9/11/2015	9/11/2015	131
+131.07	Building 131.07 - Rhesus SPF indoor and outdoor group housing	513	11/1/2005		9/11/2015	9/11/2015	131
+131.08	Building 131.08 - Rhesus SPF indoor and outdoor group housing	514	11/1/2005		9/11/2015	9/11/2015	131
+131.09	Building 131.09 - Rhesus SPF indoor and outdoor group housing	515	11/1/2005		9/11/2015	9/11/2015	131
+131.10	Building 131.10 - Rhesus SPF indoor and outdoor group housing	516	11/1/2005		9/11/2015	9/11/2015	131
+131.11	Building 131.11 - Rhesus SPF indoor and outdoor group housing	517	11/1/2005		9/11/2015	9/11/2015	131
+131.12	Building 131.12 - Rhesus SPF indoor and outdoor group housing	518	11/1/2005		9/11/2015	9/11/2015	131
+131.13	Building 131.13 - Rhesus SPF indoor and outdoor group housing	519	11/1/2005		9/11/2015	9/11/2015	131
+131.14	Building 131.14 - Rhesus SPF indoor and outdoor group housing	520	11/1/2005		12/17/2015	12/17/2015	131
+132.00	Holding Area, Building 132	1026	9/1/2015		9/11/2015	9/11/2015	132
+132.01	Building 132.01 - Rhesus SPF indoor and outdoor group housing	521	11/1/2005		9/11/2015	9/11/2015	132
+132.02	Building 132.02 - Rhesus SPF indoor and outdoor group housing	522	11/1/2005		9/11/2015	9/11/2015	132
+132.03	Building 132.03 - Rhesus SPF indoor and outdoor group housing	523	11/1/2005		9/11/2015	9/11/2015	132
+132.04	Building 132.04 - Rhesus SPF indoor and outdoor group housing	524	11/1/2005		9/11/2015	9/11/2015	132
+132.05	Building 132.05 - Rhesus SPF indoor and outdoor group housing	525	11/1/2005		9/11/2015	9/11/2015	132
+132.06	Building 132.06 - Rhesus SPF indoor and outdoor group housing	526	11/1/2005		9/11/2015	9/11/2015	132
+132.07	Building 132.07 - Rhesus SPF indoor and outdoor group housing	527	11/1/2005		9/11/2015	9/11/2015	132
+132.08	Building 132.08 - Rhesus SPF indoor and outdoor group housing	528	11/1/2005		9/11/2015	9/11/2015	132
+132.09	Building 132.09 - Rhesus SPF indoor and outdoor group housing	529	11/1/2005		9/11/2015	9/11/2015	132
+132.10	Building 132.10 - Rhesus SPF indoor and outdoor group housing	530	11/1/2005		9/11/2015	9/11/2015	132
+132.11	Building 132.11 - Rhesus SPF indoor and outdoor group housing	531	11/1/2005		9/11/2015	9/11/2015	132
+132.12	Building 132.12 - Rhesus SPF indoor and outdoor group housing	532	11/1/2005		9/11/2015	9/11/2015	132
+132.13	Building 132.13 - Rhesus SPF indoor and outdoor group housing	533	11/1/2005		9/11/2015	9/11/2015	132
+132.14	Building 132.14 - Rhesus SPF indoor and outdoor group housing	534	11/1/2005		9/11/2015	9/11/2015	132
+133.00	Holding Area, Building 133	1027	9/1/2015		9/11/2015	9/11/2015	133
+133.01	Building 133.01 - Rhesus SPF indoor and outdoor group housing	535	11/1/2005		9/11/2015	9/11/2015	133
+133.02	Building 133.02 - Rhesus SPF indoor and outdoor group housing	536	11/1/2005		12/17/2015	12/17/2015	133
+133.03	Building 133.03 - Rhesus SPF indoor and outdoor group housing	537	11/1/2005		9/11/2015	9/11/2015	133
+133.04	Building 133.04 - Rhesus SPF indoor and outdoor group housing	538	11/1/2005		9/11/2015	9/11/2015	133
+133.05	Building 133.05 - Rhesus SPF indoor and outdoor group housing	539	11/1/2005		9/11/2015	9/11/2015	133
+133.06	Building 133.06 - Rhesus SPF indoor and outdoor group housing	540	11/1/2005		9/11/2015	9/11/2015	133
+133.07	Building 133.07 - Rhesus SPF indoor and outdoor group housing	541	11/1/2005		9/11/2015	9/11/2015	133
+133.08	Building 133.08 - Rhesus SPF indoor and outdoor group housing	542	11/1/2005		9/11/2015	9/11/2015	133
+133.09	Building 133.09 - Rhesus SPF indoor and outdoor group housing	543	11/1/2005		9/11/2015	9/11/2015	133
+133.10	Building 133.10 - Rhesus SPF indoor and outdoor group housing	544	11/1/2005		9/11/2015	9/11/2015	133
+133.11	Building 133.11 - Rhesus SPF indoor and outdoor group housing	545	11/1/2005		9/11/2015	9/11/2015	133
+133.12	Building 133.12 - Rhesus SPF indoor and outdoor group housing	546	11/1/2005		9/11/2015	9/11/2015	133
+133.13	Building 133.13 - Rhesus SPF indoor and outdoor group housing	547	11/1/2005		9/11/2015	9/11/2015	133
+133.14	Building 133.14 - Rhesus SPF indoor and outdoor group housing	548	11/1/2005		12/17/2015	12/17/2015	133
+134.00	Holding Area, Building 134	1028	9/1/2015		9/11/2015	9/11/2015	134
+134.01	Building 134.01 - Rhesus SPF indoor and outdoor group housing	549	11/1/2005		9/11/2015	9/11/2015	134
+134.02	Building 134.02 - Rhesus SPF indoor and outdoor group housing	550	11/1/2005		9/11/2015	9/11/2015	134
+134.03	Building 134.03 - Rhesus SPF indoor and outdoor group housing	551	11/1/2005		9/11/2015	9/11/2015	134
+134.04	Building 134.04 - Rhesus SPF indoor and outdoor group housing	552	11/1/2005		9/11/2015	9/11/2015	134
+134.05	Building 134.05 - Rhesus SPF indoor and outdoor group housing	553	11/1/2005		9/11/2015	9/11/2015	134
+134.06	Building 134.06 - Rhesus SPF indoor and outdoor group housing	554	11/1/2005		9/11/2015	9/11/2015	134
+134.07	Building 134.07 - Rhesus SPF indoor and outdoor group housing	555	11/1/2005		9/11/2015	9/11/2015	134
+134.08	Building 134.08 - Rhesus SPF indoor and outdoor group housing	556	11/1/2005		9/11/2015	9/11/2015	134
+134.09	Building 134.09 - Rhesus SPF indoor and outdoor group housing	557	11/1/2005		9/11/2015	9/11/2015	134
+134.10	Building 134.10 - Rhesus SPF indoor and outdoor group housing	558	11/1/2005		9/11/2015	9/11/2015	134
+134.11	Building 134.11 - Rhesus SPF indoor and outdoor group housing	559	11/1/2005		9/11/2015	9/11/2015	134
+134.12	Building 134.12 - Rhesus SPF indoor and outdoor group housing	560	11/1/2005		9/11/2015	9/11/2015	134
+134.13	Building 134.13 - Rhesus SPF indoor and outdoor group housing	561	11/1/2005		9/11/2015	9/11/2015	134
+134.14	Building 134.14 - Rhesus SPF indoor and outdoor group housing	562	11/1/2005		12/15/2015	12/15/2015	134
+150.00	Brooks AFB unknown cage	1047	6/1/2001		10/18/2016	10/18/2016	150
+150.01	Brooks AFB, Bldg 150 Cage 1	563	6/1/2001		1/3/2013	6/14/2004	150
+150.02	Brooks AFB, Cage 2	564	6/1/2001		1/3/2013	6/14/2004	150
+150.03	Brooks AFB, Cage 3	565	6/1/2001		1/3/2013	6/14/2004	150
+150.04	Brooks AFB, Cage 4	566	6/1/2001		1/3/2013	6/14/2004	150
+150.05	Brooks AFB, Cage 5	567	6/1/2001		1/3/2013	6/14/2004	150
+150.06	Brooks AFB, Cage 6	568	6/1/2001		1/3/2013	6/14/2004	150
+150.07	Brooks AFB, Cage 7	569	6/1/2001		1/3/2013	6/14/2004	150
+151.00	Brooks AFB, Clinic	570	6/1/2001		1/3/2013	6/14/2004	151
+151.01	Brooks AFB, Clinic Bay 1	571	6/1/2001		1/3/2013	6/14/2004	151
+151.02	Brooks AFB, Clinic Bay 2	572	6/1/2001		1/3/2013	6/14/2004	151
+151.03	Brooks AFB, Clinic Bay 3	573	6/1/2001		1/3/2013	6/14/2004	151
+151.04	Brooks AFB, Clinic Bay 4	574	6/1/2001		1/3/2013	6/14/2004	151
+151.05	Brooks AFB, Clinic Bay 5	575	6/1/2001		1/3/2013	6/14/2004	151
+151.06	Brooks AFB, Clinic Bay 6	576	6/1/2001		1/3/2013	6/14/2004	151
+151.07	Brooks AFB, Clinic Bay 7	577	6/1/2001		1/3/2013	6/14/2004	151
+151.08	Brooks AFB, Clinic Bay 8	578	6/1/2001		1/3/2013	6/14/2004	151
+151.09	Brooks AFB, Clinic Bay 9	579	6/1/2001		1/3/2013	6/14/2004	151
+151.10	Brooks AFB, Clinic Bay 10	580	6/1/2001		1/3/2013	6/14/2004	151
+151.11	Brooks AFB, Clinic Bay 11	581	6/1/2001		1/3/2013	6/14/2004	151
+151.12	Brooks AFB, Clinic Bay 12	582	6/1/2001		1/3/2013	6/14/2004	151
+151.13	Brooks AFB, Clinic Bay 13	583	6/1/2001		1/3/2013	6/14/2004	151
+151.14	Brooks AFB, Clinic Bay 14	584	6/1/2001		1/3/2013	6/14/2004	151
+152.01	Brooks AFB, Bldg 152 Cage 1	585	6/1/2001		1/3/2013	6/14/2004	152
+152.02	Brooks AFB, Cage 2	586	6/1/2001		1/3/2013	6/14/2004	152
+152.03	Brooks AFB, Cage 3	587	6/1/2001		1/3/2013	6/14/2004	152
+152.04	Brooks AFB, Cage 4	588	6/1/2001		1/3/2013	6/14/2004	152
+152.05	Brooks AFB, Cage 5	589	6/1/2001		1/3/2013	6/14/2004	152
+152.06	Brooks AFB, Cage 6	590	6/1/2001		1/3/2013	6/14/2004	152
+152.07	Brooks AFB, Cage 7	591	6/1/2001		1/3/2013	6/14/2004	152
+152.08	Brooks AFB, Cage 8	592	6/1/2001		1/3/2013	1/3/2013	152
+152.09	Brooks AFB, Cage 9	593	6/1/2001		1/3/2013	6/14/2004	152
+152.10	Brooks AFB, Cage 10	594	6/1/2001		1/3/2013	6/14/2004	152
+152.11	Brooks AFB, Cage 11	595	6/1/2001		1/3/2013	6/14/2004	152
+152.12	Brooks AFB, Cage 12	596	6/1/2001		1/3/2013	6/14/2004	152
+152.13	Brooks AFB, Cage 13	597	6/1/2001		1/3/2013	6/14/2004	152
+152.14	Brooks AFB, Cage 14	598	6/1/2001		1/3/2013	6/14/2004	152
+152.15	Brooks AFB, Cage 15	599	6/1/2001		1/3/2013	6/14/2004	152
+152.16	Brooks AFB, Cage 16	600	6/1/2001		1/3/2013	6/14/2004	152
+152.17	Brooks AFB, Cage 17	601	6/1/2001		1/3/2013	6/14/2004	152
+152.18	Brooks AFB, Cage 18	602	6/1/2001		1/3/2013	6/14/2004	152
+152.19	Brooks AFB, Cage 19	603	6/1/2001		1/3/2013	6/14/2004	152
+152.20	Brooks AFB, Cage 20	604	6/1/2001		1/3/2013	6/14/2004	152
+152.21	Brooks AFB, Cage 21	605	6/1/2001		1/3/2013	6/14/2004	152
+152.22	Brooks AFB, Cage 22	606	6/1/2001		1/3/2013	6/14/2004	152
+152.23	Brooks AFB, Cage 23	607	6/1/2001		1/3/2013	6/14/2004	152
+152.24	Brooks AFB, Cage 24	608	6/1/2001		1/3/2013	6/14/2004	152
+152.25	Brooks AFB, Cage 25	609	6/1/2001		1/3/2013	6/14/2004	152
+152.26	Brooks AFB, Cage 26	610	6/1/2001		1/3/2013	6/14/2004	152
+152.27	Brooks AFB, Cage 27	611	6/1/2001		1/3/2013	6/14/2004	152
+152.28	Brooks AFB, Cage 28	612	6/1/2001		1/3/2013	6/14/2004	152
+152.29	Brooks AFB, Cage 29	613	6/1/2001		1/3/2013	6/14/2004	152
+152.30	Brooks AFB, Cage 30	614	6/1/2001		1/3/2013	6/14/2004	152
+152.31	Brooks AFB, Cage 31	615	6/1/2001		1/3/2013	6/14/2004	152
+152.32	Brooks AFB, Cage 32	616	6/1/2001		1/3/2013	6/14/2004	152
+152.33	Brooks AFB, Cage 33	617	6/1/2001		1/3/2013	6/14/2004	152
+152.34	Brooks AFB, Cage 34	618	6/1/2001		1/3/2013	6/14/2004	152
+152.35	Brooks AFB, Cage 35	619	6/1/2001		1/3/2013	6/14/2004	152
+152.36	Brooks AFB, Cage 36	620	6/1/2001		1/3/2013	6/14/2004	152
+152.37	Brooks AFB, Cage 37	621	6/1/2001		1/3/2013	1/3/2013	152
+152.38	Brooks AFB, Cage 38	622	6/1/2001		1/3/2013	6/14/2004	152
+152.39	Brooks AFB, Cage 39	623	6/1/2001		1/3/2013	6/14/2004	152
+152.40	Brooks AFB, Cage 40	624	6/1/2001		1/3/2013	6/14/2004	152
+153.01	Brooks AFB, Cage 1	625	6/1/2001		1/3/2013	9/14/2004	153
+153.02	Brooks AFB, Cage 2	626	6/1/2001		1/3/2013	6/14/2004	153
+153.03	Brooks AFB, Cage 3	627	6/1/2001		1/3/2013	6/14/2004	153
+153.04	Brooks AFB, Cage 4	628	6/1/2001		1/3/2013	6/14/2004	153
+153.05	Brooks AFB, Cage 5	629	6/1/2001		1/3/2013	6/14/2004	153
+153.06	Brooks AFB, Cage 6	630	6/1/2001		1/3/2013	6/14/2004	153
+153.07	Brooks AFB, Cage 7	631	6/1/2001		1/3/2013	6/14/2004	153
+153.08	Brooks AFB, Cage 8	632	6/1/2001		1/3/2013	6/14/2004	153
+153.09	Brooks AFB, Cage 9	633	6/1/2001		1/3/2013	6/14/2004	153
+153.10	Brooks AFB, Cage 10	634	6/1/2001		1/3/2013	6/14/2004	153
+153.11	Brooks AFB, Cage 11	635	6/1/2001		1/3/2013	6/14/2004	153
+153.12	Brooks AFB, Cage 12	636	6/1/2001		1/3/2013	6/14/2004	153
+153.13	Brooks AFB, Cage 13	637	6/1/2001		1/3/2013	6/14/2004	153
+153.14	Brooks AFB, Cage 14	638	6/1/2001		1/3/2013	6/14/2004	153
+153.15	Brooks AFB, Cage 15	639	6/1/2001		1/3/2013	6/14/2004	153
+153.16	Brooks AFB, Cage 16	640	6/1/2001		1/3/2013	6/14/2004	153
+153.17	Brooks AFB, Cage 17	641	6/1/2001		1/3/2013	6/14/2004	153
+153.18	Brooks AFB, Cage 18	642	6/1/2001		1/3/2013	6/14/2004	153
+153.19	Brooks AFB, Cage 19	643	6/1/2001		1/3/2013	6/14/2004	153
+153.20	Brooks AFB, Cage 20	644	6/1/2001		1/3/2013	6/14/2004	153
+153.21	Brooks AFB, Cage 21	645	6/1/2001		1/3/2013	6/14/2004	153
+153.22	Brooks AFB, Cage 22	646	6/1/2001		1/3/2013	1/3/2013	153
+153.23	Brooks AFB, Cage 23	647	6/1/2001		1/3/2013	6/14/2004	153
+153.24	Brooks AFB, Cage 24	648	6/1/2001		1/3/2013	6/14/2004	153
+153.25	Brooks AFB, Cage 25	649	6/1/2001		1/3/2013	6/14/2004	153
+153.26	Brooks AFB, Cage 26	650	6/1/2001		1/3/2013	6/14/2004	153
+153.27	Brooks AFB, Cage 27	651	6/1/2001		1/3/2013	6/14/2004	153
+153.28	Brooks AFB, Cage 28	652	6/1/2001		1/3/2013	6/14/2004	153
+153.29	Brooks AFB, Cage 29	653	6/1/2001		1/3/2013	6/14/2004	153
+153.30	Brooks AFB, Cage 30	654	6/1/2001		1/3/2013	6/14/2004	153
+153.31	Brooks AFB, Cage 31	655	6/1/2001		1/3/2013	6/14/2004	153
+153.32	Brooks AFB, Cage 32	656	6/1/2001		1/3/2013	6/14/2004	153
+153.33	Brooks AFB, Cage 33	657	6/1/2001		1/3/2013	6/14/2004	153
+153.34	Brooks AFB, Cage 34	658	6/1/2001		1/3/2013	6/14/2004	153
+153.35	Brooks AFB, Cage 35	659	6/1/2001		1/3/2013	6/14/2004	153
+153.36	Brooks AFB, Cage 36	660	6/1/2001		1/3/2013	6/14/2004	153
+153.37	Brooks AFB, Cage 37	661	6/1/2001		1/3/2013	6/14/2004	153
+153.38	Brooks AFB, Cage 38	662	6/1/2001		1/3/2013	6/14/2004	153
+153.39	Brooks AFB, Cage 39	663	6/1/2001		1/3/2013	6/14/2004	153
+153.40	Brooks AFB, Cage 40	664	6/1/2001		1/3/2013	6/14/2004	153
+153.41	Brooks AFB, Cage 41	665	6/1/2001		1/3/2013	6/14/2004	153
+153.42	Brooks AFB, Cage 42	666	6/1/2001		1/3/2013	6/14/2004	153
+153.43	Brooks AFB, Cage 43	667	6/1/2001		1/3/2013	6/14/2004	153
+153.44	Brooks AFB, Cage 44	668	6/1/2001		1/3/2013	6/14/2004	153
+153.45	Brooks AFB, Cage 45	669	6/1/2001		1/3/2013	6/14/2004	153
+153.46	Brooks AFB, Cage 46	670	6/1/2001		1/3/2013	1/3/2013	153
+153.47	Brooks AFB, Cage 47	671	6/1/2001		1/3/2013	6/14/2004	153
+153.48	Brooks AFB, Cage 48	672	6/1/2001		1/3/2013	6/14/2004	153
+153.49	Brooks AFB, Cage 49	673	6/1/2001		1/3/2013	6/14/2004	153
+153.50	Brooks AFB, Cage 50	674	6/1/2001		1/3/2013	6/14/2004	153
+153.51	Brooks AFB, Cage 51	675	6/1/2001		1/3/2013	6/14/2004	153
+153.52	Brooks AFB, Cage 52	676	6/1/2001		1/3/2013	6/14/2004	153
+153.53	Brooks AFB, Cage 53	677	6/1/2001		1/3/2013	6/14/2004	153
+153.54	Brooks AFB, Cage 54	678	6/1/2001		1/3/2013	6/14/2004	153
+153.55	Brooks AFB, Cage 55	679	6/1/2001		1/3/2013	6/14/2004	153
+153.56	Brooks AFB, Cage 56	680	6/1/2001		1/3/2013	6/14/2004	153
+153.57	Brooks AFB, Cage 57	681	6/1/2001		1/3/2013	6/14/2004	153
+153.58	Brooks AFB, Cage 58	682	6/1/2001		1/3/2013	9/14/2004	153
+153.59	Brooks AFB, Cage 59	683	6/1/2001		1/3/2013	9/14/2004	153
+153.60	Brooks AFB, Cage 60	684	6/1/2001		1/3/2013	9/14/2004	153
+153.61	Brooks AFB, Cage 61	685	6/1/2001		1/3/2013	9/14/2004	153
+153.62	Brooks AFB, Cage 62	686	6/1/2001		1/3/2013	9/14/2004	153
+153.63	Brooks AFB, Cage 63	687	6/1/2001		1/3/2013	9/14/2004	153
+153.64	Brooks AFB, Cage 64	688	6/1/2001		1/3/2013	9/14/2004	153
+153.65	Brooks AFB, Cage 65	689	6/1/2001		1/3/2013	9/14/2004	153
+153.66	Brooks AFB, Cage 66	690	6/1/2001		1/3/2013	9/14/2004	153
+153.67	Brooks AFB, Cage 67	691	6/1/2001		1/3/2013	9/14/2004	153
+153.68	Brooks AFB, Cage 68	692	6/1/2001		1/3/2013	9/14/2004	153
+153.69	Brooks AFB, Cage 69	693	6/1/2001		1/3/2013	9/14/2004	153
+153.70	Brooks AFB, Cage 70	694	6/1/2001		1/3/2013	9/14/2004	153
+153.71	Brooks AFB, Cage 71	695	6/1/2001		1/3/2013	9/14/2004	153
+153.72	Brooks AFB, Cage 72	696	6/1/2001		1/3/2013	9/14/2004	153
+153.73	Brooks AFB, Cage 73	697	6/1/2001		1/3/2013	9/14/2004	153
+153.74	Brooks AFB, Cage 74	698	6/1/2001		1/3/2013	9/14/2004	153
+153.75	Brooks AFB, Cage 75	699	6/1/2001		1/3/2013	9/14/2004	153
+153.76	Brooks AFB, Cage 76	700	6/1/2001		1/3/2013	9/14/2004	153
+153.77	Brooks AFB, Cage 77	701	6/1/2001		1/3/2013	9/14/2004	153
+153.78	Brooks AFB, Cage 78	702	6/1/2001		1/3/2013	9/14/2004	153
+153.79	Brooks AFB, Cage 79	703	6/1/2001		1/3/2013	9/14/2004	153
+153.80	Brooks AFB, Cage 80	704	6/1/2001		1/3/2013	9/14/2004	153
+153.81	Brooks AFB, Cage 81	705	6/1/2001		1/3/2013	9/14/2004	153
+153.82	Brooks AFB, Cage 82	706	6/1/2001		1/3/2013	9/14/2004	153
+153.83	Brooks AFB, Cage 83	707	6/1/2001		1/3/2013	9/14/2004	153
+153.84	Brooks AFB, Cage 84	708	6/1/2001		1/3/2013	9/14/2004	153
+153.85	Brooks AFB, Cage 85	709	6/1/2001		1/3/2013	9/14/2004	153
+153.86	Brooks AFB, Cage 86	710	6/1/2001		1/3/2013	9/14/2004	153
+153.87	Brooks AFB, Cage 87	711	6/1/2001		1/3/2013	9/14/2004	153
+153.88	Brooks AFB, Cage 88	712	6/1/2001		1/3/2013	9/14/2004	153
+153.89	Brooks AFB, Cage 89	713	6/1/2001		1/3/2013	9/14/2004	153
+185.00	USAF	714	6/1/2001		1/2/2013	9/14/2004	185
+208.00	Exposure Trailer-housed experimental animals 1980->1983,location doesn't exists-1997	715	8/14/1980	1/1/1983	1/18/2013	1/18/2013	208
+210.01	Greenhouse-housed marmosets 1979,baboons 1981,currently maintenance storeroom-1997	716	1/1/1981	12/30/1981	1/18/2013	1/18/2013	210
+401.00	Biocontainment Hut, Hut 1	717	9/24/1996		1/18/2013	1/18/2013	401
+402.00	Biocontainment Hut, Hut 2	718	9/24/1996		1/18/2013	1/18/2013	402
+403.00	Biocontainment Hut, Hut 3	719	9/24/1996		1/18/2013	1/18/2013	403
+404.00	Biocontainment Hut, Hut 4	720	9/24/1996		1/18/2013	1/18/2013	404
+405.00	Biocontainment Hut, Hut 5	721	1/1/1996		12/18/2012	12/18/2012	405
+406.00	Biocontainment Hut, Hut 6 indoor/outdoor	722	1/1/1996		12/18/2012	12/18/2012	406
+407.00	Biocontainment Hut, Hut 7, storeroom 1998	723	1/1/1996		12/18/2012	12/18/2012	407
+408.00	Biocontainment Hut, Hut 8 indoor/outdoor	724	1/1/1996		12/18/2012	12/18/2012	408
+409.00	Biocontainment Hut, Hut 9	725	1/1/1996		12/18/2012	12/18/2012	409
+410.00	Biocontainment Hut, Hut 10	726	1/1/1996		12/18/2012	12/18/2012	410
+411.00	Biocontainment Hut, Hut 11	727	1/1/1996		12/18/2012	12/18/2012	411
+412.00	Biocontainment Hut, Hut 12	728	1/1/1996		12/18/2012	12/18/2012	412
+413.00	Biocontainment Hut, Hut 13	729	1/1/1996		12/18/2012	12/18/2012	413
+414.00	Biocontainment Hut, Hut 14	730	1/1/1996		12/18/2012	12/18/2012	414
+415.00	Biocontainment Hut, Hut 15	731	1/1/1996		12/18/2012	12/18/2012	415
+416.00	Biocontainment Hut, Hut 16	732	1/1/1996		12/18/2012	12/18/2012	416
+417.00	Biocontainment Hut, Hut 17	733	1/1/1996		12/18/2012	12/18/2012	417
+418.00	Biocontainment Hut, Hut 18	734	1/1/1996		12/18/2012	12/18/2012	418
+419.00	Biocontainment Hut, Hut 19	735	1/1/1996		12/18/2012	12/18/2012	419
+420.00	Biocontainment Hut, Hut 20	736	1/1/1996		12/18/2012	12/18/2012	420
+421.00	Biocontainment Hut, Hut 21	737	1/1/1996		12/18/2012	12/18/2012	421
+422.00	Biocontainment Hut, Hut 22	738	1/1/1996		12/18/2012	12/18/2012	422
+431.01	Group Housing Condos, Condo 31, Right side 1	739	1/1/1996		12/18/2012	8/26/1998	431
+431.02	Group Housing Condos, Condo 31, Left side 2	740	1/1/1996		12/18/2012	8/26/1998	431
+432.01	Group Housing Condos, Condo 32, Right side 1	741	1/1/1996		12/18/2012	8/26/1998	432
+432.02	Group Housing Condos, Condo 32, Left side 2	742	1/1/1996		12/18/2012	8/26/1998	432
+433.01	Group Housing Condos, Condo 33, Right side 1	743	1/1/1996		12/18/2012	8/26/1998	433
+433.02	Group Housing Condos, Condo 33, Left side 2	744	1/1/1996		12/18/2012	12/18/2012	433
+434.01	Group Housing Condos, Condo 34, Right side 1	745	1/1/1996		12/18/2012	8/26/1998	434
+434.02	Group Housing Condos, Condo 34, Left side 2	746	1/1/1996		12/18/2012	8/26/1998	434
+435.01	Group Housing Condos, Condo 35, Right side 1	747	1/1/1996		12/18/2012	12/18/2012	435
+435.02	Group Housing Condos, Condo 35, Left side 2	748	1/1/1996		12/18/2012	12/18/2012	435
+436.01	Group Housing Condos, Condo 36, Right side 1	749	1/1/1996		12/18/2012	12/18/2012	436
+436.02	Group Housing Condos, Condo 36, Left side 2	750	1/1/1996		12/18/2012	12/18/2012	436
+437.01	Group Housing Condos, Condo 37, Right side 1	751	1/1/1996		12/18/2012	8/26/1998	437
+437.02	Group Housing Condos, Condo 37, Left side 2	752	1/1/1996		12/18/2012	8/26/1998	437
+438.01	Group Housing Condos, Condo 38, Right side 1	753	1/1/1996		12/18/2012	12/18/2012	438
+438.02	Group Housing Condos, Condo 38, Left side 2	754	1/1/1996		12/18/2012	8/26/1998	438
+439.01	Group Housing Condos, Condo 39, Right side 1	755	1/1/1996		12/18/2012	8/26/1998	439
+439.02	Group Housing Condos, Condo 39, Left side 2	756	1/1/1996		12/18/2012	8/26/1998	439
+440.01	Group Housing Hotels, Hotel 40, Right side 1	757	1/1/1996		12/18/2012	8/26/1998	440
+440.02	Group Housing Hotels, Hotel 40, Left side 2	758	1/1/1996		12/18/2012	8/26/1998	440
+441.01	Group Housing Hotels, Hotel 41, Right side 1	759	1/1/1996		12/18/2012	8/26/1998	441
+441.02	Group Housing Hotels, Hotel 41, Left side 2	760	1/1/1996		12/18/2012	8/26/1998	441
+442.01	Group Housing Hotels, Hotel 42, Right side 1	761	1/1/1996		12/18/2012	8/26/1998	442
+442.02	Group Housing Hotels, Hotel 42, Left side 2	762	1/1/1996		12/18/2012	8/26/1998	442
+443.01	Group Housing Hotels, Hotel 43, Right side 1	763	1/1/1996		12/18/2012	8/26/1998	443
+443.02	Group Housing Hotels, Hotel 43, Left side 2	764	1/1/1996		12/18/2012	8/26/1998	443
+444.01	Group Housing Hotels, Hotel 44, Right side 1	765	1/1/1996		12/18/2012	8/26/1998	444
+444.02	Group Housing Hotels, Hotel 44, Left side 2	766	1/1/1996		12/18/2012	8/26/1998	444
+445.01	Infectious Disease Building, Bay 1	767	6/1/1999		12/18/2012	12/18/2012	445
+445.02	Infectious Disease Building, Bay 2	768	6/1/1999		12/18/2012	12/18/2012	445
+445.03	Infectious Disease Building, Bay 3	769	6/1/1999		12/18/2012	12/18/2012	445
+445.04	Infectious Disease Building, Bay 4	770	6/1/1999		12/18/2012	12/18/2012	445
+445.05	Infectious Disease Building, Bay 5	771	6/1/1999		12/18/2012	12/18/2012	445
+445.06	Infectious Disease Building, Bay 6	772	6/1/1999		12/18/2012	12/18/2012	445
+446.00	Corn Crib,(between Hut 406-408)1998,front	773	5/13/1998		12/18/2012	12/18/2012	446
+447.00	Corn Crib,(between Hut 406-408)1998,back	774	5/13/1998		12/18/2012	12/18/2012	447
+800.00	Albert Einstein Medical School, NY, NY	775	1/1/1996		1/2/2013	1/2/2013	800
+801.00	San Diego Zoo, San Diego, CA	776	1/1/1996		1/2/2013	1/2/2013	801
+802.00	University of Illinois Medical Center, Chicago, IL	777	1/1/1996		1/2/2013	1/2/2013	802
+803.00	Brown University, Providence, RI	778	1/1/1996		1/2/2013	1/2/2013	803
+804.00	Columbia University School of Medicine, NY	779	1/1/1996		1/2/2013	1/2/2013	804
+805.00	University of South Florida Medical Center, Tampa, FL	780	1/1/1996		1/2/2013	1/2/2013	805
+806.00	Boston University Medical Center, Boston, MA	781	1/1/1996		1/2/2013	1/2/2013	806
+807.00	Scripps Clinic and Research Foundation, LaJolla, CA	782	1/1/1996		1/2/2013	1/2/2013	807
+808.00	Loma Linda Surgical Research Laboratory, Loma Linda, CA	783	1/1/1996		1/2/2013	1/2/2013	808
+809.00	Kling, Rockford, IL (private individual)	784	1/1/1996		1/2/2013	1/2/2013	809
+810.00	Marmoset Breeding Farms, Riverview, FL	785	1/1/1996		1/2/2013	1/2/2013	810
+811.00	University of California, San Francisco Animal Care Facility, San Francisco, CA	786	1/1/1996		1/2/2013	1/2/2013	811
+812.00	Hart-Tagami Zoo, Kancoho, HI	787	1/1/1996		1/2/2013	1/2/2013	812
+813.00	University of Maryland School of Medicine, Baltimore, MD	788	1/1/1996		1/2/2013	1/2/2013	813
+814.00	Eastern Virginia Medical School, Norfolk, VA (1991-Medical College of Hampton Roads)	789	1/1/1996		1/2/2013	1/2/2013	814
+815.00	Duke University, Durham, NC (Duke Medical Laboratory Animal Research)	790	1/1/1996		1/2/2013	1/2/2013	815
+816.00	University of Arizona, Arizona Medical Center, Tucson, AZ	791	1/1/1996		1/2/2013	1/2/2013	816
+817.00	Columbus Zoological Garden, Powell, OH	792	1/1/1996		1/2/2013	1/2/2013	817
+818.00	Tufts New England Medical Center, Boston, MA	793	1/1/1996		1/2/2013	1/2/2013	818
+819.00	Primate Breeding Center of Hawaii	794	1/1/1996		1/2/2013	1/2/2013	819
+820.00	University of Nebraska Medical Center, Omaha, NE	795	1/1/1996		1/2/2013	1/2/2013	820
+821.00	Wright State University, Dayton, OH	796	1/1/1996		1/2/2013	1/2/2013	821
+822.00	Dave Hale, 5 H Ranch, Cape Girordeau, MO	797	1/1/1996		1/2/2013	1/2/2013	822
+823.00	HIH Infectious Disease, NINDS, Bethesda, MD	798	1/1/1996		1/2/2013	1/2/2013	823
+824.00	Montefiore Hospital, Pittsburgh, PA	799	1/1/1996		1/2/2013	1/2/2013	824
+825.00	Royal Victoria Hospital, Montreal, Canada	800	1/1/1996		1/2/2013	1/2/2013	825
+826.00	Ron Oxly, 7433 Soledad Canyon Rd., Acton, CA	801	1/1/1996		1/2/2013	1/2/2013	826
+827.00	Auburn University, Psychology Department, Auburn, AL	802	1/1/1996		1/2/2013	1/2/2013	827
+828.00	Flow Laboratories, McLean, VA	803	1/1/1996		1/2/2013	1/2/2013	828
+829.00	Worldwide Primates Inc., Miami, FL	804	1/1/1996		1/2/2013	1/2/2013	829
+830.00	Washington University Medical School, St. Louis, MO	805	1/1/1996		1/2/2013	1/2/2013	830
+831.00	University of Pennsylvania Medical School, Philadelphia, PA	806	1/1/1996		1/2/2013	1/2/2013	831
+832.00	University of Connecticut Health Center, Farmington, CT	807	1/1/1996		1/2/2013	1/2/2013	832
+833.00	Chicago Zoological Park, Brookfield, IL (Brookfield Zoo)	808	1/1/1996		1/2/2013	1/2/2013	833
+834.00	Letterman Army Institute of Research, San Francisco, CA	809	1/1/1996		1/2/2013	1/2/2013	834
+835.00	Brooks Air Force Base, San Antonio, TX	810	1/1/1996		1/2/2013	1/2/2013	835
+836.00	Caribbean Primate Research Center, Sabana Seca, PR	811	1/1/1996		1/2/2013	1/2/2013	836
+837.00	St. Joseph Hospital, Phoenix, AZ	812	1/1/1996		1/2/2013	1/2/2013	837
+838.00	Cornell University Medical Center, NY, NY (Dr. Moldawer-1992)	813	1/1/1996		1/2/2013	1/2/2013	838
+839.00	University of Massachusetts Medical Center, Worcester, MA	814	1/1/1996		1/2/2013	1/2/2013	839
+840.00	Hoffman-LaRoche, Nutley, VA	815	1/1/1996		1/2/2013	1/2/2013	840
+841.00	EG & G Mason Reseach Institute, Worcester, MA (TSI Mason 1991)	816	1/1/1996		1/2/2013	1/2/2013	841
+842.00	Barbados Primate Research Center & Wildlife Reserve	817	1/1/1996		1/2/2013	1/2/2013	842
+843.00	Louisianna State University	818	1/1/1996		1/2/2013	1/2/2013	843
+844.00	V. A. Medical Center, Syracuse, NY (1988), State University of New York (SUNY) Health Science Center	819	1/1/1996		1/2/2013	1/2/2013	844
+845.00	Mayo Clinic Animal Resources, Rochester, MN    NEXTRAN	820	1/1/1996		1/2/2013	1/2/2013	845
+846.00	White Sands Research Center, Alamogordo, NM	821	1/1/1996		1/2/2013	1/2/2013	846
+847.00	Bronx VA Medical Center, Bronx, NY (Wildlife Conservation Center- 1993)	822	1/1/1996		1/2/2013	1/2/2013	847
+848.00	University of Texas @ El Paso, El Paso, TX, Dan Moss	823	1/1/1996		1/2/2013	1/2/2013	848
+849.00	Dorn Williams, Stuart, VA (private individual)	824	1/1/1996		1/2/2013	1/2/2013	849
+850.00	Knoxville Zoological Park, Knoxville, TN	825	1/1/1996		1/2/2013	1/2/2013	850
+851.00	University of Michigan Medical Center, Ann Arbor, MI	826	1/1/1996		1/2/2013	1/2/2013	851
+852.00	Henry Ford Hospital, Detroit, MI	827	1/1/1996		1/2/2013	1/2/2013	852
+853.00	McGill University, Montreal, Canada	828	1/1/1996		1/2/2013	1/2/2013	853
+854.00	Centers for Disease Control, Atlanta, GA	829	1/1/1996		1/2/2013	1/2/2013	854
+855.00	University of Texas Health Science Center (UTHSC) @ Houston, Animal Care, Houston, TX	830	1/1/1996		1/2/2013	1/2/2013	855
+856.00	University of Colorado Health Science Center, Denver, CO	831	1/1/1996		1/2/2013	1/2/2013	856
+857.00	University of Cincinati, Cincinati, OH	832	1/1/1996		1/2/2013	1/2/2013	857
+858.00	State University of New York Health Science Center (NYHSC) @ Brooklyn (SUNY-1991)	833	1/1/1996		1/2/2013	1/2/2013	858
+859.00	Marine World, San Diego, CA (1991)	834	1/1/1996		1/2/2013	1/2/2013	859
+860.00	Scott + White, Temple, TX (1991)	835	1/1/1996		1/2/2013	1/2/2013	860
+861.00	Oklahoma Research Foundation (1992)	836	1/1/1996		1/2/2013	1/2/2013	861
+862.00	University of Virginia, Department of Anatomy + Cell Biology (1992)	837	1/1/1996		1/2/2013	1/2/2013	862
+863.00	Bio-Surg Inc., Winters, CA (1992)	838	1/1/1996		1/2/2013	1/2/2013	863
+864.00	Bio-Qual Inc., Rockville, Maryland (1992)	839	1/1/1996		1/2/2013	1/2/2013	864
+865.00	Columbia University Institute of Comparitive Medicine, NY, NY (1992)	840	1/1/1996		1/2/2013	1/2/2013	865
+866.00	Cornell University, Ithaca, NY (Dr. Nathanielsz- 1992)	841	1/1/1996		1/2/2013	1/2/2013	866
+867.00	Massachusetts General Hospital, Boston, MA (1992)	842	1/1/1996		1/2/2013	1/2/2013	867
+868.00	Texas Tech University, UHS Cell Biology + Anatomy, Lubbock, TX (1992)	843	1/1/1996		1/2/2013	1/2/2013	868
+869.00	Ozark Zoological Park (HCR5, Box 171027), Branson, MO 65616 (1992)	844	1/1/1996		1/2/2013	1/2/2013	869
+870.00	Sierra safari Reno Zoo, Reno, NV (1992)	845	1/1/1996		1/2/2013	1/2/2013	870
+871.00	Tulane University, Covington, LA (1992)	846	1/1/1996		1/2/2013	1/2/2013	871
+872.00	Miles Inc., Berkeley, CA (1993)	847	1/1/1996		1/2/2013	1/2/2013	872
+873.00	St. Louis University Medical School, St. Louis, MO (1994)	848	1/1/1996		1/2/2013	1/2/2013	873
+874.00	Sierra Biomedical Inc., Sparks, NV (1994)	849	1/1/1996		1/2/2013	1/2/2013	874
+875.00	University of Western Ontario, Canada (1994)	850	1/1/1996		1/2/2013	1/2/2013	875
+876.00	Dumond Conservancy for Primates + Tropical Forrests (1995)	851	1/1/1996		1/2/2013	1/2/2013	876
+877.00	University of Miami School of Medicine, Miami, FL	852	1/1/1996		1/2/2013	1/2/2013	877
+878.00	Wildlife Rescue,P.O. Box 34FF, San Antonio,Texas 78201	853	5/21/1996		1/2/2013	1/2/2013	878
+878.01	Wildlife Rescue,P.O. Box 34FF, San Antonio,Texas 78201	854	5/21/1996		1/2/2013	1/2/2013	878
+878.02	National Sanctuary for Retired Research Primates, San Antonio, Texas	855	2/1/2000		1/2/2013	1/2/2013	878
+879.00	Mannheimer Foundation Inc. ~Miami,Florida (1996)	856	10/28/1996		1/2/2013	1/2/2013	879
+880.00	University of Florida, Gainsville,Florida	857	1/1/1996		1/2/2013	1/2/2013	880
+881.00	Canadian	858	4/20/2004		1/2/2013	1/2/2013	881
+882.00	Baylor College of Dentistry, Gaston Ave.,Dallas,TX	859	2/2/1998		1/2/2013	1/2/2013	882
+883.00	Brookhaven National Laboratory,Upton,NY 11973(in Long Island)(1998)	860	5/8/1998		1/2/2013	1/2/2013	883
+884.00	Three Springs Scientific, 730 West Rock Rd, Parkasie,PA 18944	861	1/1/1997		1/2/2013	1/2/2013	884
+885.00	Primarily Primates, Boerne, TX	862	1/1/1998		1/2/2013	1/2/2013	885
+886.00	Charles River, Houston, TX	863	7/26/2000		1/2/2013	1/2/2013	886
+887.00	Stanford University, Stanford CA 94305	864	8/1/2003		1/2/2013	1/2/2013	887
+889.00	All Children's Hospital, Florida	865	5/1/2004		1/2/2013	1/2/2013	889
+890.00	Oklahoma University Health Science Center Animal Resources, OKC, OK	866	11/12/2002		1/2/2013	1/2/2013	890
+899.00	Douglas Industries, Hampton Primate Center,Old Salkehatchie Rd,Early Branch, SC 29916	867	2/1/1998		1/2/2013	1/2/2013	899
+900.00	Southwest Research Institute, San Antonio, TX	868	1/1/1996		1/2/2013	1/2/2013	900
+900.01	(Off Campus)    U.T.  MD Anderson, Bastrop TX	869	1/1/2000		1/2/2013	1/2/2013	900
+900.02	(Off Campus)   University of Virgina	870	1/1/2000		1/2/2013	1/2/2013	900
+900.03	(Off Campus)   Louisiana State University Dental school	871	1/1/2000		1/2/2013	1/2/2013	900
+900.04	(Off Campus) Huntingdon Life Sciences,  East Milstone, New Jersey	872	9/26/2000		1/2/2013	1/2/2013	900
+900.05	(Off Campus) Douglas Industries 16450 SW 180th Street  Miami, FL   33187	873	12/1/1997		1/2/2013	1/2/2013	900
+900.06	(Off Campus)  Covance Research Products Co. Rd 383 Alice, TX 78332	874	8/8/2001		1/2/2013	1/2/2013	900
+900.07	(Off Campus) Schering-Plough Research Institute 144 Rt 94 Lafayette, New Jersy 07848-0032	875	6/24/2002		1/2/2013	1/2/2013	900
+900.08	(Off Campus) Washington University 307 Euclid Ave. St. Louis MO 63110	876	7/9/2002		1/2/2013	1/2/2013	900
+900.09	(Off Campus) Douglas Industries 2015 Galloping Hill Road Kenilworth, NJ  07033	877	9/24/2002		1/2/2013	1/2/2013	900
+900.10	(Off Campus) Lovelace 2425 Ridgecrest Drive, S.E. Albuquerque, NM 87108	878	7/29/2003		1/2/2013	1/2/2013	900
+900.11	(Off Campus) Buckshire Corporation 2025 Ridge Road Perkasie, PA 18944	879	2/6/2006		1/2/2013	1/2/2013	900
+900.12	Charles River Lab, 600 Dunn Circle, Sparks Nevada 89431	880	6/21/2006		1/2/2013	1/2/2013	900
+901.00	Primate Imports-Port Washington, NY (Charles River Res.-1980), (1994-Biomedical Resources Fndt, Hous	881	1/1/1996		1/2/2013	1/2/2013	901
+902.00	Hazleton-Primlabs, NJ	882	1/1/1996		1/2/2013	1/2/2013	902
+903.00	Animal Suppliers	883	1/1/1996		1/2/2013	1/2/2013	903
+904.00	South American Primates	884	1/1/1996		1/2/2013	1/2/2013	904
+905.00	Pet Farms	885	1/1/1996		1/2/2013	1/2/2013	905
+906.00	Texas A&M University	886	1/1/1996		1/2/2013	1/2/2013	906
+907.00	University of Illinois	887	1/1/1996		1/2/2013	1/2/2013	907
+908.00	University of Chicago	888	1/1/1996		1/2/2013	1/2/2013	908
+909.00	Minnesota Medical	889	1/1/1996		1/2/2013	1/2/2013	909
+910.00	Ohio State University	890	1/1/1996		1/2/2013	1/2/2013	910
+911.00	University of Texas Health Science Center (UTHSC) @ San Antonio, San Antonio, TX	891	1/1/1996		1/2/2013	1/2/2013	911
+912.00	University of Texas @ San Antonio, San Antonio, TX	892	1/1/1996		1/2/2013	1/2/2013	912
+913.00	University of Iowa	893	1/1/1996		1/2/2013	1/2/2013	913
+914.00	Battelle	894	1/1/1996		1/2/2013	1/2/2013	914
+915.00	John Hopkins	895	1/1/1996		1/2/2013	1/2/2013	915
+916.00	San Antonio Pound (Animal Shelter), San Antonio, TX	896	1/1/1996		1/2/2013	1/2/2013	916
+917.00	Marshall Farms	897	1/1/1996		1/2/2013	1/2/2013	917
+918.00	Oregon Primate	898	1/1/1996		1/2/2013	1/2/2013	918
+919.00	Bucknell	899	1/1/1996		1/2/2013	1/2/2013	919
+920.00	Tropical	900	1/1/1996		1/2/2013	1/2/2013	920
+921.00	Africa	901	1/1/1996		1/2/2013	1/2/2013	921
+922.00	University of Washington, Seattle, Washington	902	1/1/1996		1/2/2013	1/2/2013	922
+923.00	Litton Bionetics	903	1/1/1996		1/2/2013	1/2/2013	923
+924.00	University of Ohio	904	1/1/1996		1/2/2013	1/2/2013	924
+925.00	Manheimer Primatological Foundation	905	1/1/1996		1/2/2013	1/2/2013	925
+926.00	New Mexico State University Primate Research Institute, Holloman Air Force Base, (Coulston Foundatio	906	1/1/1996		1/2/2013	1/2/2013	926
+927.00	Harvard Medical School	907	1/1/1996		1/2/2013	1/2/2013	927
+928.00	Yerkes Primate Center/Emory University (1992)	908	1/1/1996		1/2/2013	1/2/2013	928
+929.00	Trinity University	909	1/1/1996		1/2/2013	1/2/2013	929
+930.00	University of New Mexico	910	1/1/1996		1/2/2013	1/2/2013	930
+931.00	Engles Laboratory	911	1/1/1996		1/2/2013	1/2/2013	931
+932.00	International Wildlife Park, Grand Prairie, TX	912	1/1/1996		1/2/2013	1/2/2013	932
+933.00	University of California Primate Center @ Davis	913	1/1/1996		1/2/2013	1/2/2013	933
+934.00	New England Regional Primate Center	914	1/1/1996		1/2/2013	1/2/2013	934
+934.01	NEPRC social group 1	915	1/22/2015		1/22/2015	1/22/2015	934
+934.02	NEPRC social group 2	916	1/22/2015		1/22/2015	1/22/2015	934
+934.03	NEPRC social group 3	917	1/22/2015		1/22/2015	1/22/2015	934
+934.04	NEPRC social group 4	918	1/22/2015		1/22/2015	1/22/2015	934
+934.05	NEPRC social group 5	919	1/22/2015		1/22/2015	1/22/2015	934
+934.06	NEPRC social group 6	920	1/22/2015		1/22/2015	1/22/2015	934
+934.07	NEPRC social group 7	921	1/22/2015		1/22/2015	1/22/2015	934
+934.08	NEPRC social group 8	922	1/22/2015		1/22/2015	1/22/2015	934
+934.09	NEPRC social group 9	923	1/22/2015		1/22/2015	1/22/2015	934
+934.10	NEPRC social group 10	924	1/22/2015		1/22/2015	1/22/2015	934
+935.00	Lexington, Kentucky Medical Center	925	1/1/1996		1/2/2013	1/2/2013	935
+936.00	University of California @ San Diego (VA Medical Center)	926	1/1/1996		1/2/2013	1/2/2013	936
+937.00	Gladys Porter Zoo, Brownsville, TX	927	1/1/1996		1/2/2013	1/2/2013	937
+938.00	University of Pittsburgh School of Medicine	928	1/1/1996		1/2/2013	1/2/2013	938
+939.00	Case Western Reserve University	929	1/1/1996		1/2/2013	1/2/2013	939
+940.00	Carles Rivers (rodents only)	930	1/1/1996		1/2/2013	1/2/2013	940
+941.00	Richglo	931	1/1/1996		1/2/2013	1/2/2013	941
+942.00	Al Blom	932	1/1/1996		1/2/2013	1/2/2013	942
+943.00	Pelfreeze	933	1/1/1996		1/2/2013	1/2/2013	943
+944.00	Holzman	934	1/1/1996		1/2/2013	1/2/2013	944
+945.00	United States Navy	935	1/1/1996		1/2/2013	1/2/2013	945
+946.00	Theracon	936	1/1/1996		1/2/2013	1/2/2013	946
+947.00	Gulf South Research	937	1/1/1996		1/2/2013	1/2/2013	947
+948.00	Medical Research Foundation of Oregon	938	1/1/1996		1/2/2013	1/2/2013	948
+949.00	Medical College of Wisconsin	939	1/1/1996		1/2/2013	1/2/2013	949
+950.00	Howard Eldridge, Farmington Hills, MI	940	1/1/1996		1/2/2013	1/2/2013	950
+951.00	University of Texas, Austin, TX	941	1/1/1996		1/2/2013	1/2/2013	951
+952.00	Penn Acres	942	1/1/1996		1/2/2013	1/2/2013	952
+953.00	Laboratory Research Enterprise (LRE)	943	1/1/1996		1/2/2013	1/2/2013	953
+954.00	Huntsville Prison	944	1/1/1996		1/2/2013	1/2/2013	954
+955.00	Hazleton Lab of Virginia, Vienna, VA	945	1/1/1996		1/2/2013	1/2/2013	955
+956.00	Arayashima West Macaque Colony, Dilley, TX	946	1/1/1996		1/2/2013	1/2/2013	956
+957.00	University of Wisconsin	947	1/1/1996		1/2/2013	1/2/2013	957
+958.00	NY LEMSIP	948	1/1/1996		1/2/2013	1/2/2013	958
+959.00	University of Georgia	949	1/1/1996		1/2/2013	1/2/2013	959
+960.00	Kalamazoo	950	1/1/1996		1/2/2013	1/2/2013	960
+961.00	Baylor College of Medicine	951	1/1/1996		1/2/2013	1/2/2013	961
+962.00	San Antonio Zoo, San Antonio, TX	952	1/1/1996		1/2/2013	1/2/2013	962
+963.00	Abbott Laboratories of Chicago	953	1/1/1996		1/2/2013	1/2/2013	963
+964.00	M. D. Anderson Tumor Institute, Bastrop, TX (University of Texas Health Science Center)	954	1/1/1996		1/2/2013	1/2/2013	964
+965.00	International Animal Exchange	955	1/1/1996		1/2/2013	1/2/2013	965
+966.00	University of Minnesota	956	1/1/1996		1/2/2013	1/2/2013	966
+967.00	Delta Regional Primate Center, Tulane	957	1/1/1996		1/2/2013	1/2/2013	967
+968.00	Bowman-Gray School of Medicine	958	1/1/1996		1/2/2013	1/2/2013	968
+969.00	Pan American Health Organization	959	1/1/1996		1/2/2013	1/2/2013	969
+970.00	Dickerson Zoo, Springfield, MO	960	1/1/1996		1/2/2013	1/2/2013	970
+971.00	Baltimore Zoo, MD	961	1/1/1996		1/2/2013	1/2/2013	971
+972.00	Rio Grande Zoological Park, Albuquerque, NM	962	1/1/1996		1/2/2013	1/2/2013	972
+973.00	General Motors, Warren, MI, Dr. Smiler	963	1/1/1996		1/2/2013	1/2/2013	973
+974.00	Evelyn Thienpont, San Antonio, TX (rabbits)	964	1/1/1996		1/2/2013	1/2/2013	974
+975.00	Naval Dental Research Institute, IL	965	1/1/1996		1/2/2013	1/2/2013	975
+976.00	National Institutes of Health (NIH)	966	1/1/1996		1/2/2013	1/2/2013	976
+977.00	Hazelton Primate Center, Alice, TX	967	1/1/1996		1/2/2013	1/2/2013	977
+978.00	Loyola University Medical Center, IL	968	1/1/1996		1/2/2013	1/2/2013	978
+979.00	NASA Ames Research Center, Moffett Field	969	1/1/1996		1/2/2013	1/2/2013	979
+980.00	University of Texas Health Science Center (UTHSC) @ Dallas, Dallas, TX	970	1/1/1996		1/2/2013	1/2/2013	980
+981.00	Atlanta Zoo, Georgia	971	1/1/1996		1/2/2013	1/2/2013	981
+982.00	University of Oklahoma, Oklahoma City, OK	972	1/1/1996		1/2/2013	1/2/2013	982
+983.00	Merck Sharp & Dohme, Westpoint, PA	973	1/1/1996		1/2/2013	1/2/2013	983
+984.00	Lackland Air Force Base, Transplant Surgery Section, San Antonio, TX	974	1/1/1996		1/2/2013	1/2/2013	984
+985.00	Michael Reese Hospital, Clarence Delannoy	975	1/1/1996		1/2/2013	1/2/2013	985
+986.00	Vanderbilt University, Nashville, TN	976	1/1/1996		1/2/2013	1/2/2013	986
+987.00	Buckshire Farms, Parkasie, PA	977	1/1/1996		1/2/2013	1/2/2013	987
+988.00	Yemassee Primate Center, SC	978	1/1/1996		1/2/2013	1/2/2013	988
+989.00	Duluth Zoo, Duluth, MN	979	1/1/1996		1/2/2013	1/2/2013	989
+990.00	University of Louisville, Louisville, KY	980	1/1/1996		1/2/2013	1/2/2013	990
+991.00	Walter Reed Army Institute of Research, Bethesda, MD	981	1/1/1996		1/2/2013	1/2/2013	991
+992.00	Queens Hospital, CVR Research Laboratory, Honolulu, HI	982	1/1/1996		1/2/2013	1/2/2013	992
+993.00	University of Texas at Houston, Houston, TX	983	1/1/1996		1/2/2013	1/2/2013	993
+994.00	Detroit Zoo, Detroit, MI	984	1/1/1996		1/2/2013	1/2/2013	994
+995.00	Seibu Hong Kong LTD, Cunming, China	985	1/1/1996		1/2/2013	1/2/2013	995
+996.00	Bell County Zoo, Belton, TX	986	1/1/1996		1/2/2013	1/2/2013	996
+997.00	Clinical Research Center Harrow, Middlesex, England	987	1/1/1996		1/2/2013	1/2/2013	997
+998.00	University of California Los Angeles (UCLA), Department of Laboratory Animal Medicine (DLAM), Los An	988	1/1/1996		1/2/2013	1/2/2013	998
+999.00	Los Angeles Zoo, Los Angeles, CA	989	1/1/1996		1/2/2013	1/2/2013	999
+1000.00	Wyeth Research, NY	990	5/23/2002		1/2/2013	1/2/2013	1000
+1001.00	New Iberia Research Center U of LA at Lafayette	991	1/1/1996		1/2/2013	1/2/2013	1001
+1002.00	Holloman AFB New Mexico	992	1/1/1996		1/2/2013	1/2/2013	1002
+1003.00	Labs of Virginia, Hampton Primate Center, Early Branch SC	993	12/15/2003		1/2/2013	1/2/2013	1003
+1004.00	Vervet Research Colony North Hills CA	994	9/9/2004		1/2/2013	1/2/2013	1004
+1005.00	Alpha Omega Biotechnology Woodbine, MD	995	11/29/2004		1/2/2013	1/2/2013	1005
+1006.00	Bucknell University, Psychology Dptmt Lewisburg, PA	996	12/8/2004		1/2/2013	1/2/2013	1006
+1007.00	USAMRID, Fort Detrick, Maryland	997	12/16/2004		1/2/2013	1/2/2013	1007
+1008.00	Merck Research Labs, Rahway, NJ	998	4/27/2005		1/2/2013	1/2/2013	1008
+1009.00	Chimp Haven	999	4/1/2005		1/2/2013	1/2/2013	1009
+1010.00	SNBL USA Ltd.  6605 Merrill Creek Pkwy; Everett, Washington	1000	7/10/2006		1/2/2013	1/2/2013	1010
+1011.00	University of Texas Health Sciences Center-SA at Texas Research Park (Barshop)	1001	7/1/2007		1/2/2013	1/2/2013	1011
+1012.00	Yale University, New Haven Connecticut	1002	1/1/2009		1/2/2013	1/2/2013	1012
+1013.00	Center for Disease Control, Hepatitis Labs,Phoenix,Az.	1003	1/1/1980		1/2/2013	1/2/2013	1013
+1014.00	Harlan Laboratories,  Indianapolis, Indiana	1004	11/14/2011	9/1/2015	11/30/2015	11/15/2011	1014
+1015.00	SNBL-Alice TX 78332	1005	1/1/2013		1/30/2013	1/30/2013	1015
+1016.00	The Research Institute at Nationwide Childrens Hospital 700 Childrens Drive  Columbus OH 43205 	1006	8/23/2013		8/23/2013	8/23/2013	1016
+1017.00	PrimGen, Chicago, IL	1007	1/1/2013		9/17/2013	9/17/2013	1017
+1018.00	Labs of Virginia, 95 Castle Hall Rd, Yemassee, South Carolina	1008	1/1/1990		3/26/2014	3/26/2014	1018
+1019.00	University of Miami 12500 SW 152 St., Miami, Florida	1009	1/1/1990		3/26/2014	3/26/2014	1019
+1020.00	U.S. Naval Medical Research Unit #3, Cairo, Egypt	1010	1/1/1990		4/29/2014	4/29/2014	1020
+1021.00	Bowman-Grey School of Medicine, Winston Salem, North Carolina	1011	1/1/1960		6/16/2014	6/16/2014	1021
+1022.00	Envigo, Indianapolis, Indiana (formerly Harlan)	1029	9/1/2015		11/30/2015	11/30/2015	1022
+1023.00	Food and Drug Administration Center for Biologics Evaluation and Research (FDA/CBER) 10903 New Hamps	1032	3/14/2015		9/13/2016	9/13/2016	1023
+1024.00	AlphaGenesis, Florida	1049	5/4/2017		5/4/2017	5/4/2017	1024

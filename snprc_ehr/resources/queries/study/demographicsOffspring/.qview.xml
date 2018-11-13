@@ -1,0 +1,33 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="id"/>
+        <column name="Offspring"/>
+        <column name="date">
+            <properties>
+                <property name="columnTitle" value="Birth Date"/>
+            </properties>
+        </column>
+        <column name="Offspring/birth/birth_code">
+        <!-- <column name="birth_code"> -->
+            <properties>
+                <property name="columnTitle" value="Birth Type"/>
+            </properties>
+        </column>
+        <column name="Offspring/death/date">
+            <properties>
+                <property name="columnTitle" value="Date of Death"/>
+            </properties>
+        </column>
+        <column name="Offspring/death/cause">
+        <!-- <column name="cause"> -->
+            <properties>
+                <property name="columnTitle" value="Death Type"/>
+            </properties>
+        </column>
+        <column name="sire"/>
+        <column name="dam"/>
+    </columns>
+    <sorts>
+        <sort column="date" descending="true" />
+    </sorts>
+</customView>

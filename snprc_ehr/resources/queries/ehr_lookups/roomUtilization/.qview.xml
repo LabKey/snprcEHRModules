@@ -1,0 +1,12 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="room"/>
+        <!--<column name="TotalCages"/>-->
+        <!--<column name="AvailableCages"/>-->
+        <!--<column name="MarkedUnavailable"/>-->
+        <!--<column name="CagesUsed"/>-->
+        <!--<column name="CagesEmpty"/>-->
+        <!--<column name="pctUsed"/>-->
+        <column name="TotalAnimals"/>
+    </columns>
+</customView>

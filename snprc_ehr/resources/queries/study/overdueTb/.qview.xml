@@ -1,0 +1,21 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="Area"/>
+        <column name="Location"/>
+        <column name="Sex"/>
+        <column name="Age"/>
+        <column name="Species"/>
+        <column name="LastTB"/>
+        <column name="DaysSinceLastTB"/>
+        <column name="TbStatus"/>
+        <column name="LastPhysical"/>
+        <column name="DaysSinceLastPhysical"/>
+        <column name="PhysicalStatus"/>
+
+    </columns>
+    <sorts>
+        <sort column="Location" descending="false" />
+        <sort column="Id" descending="false" />
+    </sorts>
+</customView>

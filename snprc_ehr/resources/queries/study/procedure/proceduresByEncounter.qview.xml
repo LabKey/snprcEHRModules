@@ -1,0 +1,19 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="encounterID"/>
+        <column name="pkgId/packageId/id">
+            <properties>
+                <property name="columnTitle" value="Pkg Id"/>
+            </properties>
+        </column>
+        <column name="procNarrative"/>
+        <column name="procType"/>
+        <column name="usdaCategory"/>
+    </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+        <sort column="viewOrder" descending="false" />
+    </sorts>
+</customView>

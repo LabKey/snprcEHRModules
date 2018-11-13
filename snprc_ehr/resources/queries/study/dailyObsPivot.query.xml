@@ -1,0 +1,43 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="dailyObsPivot" tableDbType="NOT_IN_DB">
+                <tableTitle>Daily Animal Observations</tableTitle>
+                <columns>
+                    <column columnName="Id">
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="date">
+                        <columnTitle>Observation Date</columnTitle>
+                        <sortDescending>true</sortDescending>
+                    </column>
+                    <column columnName="stool">
+                        <columnTitle>Stool</columnTitle>
+                    </column>
+                    <column columnName="water">
+                        <columnTitle>Water</columnTitle>
+                    </column>
+                    <column columnName="feed">
+                        <columnTitle>Feed (% eaten)</columnTitle>
+                    </column>
+                    <column columnName="housing_status">
+                        <columnTitle>Housing Status</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>housingStatus</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                            <fkDisplayColumnName>Description</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="performedby">
+                        <columnTitle>User Name</columnTitle>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

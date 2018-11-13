@@ -1,0 +1,7 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <sorts>
+        <sort column="StartingYear" />
+        <sort column="VersionLabel" />
+        <sort column="ActivityId" />
+    </sorts>
+</customView>

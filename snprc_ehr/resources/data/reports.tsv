@@ -1,0 +1,58 @@
+reportname	category	reporttype	reporttitle	visible	containerpath	schemaname	queryname	viewname	report	datefieldname	todayonly	queryhaslocation	sort_order	QCStateLabelFieldName	description
+apathHistoryReport	Pathology	query	APath History	true		study	apathHistoryReport			date	false	false	1	qcstate/publicdata	This report contains an overview of the animal\'s Pathology history
+acqAndDisp	General	query	Acq & Disp	true		study	acq_dispHistory			date	false	false		qcstate/publicdata	Displays arrival and departure dates
+breedingGrpAssignments	Assignments and Groups	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	true		study	breedingGrpAssignments			date	false	false			This report contains the breeding group assignments for baboons
+animalAccounts	Assignments and Groups	query	Account Assignments	true		study	animalAccounts			date	false	false			This report contains the charge account assignments
+colonyAssignments	Assignments and Groups	query	Colony Assignments	true		study	colonyAssignments			date	false	false			This report contains the colony assignments for the animal
+pregnancyHistory	Reproductive Management	query	Pregnancy History	true		study	pregnancyHistory			date	false	false			Contains reproductive history data
+estrousCyclePivot	Reproductive Management	query	Cycle History	true		study	estrousCyclePivot			date	false	false			Contains daily estrous cycle readings
+activeAssignments	Assignments and Groups	query	Active Assignments	true		study	Assignment	Active Assignments		date	false	false		qcstate/publicdata	This report shows the active assignments for each animal
+assignmentHistory	Assignments and Groups	query	Assignment History	true		study	Assignment			date	false	false		qcstate/publicdata	This report shows all assignments records for the animals
+biochemistry	Lab Results	query	Biochemistry	true		study	chemPivot			date	false	false			Contains results of chemistry panels.  Can be displayed either by panel, or showing reference ranges
+clinPathRuns	Lab Results	query	Requests	true		study	clinpathRuns			date	false	false		qcstate/publicdata	Contains all clinpath requests
+hematology	Lab Results	query	Hematology	true		study	hematologyPivot			date	false	false			Contains hematology data showing cell subsets
+surveillance	Lab Results	query	Surveillance	true		study	surveillancePivot			date	false	false			Contains surveillance data
+urinalysis	Lab Results	query	Urinalysis	true		study	urinalysisPivot			date	false	false			Contains urinalysis results
+miscTests	Lab Results	query	Misc Tests	true		study	miscPivot			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
+surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
+Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata
+Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata
+procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata
+proceduresBeforeDisposition	Clinical	js	"Procedures Before Disposition"	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata
+procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
+dailyObsPivot	Clinical	query	Daily Obs	true		study	dailyObsPivot			date	false	false			Contains daily observations
+clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
+clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
+Alopecia	Clinical	query	Alopecia Scores	true		study	Alopecia			date	false	false		qcstate/publicdata	This report contains the alopecia scores for the animal
+behaviorRemarks	Behavior	js	Behavior Remarks	true		study	underDevelopment	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
+Alopecia	Behavior	query	Alopecia Scores	true		study	Alopecia			date	false	false		qcstate/publicdata	This report contains the alopecia scores for the anima
+drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
+treatments	Clinical	query	Therapies	true		study	Treatment Orders	Therapies		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
+diets	General	query	Diet History	true		study	dietHistory	DietHistory		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
+weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
+clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory2	General	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false	2	qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+birth	Colony Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
+birth2	Reproductive Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
+death	Colony Management	query	Death Records	true		study	deaths				false	false		qcstate/publicdata	Death records
+roommateHistory	Colony Management	query	Cagemate History	true		study	housingRoommates			StartDate	false	false		qcstate/publicdata	This report displays all animals that shared a cage, including the start date, stop date and days co-housed
+activeHousing	Colony Management	query	Housing - Active	true		study	housing	ActiveHousing		date	false	TRUE		qcstate/publicdata	This report shows the active housing record for each animal
+housing	Colony Management	query	Housing History	true		study	housing	housingHistory		date	false	TRUE		qcstate/publicdata	This report contains the housing history of each animal
+inbreeding	Genetics	query	Inbreeding Coefficients	true		study	Inbreeding Coefficients				false	false		qcstate/publicdata	This report shows the inbreeding coefficient of each animal, where pedigree data is available. The inbreeding coefficient is the kinship coefficient between the individual's parents. It measures the probability that the two alleles of a gene are identical by descent in the same individual (autozygosity). It is zero if the individual is not inbred.
+parentage	Genetics	query	Parentage	true		study	demographicsParents				false	false		qcstate/publicdata	This report shows information about the parentage of each animal, drawing from genetic data and observations
+kinship	Genetics	js	Kinship	true		ehr	kinshipSummary				false	false		qcstate/publicdata	This report shows the kinship coefficient between every animal in the colony. The kinship coefficient is a measure of relatedness between two individuals. It represents the probability that two genes, sampled at random from each individual are identical (e.g. the kinship coefficient between a parent and an offspring is 0.25).
+pedigree	Genetics	js	Pedigree	true		study	pedigree				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
+offspring	Reproductive Management	query	Offspring	true		study	demographicsOffspring				false	false		qcstate/publicdata	This report displays pedigree data for animals, including parents, grandparents, siblings and offspring
+pedigreePlot	Genetics	report	Pedigree Plot	true		study	pedigree		module:EHR/schemas/study/Pedigree/Pedigree.r		false	false		qcstate/publicdata	This report will generate a pedigree plot for the selected animal
+snapshot	General	js	Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
+clinSnapshot	Clinical	js	Clinical Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
+blood	General	query	Blood Draw History	true		study	Blood Draws			date	false	false			Contains records of blood draws.
+idHistory	General	query	ID History	true		study	idHistory			id_date	false	false			This report contains a summary of the identifiers that have been assigned for each animal
+generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
+demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
+reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
+menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
+freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
+currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal

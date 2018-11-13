@@ -1,0 +1,21 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="FeeSchedulePivot" tableDbType="NOT_IN_DB">
+                <tableTitle>Fee Schedule</tableTitle>
+                <columns>
+                    <column columnName="ActivityId">
+                        <columnTitle>Activity ID</columnTitle>
+                    </column>
+                    <column columnName="Description">
+                        <columnTitle>Description</columnTitle>
+                    </column>
+                    <column columnName="Species">
+                        <columnTitle>Species</columnTitle>
+                        <sortDescending>false</sortDescending>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

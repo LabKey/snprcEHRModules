@@ -1,0 +1,20 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="bd_status/Description">
+        <properties>
+            <property name="columnTitle" value="Birth Date Status"/>
+        </properties>
+    </column>
+        <column name="birth_code/Description">
+            <properties>
+                <property name="columnTitle" value="Birth Type"/>
+            </properties>
+        </column>
+        <column name="history"/>
+    </columns>
+    <sorts>
+        <sort column="Date" descending="true" />
+    </sorts>
+</customView>

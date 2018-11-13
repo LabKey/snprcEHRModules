@@ -1,0 +1,11 @@
+rowid	shortname	sort_order	meaning	active
+1	BID	1	Twice per day	true
+2	DAY	2	For roundup	true
+3	MIN	3	Rate per minute	true
+4	PRN	4	As needed	true
+5	Q4H	5	Every 4 hours	true
+6	QID	6	Four times per day	true
+7	QOD	7	Every other day	true
+8	QOD/SID	8	Every other day/Once per day	true
+9	SID	9	Once per day	true
+10	TID	10	Three times per day	true

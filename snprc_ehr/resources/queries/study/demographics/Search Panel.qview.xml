@@ -1,0 +1,81 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" hidden="false">
+    <columns>
+        <column name="Id"/>
+        <column name="gender"/>
+        <column name="species">
+            <properties>
+                <property name="columnTitle" value="Species code (3 char)"/>
+            </properties>
+        </column>
+        <column name="species/arc_species_code">
+            <properties>
+                <property name="columnTitle" value="Species code (2 char)"/>
+            </properties>
+        </column>
+        <column name="species/arc_species_code/common_name">
+            <properties>
+                <property name="columnTitle" value="Common name"/>
+            </properties>
+        </column>
+        <column name="birth"/>
+        <column name="viralstatus"/>
+        <column name="viralantigenstatus"/>
+        <column name="Id/totalOffspring/TotalOffspring"/>
+        <column name="Id/curLocation/room">
+            <properties>
+                <property name="columnTitle" value="Location"/>
+            </properties>
+        </column>
+        <column name="Id/curLocation/cage">
+            <properties>
+                <property name="columnTitle" value="Cage"/>
+            </properties>
+        </column>
+        <column name="Id/curLocation/cond">
+            <properties>
+                <property name="columnTitle" value="Condition"/>
+            </properties>
+        </column>
+        <column name="Id/activeAssignments/Protocols">
+            <properties>
+                <property name="columnTitle" value="Protocol"/>
+            </properties>
+        </column>
+        <column name="Id/activeAccounts/Account">
+            <properties>
+                <property name="columnTitle" value="Account"/>
+            </properties>
+        </column>
+        <column name="Id/activeAccounts/AccountGroup">
+            <properties>
+                <property name="columnTitle" value="Account Group"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/Cycle::animal_group">
+            <properties>
+                <property name="columnTitle" value="Cycle Reading Group"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/Colony::animal_group">
+            <properties>
+                <property name="columnTitle" value="Colony"/>
+            </properties>
+        </column>
+        <column name="Id/activeGroups/Pedigree::animal_group">
+            <properties>
+                <property name="columnTitle" value="Pedigree"/>
+            </properties>
+        </column>
+        <column name="death">
+            <properties>
+                <property name="columnTitle" value="Death Date 1"/>
+            </properties>
+        </column>
+        <!--Second death date to find deaths within a range. Same target as Death Date 1, just needs a different column name.-->
+        <column name="Id/Demographics/death">
+            <properties>
+                <property name="columnTitle" value="Death Date 2"/>
+            </properties>
+        </column>
+    </columns>
+</customView>

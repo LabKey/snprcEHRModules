@@ -1,0 +1,58 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id">
+            <properties>
+                <property name="columnTitle" value="Id"/>
+            </properties>
+        </column>
+        <column name="Date">
+            <properties>
+                <property name="columnTitle" value="Cycle Date"/>
+            </properties>
+        </column>
+        <column name="tumescence_index::observations">
+            <properties>
+                <property name="columnTitle" value="TI"/>
+            </properties>
+        </column>
+        <column name="vaginal_bleeding::observations">
+            <properties>
+                <property name="columnTitle" value="VB"/>
+            </properties>
+        </column>
+        <column name="purple_color::observations">
+            <properties>
+                <property name="columnTitle" value="PC"/>
+            </properties>
+        </column>
+        <column name="carrying_infant::observations">
+            <properties>
+                <property name="columnTitle" value="CI"/>
+            </properties>
+        </column>
+        <column name="male_status::observations">
+            <properties>
+                <property name="columnTitle" value="Male Status"/>
+            </properties>
+        </column>
+        <column name="male_id::observations">
+            <properties>
+                <property name="columnTitle" value="Male Id"/>
+            </properties>
+        </column>
+        <column name="cycle_location::observations">
+            <properties>
+                <property name="columnTitle" value="Cycle Location"/>
+            </properties>
+        </column>
+        <column name="observer_emp_num::observations">
+            <properties>
+                <property name="columnTitle" value="Observer"/>
+            </properties>
+        </column>
+    </columns>
+    <sorts>
+        <sort column="Id" descending="false"/>
+        <sort column="date" descending="true" />
+    </sorts>
+</customView>

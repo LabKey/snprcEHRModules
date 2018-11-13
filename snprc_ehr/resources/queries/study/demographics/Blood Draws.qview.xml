@@ -1,0 +1,30 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="gender">
+            <properties>
+                <property name="columnTitle" value="Sex"/>
+            </properties>
+        </column>
+        <column name="species">
+            <properties>
+                <property name="columnTitle" value="Species (3 char)"/>
+            </properties>
+        </column>
+        <column name="geographic_origin"/>
+        <column name="birth"/>
+        <column name="death"/>
+        <column name="calculated_status">
+            <properties>
+                <property name="columnTitle" value="Status"/>
+            </properties>
+        </column>
+        <column name="dam"/>
+        <column name="sire"/>
+        <column name="lastDayAtCenter"/>
+        <column name="history"/>
+    </columns>
+    <sorts>
+        <sort column="Id" descending="false"/>
+    </sorts>
+</customView>
