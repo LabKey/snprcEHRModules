@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 
 // Written by David Walsh, https://davidwalsh.name/javascript-deep-merge
 function isMergeableObject(val) {
