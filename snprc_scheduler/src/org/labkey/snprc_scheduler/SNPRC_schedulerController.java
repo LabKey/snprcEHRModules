@@ -35,11 +35,11 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.snd.SNDService;
+import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.snprc_scheduler.domains.Timeline;
-import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,7 +59,7 @@ public class SNPRC_schedulerController extends SpringActionController
         setActionResolver(_actionResolver);
     }
 
-    //http://deepthought:8080/labkey/snprc_scheduler/snprc/Begin.view?
+    //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
     @RequiresPermission(ReadPermission.class)
     public class BeginAction extends SimpleViewAction
     {
@@ -78,7 +78,7 @@ public class SNPRC_schedulerController extends SpringActionController
         }
     }
 
-    // http://deepthought:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectId=1&RevisionNum=1
+    // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectId=1&RevisionNum=1
     @RequiresPermission(ReadPermission.class)
     public class getActiveTimelines extends ApiAction<Timeline>
     {
@@ -110,7 +110,7 @@ public class SNPRC_schedulerController extends SpringActionController
             return new ApiSimpleResponse(props);
         }
     }
-    // http://deepthought:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
+    // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
     @RequiresPermission(ReadPermission.class)
     public class getActiveProjects extends ApiAction<SimpleApiJsonForm>
     {
@@ -145,7 +145,7 @@ public class SNPRC_schedulerController extends SpringActionController
                      filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
 
                      //project (AKA chargeId) is the PK - should only get one row back
-                     Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getObject(Map.class);
+                     Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
 
                      if (ehrProject != null)
                      {

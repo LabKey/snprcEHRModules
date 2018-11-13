@@ -58,19 +58,24 @@ public class SNPRC_schedulerSchema
     {
         return getSchema().getTable(TABLE_NAME_TIMELINE);
     }
+
     public TableInfo getTableInfoTimelineItem()
     {
         return getSchema().getTable(TABLE_NAME_TIMELINE_ITEM);
     }
+
     public TableInfo getTableInfoTimelineProjectItem()
     {
         return getSchema().getTable(TABLE_NAME_TIMELINE_PROJECT_ITEM);
     }
+
     public TableInfo getTableInfoTimelineAnimalJunction()
     {
         return getSchema().getTable(TABLE_NAME_TIMELINE_ANIMAL_JUNCTION);
     }
-    public TableInfo getTableInfoSchedule() {
+
+    public TableInfo getTableInfoSchedule()
+    {
         return getSchema().getTable(TABLE_NAME_SCHEDULE);
     }
 }

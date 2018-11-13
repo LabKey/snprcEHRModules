@@ -81,8 +81,6 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
                     }
                 };
 
-
-        // pass through tables not in the enum
         public abstract TableInfo createTable(SNPRC_schedulerUserSchema schema);
         }
 

@@ -98,8 +98,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             timeline1.setProjectRevisionNum(0);
             timeline1.setDateCreated(formatString.parse("10/1/2018"));
             timeline1.setDateModified(formatString.parse("10/4/2018"));
-            timeline1.setCreatedBy("thawkins");
-            timeline1.setModifiedBy("dsmith");
+            timeline1.setCreatedBy(u.getUserId());
+            timeline1.setModifiedBy(u.getUserId());
             timeline1.setQcState(QCStateEnum.getValueByName("COmpleted"));
 
 
@@ -120,8 +120,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             timeline2.setProjectRevisionNum(0);
             timeline2.setDateCreated(formatString.parse("09/20/2018"));
             timeline2.setDateModified(formatString.parse("10/1/2018"));
-            timeline2.setCreatedBy("srouse");
-            timeline2.setModifiedBy("charlesp");
+            timeline2.setCreatedBy(u.getUserId());
+            timeline2.setModifiedBy(u.getUserId());
             timeline2.setSchedulerNotes("The ships hung in the sky in much the same way that bricks don’t.");
             timeline2.setQcState(QCStateEnum.getValueByName("In Progress"));
 
@@ -141,8 +141,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             timeline3.setProjectRevisionNum(0);
             timeline3.setDateCreated(formatString.parse("09/20/2018"));
             timeline3.setDateModified(formatString.parse("10/1/2018"));
-            timeline3.setCreatedBy("dsmith");
-            timeline3.setModifiedBy("charlesp");
+            timeline3.setCreatedBy(u.getUserId());
+            timeline3.setModifiedBy(u.getUserId());
             timeline3.setSchedulerNotes("Of all the things i've lost in life, i miss my mind the most");
             timeline3.setQcState(QCStateEnum.getValueByName("Completed"));
 

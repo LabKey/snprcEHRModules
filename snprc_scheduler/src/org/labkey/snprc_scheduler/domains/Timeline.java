@@ -8,6 +8,7 @@ import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.data.Container;
 import org.labkey.api.security.User;
 import org.labkey.api.util.DateUtil;
+import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +36,8 @@ public class Timeline
     private String _projectObjectId;
     private Date _dateCreated;
     private Date _dateModified;
-    private String _createdBy;
-    private String _modifiedBy;
+    private Integer _createdBy;
+    private Integer _modifiedBy;
     private Integer _qcState;
     private List<TimelineItem> _timelineItems = new ArrayList<>(); // list of TimelineItem objects associated with the timeline
     private List<TimelineProjectItem> _timelineProjectItems = new ArrayList<>(); // list of TimelineProjectItem objects associated with the timeline
@@ -57,7 +58,7 @@ public class Timeline
     public static final String TIMELINE_DATE_MODIFIED = "DateModified";
     public static final String TIMELINE_CREATED_BY = "CreatedBy";
     public static final String TIMELINE_MODIFIED_BY = "ModifiedBy";
-    public static final String TIMELINE_QCSTATE = "qcState";
+    public static final String TIMELINE_QCSTATE = "QcState";
     public static final String TIMELINE_TIMELINE_ITEMS = "TimelineItems";
     public static final String TIMELINE_TIMELINE_PROJECT_ITEMS = "TimelineProjectItems";
     public static final String TIMELINE_PROJECT_OBJECT_ID = "ProjectObjectId";
@@ -180,22 +181,22 @@ public class Timeline
         _dateModified = dateModified;
     }
 
-    public String getCreatedBy()
+    public Integer getCreatedBy()
     {
         return _createdBy;
     }
 
-    public void setCreatedBy(String createdBy)
+    public void setCreatedBy(Integer createdBy)
     {
         _createdBy = createdBy;
     }
 
-    public String getModifiedBy()
+    public Integer getModifiedBy()
     {
         return _modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy)
+    public void setModifiedBy(Integer modifiedBy)
     {
         _modifiedBy = modifiedBy;
     }
@@ -270,8 +271,17 @@ public class Timeline
         _projectObjectId = projectObjectId;
     }
 
+    public String getCreatedByName(Container c, User u) {
+        return SNPRC_schedulerManager.getUserName(this.getCreatedBy(), c, u);
+    }
+
+    public String getModifiedByName(Container c, User u) {
+        return SNPRC_schedulerManager.getUserName(this.getModifiedBy(), c, u);
+    }
+
+
     @NotNull
-    public Map<String, Object> toMap(Container c)
+    public Map<String, Object> toMap(Container c, User u)
     {
         Map<String, Object> values = new ArrayListMap<>();
         values.put(TIMELINE_ID, getTimelineId());
@@ -288,8 +298,8 @@ public class Timeline
         values.put(TIMELINE_PROJECT_REVISION_NUM, getProjectRevisionNum());
         values.put(TIMELINE_DATE_CREATED, getDateCreated());
         values.put(TIMELINE_DATE_MODIFIED, getDateModified());
-        values.put(TIMELINE_CREATED_BY, getCreatedBy());
-        values.put(TIMELINE_MODIFIED_BY, getModifiedBy());
+        values.put(TIMELINE_CREATED_BY, getCreatedByName(c, u));
+        values.put(TIMELINE_MODIFIED_BY, getModifiedByName(c, u));
         values.put(TIMELINE_QCSTATE, getQcState());
         values.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
 
@@ -340,8 +350,8 @@ public class Timeline
         json.put(TIMELINE_PROJECT_REVISION_NUM, getProjectRevisionNum());
         json.put(TIMELINE_DATE_CREATED, getDateCreated());
         json.put(TIMELINE_DATE_MODIFIED, getDateModified());
-        json.put(TIMELINE_CREATED_BY, getCreatedBy());
-        json.put(TIMELINE_MODIFIED_BY, getModifiedBy());
+        json.put(TIMELINE_CREATED_BY, getCreatedByName(c, u));
+        json.put(TIMELINE_MODIFIED_BY, getModifiedByName(c,u ));
         json.put(TIMELINE_QCSTATE, getQcState());
         json.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
 

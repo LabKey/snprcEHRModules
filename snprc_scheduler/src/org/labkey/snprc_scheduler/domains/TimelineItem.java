@@ -22,11 +22,7 @@ public class TimelineItem
     private String _timelineObjectId;        // FK - timeline
     private Integer _projectItemId;     // FK - timelineProjectItem
     private Integer _studyDay;
-    private Integer _scheduledDay;
-    private Date _dateCreated;
-    private Date _dateModified;
-    private String _createdBy;
-    private String _modifiedBy;
+    private Date _scheduleDate;
     private String _objectId;
 
 
@@ -34,11 +30,7 @@ public class TimelineItem
     public static final String TIMELINEITEM_TIMELINE_OBJECT_ID = "TimelineObjectId";
     public static final String TIMELINEITEM_PROJECT_ITEM_ID = "ProjectItemId";
     public static final String TIMELINEITEM_STUDY_DAY = "StudyDay";
-    public static final String TIMELINEITEM_SCHEDULED_DAY = "ScheduledDay";
-    public static final String TIMELINEITEM_DATE_CREATED = "DateCreated";
-    public static final String TIMELINEITEM_DATE_MODIFIED = "DateModified";
-    public static final String TIMELINEITEM_CREATED_BY = "CreatedBy";
-    public static final String TIMELINEITEM_MODIFIED_BY = "ModifiedBy";
+    public static final String TIMELINEITEM_SCHEDULED_DAY = "ScheduleDate";
     public static final String TIMELINEITEM_OBJECTID = "ObjectId";
     public static final String TIMELINEITEM_PROJECT_ITEM = "ProjectItem";
 
@@ -53,10 +45,6 @@ public class TimelineItem
         _timelineObjectId = timelineObjectId;
         _projectItemId = projectItemId;
         _studyDay = studyDay;
-        _createdBy = u.getFriendlyName();
-        _modifiedBy = u.getFriendlyName();
-        _dateCreated = new Date();
-        _dateModified = new Date();
         _objectId = GUID.makeGUID();
     }
 
@@ -110,56 +98,15 @@ public class TimelineItem
         _studyDay = studyDay;
     }
 
-    public String getModifiedBy()
+    public Date getScheduleDate()
     {
-        return _modifiedBy;
+        return _scheduleDate;
     }
 
-    public void setModifiedBy(String modifiedBy)
+    public void setScheduleDate(Date scheduleDate)
     {
-        _modifiedBy = modifiedBy;
+        _scheduleDate = scheduleDate;
     }
-
-    public Integer getScheduledDay()
-    {
-        return _scheduledDay;
-    }
-
-    public void setScheduledDay(Integer scheduledDay)
-    {
-        _scheduledDay = scheduledDay;
-    }
-
-    public Date getDateCreated()
-    {
-        return _dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated)
-    {
-        _dateCreated = dateCreated;
-    }
-
-    public Date getDateModified()
-    {
-        return _dateModified;
-    }
-
-    public void setDateModified(Date dateModified)
-    {
-        _dateModified = dateModified;
-    }
-
-    public String getCreatedBy()
-    {
-        return _createdBy;
-    }
-
-    public void setCreatedBy(String createdBy)
-    {
-        _createdBy = createdBy;
-    }
-
 
     @NotNull
     public Map<String, Object> toMap(Container c)
@@ -169,11 +116,7 @@ public class TimelineItem
         timelineItemValues.put(TIMELINEITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
         timelineItemValues.put(TIMELINEITEM_PROJECT_ITEM_ID, getProjectItemId());
         timelineItemValues.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
-        timelineItemValues.put(TIMELINEITEM_SCHEDULED_DAY, getScheduledDay());
-        timelineItemValues.put(TIMELINEITEM_DATE_CREATED, getDateCreated());
-        timelineItemValues.put(TIMELINEITEM_DATE_MODIFIED, getDateModified());
-        timelineItemValues.put(TIMELINEITEM_CREATED_BY, getCreatedBy());
-        timelineItemValues.put(TIMELINEITEM_MODIFIED_BY, getModifiedBy());
+        timelineItemValues.put(TIMELINEITEM_SCHEDULED_DAY, getScheduleDate());
         timelineItemValues.put(TIMELINEITEM_OBJECTID, getObjectId());
 
         return timelineItemValues;
@@ -191,11 +134,7 @@ public class TimelineItem
         json.put(TIMELINEITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
         json.put(TIMELINEITEM_PROJECT_ITEM_ID, getProjectItemId());
         json.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
-        json.put(TIMELINEITEM_SCHEDULED_DAY, getScheduledDay());
-        json.put(TIMELINEITEM_DATE_CREATED, getDateCreated());
-        json.put(TIMELINEITEM_DATE_MODIFIED, getDateModified());
-        json.put(TIMELINEITEM_CREATED_BY, getCreatedBy());
-        json.put(TIMELINEITEM_MODIFIED_BY, getModifiedBy());
+        json.put(TIMELINEITEM_SCHEDULED_DAY, getScheduleDate());
         json.put(TIMELINEITEM_OBJECTID, getObjectId());
         return json;
     }
