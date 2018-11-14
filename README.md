@@ -1,5 +1,5 @@
 ## Summary
-This repository contains all the modules required for the Southwest National Primate Research Center (SNPRC) Total Animal Care (TAC) LabKey server, a system for managing and reporting on electronic health records (EHR) and related research data for primate colonies. The server helps the SNPRC gain insight into combined lab, clinical and operational information; meet regulatory requirements; and coordinate the activities required to support animal care and research projects.
+This repository contains all the modules required for the Southwest National Primate Research Center (SNPRC) Total Animal Care (TAC) LabKey server, a system for managing and reporting on electronic health records (EHR) and related research data for the SNPRC primate colony. The server helps the center gain insight into combined lab, clinical and operational information; meet regulatory requirements; and coordinate the activities required to support animal care and research projects.
 
 <a name="modules"></a>
 ## Modules
