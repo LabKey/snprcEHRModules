@@ -8,6 +8,13 @@
         <destination schemaName="study" queryName="assay_labworkResults" bulkLoad="true" batchSize="10000" targetOption="truncate">
         </destination>
     </transform>
+    <transform id="step 2" type="TaskrefTransformStep">
+        <taskref ref="org.labkey.di.steps.QueueJobTask">
+            <settings>
+                <setting name="transformId" value="{SNPRC_EHR}/PDL_labworkResults"/>
+            </settings>
+        </taskref>
+    </transform>
 </transforms>
 <schedule>
     <cron expression="0 47 0 * * ?" />

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml" standalone="false">
+    <name>PDL Labwork Results</name>
+    <description>PDL Labwork Results queued from SPF Labwork Results</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <source schemaName="pdl_workflow" queryName="pdlResults" />
+            <destination schemaName="study" queryName="assay_labworkResults" bulkLoad="true" batchSize="10000" targetOption="append">
+            </destination>
+        </transform>
+    </transforms>
+    <schedule>
+        <cron expression="3 57 0 * * ?" />
+    </schedule>
+</etl>
