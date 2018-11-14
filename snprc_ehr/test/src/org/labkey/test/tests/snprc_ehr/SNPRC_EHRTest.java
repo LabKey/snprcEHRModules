@@ -821,7 +821,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         /* Non-exhaustive lists */
         List<String> expectedDatasets = new ArrayList<>(Arrays.asList(
-                "SNPRC Labwork Results",
                 "SNPRC ID History",
                 "Freezerworks"
         ));

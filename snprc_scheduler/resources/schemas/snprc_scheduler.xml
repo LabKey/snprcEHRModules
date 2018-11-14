@@ -63,7 +63,7 @@
             </fk>
         </column>
         <column columnName="StudyDay"/>
-        <column columnName="ScheduleDay"/>
+        <column columnName="ScheduleDate"/>
         <column columnName="Created"/>
         <column columnName="CreatedBy"/>
         <column columnName="Modified"/>
@@ -139,7 +139,7 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="StartDate"/>
-            <column columnName="StopDate"/>
+            <column columnName="EndDate"/>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
