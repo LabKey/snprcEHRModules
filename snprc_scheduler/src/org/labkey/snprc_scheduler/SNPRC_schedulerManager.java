@@ -16,9 +16,18 @@
 
 package org.labkey.snprc_scheduler;
 
+import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbSchemaType;
+import org.labkey.api.data.SimpleFilter;
+import org.labkey.api.data.TableInfo;
+import org.labkey.api.data.TableSelector;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
+
+import java.util.Map;
 
 public class SNPRC_schedulerManager
 {
@@ -40,4 +49,18 @@ public class SNPRC_schedulerManager
     }
 
 
+    public static String getUserName(Integer userId, Container c, User u)
+    {
+        String userName = "";
+        DbSchema schema = DbSchema.get("core", DbSchemaType.Module);
+        TableInfo ti = schema.getTable("Principals");
+        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("UserId"), userId, CompareType.EQUAL);
+        // should only get one row back
+        Map<String, Object> user = new TableSelector(ti, filter, null).getMap();
+        if (user != null)
+        {
+            userName = (String) user.get("name");
+        }
+        return userName;
+    }
 }
