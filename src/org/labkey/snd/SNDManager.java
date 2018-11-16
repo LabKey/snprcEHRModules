@@ -3072,6 +3072,7 @@ public class SNDManager
 
         // Get from projects table
         SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Active"), true, CompareType.EQUAL);
+        filter.addCondition(FieldKey.fromParts("enddate"), new Date(), CompareType.DATE_GTE);
 
         // apply filters that are passed as an argument
         if (filters != null) {
