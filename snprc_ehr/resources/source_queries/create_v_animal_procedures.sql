@@ -27,9 +27,9 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_PROCEDURES] AS
 --			populating viewOrder.  The added information will allow for the packages to be
 --          reassembled into animalEvent narratives. tjh
 -- 11/4/2016 renamed user_name and entry_date_tm (modifiedby, modified, createdby, created). tjh
+-- 11/16/2018 Issue 218  Changed procType to a CASE statement to correctly identify behavior procedures
+--           previously considered maintenance. srr
 -- ==========================================================================================
-
-
 SELECT
   aep.id                                  AS id,
   aep.event_date_tm                       AS date,
@@ -43,7 +43,10 @@ SELECT
   ROW_NUMBER()
   OVER (PARTITION BY aep.ae_animal_event_id
     ORDER BY fbi.bi_path)                 AS viewOrder,
-  aep.BUDGET_TYPE                         AS procType,
+  CASE
+    WHEN aep.CHARGE_ID BETWEEN 6000 AND 6999 THEN 'B'
+    ELSE aep.BUDGET_TYPE
+      END                      AS procType,
   aep.USDA_CATEGORY                       AS usdaCategory,
   aep.cp_entry_date_tm                    AS modified,
   dbo.f_map_username(aep.cp_user_name)    AS modifiedby,
