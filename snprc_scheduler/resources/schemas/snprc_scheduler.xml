@@ -121,7 +121,6 @@
             <column columnName="TimelineObjectId">
                 <nullable>false</nullable>
             </column>
-            <column columnName="StartDate"/>
             <column columnName="EndDate"/>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
