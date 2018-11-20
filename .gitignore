@@ -5,3 +5,5 @@ import
 kinship
 assaydata
 /snprc_ehr/resources/referenceStudy/kinship.txt
+snprc_scheduler/resources/web/snprc_scheduler/app/app.js
+/snprc_ehr/resources/referenceStudy/*.log
