@@ -98,12 +98,6 @@
                 <fkColumnName>ObjectId</fkColumnName>
             </fk>
         </column>
-        <column columnName="TimelineId">
-            <nullable>false</nullable>
-        </column>
-        <column columnName="TimelineRevisionNum">
-            <nullable>false</nullable>
-        </column>
         <column columnName="TimelineFootNotes"/>
         <column columnName="SortOrder">
             <nullable>false</nullable>
