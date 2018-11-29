@@ -6,8 +6,10 @@ import org.json.JSONObject;
 import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.data.Container;
 import org.labkey.api.security.User;
+import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.GUID;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
@@ -30,9 +32,8 @@ public class TimelineItem
     public static final String TIMELINEITEM_TIMELINE_OBJECT_ID = "TimelineObjectId";
     public static final String TIMELINEITEM_PROJECT_ITEM_ID = "ProjectItemId";
     public static final String TIMELINEITEM_STUDY_DAY = "StudyDay";
-    public static final String TIMELINEITEM_SCHEDULED_DAY = "ScheduleDate";
-    public static final String TIMELINEITEM_OBJECTID = "ObjectId";
-    public static final String TIMELINEITEM_PROJECT_ITEM = "ProjectItem";
+    public static final String TIMELINEITEM_SCHEDULE_DATE = "ScheduleDate";
+    public static final String TIMELINEITEM_OBJECT_ID = "ObjectId";
 
 
     public TimelineItem()
@@ -48,6 +49,37 @@ public class TimelineItem
         _objectId = GUID.makeGUID();
     }
 
+    public TimelineItem(JSONObject json) throws RuntimeException
+    {
+        try
+        {
+
+            this.setTimelineItemId(json.has(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID) ? json.getInt(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID) : null);
+            this.setTimelineObjectId(json.has(TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID) ? json.getString(TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID) : null);
+            this.setStudyDay(json.has(TimelineItem.TIMELINEITEM_STUDY_DAY) ? json.getInt(TimelineItem.TIMELINEITEM_STUDY_DAY) : null);
+            this.setProjectItemId(json.has(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID) ? json.getInt(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID) : null);
+            this.setObjectId(json.has(TimelineItem.TIMELINEITEM_OBJECT_ID) ? json.getString(TimelineItem.TIMELINEITEM_OBJECT_ID) : null);
+
+            String scheduleDateString = json.has(TimelineItem.TIMELINEITEM_SCHEDULE_DATE) ? json.getString(TimelineItem.TIMELINEITEM_SCHEDULE_DATE) : null;
+            Date scheduleDate = null;
+
+            try
+            {
+                this.setScheduleDate(scheduleDateString == null ? null : DateUtil.parseDateTime(scheduleDateString, Timeline.TIMELINE_DATE_FORMAT));
+
+            }
+            catch (ParseException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException ( e.getMessage() ) ;
+        }
+
+    }
     public Integer getTimelineItemId()
     {
         return _timelineItemId;
@@ -116,8 +148,8 @@ public class TimelineItem
         timelineItemValues.put(TIMELINEITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
         timelineItemValues.put(TIMELINEITEM_PROJECT_ITEM_ID, getProjectItemId());
         timelineItemValues.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
-        timelineItemValues.put(TIMELINEITEM_SCHEDULED_DAY, getScheduleDate());
-        timelineItemValues.put(TIMELINEITEM_OBJECTID, getObjectId());
+        timelineItemValues.put(TIMELINEITEM_SCHEDULE_DATE, getScheduleDate());
+        timelineItemValues.put(TIMELINEITEM_OBJECT_ID, getObjectId());
 
         return timelineItemValues;
     }
@@ -129,13 +161,13 @@ public class TimelineItem
         if (getTimelineItemId() != null)
             json.put(TIMELINEITEM_TIMELINE_ITEM_ID, getTimelineItemId());
         if (getObjectId() != null)
-            json.put(TIMELINEITEM_OBJECTID, getObjectId());
+            json.put(TIMELINEITEM_OBJECT_ID, getObjectId());
 
         json.put(TIMELINEITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
         json.put(TIMELINEITEM_PROJECT_ITEM_ID, getProjectItemId());
         json.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
-        json.put(TIMELINEITEM_SCHEDULED_DAY, getScheduleDate());
-        json.put(TIMELINEITEM_OBJECTID, getObjectId());
+        json.put(TIMELINEITEM_SCHEDULE_DATE, getScheduleDate());
+        json.put(TIMELINEITEM_OBJECT_ID, getObjectId());
         return json;
     }
 }

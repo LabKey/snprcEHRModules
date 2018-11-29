@@ -25,6 +25,7 @@ import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -64,14 +65,14 @@ public class SNPRC_schedulerController extends SpringActionController
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectId=1&RevisionNum=1
     @RequiresPermission(ReadPermission.class)
-    public class getActiveTimelines extends ApiAction<Timeline>
+    public class getActiveTimelinesAction extends ApiAction<Timeline>
     {
         @Override
         public ApiResponse execute(Timeline timeline, BindException errors)
         {
             Map<String, Object> props = new HashMap<>();
 
-            if (timeline.getProjectId() != null && timeline.getRevisionNum() != null )
+            if (timeline.getProjectId() != null && timeline.getRevisionNum() != null)
             {
                 try
                 {
@@ -87,16 +88,18 @@ public class SNPRC_schedulerController extends SpringActionController
                     props.put("message", e.getMessage());
                 }
             }
-            else {
+            else
+            {
                 props.put("success", false);
                 props.put("message", "ProjectId and RevisionNum are required");
             }
             return new ApiSimpleResponse(props);
         }
     }
+
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
     @RequiresPermission(ReadPermission.class)
-    public class getActiveProjects extends ApiAction<SimpleApiJsonForm>
+    public class getActiveProjectsAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -120,23 +123,23 @@ public class SNPRC_schedulerController extends SpringActionController
                 TableInfo ti = schema.getTable("project");
 
                 // one project at a time
-                for (Map<String, Object> project: projects)
+                for (Map<String, Object> project : projects)
 
-                 {
-                     JSONObject jsonProject = new JSONObject(project);
+                {
+                    JSONObject jsonProject = new JSONObject(project);
 
-                     SimpleFilter filter = new SimpleFilter();
-                     filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
+                    SimpleFilter filter = new SimpleFilter();
+                    filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
 
-                     //project (AKA chargeId) is the PK - should only get one row back
-                     Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
+                    //project (AKA chargeId) is the PK - should only get one row back
+                    Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
 
-                     if (ehrProject != null)
-                     {
-                         jsonProject.put("Iacuc", ehrProject.get("protocol"));
-                         jsonProject.put("CostAccount", ehrProject.get("account"));
-                     }
-                     jsonProjects.add(jsonProject);
+                    if (ehrProject != null)
+                    {
+                        jsonProject.put("Iacuc", ehrProject.get("protocol"));
+                        jsonProject.put("CostAccount", ehrProject.get("account"));
+                    }
+                    jsonProjects.add(jsonProject);
                 }
                 props.put("rows", jsonProjects);
             }
@@ -148,6 +151,70 @@ public class SNPRC_schedulerController extends SpringActionController
 
 
             return new ApiSimpleResponse(props);
+        }
+    }
+
+    // http://localhost:8080/labkey/snprc_scheduler/snprc/updateTimeline.view?
+    @RequiresPermission(ReadPermission.class)
+    public class updateTimelineAction extends ApiAction<SimpleApiJsonForm>
+    {
+        @Override
+        public void validateForm(SimpleApiJsonForm form, Errors errors)
+        {
+            JSONObject json = form.getJsonObject();
+            if (json == null)
+            {
+                errors.reject(ERROR_MSG, "Missing json parameter.");
+                return;
+            }
+
+            if (json.has("TimelineId"))
+            {
+                try
+                {
+                    json.getInt("TimelineId"); // make sure timelineId is an integer
+                }
+                catch (Exception e)
+                {
+                    errors.reject(ERROR_MSG, "timelineId is present but not a valid integer.");
+                }
+
+                // if timelineId is present, then
+            }
+
+            return;
+
+        }
+
+        @Override
+        public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
+        {
+            ApiSimpleResponse response = new ApiSimpleResponse();
+            JSONObject json = form.getJsonObject();
+            JSONObject responseJson = null;
+
+            try
+            {
+                responseJson = SNPRC_schedulerService.get().saveTimelineData(getContainer(), getUser(), json, errors);
+            }
+            catch (RuntimeException e)
+            {
+                errors.reject(ERROR_MSG, e.getMessage());
+            }
+
+
+            if (errors.hasErrors()) {
+                response.put("success", false);
+            }
+            else
+            {
+                response.put("success", true);
+                response.put("rows", responseJson);
+            }
+
+            return response;
+
+
         }
     }
 }

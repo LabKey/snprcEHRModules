@@ -10,6 +10,7 @@ import org.labkey.api.security.User;
 import org.labkey.api.util.DateUtil;
 import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Map;
  * Class for Timeline table data. Used when saving, updating, deleting and getting a Timeline table
  */
 
-public class Timeline
+public class Timeline //extends Entity
 {
     private Integer _timelineId;
     private Integer _revisionNum;
@@ -34,13 +35,16 @@ public class Timeline
     private Integer _projectId;
     private Integer _projectRevisionNum;
     private String _projectObjectId;
-    private Date _dateCreated;
-    private Date _dateModified;
+    private Date _created;
+    private Date _modified;
     private Integer _createdBy;
     private Integer _modifiedBy;
+    private String _createdByName;
+    private String _modifiedByName;
     private Integer _qcState;
     private List<TimelineItem> _timelineItems = new ArrayList<>(); // list of TimelineItem objects associated with the timeline
     private List<TimelineProjectItem> _timelineProjectItems = new ArrayList<>(); // list of TimelineProjectItem objects associated with the timeline
+    private List<TimelineAnimalJunction> _timelineAnimalItems = new ArrayList<>(); // list of animals assigned to timeline
 
     public static final String TIMELINE_ID = "TimelineId";
     public static final String TIMELINE_REVISION_NUM = "RevisionNum";
@@ -54,19 +58,71 @@ public class Timeline
     public static final String TIMELINE_SCHEDULER_NOTES = "SchedulerNotes";
     public static final String TIMELINE_PROJECT_ID = "ProjectId";
     public static final String TIMELINE_PROJECT_REVISION_NUM = "ProjectRevisionNum";
-    public static final String TIMELINE_DATE_CREATED = "DateCreated";
-    public static final String TIMELINE_DATE_MODIFIED = "DateModified";
+    public static final String TIMELINE_DATE_CREATED = "Created";
+    public static final String TIMELINE_DATE_MODIFIED = "Modified";
     public static final String TIMELINE_CREATED_BY = "CreatedBy";
     public static final String TIMELINE_MODIFIED_BY = "ModifiedBy";
+    public static final String TIMELINE_CREATED_BY_NAME = "CreatedByName";
+    public static final String TIMELINE_MODIFIED_BY_NAME = "ModifiedByName";
     public static final String TIMELINE_QCSTATE = "QcState";
     public static final String TIMELINE_TIMELINE_ITEMS = "TimelineItems";
     public static final String TIMELINE_TIMELINE_PROJECT_ITEMS = "TimelineProjectItems";
     public static final String TIMELINE_PROJECT_OBJECT_ID = "ProjectObjectId";
+    public static final String TIMELINE_ANIMAL_ITEMS = "TimelineAnimalItems";
+
+    public static final String TIMELINE_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";  //
+    public static final String TIMELINE_DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
+    public static final String SQL_DATE_TIME_FORMAT = "yyy-MM-dd HH:mm:ss:SSS";
 
     public Timeline()
     {
     }
 
+    public Timeline(Container c, User u, JSONObject json) throws RuntimeException
+    {
+        try
+        {
+
+            this.setTimelineId(json.has(Timeline.TIMELINE_ID) ? json.getInt(Timeline.TIMELINE_ID) : null);
+            this.setRevisionNum(json.has(Timeline.TIMELINE_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_REVISION_NUM) : null);
+            this.setLeadTechs(json.has(Timeline.TIMELINE_LEAD_TECHS) ? json.getString(Timeline.TIMELINE_LEAD_TECHS) : null);
+            this.setNotes(json.has(Timeline.TIMELINE_NOTES) ? json.getString(Timeline.TIMELINE_NOTES) : null);
+            this.setSchedulerNotes(json.has(Timeline.TIMELINE_SCHEDULER_NOTES) ? json.getString(Timeline.TIMELINE_SCHEDULER_NOTES) : null);
+            this.setObjectId(json.has(Timeline.TIMELINE_OBJECTID) ? json.getString(Timeline.TIMELINE_OBJECTID) : null);
+            this.setCreatedBy(c, u, json.has(Timeline.TIMELINE_CREATED_BY) ? json.getInt(Timeline.TIMELINE_CREATED_BY): null);
+            this.setModifiedBy(c, u, json.has(Timeline.TIMELINE_MODIFIED_BY) ? json.getInt(Timeline.TIMELINE_MODIFIED_BY): null);
+            this.setCreatedByName(json.has(Timeline.TIMELINE_CREATED_BY_NAME) ?json.getString(Timeline.TIMELINE_CREATED_BY_NAME): null);
+            this.setModifiedByName(json.has(Timeline.TIMELINE_MODIFIED_BY_NAME) ?json.getString(Timeline.TIMELINE_MODIFIED_BY_NAME): null);
+            this.setDescription(json.has(Timeline.TIMELINE_DESCRIPTION) ? json.getString(Timeline.TIMELINE_DESCRIPTION) : null);
+            this.setQcState(json.has(Timeline.TIMELINE_QCSTATE) ? json.getInt(Timeline.TIMELINE_QCSTATE) : null);
+            this.setProjectObjectId(json.has(Timeline.TIMELINE_PROJECT_OBJECT_ID) ? json.getString(Timeline.TIMELINE_PROJECT_OBJECT_ID) : null);
+            this.setProjectId(json.has(Timeline.TIMELINE_PROJECT_ID) ? json.getInt(Timeline.TIMELINE_PROJECT_ID) : null);
+            this.setProjectRevisionNum(json.has(Timeline.TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_PROJECT_REVISION_NUM) : null);
+
+            String startDateString = json.has(Timeline.TIMELINE_STARTDATE) ? json.getString(Timeline.TIMELINE_STARTDATE) : null;
+            String endDateString = json.has(Timeline.TIMELINE_ENDDATE) ? json.getString(Timeline.TIMELINE_ENDDATE) : null;
+            String createdDateString = json.has(Timeline.TIMELINE_DATE_CREATED) ? json.getString(Timeline.TIMELINE_DATE_CREATED) : null;
+            String modifiedDateString = json.has(Timeline.TIMELINE_DATE_MODIFIED) ? json.getString(Timeline.TIMELINE_DATE_MODIFIED) : null;
+
+            try
+            {
+                this.setStartDate(startDateString == null ? new Date() : DateUtil.parseDateTime(startDateString, Timeline.TIMELINE_DATE_FORMAT));
+                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
+                this.setCreated(createdDateString == null ? new Date() : DateUtil.parseDateTime(createdDateString, Timeline.TIMELINE_DATE_FORMAT));
+                this.setModified(modifiedDateString == null ? new Date() : DateUtil.parseDateTime(modifiedDateString, Timeline.TIMELINE_DATE_FORMAT));
+            }
+            catch (ParseException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException ( e.getMessage() ) ;
+        }
+
+    }
     public Integer getTimelineId()
     {
         return _timelineId;
@@ -161,44 +217,52 @@ public class Timeline
         _leadTechs = leadTechs;
     }
 
-    public Date getDateCreated()
+    public Date getCreated()
     {
-        return _dateCreated;
+        return _created;
     }
 
-    public void setDateCreated(Date dateCreated)
+    public void setCreated(Date created)
     {
-        _dateCreated = dateCreated;
+        _created = created;
     }
 
-    public Date getDateModified()
+    public Date getModified()
     {
-        return _dateModified;
+        return _modified;
     }
 
-    public void setDateModified(Date dateModified)
+    public void setModified(Date modified)
     {
-        _dateModified = dateModified;
+        _modified = modified;
     }
 
-    public Integer getCreatedBy()
-    {
-        return _createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy)
+     public void setCreatedBy(Container c, User u, Integer createdBy)
     {
         _createdBy = createdBy;
+        if (_createdBy != null)
+        {
+            _createdByName = SNPRC_schedulerManager.getUserName(c, u, _createdBy);
+        }
+        else
+        {
+            _createdByName = null;
+        }
+
     }
 
-    public Integer getModifiedBy()
-    {
-        return _modifiedBy;
-    }
 
-    public void setModifiedBy(Integer modifiedBy)
+    public void setModifiedBy(Container c, User u, Integer modifiedBy)
     {
         _modifiedBy = modifiedBy;
+        if (_modifiedBy != null)
+        {
+            _modifiedByName = SNPRC_schedulerManager.getUserName(c, u, _modifiedBy);
+        }
+        else
+        {
+            _modifiedByName = null;
+        }
     }
 
     public String getSchedulerNotes()
@@ -271,14 +335,43 @@ public class Timeline
         _projectObjectId = projectObjectId;
     }
 
-    public String getCreatedByName(Container c, User u) {
-        return SNPRC_schedulerManager.getUserName(this.getCreatedBy(), c, u);
+    public Integer getCreatedBy() {
+        return _createdBy;
     }
 
-    public String getModifiedByName(Container c, User u) {
-        return SNPRC_schedulerManager.getUserName(this.getModifiedBy(), c, u);
+    public Integer getModifiedBy() {
+        return _modifiedBy;
     }
 
+    public List<TimelineAnimalJunction> getTimelineAnimalItems()
+    {
+        return _timelineAnimalItems;
+    }
+
+    public void setTimelineAnimalItems(List<TimelineAnimalJunction> timelineAnimalItems)
+    {
+        _timelineAnimalItems = timelineAnimalItems;
+    }
+
+    public String getCreatedByName()
+    {
+        return _createdByName;
+    }
+
+    public void setCreatedByName(String createdByName)
+    {
+        _createdByName = createdByName;
+    }
+
+    public String getModifiedByName()
+    {
+        return _modifiedByName;
+    }
+
+    public void setModifiedByName(String modifiedByName)
+    {
+        _modifiedByName = modifiedByName;
+    }
 
     @NotNull
     public Map<String, Object> toMap(Container c, User u)
@@ -296,10 +389,12 @@ public class Timeline
         values.put(TIMELINE_SCHEDULER_NOTES,getSchedulerNotes());
         values.put(TIMELINE_PROJECT_ID, getProjectId());
         values.put(TIMELINE_PROJECT_REVISION_NUM, getProjectRevisionNum());
-        values.put(TIMELINE_DATE_CREATED, getDateCreated());
-        values.put(TIMELINE_DATE_MODIFIED, getDateModified());
-        values.put(TIMELINE_CREATED_BY, getCreatedByName(c, u));
-        values.put(TIMELINE_MODIFIED_BY, getModifiedByName(c, u));
+        values.put(TIMELINE_DATE_CREATED, getCreated());
+        values.put(TIMELINE_DATE_MODIFIED, getModified());
+        values.put(TIMELINE_CREATED_BY, getCreatedBy());
+        values.put(TIMELINE_MODIFIED_BY, getModifiedBy());
+        values.put(TIMELINE_CREATED_BY_NAME, getCreatedByName());
+        values.put(TIMELINE_MODIFIED_BY_NAME, getModifiedByName());
         values.put(TIMELINE_QCSTATE, getQcState());
         values.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
 
@@ -320,6 +415,15 @@ public class Timeline
                 listTimelineProjectItems.add(timelineProjectItem.toMap(c));
             }
             values.put(TIMELINE_TIMELINE_PROJECT_ITEMS, listTimelineProjectItems);
+        }
+        if (getTimelineAnimalItems().size() > 0)
+        {
+            List<Map<String, Object>> listTimelineAnimalItems = new ArrayList<>();
+            for (TimelineAnimalJunction timelineAnimalItem : getTimelineAnimalItems())
+            {
+                listTimelineAnimalItems.add(timelineAnimalItem.toMap(c));
+            }
+            values.put(TIMELINE_ANIMAL_ITEMS, listTimelineAnimalItems);
         }
 
         return values;
@@ -348,10 +452,12 @@ public class Timeline
         json.put(TIMELINE_SCHEDULER_NOTES,getSchedulerNotes());
         json.put(TIMELINE_PROJECT_ID, getProjectId());
         json.put(TIMELINE_PROJECT_REVISION_NUM, getProjectRevisionNum());
-        json.put(TIMELINE_DATE_CREATED, getDateCreated());
-        json.put(TIMELINE_DATE_MODIFIED, getDateModified());
-        json.put(TIMELINE_CREATED_BY, getCreatedByName(c, u));
-        json.put(TIMELINE_MODIFIED_BY, getModifiedByName(c,u ));
+        json.put(TIMELINE_DATE_CREATED, getCreated());
+        json.put(TIMELINE_DATE_MODIFIED, getModified());
+        json.put(TIMELINE_CREATED_BY, getCreatedBy());
+        json.put(TIMELINE_MODIFIED_BY, getModifiedBy());
+        json.put(TIMELINE_CREATED_BY_NAME, getCreatedByName());
+        json.put(TIMELINE_MODIFIED_BY_NAME, getModifiedByName());
         json.put(TIMELINE_QCSTATE, getQcState());
         json.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
 
@@ -373,7 +479,15 @@ public class Timeline
             }
             json.put(TIMELINE_TIMELINE_PROJECT_ITEMS, jsonTimelineProjectItems);
         }
-
+        if (getTimelineAnimalItems().size() > 0)
+        {
+            JSONArray jsonTimelineAnimalItems = new JSONArray();
+            for (TimelineAnimalJunction timelineAnimalItem : getTimelineAnimalItems())
+            {
+                jsonTimelineAnimalItems.put(timelineAnimalItem.toJSON(c));
+            }
+            json.put(TIMELINE_ANIMAL_ITEMS, jsonTimelineAnimalItems);
+        }
         return json;
     }
 
@@ -385,6 +499,19 @@ public class Timeline
         for (TimelineItem timelineItem : getTimelineItems())
         {
             list.add(timelineItem.toMap(c));
+        }
+
+        return list;
+    }
+
+    @NotNull
+    public List<Map<String, Object>> getTimelineAnimalList(Container c)
+    {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (TimelineAnimalJunction timelineAnimal : getTimelineAnimalItems())
+        {
+            list.add(timelineAnimal.toMap(c));
         }
 
         return list;

@@ -22,11 +22,11 @@ public class TimelineProjectItem
     private Integer _sortOrder;
     private String _objectId;
 
-    public static final String TIMELINE_PROJECT_ITEMS_TIMELINE_OBJECT_ID = "TimelineObjectId";
-    public static final String TIMELINE_PROJECT_ITEMS_PROJECT_ITEM_ID = "PorjectItemId";
-    public static final String TIMELINE_PROJECT_ITEMS_TIMELINE_FOOT_NOTES = "TimelineFootNotes";
-    public static final String  TIMELINE_PROJECT_ITEMS_SORT_ORDER = "SortOrder";
-    public static final String TIMELINE_PROJECT_ITEMS_OBJECT_ID = "ObjectId";
+    public static final String TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID = "TimelineObjectId";
+    public static final String TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID = "ProjectItemId";
+    public static final String TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES = "TimelineFootNotes";
+    public static final String  TIMELINE_PROJECT_ITEM_SORT_ORDER = "SortOrder";
+    public static final String TIMELINE_PROJECT_ITEM_OBJECTID = "ObjectId";
 
 
     public TimelineProjectItem()
@@ -42,6 +42,21 @@ public class TimelineProjectItem
         _objectId = GUID.makeGUID();
     }
 
+    public TimelineProjectItem(JSONObject json) throws RuntimeException
+    {
+        try
+        {
+            this.setProjectItemId(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID) ? json.getInt(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID) : null);
+            this.setTimelineObjectId(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID) : null);
+            this.setSortOrder(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_SORT_ORDER) ? json.getInt(TimelineProjectItem.TIMELINE_PROJECT_ITEM_SORT_ORDER) : null);
+            this.setObjectId(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_OBJECTID) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_OBJECTID) : null);
+            this.setTimelineFootNotes(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES) : null);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException ( e.getMessage() ) ;
+        }
+    }
     public String getTimelineObjectId()
     {
         return _timelineObjectId;
@@ -97,11 +112,11 @@ public class TimelineProjectItem
     public Map<String, Object> toMap(Container c)
     {
         Map<String, Object> values = new ArrayListMap<>();
-        values.put(TIMELINE_PROJECT_ITEMS_TIMELINE_OBJECT_ID, getTimelineObjectId());
-        values.put(TIMELINE_PROJECT_ITEMS_PROJECT_ITEM_ID, getProjectItemId());
-        values.put(TIMELINE_PROJECT_ITEMS_TIMELINE_FOOT_NOTES, getTimelineFootNotes());
-        values.put(TIMELINE_PROJECT_ITEMS_SORT_ORDER, getSortOrder());
-        values.put(TIMELINE_PROJECT_ITEMS_OBJECT_ID, getObjectId());
+        values.put(TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
+        values.put(TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID, getProjectItemId());
+        values.put(TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES, getTimelineFootNotes());
+        values.put(TIMELINE_PROJECT_ITEM_SORT_ORDER, getSortOrder());
+        values.put(TIMELINE_PROJECT_ITEM_OBJECTID, getObjectId());
 
         return values;
     }
@@ -109,11 +124,11 @@ public class TimelineProjectItem
     public JSONObject toJSON(Container c)
     {
         JSONObject json = new JSONObject();
-        json.put(TIMELINE_PROJECT_ITEMS_TIMELINE_OBJECT_ID, getTimelineObjectId());
-        json.put(TIMELINE_PROJECT_ITEMS_PROJECT_ITEM_ID, getProjectItemId());
-        json.put(TIMELINE_PROJECT_ITEMS_TIMELINE_FOOT_NOTES, getTimelineFootNotes());
-        json.put(TIMELINE_PROJECT_ITEMS_SORT_ORDER, getSortOrder());
-        json.put(TIMELINE_PROJECT_ITEMS_OBJECT_ID, getObjectId());
+        json.put(TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
+        json.put(TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID, getProjectItemId());
+        json.put(TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES, getTimelineFootNotes());
+        json.put(TIMELINE_PROJECT_ITEM_SORT_ORDER, getSortOrder());
+        json.put(TIMELINE_PROJECT_ITEM_OBJECTID, getObjectId());
 
         return json;
     }
