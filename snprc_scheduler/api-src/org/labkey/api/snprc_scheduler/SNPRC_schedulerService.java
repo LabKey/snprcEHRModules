@@ -25,7 +25,7 @@ public interface SNPRC_schedulerService
         return ServiceRegistry.get(SNPRC_schedulerService.class);
     }
 
-    List<JSONObject> getActiveTimelines(Container c, User u, int projectId, int revisionNum, BatchValidationException errors);
+    List<JSONObject> getActiveTimelines(Container c, User u, String ProjectObjectId, BatchValidationException errors);
 
     List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters);
 

@@ -237,7 +237,17 @@ public class Timeline //extends Entity
         _modified = modified;
     }
 
-     public void setCreatedBy(Container c, User u, Integer createdBy)
+    public void setCreatedBy(Integer createdBy)
+    {
+        _createdBy = createdBy;
+    }
+
+    public void setModifiedBy(Integer modifiedBy)
+    {
+        _modifiedBy = modifiedBy;
+    }
+
+    public void setCreatedBy(Container c, User u, Integer createdBy)
     {
         _createdBy = createdBy;
         if (_createdBy != null)

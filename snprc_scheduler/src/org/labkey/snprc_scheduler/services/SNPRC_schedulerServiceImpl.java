@@ -17,22 +17,19 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
-import org.labkey.api.snd.Project;
 import org.labkey.api.snd.ProjectItem;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.labkey.api.util.GUID;
 import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
+import org.labkey.snprc_scheduler.SNPRC_schedulerSchema;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
 import org.labkey.snprc_scheduler.domains.TimelineItem;
 import org.labkey.snprc_scheduler.domains.TimelineProjectItem;
-import org.labkey.snprc_scheduler.security.QCStateEnum;
 import org.springframework.validation.BindException;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,152 +58,52 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     /**
      * returns a list of active timelines for a projectId/RevisionNum
      */
-    public List<JSONObject> getActiveTimelines(Container c, User u, int projectId, int revisionNum, BatchValidationException errors) throws ApiUsageException
+    //TODO: Client needs to be refactored to use ProjectObjectId instead of ProjectId/RevisionNum
+    public List<JSONObject> getActiveTimelines(Container c, User u, String projectObjectId, BatchValidationException errors) throws ApiUsageException
     {
-
-
-        //TODO: uncomment after datasets are created
-//        List<Map<String, Timeline>> timelines = new ArrayList<>();
-//        UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
-//        TableInfo timelineTable =  SNPRC_schedulerSchema.getInstance().getTableInfoTimeline();
-//        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectId"), projectId, CompareType.EQUAL);
-//        filter.addCondition(FieldKey.fromParts("RevisionNum"), revNum, CompareType.EQUAL);
-//        TableSelector ts = new TableSelector(timelineTable, filter, null);
-//
-//        List<Timeline> timelines = new TableSelector(table, filter, null).getArrayList(Timeline.class);
-
-//        try (TableResultSet rs = ts.getResultSet())
-//        {
-//            Timeline timeline = new Timeline();
-//
-//            for (Map<String, Object> row : rs)
-//            {
-//
-//                //timelines.add();
-//            }
-//        }
-//        catch (SQLException e)
-//        {
-//        }
-
-        DateFormat formatString = new SimpleDateFormat("MM/dd/yyyy");
-        List<JSONObject> timelines = new ArrayList<>();
-
-        Project project1 = SNDService.get().getProject(c, u, 20, 0);
-
+        List<JSONObject> timelinesJson = new ArrayList<>();
         try
         {
-            Timeline timeline1 = new Timeline();
-            timeline1.setTimelineId(1);
-            timeline1.setRevisionNum(0);
-            timeline1.setDescription("Timeline #1 Revision 0");
-            timeline1.setStartDate(formatString.parse("01/01/2018"));
-            timeline1.setEndDate(formatString.parse("05/31/2018"));
-            timeline1.setLeadTechs("John Wayne, Clint Eastwood");
-            timeline1.setSchedulerNotes("Don't schedule on weekends.");
-            timeline1.setNotes("Go ahead, make my day!");
-            timeline1.setObjectId(GUID.makeGUID());
-            timeline1.setProjectId(project1.getProjectId());
-            timeline1.setProjectRevisionNum(project1.getRevisionNum());
-            timeline1.setProjectObjectId(project1.getObjectId());
-            timeline1.setCreated(formatString.parse("10/1/2018"));
-            timeline1.setModified(formatString.parse("10/4/2018"));
-            timeline1.setCreatedBy(c, u, u.getUserId());
-            timeline1.setModifiedBy(c, u, u.getUserId());
+            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimeline();
 
-            timeline1.setQcState(QCStateEnum.getValueByName("Completed"));
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectObjectId"), projectObjectId, CompareType.EQUAL);
 
+            List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
 
-            timeline1.setTimelineItems(getTimelineItemTestData(c, u, timeline1.getObjectId(), timeline1.getProjectId(), timeline1.getProjectRevisionNum()));
-            timeline1.setTimelineProjectItems(getTimelineProjectItemTestData(c, u, timeline1.getObjectId(), timeline1.getProjectId(), timeline1.getProjectRevisionNum()));
-            timeline1.setTimelineAnimalItems(getTimelineAnimalJunctionTestData(c, u, timeline1.getObjectId(), timeline1.getProjectId(), timeline1.getProjectRevisionNum()));
+            //UserSchema studySchema = QueryService.get().getUserSchema(u, EHRService.get().getEHRStudyContainer(c), "study");
+            UserSchema sndSchema = QueryService.get().getUserSchema(u,c, "snd");
+            TableInfo ti = sndSchema.getTable("Projects");
+            SimpleFilter sndFliter = null;
 
-            timelines.add(timeline1.toJSON(c, u));
+            for (Timeline timeline : timelines)
+            {
+                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId()));
+                timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
+                timeline.setCreatedByName(SNPRC_schedulerManager.getUserName(c, u, timeline.getCreatedBy()));
+                timeline.setModifiedByName(SNPRC_schedulerManager.getUserName(c, u, timeline.getModifiedBy()));
 
-            Timeline timeline2 = new Timeline();
-            timeline2.setTimelineId(1);
-            timeline2.setRevisionNum(1);
-            timeline2.setDescription("Timeline #1 Revision 1");
-            timeline2.setStartDate(formatString.parse("06/01/2018"));
-            timeline2.setEndDate(formatString.parse("12/31/2018"));
-            timeline2.setLeadTechs("Zaphod Beeblebrox, Trisha McMillian");
-            timeline2.setNotes("Not again.");
-            timeline2.setObjectId(GUID.makeGUID());
-            timeline2.setProjectId(project1.getProjectId());
-            timeline2.setProjectRevisionNum(project1.getRevisionNum());
-            timeline2.setProjectObjectId(project1.getObjectId());
-            timeline2.setCreated(formatString.parse("09/20/2018"));
-            timeline2.setModified(formatString.parse("10/1/2018"));
-            timeline2.setCreatedBy(c, u, u.getUserId());
-            timeline2.setModifiedBy(c, u, u.getUserId());
-            timeline2.setSchedulerNotes("The ships hung in the sky in much the same way that bricks don’t.");
-            timeline2.setQcState(QCStateEnum.getValueByName("In Progress"));
+                // add projectId and RevisionNum
+                sndFliter =  new SimpleFilter(FieldKey.fromParts("ObjectId"), timeline.getProjectObjectId(), CompareType.EQUAL);
+                Map result = new TableSelector(ti, sndFliter, null).getMap();
 
-            timeline2.setTimelineItems(getTimelineItemTestData(c, u, timeline2.getObjectId(), timeline2.getProjectId(), timeline2.getProjectRevisionNum()));
-            timeline2.setTimelineProjectItems(getTimelineProjectItemTestData(c, u, timeline2.getObjectId(), timeline2.getProjectId(), timeline2.getProjectRevisionNum()));
-            timeline2.setTimelineAnimalItems(getTimelineAnimalJunctionTestData(c, u, timeline2.getObjectId(), timeline2.getProjectId(), timeline2.getProjectRevisionNum()));
-            timelines.add(timeline2.toJSON(c, u));
+                if (result != null) {
+                    timeline.setProjectId((Integer) result.get("ProjectId"));
+                    timeline.setRevisionNum((Integer) result.get("RevisionNum"));
+                }
 
-            Project project2 = SNDService.get().getProject(c, u, 18, 0);
-            Timeline timeline3 = new Timeline();
-            timeline3.setTimelineId(3);
-            timeline3.setRevisionNum(0);
-            timeline3.setDescription("Timeline #3");
-            timeline3.setStartDate(formatString.parse("02/1/2018"));
-            timeline3.setEndDate(formatString.parse("12/30/2018"));
-            timeline3.setLeadTechs("Henry Ford, Nicoli Tesla");
-            timeline3.setObjectId(GUID.makeGUID());
-            timeline3.setProjectId(project2.getProjectId());
-            timeline3.setProjectRevisionNum(project2.getRevisionNum());
-            timeline3.setProjectObjectId(project2.getObjectId());
-            timeline3.setCreated(formatString.parse("09/20/2018"));
-            timeline3.setModified(formatString.parse("10/1/2018"));
-            timeline3.setCreatedBy(c, u, u.getUserId());
-            timeline3.setModifiedBy(c, u, u.getUserId());
-            timeline3.setSchedulerNotes("Of all the things i've lost in life, i miss my mind the most");
-            timeline3.setQcState(QCStateEnum.getValueByName("Completed"));
-
-
-            timeline3.setTimelineItems(getTimelineItemTestData(c, u, timeline3.getObjectId(), timeline3.getProjectId(), timeline3.getProjectRevisionNum()));
-            timeline3.setTimelineProjectItems(getTimelineProjectItemTestData(c, u, timeline3.getObjectId(), timeline3.getProjectId(), timeline3.getProjectRevisionNum()));
-            timeline3.setTimelineAnimalItems(getTimelineAnimalJunctionTestData(c, u, timeline3.getObjectId(), timeline3.getProjectId(), timeline3.getProjectRevisionNum()));
-            timelines.add(timeline3.toJSON(c, u));
+                timelinesJson.add(timeline.toJSON(c, u));
+            }
         }
-
         catch (Exception e)
-
         {
             throw new ApiUsageException(e);
         }
-        return timelines;
+
+        return timelinesJson;
     }
 
-    public List<TimelineItem> getTimelineItemTestData(Container c, User u, String timelineObjectId, Integer ProjectId, Integer RevisionNum)
-    {
-        // get project Items test data
-        UserSchema schema = QueryService.get().getUserSchema(u, c, "snd");
-        SQLFragment sql = new SQLFragment("SELECT * FROM snd.ProjectItems as pi");
-        sql.append(" JOIN snd.Projects as p on pi.ParentObjectId = p.ObjectId ");
-        sql.append(" JOIN snd.superPkgs as sp on pi.SuperPkgId = sp.SuperPkgId and sp.ParentSuperPkgId is NULL");
-        sql.append(" WHERE  p.ProjectId = " + ProjectId.toString());
-        sql.append(" AND p.RevisionNum = " + RevisionNum.toString());
-        SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
-        List<TimelineItem> tItems = new ArrayList<>();
-
-        int studyDay = 0;
-        int timelineItemId = 0;
-
-        for (ProjectItem projectItem : selector.getArrayList(ProjectItem.class))
-        {
-            TimelineItem timelineItem = new TimelineItem(timelineItemId, timelineObjectId, projectItem.getProjectItemId(), studyDay, u);
-            timelineItemId++;
-            if (timelineItemId % 2 == 0) studyDay++;
-            tItems.add(timelineItem);
-        }
-
-        return tItems;
-    }
 
     public List<TimelineProjectItem> getTimelineProjectItemTestData(Container c, User u, String timelineObjectId, Integer ProjectId, Integer RevisionNum)
     {
@@ -275,11 +172,12 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         return animalItems;
 
     }
+
     /**
      * Save Timeline and associated datasets (called by SNPRC_schedulerServiceImpl.SNPRC_schedulerController.updateTimelineAction())
      *
-     * @param c        = Container object
-     * @param u        = User object
+     * @param c    = Container object
+     * @param u    = User object
      * @param json = JSONObject from submitted form
      * @return errors = exception object
      */
@@ -314,7 +212,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 {
                     for (int i = 0, size = timelineItemsJsonArray.length(); i < size; i++)
                     {
-                        TimelineItem newItem = new TimelineItem (timelineItemsJsonArray.getJSONObject(i));
+                        TimelineItem newItem = new TimelineItem(timelineItemsJsonArray.getJSONObject(i));
                         // add the timelineObjectId before using the object (it may have been created within this transaction)
                         newItem.setTimelineObjectId(timeline.getObjectId());
                         timelineItems.add(newItem);
@@ -334,7 +232,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 {
                     for (int i = 0, size = timelineProjectItemsJsonArray.length(); i < size; i++)
                     {
-                        TimelineProjectItem newItem = new TimelineProjectItem (timelineProjectItemsJsonArray.getJSONObject(i));
+                        TimelineProjectItem newItem = new TimelineProjectItem(timelineProjectItemsJsonArray.getJSONObject(i));
                         // add the timelineObjectId before using the object (it may have been created within this transaction)
                         newItem.setTimelineObjectId(timeline.getObjectId());
                         timelineProjectItems.add(newItem);
@@ -353,7 +251,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 {
                     for (int i = 0, size = timelineAnimalItemsJsonArray.length(); i < size; i++)
                     {
-                        TimelineAnimalJunction newItem = new TimelineAnimalJunction (timelineAnimalItemsJsonArray.getJSONObject(i));
+                        TimelineAnimalJunction newItem = new TimelineAnimalJunction(timelineAnimalItemsJsonArray.getJSONObject(i));
                         // add the timelineObjectId before using the object (it may have been created within this transaction)
                         newItem.setTimelineObjectId(timeline.getObjectId());
                         timelineAnimalItems.add(newItem);

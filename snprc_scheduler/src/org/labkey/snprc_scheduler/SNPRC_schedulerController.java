@@ -63,7 +63,7 @@ public class SNPRC_schedulerController extends SpringActionController
         }
     }
 
-    // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectId=1&RevisionNum=1
+    // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482
     @RequiresPermission(ReadPermission.class)
     public class getActiveTimelinesAction extends ApiAction<Timeline>
     {
@@ -72,12 +72,12 @@ public class SNPRC_schedulerController extends SpringActionController
         {
             Map<String, Object> props = new HashMap<>();
 
-            if (timeline.getProjectId() != null && timeline.getRevisionNum() != null)
+            if (timeline.getProjectObjectId() != null)
             {
                 try
                 {
                     List<JSONObject> timelines = SNPRC_schedulerService.get().getActiveTimelines(getContainer(), getUser(),
-                            timeline.getProjectId(), timeline.getRevisionNum(), new BatchValidationException());
+                            timeline.getProjectObjectId(), new BatchValidationException());
 
                     props.put("success", true);
                     props.put("rows", timelines);
@@ -91,7 +91,7 @@ public class SNPRC_schedulerController extends SpringActionController
             else
             {
                 props.put("success", false);
-                props.put("message", "ProjectId and RevisionNum are required");
+                props.put("message", "ProjectObjectId is required");
             }
             return new ApiSimpleResponse(props);
         }
@@ -127,6 +127,7 @@ public class SNPRC_schedulerController extends SpringActionController
 
                 {
                     JSONObject jsonProject = new JSONObject(project);
+                    jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
 
                     SimpleFilter filter = new SimpleFilter();
                     filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
@@ -202,9 +203,9 @@ public class SNPRC_schedulerController extends SpringActionController
                 errors.reject(ERROR_MSG, e.getMessage());
             }
 
-
             if (errors.hasErrors()) {
                 response.put("success", false);
+                response.put("responseText", errors.getMessage());
             }
             else
             {

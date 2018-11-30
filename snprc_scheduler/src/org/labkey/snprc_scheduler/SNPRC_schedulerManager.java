@@ -1,5 +1,6 @@
 package org.labkey.snprc_scheduler;
 
+import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
@@ -14,6 +15,7 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.DuplicateKeyException;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.InvalidKeyException;
+import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.UserSchema;
@@ -94,6 +96,70 @@ public class SNPRC_schedulerManager
             userName = (String) user.get("name");
         }
         return userName;
+    }
+
+    public List<TimelineItem> getTimelineItems(Container c, User u, String timelineObjectId) throws ApiUsageException
+    {
+
+        List<TimelineItem> timelineItems = null;
+        try
+        {
+            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineItemTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem();
+
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
+
+            timelineItems = new TableSelector(timelineItemTable, filter, null).getArrayList(TimelineItem.class);
+
+        }
+        catch (Exception e)
+        {
+            throw new ApiUsageException(e);
+        }
+
+        return timelineItems;
+    }
+
+    public List<TimelineAnimalJunction> getTimelineAnimalItems(Container c, User u, String timelineObjectId) throws ApiUsageException
+    {
+
+        List<TimelineAnimalJunction> timelineAnimalItems = null;
+        try
+        {
+            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineAnimalJunctionTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction();
+
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
+
+            timelineAnimalItems = new TableSelector(timelineAnimalJunctionTable, filter, null).getArrayList(TimelineAnimalJunction.class);
+
+            //UserSchema studySchema = QueryService.get().getUserSchema(u, EHRService.get().getEHRStudyContainer(c), "study");
+            UserSchema sndSchema = QueryService.get().getUserSchema(u,c, "snd");
+            TableInfo ti = sndSchema.getTable("AnimalsByProject");
+
+            SimpleFilter demFliter = null;
+            // add demographics data
+            for (TimelineAnimalJunction timelineAnimalItem: timelineAnimalItems) {
+
+                demFliter =  new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL);
+
+                Map result = new TableSelector(ti, demFliter, null).getMap();
+
+                if (result != null) {
+                    timelineAnimalItem.setGender((String) result.get("Gender"));
+                    timelineAnimalItem.setAge((String) result.get("Age"));
+                    timelineAnimalItem.setWeight((Double) result.get("Weight"));
+                    timelineAnimalItem.setAssignmentStatus((String) result.get("AssignmentStatus"));
+                }
+            }
+
+        }
+        catch (Exception e)
+        {
+            throw new ApiUsageException(e);
+        }
+
+        return timelineAnimalItems;
     }
 
     /**
