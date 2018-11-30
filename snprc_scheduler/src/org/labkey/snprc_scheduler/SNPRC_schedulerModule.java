@@ -39,7 +39,7 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 18.24;
+        return 18.25;
     }
 
     @Override

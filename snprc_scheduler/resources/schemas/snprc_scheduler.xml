@@ -56,31 +56,6 @@
         </column>
     </columns>
 </table>
-<table tableName="Schedule" tableDbType="TABLE">
-    <columns>
-        <column columnName="ScheduleId">
-            <nullable>false</nullable>
-        </column>
-        <column columnName="TimelineItemId">
-            <nullable>false</nullable>
-            <fk>
-                <fkDbSchema>snprc_scheduler</fkDbSchema>
-                <fkTable>TimelineItem</fkTable>
-                <fkColumnName>TimelineItemId</fkColumnName>
-            </fk>
-        </column>
-        <column columnName="TargetDate">
-            <nullable>false</nullable>
-        </column>
-        <column columnName="Created"/>
-        <column columnName="CreatedBy"/>
-        <column columnName="Modified"/>
-        <column columnName="ModifiedBy"/>
-        <column columnName="ObjectId">
-            <nullable>false</nullable>
-        </column>
-    </columns>
-</table>
 <table tableName="TimelineProjectItem" tableDbType="TABLE">
     <columns>
         <column columnName="ProjectItemId">
