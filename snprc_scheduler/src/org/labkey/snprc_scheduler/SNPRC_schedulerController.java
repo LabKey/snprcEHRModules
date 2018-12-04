@@ -194,18 +194,19 @@ public class SNPRC_schedulerController extends SpringActionController
             JSONObject json = form.getJsonObject();
             JSONObject responseJson = null;
 
+            BatchValidationException err = new BatchValidationException();
             try
             {
-                responseJson = SNPRC_schedulerService.get().saveTimelineData(getContainer(), getUser(), json, errors);
+                responseJson = SNPRC_schedulerService.get().saveTimelineData(getContainer(), getUser(), json, err);
             }
             catch (RuntimeException e)
             {
-                errors.reject(ERROR_MSG, e.getMessage());
+                errors.reject(err.getMessage());
             }
 
-            if (errors.hasErrors()) {
+            if (err.hasErrors()) {
                 response.put("success", false);
-                response.put("responseText", errors.getMessage());
+                response.put("responseText", err.getMessage());
             }
             else
             {
@@ -214,8 +215,6 @@ public class SNPRC_schedulerController extends SpringActionController
             }
 
             return response;
-
-
         }
     }
 }

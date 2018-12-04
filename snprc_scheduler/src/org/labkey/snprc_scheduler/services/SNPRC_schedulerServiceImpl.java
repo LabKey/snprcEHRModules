@@ -16,6 +16,7 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.ProjectItem;
 import org.labkey.api.snd.SNDService;
@@ -27,7 +28,6 @@ import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
 import org.labkey.snprc_scheduler.domains.TimelineItem;
 import org.labkey.snprc_scheduler.domains.TimelineProjectItem;
-import org.springframework.validation.BindException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
 
             //UserSchema studySchema = QueryService.get().getUserSchema(u, EHRService.get().getEHRStudyContainer(c), "study");
-            UserSchema sndSchema = QueryService.get().getUserSchema(u,c, "snd");
+            UserSchema sndSchema = QueryService.get().getUserSchema(u, c, "snd");
             TableInfo ti = sndSchema.getTable("Projects");
             SimpleFilter sndFliter = null;
 
@@ -84,10 +84,11 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 timeline.setModifiedByName(SNPRC_schedulerManager.getUserName(c, u, timeline.getModifiedBy()));
 
                 // add projectId and RevisionNum
-                sndFliter =  new SimpleFilter(FieldKey.fromParts("ObjectId"), timeline.getProjectObjectId(), CompareType.EQUAL);
+                sndFliter = new SimpleFilter(FieldKey.fromParts("ObjectId"), timeline.getProjectObjectId(), CompareType.EQUAL);
                 Map result = new TableSelector(ti, sndFliter, null).getMap();
 
-                if (result != null) {
+                if (result != null)
+                {
                     timeline.setProjectId((Integer) result.get("ProjectId"));
                     timeline.setRevisionNum((Integer) result.get("RevisionNum"));
                 }
@@ -102,7 +103,6 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
         return timelinesJson;
     }
-
 
 
     public List<TimelineProjectItem> getTimelineProjectItemTestData(Container c, User u, String timelineObjectId, Integer ProjectId, Integer RevisionNum)
@@ -182,7 +182,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
      * @return errors = exception object
      */
     // TODO: Create automated test cases
-    public JSONObject saveTimelineData(Container c, User u, JSONObject json, BindException errors)
+    public JSONObject saveTimelineData(Container c, User u, JSONObject json, BatchValidationException errors)
     {
 
         JSONObject responseJson = new JSONObject();
@@ -196,15 +196,13 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         DbScope scope = schema.getDbSchema().getScope();
         try (DbScope.Transaction transaction = scope.ensureTransaction())
         {
-
             // get timeline data from json
             timeline = new Timeline(c, u, json);
-            BatchValidationException err = new BatchValidationException();
 
-            SNPRC_schedulerManager.get().updateTimeline(c, u, timeline, err);
+            SNPRC_schedulerManager.get().updateTimeline(c, u, timeline, errors);
 
             // update the Timelineitem table
-            if (!err.hasErrors())
+            if (!errors.hasErrors())
             {
                 // Get timeline items from json
                 JSONArray timelineItemsJsonArray = json.has(Timeline.TIMELINE_TIMELINE_ITEMS) ? json.getJSONArray(Timeline.TIMELINE_TIMELINE_ITEMS) : null;
@@ -219,11 +217,11 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                     }
                 }
 
-                SNPRC_schedulerManager.get().updateTimelineItems(c, u, timelineItems, new BatchValidationException());
+                SNPRC_schedulerManager.get().updateTimelineItems(c, u, timelineItems, errors); //new BatchValidationException());
             }
 
             // update TimelineProjectItem table
-            if (!err.hasErrors())
+            if (!errors.hasErrors())
             {
 
                 // Get timeline project items from json
@@ -239,11 +237,11 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
                     }
                 }
-                SNPRC_schedulerManager.get().updateTimelineProjectItems(c, u, timelineProjectItems, new BatchValidationException());
+                SNPRC_schedulerManager.get().updateTimelineProjectItems(c, u, timelineProjectItems, errors); //new BatchValidationException());
             }
 
             // update the TimelineAnimalJunction table
-            if (!err.hasErrors())
+            if (!errors.hasErrors())
             {
                 // Get animal ids from json
                 JSONArray timelineAnimalItemsJsonArray = json.has(Timeline.TIMELINE_ANIMAL_ITEMS) ? json.getJSONArray(Timeline.TIMELINE_ANIMAL_ITEMS) : null;
@@ -258,12 +256,18 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                     }
                 }
 
-                SNPRC_schedulerManager.get().updateTimelineAnimalItems(c, u, timelineAnimalItems, new BatchValidationException());
+                SNPRC_schedulerManager.get().updateTimelineAnimalItems(c, u, timelineAnimalItems, errors); //new BatchValidationException());
             }
 
             transaction.commit();
 
-            if (!err.hasErrors())
+            //       JSON form has been parsed into these objects:
+            //       Timeline timeline
+            //       List<TimelineItem> timelineItems
+            //       List<TimelineProjectItem> timelineProjectItems
+            //       List<TimelineItem> timelineAnimalJunction
+
+            if (!errors.hasErrors())
             {
                 timeline.setTimelineItems(timelineItems);
                 timeline.setTimelineProjectItems(timelineProjectItems);
@@ -272,18 +276,12 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 responseJson = timeline.toJSON(c, u);
 
             }
+
         }
         catch (RuntimeException e)
         {
-            errors.reject(null, e.getMessage());
+            errors.addRowError(new ValidationException(e.getMessage()));
         }
-
-
-//       JSON form has been parsed into these objects:
-//       Timeline timeline
-//       List<TimelineItem> timelineItems
-//       List<TimelineProjectItem> timelineProjectItems
-//       List<TimelineItem> timelineAnimalJunction
 
         return responseJson;
     }

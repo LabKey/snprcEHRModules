@@ -8,7 +8,6 @@ import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.services.ServiceRegistry;
-import org.springframework.validation.BindException;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,6 @@ public interface SNPRC_schedulerService
 
     List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters);
 
-    JSONObject saveTimelineData(Container c, User u, JSONObject json, BindException errors);
+    JSONObject saveTimelineData(Container c, User u, JSONObject json, BatchValidationException errors);
 }
 

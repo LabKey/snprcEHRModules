@@ -5,7 +5,6 @@ import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbSchemaType;
-import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
@@ -179,8 +178,7 @@ public class SNPRC_schedulerManager
 
         List<Map<String, Object>> timelineRows = new ArrayList<>();
 
-        try (DbScope.Transaction tx = timelineTable.getSchema().getScope().ensureTransaction())
-        {
+        try  {
             // insert new row
             if (timeline.getObjectId() == null)
             {
@@ -197,10 +195,13 @@ public class SNPRC_schedulerManager
                 List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineRows, errors, null, null);
 
                 // add updated values returned from db call
-                timeline.setCreated((Date) insertedRow.get(0).get("Created"));
-                timeline.setCreatedBy(c, u, (Integer) insertedRow.get(0).get("CreatedBy"));
-                timeline.setModified((Date) insertedRow.get(0).get("Modified"));
-                timeline.setModifiedBy(c, u, (Integer) insertedRow.get(0).get("ModifiedBy"));
+                if (insertedRow != null)
+                {
+                    timeline.setCreated((Date) insertedRow.get(0).get("Created"));
+                    timeline.setCreatedBy(c, u, (Integer) insertedRow.get(0).get("CreatedBy"));
+                    timeline.setModified((Date) insertedRow.get(0).get("Modified"));
+                    timeline.setModifiedBy(c, u, (Integer) insertedRow.get(0).get("ModifiedBy"));
+                }
 
                 if (errors.hasErrors())
                 {
@@ -223,7 +224,6 @@ public class SNPRC_schedulerManager
                 timeline.setModifiedBy(c, u, (Integer) updatedRow.get(0).get("ModifiedBy"));
 
             }
-            tx.commit();
         }
         catch (QueryUpdateServiceException | BatchValidationException | SQLException | DuplicateKeyException | InvalidKeyException e)
         {
@@ -249,7 +249,7 @@ public class SNPRC_schedulerManager
         QueryUpdateService qus = timelineItemTable.getUpdateService();
 
 
-        try (DbScope.Transaction tx = timelineItemTable.getSchema().getScope().ensureTransaction())
+        try
         {
             for (TimelineItem timelineItem: timelineItems)
             {
@@ -264,8 +264,11 @@ public class SNPRC_schedulerManager
                     List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineItemRows, errors, null, null);
 
                     // add updated values returned from db call
-                    timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
-                    timelineItem.setTimelineItemId((Integer) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID));
+                    if (insertedRow != null)
+                    {
+                        timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
+                        timelineItem.setTimelineItemId((Integer) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID));
+                    }
                 }
                 // update existing row
                 else
@@ -280,7 +283,6 @@ public class SNPRC_schedulerManager
                     List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineItemRows, pkList, null, null);
                 }
             }
-            tx.commit();
         }
         catch (QueryUpdateServiceException | BatchValidationException | SQLException | DuplicateKeyException | InvalidKeyException e)
         {
@@ -304,7 +306,7 @@ public class SNPRC_schedulerManager
         QueryUpdateService qus = timelineProjectItemTable.getUpdateService();
 
 
-        try (DbScope.Transaction tx = timelineProjectItemTable.getSchema().getScope().ensureTransaction())
+        try
         {
             for (TimelineProjectItem timelineProjectItem: timelineProjectItems)
             {
@@ -319,8 +321,11 @@ public class SNPRC_schedulerManager
                     List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineProjectItemRows, errors, null, null);
 
                     // add updated values returned from db call
-                    timelineProjectItem.setObjectId((String) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
-                    timelineProjectItem.setProjectItemId((Integer) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID));
+                    if (insertedRow != null)
+                    {
+                        timelineProjectItem.setObjectId((String) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
+                        timelineProjectItem.setProjectItemId((Integer) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID));
+                    }
                 }
                 // update existing row
                 else
@@ -334,9 +339,13 @@ public class SNPRC_schedulerManager
                     pkList.add(pkMap);
 
                     List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineProjectItemRows, pkList, null, null);
+
+                    if (updatedRow != null )
+                    {
+                        timelineProjectItem.setObjectId((String) updatedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
+                    }
                 }
             }
-            tx.commit();
         }
         catch (QueryUpdateServiceException | BatchValidationException | SQLException | DuplicateKeyException | InvalidKeyException e)
         {
@@ -359,8 +368,7 @@ public class SNPRC_schedulerManager
         TableInfo timelineAnimalJunctionTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ANIMAL_JUNCTION);
         QueryUpdateService qus = timelineAnimalJunctionTable.getUpdateService();
 
-        try (DbScope.Transaction tx = timelineAnimalJunctionTable.getSchema().getScope().ensureTransaction())
-        {
+        try {
             for (TimelineAnimalJunction timelineAnimalItem: timelineAnimalItems)
             {
                 List<Map<String, Object>> timelineAnimalItemRows = new ArrayList<>();
@@ -374,8 +382,11 @@ public class SNPRC_schedulerManager
                     List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineAnimalItemRows, errors, null, null);
 
                     // add updated values returned from db call
-                    timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
-                    timelineAnimalItem.setRowId((Integer) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID));
+                    if (insertedRow != null)
+                    {
+                        timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                        timelineAnimalItem.setRowId((Integer) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID));
+                    }
                 }
                 // update existing row
                 else
@@ -388,9 +399,12 @@ public class SNPRC_schedulerManager
                     pkList.add(pkMap);
 
                     List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineAnimalItemRows, pkList, null, null);
+                    if (updatedRow != null)
+                    {
+                        timelineAnimalItem.setObjectId((String) updatedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                    }
                 }
             }
-            tx.commit();
         }
         catch (QueryUpdateServiceException | BatchValidationException | SQLException | DuplicateKeyException | InvalidKeyException e)
         {

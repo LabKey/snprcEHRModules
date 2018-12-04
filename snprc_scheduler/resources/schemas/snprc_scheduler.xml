@@ -3,6 +3,7 @@
 <tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd"
         xmlns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <table tableName="Timeline" tableDbType="TABLE">
+    <auditLogging>DETAILED</auditLogging>
     <columns>
         <column columnName="TimelineId">
              <nullable>false</nullable>
@@ -30,6 +31,7 @@
     </columns>
 </table>
 <table tableName="TimelineItem" tableDbType="TABLE">
+    <auditLogging>DETAILED</auditLogging>
     <columns>
         <column columnName="TimelineItemId">
             <nullable>false</nullable>
@@ -57,6 +59,7 @@
     </columns>
 </table>
 <table tableName="TimelineProjectItem" tableDbType="TABLE">
+    <auditLogging>DETAILED</auditLogging>
     <columns>
         <column columnName="ProjectItemId">
             <nullable>false</nullable>
@@ -80,6 +83,7 @@
     </columns>
 </table>
     <table tableName="TimelineAnimalJunction" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <columns>
             <column columnName="RowId">
                 <nullable>false</nullable>
