@@ -80,6 +80,14 @@
         <column columnName="SortOrder">
             <nullable>false</nullable>
         </column>
+        <column columnName="Created"/>
+        <column columnName="CreatedBy"/>
+        <column columnName="Modified"/>
+        <column columnName="ModifiedBy"/>
+        <column columnName="ObjectId">
+            <nullable>false</nullable>
+        </column>
+
     </columns>
 </table>
     <table tableName="TimelineAnimalJunction" tableDbType="TABLE">
