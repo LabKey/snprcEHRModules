@@ -122,13 +122,14 @@
 
         Ext4.create("Ext.panel.Panel", {
             layout: 'border',
-            height: 900,
+            height: 700,
             items: [
 
                 {
                     xtype: 'panel',
                     region: 'west',
                     width: '20%',
+                    height: 440,
                     split: true,
                     collapsible: true,
                     items: [
@@ -291,6 +292,7 @@
                         },
                         {
                             xtype: 'animals-by-node-tree-panel',
+                            height: 588,
                             layout: 'fit',
                             id: 'animals-by-node-tree-panel'
 
@@ -302,6 +304,7 @@
                 {
                     xtype: 'animals-by-node-reports-container',
                     id: 'animals-by-node-ldk-grids-container',
+                    height: 590,
                     region:'center'
                 }
             ],

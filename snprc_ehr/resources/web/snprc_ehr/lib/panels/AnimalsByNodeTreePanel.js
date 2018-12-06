@@ -12,7 +12,7 @@ Ext4.define("AnimalsByNodeTreePanel", {
     alias: 'widget.animals-by-node-tree-panel',
     rootVisible: false,
     styleHtmlContent: true,
-    height: 800,
+    height: 600,
     title: "",
     listeners: {
 
