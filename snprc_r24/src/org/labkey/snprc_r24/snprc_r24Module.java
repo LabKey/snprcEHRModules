@@ -46,7 +46,7 @@ public class snprc_r24Module extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 18.12;
+        return 18.30;
     }
 
     @Override
@@ -73,7 +73,6 @@ public class snprc_r24Module extends DefaultModule
     {
         // add a container listener so we'll know when our container is deleted:
         ContainerManager.addContainerListener(new snprc_r24ContainerListener());
-
 
         for (final String schemaName : getSchemaNames())
         {
