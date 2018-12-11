@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.TestTimeoutException;
-import org.labkey.test.categories.InDevelopment;
+import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 
 import java.util.Collections;
@@ -14,7 +14,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Category({InDevelopment.class})
+@Category ({SNPRC.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 45)
 public class SNPRC_schedulerTest extends BaseWebDriverTest
 {
     @Override
@@ -45,11 +46,16 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     @Test
     public void testSnprc_schedulerModule()
     {
-        _containerHelper.enableModule("Snprc_scheduler");
-        BeginPage beginPage = BeginPage.beginAt(this, getProjectName());
+        _containerHelper.enableModule("SNPRC_scheduler");
         assertEquals(200, getResponseCode());
-        final String expectedHello = "Hello, and welcome to the Snprc_scheduler module.";
-        assertEquals("Wrong hello message", expectedHello, beginPage.getHelloMessage());
+
+        // Verify React page renders
+        final String expectedTitle = "Procedure scheduling";
+        assertTextPresent(expectedTitle);
+        assertTextPresent("Projects");
+        assertTextPresent("Timelines");
+        assertTextPresent("Animals");
+        assertTextPresent("Calendar");
     }
 
     @Override

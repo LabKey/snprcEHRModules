@@ -24,10 +24,6 @@ public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
         return new BeginPage(driver);
     }
 
-    public String getHelloMessage()
-    {
-        return elementCache().helloMessage.getText();
-    }
 
     @Override
     protected ElementCache newElementCache()

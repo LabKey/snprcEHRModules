@@ -1,6 +1,5 @@
 import React from 'react';
 import { Accordion, AccordionItem, AccordionItemTitle, AccordionItemBody } from 'react-accessible-accordion';
-import '../styles/Accordion.style.css'
 import ProjectList from '../components/ProjectList';
 import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';

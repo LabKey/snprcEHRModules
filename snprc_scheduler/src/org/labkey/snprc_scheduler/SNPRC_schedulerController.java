@@ -5,6 +5,7 @@ import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
+import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
@@ -20,6 +21,7 @@ import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
+import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
@@ -46,21 +48,21 @@ public class SNPRC_schedulerController extends SpringActionController
 
     //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
     @RequiresPermission(ReadPermission.class)
-    public class BeginAction extends SimpleViewAction
+    public class BeginAction extends RedirectAction
     {
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public URLHelper getSuccessURL(Object o)
         {
-            root.addChild("Procedure scheduling", new ActionURL(BeginAction.class, getContainer()));
-            return root;
+            return new ActionURL(NAME, "app", getContainer());
         }
 
         @Override
-        public ModelAndView getView(Object bla, BindException errors)
+        public boolean doAction(Object o, BindException errors)
         {
-            return new JspView<>("/org/labkey/snprc_scheduler/view/schedule.jsp");
+            return true;
         }
+
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482

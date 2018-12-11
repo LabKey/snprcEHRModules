@@ -1,22 +1,64 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    mode: "development",
+    context: path.resolve(__dirname, '..'),
+
+    mode: "production",
+
+    devtool: 'source-map',
+
+    entry: {
+        'app': [
+            './src/client/app.js',
+            './src/client/styles/style.js'
+        ]
+    },
+
     output: {
-        path: path.join(__dirname, '../webpack-build'),
-        filename: 'bundle.js',
-        publicPath: '/'
+        path: path.resolve(__dirname, '../resources/web/snprc_scheduler/app/'),
+        publicPath: './', // allows context path to resolve in both js/css
+        filename: "[name].js"
     },
     module: {
         rules: [{
             test: /\.jsx?$/,
-            loaders: ['babel-loader',]
+            loaders: [{
+                loader: 'babel-loader',
+                options: {
+                    cacheDirectory: true
+                }
+            }]
         },
         {
-            test: /\.css$/,   
-            loaders: ['style-loader', 'css-loader'],
+            test: /\.css$/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader
+                },
+                'css-loader'
+            ]
+        },
+        {
+            test: /style.js/,
+            loaders: [{
+                loader: 'babel-loader',
+                options: {
+                    cacheDirectory: true
+                }
+            }]
         }]
-    }
+    },
+    resolve: {
+        extensions: [ '.jsx', '.js' ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': '"production"'
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        })
+    ]
 };
