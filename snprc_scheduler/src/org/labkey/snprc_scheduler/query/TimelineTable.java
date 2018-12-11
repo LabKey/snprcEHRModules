@@ -14,7 +14,7 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.snprc_scheduler.SNPRC_schedulerSchema;
@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class TimelineTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerUserSchema>
+public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
 {
 
     /**
@@ -44,7 +44,7 @@ public class TimelineTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerU
     }
 
     @Override
-    public SimpleUserSchema.SimpleTable init()
+    public SimpleTable init()
     {
         super.init();
 
@@ -55,37 +55,54 @@ public class TimelineTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerU
         hasItemsSql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimeline(), "t");
         hasItemsSql.append(" JOIN ");
         hasItemsSql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem(), "ti");
-        hasItemsSql.append(" ON t.ObjectId = ti.TimelineObjectId )");
+        hasItemsSql.append(" ON t.ObjectId = ti.TimelineObjectId ");
+        hasItemsSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ObjectId = t.ObjectId )" );
         hasItemsSql.append(" THEN 'true' ELSE 'false' END)");
         ExprColumn hasItemsCol = new ExprColumn(this, "HasItems", hasItemsSql, JdbcType.BOOLEAN);
         addColumn(hasItemsCol);
 
+        // isScheduled = true if the timelineItems have been scheduled
+        SQLFragment isScheduledSql = new SQLFragment();
+        isScheduledSql.append("(CASE WHEN EXISTS (SELECT 1 FROM ");
+        isScheduledSql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimeline(), "t");
+        isScheduledSql.append(" JOIN ");
+        isScheduledSql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem(), "ti");
+        isScheduledSql.append(" ON t.ObjectId = ti.TimelineObjectId and ti.ScheduleDate IS NOT NULL");
+        isScheduledSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ObjectId = t.ObjectId )" );
+        isScheduledSql.append(" THEN 'true' ELSE 'false' END)");
+        ExprColumn isScheduledCol = new ExprColumn(this, "IsScheduled", isScheduledSql, JdbcType.BOOLEAN);
+        addColumn(isScheduledCol);
+
         SQLFragment projectIdSql = new SQLFragment();
         projectIdSql.append("(SELECT pr.ProjectId FROM snd.Projects as pr");
-        projectIdSql.append(" WHERE ");
-        projectIdSql.append(" ProjectObjectId = pr.ObjectId )");
+        projectIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
         ExprColumn projectIdCol = new ExprColumn(this, "ProjectId", projectIdSql, JdbcType.INTEGER);
         addColumn(projectIdCol);
 
         SQLFragment revisionNumSql = new SQLFragment();
         revisionNumSql.append("(SELECT pr.RevisionNum FROM snd.Projects as pr");
-        revisionNumSql.append(" WHERE ");
-        revisionNumSql.append(" ProjectObjectId = pr.ObjectId )");
+
+        revisionNumSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
         ExprColumn revisionNumCol = new ExprColumn(this, "ProjectRevisionNum", revisionNumSql, JdbcType.INTEGER);
         addColumn(revisionNumCol);
 
         return this;
     }
 
-    public boolean isTimelineInUse(int timelineId)
+    public boolean isTimelineInUse(int timelineId, int revisionNum)
     {
         Set<String> cols = new HashSet<>();
-        cols.add("HasItems");
-        SimpleFilter filter = new SimpleFilter(FieldKey.fromString("TimelineId"), timelineId, CompareType.EQUAL);
+        cols.add("IsScheduled");
+        SimpleFilter filter = new SimpleFilter(FieldKey.fromString("TimelineId"), timelineId, CompareType.EQUAL).
+            addCondition(FieldKey.fromString("RevisionNum"), revisionNum, CompareType.EQUAL);
+
         TableSelector ts = new TableSelector(this, cols, filter, null);
         Map<String, Object> result = ts.getMap();
 
-        return Boolean.parseBoolean((String) result.get("HasItems"));
+        if (result == null)
+            return false;
+        else
+            return Boolean.parseBoolean((String) result.get("IsScheduled"));
     }
 
     @Override
@@ -96,7 +113,7 @@ public class TimelineTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerU
 
     protected class UpdateService extends SimpleQueryUpdateService
     {
-        public UpdateService(SimpleUserSchema.SimpleTable ti)
+        public UpdateService(SimpleTable ti)
         {
             super(ti, ti.getRealTable());
         }
@@ -106,9 +123,10 @@ public class TimelineTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerU
         protected Map<String, Object> deleteRow(User user, Container container, Map<String, Object> oldRowMap) throws QueryUpdateServiceException, SQLException, InvalidKeyException
         {
             int timelineId = (Integer) oldRowMap.get(Timeline.TIMELINE_ID);
+            int revisionNum = (Integer) oldRowMap.get(Timeline.TIMELINE_REVISION_NUM);
 
             // Cannot delete a timeline that is in use (it has timelineItems assigned)
-            if (isTimelineInUse(timelineId))
+            if (isTimelineInUse(timelineId, revisionNum))
                 throw new QueryUpdateServiceException("Timeline is in use, cannot be deleted.");
 
             return super.deleteRow(user, container, oldRowMap);

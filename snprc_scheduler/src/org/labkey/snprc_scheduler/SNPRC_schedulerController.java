@@ -7,7 +7,6 @@ import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
-import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.SimpleFilter;
@@ -18,17 +17,15 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.RequiresPermission;
-import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
-import org.labkey.api.view.JspView;
-import org.labkey.api.view.NavTree;
 import org.labkey.snprc_scheduler.domains.Timeline;
+import org.labkey.snprc_scheduler.security.SNPRC_schedulerEditorsPermission;
+import org.labkey.snprc_scheduler.security.SNPRC_schedulerReadersPermission;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +44,7 @@ public class SNPRC_schedulerController extends SpringActionController
     }
 
     //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
-    @RequiresPermission(ReadPermission.class)
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     public class BeginAction extends RedirectAction
     {
 
@@ -66,7 +63,7 @@ public class SNPRC_schedulerController extends SpringActionController
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482
-    @RequiresPermission(ReadPermission.class)
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     public class getActiveTimelinesAction extends ApiAction<Timeline>
     {
         @Override
@@ -100,7 +97,7 @@ public class SNPRC_schedulerController extends SpringActionController
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
-    @RequiresPermission(ReadPermission.class)
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     public class getActiveProjectsAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
@@ -158,7 +155,7 @@ public class SNPRC_schedulerController extends SpringActionController
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/updateTimeline.view?
-    @RequiresPermission(ReadPermission.class)
+    @RequiresPermission(SNPRC_schedulerEditorsPermission.class)
     public class updateTimelineAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
