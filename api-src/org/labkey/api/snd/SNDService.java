@@ -28,6 +28,7 @@ import org.labkey.api.security.User;
 import org.labkey.api.services.ServiceRegistry;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -68,5 +69,5 @@ public interface SNDService
     Map<Integer, Category> getAllCategories(Container c, User u);
     Integer getQCStateId(Container c, User u, QCStateEnum qcState);
     QCStateEnum getQCState(Container c, User u, int qcStateId);
-    List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters);
+    List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters);
 }
