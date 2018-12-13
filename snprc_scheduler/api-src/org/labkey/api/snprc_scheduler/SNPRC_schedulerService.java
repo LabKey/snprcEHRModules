@@ -9,6 +9,7 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.services.ServiceRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public interface SNPRC_schedulerService
 
     List<JSONObject> getActiveTimelines(Container c, User u, String ProjectObjectId, BatchValidationException errors);
 
-    List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters);
+    List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters);
 
     JSONObject saveTimelineData(Container c, User u, JSONObject json, BatchValidationException errors);
 }

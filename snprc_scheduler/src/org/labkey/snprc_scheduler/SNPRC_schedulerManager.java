@@ -173,7 +173,7 @@ public class SNPRC_schedulerManager
      * @param c        = Container object
      * @param u        = User object
      * @param timeline = Timeline object to be deleted
-     * @return errors = exception object
+     * @param errors = exception object
      */
     public void validateBeforeDelete(Container c, User u, Timeline timeline, BatchValidationException errors)
     {
@@ -220,7 +220,7 @@ public class SNPRC_schedulerManager
      * @param c        = Container object
      * @param u        = User object
      * @param timeline = Timeline object to be deleted
-     * @return errors = exception object
+     * @param errors = exception object
      */
     public void deleteTimeline(Container c, User u, Timeline timeline, BatchValidationException errors)
     {
@@ -342,7 +342,7 @@ public class SNPRC_schedulerManager
      * @param c        = Container object
      * @param u        = User object
      * @param timeline = Timeline object
-     * @return errors = exception object
+     * @param errors = exception object
      */
     public void updateTimeline(Container c, User u, Timeline timeline, BatchValidationException errors)
     {

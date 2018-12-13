@@ -41,7 +41,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     {
     }
 
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters)
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters)
     {
 
         return SNDService.get().getActiveProjects(c, u, filters);
@@ -122,7 +122,6 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         DbScope scope = schema.getDbSchema().getScope();
 
         // Is the timeline going to be deleted?
-
         if (timeline.getDeleted())
         {
             SNPRC_schedulerManager.get().deleteTimeline(c, u, timeline, errors);
