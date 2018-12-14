@@ -102,10 +102,10 @@ public class SNPRC_schedulerController extends SpringActionController
      * getActiveProjectsAction
      * <p>
      * call without parameters returns the entire list of active projects from the SND module
-     * i.e. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
+     * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
      * <p>
      * call with the projectId & revisionNum to return a single project
-     * i.e. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?ProjectId=18&RevisionNum=0
+     * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?ProjectId=18&RevisionNum=0
      */
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
@@ -122,6 +122,7 @@ public class SNPRC_schedulerController extends SpringActionController
 
             try
             {
+                // see if a specific project is requested
                 if (!pv.isEmpty())
                 {
                     try
@@ -140,6 +141,7 @@ public class SNPRC_schedulerController extends SpringActionController
                 filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId"), 4000, CompareType.LT));
                 filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId"), 0, CompareType.GT));
 
+                // if a specific project is requested, add it to the filters ArrayList
                 if (projectId != null && revisionNum != null)
                 {
                     filters.add(new SimpleFilter(FieldKey.fromParts("ProjectId"), projectId, CompareType.EQUAL));
@@ -150,32 +152,33 @@ public class SNPRC_schedulerController extends SpringActionController
 
                 if (projects.size() > 0)
                 {
-                    props.put("success", true);
-
                     //   SND returned the project table data, need to add Iacuc and CostAccount fields from ehr.project table
                     UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "ehr");
                     TableInfo ti = schema.getTable("project");
 
-                    // one project at a time
                     for (Map<String, Object> project : projects)
-
                     {
-                        JSONObject jsonProject = new JSONObject(project);
-                        jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
-
-                        SimpleFilter filter = new SimpleFilter();
-                        filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
-
-                        //project (AKA chargeId) is the PK - should only get one row back
-                        Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
-
-                        if (ehrProject != null)
+                        // NOTE WELL: only returning Research projects!
+                        if (project.containsKey("ProjectType") && project.get("ProjectType").toString().toLowerCase().equals("research"))
                         {
-                            jsonProject.put("Iacuc", ehrProject.get("protocol"));
-                            jsonProject.put("CostAccount", ehrProject.get("account"));
+                            JSONObject jsonProject = new JSONObject(project);
+                            jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
+
+                            SimpleFilter filter = new SimpleFilter();
+                            filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
+
+                            //project (AKA chargeId) is the PK - should only get one row back
+                            Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
+
+                            if (ehrProject != null)
+                            {
+                                jsonProject.put("Iacuc", ehrProject.get("protocol"));
+                                jsonProject.put("CostAccount", ehrProject.get("account"));
+                            }
+                            jsonProjects.add(jsonProject);
                         }
-                        jsonProjects.add(jsonProject);
                     }
+                    props.put("success", true);
                     props.put("rows", jsonProjects);
                 }
                 else
@@ -218,8 +221,6 @@ public class SNPRC_schedulerController extends SpringActionController
                 {
                     errors.reject(ERROR_MSG, "timelineId is present but not a valid integer.");
                 }
-
-                // if timelineId is present, then
             }
 
             return;
