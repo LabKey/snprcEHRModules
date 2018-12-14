@@ -5,6 +5,9 @@ import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
 import TimelineList from '../components/TimelineList';
 import TimelineDetails from '../components/TimelineDetails';
+import {Panel, PanelGroup} from "react-bootstrap";
+import CalendarDetails from "../components/CalendarDetails";
+import AnimalDetails from "../components/AnimalDetails";
 
 const TAB_PROJECTS = 0x0;
 const TAB_TIMELINES = 0x1;
@@ -23,13 +26,14 @@ class ProjectsView extends React.Component {
     getDetailComponent = (tabIndex) => {
         let projectDetails = (<ProjectDetails store={this.props.store} project={this.selectedProject} />);
         let timelineDetails = (<TimelineDetails store={this.props.store} project={this.selectedProject} />);
-        let animalDetails = (<div> animal details </div>);
-        let calendarDetails = (<div> calendar details </div>);        
+        let animalDetails = (<AnimalDetails store={this.props.store} project={this.selectedProject} />);
+        let calendarDetails = (<CalendarDetails store={this.props.store} project={this.selectedProject} />);
         switch (tabIndex) {
             case TAB_PROJECTS: return projectDetails
             case TAB_ANIMALS: return animalDetails;
             case TAB_TIMELINES: return timelineDetails;
             case TAB_CALENDAR: return calendarDetails;
+            default: return calendarDetails;
         }
     }
 
@@ -37,29 +41,45 @@ class ProjectsView extends React.Component {
 
         let detailView = this.getDetailComponent(this.state.selectedTab);
         let accordionComponent = (
-        <Accordion className="accordion__style__primary" onChange={this.handleAccordionSelectionChange}>
-            <AccordionItem expanded={true}>
-                <AccordionItemTitle><label className="accordion__title__text">Projects</label></AccordionItemTitle>
-                <AccordionItemBody><ProjectList store={this.props.store} /></AccordionItemBody>
-            </AccordionItem>
-            <AccordionItem>
-                <AccordionItemTitle><label className="accordion__title__text">Timelines</label></AccordionItemTitle>
-                <AccordionItemBody><TimelineList store={this.props.store} /></AccordionItemBody>
-            </AccordionItem>
-            <AccordionItem>
-                <AccordionItemTitle><label className="accordion__title__text">Animals</label></AccordionItemTitle>
-                <AccordionItemBody><AnimalList store={this.props.store} /></AccordionItemBody>
-            </AccordionItem>
-            <AccordionItem>
-                <AccordionItemTitle><label className="accordion__title__text">Calendar / Schedule</label></AccordionItemTitle>
-                <AccordionItemBody><p>Body content</p></AccordionItemBody>
-            </AccordionItem>
-        </Accordion> );
+            <PanelGroup
+                    accordion
+                    id="accordion-controller"
+                    activeKey={this.state.selectedTab}
+                    onSelect={this.handleAccordionSelectionChange}
+                    className = 'bs-accordion'
+                    style={{marginLeft: '20px;'}}
+                    >
+                <Panel eventKey={TAB_PROJECTS}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Projects</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><ProjectList store={this.props.store} /></Panel.Body>
+                </Panel>
+                <Panel eventKey={TAB_TIMELINES}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Timelines</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><TimelineList store={this.props.store} /></Panel.Body>
+                </Panel>
+                <Panel eventKey={TAB_ANIMALS}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Animals</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><AnimalList store={this.props.store} /></Panel.Body>
+                </Panel>
+                <Panel eventKey={TAB_CALENDAR}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Calendar</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible>Calendar Content</Panel.Body>
+                </Panel>
+            </PanelGroup>
+        );
         return <div>
             <div className='row spacer-row'></div>
             <div className='row'>
+                <div className='col-sm-12'>{detailView}</div>
                 <div className='col-sm-4'>{accordionComponent}</div>
-                <div className='col-sm-8'>{detailView}</div>
             </div>
         </div>
     }

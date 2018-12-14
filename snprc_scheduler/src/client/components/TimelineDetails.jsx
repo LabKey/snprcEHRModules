@@ -23,32 +23,75 @@ class TimelineDetails extends React.Component {
     render() {
         if (this.state.selectedTimeline != null || FORCE_RENDER) {
             return (
-            <div className='container' style={{textAlign: 'left'}}>
-                <div className='row input-row'>
-                    <div className='col-sm-2'><label>Project</label></div>
-                    <div className='col-sm-4'><input type='text' className='input-wide' readOnly /></div>
-                    <div className='col-sm-2'><label>Study Notes</label></div>
-                    <div className='col-sm-4'><input type='textarea' className='input-wide study-notes' readOnly /></div>
-                </div>
-                <div className='row input-row'>
-                    <div className='col-sm-2'><label>Research Coordinator</label></div>
-                    <div className='col-sm-4'><input type='text' className='input-wide' readOnly /></div>
-                </div>
-                <div className='row input-row'>
-                    <div className='col-sm-2'><label>Lead Technitian</label></div>
-                    <div className='col-sm-4'><input type='text' className='input-wide' readOnly /></div>
-                </div>
+                    <div className='container-fluid details-frame' style={{textAlign: 'left'}}>
+                        <div className='col-sm-4'>
+                            <div className='row input-row'>
+                                <div className='col-sm-4 zero-side-padding'><label>Project</label></div>
+                                <div className='col-sm-7'><input type='text' className='input-wide' disabled/></div>
+                            </div>
+                            <div className='row input-row'>
+                                <div className='col-sm-4 zero-side-padding'><label>Research Coordinator</label></div>
+                                <div className='col-sm-7'><input type='text' className='input-wide'/></div>
+                            </div>
+                            <div className='row input-row'>
+                                <div className='col-sm-4 zero-side-padding'><label>Lead Technitian</label></div>
+                                <div className='col-sm-7'><input type='text' className='input-wide'/></div>
+                            </div>
+                            <div className='row input-row'>
+                                <div className='col-sm-4  zero-side-padding'><label>Draft</label></div>
+                                <div className='col-sm-6'><input type='checkbox'
+                                                                 style={{width: '20px', height: '20px'}}/></div>
+                            </div>
+                        </div>
+                        <div className='col-sm-4'>
+                            <div className='row input-row'>
+                                <div className='col-sm-6'>
+                                    <div className='col-sm-4 zero-side-padding'><label>Start</label></div>
+                                    <div className='col-sm-8'><input type='date' className='input-wide'/></div>
+                                </div>
+                                <div className='col-sm-6'>
+                                    <div className='col-sm-4 zero-side-padding'><label>End</label></div>
+                                    <div className='col-sm-8'><input type='date' className='input-wide'/></div>
+                                </div>
+                            </div>
+                            <div className='row input-row'>
+                                <div className='col-sm-6'>
+                                    <div className='col-sm-4 zero-side-padding'><label>Created</label></div>
+                                    <div className='col-sm-8'><input type='date' className='input-wide'
+                                                                     readOnly={true}/></div>
+                                </div>
+                                <div className='col-sm-6'>
+                                    <div className='col-sm-4 zero-side-padding'><label>Created By</label></div>
+                                    <div className='col-sm-8'><input type='text' className='input-wide'
+                                                                     readOnly={true}/></div>
+                                </div>
+                            </div>
+                            <div className='row input-row'>
+                                <div className='col-sm-6'>
+                                    <div className='col-sm-4 zero-side-padding'><label>Modified</label></div>
+                                    <div className='col-sm-8'><input type='date' className='input-wide'
+                                                                     readOnly={true}/></div>
+                                </div>
+                                <div className='col-sm-6'>
+                                    <div className='col-sm-4 zero-side-padding'><label>Modified By</label></div>
+                                    <div className='col-sm-8'><input type='text' className='input-wide'
+                                                                     readOnly={true}/></div>
+                                </div>
+                            </div>
 
-                <div className='row input-row'>
-                    <div className='col-sm-2'><label>Date Created</label></div>
-                    <div className='col-sm-2'><input type='text' className='input-wide' readOnly /></div>
-                </div>
-                <div className='row input-row'>
-                    <div className='col-sm-2'><label>Date Modified</label></div>
-                    <div className='col-sm-2'><input type='text' className='input-wide' readOnly /></div>                    
-                </div>
-
-            </div>)
+                        </div>
+                        <div className='col-sm-4'>
+                            <div className='row' style={{marginLeft: '20px'}}>
+                                <div className='col-sm-4'><label>Study Notes</label></div>
+                                <div className='col-sm-8 zero-side-padding'><textarea rows='3' cols='50'/></div>
+                            </div>
+                            <div className='row' style={{marginLeft: '20px'}}>
+                                <div className='col-sm-4'><label>Scheduler Notes</label></div>
+                                <div className='col-sm-8 zero-side-padding'><textarea rows='3' cols='50'/></div>
+                            </div>
+                        </div>
+                    </div>
+            )
         } else {
             return <div>Please select a timeline to view it's details</div>
         }

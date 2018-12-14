@@ -43,6 +43,8 @@
 
   .input-row {
     padding-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   /* React data grid styles */
@@ -61,4 +63,13 @@
     position: fixed;
     margin-left: -85px;
     width: 380px !important;
+  }
+
+  .details-frame {
+    height: 155px;
+  }
+
+  .zero-side-padding {
+    padding-left: 0px;
+    padding-right: 0px;
   }

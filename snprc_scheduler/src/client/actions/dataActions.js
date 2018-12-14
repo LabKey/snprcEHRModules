@@ -116,11 +116,11 @@ export function fetchAnimalsByProject(projectId, revision) {
     };
 }
 
-export function fetchTimelinesByProject(projectId, revision) {
-    if (verboseOutput) console.log('fetchTimelinesByProject(' + projectId + ',' + revision + ')');
-    const API_ENDPOINT = BASE_URI + BASE_API + 'getActiveTimelines.view?ProjectId=' + projectId + '&RevisionNum=' + revision
+export function fetchTimelinesByProject(objectid) {
+    if (verboseOutput) console.log('fetchTimelinesByProject(' + objectid + ')');
+    const API_ENDPOINT = BASE_URI + BASE_API + 'getActiveTimelines.view?projectObjectId=' + objectid
     return (dispatch) => {
-        dispatch(createAction(TIMELINE_LIST_REQUESTED, {projectId, revision} ));
+        dispatch(createAction(TIMELINE_LIST_REQUESTED, {objectid} ));
         fetch(API_ENDPOINT)
         .then(response => response.json())
         .then(data => { if (data.success) dispatch(createAction(TIMELINE_LIST_RECEIVED, data.rows)); })
@@ -149,12 +149,12 @@ export function filterAnimals(pattern) {
     }
 }
 
-export function selectProject(projectId, revision) {
+export function selectProject(projectId, revision, objectid) {
     if (verboseOutput) console.log('selectProject(' + projectId + ',' + revision + ')');
     return (dispatch) => {
         dispatch(createAction(PROJECT_SELECTED, projectId));
         dispatch(fetchAnimalsByProject(projectId, revision));
-        dispatch(fetchTimelinesByProject(projectId, revision));
+        dispatch(fetchTimelinesByProject(objectid));
     }
 }
 

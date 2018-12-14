@@ -47,7 +47,8 @@ class ProjectList extends React.Component {
             selectedProject: selectedProject
         });
         if (selectedProject != null) {
-            if (rows.length > 0) this.props.store.dispatch(selectProject(selectedProject.projectId, selectedProject.revisionNum));
+            if (rows.length > 0) this.props.store.dispatch(selectProject(selectedProject.projectId,
+                    selectedProject.revisionNum, selectedProject.objectId));
             if (verboseOutput) {
                 console.log("ProjectID " + selectedProject.projectId + " selected.");
                 console.log(selectedProject);
