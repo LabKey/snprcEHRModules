@@ -25,24 +25,23 @@ GO
 
 
 ALTER VIEW Labkey_etl.v_delete_clinPathRuns AS
--- ==========================================================================================
--- Author:		Terry Hawkins
--- Create date: 6/26/2015
--- Description:	Selects the ETL records for LabKey study.clinPathRuns dataset for deletes
--- Changes:
---
---
--- ==========================================================================================
-SELECT log.MESSAGE_ID as objectid,
-log.ENTRY_DATE_TM
+  -- ==========================================================================================
+  -- Author:		Terry Hawkins
+  -- Create date: 6/26/2015
+  -- Description:	Selects the ETL records for LabKey study.clinPathRuns dataset for deletes
+  -- Changes:
+  -- 12/17/2018 changed query delete source
+  --
+  -- ==========================================================================================
+  SELECT obr.message_id AS objectid, obr.entry_date_tm
+  FROM dbo.CLINICAL_PATH_OBR AS obr -- select primates only from the TxBiomed colony
+         INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
 
-FROM dbo.HL7_IMPORT_LOG AS log
-WHERE log.RESULT_STATUS = 'X' -- 'X' = cancelled orders
-  
+  WHERE obr.RESULT_STATUS IN ('X') -- 'X' = cancelled order
 
 GO
 
 GRANT SELECT ON Labkey_etl.v_delete_clinPathRuns TO z_labkey
 GRANT SELECT ON dbo.HL7_IMPORT_LOG TO z_labkey
-  
+
 GO
