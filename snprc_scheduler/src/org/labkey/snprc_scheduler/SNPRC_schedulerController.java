@@ -19,6 +19,7 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.RequiresPermission;
+import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.labkey.api.util.URLHelper;
@@ -47,7 +48,8 @@ public class SNPRC_schedulerController extends SpringActionController
     }
 
     //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
-    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
+    //@RequiresPermission(SNPRC_schedulerReadersPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class BeginAction extends RedirectAction
     {
 
