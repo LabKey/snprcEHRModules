@@ -25,7 +25,7 @@ public class TimelineItem
     private Integer _studyDay;
     private Date _scheduleDate;
     private String _objectId;
-    private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineAnimalJunction record.
+    private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineItem record.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
 
 
