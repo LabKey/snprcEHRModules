@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
 {
+
     public BeginPage(WebDriverWrapper driver)
     {
         super(driver);
@@ -34,5 +35,17 @@ public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
     protected class ElementCache extends LabKeyPage.ElementCache
     {
         protected final WebElement helloMessage = Locator.tagWithName("div", "helloMessage").findWhenNeeded(this);
+    }
+
+    public void beginPage_Tests()
+    {
+        final String expectedTitle = "Procedure scheduling";
+        assertTextPresent(expectedTitle);
+
+        //Accordian rendered tests
+        assertTextPresent("Projects");
+        assertTextPresent("Timelines");
+        assertTextPresent("Animals");
+        assertTextPresent("Calendar");
     }
 }
