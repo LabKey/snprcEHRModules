@@ -68,6 +68,16 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         // add groups to roles
         _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, SecurityRole.READER.name, PermissionsHelper.MemberType.group);
         _permissionsHelper.addMemberToRole(SecurityGroup.EDITOR.name, SecurityRole.EDITOR.name, PermissionsHelper.MemberType.group);
+
+
+    }
+
+    public void add_sndPackages()
+    {
+        runScript(SetupScripts.ADD_PKG1);
+        runScript(SetupScripts.ADD_PKG2);
+        runScript(SetupScripts.ADD_PKG3);
+        runScript(SetupScripts.ADD_PROJECT1);
     }
 
     @Before
@@ -76,6 +86,11 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         goToProjectHome();
     }
 
+    @Test
+    public void setup_sndData()
+    {
+        add_sndPackages();
+    }
 
     @Test
     public void test_ReaderAccess()
@@ -153,6 +168,18 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         return Arrays.asList("ehr", "snprc_ehr", "snprc_scheduler", "SND");
     }
 
+    private void runScript(String script)
+    {
+        String result = (String) executeAsyncScript(script);
+        assertEquals("JavaScript API failure.", "Success!", result);
+    }
+
+    private void runScriptExpectedFail(String script)
+    {
+
+        String result = (String) executeAsyncScript(script);
+        assertEquals("JavaScript API error condition failure.", "Failed", result);
+    }
 
     public enum SecurityRole
     {
@@ -234,5 +261,4 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         }
 
     }
-
 }
