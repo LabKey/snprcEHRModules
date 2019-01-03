@@ -73,6 +73,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             {
                 timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId()));
                 timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
+                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId()));
                 timeline.setCreatedByName(SNPRC_schedulerManager.getUserName(c, u, timeline.getCreatedBy()));
                 timeline.setModifiedByName(SNPRC_schedulerManager.getUserName(c, u, timeline.getModifiedBy()));
 

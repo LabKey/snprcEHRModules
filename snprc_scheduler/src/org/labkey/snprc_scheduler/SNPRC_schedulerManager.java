@@ -167,6 +167,27 @@ public class SNPRC_schedulerManager
         return timelineAnimalItems;
     }
 
+    public List<TimelineProjectItem> getTimelineProjectItems(Container c, User u, String timelineObjectId) throws ApiUsageException
+    {
+
+        List<TimelineProjectItem> timelineProjectItems = null;
+        try
+        {
+            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineProjectItemTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineProjectItem();
+
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
+
+            timelineProjectItems = new TableSelector(timelineProjectItemTable, filter, null).getArrayList(TimelineProjectItem.class);
+        }
+        catch (Exception e)
+        {
+            throw new ApiUsageException(e);
+        }
+
+        return timelineProjectItems;
+    }
+
     /**
      * Validate before deleting
      *
