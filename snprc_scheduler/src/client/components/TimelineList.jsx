@@ -11,7 +11,9 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
-import { selectTimeline, duplicateTimeline } from '../actions/dataActions';
+import {selectTimeline, duplicateTimeline, selectProject} from '../actions/dataActions';
+import PropTypes from "prop-types";
+import connect from "react-redux/es/connect/connect";
 
 const verboseOutput = false;
 
@@ -19,63 +21,53 @@ class TimelineList extends React.Component {
     
     constructor(props) {
         super(props);
-        let redux_state = this.props.store.getState().project;
         this.state = {
             debugUI: false,
-            timelines: (redux_state.timelines || null), 
             timelineCols: [
                 { key: 'Description', name: 'Description', width: 373, editable: true }
             ],
             selectedTimelines: [],
-            selectedTimeline: (redux_state.selectedTimeline || null)
+            selectedTimeline: (this.props.selectedTimeline || null)
         };
-        this.disconnect = this.props.store.subscribe(this.handleStoreUpdate); 
-    }
-
-    componentWillUnmount = () => this.disconnect();
-
-    handleStoreUpdate = () => {
-        let redux_state = this.props.store.getState().project;
-        this.setState({ 
-            timelines: redux_state.timelines
-        });
-        //if (redux_state.newTimeline != null)
-        /*
-        if (redux_state.timelines && redux_state.timelines.length > 0) {
-            console.log(redux_state.timelines[0]);
-        }
-        */
     }
 
     handleTimelineCreate = () => {
         console.log('handleTimelineCreate()');
     }
 
-    handleTimelineDuplicate = () => {
-        this.props.store.dispatch(duplicateTimeline(this.state.selectedTimeline));
-    }
+    // handleTimelineDuplicate = () => {
+    //     this.props.store.dispatch(duplicateTimeline(this.state.selectedTimeline));
+    // }
 
     handleTimelineDestroy = () => {
         console.log('handleTimelineDestroy()');
     }
 
-    timelineRowGetter = (index) => this.state.timelines[index];
+    timelineRowGetter = (index) =>  {
+        if (index > -1)
+         return this.props.timelines[index];
+    }
     
     onTimelineRowsSelected = (rows) => {
-        let timelines = this.props.store.getState().project.timelines;
-        if (rows.length == timelines.length || rows.length > 1) rows = [];
+        if (rows.length > 1) {
+            rows = [];
+        }
         let selectedTimeline = rows.length > 0 ? rows[0].row : null;
         this.setState({
             selectedTimelines: rows.map(r => r.rowIdx) ,
             selectedTimeline: selectedTimeline
         });
-        if (selectedTimeline != null) this.props.store.dispatch(selectTimeline(selectedTimeline));
-        if (verboseOutput) console.log(selectedTimeline);
+        if (selectedTimeline != null) {
+            this.props.onSelectTimeline(selectedTimeline);
+        }
+        if (verboseOutput) {
+            console.log(selectedTimeline);
+        }
     }
 
     onTimelineRowsDeselected = (rows) => {
         let rowIndexes = rows.map(r => r.rowIdx);
-        this.setState({ selectedTimelines: this.state.selectedTimelines.filter(i => rowIndexes.indexOf(i) === -1) });       
+        this.setState({ selectedTimelines: this.state.selectedTimelines.filter(i => rowIndexes.indexOf(i) === -1) });
     }
 
     onTimelineRowsUpdated = ({ fromRow, toRow, updated }) => {
@@ -83,7 +75,7 @@ class TimelineList extends React.Component {
     } 
 
     render = () => { 
-        let projectCount = this.state.timelines ? this.state.timelines.length : 0;
+        let projectCount = this.props.timelines ? this.props.timelines.length : 0;
         return <div>
         <div className="input-group bottom-padding-8">
             <button title="Create new timeline" className="smooth-border" onClick={this.handleTimelineCreate}><Glyphicon glyph="plus"/></button>
@@ -112,4 +104,21 @@ class TimelineList extends React.Component {
 
   }
 
-  export default TimelineList;
+TimelineList.propTypes = {
+    onSelectTimeline: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+    selectedProject: state.project.selectedProject || null,
+    selectedTimeline: (state.project.selectedProject != null) ? state.project.selectedProject.selectedTimeline : null,
+    timelines: state.project.timelines  || null
+})
+
+const mapDispatchToProps = dispatch => ({
+    onSelectTimeline: selectedTimeline => dispatch(selectTimeline(selectedTimeline))
+})
+
+export default connect(
+        mapStateToProps,
+        mapDispatchToProps
+)(TimelineList)

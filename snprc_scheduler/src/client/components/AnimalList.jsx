@@ -30,7 +30,7 @@ class AnimalList extends React.Component {
         this.props.store.subscribe(this.handleStoreUpdate); 
     }
     
-    componentWillUnmount = () => this.disconnect();
+    // componentWillUnmount = () => this.disconnect();
     
     animalRowGetter = (index) => this.state.animals[index];
     

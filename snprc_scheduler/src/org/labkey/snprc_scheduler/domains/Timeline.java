@@ -236,6 +236,18 @@ public class Timeline //extends Entity
         _created = created;
     }
 
+    @Nullable
+    public String modifiedDateToString()
+    {
+        return DateUtil.formatDateISO8601(getModified());
+    }
+
+    @Nullable
+    public String createdDateToString()
+    {
+        return DateUtil.formatDateISO8601(getCreated());
+    }
+
     public Date getModified()
     {
         return _modified;
@@ -481,9 +493,9 @@ public class Timeline //extends Entity
         if (getRevisionNum() != null)
             json.put(TIMELINE_REVISION_NUM, getRevisionNum());
         json.put(TIMELINE_DESCRIPTION, getDescription());
-        json.put(TIMELINE_STARTDATE, getStartDate());
+        json.put(TIMELINE_STARTDATE, startDateToString());
         if (getEndDate() != null)
-            json.put(TIMELINE_ENDDATE, getEndDate());
+            json.put(TIMELINE_ENDDATE, endDateToString());
         if (getObjectId() != null)
           json.put(TIMELINE_OBJECTID, getObjectId());
 
@@ -493,8 +505,8 @@ public class Timeline //extends Entity
         json.put(TIMELINE_SCHEDULER_NOTES,getSchedulerNotes());
         json.put(TIMELINE_PROJECT_ID, getProjectId());
         json.put(TIMELINE_PROJECT_REVISION_NUM, getProjectRevisionNum());
-        json.put(TIMELINE_DATE_CREATED, getCreated());
-        json.put(TIMELINE_DATE_MODIFIED, getModified());
+        json.put(TIMELINE_DATE_CREATED, createdDateToString());
+        json.put(TIMELINE_DATE_MODIFIED, modifiedDateToString());
         json.put(TIMELINE_CREATED_BY, getCreatedBy());
         json.put(TIMELINE_MODIFIED_BY, getModifiedBy());
         json.put(TIMELINE_CREATED_BY_NAME, getCreatedByName());

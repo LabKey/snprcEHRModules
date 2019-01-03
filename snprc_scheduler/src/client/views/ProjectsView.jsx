@@ -1,5 +1,6 @@
 import React from 'react';
-import { Accordion, AccordionItem, AccordionItemTitle, AccordionItemBody } from 'react-accessible-accordion';
+import {connect} from "react-redux";
+
 import ProjectList from '../components/ProjectList';
 import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
@@ -8,6 +9,8 @@ import TimelineDetails from '../components/TimelineDetails';
 import {Panel, PanelGroup} from "react-bootstrap";
 import CalendarDetails from "../components/CalendarDetails";
 import AnimalDetails from "../components/AnimalDetails";
+import ProjectMain from "../components/ProjectMain";
+import TimelineGrid from "../components/TimelineGrid";
 
 const TAB_PROJECTS = 0x0;
 const TAB_TIMELINES = 0x1;
@@ -24,22 +27,29 @@ class ProjectsView extends React.Component {
     handleAccordionSelectionChange = (tabIndex) => this.setState({ selectedTab: tabIndex });
     
     getDetailComponent = (tabIndex) => {
-        let projectDetails = (<ProjectDetails store={this.props.store} project={this.selectedProject} />);
-        let timelineDetails = (<TimelineDetails store={this.props.store} project={this.selectedProject} />);
-        let animalDetails = (<AnimalDetails store={this.props.store} project={this.selectedProject} />);
-        let calendarDetails = (<CalendarDetails store={this.props.store} project={this.selectedProject} />);
         switch (tabIndex) {
-            case TAB_PROJECTS: return projectDetails
-            case TAB_ANIMALS: return animalDetails;
-            case TAB_TIMELINES: return timelineDetails;
-            case TAB_CALENDAR: return calendarDetails;
-            default: return calendarDetails;
+            case TAB_PROJECTS: return <ProjectDetails />;
+            case TAB_ANIMALS: return <AnimalDetails />;
+            case TAB_TIMELINES: return <TimelineDetails />;
+            case TAB_CALENDAR: return <CalendarDetails />;
+            default: return <CalendarDetails />;
+        }
+    }
+
+    getMainComponent = (tabIndex) => {
+        switch (tabIndex) {
+            case TAB_PROJECTS: return <ProjectMain />;
+            case TAB_ANIMALS: return  <ProjectMain />;
+            case TAB_TIMELINES: return <TimelineGrid />;
+            case TAB_CALENDAR: return <ProjectMain />;
+            default: return <ProjectMain />;
         }
     }
 
     render() {
 
         let detailView = this.getDetailComponent(this.state.selectedTab);
+        let mainView = this.getMainComponent(this.state.selectedTab);
         let accordionComponent = (
             <PanelGroup
                     accordion
@@ -47,7 +57,7 @@ class ProjectsView extends React.Component {
                     activeKey={this.state.selectedTab}
                     onSelect={this.handleAccordionSelectionChange}
                     className = 'bs-accordion'
-                    style={{marginLeft: '20px;'}}
+                    style={{marginLeft: '20px'}}
                     >
                 <Panel eventKey={TAB_PROJECTS}>
                     <Panel.Heading>
@@ -59,7 +69,7 @@ class ProjectsView extends React.Component {
                     <Panel.Heading>
                         <Panel.Title toggle>Timelines</Panel.Title>
                     </Panel.Heading>
-                    <Panel.Body collapsible><TimelineList store={this.props.store} /></Panel.Body>
+                    <Panel.Body collapsible><TimelineList /></Panel.Body>
                 </Panel>
                 <Panel eventKey={TAB_ANIMALS}>
                     <Panel.Heading>
@@ -79,11 +89,18 @@ class ProjectsView extends React.Component {
             <div className='row spacer-row'></div>
             <div className='row'>
                 <div className='col-sm-12'>{detailView}</div>
-                <div className='col-sm-4'>{accordionComponent}</div>
+                <div className='col-sm-3'>{accordionComponent}</div>
+                <div className='col-sm-9'>{mainView}</div>
             </div>
         </div>
     }
 
   }
 
-  export default ProjectsView;
+const mapStateToProps = state => ({
+    selectedProject: state.project.selectedProject
+})
+
+export default connect(
+        mapStateToProps
+)(ProjectsView)
