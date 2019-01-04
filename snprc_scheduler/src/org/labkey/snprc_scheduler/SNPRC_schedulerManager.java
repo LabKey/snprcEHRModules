@@ -84,19 +84,19 @@ public class SNPRC_schedulerManager
      * @param c      = Container object
      * @param u      = User object
      * @param userId = user id to be looked up
-     * @return Users name
+     * @return Users display name
      */
-    public static String getUserName(Container c, User u, Integer userId)
+    public static String getUserDisplayName(Container c, User u, Integer userId)
     {
         String userName = "";
         DbSchema schema = DbSchema.get("core", DbSchemaType.Module);
-        TableInfo ti = schema.getTable("Principals");
+        TableInfo ti = schema.getTable("Users");
         SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("UserId"), userId, CompareType.EQUAL);
         // should only get one row back
         Map<String, Object> user = new TableSelector(ti, filter, null).getMap();
         if (user != null)
         {
-            userName = (String) user.get("name");
+            userName = (String) user.get("DisplayName");
         }
         return userName;
     }
