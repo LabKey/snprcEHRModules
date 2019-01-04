@@ -23,7 +23,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.labkey.api.util.GUID;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.remoteapi.query.InsertRowsCommand;
@@ -67,6 +66,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -314,7 +314,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         for (Map<String, Object> accountRow : accountRows)
         {
-            accountRow.put("objectid", new GUID());
+            accountRow.put("objectid", UUID.randomUUID());
         }
 
         command = new InsertRowsCommand("snprc_ehr", "validAccounts");
@@ -338,19 +338,19 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 Maps.of("servicename", "BLOOD LAB SERVICES",
                         "dataset", "Hematology",
                         "serviceid", "11111",
-                        "objectid", new GUID()),
+                        "objectid", UUID.randomUUID()),
                 Maps.of("servicename", "X VIRUS",
                         "dataset", "Surveillance",
                         "serviceid", "22222",
-                        "objectid", new GUID()),
+                        "objectid", UUID.randomUUID()),
                 Maps.of("servicename", "FULL PANEL CULTURE",
                         "dataset", "Microbiology",
                         "serviceid", "33333",
-                        "objectid", new GUID()),
+                        "objectid", UUID.randomUUID()),
                 Maps.of("servicename", "URINE CHEM",
                         "dataset", "Urinalysis",
                         "serviceid", "44444",
-                        "objectid", new GUID())
+                        "objectid", UUID.randomUUID())
         );
 
         command = new InsertRowsCommand("snprc_ehr", "labwork_services");
