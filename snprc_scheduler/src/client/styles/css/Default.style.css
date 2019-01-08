@@ -16,7 +16,6 @@
   
   .input-group-addon-buffer {
     width: 36px; 
-
   }
 
   .smooth-border {
@@ -72,4 +71,33 @@
   .zero-side-padding {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .control-label {
+    text-align: left !important;
+    float: left;
+    margin-top: 5px;
+    width: 40%;
+    clear: both;
+    margin-left: 20px;
+  }
+
+  input.form-control {
+    width: 40%;
+  }
+
+  textarea.form-control {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+
+  .scheduler-save-cancel-btn {
+    margin-left: 17px;
+    margin-right: 15px;
+    width: 100%;
+  }
+
+  .scheduler-save-cancel {
+    padding-right: 15px;
   }

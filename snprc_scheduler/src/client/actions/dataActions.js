@@ -23,6 +23,7 @@ export const TIMELINE_LIST_RECEIVED = 'TIMELINE_LIST_RECEIVED';
 export const TIMELINE_LIST_REQUEST_FAILED = 'TIMELINE_LIST_REQUEST_FAILED';
 export const TIMELINE_CREATED = 'TIMELINE_CREATED';
 export const TIMELINE_SELECTED = 'TIMELINE_SELECTED';
+export const UPDATE_SELECTED_TIMELINE = 'UPDATE_SELECTED_TIMELINE';
 export const TIMELINE_REMOVED = 'TIMELINE_REMOVED';
 export const TIMELINE_DUPLICATED = 'TIMELINE_DUPLICATED';
 export const TIMELINE_STATE_CHANGED = 'TIMELINE_STATE_CHANGED';
@@ -30,6 +31,12 @@ export const TIMELINE_DROPPED_ON_CALENDAR = 'TIMELINE_DROPPED_ON_CALENDAR';
 export const TIMELINE_ITEM_CREATED = 'TIMELINE_ITEM_CREATED';
 export const TIMELINE_ITEM_SELECTED = 'TIMELINE_ITEM_SELECTED';
 export const TIMELINE_ITEM_REMOVED = 'TIMELINE_ITEM_REMOVED';
+export const ADD_TIMELINE_ITEM = 'ADD_TIMELINE_ITEM';
+export const UPDATE_TIMELINE_ROW = 'UPDATE_TIMELINE_ROW';
+export const UPDATE_TIMELINE_ITEM = 'UPDATE_TIMELINE_ITEM';
+export const UPDATE_TIMELINE_PROJECT_ITEM = 'UPDATE_TIMELINE_PROJECT_ITEM';
+export const ASSIGN_TIMELINE_PROCEDURE = 'ASSIGN_TIMELINE_PROCEDURE';
+export const DELETE_TIMELINE_ITEM = 'DELETE_TIMELINE_ITEM';
 export const PROJECT_LIST_SORTED = 'PROJECT_LIST_SORTED';
 export const TIMELINE_LIST_SORTED = 'TIMELINE_LIST_SORTED';
 export const NO_OP = 'NO_OP';
@@ -59,10 +66,17 @@ export function createAction(type, payload) {
         case TIMELINE_LIST_RECEIVED: return { type: type, payload: payload };
         case TIMELINE_LIST_REQUEST_FAILED: return { type: type, payload: payload, error: true };
         case TIMELINE_SELECTED: return { type: type, payload: payload };
+        case UPDATE_SELECTED_TIMELINE: return { type: type, payload: payload };
         case TIMELINE_DUPLICATED: return { type: type, payload: payload };
         case TIMELINE_ITEM_CREATED: return { type: type, payload: payload };
         case TIMELINE_ITEM_REMOVED: return { type: type, payload: payload };
         case TIMELINE_ITEM_SELECTED: return { type: type, payload: payload };
+        case ADD_TIMELINE_ITEM: return { type: type, payload: payload };
+        case UPDATE_TIMELINE_ROW: return { type: type, payload: payload };
+        case UPDATE_TIMELINE_ITEM: return { type: type, payload: payload };
+        case UPDATE_TIMELINE_PROJECT_ITEM: return { type: type, payload: payload };
+        case ASSIGN_TIMELINE_PROCEDURE: return { type: type, payload: payload };
+        case DELETE_TIMELINE_ITEM: return { type: type, payload: payload };
         case TIMELINE_LIST_SORTED: return { type: type, payload: payload };
         case PROJECT_LIST_SORTED: return { type: type, payload: payload };
         default: return { type: type }
@@ -170,4 +184,53 @@ export function duplicateTimeline(timeline) {
     return (dispatch) => {
         dispatch(createAction(TIMELINE_DUPLICATED, timeline));
     }   
+}
+
+export function addTimelineItem(item) {
+    if (verboseOutput) console.log('addTimelineItem(Study Day: ' + item.StudyDay);
+    return (dispatch) => {
+        dispatch(createAction(ADD_TIMELINE_ITEM, item));
+    }
+}
+
+export function updateTimelineRow(item) {
+    if (verboseOutput) console.log('updateTimelineRow - Study Day: ' + item.StudyDay);
+    return (dispatch) => {
+        dispatch(createAction(UPDATE_TIMELINE_ROW, item));
+    }
+}
+
+export function updateTimelineItem(item) {
+    if (verboseOutput) console.log('updateTimelineItem - Study Day: ' + item.StudyDay);
+    return (dispatch) => {
+        dispatch(createAction(UPDATE_TIMELINE_ITEM, item));
+    }
+}
+
+export function updateSelectedTimeline(timeline) {
+    if (verboseOutput) console.log('updateSelectedTimeline');
+    return (dispatch) => {
+        dispatch(createAction(UPDATE_SELECTED_TIMELINE, timeline));
+    }
+}
+
+export function assignTimelineProcedure(item) {
+    if (verboseOutput) console.log('ASSIGN_TIMELINE_PROCEDURE');
+    return (dispatch) => {
+        dispatch(createAction(ASSIGN_TIMELINE_PROCEDURE, item));
+    }
+}
+
+export function updateTimelineProjectItem(projectItem) {
+    if (verboseOutput) console.log('UPDATE_TIMELINE_PROJECT_ITEM');
+    return (dispatch) => {
+        dispatch(createAction(UPDATE_TIMELINE_PROJECT_ITEM, projectItem));
+    }
+}
+
+export function deleteTimelineItem(timelineItem) {
+    if (verboseOutput) console.log('DELETE_TIMELINE_ITEM');
+    return (dispatch) => {
+        dispatch(createAction(DELETE_TIMELINE_ITEM, timelineItem));
+    }
 }

@@ -27,7 +27,14 @@ import { ANIMAL_LIST_RECEIVED,
          TIMELINE_LIST_RECEIVED,
          TIMELINE_DUPLICATED,
          TIMELINE_SELECTED,
+         UPDATE_SELECTED_TIMELINE,
          TIMELINE_LIST_SORTED,
+         ADD_TIMELINE_ITEM,
+         UPDATE_TIMELINE_ROW,
+         UPDATE_TIMELINE_ITEM,
+         UPDATE_TIMELINE_PROJECT_ITEM,
+         ASSIGN_TIMELINE_PROCEDURE,
+         DELETE_TIMELINE_ITEM,
          PROJECT_LIST_SORTED
        } from "../actions/dataActions";
 
@@ -148,6 +155,97 @@ export default (state = { }, action) => {
             // action payload is the timeline object
             nextState.selectedTimeline = action.payload;
             break;
+        case ADD_TIMELINE_ITEM:
+            // action payload is the timeline item
+            nextState.selectedTimeline.TimelineItems.push(action.payload);
+            break;
+        case UPDATE_TIMELINE_ROW:
+            // action payload is timeline item
+            nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                if(action.payload.RowIdx === item.RowIdx) {
+                    return { ...item, ...action.payload }
+                }
+                else return item;
+            })
+
+            break;
+        case UPDATE_TIMELINE_ITEM:
+            // action payload is timeline item
+            nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                if((action.payload.ObjectId && (action.payload.ObjectId === item.ObjectId))
+                    || (!action.payload.ObjectId && (action.payload.RowIdx === item.RowIdx) && (action.payload.ProjectItemId === item.ProjectItemId))) {
+                    return { ...item, ...action.payload }
+                }
+                else return item;
+            })
+
+            break;
+        case UPDATE_SELECTED_TIMELINE:
+
+            nextState.selectedTimeline = {...nextState.selectedTimeline, ...action.payload};
+            break;
+        case ASSIGN_TIMELINE_PROCEDURE:
+
+            // Unchecking
+            if (action.payload.Value === false) {
+
+                // If unchecking a project item not persisted in db then just erase it
+                nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.filter(
+                        item => (item.ObjectId || (action.payload.ProjectItemId !== item.ProjectItemId)
+                        || (action.payload.RowIdx !== item.RowIdx))
+                )
+
+                // If persisted set IsDeleted flag
+                nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                    if(item.ObjectId && (action.payload.ProjectItemId === item.ProjectItemId)
+                        && (action.payload.RowIdx === item.RowIdx)) {
+                            item.IsDeleted = true;
+                    }
+
+                    return item;
+                })
+            }
+            // Check
+            else {
+
+                let found = false;
+
+                // If empty project item saved
+                nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                    if(!item.ProjectItemId && (action.payload.RowIdx === item.RowIdx)) {
+                        item.ProjectItemId = action.payload.ProjectItemId;
+                        found = true;
+                    }
+
+                    return item;
+                })
+
+                if (!found) {
+                    nextState.selectedTimeline.TimelineItems.push({
+                        IsDeleted: false,
+                        TimelineObjectId: action.payload.TimelineObjectId,
+                        StudyDay: action.payload.StudyDay,
+                        IsDirty: false,
+                        ScheduleDate: action.payload.ScheduleDate,
+                        ProjectItemId: action.payload.ProjectItemId,
+                        RowIdx: action.payload.RowIdx
+                    })
+                }
+            }
+
+            break;
+        case UPDATE_TIMELINE_PROJECT_ITEM:
+
+            nextState.selectedTimeline.TimelineProjectItems = nextState.selectedTimeline.TimelineProjectItems.map(projItem => {
+
+                if (projItem.ProjectItemId === action.payload.ProjectItemId) {
+                    projItem = { ...projItem, ...action.payload }
+                }
+
+                return projItem;
+            })
+
+            break;
         case PROJECT_LIST_SORTED:
             // action payload is an object containing the sort parameters { field: ?, direction: ? }
             if (action.payload.direction == "NONE") nextState.projects = nextState.allProjects;
@@ -156,7 +254,18 @@ export default (state = { }, action) => {
                 if (action.payload.direction == 'DESC') nextState.projects = nextState.projects.reverse();
             }
             break;
-        case TIMELINE_LIST_SORTED:
+        case DELETE_TIMELINE_ITEM:
+
+            nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.filter(item => {
+                if (item.RowIdx === action.payload.RowIdx) {
+                    if (item.ObjectId) {
+                        item.IsDeleted = true;
+                        return true;
+                    }
+                    else return false;
+                }
+                return true;
+            });
 
             break;            
     };

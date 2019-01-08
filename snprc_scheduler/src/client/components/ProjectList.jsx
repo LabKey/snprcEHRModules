@@ -98,7 +98,7 @@ class ProjectList extends React.Component {
                 name="projectSearch" 
                 placeholder="Search projects" />
             </div>
-            <div className="bottom-padding-8">
+            <div className="bottom-padding-8" >
                 <ReactDataGrid
                     rowKey="ProjectId"
                     columns={this.state.projectCols}
@@ -106,7 +106,7 @@ class ProjectList extends React.Component {
                     rowsCount={this.state.projectCount}
                     onGridSort={this.handleGridSort}
                     enableCellSelect={true}
-                    minHeight={284}
+                    minHeight={227}
                     rowSelection={{
                         showCheckbox: true,
                         enableShiftSelect: false,

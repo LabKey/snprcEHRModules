@@ -89,7 +89,7 @@ class TimelineList extends React.Component {
                 columns={this.state.timelineCols}
                 rowGetter={this.timelineRowGetter}
                 rowsCount={projectCount}
-                minHeight={300}
+                minHeight={250}
                 onGridRowsUpdated={this.onTimelineRowsUpdated}
                 rowSelection={{
                     showCheckbox: true,
