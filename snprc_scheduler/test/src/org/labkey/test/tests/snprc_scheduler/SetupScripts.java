@@ -7,15 +7,18 @@ public class SetupScripts
     private static final int PKG_ID2 = 5002;
     private static final int PKG_ID3 = 5004;
     private static final int SUPER_PKG_ID_START = 10000;
-    private static final int SUPER_PKG_ID1 = 10001;
-    private static final int SUPER_PKG_ID2 = 10002;
-    private static final int SUPER_PKG_ID3 = 10003;
-    private static final int PROJECT_ID = 500;
-    private static final int REVISION_NUM = 1;
+
+
     private static final int PROJECT_REF_ID = 100;
     private static final String PROJECT_START_DATE = "2018-01-01";
     private static final String PROJECT_END_DATE = "2018-01-02";
     private static final String PROJECT_DESC = "Project Test";
+
+    public static final int PROJECT_ID = 500;
+    public static final int REVISION_NUM = 0;
+    public static final int SUPER_PKG_ID1 = 10001;
+    public static final int SUPER_PKG_ID2 = 10002;
+    public static final int SUPER_PKG_ID3 = 10003;
 
     public static final String ADD_PKG1 = "LABKEY.Ajax.request({   \n" +
             "    method: 'POST',                                                    \n" +

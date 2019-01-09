@@ -242,7 +242,7 @@ public class SNPRC_schedulerController extends SpringActionController
             }
             catch (RuntimeException e)
             {
-                errors.reject(err.getMessage());
+                errors.reject(e.getMessage());
             }
 
             if (err.hasErrors())

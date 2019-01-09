@@ -119,7 +119,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         List<TimelineProjectItem> timelineProjectItems = new ArrayList<>();
         List<TimelineAnimalJunction> timelineAnimalItems = new ArrayList<>();
 
-        UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
+        UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+        //UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
         DbScope scope = schema.getDbSchema().getScope();
 
         // Is the timeline going to be deleted?
