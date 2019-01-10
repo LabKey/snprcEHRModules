@@ -192,6 +192,7 @@ class TimelineGrid extends React.Component {
 
                             if (!savedRows[0][item.ProjectItemId]) {
                                 savedRows[0][item.ProjectItemId] = true;
+                                item.RowIdx = savedRows[0].RowIdx;
                             }
                             else {
                                 lastRowIdx++;
@@ -204,8 +205,9 @@ class TimelineGrid extends React.Component {
                                     TimelineObjectId: item.TimelineObjectId,
                                     [item.ProjectItemId]: true
                                 });
+
+                                item.RowIdx = lastRowIdx;
                             }
-                            item.RowIdx = lastRowIdx;
                         }
                         // Create new row
                         else {
