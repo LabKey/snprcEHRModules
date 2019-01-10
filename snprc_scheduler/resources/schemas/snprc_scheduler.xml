@@ -17,6 +17,7 @@
         <column columnName="StartDate"/>
         <column columnName="EndDate"/>
         <column columnName="Description"/>
+        <column columnName="RC"/>
         <column columnName="LeadTech"/>
         <column columnName="Notes"/>
         <column columnName="SchedulerNotes"/>
