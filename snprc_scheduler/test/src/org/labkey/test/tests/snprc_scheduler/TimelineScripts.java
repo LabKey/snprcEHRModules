@@ -143,7 +143,7 @@ public class TimelineScripts
                 "   failure: function(e){ callback(e.responseText); },\n" +
                 "   success: function(data) {\n" +
                 "       var rows = JSON.parse(data.response).rows;\n" +
-                "       if (typeof json !== undefined && rows[0].ObjectId === '" + timelineObjectId + "')\n" +
+                "       if (typeof rows !== undefined && rows[0].ObjectId === '" + timelineObjectId + "')\n" +
                 "       {\n" +
                 "           callback('Success!');\n" +
                 "       }\n" +
