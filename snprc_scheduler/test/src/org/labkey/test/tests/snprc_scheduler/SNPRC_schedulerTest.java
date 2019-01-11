@@ -15,12 +15,16 @@ import org.labkey.remoteapi.query.SelectRowsCommand;
 import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.Sort;
 import org.labkey.test.BaseWebDriverTest;
+import org.labkey.test.Locator;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.util.ApiPermissionsHelper;
 import org.labkey.test.util.PermissionsHelper;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,11 +48,14 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     protected static TestUser BAD_USER = new TestUser("bad_user@foo.bar", SecurityGroup.NO_ACCESS, SecurityRole.NO_ACCESS);
     protected ApiPermissionsHelper _permissionsHelper = new ApiPermissionsHelper(this);
 
+    final static String SNPRC_EHR_PATH  = "externalModules/snprcEHRModules/snprc_ehr";
+    private static Integer _pipelineJobCount = 0;
+
+
     @BeforeClass
     public static void setupProject()
     {
         SNPRC_schedulerTest init = (SNPRC_schedulerTest) getCurrentTest();
-
         init.doSetup();
     }
 
@@ -87,7 +94,34 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, SecurityRole.READER.name, PermissionsHelper.MemberType.group);
         _permissionsHelper.addMemberToRole(SecurityGroup.EDITOR.name, SecurityRole.EDITOR.name, PermissionsHelper.MemberType.group);
 
+
+        importStudy();
         setup_sndData();
+    }
+
+
+    protected void importStudy()
+    {
+        File path = new File(TestFileUtils.getLabKeyRoot(), SNPRC_EHR_PATH + "/resources/referenceStudy");
+        setPipelineRoot(path.getPath());
+
+        beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + PROJECTNAME + "/begin.view");
+        clickButton("Process and Import Data", defaultWaitForPage);
+
+        _fileBrowserHelper.expandFileBrowserRootNode();
+        _fileBrowserHelper.checkFileBrowserFileCheckbox("study.xml");
+
+        if (isTextPresent("Reload Study"))
+            _fileBrowserHelper.selectImportDataAction("Reload Study");
+        else
+            _fileBrowserHelper.selectImportDataAction("Import Study");
+
+        Locator cb = Locator.checkboxByName("validateQueries");
+        waitForElement(cb);
+        uncheckCheckbox(cb);
+
+        clickButton("Start Import"); // Validate queries page
+        waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
     }
 
     @Before
@@ -95,7 +129,6 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     {
         goToProjectHome();
     }
-
 
     public void setup_sndData()
     {
@@ -193,7 +226,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
 
         goToProjectHome();
         TimelineScripts ts = new TimelineScripts();
-        runScript(ts.getTimelineScript(getTestProjectObjectId()));
+        runScript(ts.getTimelineScript(getTestProjectObjectId(), getTestTimelineObjectId()));
         stopImpersonating();
     }
 
