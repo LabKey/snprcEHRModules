@@ -39,6 +39,7 @@ public class TimelineScripts
                 "        'Created' : '2018/09/20 00:00:00',\n" +
                 "        'StartDate' : '2018/02/01 00:00:00',\n" +
                 "        'LeadTechs' : 'Henry Ford, Nicoli Tesla',\n" +
+                "        'RC' : 'Mouse, Mikey',\n" +
                 "        'Notes' : 'Dont take any wooden nickels.',\n" +
                 "        'TimelineItems' : [\n" +
                 "          { 'IsDirty' : true ,\n" +

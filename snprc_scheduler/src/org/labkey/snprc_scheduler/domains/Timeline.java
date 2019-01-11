@@ -37,6 +37,7 @@ public class Timeline //extends Entity
     private Integer _projectId;
     private Integer _projectRevisionNum;
     private String _projectObjectId;
+    private String _rc;
     private Date _created;
     private Date _modified;
     private Integer _createdBy;
@@ -75,6 +76,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_ANIMAL_ITEMS = "TimelineAnimalItems";
     public static final String TIMELINE_IS_DELETED = "IsDeleted";
     public static final String TIMELINE_IS_DIRTY = "IsDirty";
+    public static final String TIMELINE_RC = "RC";
 
     public static final String TIMELINE_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";  //
     public static final String TIMELINE_DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
@@ -107,6 +109,7 @@ public class Timeline //extends Entity
             this.setProjectRevisionNum(json.has(Timeline.TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_PROJECT_REVISION_NUM) : null);
             this.setDeleted(json.has(Timeline.TIMELINE_IS_DELETED) && json.getBoolean(Timeline.TIMELINE_IS_DELETED));
             this.setDirty(json.has(Timeline.TIMELINE_IS_DIRTY) && json.getBoolean(Timeline.TIMELINE_IS_DIRTY));
+            this.setRc(json.has(Timeline.TIMELINE_RC) ? json.getString(Timeline.TIMELINE_RC) : null);
 
             String startDateString = json.has(Timeline.TIMELINE_STARTDATE) ? json.getString(Timeline.TIMELINE_STARTDATE) : null;
             String endDateString = json.has(Timeline.TIMELINE_ENDDATE) ? json.getString(Timeline.TIMELINE_ENDDATE) : null;
@@ -424,6 +427,16 @@ public class Timeline //extends Entity
         _isDirty = dirty;
     }
 
+    public String getRc()
+    {
+        return _rc;
+    }
+
+    public void setRc(String rc)
+    {
+        _rc = rc;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c, User u)
     {
@@ -450,6 +463,7 @@ public class Timeline //extends Entity
         values.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
         values.put(TIMELINE_IS_DELETED, getDeleted());
         values.put(TIMELINE_IS_DIRTY, getDirty());
+        values.put(TIMELINE_RC, getRc());
 
         if (getTimelineItems().size() > 0)
         {
@@ -515,6 +529,7 @@ public class Timeline //extends Entity
         json.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
         json.put(TIMELINE_IS_DELETED, getDeleted());
         json.put(TIMELINE_IS_DIRTY, getDirty());
+        json.put(TIMELINE_RC, getRc());
 
         if (getTimelineItems().size() > 0)
         {
@@ -590,6 +605,7 @@ public class Timeline //extends Entity
                 Objects.equals(_projectId, timeline._projectId) &&
                 Objects.equals(_projectRevisionNum, timeline._projectRevisionNum) &&
                 Objects.equals(_projectObjectId, timeline._projectObjectId) &&
+                Objects.equals(_rc, timeline._rc) &&
                 Objects.equals(_created, timeline._created) &&
                 Objects.equals(_modified, timeline._modified) &&
                 Objects.equals(_createdBy, timeline._createdBy) &&
@@ -607,6 +623,6 @@ public class Timeline //extends Entity
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTechs, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
+        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTechs, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
     }
 }
