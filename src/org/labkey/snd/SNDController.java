@@ -100,12 +100,6 @@ public class SNDController extends SpringActionController
         {
             return new ActionURL(NAME, "app", getContainer());
         }
-
-        @Override
-        public boolean doAction(Object o, BindException errors)
-        {
-            return true;
-        }
     }
 
     @RequiresPermission(AdminPermission.class)
