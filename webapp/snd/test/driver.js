@@ -28,7 +28,7 @@
         IMPERSONATE_ROLES_URL: LABKEY.ActionURL.buildURL('user', 'impersonateRoles.api'),
         ADD_ASSIGNMENT_URL: LABKEY.ActionURL.buildURL('security', 'addAssignment.api'),
         CLEAR_ASSIGNMENTS_URL: LABKEY.ActionURL.buildURL('security', 'clearAssignedRoles.api'),
-        STOP_IMPERSONATING_URL: LABKEY.ActionURL.buildURL('login', 'logOut.api')
+        STOP_IMPERSONATING_URL: LABKEY.ActionURL.buildURL('login', 'stopImpersonating.api')
     };
 
     var report = {
