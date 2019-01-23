@@ -661,6 +661,7 @@
     function stopImpersonating(cb) {
         LABKEY.Ajax.request({
             url: TEST_URLS.STOP_IMPERSONATING_URL,
+            method: 'POST',
             scope: this,
             failure: function (json) {
                 handleFailure(json, 'Failed to stop impersonation.');
