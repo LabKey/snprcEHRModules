@@ -96,15 +96,11 @@ public class SNDController extends SpringActionController
     public class BeginAction extends RedirectAction
     {
         @Override
-        public URLHelper getSuccessURL(Object o)
+        public URLHelper getURL(Object o, Errors errors)
         {
-            return new ActionURL(NAME, "app", getContainer());
-        }
 
-        @Override
-        public boolean doAction(Object o, BindException errors)
-        {
-            return true;
+            return new ActionURL(NAME, "app", getContainer());
+
         }
     }
 
