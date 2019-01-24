@@ -53,17 +53,12 @@ public class SNPRC_schedulerController extends SpringActionController
     {
 
         @Override
-        public URLHelper getSuccessURL(Object o)
+        public URLHelper getURL(Object o, Errors errors)
         {
+
             return new ActionURL(NAME, "app", getContainer());
-        }
 
-        @Override
-        public boolean doAction(Object o, BindException errors)
-        {
-            return true;
         }
-
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482
