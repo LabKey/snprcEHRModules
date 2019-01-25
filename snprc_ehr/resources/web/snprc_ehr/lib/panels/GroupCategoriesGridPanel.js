@@ -16,15 +16,16 @@ Ext4.define("GroupCategoriesGridPanel", {
             if (!selected[0]) {
                 return;
             }
+            var categoryCode = selected[0].get("categoryCode");
             Ext4.getCmp('group-category-form-panel').loadRecord(selected[0]);
             Ext4.getCmp('groups-grid-panel').getStore().load({
                 params: {
-                    'categoryCode': selected[0].get("categoryCode")
+                    'categoryCode': categoryCode
                 }
-
             });
-            Ext4.getCmp('groups-grid-panel').getStore().setCategory(selected[0].get("categoryCode"));
-        }
+            Ext4.getCmp('groups-grid-panel').getStore().setCategory(categoryCode);
+        },
+        buffer: 10
     },
     tbar: Ext4.create('Ext.toolbar.Toolbar', {
                 defaults: {
@@ -168,6 +169,9 @@ Ext4.define("GroupCategoriesGridPanel", {
                             failure: function () {
                                 Ext4.Msg.alert("Error", "Unable to delete this Category");
                                 grid.getStore().load();
+                            },
+                            success: function () {
+                                grid.view.select(1);
                             }
                         });
 
@@ -180,7 +184,6 @@ Ext4.define("GroupCategoriesGridPanel", {
     ],
 
     setFilter: function () {
-
         this.getStore().clearFilter(true);
         this.getStore().filter([{
             property: 'description',

@@ -30,7 +30,9 @@ public enum AssignmentFailureReason
     FUTURE_DATE_NOT_ALLOWED("Future Dates not allowed"),
     NOT_APPLICABLE_SPECIES("Species Mismatch"),
     GROUP_DOES_NOT_EXIST("Animal group does not exist"),
-    INVALID_DATE("Assignment start and end date must be between groups start and end date.");
+    INVALID_DATE("Assignment start and end date must be between groups start and end date."),
+    INVALID_START_OR_END_DATE("End Date must be greater than Start Date."),
+    END_DATE_REQUIRED("Group member must have an end date when the group has an end date.");
 
     private String reason;
 

@@ -8,7 +8,7 @@
  */
 
 require("ehr/triggers").initScript(this);
-var snprcTriggerHelper = new org.labkey.snprc_ehr.query.SNPRC_EHRTriggerHelper(LABKEY.Security.currentUser.id, LABKEY.Security.currentContainer.id);
+let snprcTriggerHelper = new org.labkey.snprc_ehr.query.SNPRC_EHRTriggerHelper(LABKEY.Security.currentUser.id, LABKEY.Security.currentContainer.id);
 
 
 function onInit(event, helper) {
@@ -24,13 +24,13 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
         row.code = snprcTriggerHelper.getNextAnimalGroup();
     }
 
-    var message = undefined;
+    let message;
 
     // if there is an endDate, it must be >= startDate (date)
     if (row.enddate) {
 
-        var startDate = new Date(row.date);
-        var endDate = new Date(row.enddate);
+        let startDate = new Date(row.date);
+        let endDate = new Date(row.enddate);
 
         if (startDate > endDate) {
             message = 'End date must occur on or after the start date.';
@@ -48,14 +48,14 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
     // }
 
     // enddate changes
-    var old_enddate, new_enddate;
+    let old_enddate, new_enddate;
     if (message === undefined && oldRow && row.enddate) {
 
         if (oldRow.enddate === undefined) {
             old_enddate = new Date(row.enddate)
         }
         else {
-            var d = oldRow.enddate.split("-");
+            let d = oldRow.enddate.split("-");
             old_enddate = new Date(d[0], d[1] - 1, d[2]);
         }
 
@@ -70,11 +70,13 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
                 scope: this,
                 filterArray: [
                     LABKEY.Filter.create('groupId', row.code, LABKEY.Filter.Types.EQUAL),
-                    LABKEY.Filter.create('enddate', null, LABKEY.Filter.Types.MISSING)
+                    LABKEY.Filter.create('enddate', row.enddate, LABKEY.Filter.Types.MISSING)
                 ],
                 success: function (data) {
                     if (data.rows && data.rows.length) {
-                        message = "Group has active members that must be end dated first."
+
+                        console.log(JSON.stringify(data.rows));
+                        message = "Cannot enter an end date for a group that has members that are not end dated.";
                     }
                 },
                 failure: function (error) {
@@ -90,11 +92,11 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
             if (message === undefined) {
                 LABKEY.Query.selectRows({
                     schemaName: 'study',
-                    queryName: 'MaxEndDateForAnimalGroup',
+                    queryName: 'animal_group_members',
                     columns: 'groupid',
                     scope: this,
                     filterArray: [
-                        LABKEY.Filter.create('groupId', row.groupId, LABKEY.Filter.Types.EQUAL),
+                        LABKEY.Filter.create('groupId', row.code, LABKEY.Filter.Types.EQUAL),
                         LABKEY.Filter.create('enddate', row.enddate, LABKEY.Filter.Types.GREATER_THAN)
                     ],
                     success: function (data) {
@@ -108,10 +110,46 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
                 });
 
                 if (message) {
-                    if (message) {
                         EHR.Server.Utils.addError(scriptErrors, 'enddate', message, 'ERROR');
-                    }
                 }
+            }
+        }
+    }
+
+    // if start date changes, it must be less than or equal to the minimum start date for assigned group members
+
+    if (message === undefined && oldRow && row.date && oldRow.date) {
+
+        let oldStartDate, newStartDate;
+        oldStartDate = new Date(oldRow.date);
+        newStartDate = new Date(row.date);
+
+        if (newStartDate.getTime() !== oldStartDate.getTime()) {
+
+            LABKEY.Query.selectRows({
+                schemaName: 'study',
+                queryName: 'animal_group_members',
+                columns: 'groupid, date',
+                scope: this,
+                filterArray: [
+                    LABKEY.Filter.create('groupid', oldRow.code, LABKEY.Filter.Types.EQUAL),
+                    LABKEY.Filter.create('date', row.date, LABKEY.Filter.Types.DATE_LESS_THAN)
+                ],
+                success: function (data) {
+                    if (data.rows && data.rows.length > 0) {
+                        message = "Start date must be greater than or equal to the minium start date for assigned group members.";
+                    }
+                    else {
+                        console.log("no rows returned");
+                    }
+                },
+                failure: function (error) {
+                    message = 'Error reading from study.MinStartDateForAnimalGroup query';
+                }
+            });
+
+            if (message) {
+                    EHR.Server.Utils.addError(scriptErrors, 'date', message, 'ERROR');
             }
         }
     }
