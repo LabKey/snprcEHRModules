@@ -17,9 +17,9 @@ SELECT d2.id,
        ifdefined(d2.housingCondition) AS cond,
        d2.date, d2.reason, d2.remark,
        coalesce(d2.room, '')          AS room_order,
-       d2.room_sortValue @ hidden,
+       d2.room_sortValue @hidden,
        coalesce(d2.cage, '')          AS cage_order,
-       d2.cage_sortValue @ hidden
+       d2.cage_sortValue @hidden
 FROM study.housing d2
 WHERE d2.enddate IS NULL
   AND d2.qcstate.publicdata = true;
