@@ -35,9 +35,9 @@ public class TimelineScripts
                 "        'Description' : 'Timeline #1 revision 1',\n" +
                 "        'ProjectObjectId' : '" + testProjectObjectId + "',\n" +
                 "        'SchedulerNotes' : 'Of all the things ive lost in life, i miss my mind the most',\n" +
-                "        'EndDate' : '2018/12/30 00:00:00',\n" +
-                "        'Created' : '2018/09/20 00:00:00',\n" +
-                "        'StartDate' : '2018/02/01 00:00:00',\n" +
+                "        'EndDate' : '2018-12-30',\n" +
+                "        'Created' : '2018-09-20',\n" +
+                "        'StartDate' : '2018-02-01',\n" +
                 "        'LeadTechs' : 'Henry Ford, Nicoli Tesla',\n" +
                 "        'RC' : 'Mouse, Mikey',\n" +
                 "        'Notes' : 'Dont take any wooden nickels.',\n" +
@@ -115,9 +115,9 @@ public class TimelineScripts
                 "        'Description' : 'Timeline #1 revision 1',\n" +
                 "        'ProjectObjectId' : '" + testProjectObjectId + "',\n" +
                 "        'SchedulerNotes' : 'Of all the things ive lost in life, i miss my mind the most',\n" +
-                "        'EndDate' : '2018/12/30 00:00:00',\n" +
-                "        'Created' : '2018/09/20 00:00:00',\n" +
-                "        'StartDate' : '2018/02/01 00:00:00',\n" +
+                "        'EndDate' : '2018-12-30',\n" +
+                "        'Created' : '2018-09-20',\n" +
+                "        'StartDate' : '2018-02-01',\n" +
                 "        'LeadTechs' : 'Henry Ford, Nicoli Tesla',\n" +
                 "        'Notes' : 'Dont take any wooden nickels.',\n" +
                 "        'ObjectId' : '" + timelineObjectId + "',\n" +

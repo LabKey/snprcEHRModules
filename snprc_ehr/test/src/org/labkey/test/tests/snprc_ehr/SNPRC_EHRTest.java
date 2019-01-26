@@ -559,9 +559,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertEquals("Wrong not-found ID(s)", Arrays.asList(notFound), historyPage.getNotFoundIds());
 
         List<String> expectedIds = new ArrayList<>();
+        expectedIds.add(id);
         expectedIds.add(aliasedId);
         expectedIds.addAll(conflictedIds);
-        expectedIds.add(id);
 
         historyPage.clickReportTab("Demographics");
         DataRegionTable demographics = historyPage.getActiveReportDataRegion();
