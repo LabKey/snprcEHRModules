@@ -6,13 +6,27 @@ import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
 import TimelineList from '../components/TimelineList';
 import TimelineDetails from '../components/TimelineDetails';
-import {Button, Panel, PanelGroup} from "react-bootstrap";
+import {Button, Modal, Panel, PanelGroup} from "react-bootstrap";
 import CalendarDetails from "../components/CalendarDetails";
 import AnimalDetails from "../components/AnimalDetails";
 import ProjectMain from "../components/ProjectMain";
 import TimelineGrid from "../components/TimelineGrid";
 import CalendarList from "../components/CalendarList";
 import AnimalMain from "../components/AnimalMain";
+
+import {
+    addTimelineItem, assignTimelineProcedure, deleteTimelineItem,
+    saveTimeline, saveTimelineSuccess, selectTimeline,
+    updateSelectedTimeline,
+    updateTimelineItem, updateTimelineProjectItem,
+    updateTimelineRow
+} from '../actions/dataActions';
+// import {  } from "@fortawesome/fontawesome-free";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library, icon } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faSpinner)
 
 const TAB_PROJECTS = 0x0;
 const TAB_TIMELINES = 0x1;
@@ -25,6 +39,7 @@ class ProjectsView extends React.Component {
         super(props);
         this.state = {
             selectedTab: TAB_PROJECTS,
+            showSaving: false
         };
     }
 
@@ -48,6 +63,93 @@ class ProjectsView extends React.Component {
             case TAB_CALENDAR: return <AnimalMain />;
             default: return <ProjectMain />;
         }
+    }
+
+    modalStyle = () => {
+
+        return {
+            position: 'fixed',
+            width: 400,
+            zIndex: 1040,
+            top: '35%',
+            left: '45%',
+            backgroundColor: 'transparent'
+        };
+    };
+
+    backdropStyle = () => {
+
+        return {
+            position: 'fixed',
+            zIndex: 1040,
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: '#000',
+            opacity: 0.5
+        }
+    };
+
+    renderBackdrop = (props) => {
+        return <div {...props} style={this.backdropStyle()}/>;
+    }
+
+    cancel = () => {
+        let r = confirm('Any unsaved data will be lost and the page will reload.  Are you sure?');
+        if (r === true) {
+            location.reload();
+        }
+    }
+
+    save = () => {
+        return () => {
+            // dispatch(setSubmitting(model));
+            const timeline = this.props.selectedTimeline;
+            timeline.IsDirty = true;
+
+            this.setState(state => {
+                state.showSaving = true;
+                return state;
+            });
+
+            return saveTimeline(timeline).then((response) => {
+                this.setState(state => {
+                    state.showSaving = false;
+                    return state;
+                });
+
+                if (!response.success) {
+                    if (response.responseText) {
+                        alert("Error on save: " + response.responseText);
+                        console.warn('save project error', response.responseText);
+                    }
+                    else {
+                        alert("Error on save: Success value false");
+                        console.warn('save project error', "success value false");
+                    }
+                }
+                else {
+                    console.log('save timeline succeeded');
+                    this.props.onSaveSuccess(response.rows);
+                }
+
+            }).catch((error) => {
+                this.setState(state => {
+                    state.showSaving = false;
+                    return state;
+                });
+
+                if (error.exception) {
+                    alert("Error on save: " + error.exception);
+                    console.warn('save project error', error.exception);
+                }
+                else if (error.errors) {
+                    alert("Error on save: " + error.errors[0].msg);
+                    console.warn('save project error', error.errors[0].msg);
+                }
+            });
+        };
     }
 
     render() {
@@ -90,6 +192,18 @@ class ProjectsView extends React.Component {
             </PanelGroup>
         );
         return <div>
+            <Modal
+                    // onHide={this.close}
+                    style={this.modalStyle()}
+                    aria-labelledby="modal-label"
+                    show={this.state.showSaving}
+                    renderBackdrop={this.renderBackdrop}
+                    className={'timeline-saving-modal'}
+            >
+                <div style={{backgroundColor: 'transparent'}}>
+                    <FontAwesomeIcon icon={["fa", "spinner"]} size={"9x"} pulse/>
+                </div>
+            </Modal>
             <div className='row spacer-row'></div>
             <div className='row'>
                 <div className='col-sm-12'>{detailView}</div>
@@ -98,8 +212,10 @@ class ProjectsView extends React.Component {
                         {accordionComponent}
                     </div>
                     <div className='scheduler-save-cancel'>
-                        <div className='col-sm-6'> <Button className='scheduler-save-cancel-btn'>Save</Button> </div>
-                        <div className='col-sm-6'> <Button className='scheduler-save-cancel-btn'>Cancel</Button> </div>
+                        <div className='col-sm-6'>
+                            <Button disabled={this.props.selectedTimeline == null || this.props.selectedTimeline.RevisionNum == null} onClick={this.props.selectedTimeline ? this.save() : null} className='scheduler-save-cancel-btn'>Save</Button>
+                        </div>
+                        <div className='col-sm-6'> <Button onClick={this.cancel} className='scheduler-save-cancel-btn'>Cancel</Button> </div>
                     </div>
                 </div>
                 <div className='col-sm-9'>{mainView}</div>
@@ -110,9 +226,15 @@ class ProjectsView extends React.Component {
   }
 
 const mapStateToProps = state => ({
-    selectedProject: state.project.selectedProject
+    selectedProject: state.project.selectedProject || null,
+    selectedTimeline: state.project.selectedTimeline || null
+})
+
+const mapDispatchToProps = dispatch => ({
+    onSaveSuccess: timeline => dispatch(saveTimelineSuccess(timeline))
 })
 
 export default connect(
-        mapStateToProps
+        mapStateToProps,
+        mapDispatchToProps
 )(ProjectsView)

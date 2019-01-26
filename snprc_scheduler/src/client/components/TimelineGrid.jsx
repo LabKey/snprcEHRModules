@@ -82,13 +82,25 @@ class TimelineGrid extends React.Component {
         });
     };
 
+    StudyDayFormatter = () => {
+        return ((props) => {
+            if (props.row.RowIdx === 0) {
+                return <div onClick={this.handleNoteShow(colKey)}>
+                    <i className="fa fa-edit"/>
+                </div>
+            }
+            else {
+                return <input type="checkbox" className='chbox' value={props.value} checked={props.value}/>;
+            }
+        });
+    }
+
      EmptyRowsView = () => {
         const message = "Select a timeline";
         return (
                 <div
                         style={{ textAlign: "center", backgroundColor: "rgb(250, 250, 250)", padding: "100px" }}
                 >
-                    {/*<img src="./logo.png" alt={message} />*/}
                     <h3>{message}</h3>
                 </div>
         );
@@ -156,7 +168,7 @@ class TimelineGrid extends React.Component {
         const timeline = this.props.selectedTimeline;
         let sortedRows = [];
 
-        // If we have already loaded the saved timeline data, don't reload (prevents infinite loop)
+        // If we have already loaded the saved timeline data and timeline items have not changed, don't reload (prevents infinite loop)
         if (timeline != null && timeline.TimelineId === this.state.timelineId) {
             sortedRows = this.state.rows;
         }
@@ -167,10 +179,9 @@ class TimelineGrid extends React.Component {
         else { // Reload from saved data
 
             // First sort columns
-            this.getColumns(this.props.selectedProject);
+            let sortedCols = this.getColumns(this.props.selectedProject);
 
             let row = [{RowIdx: 0, StudyDay: 'Proc. Note', ScheduleDate: ''}]; // empty row for procedure notes
-            // let row = [{RowIdx: 0, StudyDay: 'Procedure', ScheduleDate: 'Note'}]; // empty row for procedure notes
             let tlRows = [];
             let lastRowIdx = 0;
 
@@ -232,7 +243,11 @@ class TimelineGrid extends React.Component {
             this.props.onUpdateSelectedTimeline({lastRowIdx: lastRowIdx});
 
             // Sorts and sets rows in grid state
-            sortedRows = this.sortRows(row.concat(tlRows), this.state.sortColumn, this.state.sortDirection);
+            let newState = this.sortRows(row.concat(tlRows), this.state.sortColumn, this.state.sortDirection, false);
+            sortedRows = newState.rows;
+
+            newState.columns = sortedCols;
+            this.setState(Object.assign({}, this.state, newState));
         }
 
         return sortedRows;
@@ -301,7 +316,8 @@ class TimelineGrid extends React.Component {
 
                 this.props.onUpdateTimelineProjectItem({
                     TimelineFootNotes: textArea.value,
-                    ProjectItemId: projectItemId
+                    ProjectItemId: projectItemId,
+                    IsDirty: true
                 })
             }
 
@@ -437,21 +453,23 @@ class TimelineGrid extends React.Component {
             const defaultColCount = 2;
             this.props.onUpdateTimelineProjectItem({
                 ProjectItemId: source,
-                SortOrder: columnTargetIndex - defaultColCount
+                SortOrder: columnTargetIndex - defaultColCount,
+                IsDirty: true
             })
 
             this.props.onUpdateTimelineProjectItem({
                 ProjectItemId: target,
-                SortOrder: columnSourceIndex - defaultColCount
+                SortOrder: columnSourceIndex - defaultColCount,
+                IsDirty: true
             })
         }
     };
 
     setSort = (sortColumn, sortDirection) => {
-        this.sortRows(this.state.rows, sortColumn, sortDirection);
+        this.sortRows(this.state.rows, sortColumn, sortDirection, true);
     };
 
-    sortRows = (initialRows, sortColumn, sortDirection) => {
+    sortRows = (initialRows, sortColumn, sortDirection, setState) => {
         const comparer = (a, b) => {
 
             // Keep procedure note row on top
@@ -481,13 +499,19 @@ class TimelineGrid extends React.Component {
         };
 
         const sortedRows = [...initialRows].sort(comparer);
-        this.setState(Object.assign({}, this.state, {
+        if (setState) {
+            this.setState(Object.assign({}, this.state, {
+                rows: sortedRows,
+                sortDirection: sortDirection,
+                sortColumn: sortColumn
+            }));
+        }
+
+        return {
             rows: sortedRows,
             sortDirection: sortDirection,
             sortColumn: sortColumn
-        }));
-
-        return sortedRows;
+        };
     };
 
     render() {

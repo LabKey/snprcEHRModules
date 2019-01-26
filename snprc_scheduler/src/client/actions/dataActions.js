@@ -23,6 +23,7 @@ export const TIMELINE_LIST_RECEIVED = 'TIMELINE_LIST_RECEIVED';
 export const TIMELINE_LIST_REQUEST_FAILED = 'TIMELINE_LIST_REQUEST_FAILED';
 export const TIMELINE_CREATED = 'TIMELINE_CREATED';
 export const TIMELINE_SELECTED = 'TIMELINE_SELECTED';
+export const TIMELINE_SAVE_SUCCESS = 'TIMELINE_SAVE_SUCCESS';
 export const UPDATE_SELECTED_TIMELINE = 'UPDATE_SELECTED_TIMELINE';
 export const TIMELINE_REMOVED = 'TIMELINE_REMOVED';
 export const TIMELINE_DUPLICATED = 'TIMELINE_DUPLICATED';
@@ -66,6 +67,7 @@ export function createAction(type, payload) {
         case TIMELINE_LIST_RECEIVED: return { type: type, payload: payload };
         case TIMELINE_LIST_REQUEST_FAILED: return { type: type, payload: payload, error: true };
         case TIMELINE_SELECTED: return { type: type, payload: payload };
+        case TIMELINE_SAVE_SUCCESS: return { type: type, payload: payload };
         case UPDATE_SELECTED_TIMELINE: return { type: type, payload: payload };
         case TIMELINE_DUPLICATED: return { type: type, payload: payload };
         case TIMELINE_ITEM_CREATED: return { type: type, payload: payload };
@@ -81,6 +83,22 @@ export function createAction(type, payload) {
         case PROJECT_LIST_SORTED: return { type: type, payload: payload };
         default: return { type: type }
     }    
+}
+
+export function saveTimeline(timelineData) {
+    return new Promise((resolve, reject) => {
+        LABKEY.Ajax.request({
+            method: 'POST',
+            url: LABKEY.ActionURL.buildURL('SNPRC_scheduler', 'updateTimeline.api'),
+            jsonData: timelineData,
+            success: LABKEY.Utils.getCallbackWrapper((data) => {
+                resolve(data);
+            }),
+            failure: LABKEY.Utils.getCallbackWrapper((data) => {
+                reject(data);
+            })
+        });
+    })
 }
 
 function fetchProjects_LABKEY() {
@@ -211,6 +229,13 @@ export function updateSelectedTimeline(timeline) {
     if (verboseOutput) console.log('updateSelectedTimeline');
     return (dispatch) => {
         dispatch(createAction(UPDATE_SELECTED_TIMELINE, timeline));
+    }
+}
+
+export function saveTimelineSuccess(timeline) {
+    if (verboseOutput) console.log('updateSelectedTimeline');
+    return (dispatch) => {
+        dispatch(createAction(TIMELINE_SAVE_SUCCESS, timeline));
     }
 }
 

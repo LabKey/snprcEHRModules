@@ -17,26 +17,28 @@ const SEARCH_MODE_SND = 2;
 var SEARCH_MODE = SEARCH_MODE_SND;
 
 
-import { ANIMAL_LIST_RECEIVED, 
-         ANIMAL_LIST_REQUEST_FAILED, 
-         PROJECT_LIST_RECEIVED, 
-         PROJECT_LIST_REQUEST_FAILED,
-         PROJECT_SELECTED,
-         PROJECT_LIST_FILTERED,
-         ANIMAL_LIST_FILTERED,
-         TIMELINE_LIST_RECEIVED,
-         TIMELINE_DUPLICATED,
-         TIMELINE_SELECTED,
-         UPDATE_SELECTED_TIMELINE,
-         TIMELINE_LIST_SORTED,
-         ADD_TIMELINE_ITEM,
-         UPDATE_TIMELINE_ROW,
-         UPDATE_TIMELINE_ITEM,
-         UPDATE_TIMELINE_PROJECT_ITEM,
-         ASSIGN_TIMELINE_PROCEDURE,
-         DELETE_TIMELINE_ITEM,
-         PROJECT_LIST_SORTED
-       } from "../actions/dataActions";
+import {
+    ANIMAL_LIST_RECEIVED,
+    ANIMAL_LIST_REQUEST_FAILED,
+    PROJECT_LIST_RECEIVED,
+    PROJECT_LIST_REQUEST_FAILED,
+    PROJECT_SELECTED,
+    PROJECT_LIST_FILTERED,
+    ANIMAL_LIST_FILTERED,
+    TIMELINE_LIST_RECEIVED,
+    TIMELINE_DUPLICATED,
+    TIMELINE_SELECTED,
+    TIMELINE_SAVE_SUCCESS,
+    UPDATE_SELECTED_TIMELINE,
+    TIMELINE_LIST_SORTED,
+    ADD_TIMELINE_ITEM,
+    UPDATE_TIMELINE_ROW,
+    UPDATE_TIMELINE_ITEM,
+    UPDATE_TIMELINE_PROJECT_ITEM,
+    ASSIGN_TIMELINE_PROCEDURE,
+    DELETE_TIMELINE_ITEM,
+    PROJECT_LIST_SORTED
+} from "../actions/dataActions";
 
 function hasValue (source, value)  {
     if (source == null) source = '';
@@ -154,6 +156,16 @@ export default (state = { }, action) => {
         case TIMELINE_SELECTED:
             // action payload is the timeline object
             nextState.selectedTimeline = action.payload;
+            break;
+        case TIMELINE_SAVE_SUCCESS:
+            // add empty rows not saved
+            for (const timelineItem of nextState.selectedTimeline.TimelineItems) {
+                if (!timelineItem.ProjectItemId) {
+                    action.payload.TimelineItems.push(timelineItem);
+                }
+            }
+            nextState.selectedTimeline = action.payload;
+
             break;
         case ADD_TIMELINE_ITEM:
             // action payload is the timeline item

@@ -85,8 +85,9 @@
     /*background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);*/
     background-color: rgb(240, 240, 240);
     overflow: hidden;
-    width: 100% !important;
-    margin-right: 500px;
+    /*padding-right: 100px !important;*/
+    /*width: 100% !important;*/
+    /*margin-right: 500px;*/
 }
 
 .timeline-grid .react-grid-Header > div {

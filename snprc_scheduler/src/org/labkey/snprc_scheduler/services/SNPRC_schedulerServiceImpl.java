@@ -84,7 +84,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 if (result != null)
                 {
                     timeline.setProjectId((Integer) result.get("ProjectId"));
-                    timeline.setRevisionNum((Integer) result.get("RevisionNum"));
+                    timeline.setProjectRevisionNum((Integer) result.get("RevisionNum"));
                 }
 
                 timelinesJson.add(timeline.toJSON(c, u));
@@ -146,10 +146,13 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                     {
                         for (int i = 0, size = timelineItemsJsonArray.length(); i < size; i++)
                         {
-                            TimelineItem newItem = new TimelineItem(timelineItemsJsonArray.getJSONObject(i));
-                            // add the timelineObjectId before using the object (it may have been created within this transaction)
-                            newItem.setTimelineObjectId(timeline.getObjectId());
-                            timelineItems.add(newItem);
+                            if (TimelineItem.isValidTimelineItem(timelineItemsJsonArray.getJSONObject(i)))
+                            {
+                                TimelineItem newItem = new TimelineItem(timelineItemsJsonArray.getJSONObject(i));
+                                // add the timelineObjectId before using the object (it may have been created within this transaction)
+                                newItem.setTimelineObjectId(timeline.getObjectId());
+                                timelineItems.add(newItem);
+                            }
                         }
                     }
 

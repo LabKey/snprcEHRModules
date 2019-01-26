@@ -27,7 +27,15 @@ class TimelineDetails extends React.Component {
 
     handleChange = (e) => {
         this.props.onUpdateSelectedTimeline({
-            [e.target.id]: e.target.value
+            [e.target.id]: e.target.value,
+            IsDirty: true
+        })
+    }
+
+    handleDraftCheck = (e) => {
+        this.props.onUpdateSelectedTimeline({
+            [e.target.id]: e.target.checked === true ? 4 : 1,
+            IsDirty: true
         })
     }
 
@@ -44,13 +52,13 @@ class TimelineDetails extends React.Component {
                             </div>
                             <div className='row input-row'>
                                 <div className='col-sm-4 zero-side-padding'><ControlLabel>Research Coordinator</ControlLabel></div>
-                                <div className='col-sm-7'><FormControl type='text' className='input-wide' id='ResearchCoordinator'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.ResearchCoordinator : ''}
+                                <div className='col-sm-7'><FormControl type='text' className='input-wide' id='RC'
+                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.RC : ''}
                                                 onChange={this.handleChange}
                                 /></div>
                             </div>
                             <div className='row input-row'>
-                                <div className='col-sm-4 zero-side-padding'><ControlLabel>Lead Technitian</ControlLabel></div>
+                                <div className='col-sm-4 zero-side-padding'><ControlLabel>Lead Technician</ControlLabel></div>
                                 <div className='col-sm-7'><FormControl type='text' className='input-wide' id='LeadTechs'
                                                 value={this.props.selectedTimeline ? this.props.selectedTimeline.LeadTechs : ''}
                                                 onChange={this.handleChange}
@@ -58,9 +66,9 @@ class TimelineDetails extends React.Component {
                             </div>
                             <div className='row input-row'>
                                 <div className='col-sm-4  zero-side-padding'><ControlLabel>Draft</ControlLabel></div>
-                                <div className='col-sm-6'><FormControl type='checkbox' id='QcState'
-                                                                 style={{width: '20px', height: '20px'}}
-                                                value={this.props.selectedTimeline ? (this.props.selectedTimeline.QcState === 4) : false}
+                                <div className='col-sm-6'><FormControl type='checkbox' id='QcState' style={{width: '20px', height: '20px'}}
+                                                checked={this.props.selectedTimeline && this.props.selectedTimeline.QcState ? (this.props.selectedTimeline.QcState === 4) : false}
+                                                onChange={this.handleDraftCheck}
                                 /></div>
                             </div>
                         </div>

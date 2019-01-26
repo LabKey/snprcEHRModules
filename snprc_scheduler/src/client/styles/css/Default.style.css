@@ -96,8 +96,16 @@
     margin-left: 17px;
     margin-right: 15px;
     width: 100%;
+    font-weight: bold;
   }
 
   .scheduler-save-cancel {
     padding-right: 15px;
+  }
+
+  .timeline-saving-modal .modal-content {
+    background-color: transparent;
+    border: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
   }

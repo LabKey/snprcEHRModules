@@ -78,7 +78,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_IS_DIRTY = "IsDirty";
     public static final String TIMELINE_RC = "RC";
 
-    public static final String TIMELINE_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";  //
+    public static final String TIMELINE_DATE_FORMAT = "yyyy-MM-dd";  //
     public static final String TIMELINE_DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
     public static final String SQL_DATE_TIME_FORMAT = "yyy-MM-dd HH:mm:ss:SSS";
 

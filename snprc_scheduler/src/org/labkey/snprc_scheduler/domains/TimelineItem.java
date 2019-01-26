@@ -79,6 +79,24 @@ public class TimelineItem
         }
 
     }
+
+    // Filter out timeline items for empty rows
+    public static boolean isValidTimelineItem(JSONObject json)
+    {
+        try
+        {
+            // Find study day and project item id and parse as ints
+            json.getInt(TimelineItem.TIMELINEITEM_STUDY_DAY);
+            json.getInt(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public Integer getTimelineItemId()
     {
         return _timelineItemId;

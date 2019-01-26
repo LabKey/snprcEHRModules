@@ -1,5 +1,6 @@
 package org.labkey.snprc_scheduler;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
@@ -155,8 +156,8 @@ public class SNPRC_schedulerController extends SpringActionController
                     for (Map<String, Object> project : projects)
                     {
                         // NOTE WELL: only returning Research projects!
-                        if (project.containsKey("ProjectType") && project.get("ProjectType").toString().toLowerCase().equals("research"))
-                        {
+//                        if (project.get("ProjectType") != null && project.get("ProjectType").toString().toLowerCase().equals("research"))
+//                        {
                             JSONObject jsonProject = new JSONObject(project);
                             jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
 
@@ -172,7 +173,7 @@ public class SNPRC_schedulerController extends SpringActionController
                                 jsonProject.put("CostAccount", ehrProject.get("account"));
                             }
                             jsonProjects.add(jsonProject);
-                        }
+//                        }
                     }
                     props.put("success", true);
                     props.put("rows", jsonProjects);
@@ -237,7 +238,7 @@ public class SNPRC_schedulerController extends SpringActionController
             }
             catch (RuntimeException e)
             {
-                errors.reject(e.getMessage());
+                errors.reject(ERROR_MSG, e.getMessage());
             }
 
             if (err.hasErrors())

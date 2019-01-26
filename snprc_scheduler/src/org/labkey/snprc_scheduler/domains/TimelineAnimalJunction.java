@@ -52,6 +52,7 @@ public class TimelineAnimalJunction
     {
         try
         {
+            // TODO: Update or remove commented out lines once we get to animal assignment
             this.setRowId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) ? json.getInt(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) : null);
             this.setTimelineObjectId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID) : null);
             this.setAnimalId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID) : null);
@@ -63,18 +64,17 @@ public class TimelineAnimalJunction
             this.setDeleted(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED) && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED));
             this.setDirty(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY) && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY));
 
-            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
-            Date scheduleDate = null;
+//            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
 
-            try
-            {
-                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
-
-            }
-            catch (ParseException e)
-            {
-                throw new RuntimeException(e.getMessage());
-            }
+//            try
+//            {
+//                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
+//
+//            }
+//            catch (ParseException e)
+//            {
+//                throw new RuntimeException(e.getMessage());
+//            }
 
         }
         catch (Exception e)
