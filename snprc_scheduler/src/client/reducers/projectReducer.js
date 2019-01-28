@@ -17,19 +17,28 @@ const SEARCH_MODE_SND = 2;
 var SEARCH_MODE = SEARCH_MODE_SND;
 
 
-import { ANIMAL_LIST_RECEIVED, 
-         ANIMAL_LIST_REQUEST_FAILED, 
-         PROJECT_LIST_RECEIVED, 
-         PROJECT_LIST_REQUEST_FAILED,
-         PROJECT_SELECTED,
-         PROJECT_LIST_FILTERED,
-         ANIMAL_LIST_FILTERED,
-         TIMELINE_LIST_RECEIVED,
-         TIMELINE_DUPLICATED,
-         TIMELINE_SELECTED,
-         TIMELINE_LIST_SORTED,
-         PROJECT_LIST_SORTED
-       } from "../actions/dataActions";
+import {
+    ANIMAL_LIST_RECEIVED,
+    ANIMAL_LIST_REQUEST_FAILED,
+    PROJECT_LIST_RECEIVED,
+    PROJECT_LIST_REQUEST_FAILED,
+    PROJECT_SELECTED,
+    PROJECT_LIST_FILTERED,
+    ANIMAL_LIST_FILTERED,
+    TIMELINE_LIST_RECEIVED,
+    TIMELINE_DUPLICATED,
+    TIMELINE_SELECTED,
+    TIMELINE_SAVE_SUCCESS,
+    UPDATE_SELECTED_TIMELINE,
+    TIMELINE_LIST_SORTED,
+    ADD_TIMELINE_ITEM,
+    UPDATE_TIMELINE_ROW,
+    UPDATE_TIMELINE_ITEM,
+    UPDATE_TIMELINE_PROJECT_ITEM,
+    ASSIGN_TIMELINE_PROCEDURE,
+    DELETE_TIMELINE_ITEM,
+    PROJECT_LIST_SORTED
+} from "../actions/dataActions";
 
 function hasValue (source, value)  {
     if (source == null) source = '';
@@ -64,6 +73,7 @@ export default (state = { }, action) => {
             // action payload is the project array
             nextState.allProjects = action.payload;
             nextState.projects = action.payload;
+            nextState.selectedProject = {};
             break;
         case ANIMAL_LIST_RECEIVED:
             // action payload is the animal array
@@ -135,6 +145,7 @@ export default (state = { }, action) => {
             // action payload is the timeline array
             nextState.allTimelines = action.payload;
             nextState.timelines = action.payload;
+            nextState.selectedTimeline = {};
             break;
         case TIMELINE_DUPLICATED:
             // action payload is the timeline object
@@ -146,6 +157,107 @@ export default (state = { }, action) => {
             // action payload is the timeline object
             nextState.selectedTimeline = action.payload;
             break;
+        case TIMELINE_SAVE_SUCCESS:
+            // add empty rows not saved
+            for (const timelineItem of nextState.selectedTimeline.TimelineItems) {
+                if (!timelineItem.ProjectItemId) {
+                    action.payload.TimelineItems.push(timelineItem);
+                }
+            }
+            nextState.selectedTimeline = action.payload;
+
+            break;
+        case ADD_TIMELINE_ITEM:
+            // action payload is the timeline item
+            nextState.selectedTimeline.TimelineItems.push(action.payload);
+            break;
+        case UPDATE_TIMELINE_ROW:
+            // action payload is timeline item
+            nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                if(action.payload.RowIdx === item.RowIdx) {
+                    return { ...item, ...action.payload }
+                }
+                else return item;
+            })
+
+            break;
+        case UPDATE_TIMELINE_ITEM:
+            // action payload is timeline item
+            nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                if((action.payload.ObjectId && (action.payload.ObjectId === item.ObjectId))
+                    || (!action.payload.ObjectId && (action.payload.RowIdx === item.RowIdx) && (action.payload.ProjectItemId === item.ProjectItemId))) {
+                    return { ...item, ...action.payload }
+                }
+                else return item;
+            })
+
+            break;
+        case UPDATE_SELECTED_TIMELINE:
+
+            nextState.selectedTimeline = {...nextState.selectedTimeline, ...action.payload};
+            break;
+        case ASSIGN_TIMELINE_PROCEDURE:
+
+            // Unchecking
+            if (action.payload.Value === false) {
+
+                // If unchecking a project item not persisted in db then just erase it
+                nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.filter(
+                        item => (item.ObjectId || (action.payload.ProjectItemId !== item.ProjectItemId)
+                        || (action.payload.RowIdx !== item.RowIdx))
+                )
+
+                // If persisted set IsDeleted flag
+                nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                    if(item.ObjectId && (action.payload.ProjectItemId === item.ProjectItemId)
+                        && (action.payload.RowIdx === item.RowIdx)) {
+                            item.IsDeleted = true;
+                    }
+
+                    return item;
+                })
+            }
+            // Check
+            else {
+
+                let found = false;
+
+                // If empty project item saved
+                nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                    if(!item.ProjectItemId && (action.payload.RowIdx === item.RowIdx)) {
+                        item.ProjectItemId = action.payload.ProjectItemId;
+                        found = true;
+                    }
+
+                    return item;
+                })
+
+                if (!found) {
+                    nextState.selectedTimeline.TimelineItems.push({
+                        IsDeleted: false,
+                        TimelineObjectId: action.payload.TimelineObjectId,
+                        StudyDay: action.payload.StudyDay,
+                        IsDirty: false,
+                        ScheduleDate: action.payload.ScheduleDate,
+                        ProjectItemId: action.payload.ProjectItemId,
+                        RowIdx: action.payload.RowIdx
+                    })
+                }
+            }
+
+            break;
+        case UPDATE_TIMELINE_PROJECT_ITEM:
+
+            nextState.selectedTimeline.TimelineProjectItems = nextState.selectedTimeline.TimelineProjectItems.map(projItem => {
+
+                if (projItem.ProjectItemId === action.payload.ProjectItemId) {
+                    projItem = { ...projItem, ...action.payload }
+                }
+
+                return projItem;
+            })
+
+            break;
         case PROJECT_LIST_SORTED:
             // action payload is an object containing the sort parameters { field: ?, direction: ? }
             if (action.payload.direction == "NONE") nextState.projects = nextState.allProjects;
@@ -154,7 +266,18 @@ export default (state = { }, action) => {
                 if (action.payload.direction == 'DESC') nextState.projects = nextState.projects.reverse();
             }
             break;
-        case TIMELINE_LIST_SORTED:
+        case DELETE_TIMELINE_ITEM:
+
+            nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.filter(item => {
+                if (item.RowIdx === action.payload.RowIdx) {
+                    if (item.ObjectId) {
+                        item.IsDeleted = true;
+                        return true;
+                    }
+                    else return false;
+                }
+                return true;
+            });
 
             break;            
     };

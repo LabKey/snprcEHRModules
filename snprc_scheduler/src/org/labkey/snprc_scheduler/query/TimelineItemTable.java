@@ -41,8 +41,6 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
         return this;
     }
 
-
-
     @Override
     public QueryUpdateService getUpdateService()
     {

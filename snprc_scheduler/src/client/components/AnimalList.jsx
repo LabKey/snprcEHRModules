@@ -30,7 +30,7 @@ class AnimalList extends React.Component {
         this.props.store.subscribe(this.handleStoreUpdate); 
     }
     
-    componentWillUnmount = () => this.disconnect();
+    // componentWillUnmount = () => this.disconnect();
     
     animalRowGetter = (index) => this.state.animals[index];
     
@@ -87,7 +87,7 @@ class AnimalList extends React.Component {
                             columns={this.state.animalCols}
                             rowGetter={this.animalRowGetter}
                             rowsCount={animalCount}
-                            minHeight={300}
+                            minHeight={245}
                             rowSelection={{
                                 showCheckbox: true,
                                 enableShiftSelect: true,
@@ -99,7 +99,7 @@ class AnimalList extends React.Component {
                     </div>
                 </div>
             )
-        } else return <div style={{ minHeight: 346 }}>{searchJSX}<div> No assignable animals found. </div></div>
+        } else return <div style={{ minHeight: 290 }}>{searchJSX}<div> No assignable animals found. </div></div>
     }
 
   }

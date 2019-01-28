@@ -67,7 +67,7 @@ Ext4.define("GroupMembersGridPanel", {
             }
         },
         {
-            text: 'Objectif',
+            text: 'Objectid',
             dataIndex: 'objectid',
             hidden: true,
             hideable: false

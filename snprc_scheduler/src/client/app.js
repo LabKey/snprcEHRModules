@@ -17,12 +17,9 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import initializeStore from './store/initializeStore'
 
-// import the application styles
-import './styles/Default.style.css'
-
 // import routing
 import UIRouter from './routers/UIRouter';
-import { createAction, fetchProjects } from './actions/dataActions';
+import { fetchProjects } from './actions/dataActions';
 
 // build the store and container
 const store = initializeStore();
@@ -30,6 +27,10 @@ const appContainer = (<Provider store={store}><UIRouter store={store} /></Provid
 
 let hasRendered = false;
 let debugUI = false;
+
+if (module.hot) {
+    module.hot.accept();
+}
 
 const render = () => {
     if (!hasRendered) {

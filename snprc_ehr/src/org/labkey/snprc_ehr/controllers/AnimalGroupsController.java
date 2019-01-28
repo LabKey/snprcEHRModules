@@ -62,6 +62,7 @@ import org.labkey.snprc_ehr.domain.AnimalGroup;
 import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
 import org.labkey.snprc_ehr.domain.AnimalSpecies;
 import org.labkey.snprc_ehr.domain.GroupMember;
+import org.labkey.snprc_ehr.enums.AssignmentFailureReason;
 import org.labkey.snprc_ehr.helpers.SortFilterHelper;
 import org.labkey.snprc_ehr.security.ManageGroupMembersPermission;
 import org.labkey.snprc_ehr.services.AnimalsGroupAssignor;
@@ -612,9 +613,7 @@ public class AnimalGroupsController extends SpringActionController
                 Map props = new HashMap();
                 props.put("success", false);
 
-                Map dateFailure = new HashMap<>();
-                dateFailure.put("Invalid End Date", "End Date must be greater than Start Date");
-                props.put("failure", dateFailure);
+                props.put("message", AssignmentFailureReason.INVALID_START_OR_END_DATE.toString());
 
                 return new ApiSimpleResponse(props);
             }

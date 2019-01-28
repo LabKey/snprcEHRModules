@@ -182,7 +182,8 @@ Ext4.define("AssignAnimalsToGroupWindow", {
 
                                                 }
                                                 else {
-                                                    Ext4.MessageBox.alert('Something went wrong', 'Unable to update the record');
+
+                                                    Ext4.MessageBox.alert('Something went wrong', response.error);
                                                 }
 
                                             }

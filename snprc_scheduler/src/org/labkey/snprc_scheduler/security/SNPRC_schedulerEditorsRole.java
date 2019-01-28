@@ -10,8 +10,9 @@ public class SNPRC_schedulerEditorsRole extends AbstractRole
 {
     public SNPRC_schedulerEditorsRole()
     {
-        super("SNPRC Schedule editors", "This role is required tp edit SNPRC Timelines and Schedules.",
-                SNPRC_schedulerEditorsPermission.class
+        super("SNPRC Schedule editors", "Schedule editors may read and edit SNPRC Timelines and Schedules.",
+                SNPRC_schedulerEditorsPermission.class,
+                SNPRC_schedulerReadersPermission.class
         );
 
 

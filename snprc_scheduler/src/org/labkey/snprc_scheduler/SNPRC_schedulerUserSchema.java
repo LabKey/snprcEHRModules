@@ -11,7 +11,9 @@ import org.labkey.api.security.permissions.DeletePermission;
 import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.Permission;
 import org.labkey.api.security.permissions.UpdatePermission;
+import org.labkey.snprc_scheduler.query.TimelineAnimalJunctionTable;
 import org.labkey.snprc_scheduler.query.TimelineItemTable;
+import org.labkey.snprc_scheduler.query.TimelineProjectItemTable;
 import org.labkey.snprc_scheduler.query.TimelineTable;
 
 
@@ -53,7 +55,7 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
                 @Override
                 public TableInfo createTable(SNPRC_schedulerUserSchema schema)
                 {
-                    return new TimelineTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction()).init();
+                    return new TimelineAnimalJunctionTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction()).init();
                 }
             },
         TimelineProjectItem
@@ -61,7 +63,7 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
                     @Override
                     public TableInfo createTable(SNPRC_schedulerUserSchema schema)
                     {
-                        return new TimelineTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineProjectItem()).init();
+                        return new TimelineProjectItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineProjectItem()).init();
                     }
                 },
         TimelineItem
@@ -70,14 +72,6 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
                     public TableInfo createTable(SNPRC_schedulerUserSchema schema)
                     {
                         return new TimelineItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem()).init();
-                    }
-                },
-        Schedule
-                {
-                    @Override
-                    public TableInfo createTable(SNPRC_schedulerUserSchema schema)
-                    {
-                        return new TimelineTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoSchedule()).init();
                     }
                 };
 

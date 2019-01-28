@@ -36,6 +36,11 @@ public class TimelineProjectItemTable extends SimpleUserSchema.SimpleTable<SNPRC
 
         return this;
     }
+    @Override
+    public QueryUpdateService getUpdateService()
+    {
+        return new TimelineProjectItemTable.UpdateService(this);
+    }
 
     protected class UpdateService extends SimpleQueryUpdateService
     {

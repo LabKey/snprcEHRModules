@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 /**
  * Created by thawkins on 9/13/2018.
  * <p>
@@ -35,6 +37,7 @@ public class Timeline //extends Entity
     private Integer _projectId;
     private Integer _projectRevisionNum;
     private String _projectObjectId;
+    private String _rc;
     private Date _created;
     private Date _modified;
     private Integer _createdBy;
@@ -42,6 +45,8 @@ public class Timeline //extends Entity
     private String _createdByName;
     private String _modifiedByName;
     private Integer _qcState;
+    private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the timeline record and all associated TimelineItem, TimelineAnimalJunction, TimelineProject items.
+    private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
     private List<TimelineItem> _timelineItems = new ArrayList<>(); // list of TimelineItem objects associated with the timeline
     private List<TimelineProjectItem> _timelineProjectItems = new ArrayList<>(); // list of TimelineProjectItem objects associated with the timeline
     private List<TimelineAnimalJunction> _timelineAnimalItems = new ArrayList<>(); // list of animals assigned to timeline
@@ -69,20 +74,24 @@ public class Timeline //extends Entity
     public static final String TIMELINE_TIMELINE_PROJECT_ITEMS = "TimelineProjectItems";
     public static final String TIMELINE_PROJECT_OBJECT_ID = "ProjectObjectId";
     public static final String TIMELINE_ANIMAL_ITEMS = "TimelineAnimalItems";
+    public static final String TIMELINE_IS_DELETED = "IsDeleted";
+    public static final String TIMELINE_IS_DIRTY = "IsDirty";
+    public static final String TIMELINE_RC = "RC";
 
-    public static final String TIMELINE_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";  //
+    public static final String TIMELINE_DATE_FORMAT = "yyyy-MM-dd";  //
     public static final String TIMELINE_DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
     public static final String SQL_DATE_TIME_FORMAT = "yyy-MM-dd HH:mm:ss:SSS";
 
     public Timeline()
     {
+        this.setDeleted(false);
+        this.setDirty(false);
     }
 
     public Timeline(Container c, User u, JSONObject json) throws RuntimeException
     {
         try
         {
-
             this.setTimelineId(json.has(Timeline.TIMELINE_ID) ? json.getInt(Timeline.TIMELINE_ID) : null);
             this.setRevisionNum(json.has(Timeline.TIMELINE_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_REVISION_NUM) : null);
             this.setLeadTechs(json.has(Timeline.TIMELINE_LEAD_TECHS) ? json.getString(Timeline.TIMELINE_LEAD_TECHS) : null);
@@ -98,6 +107,9 @@ public class Timeline //extends Entity
             this.setProjectObjectId(json.has(Timeline.TIMELINE_PROJECT_OBJECT_ID) ? json.getString(Timeline.TIMELINE_PROJECT_OBJECT_ID) : null);
             this.setProjectId(json.has(Timeline.TIMELINE_PROJECT_ID) ? json.getInt(Timeline.TIMELINE_PROJECT_ID) : null);
             this.setProjectRevisionNum(json.has(Timeline.TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_PROJECT_REVISION_NUM) : null);
+            this.setDeleted(json.has(Timeline.TIMELINE_IS_DELETED) && json.getBoolean(Timeline.TIMELINE_IS_DELETED));
+            this.setDirty(json.has(Timeline.TIMELINE_IS_DIRTY) && json.getBoolean(Timeline.TIMELINE_IS_DIRTY));
+            this.setRc(json.has(Timeline.TIMELINE_RC) ? json.getString(Timeline.TIMELINE_RC) : null);
 
             String startDateString = json.has(Timeline.TIMELINE_STARTDATE) ? json.getString(Timeline.TIMELINE_STARTDATE) : null;
             String endDateString = json.has(Timeline.TIMELINE_ENDDATE) ? json.getString(Timeline.TIMELINE_ENDDATE) : null;
@@ -227,6 +239,18 @@ public class Timeline //extends Entity
         _created = created;
     }
 
+    @Nullable
+    public String modifiedDateToString()
+    {
+        return DateUtil.formatDateISO8601(getModified());
+    }
+
+    @Nullable
+    public String createdDateToString()
+    {
+        return DateUtil.formatDateISO8601(getCreated());
+    }
+
     public Date getModified()
     {
         return _modified;
@@ -252,7 +276,7 @@ public class Timeline //extends Entity
         _createdBy = createdBy;
         if (_createdBy != null)
         {
-            _createdByName = SNPRC_schedulerManager.getUserName(c, u, _createdBy);
+            _createdByName = SNPRC_schedulerManager.getUserDisplayName(c, u, _createdBy);
         }
         else
         {
@@ -267,7 +291,7 @@ public class Timeline //extends Entity
         _modifiedBy = modifiedBy;
         if (_modifiedBy != null)
         {
-            _modifiedByName = SNPRC_schedulerManager.getUserName(c, u, _modifiedBy);
+            _modifiedByName = SNPRC_schedulerManager.getUserDisplayName(c, u, _modifiedBy);
         }
         else
         {
@@ -383,6 +407,36 @@ public class Timeline //extends Entity
         _modifiedByName = modifiedByName;
     }
 
+    public Boolean getDeleted()
+    {
+        return _isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted)
+    {
+        _isDeleted = deleted;
+    }
+
+    public Boolean getDirty()
+    {
+        return _isDirty;
+    }
+
+    public void setDirty(Boolean dirty)
+    {
+        _isDirty = dirty;
+    }
+
+    public String getRc()
+    {
+        return _rc;
+    }
+
+    public void setRc(String rc)
+    {
+        _rc = rc;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c, User u)
     {
@@ -407,6 +461,9 @@ public class Timeline //extends Entity
         values.put(TIMELINE_MODIFIED_BY_NAME, getModifiedByName());
         values.put(TIMELINE_QCSTATE, getQcState());
         values.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
+        values.put(TIMELINE_IS_DELETED, getDeleted());
+        values.put(TIMELINE_IS_DIRTY, getDirty());
+        values.put(TIMELINE_RC, getRc());
 
         if (getTimelineItems().size() > 0)
         {
@@ -450,9 +507,9 @@ public class Timeline //extends Entity
         if (getRevisionNum() != null)
             json.put(TIMELINE_REVISION_NUM, getRevisionNum());
         json.put(TIMELINE_DESCRIPTION, getDescription());
-        json.put(TIMELINE_STARTDATE, getStartDate());
+        json.put(TIMELINE_STARTDATE, startDateToString());
         if (getEndDate() != null)
-            json.put(TIMELINE_ENDDATE, getEndDate());
+            json.put(TIMELINE_ENDDATE, endDateToString());
         if (getObjectId() != null)
           json.put(TIMELINE_OBJECTID, getObjectId());
 
@@ -462,14 +519,17 @@ public class Timeline //extends Entity
         json.put(TIMELINE_SCHEDULER_NOTES,getSchedulerNotes());
         json.put(TIMELINE_PROJECT_ID, getProjectId());
         json.put(TIMELINE_PROJECT_REVISION_NUM, getProjectRevisionNum());
-        json.put(TIMELINE_DATE_CREATED, getCreated());
-        json.put(TIMELINE_DATE_MODIFIED, getModified());
+        json.put(TIMELINE_DATE_CREATED, createdDateToString());
+        json.put(TIMELINE_DATE_MODIFIED, modifiedDateToString());
         json.put(TIMELINE_CREATED_BY, getCreatedBy());
         json.put(TIMELINE_MODIFIED_BY, getModifiedBy());
         json.put(TIMELINE_CREATED_BY_NAME, getCreatedByName());
         json.put(TIMELINE_MODIFIED_BY_NAME, getModifiedByName());
         json.put(TIMELINE_QCSTATE, getQcState());
         json.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
+        json.put(TIMELINE_IS_DELETED, getDeleted());
+        json.put(TIMELINE_IS_DIRTY, getDirty());
+        json.put(TIMELINE_RC, getRc());
 
         if (getTimelineItems().size() > 0)
         {
@@ -527,5 +587,42 @@ public class Timeline //extends Entity
         return list;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Timeline timeline = (Timeline) o;
+        return Objects.equals(_timelineId, timeline._timelineId) &&
+                Objects.equals(_revisionNum, timeline._revisionNum) &&
+                Objects.equals(_description, timeline._description) &&
+                Objects.equals(_startDate, timeline._startDate) &&
+                Objects.equals(_endDate, timeline._endDate) &&
+                Objects.equals(_leadTechs, timeline._leadTechs) &&
+                Objects.equals(_notes, timeline._notes) &&
+                Objects.equals(_schedulerNotes, timeline._schedulerNotes) &&
+                Objects.equals(_objectId, timeline._objectId) &&
+                Objects.equals(_projectId, timeline._projectId) &&
+                Objects.equals(_projectRevisionNum, timeline._projectRevisionNum) &&
+                Objects.equals(_projectObjectId, timeline._projectObjectId) &&
+                Objects.equals(_rc, timeline._rc) &&
+                Objects.equals(_created, timeline._created) &&
+                Objects.equals(_modified, timeline._modified) &&
+                Objects.equals(_createdBy, timeline._createdBy) &&
+                Objects.equals(_modifiedBy, timeline._modifiedBy) &&
+                Objects.equals(_createdByName, timeline._createdByName) &&
+                Objects.equals(_modifiedByName, timeline._modifiedByName) &&
+                Objects.equals(_qcState, timeline._qcState) &&
+                Objects.equals(_isDeleted, timeline._isDeleted) &&
+                Objects.equals(_isDirty, timeline._isDirty) &&
+                Objects.equals(_timelineItems, timeline._timelineItems) &&
+                Objects.equals(_timelineProjectItems, timeline._timelineProjectItems) &&
+                Objects.equals(_timelineAnimalItems, timeline._timelineAnimalItems);
+    }
 
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTechs, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
+    }
 }

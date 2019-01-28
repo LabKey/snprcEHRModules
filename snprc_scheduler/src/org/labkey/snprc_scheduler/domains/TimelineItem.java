@@ -5,13 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.data.Container;
-import org.labkey.api.security.User;
 import org.labkey.api.util.DateUtil;
-import org.labkey.api.util.GUID;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by thawkins on 9/13/2018.
@@ -26,6 +25,8 @@ public class TimelineItem
     private Integer _studyDay;
     private Date _scheduleDate;
     private String _objectId;
+    private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineItem record.
+    private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
 
 
     public static final String TIMELINEITEM_TIMELINE_ITEM_ID = "TimelineItemId";
@@ -34,20 +35,16 @@ public class TimelineItem
     public static final String TIMELINEITEM_STUDY_DAY = "StudyDay";
     public static final String TIMELINEITEM_SCHEDULE_DATE = "ScheduleDate";
     public static final String TIMELINEITEM_OBJECT_ID = "ObjectId";
+    public static final String TIMELINEITEM_IS_DELETED = "IsDeleted";
+    public static final String TIMELINEITEM_IS_DIRTY = "IsDirty";
 
 
     public TimelineItem()
     {
+        this.setDeleted(false);
+        this.setDirty(false);
     }
 
-    public TimelineItem(Integer timelineItemId, String timelineObjectId, Integer projectItemId, Integer studyDay, User u)
-    {
-        _timelineItemId = timelineItemId;
-        _timelineObjectId = timelineObjectId;
-        _projectItemId = projectItemId;
-        _studyDay = studyDay;
-        _objectId = GUID.makeGUID();
-    }
 
     public TimelineItem(JSONObject json) throws RuntimeException
     {
@@ -59,6 +56,8 @@ public class TimelineItem
             this.setStudyDay(json.has(TimelineItem.TIMELINEITEM_STUDY_DAY) ? json.getInt(TimelineItem.TIMELINEITEM_STUDY_DAY) : null);
             this.setProjectItemId(json.has(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID) ? json.getInt(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID) : null);
             this.setObjectId(json.has(TimelineItem.TIMELINEITEM_OBJECT_ID) ? json.getString(TimelineItem.TIMELINEITEM_OBJECT_ID) : null);
+            this.setDeleted(json.has(TimelineItem.TIMELINEITEM_IS_DELETED) && json.getBoolean(TimelineItem.TIMELINEITEM_IS_DELETED));
+            this.setDirty(json.has(TimelineItem.TIMELINEITEM_IS_DIRTY) && json.getBoolean(TimelineItem.TIMELINEITEM_IS_DIRTY));
 
             String scheduleDateString = json.has(TimelineItem.TIMELINEITEM_SCHEDULE_DATE) ? json.getString(TimelineItem.TIMELINEITEM_SCHEDULE_DATE) : null;
             Date scheduleDate = null;
@@ -80,6 +79,24 @@ public class TimelineItem
         }
 
     }
+
+    // Filter out timeline items for empty rows
+    public static boolean isValidTimelineItem(JSONObject json)
+    {
+        try
+        {
+            // Find study day and project item id and parse as ints
+            json.getInt(TimelineItem.TIMELINEITEM_STUDY_DAY);
+            json.getInt(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public Integer getTimelineItemId()
     {
         return _timelineItemId;
@@ -140,18 +157,40 @@ public class TimelineItem
         _scheduleDate = scheduleDate;
     }
 
+    public Boolean getDeleted()
+    {
+        return _isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted)
+    {
+        _isDeleted = deleted;
+    }
+
+    public Boolean getDirty()
+    {
+        return _isDirty;
+    }
+
+    public void setDirty(Boolean dirty)
+    {
+        _isDirty = dirty;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c)
     {
-        Map<String, Object> timelineItemValues = new ArrayListMap<>();
-        timelineItemValues.put(TIMELINEITEM_TIMELINE_ITEM_ID, getTimelineItemId());
-        timelineItemValues.put(TIMELINEITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
-        timelineItemValues.put(TIMELINEITEM_PROJECT_ITEM_ID, getProjectItemId());
-        timelineItemValues.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
-        timelineItemValues.put(TIMELINEITEM_SCHEDULE_DATE, getScheduleDate());
-        timelineItemValues.put(TIMELINEITEM_OBJECT_ID, getObjectId());
+        Map<String, Object> values = new ArrayListMap<>();
+        values.put(TIMELINEITEM_TIMELINE_ITEM_ID, getTimelineItemId());
+        values.put(TIMELINEITEM_TIMELINE_OBJECT_ID, getTimelineObjectId());
+        values.put(TIMELINEITEM_PROJECT_ITEM_ID, getProjectItemId());
+        values.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
+        values.put(TIMELINEITEM_SCHEDULE_DATE, getScheduleDate());
+        values.put(TIMELINEITEM_OBJECT_ID, getObjectId());
+        values.put(TIMELINEITEM_IS_DELETED, getDeleted());
+        values.put(TIMELINEITEM_IS_DIRTY, getDirty());
 
-        return timelineItemValues;
+        return values;
     }
     @NotNull
     public JSONObject toJSON(Container c)
@@ -168,6 +207,30 @@ public class TimelineItem
         json.put(TIMELINEITEM_STUDY_DAY, getStudyDay());
         json.put(TIMELINEITEM_SCHEDULE_DATE, getScheduleDate());
         json.put(TIMELINEITEM_OBJECT_ID, getObjectId());
+        json.put(TIMELINEITEM_IS_DELETED, getDeleted());
+        json.put(TIMELINEITEM_IS_DIRTY, getDirty());
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimelineItem that = (TimelineItem) o;
+        return Objects.equals(_timelineItemId, that._timelineItemId) &&
+                Objects.equals(_timelineObjectId, that._timelineObjectId) &&
+                Objects.equals(_projectItemId, that._projectItemId) &&
+                Objects.equals(_studyDay, that._studyDay) &&
+                Objects.equals(_scheduleDate, that._scheduleDate) &&
+                Objects.equals(_objectId, that._objectId) &&
+                Objects.equals(_isDeleted, that._isDeleted) &&
+                Objects.equals(_isDirty, that._isDirty);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(_timelineItemId, _timelineObjectId, _projectItemId, _studyDay, _scheduleDate, _objectId, _isDeleted, _isDirty);
     }
 }

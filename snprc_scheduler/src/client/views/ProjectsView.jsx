@@ -1,11 +1,32 @@
 import React from 'react';
-import { Accordion, AccordionItem, AccordionItemTitle, AccordionItemBody } from 'react-accessible-accordion';
-import '../styles/Accordion.style.css'
+import {connect} from "react-redux";
+
 import ProjectList from '../components/ProjectList';
 import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
 import TimelineList from '../components/TimelineList';
 import TimelineDetails from '../components/TimelineDetails';
+import {Button, Modal, Panel, PanelGroup} from "react-bootstrap";
+import CalendarDetails from "../components/CalendarDetails";
+import AnimalDetails from "../components/AnimalDetails";
+import ProjectMain from "../components/ProjectMain";
+import TimelineGrid from "../components/TimelineGrid";
+import CalendarList from "../components/CalendarList";
+import AnimalMain from "../components/AnimalMain";
+
+import {
+    addTimelineItem, assignTimelineProcedure, deleteTimelineItem,
+    saveTimeline, saveTimelineSuccess, selectTimeline,
+    updateSelectedTimeline,
+    updateTimelineItem, updateTimelineProjectItem,
+    updateTimelineRow
+} from '../actions/dataActions';
+// import {  } from "@fortawesome/fontawesome-free";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library, icon } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faSpinner)
 
 const TAB_PROJECTS = 0x0;
 const TAB_TIMELINES = 0x1;
@@ -16,55 +37,204 @@ class ProjectsView extends React.Component {
         
     constructor(props) {
         super(props);
-        this.state = { selectedTab: TAB_PROJECTS };
+        this.state = {
+            selectedTab: TAB_PROJECTS,
+            showSaving: false
+        };
     }
 
     handleAccordionSelectionChange = (tabIndex) => this.setState({ selectedTab: tabIndex });
     
     getDetailComponent = (tabIndex) => {
-        let projectDetails = (<ProjectDetails store={this.props.store} project={this.selectedProject} />);
-        let timelineDetails = (<TimelineDetails store={this.props.store} project={this.selectedProject} />);
-        let animalDetails = (<div> animal details </div>);
-        let calendarDetails = (<div> calendar details </div>);        
         switch (tabIndex) {
-            case TAB_PROJECTS: return projectDetails
-            case TAB_ANIMALS: return animalDetails;
-            case TAB_TIMELINES: return timelineDetails;
-            case TAB_CALENDAR: return calendarDetails;
+            case TAB_PROJECTS: return <ProjectDetails />;
+            case TAB_ANIMALS: return <AnimalDetails />;
+            case TAB_TIMELINES: return <TimelineDetails />;
+            case TAB_CALENDAR: return <CalendarDetails />;
+            default: return <CalendarDetails />;
         }
+    }
+
+    getMainComponent = (tabIndex) => {
+        switch (tabIndex) {
+            case TAB_PROJECTS: return <ProjectMain />;
+            case TAB_ANIMALS: return  <AnimalMain />;
+            case TAB_TIMELINES: return <TimelineGrid />;
+            case TAB_CALENDAR: return <AnimalMain />;
+            default: return <ProjectMain />;
+        }
+    }
+
+    modalStyle = () => {
+
+        return {
+            position: 'fixed',
+            width: 400,
+            zIndex: 1040,
+            top: '35%',
+            left: '45%',
+            backgroundColor: 'transparent'
+        };
+    };
+
+    backdropStyle = () => {
+
+        return {
+            position: 'fixed',
+            zIndex: 1040,
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: '#000',
+            opacity: 0.5
+        }
+    };
+
+    renderBackdrop = (props) => {
+        return <div {...props} style={this.backdropStyle()}/>;
+    }
+
+    cancel = () => {
+        let r = confirm('Any unsaved data will be lost and the page will reload.  Are you sure?');
+        if (r === true) {
+            location.reload();
+        }
+    }
+
+    save = () => {
+        return () => {
+            // dispatch(setSubmitting(model));
+            const timeline = this.props.selectedTimeline;
+            timeline.IsDirty = true;
+
+            this.setState(state => {
+                state.showSaving = true;
+                return state;
+            });
+
+            return saveTimeline(timeline).then((response) => {
+                this.setState(state => {
+                    state.showSaving = false;
+                    return state;
+                });
+
+                if (!response.success) {
+                    if (response.responseText) {
+                        alert("Error on save: " + response.responseText);
+                        console.warn('save project error', response.responseText);
+                    }
+                    else {
+                        alert("Error on save: Success value false");
+                        console.warn('save project error', "success value false");
+                    }
+                }
+                else {
+                    console.log('save timeline succeeded');
+                    this.props.onSaveSuccess(response.rows);
+                }
+
+            }).catch((error) => {
+                this.setState(state => {
+                    state.showSaving = false;
+                    return state;
+                });
+
+                if (error.exception) {
+                    alert("Error on save: " + error.exception);
+                    console.warn('save project error', error.exception);
+                }
+                else if (error.errors) {
+                    alert("Error on save: " + error.errors[0].msg);
+                    console.warn('save project error', error.errors[0].msg);
+                }
+            });
+        };
     }
 
     render() {
 
         let detailView = this.getDetailComponent(this.state.selectedTab);
+        let mainView = this.getMainComponent(this.state.selectedTab);
         let accordionComponent = (
-        <Accordion className="accordion__style__primary" onChange={this.handleAccordionSelectionChange}>
-            <AccordionItem expanded={true}>
-                <AccordionItemTitle><label className="accordion__title__text">Projects</label></AccordionItemTitle>
-                <AccordionItemBody><ProjectList store={this.props.store} /></AccordionItemBody>
-            </AccordionItem>
-            <AccordionItem>
-                <AccordionItemTitle><label className="accordion__title__text">Timelines</label></AccordionItemTitle>
-                <AccordionItemBody><TimelineList store={this.props.store} /></AccordionItemBody>
-            </AccordionItem>
-            <AccordionItem>
-                <AccordionItemTitle><label className="accordion__title__text">Animals</label></AccordionItemTitle>
-                <AccordionItemBody><AnimalList store={this.props.store} /></AccordionItemBody>
-            </AccordionItem>
-            <AccordionItem>
-                <AccordionItemTitle><label className="accordion__title__text">Calendar / Schedule</label></AccordionItemTitle>
-                <AccordionItemBody><p>Body content</p></AccordionItemBody>
-            </AccordionItem>
-        </Accordion> );
+            <PanelGroup
+                    accordion
+                    id="accordion-controller"
+                    activeKey={this.state.selectedTab}
+                    onSelect={this.handleAccordionSelectionChange}
+                    className = 'scheduler-bs-accordion'
+                    style={{marginLeft: '20px'}}
+                    >
+                <Panel eventKey={TAB_PROJECTS}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Projects</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><ProjectList store={this.props.store} /></Panel.Body>
+                </Panel>
+                <Panel eventKey={TAB_TIMELINES}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Timelines</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><TimelineList /></Panel.Body>
+                </Panel>
+                <Panel eventKey={TAB_ANIMALS}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Animals</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><AnimalList store={this.props.store} /></Panel.Body>
+                </Panel>
+                <Panel eventKey={TAB_CALENDAR}>
+                    <Panel.Heading>
+                        <Panel.Title toggle>Calendar</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible><CalendarList /></Panel.Body>
+                </Panel>
+            </PanelGroup>
+        );
         return <div>
+            <Modal
+                    // onHide={this.close}
+                    style={this.modalStyle()}
+                    aria-labelledby="modal-label"
+                    show={this.state.showSaving}
+                    renderBackdrop={this.renderBackdrop}
+                    className={'timeline-saving-modal'}
+            >
+                <div style={{backgroundColor: 'transparent'}}>
+                    <FontAwesomeIcon icon={["fa", "spinner"]} size={"9x"} pulse/>
+                </div>
+            </Modal>
             <div className='row spacer-row'></div>
             <div className='row'>
-                <div className='col-sm-4'>{accordionComponent}</div>
-                <div className='col-sm-8'>{detailView}</div>
+                <div className='col-sm-12'>{detailView}</div>
+                <div className='col-sm-3'>
+                    <div className='col-sm-12'>
+                        {accordionComponent}
+                    </div>
+                    <div className='scheduler-save-cancel'>
+                        <div className='col-sm-6'>
+                            <Button disabled={this.props.selectedTimeline == null || this.props.selectedTimeline.RevisionNum == null} onClick={this.props.selectedTimeline ? this.save() : null} className='scheduler-save-cancel-btn'>Save</Button>
+                        </div>
+                        <div className='col-sm-6'> <Button onClick={this.cancel} className='scheduler-save-cancel-btn'>Cancel</Button> </div>
+                    </div>
+                </div>
+                <div className='col-sm-9'>{mainView}</div>
             </div>
         </div>
     }
 
   }
 
-  export default ProjectsView;
+const mapStateToProps = state => ({
+    selectedProject: state.project.selectedProject || null,
+    selectedTimeline: state.project.selectedTimeline || null
+})
+
+const mapDispatchToProps = dispatch => ({
+    onSaveSuccess: timeline => dispatch(saveTimelineSuccess(timeline))
+})
+
+export default connect(
+        mapStateToProps,
+        mapDispatchToProps
+)(ProjectsView)

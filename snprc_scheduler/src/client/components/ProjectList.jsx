@@ -9,9 +9,11 @@
     ==================================================================================
 */
 import React from 'react';
+import PropTypes from 'prop-types'
 import ReactDataGrid from 'react-data-grid';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
-import { selectProject, filterProjects, sortProjects } from '../actions/dataActions';
+import {selectProject, filterProjects, sortProjects, createAction, PROJECT_SELECTED} from '../actions/dataActions';
+import connect from "react-redux/es/connect/connect";
 
 const verboseOutput = true;
 
@@ -33,21 +35,27 @@ class ProjectList extends React.Component {
             filters: {}
         };
         // wire into redux store updates
-        this.disconnect = this.props.store.subscribe(this.handleStoreUpdate); 
+        this.disconnect = this.props.store.subscribe(this.handleStoreUpdate);
     }
 
     componentWillUnmount = () => this.disconnect();
     
     onProjectRowsSelected = (rows) => {
         let selectedProject = null;
-        if (rows.length == 1) selectedProject = rows[0].row;
-        else rows = [];
+        if (rows.length === 1) {
+            selectedProject = rows[0].row;
+        }
+        else {
+            rows = [];
+        }
         this.setState({ 
             selectedProjects: rows.map(r => r.rowIdx),
             selectedProject: selectedProject
         });
         if (selectedProject != null) {
-            if (rows.length > 0) this.props.store.dispatch(selectProject(selectedProject.projectId, selectedProject.revisionNum));
+            if (rows.length > 0) {
+                this.props.onSelectProject(selectedProject);
+            }
             if (verboseOutput) {
                 console.log("ProjectID " + selectedProject.projectId + " selected.");
                 console.log(selectedProject);
@@ -90,7 +98,7 @@ class ProjectList extends React.Component {
                 name="projectSearch" 
                 placeholder="Search projects" />
             </div>
-            <div className="bottom-padding-8">
+            <div className="bottom-padding-8" >
                 <ReactDataGrid
                     rowKey="ProjectId"
                     columns={this.state.projectCols}
@@ -98,7 +106,7 @@ class ProjectList extends React.Component {
                     rowsCount={this.state.projectCount}
                     onGridSort={this.handleGridSort}
                     enableCellSelect={true}
-                    minHeight={284}
+                    minHeight={227}
                     rowSelection={{
                         showCheckbox: true,
                         enableShiftSelect: false,
@@ -114,4 +122,20 @@ class ProjectList extends React.Component {
 
 }
 
-export default ProjectList;
+ProjectList.propTypes = {
+    onSelectProject: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+    selectedProject: state.project.selectedProject
+})
+
+const mapDispatchToProps = dispatch => ({
+    onSelectProject: selectedProject => dispatch(selectProject(selectedProject.projectId,
+            selectedProject.revisionNum, selectedProject.objectId))
+})
+
+export default connect(
+        mapStateToProps,
+        mapDispatchToProps
+)(ProjectList)

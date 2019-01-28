@@ -10,6 +10,7 @@ import org.labkey.api.util.DateUtil;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by thawkins on 9/19/2018.
@@ -26,6 +27,8 @@ public class TimelineAnimalJunction
     private Double _weight;
     private String _age;
     private String _objectId;
+    private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineAnimalJunction record.
+    private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
 
     public static final String TIMELINE_ANIMAL_JUNCTION_ROW_ID = "RowId";
     public static final String TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID = "TimelineObjectId";
@@ -36,22 +39,20 @@ public class TimelineAnimalJunction
     public static final String TIMELINE_ANIMAL_JUNCTION_WEIGHT = "Weight";
     public static final String TIMELINE_ANIMAL_JUNCTION_AGE = "Age";
     public static final String TIMELINE_ANIMAL_JUNCTION_OBJECT_ID = "ObjectId";
+    public static final String TIMELINE_ANIMAL_JUNCTION_IS_DELETED = "IsDeleted";
+    public static final String TIMELINE_ANIMAL_JUNCTION_IS_DIRTY = "IsDirty";
 
     public TimelineAnimalJunction()
     {
-    }
-
-    public TimelineAnimalJunction(String timelineObjectId, String animalId, String objectId)
-    {
-        _timelineObjectId = timelineObjectId;
-        _animalId = animalId;
-        _objectId = objectId;
+        this.setDeleted(false);
+        this.setDirty(false);
     }
 
     public TimelineAnimalJunction(JSONObject json) throws RuntimeException
     {
         try
         {
+            // TODO: Update or remove commented out lines once we get to animal assignment
             this.setRowId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) ? json.getInt(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) : null);
             this.setTimelineObjectId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID) : null);
             this.setAnimalId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID) : null);
@@ -60,19 +61,20 @@ public class TimelineAnimalJunction
             this.setAge(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE) : null);
             this.setWeight(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) ? json.getDouble(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) : null);
             this.setObjectId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID) : null);
+            this.setDeleted(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED) && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED));
+            this.setDirty(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY) && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY));
 
-            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
-            Date scheduleDate = null;
+//            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
 
-            try
-            {
-                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
-
-            }
-            catch (ParseException e)
-            {
-                throw new RuntimeException(e.getMessage());
-            }
+//            try
+//            {
+//                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
+//
+//            }
+//            catch (ParseException e)
+//            {
+//                throw new RuntimeException(e.getMessage());
+//            }
 
         }
         catch (Exception e)
@@ -171,6 +173,26 @@ public class TimelineAnimalJunction
         _age = age;
     }
 
+    public Boolean getDeleted()
+    {
+        return _isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted)
+    {
+        _isDeleted = deleted;
+    }
+
+    public Boolean getDirty()
+    {
+        return _isDirty;
+    }
+
+    public void setDirty(Boolean dirty)
+    {
+        _isDirty = dirty;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c)
     {
@@ -184,6 +206,8 @@ public class TimelineAnimalJunction
         values.put(TIMELINE_ANIMAL_JUNCTION_WEIGHT, getWeight());
         values.put(TIMELINE_ANIMAL_JUNCTION_AGE, getAge());
         values.put(TIMELINE_ANIMAL_JUNCTION_OBJECT_ID, getObjectId());
+        values.put(TIMELINE_ANIMAL_JUNCTION_IS_DELETED, getDeleted());
+        values.put(TIMELINE_ANIMAL_JUNCTION_IS_DIRTY, getDirty());
 
         return values;
     }
@@ -201,7 +225,34 @@ public class TimelineAnimalJunction
         json.put(TIMELINE_ANIMAL_JUNCTION_WEIGHT, getWeight());
         json.put(TIMELINE_ANIMAL_JUNCTION_AGE, getAge());
         json.put(TIMELINE_ANIMAL_JUNCTION_OBJECT_ID, getObjectId());
+        json.put(TIMELINE_ANIMAL_JUNCTION_IS_DELETED, getDeleted());
+        json.put(TIMELINE_ANIMAL_JUNCTION_IS_DIRTY, getDirty());
 
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimelineAnimalJunction that = (TimelineAnimalJunction) o;
+        return Objects.equals(_rowId, that._rowId) &&
+                Objects.equals(_timelineObjectId, that._timelineObjectId) &&
+                Objects.equals(_animalId, that._animalId) &&
+                Objects.equals(_endDate, that._endDate) &&
+                Objects.equals(_assignmentStatus, that._assignmentStatus) &&
+                Objects.equals(_gender, that._gender) &&
+                Objects.equals(_weight, that._weight) &&
+                Objects.equals(_age, that._age) &&
+                Objects.equals(_objectId, that._objectId) &&
+                Objects.equals(_isDeleted, that._isDeleted) &&
+                Objects.equals(_isDirty, that._isDirty);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(_rowId, _timelineObjectId, _animalId, _endDate, _assignmentStatus, _gender, _weight, _age, _objectId, _isDeleted, _isDirty);
     }
 }

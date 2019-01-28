@@ -1,0 +1,133 @@
+
+.timeline-grid {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.timeline-grid .react-grid-Grid {
+    border-radius: 4px;
+}
+
+.timeline-grid .react-grid-Cell__value {
+    -webkit-align-content: center !important;
+    align-content: center !important;
+    text-align: center;
+}
+
+.timeline-grid .rdg-cell-action-button {
+    color: grey;
+}
+
+.timeline-grid .react-grid-HeaderCell {
+    transform:
+            translate(15px, 53px)
+            rotate(315deg) !important;
+    width: 0px !important;
+    border: 0px !important;
+    color: black;
+    background-color: transparent;
+    text-decoration-style: solid !important;
+    font-size: 13px;
+    padding-top: 0px !important;
+    padding-right: 150px !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.timeline-grid .react-grid-HeaderCell-sortable {
+    transform:
+            translate(10px, -20px)
+            rotate(45deg) !important;
+}
+
+.timeline-grid .react-grid-HeaderCell--frozen {
+    visibility: hidden;
+}
+
+.timeline-grid .rdg-row-index {
+    visibility: hidden
+}
+
+.procedure-tl-grid-hdr {
+    transform:
+        translate(-6px, -6px);
+
+    border-bottom: 3px groove rgb(255, 255, 255) !important;
+    width: 195px !important;
+    padding-left: 18px !important;
+    padding-right: 35px !important;
+    padding-bottom: 23px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    height: 43px;
+}
+
+.time-tl-grid-hdr {
+    border-bottom: 3px groove rgb(255, 255, 255) !important;
+    border-top: 3px groove rgb(255, 255, 255) !important;
+    width: 260px !important;
+    height: 74px;
+    padding-top: 20px;
+    padding-bottom: 0px !important;
+    padding-left: 65px;
+    margin-bottom: 0px !important;
+    transform:
+            translate(-40px, -15px)
+}
+
+.timeline-grid .react-grid-HeaderRow > div {
+    height: 120px !important;
+    /*background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);*/
+    background-color: rgb(240, 240, 240);
+    overflow: hidden;
+    /*padding-right: 100px !important;*/
+    /*width: 100% !important;*/
+    /*margin-right: 500px;*/
+}
+
+.timeline-grid .react-grid-Header > div {
+    height: 120px !important;
+    background-color: rgb(240, 240, 240);
+    /*background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);*/
+    border: 0px;
+    overflow: hidden;
+    width: 100% !important;
+    margin-right: 500px;
+}
+
+.timeline-grid .react-grid-Viewport {
+    top: 120px !important;
+    border-top: 2px solid rgb(180, 180, 180) !important;
+}
+
+.timeline-grid .react-grid-Empty {
+    margin-top: 85px;
+    border-top: 2px solid rgb(180, 180, 180) !important;
+    padding-bottom: 140px !important;
+    background-color: rgb(250, 250, 250);
+}
+
+.timeline-grid .react-grid-Canvas {
+    /*background-color: #e8e8e8 !important;*/
+    background-color: rgb(250, 250, 250) !important;
+    overflow: auto !important;
+}
+
+.timeline-grid .add-delete-btn {
+    margin-left: 15px;
+}
+
+.timeline-grid .chbox {
+    height: 17px;
+    width: 17px;
+}
+
+.modal-header {
+    background-color: rgb(245, 245, 245) !important;
+    color: black !important;
+}

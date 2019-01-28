@@ -1,0 +1,9 @@
+
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css");
+
+.scheduler-bs-accordion {
+    /*width: 510px;*/
+    margin-left: 17px;
+}
+

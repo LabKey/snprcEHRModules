@@ -1,12 +1,14 @@
 package org.labkey.snprc_scheduler;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
+import org.labkey.api.action.MutatingApiAction;
+import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
-import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.SimpleFilter;
@@ -16,17 +18,18 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.RequiresPermission;
-import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
+import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
-import org.labkey.api.view.JspView;
-import org.labkey.api.view.NavTree;
 import org.labkey.snprc_scheduler.domains.Timeline;
+import org.labkey.snprc_scheduler.security.SNPRC_schedulerEditorsPermission;
+import org.labkey.snprc_scheduler.security.SNPRC_schedulerReadersPermission;
+import org.springframework.beans.PropertyValues;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,33 +48,28 @@ public class SNPRC_schedulerController extends SpringActionController
     }
 
     //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
-    @RequiresPermission(ReadPermission.class)
-    public class BeginAction extends SimpleViewAction
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
+    //@RequiresPermission(ReadPermission.class)
+    public class BeginAction extends RedirectAction
     {
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public URLHelper getURL(Object o, Errors errors)
         {
-            root.addChild("Procedure scheduling", new ActionURL(BeginAction.class, getContainer()));
-            return root;
-        }
 
-        @Override
-        public ModelAndView getView(Object bla, BindException errors)
-        {
-            return new JspView<>("/org/labkey/snprc_scheduler/view/schedule.jsp");
+            return new ActionURL(NAME, "app", getContainer());
+
         }
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482
-    @RequiresPermission(ReadPermission.class)
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     public class getActiveTimelinesAction extends ApiAction<Timeline>
     {
         @Override
         public ApiResponse execute(Timeline timeline, BindException errors)
         {
             Map<String, Object> props = new HashMap<>();
-
             if (timeline.getProjectObjectId() != null)
             {
                 try
@@ -97,8 +95,17 @@ public class SNPRC_schedulerController extends SpringActionController
         }
     }
 
-    // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
-    @RequiresPermission(ReadPermission.class)
+    /**
+     * getActiveProjectsAction
+     * <p>
+     * call without parameters returns the entire list of active projects from the SND module
+     * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
+     * <p>
+     * call with the projectId & revisionNum to return a single project
+     * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?ProjectId=18&RevisionNum=0
+     */
+
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     public class getActiveProjectsAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
@@ -106,58 +113,90 @@ public class SNPRC_schedulerController extends SpringActionController
         {
             Map<String, Object> props = new HashMap<>();
             List<JSONObject> jsonProjects = new ArrayList<>();
+            PropertyValues pv = getPropertyValues();
+            Integer projectId = null;
+            Integer revisionNum = null;
 
-            // add filters to remove colony maintenance, behavior, clinical, and legacy projects
-            SimpleFilter[] filters = new SimpleFilter[2];
-            filters[0] = new SimpleFilter(FieldKey.fromParts("ReferenceId"), 4000, CompareType.LT);
-            filters[1] = new SimpleFilter(FieldKey.fromParts("ReferenceId"), 0, CompareType.GT);
-
-            List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters);
-
-            if (projects.size() > 0)
+            try
             {
-                props.put("success", true);
-
-                //   SND returned the project table data, need to add Iacuc and CostAccount fields from ehr.project table
-                UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "ehr");
-                TableInfo ti = schema.getTable("project");
-
-                // one project at a time
-                for (Map<String, Object> project : projects)
-
+                // see if a specific project is requested
+                if (!pv.isEmpty())
                 {
-                    JSONObject jsonProject = new JSONObject(project);
-                    jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
-
-                    SimpleFilter filter = new SimpleFilter();
-                    filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
-
-                    //project (AKA chargeId) is the PK - should only get one row back
-                    Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
-
-                    if (ehrProject != null)
+                    try
                     {
-                        jsonProject.put("Iacuc", ehrProject.get("protocol"));
-                        jsonProject.put("CostAccount", ehrProject.get("account"));
+                        projectId = Integer.parseInt(pv.getPropertyValue("ProjectId").getValue().toString());
+                        revisionNum = Integer.parseInt(pv.getPropertyValue("RevisionNum").getValue().toString());
                     }
-                    jsonProjects.add(jsonProject);
+                    catch (NumberFormatException | NullPointerException e)
+                    {
+                        throw new ValidationException("ProjectId and RevisionNum must be numeric");
+                    }
                 }
-                props.put("rows", jsonProjects);
+
+                // add filters to remove colony maintenance, behavior, clinical, and legacy projects
+                ArrayList<SimpleFilter> filters = new ArrayList<>();
+                filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId"), 4000, CompareType.LT));
+                filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId"), 0, CompareType.GT));
+
+                // if a specific project is requested, add it to the filters ArrayList
+                if (projectId != null && revisionNum != null)
+                {
+                    filters.add(new SimpleFilter(FieldKey.fromParts("ProjectId"), projectId, CompareType.EQUAL));
+                    filters.add(new SimpleFilter(FieldKey.fromParts("RevisionNum"), revisionNum, CompareType.EQUAL));
+                }
+
+                List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters);
+
+                if (projects.size() > 0)
+                {
+                    //   SND returned the project table data, need to add Iacuc and CostAccount fields from ehr.project table
+                    UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "ehr");
+                    TableInfo ti = schema.getTable("project");
+
+                    for (Map<String, Object> project : projects)
+                    {
+                        // NOTE WELL: only returning Research projects!
+//                        if (project.get("ProjectType") != null && project.get("ProjectType").toString().toLowerCase().equals("research"))
+//                        {
+                            JSONObject jsonProject = new JSONObject(project);
+                            jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
+
+                            SimpleFilter filter = new SimpleFilter();
+                            filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
+
+                            //project (AKA chargeId) is the PK - should only get one row back
+                            Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
+
+                            if (ehrProject != null)
+                            {
+                                jsonProject.put("Iacuc", ehrProject.get("protocol"));
+                                jsonProject.put("CostAccount", ehrProject.get("account"));
+                            }
+                            jsonProjects.add(jsonProject);
+//                        }
+                    }
+                    props.put("success", true);
+                    props.put("rows", jsonProjects);
+                }
+                else
+                {
+                    props.put("success", false);
+                    props.put("message", "No Active Projects");
+                }
             }
-            else
+            catch (ValidationException e)
             {
                 props.put("success", false);
-                props.put("message", "No Active Projects");
+                props.put("message", e.getMessage());
             }
-
 
             return new ApiSimpleResponse(props);
         }
     }
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/updateTimeline.view?
-    @RequiresPermission(ReadPermission.class)
-    public class updateTimelineAction extends ApiAction<SimpleApiJsonForm>
+    @RequiresPermission(SNPRC_schedulerEditorsPermission.class)
+    public class updateTimelineAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
@@ -179,8 +218,6 @@ public class SNPRC_schedulerController extends SpringActionController
                 {
                     errors.reject(ERROR_MSG, "timelineId is present but not a valid integer.");
                 }
-
-                // if timelineId is present, then
             }
 
             return;
@@ -201,10 +238,11 @@ public class SNPRC_schedulerController extends SpringActionController
             }
             catch (RuntimeException e)
             {
-                errors.reject(err.getMessage());
+                errors.reject(ERROR_MSG, e.getMessage());
             }
 
-            if (err.hasErrors()) {
+            if (err.hasErrors())
+            {
                 response.put("success", false);
                 response.put("responseText", err.getMessage());
             }
