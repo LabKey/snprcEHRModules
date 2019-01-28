@@ -59,8 +59,8 @@ function cloneTimeline(source) {
     //nt.TimelineId = -1;
     //nt.RevisionNum = -1;
     //nt.IsDraft = true;
-    //console.log('cloned object:');
-    //console.log(nt);
+    console.log('cloned object:');
+    console.log(nt);
     return nt;
 }
 
