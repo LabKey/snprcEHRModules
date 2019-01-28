@@ -98,9 +98,7 @@ public class SNDController extends SpringActionController
         @Override
         public URLHelper getURL(Object o, Errors errors)
         {
-
             return new ActionURL(NAME, "app", getContainer());
-
         }
     }
 
