@@ -3061,9 +3061,8 @@ public class SNDManager
     /**
      * Returns a list of active projects with a list of project items
      */
-    //public List<JSONObject> getActiveProjects(Container c, User u, SimpleFilter[] filters)
 
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters)
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters)
     {
        List<Map<String, Object>> projectList = new ArrayList<>();
 

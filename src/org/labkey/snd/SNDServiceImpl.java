@@ -55,6 +55,7 @@ import org.labkey.snd.trigger.SNDTriggerManager;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -422,7 +423,7 @@ public class SNDServiceImpl implements SNDService
     }
 
     @Override
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, SimpleFilter[] filters) {
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters) {
         return SNDManager.get().getActiveProjects(c, u, filters);
     }
 }
