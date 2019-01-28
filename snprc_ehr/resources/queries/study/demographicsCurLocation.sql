@@ -10,8 +10,9 @@
   **********************************************/
 SELECT d2.id,
        CASE
-         WHEN d2.cage is null then d2.room
-         ELSE (d2.room || '-' || cast(cast(d2.cage as DECIMAL) as varchar) )
+         WHEN d2.cage is null THEN d2.room
+         WHEN isnumeric(d2.cage) = 1 THEN (d2.room || '-' || cast(cast(d2.cage as DECIMAL) as varchar) )
+         ELSE (d2.room || '-' || d2.cage)
          END AS Location,
        d2.room.area, d2.room, d2.cage,
        ifdefined(d2.housingCondition) AS cond,
