@@ -17,8 +17,10 @@
 package org.labkey.test.tests.snd;
 
 import com.google.common.collect.Lists;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -63,7 +65,6 @@ import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -644,7 +645,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
                 "});\n";
     }
 
-    private String reviseProjectApi(int id, int rev, String start, String end, String name, String value) throws ParseException
+    private String reviseProjectApi(int id, int rev, String start, String end, String name, String value) throws java.text.ParseException
     {
         String dateFormat = "yyyy-MM-dd";
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
@@ -858,14 +859,14 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     }
 
     @BeforeClass
-    public static void setupProject()
+    public static void setupProject() throws ParseException
     {
          SNDTest init = (SNDTest) getCurrentTest();
 
          init.doSetup();
     }
 
-    private void doSetup()
+    private void doSetup() throws ParseException
     {
         _containerHelper.createProject(getProjectName(), "Collaboration");
         goToProjectHome();
@@ -1631,7 +1632,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
     }
 
-    public void testPackageApis()
+    public void testPackageApis() throws ParseException
     {
         DataRegionTable dataRegionTable;
 
@@ -1654,19 +1655,19 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         //get package json
         String result = (String) executeAsyncScript(getPackageWithId(newPackageId));
-        JSONObject resultAsJson = new JSONObject(result);
-        assertEquals("Wrong narrative","This is a narrative for {SNDName} ({SNDUser}), age {SNDAge}", resultAsJson.getString("narrative"));
+        JSONObject resultAsJson = (JSONObject) new JSONParser().parse(result);
+        assertEquals("Wrong narrative", "This is a narrative for {SNDName} ({SNDUser}), age {SNDAge}", resultAsJson.get("narrative"));
 
-        JSONArray attributes = resultAsJson.getJSONArray("attributes");
-        assertEquals("Wrong attribute count",3,attributes.length());
+        JSONArray attributes = (JSONArray) resultAsJson.get("attributes");
+        assertEquals("Wrong attribute count",3, attributes.size());
 
-        JSONArray categories = resultAsJson.getJSONArray("categories");
-        assertEquals("Wrong category count",2,categories.length());
+        JSONArray categories = (JSONArray) resultAsJson.get("categories");
+        assertEquals("Wrong category count",2, categories.size());
         assertEquals("Wrong categories", Arrays.asList(TEST_CATEGORY_ID3, TEST_CATEGORY_ID4), Arrays.asList(categories.toArray()));
 
 
-        JSONArray validators = attributes.getJSONObject(0).getJSONArray("validators");
-        assertEquals("Wrong validator count",1,validators.length());
+        JSONArray validators = (JSONArray) ((JSONObject)attributes.get(0)).get("validators");
+        assertEquals("Wrong validator count", 1, validators.size());
 
         //confirm package currently has no event
         goToSchemaBrowser();
@@ -1694,7 +1695,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     }
 
     @Test
-    public void testProjectApis() throws ParseException
+    public void testProjectApis() throws Exception
     {
         DataRegionTable dataRegionTable;
 
@@ -1763,7 +1764,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     }
 
     @Test
-    public void testSuperPackageApis()
+    public void testSuperPackageApis() throws Exception
     {
         goToProjectHome();
         goToSchemaBrowser();
@@ -1818,7 +1819,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
                 Arrays.asList());
     }
 
-    private void checkResults(String pkgDescription, List<Integer> subPackageIds)
+    private void checkResults(String pkgDescription, List<Integer> subPackageIds) throws ParseException
     {
         List<Map<String, Object>> packages = executeSelectRowCommand("snd", "Pkgs").getRows();
         String newPackageId = packages.stream()
@@ -1828,14 +1829,14 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         //get package json and assert subpackages have proper values
         String result = (String) executeAsyncScript(getPackageWithId(newPackageId));
-        JSONObject resultAsJson = new JSONObject(result);
-        JSONArray jsonSubPackages = resultAsJson.getJSONArray("subPackages");
+        JSONObject resultAsJson = (JSONObject) new JSONParser().parse(result);
+        JSONArray jsonSubPackages = (JSONArray) resultAsJson.get("subPackages");
 
-        assertEquals(jsonSubPackages.length(), subPackageIds.size());
-        for (int i = 0; i < jsonSubPackages.length(); i++)
+        assertEquals(jsonSubPackages.size(), subPackageIds.size());
+        for (int i = 0; i < jsonSubPackages.size(); i++)
         {
-            JSONObject jsonSubPackage = jsonSubPackages.getJSONObject(i);
-            Integer superPkgId = jsonSubPackage.getInt("superPkgId");
+            JSONObject jsonSubPackage = (JSONObject) jsonSubPackages.get(i);
+            Integer superPkgId = (Integer) jsonSubPackage.get("superPkgId");
             assertTrue("Expected superPkgId of '" + superPkgId + "' was not found in list: '" + subPackageIds.toString() + "'", subPackageIds.contains(superPkgId));
         }
     }
@@ -1967,7 +1968,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     }
 
     @Test
-    public void reviseProjectViaUI() throws ParseException
+    public void reviseProjectViaUI() throws Exception
     {
         String referenceId = "1013";
         String revisionReferenceId = "1014";
@@ -2110,7 +2111,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     }
 
     @Test
-    public void categoryPermissionsUI() throws ParseException
+    public void categoryPermissionsUI() throws Exception
     {
         goToProjectHome();
 
