@@ -207,20 +207,36 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         {
             goToProjectHome();
             //BeginPage page = BeginPage.beginAt(this, getProjectName());
-            runScriptExpectedFail(ts.addTimelineScript(testProjectObjectId, projectItems));
+            runScriptExpectedFail(ts.saveTimelineScript(null, testProjectObjectId, projectItems));
             stopImpersonating();
         }
         // Verify EDITOR_ROLE can insert timeline data
         impersonate(EDITOR_USER.getEmail());
         {
             goToProjectHome();
-            runScript(ts.addTimelineScript(testProjectObjectId, projectItems));
+            runScript(ts.saveTimelineScript(null, testProjectObjectId, projectItems));
+            stopImpersonating();
+        }
+    }
+    @Test
+    public void test4_updateTimelineData()
+    {
+        TimelineScripts ts = new TimelineScripts();
+
+        String testProjectObjectId = getTestProjectObjectId();
+        ArrayList<Map<String, Integer>> projectItems = getProjectItems(testProjectObjectId);
+
+        // Verify EDITOR_ROLE can update timeline data
+        impersonate(EDITOR_USER.getEmail());
+        {
+            goToProjectHome();
+            runScript(ts.saveTimelineScript(getTestTimelineObjectId(), testProjectObjectId, projectItems));
             stopImpersonating();
         }
     }
 
     @Test
-    public void test4_getTimelineData()
+    public void test5_getTimelineData()
     {
         impersonate(READER_USER.getEmail());
 
@@ -231,7 +247,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     }
 
     @Test
-    public void test5_deleteTimelineData()
+    public void test6_deleteTimelineData()
     {
         impersonate(EDITOR_USER.getEmail());
 
