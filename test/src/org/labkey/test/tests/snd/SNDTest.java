@@ -16,11 +16,6 @@
 
 package org.labkey.test.tests.snd;
 
-import com.google.common.collect.Lists;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -72,8 +67,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -500,7 +497,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
                 "    method: 'POST',                                            \n" +
                 "    url: LABKEY.ActionURL.buildURL('snd', 'getPackages.api'),  \n" +
                 "    success: function(data, a, b, c, d){                       \n" +
-                "       callback(JSON.stringify(JSON.parse(data.response).json[0]));\n" +
+                "       callback(JSON.parse(data.response).json[0]);\n" +
                 "    },                                                         \n" +
                 "    failure: function(e){ callback(e.responseText); },         \n" +
                 "    jsonData: {'packages':['" + packageId + "']}               \n" +
@@ -859,14 +856,14 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     }
 
     @BeforeClass
-    public static void setupProject() throws ParseException
+    public static void setupProject()
     {
          SNDTest init = (SNDTest) getCurrentTest();
 
          init.doSetup();
     }
 
-    private void doSetup() throws ParseException
+    private void doSetup()
     {
         _containerHelper.createProject(getProjectName(), "Collaboration");
         goToProjectHome();
@@ -1632,7 +1629,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
     }
 
-    public void testPackageApis() throws ParseException
+    public void testPackageApis()
     {
         DataRegionTable dataRegionTable;
 
@@ -1654,19 +1651,17 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
                 .get("PkgId").toString();
 
         //get package json
-        String result = (String) executeAsyncScript(getPackageWithId(newPackageId));
-        JSONObject resultAsJson = (JSONObject) new JSONParser().parse(result);
-        assertEquals("Wrong narrative", "This is a narrative for {SNDName} ({SNDUser}), age {SNDAge}", resultAsJson.get("narrative"));
+        Map<String, Object> result = (Map) executeAsyncScript(getPackageWithId(newPackageId));
+        assertEquals("Wrong narrative", "This is a narrative for {SNDName} ({SNDUser}), age {SNDAge}", result.get("narrative"));
 
-        JSONArray attributes = (JSONArray) resultAsJson.get("attributes");
+        List<Map> attributes = (List) result.get("attributes");
         assertEquals("Wrong attribute count",3, attributes.size());
 
-        JSONArray categories = (JSONArray) resultAsJson.get("categories");
-        assertEquals("Wrong category count",2, categories.size());
-        assertEquals("Wrong categories", Arrays.asList(TEST_CATEGORY_ID3, TEST_CATEGORY_ID4), Arrays.asList(categories.toArray()));
+        List categories = (List) result.get("categories");
+        assertEquals("Wrong categories", Arrays.asList(Long.valueOf(TEST_CATEGORY_ID3), Long.valueOf(TEST_CATEGORY_ID4)), categories);
 
 
-        JSONArray validators = (JSONArray) ((JSONObject)attributes.get(0)).get("validators");
+        List validators = (List) (attributes.get(0)).get("validators");
         assertEquals("Wrong validator count", 1, validators.size());
 
         //confirm package currently has no event
@@ -1709,9 +1704,9 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         goToSchemaBrowser();
         dataRegionTable = viewQueryData("snd", "Projects");
-        List<String> expected = Lists.newArrayList("50", "0", "100", TEST_PROJECT_DB_START_DATE, TEST_PROJECT_DB_END_DATE, TEST_PROJECT_DESC, "false");
+        List<String> expected = Arrays.asList("50", "0", "100", TEST_PROJECT_DB_START_DATE, TEST_PROJECT_DB_END_DATE, TEST_PROJECT_DESC, "false");
         assertEquals("Expected values not found.", expected, dataRegionTable.getRowDataAsText(0));
-        expected = Lists.newArrayList("50", "1", "100", "2018-01-03", "2018-01-04", TEST_EDIT_PROJECT_DESC, "true");
+        expected = Arrays.asList("50", "1", "100", "2018-01-03", "2018-01-04", TEST_EDIT_PROJECT_DESC, "true");
         assertEquals("Expected values not found.", expected, dataRegionTable.getRowDataAsText(1));
 
         runScript(reviseProjectApi(TEST_PROJECT_ID, 1, "2018-02-01", TEST_PROJECT_COMMON_DATE, null, null));
@@ -1748,11 +1743,11 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         goToSchemaBrowser();
         dataRegionTable = viewQueryData("snd", "Projects");
-        expected = Lists.newArrayList("50", "2", "100", "2018-02-01", "2018-02-09", TEST_EDIT_PROJECT_DESC, "false");
+        expected = Arrays.asList("50", "2", "100", "2018-02-01", "2018-02-09", TEST_EDIT_PROJECT_DESC, "false");
         assertEquals("Expected values not found.", expected, dataRegionTable.getRowDataAsText(2));
-        expected = Lists.newArrayList("50", "3", "100", "2018-02-10", "2018-02-20", TEST_REV_PROJECT_DESC, "true");
+        expected = Arrays.asList("50", "3", "100", "2018-02-10", "2018-02-20", TEST_REV_PROJECT_DESC, "true");
         assertEquals("Expected values not found.", expected, dataRegionTable.getRowDataAsText(3));
-        expected = Lists.newArrayList("51", "0", "101", TEST_PROJECT_DB_START_DATE, TEST_PROJECT_DB_END_DATE, TEST_PROJECT_DESC2, "false");
+        expected = Arrays.asList("51", "0", "101", TEST_PROJECT_DB_START_DATE, TEST_PROJECT_DB_END_DATE, TEST_PROJECT_DESC2, "false");
         assertEquals("Expected values not found.", expected, dataRegionTable.getRowDataAsText(4));
 
         goToSchemaBrowser();
@@ -1819,7 +1814,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
                 Arrays.asList());
     }
 
-    private void checkResults(String pkgDescription, List<Integer> subPackageIds) throws ParseException
+    private void checkResults(String pkgDescription, List<Integer> subPackageIds)
     {
         List<Map<String, Object>> packages = executeSelectRowCommand("snd", "Pkgs").getRows();
         String newPackageId = packages.stream()
@@ -1828,17 +1823,11 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
                 .get("PkgId").toString();
 
         //get package json and assert subpackages have proper values
-        String result = (String) executeAsyncScript(getPackageWithId(newPackageId));
-        JSONObject resultAsJson = (JSONObject) new JSONParser().parse(result);
-        JSONArray jsonSubPackages = (JSONArray) resultAsJson.get("subPackages");
+        Map<String, Object> results = (Map) executeAsyncScript(getPackageWithId(newPackageId));
+        List<Map> subPackages = (List) results.get("subPackages");
 
-        assertEquals(jsonSubPackages.size(), subPackageIds.size());
-        for (int i = 0; i < jsonSubPackages.size(); i++)
-        {
-            JSONObject jsonSubPackage = (JSONObject) jsonSubPackages.get(i);
-            Integer superPkgId = (Integer) jsonSubPackage.get("superPkgId");
-            assertTrue("Expected superPkgId of '" + superPkgId + "' was not found in list: '" + subPackageIds.toString() + "'", subPackageIds.contains(superPkgId));
-        }
+        List<Integer> actualSubPackageIds = subPackages.stream().map(subPackage -> ((Long) subPackage.get("superPkgId")).intValue()).collect(Collectors.toList());
+        assertEquals("Wrong superPkgIds in subPackages", new HashSet<>(subPackageIds), new HashSet<>(actualSubPackageIds));
     }
 
     @Test
