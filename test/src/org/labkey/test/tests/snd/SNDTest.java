@@ -56,6 +56,7 @@ import org.labkey.test.util.ApiPermissionsHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Maps;
 import org.labkey.test.util.SqlserverOnlyTest;
+import org.labkey.test.util.core.webdav.WebDavUploadHelper;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
@@ -822,12 +823,13 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
     private final Map<String, Object> TEST1ROW3AMAP = Maps.of("PkgId", TEST_PKG_ID3, "Description", "Updated Description 3", "ObjectId", "dbe961b9-b7ba-102d-8c2a-99223481b901", "testPkgs1", EXTCOLTESTDATA3A);
 
     //Sample files for import to be used in this order
-    private static final File INITIAL_IMPORT_FILE = TestFileUtils.getSampleData("snd/pipeline/import/1_initial.snd.xml");
-    private static final File CHANGE_NARRATIVE_FILE = TestFileUtils.getSampleData("snd/pipeline/import/2_changeNarrative.snd.xml");
-    private static final File INSERT_PACKAGE_FILE = TestFileUtils.getSampleData("snd/pipeline/import/3_insertPackage.snd.xml");
-    private static final File ADD_ATTRIBUTE_FILE = TestFileUtils.getSampleData("snd/pipeline/import/4_addAttribute.snd.xml");
-    private static final File REMOVE_ATTRIBUTE_FILE= TestFileUtils.getSampleData("snd/pipeline/import/5_removeAttribute.snd.xml");
-    private static final File REMOVE_ALL_ATTRIBUTES_FILE = TestFileUtils.getSampleData("snd/pipeline/import/6_removeAllAttributes.snd.xml");
+    private static final File IMPORT_FILES_DIR = TestFileUtils.getSampleData("snd/pipeline/import");
+    private static final String INITIAL_IMPORT_FILE = "1_initial.snd.xml";
+    private static final String CHANGE_NARRATIVE_FILE = "2_changeNarrative.snd.xml";
+    private static final String INSERT_PACKAGE_FILE = "3_insertPackage.snd.xml";
+    private static final String ADD_ATTRIBUTE_FILE = "4_addAttribute.snd.xml";
+    private static final String REMOVE_ATTRIBUTE_FILE= "5_removeAttribute.snd.xml";
+    private static final String REMOVE_ALL_ATTRIBUTES_FILE = "6_removeAllAttributes.snd.xml";
 
     private static final int IMPORT_WAIT_TIME = 30 * 1000;  // limit of 30 secs
     private int EXPECTED_IMPORT_JOBS = 1;
@@ -1011,32 +1013,23 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         //TODO: once exp tables are exposed - do a full cleanup from snd.pkgs, exp.DomainDescriptor, exp.PropertyDomain, exp.PropertyDescriptor
     }
 
-    @Test @Ignore
-    public void testSNDModule()
-    {
-        //TODO: Implement this once we get a UI
-//        BeginPage beginPage = BeginPage.beginAt(this, getProjectName());
-//        assertEquals(200, getResponseCode());
-//        final String expectedHello = "Hello, and welcome to the SND module.";
-//        assertEquals("Wrong hello message", expectedHello, beginPage.getHelloMessage());
-    }
-
     public void testSNDImport()
     {
         //go to SND Project
         clickProject(PROJECTNAME);
 
-        //set pipeline root
-        setPipelineRoot(INITIAL_IMPORT_FILE.getParentFile().getAbsolutePath());
+        WebDavUploadHelper uploadHelper = new WebDavUploadHelper(getProjectName());
+        uploadHelper.setFileFilter(file -> file.getName().endsWith(".xml"));
+        uploadHelper.uploadDirectoryContents(IMPORT_FILES_DIR);
 
         //go to Pipeline module
         goToModule("Pipeline");
 
         //import 1_initial.snd.xml
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.checkFileBrowserFileCheckbox(INITIAL_IMPORT_FILE.getName());
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(INITIAL_IMPORT_FILE);
         _fileBrowserHelper.selectImportDataAction("SND document import");
-        waitForPipelineJobsToComplete(EXPECTED_IMPORT_JOBS, "SND Import ("+INITIAL_IMPORT_FILE.getName()+")", false, IMPORT_WAIT_TIME);
+        waitForPipelineJobsToComplete(EXPECTED_IMPORT_JOBS, "SND Import ("+INITIAL_IMPORT_FILE+")", false, IMPORT_WAIT_TIME);
 
         //go to grid view for snd.pkg
         goToSchemaBrowser();
@@ -1080,9 +1073,9 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         //import 2_changeNarrative.snd.xml
         goToModule("Pipeline");
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.checkFileBrowserFileCheckbox(CHANGE_NARRATIVE_FILE.getName());
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(CHANGE_NARRATIVE_FILE);
         _fileBrowserHelper.selectImportDataAction("SND document import");
-        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+CHANGE_NARRATIVE_FILE.getName()+")", false, IMPORT_WAIT_TIME);
+        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+CHANGE_NARRATIVE_FILE+")", false, IMPORT_WAIT_TIME);
 
         //go to grid view
         goToSchemaBrowser();
@@ -1097,9 +1090,9 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         //import 3_insertPackage.snd.xml
         goToModule("Pipeline");
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.checkFileBrowserFileCheckbox(INSERT_PACKAGE_FILE.getName());
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(INSERT_PACKAGE_FILE);
         _fileBrowserHelper.selectImportDataAction("SND document import");
-        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+INSERT_PACKAGE_FILE.getName()+")", false, IMPORT_WAIT_TIME);
+        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+INSERT_PACKAGE_FILE+")", false, IMPORT_WAIT_TIME);
 
         // go to grid view
         goToSchemaBrowser();
@@ -1116,9 +1109,9 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         //import 4_addAttribute.snd.xml
         goToModule("Pipeline");
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.checkFileBrowserFileCheckbox(ADD_ATTRIBUTE_FILE.getName());
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(ADD_ATTRIBUTE_FILE);
         _fileBrowserHelper.selectImportDataAction("SND document import");
-        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+ADD_ATTRIBUTE_FILE.getName()+")", false, IMPORT_WAIT_TIME);
+        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+ADD_ATTRIBUTE_FILE+")", false, IMPORT_WAIT_TIME);
 
         //go to grid view
         //TODO: Test attribute addition in exp tables (not exposed yet)
@@ -1126,9 +1119,9 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         //import 5_removeAttribute.snd.xml
         goToModule("Pipeline");
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.checkFileBrowserFileCheckbox(REMOVE_ATTRIBUTE_FILE.getName());
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(REMOVE_ATTRIBUTE_FILE);
         _fileBrowserHelper.selectImportDataAction("SND document import");
-        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+REMOVE_ATTRIBUTE_FILE.getName()+")", false, IMPORT_WAIT_TIME);
+        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+REMOVE_ATTRIBUTE_FILE+")", false, IMPORT_WAIT_TIME);
 
         //go to grid view
         //TODO: Test attribute removal in exp tables (not exposed yet)
@@ -1136,9 +1129,9 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         //import 6_removeAllAttributes.snd.xml
         goToModule("Pipeline");
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.checkFileBrowserFileCheckbox(REMOVE_ALL_ATTRIBUTES_FILE.getName());
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(REMOVE_ALL_ATTRIBUTES_FILE);
         _fileBrowserHelper.selectImportDataAction("SND document import");
-        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+REMOVE_ALL_ATTRIBUTES_FILE.getName()+")", true, IMPORT_WAIT_TIME);
+        waitForPipelineJobsToComplete(++EXPECTED_IMPORT_JOBS, "SND Import ("+REMOVE_ALL_ATTRIBUTES_FILE+")", true, IMPORT_WAIT_TIME);
 
         checkExpectedErrors(1);
     }
