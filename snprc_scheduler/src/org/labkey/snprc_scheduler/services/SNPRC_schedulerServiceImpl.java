@@ -71,11 +71,11 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
             for (Timeline timeline : timelines)
             {
-                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId()));
+                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(timeline.getObjectId()));
                 timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
-                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId()));
-                timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(c, u, timeline.getCreatedBy()));
-                timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(c, u, timeline.getModifiedBy()));
+                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(timeline.getObjectId()));
+                timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
+                timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
 
                 // add projectId and RevisionNum
                 sndFliter = new SimpleFilter(FieldKey.fromParts("ObjectId"), timeline.getProjectObjectId(), CompareType.EQUAL);

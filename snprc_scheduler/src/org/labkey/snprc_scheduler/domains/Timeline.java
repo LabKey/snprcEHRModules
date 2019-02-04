@@ -276,7 +276,7 @@ public class Timeline //extends Entity
         _createdBy = createdBy;
         if (_createdBy != null)
         {
-            _createdByName = SNPRC_schedulerManager.getUserDisplayName(c, u, _createdBy);
+            _createdByName = SNPRC_schedulerManager.getUserDisplayName(_createdBy);
         }
         else
         {
@@ -291,7 +291,7 @@ public class Timeline //extends Entity
         _modifiedBy = modifiedBy;
         if (_modifiedBy != null)
         {
-            _modifiedByName = SNPRC_schedulerManager.getUserDisplayName(c, u, _modifiedBy);
+            _modifiedByName = SNPRC_schedulerManager.getUserDisplayName(_modifiedBy);
         }
         else
         {
