@@ -414,6 +414,7 @@ public class SNPRC_schedulerManager
 
                 pkMap.put(Timeline.TIMELINE_ID, timeline.getTimelineId());
                 pkMap.put(Timeline.TIMELINE_REVISION_NUM, timeline.getRevisionNum());
+                pkMap.put(Timeline.TIMELINE_PROJECT_OBJECT_ID, timeline.getProjectObjectId());
                 pkList.add(pkMap);
                 List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineRows, pkList, null, null);
                 // add updated values returned from db call

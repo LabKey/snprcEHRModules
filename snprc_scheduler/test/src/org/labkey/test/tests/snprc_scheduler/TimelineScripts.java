@@ -9,7 +9,7 @@ public class TimelineScripts
     public static final Integer TIMELINE_ID = 101;
     public static final Integer REVISION_NUM = 0;
 
-    public String addTimelineScript(String testProjectObjectId, ArrayList<Map<String, Integer>> projectItems)
+    public String saveTimelineScript(String testTimelineObjectId, String testProjectObjectId, ArrayList<Map<String, Integer>> projectItems)
     {
         Integer projectItemId1 = 0;
         Integer projectItemId2 = 0;
@@ -28,7 +28,15 @@ public class TimelineScripts
                 "    url: LABKEY.ActionURL.buildURL('snprc_scheduler', 'updateTimeline.api'),\n" +
                 "    success: function(){ callback('Success!'); },\n" +
                 "    failure: function(e){ callback(e.responseText); },\n" +
-                "    jsonData: {\n" +
+                "    jsonData: {\n" ;
+
+        // if timelineObject id is not null then an update was requested
+        if (testTimelineObjectId != null )
+        {
+            timelineScript = timelineScript + "        'ObjectId' : '" + testTimelineObjectId + "',\n" +
+                    "        'IsDirty' : true,\n ";
+        }
+        timelineScript = timelineScript +
                 "        'TimelineId'  : "+ TIMELINE_ID + ",\n" +
                 "        'RevisionNum'  : "+ REVISION_NUM + ",\n" +
                 "        'IsDeleted'  : false ,\n" +
@@ -100,6 +108,7 @@ public class TimelineScripts
 
         return timelineScript;
     }
+
 
     public String deleteTimelineScript(String testProjectObjectId, String timelineObjectId)
     {

@@ -641,8 +641,7 @@ public class AnimalGroupsController extends SpringActionController
                 props.put("success", true);
 
             }
-            catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
-                    DuplicateKeyException | NullPointerException | SQLException | ValidationException e)
+            catch (ValidationException e)
             {
                 props.put("success", false);
                 props.put("message", e.getMessage());
