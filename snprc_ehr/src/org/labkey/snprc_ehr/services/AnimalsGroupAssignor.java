@@ -43,6 +43,7 @@ import org.labkey.snprc_ehr.enums.AssignmentFailureReason;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,10 +56,9 @@ import java.util.Map;
 public class AnimalsGroupAssignor
 {
     ViewContext viewContext;
-    private AnimalGroup group = null;
-    private AnimalGroupCategory category = null;
-    private List<GroupMember> groupMembers = new ArrayList<GroupMember>();
-    private List<GroupMember> categoryMembers = new ArrayList<GroupMember>();
+    private AnimalGroup group;
+    private AnimalGroupCategory category;
+
 
 
     public AnimalsGroupAssignor(ViewContext viewContext, int group)
@@ -70,60 +70,7 @@ public class AnimalsGroupAssignor
         this.group = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), filter, null).getObject(AnimalGroup.class);
         this.category = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), new SimpleFilter(FieldKey.fromString("category_code"), this.group.getCategoryCode(), CompareType.EQUAL), null).getObject(AnimalGroupCategory.class);
 
-        this.groupMembers = this.getGroupAssignees();
-        if (this.category.getEnforceExclusivity().equalsIgnoreCase("Y"))
-        {
-            this.categoryMembers = this.getCategoryAssignees();
-        }
 
-    }
-
-    /**
-     * @return all animals that are already assigned and which assignment is still active
-     */
-    private List<GroupMember> getGroupAssignees()
-    {
-
-        Date today = new Date();
-
-        UserSchema schema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
-        TableInfo table = schema.getTable("animal_group_members");
-        SimpleFilter filter = new SimpleFilter();
-        filter.addCondition(FieldKey.fromString("groupid"), this.group.getCode(), CompareType.EQUAL);
-
-        filter.addClause(new SimpleFilter.OrClause(
-                new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.ISBLANK, null),
-                new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.DATE_GTE, today)
-        ));
-
-        TableSelector tableSelector = new TableSelector(table, filter, null);
-        List<GroupMember> members = tableSelector.getArrayList(GroupMember.class);
-
-        return members;
-    }
-
-
-    /**
-     * @return all animals that are already assigned to the category, needed to enforce assignment exclusivity at the category level
-     */
-    private List<GroupMember> getCategoryAssignees()
-    {
-        Date today = new Date();
-
-        UserSchema schema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
-        TableInfo table = schema.getTable("animal_group_members");
-        SimpleFilter filter = new SimpleFilter();
-        filter.addCondition(FieldKey.fromString("groupid"), this.getCategoryGroups(), CompareType.IN);
-
-        filter.addClause(new SimpleFilter.OrClause(
-                new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.ISBLANK, null),
-                new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.DATE_GT, today)
-        ));
-
-        TableSelector tableSelector = new TableSelector(table, filter, null);
-        List<GroupMember> members = tableSelector.getArrayList(GroupMember.class);
-
-        return members;
     }
 
     private List<Integer> getCategoryGroups()
@@ -161,17 +108,16 @@ public class AnimalsGroupAssignor
 
     /**
      * @param groupMembers: Animals to be assigned (animalId, start date, and end date)
-     * @return - Nothing - Animals are either assigned or an exception is thrown
+     * returns - Nothing - Animals are either assigned or an exception is thrown
      */
-    public void assign(List<GroupMember> groupMembers) throws InvalidKeyException, BatchValidationException, QueryUpdateServiceException,
-            DuplicateKeyException, NullPointerException, SQLException, ValidationException
+    public void assign(List<GroupMember> groupMembers) throws ValidationException
 
     {
         List<Map<String, Object>> rows = new ArrayList<>();
         ObjectMapper oMapper = new ObjectMapper();
 
         //Load Demographics Records
-        List<String> animalIds = new ArrayList<String>();
+        List<String> animalIds = new ArrayList<>();
         for (GroupMember m : groupMembers)
         {
             animalIds.add(m.getParticipantid());
@@ -189,9 +135,9 @@ public class AnimalsGroupAssignor
         SimpleFilter filter = new SimpleFilter();
         filter.addCondition(FieldKey.fromString("id"), animalIds, CompareType.IN);
         Map<String, Map<String, Object>> demographicsMap = new HashMap<>();
-        for (Map a : new TableSelector(demographicsTable, filter, null).getMapCollection())
+        for (Map<String, Object> a : new TableSelector(demographicsTable, filter, null).getMapCollection())
         {
-            Map oneAnimalDemographicsMap = new HashMap();
+            Map <String, Object> oneAnimalDemographicsMap = new HashMap<>();
             oneAnimalDemographicsMap.put("gender", a.get("gender"));
             oneAnimalDemographicsMap.put("species", a.get("species"));
             oneAnimalDemographicsMap.put("death", a.get("death"));
@@ -213,7 +159,14 @@ public class AnimalsGroupAssignor
             Date dod = (Date) rowMap.get("death");
             Date startDate = groupMember.getDate();
             // set endDate to current date if it is null
-            Date endDate = groupMember.getEnddate() == null ? new Date() : groupMember.getEnddate();
+
+
+            Date now = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(now);
+            c.add(Calendar.YEAR, 10);
+
+            Date endDate = groupMember.getEnddate() == null ? c.getTime() : groupMember.getEnddate();
 
 
             if ((dod != null) && (dod.compareTo(startDate) < 0))
@@ -227,32 +180,29 @@ public class AnimalsGroupAssignor
                 throw new ValidationException(AssignmentFailureReason.END_DATE_AFTER_DEATH.toString());
             }
 
-            sql = new SQLFragment("SELECT\n");
-            sql.append("agm.participantid as id\n");
-            sql.append("FROM ");
-            sql.append(animalGroupMembers, "agm");
-            sql.append("\n");
-            sql.append("inner join ehr_lookups.calendar as c on c.targetDate between agm.date and COALESCE(agm.enddate, getDate())\n");
-            sql.append("where agm.participantid = ? and agm.groupId = ?\n");
-            sql.append(" and c.targetDate between ? and ?\n");
-            sql.append("group by agm.participantid");
+            //ignore if record is being updated
+            if (groupMember.getObjectid() == null )
+            {
+                sql = new SQLFragment("SELECT\n");
+                sql.append("agm.participantid as id\n");
+                sql.append("FROM ");
+                sql.append(animalGroupMembers, "agm");
+                sql.append("\n");
+                sql.append("inner join ehr_lookups.calendar as c on c.targetDate between agm.date and COALESCE(agm.enddate, getDate())\n");
+                sql.append("where agm.participantid = ? and agm.groupId = ?\n");
+                sql.append(" and c.targetDate between ? and ?\n");
+                sql.append("group by agm.participantid");
 
-            sql.add(groupMember.getParticipantid());
-            sql.add(groupMember.getGroupid());
-            sql.add(groupMember.getDate());
-            sql.add(endDate);
+                sql.add(groupMember.getParticipantid());
+                sql.add(groupMember.getGroupid());
+                sql.add(groupMember.getDate());
+                sql.add(endDate);
 
-            selector = new SqlSelector(dbStudySchema, sql);
+                selector = new SqlSelector(dbStudySchema, sql);
 
-//            List<String> animalList = new ArrayList<>();
-//            selector.forEachMap(row -> {
-//                        animalList.add((String) row.get("id"));
-//                    }
-//            );
-
-            if (selector.exists())
-                throw new ValidationException(AssignmentFailureReason.ALREADY_IN_GROUP.toString() + ": " + groupMember.getParticipantid());
-
+                if (selector.exists())
+                    throw new ValidationException(AssignmentFailureReason.ALREADY_IN_GROUP.toString() + ": " + groupMember.getParticipantid());
+            }
 
             // if category groups are mutually exclusive, then we need to make sure animal
             // hasn't already been assigned to another category
@@ -266,15 +216,19 @@ public class AnimalsGroupAssignor
                 sql.append("FROM ");
                 sql.append(animalGroupMembers, "agm");
                 sql.append("\n");
-                sql.append("inner join ehr_lookups.calendar as c on c.targetDate between agm.date and COALESCE(agm.enddate, getDate())\n");
+                sql.append("inner join ehr_lookups.calendar as c\n "); //;
+                sql.append ("on c.targetDate between agm.date and COALESCE(agm.enddate, DATEADD(YEAR, 10, getDate()))\n");
                 sql.append("where agm.participantid = ? \n");
                 sql.append(" and agm.groupId in " + getCategoryGroupsString() + "\n");
                 sql.append(" and c.targetDate between ? and ?\n");
-                sql.append("group by agm.participantid");
+                if (groupMember.getObjectid() != null )
+                    sql.append(" and agm.objectId <> ?");  // ignore the record being updated
 
                 sql.add(groupMember.getParticipantid());
                 sql.add(groupMember.getDate());
                 sql.add(endDate);
+                if (groupMember.getObjectid() != null )
+                    sql.add(groupMember.getObjectid());
 
                 selector = new SqlSelector(dbStudySchema, sql);
                 if (selector.exists())
@@ -362,7 +316,7 @@ public class AnimalsGroupAssignor
 
             }
 
-            Map groupMemberAsMap = oMapper.convertValue(groupMember, CaseInsensitiveHashMap.class);
+            Map<String, Object> groupMemberAsMap = oMapper.convertValue(groupMember, CaseInsensitiveHashMap.class);
 
             groupMemberAsMap.remove("Id");
             rows.add(groupMemberAsMap);
@@ -396,7 +350,7 @@ public class AnimalsGroupAssignor
                 catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
                         DuplicateKeyException | NullPointerException | SQLException e)
                 {
-                    throw e;
+                    throw new ValidationException(e.getMessage());
                 }
             }
         }
