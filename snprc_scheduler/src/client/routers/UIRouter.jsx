@@ -1,7 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import CalendarPage from '../views/CalendarPage';
-//import ProjectView from '../views/ProjectView';
 import ProjectsView from '../views/ProjectsView';
 import NotFoundPage from '../views/NotFoundPage';
 

@@ -1,9 +1,68 @@
 
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css");
+@import url("https://npmcdn.com/react-bootstrap-table/dist/react-bootstrap-table-all.min.css");
 
 .scheduler-bs-accordion {
-    /*width: 510px;*/
     margin-left: 17px;
 }
 
+.scheduler-timeline-list .react-grid-HeaderCell .react-grid-checkbox-label,
+.scheduler-project-list .react-grid-HeaderCell .react-grid-checkbox-label {
+    visibility: hidden;
+}
+
+.scheduler-timeline-list .react-grid-HeaderCell .react-grid-checkbox,
+.scheduler-project-list .react-grid-HeaderCell .react-grid-checkbox {
+    cursor: default !important;
+}
+
+/*.scheduler-timeline-list .react-grid-HeaderCell,*/
+/*.scheduler-project-list .react-grid-HeaderCell {*/
+    /*width: 100% !important;*/
+/*}*/
+
+.scheduler-timeline-list,
+scheduler-project-list{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.timeline-table > .react-bs-table > .react-bs-container-header {
+    display: none;
+}
+
+.scheduler-timeline-list-btn {
+    margin-right: 10px;
+    height: 27px;
+    width: 27px;
+}
+
+.scheduler-timeline-list-btn svg{
+    position: relative;
+    top: -2px;
+    left: -6px;
+}
+
+.scheduler-accordion-no-margin-left {
+    margin-left: 0px !important;
+}
+
+.scheduler-timeline-list-hdr {
+    display: none;
+    /*background-color: rgb(249, 249, 249);*/
+}
+
+.scheduler-bs-accordion .panel-title {
+    font-size: 14px;
+    position: relative;
+    top: -4px;
+}
+
+.scheduler-bs-accordion .panel-default>.panel-heading {
+    height: 30px;
+}
+
+.scheduler-bs-accordion input.form-control {
+    width: 100% !important;
+}
