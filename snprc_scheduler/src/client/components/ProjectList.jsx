@@ -14,6 +14,7 @@ import ReactDataGrid from 'react-data-grid';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import {selectProject, filterProjects, sortProjects, createAction, PROJECT_SELECTED} from '../actions/dataActions';
 import connect from "react-redux/es/connect/connect";
+import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 
 const verboseOutput = true;
 
@@ -40,26 +41,12 @@ class ProjectList extends React.Component {
 
     componentWillUnmount = () => this.disconnect();
     
-    onProjectRowsSelected = (rows) => {
-        let selectedProject = null;
-        if (rows.length === 1) {
-            selectedProject = rows[0].row;
-        }
-        else {
-            rows = [];
-        }
-        this.setState({ 
-            selectedProjects: rows.map(r => r.rowIdx),
-            selectedProject: selectedProject
-        });
-        if (selectedProject != null) {
-            if (rows.length > 0) {
-                this.props.onSelectProject(selectedProject);
-            }
-            if (verboseOutput) {
-                console.log("ProjectID " + selectedProject.projectId + " selected.");
-                console.log(selectedProject);
-            }             
+    onProjectRowsSelected = (row, isSelected, e) => {
+
+        if (isSelected) {
+            this.props.onSelectProject(row);
+        } else {
+
         }
     }
 
@@ -86,38 +73,46 @@ class ProjectList extends React.Component {
         this.props.store.dispatch(sortProjects(sortColumn, sortDirection));
     };
 
-    render = () => { 
+    options = {
+        noDataText: 'No projects available',
+        defaultSortName: 'description',
+        defaultSortOrder: 'asc'
+    };
+
+    selectRowProp = {
+        mode: 'radio',
+        clickToSelect: true,
+        onSelect: this.onProjectRowsSelected
+    };
+
+    render = () => {
         return (<div>
             <div className="input-group bottom-padding-8">
-            <span className="input-group-addon input-group-addon-buffer"><Glyphicon glyph="search"/></span>
-            <input 
-                id="projectSearch" 
-                type="text" 
-                onChange={this.handleProjectSearchChange}
-                className="form-control search-input" 
-                name="projectSearch" 
-                placeholder="Search projects" />
+                <span className="input-group-addon input-group-addon-buffer"><Glyphicon glyph="search"/></span>
+                <input
+                        id="projectSearch"
+                        type="text"
+                        onChange={this.handleProjectSearchChange}
+                        className="form-control search-input"
+                        name="projectSearch"
+                        placeholder="Search projects"/>
             </div>
-            <div className="bottom-padding-8" >
-                <ReactDataGrid
-                    rowKey="ProjectId"
-                    columns={this.state.projectCols}
-                    rowGetter={this.projectRowGetter}
-                    rowsCount={this.state.projectCount}
-                    onGridSort={this.handleGridSort}
-                    enableCellSelect={true}
-                    minHeight={227}
-                    rowSelection={{
-                        showCheckbox: true,
-                        enableShiftSelect: false,
-                        onRowsSelected: this.onProjectRowsSelected,
-                        onRowsDeselected: this.onProjectRowsDeselected,
-                        selectBy: { indexes: this.state.selectedProjects}
-                    }}
-                    emptyRowsView={EmptyProjectRowsView}  
-                />               
+            <div className="bottom-padding-8 scheduler-project-list">
+                <BootstrapTable
+                        ref='project-table'
+                        className='project-table'
+                        data={this.state.projects}
+                        options={this.options}
+                        selectRow={this.selectRowProp}
+                        height={189}
+                >
+                    <TableHeaderColumn dataField='projectId' isKey={true} hidden/>
+                    <TableHeaderColumn dataField='Iacuc' width='80px' dataSort={ true }>IACUC</TableHeaderColumn>
+                    <TableHeaderColumn dataField='description' dataSort={ true }>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField='revisionNum' width='40px'>Rev</TableHeaderColumn>
+                </BootstrapTable>
             </div>
-        </div>)             
+        </div>)
     };
 
 }

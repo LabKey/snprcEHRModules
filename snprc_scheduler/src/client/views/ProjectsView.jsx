@@ -15,15 +15,10 @@ import CalendarList from "../components/CalendarList";
 import AnimalMain from "../components/AnimalMain";
 
 import {
-    addTimelineItem, assignTimelineProcedure, deleteTimelineItem,
-    saveTimeline, saveTimelineSuccess, selectTimeline,
-    updateSelectedTimeline,
-    updateTimelineItem, updateTimelineProjectItem,
-    updateTimelineRow
+    saveTimeline, saveTimelineSuccess
 } from '../actions/dataActions';
-// import {  } from "@fortawesome/fontawesome-free";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library, icon } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faSpinner)
@@ -104,7 +99,6 @@ class ProjectsView extends React.Component {
 
     save = () => {
         return () => {
-            // dispatch(setSubmitting(model));
             const timeline = this.props.selectedTimeline;
             timeline.IsDirty = true;
 
@@ -227,7 +221,7 @@ class ProjectsView extends React.Component {
 
 const mapStateToProps = state => ({
     selectedProject: state.project.selectedProject || null,
-    selectedTimeline: state.project.selectedTimeline || null
+    selectedTimeline: state.timeline.selectedTimeline || null
 })
 
 const mapDispatchToProps = dispatch => ({

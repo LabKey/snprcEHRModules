@@ -30,7 +30,7 @@ public class Timeline //extends Entity
     private String _description;
     private Date _startDate;
     private Date _endDate;
-    private String _leadTechs; // comma separated list of technicians
+    private String _leadTech;
     private String _notes;
     private String _schedulerNotes;
     private String _objectId;
@@ -58,7 +58,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_ENDDATE = "EndDate";
     public static final String TIMELINE_OBJECTID = "ObjectId";
     public static final String TIMELINE_CONTAINER = "Container";
-    public static final String TIMELINE_LEAD_TECHS = "LeadTechs";
+    public static final String TIMELINE_LEAD_TECHS = "LeadTech";
     public static final String TIMELINE_NOTES = "Notes";
     public static final String TIMELINE_SCHEDULER_NOTES = "SchedulerNotes";
     public static final String TIMELINE_PROJECT_ID = "ProjectId";
@@ -94,7 +94,7 @@ public class Timeline //extends Entity
         {
             this.setTimelineId(json.has(Timeline.TIMELINE_ID) ? json.getInt(Timeline.TIMELINE_ID) : null);
             this.setRevisionNum(json.has(Timeline.TIMELINE_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_REVISION_NUM) : null);
-            this.setLeadTechs(json.has(Timeline.TIMELINE_LEAD_TECHS) ? json.getString(Timeline.TIMELINE_LEAD_TECHS) : null);
+            this.setLeadTech(json.has(Timeline.TIMELINE_LEAD_TECHS) ? json.getString(Timeline.TIMELINE_LEAD_TECHS) : null);
             this.setNotes(json.has(Timeline.TIMELINE_NOTES) ? json.getString(Timeline.TIMELINE_NOTES) : null);
             this.setSchedulerNotes(json.has(Timeline.TIMELINE_SCHEDULER_NOTES) ? json.getString(Timeline.TIMELINE_SCHEDULER_NOTES) : null);
             this.setObjectId(json.has(Timeline.TIMELINE_OBJECTID) ? json.getString(Timeline.TIMELINE_OBJECTID) : null);
@@ -219,14 +219,14 @@ public class Timeline //extends Entity
         _revisionNum = revisionNum;
     }
 
-    public String getLeadTechs()
+    public String getLeadTech()
     {
-        return _leadTechs;
+        return _leadTech;
     }
 
-    public void setLeadTechs(String leadTechs)
+    public void setLeadTech(String leadTech)
     {
-        _leadTechs = leadTechs;
+        _leadTech = leadTech;
     }
 
     public Date getCreated()
@@ -448,7 +448,7 @@ public class Timeline //extends Entity
         values.put(TIMELINE_ENDDATE, getEndDate());
         values.put(TIMELINE_OBJECTID, getObjectId());
         values.put(TIMELINE_CONTAINER, c.getId());
-        values.put(TIMELINE_LEAD_TECHS, getLeadTechs());
+        values.put(TIMELINE_LEAD_TECHS, getLeadTech());
         values.put(TIMELINE_NOTES, getNotes());
         values.put(TIMELINE_SCHEDULER_NOTES,getSchedulerNotes());
         values.put(TIMELINE_PROJECT_ID, getProjectId());
@@ -514,7 +514,7 @@ public class Timeline //extends Entity
           json.put(TIMELINE_OBJECTID, getObjectId());
 
         json.put(TIMELINE_CONTAINER, c.getId());
-        json.put(TIMELINE_LEAD_TECHS, getLeadTechs());
+        json.put(TIMELINE_LEAD_TECHS, getLeadTech());
         json.put(TIMELINE_NOTES, getNotes());
         json.put(TIMELINE_SCHEDULER_NOTES,getSchedulerNotes());
         json.put(TIMELINE_PROJECT_ID, getProjectId());
@@ -598,7 +598,7 @@ public class Timeline //extends Entity
                 Objects.equals(_description, timeline._description) &&
                 Objects.equals(_startDate, timeline._startDate) &&
                 Objects.equals(_endDate, timeline._endDate) &&
-                Objects.equals(_leadTechs, timeline._leadTechs) &&
+                Objects.equals(_leadTech, timeline._leadTech) &&
                 Objects.equals(_notes, timeline._notes) &&
                 Objects.equals(_schedulerNotes, timeline._schedulerNotes) &&
                 Objects.equals(_objectId, timeline._objectId) &&
@@ -623,6 +623,6 @@ public class Timeline //extends Entity
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTechs, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
+        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
     }
 }

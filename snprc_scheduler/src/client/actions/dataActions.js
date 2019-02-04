@@ -40,6 +40,7 @@ export const ASSIGN_TIMELINE_PROCEDURE = 'ASSIGN_TIMELINE_PROCEDURE';
 export const DELETE_TIMELINE_ITEM = 'DELETE_TIMELINE_ITEM';
 export const PROJECT_LIST_SORTED = 'PROJECT_LIST_SORTED';
 export const TIMELINE_LIST_SORTED = 'TIMELINE_LIST_SORTED';
+export const NEW_TIMELINE = 'NEW_TIMELINE';
 export const NO_OP = 'NO_OP';
 
 export const getBaseURI = () => {
@@ -80,6 +81,7 @@ export function createAction(type, payload) {
         case ASSIGN_TIMELINE_PROCEDURE: return { type: type, payload: payload };
         case DELETE_TIMELINE_ITEM: return { type: type, payload: payload };
         case TIMELINE_LIST_SORTED: return { type: type, payload: payload };
+        case NEW_TIMELINE: return { type: type, payload: payload };
         case PROJECT_LIST_SORTED: return { type: type, payload: payload };
         default: return { type: type }
     }    
@@ -257,5 +259,12 @@ export function deleteTimelineItem(timelineItem) {
     if (verboseOutput) console.log('DELETE_TIMELINE_ITEM');
     return (dispatch) => {
         dispatch(createAction(DELETE_TIMELINE_ITEM, timelineItem));
+    }
+}
+
+export function newTimeline(timeline) {
+    if (verboseOutput) console.log('NEW_TIMELINE');
+    return (dispatch) => {
+        dispatch(createAction(NEW_TIMELINE, timeline));
     }
 }
