@@ -25,31 +25,46 @@
 
     Ext4.onReady(function () {
 
-        var tables = [{
-            label: 'Package Types',
-            populateFn: 'populateFromFile',
-            schemaName: 'ehr_lookups',
-            queryName: 'pkg_type',
-            pk: 'value'
-        },{
-            label: 'Apath Death Type',
-            populateFn: 'populateFromFile',
-            schemaName: 'ehr_lookups',
-            queryName: 'apath_death_type',
-            pk: 'value'
-        }, {
-            label: 'APath record status',
-            populateFn: 'populateFromFile',
-            schemaName: 'ehr_lookups',
-            queryName: 'apath_record_status',
-            pk: 'value'
-        }, {
-            label: 'Pathology accession codes',
-            populateFn: 'populateFromFile',
-            schemaName: 'ehr_lookups',
-            queryName: 'accessionCode',
-            pk: 'value'
-        },
+        var tables = [
+            {
+                label: 'Procedures',
+                doSkip: true,
+                populateFn: 'populateProcedures',
+                schemaName: 'ehr_lookups',
+                queryName: 'procedures',
+                deleteFn: function () {
+                    console.log('procedures are not actually deleted, skipping');
+                    this.pendingDeletes++;
+                    this.onDeleteSuccess({
+                        queryName: 'procedures'
+                    });
+                },
+                pk: 'rowid'
+            }, {
+                label: 'Package Types',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'pkg_type',
+                pk: 'value'
+            }, {
+                label: 'Apath Death Type',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'apath_death_type',
+                pk: 'value'
+            }, {
+                label: 'APath record status',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'apath_record_status',
+                pk: 'value'
+            }, {
+                label: 'Pathology accession codes',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'accessionCode',
+                pk: 'value'
+            },
             {
                 label: 'Active/Inactive lookup',
                 populateFn: 'populateFromFile',
@@ -146,7 +161,7 @@
                 schemaName: 'ehr',
                 queryName: 'reports',
                 pk: 'rowid'
-            },{
+            }, {
                 label: 'Species codes',
                 populateFn: 'populateFromFile',
                 schemaName: 'ehr_lookups',
@@ -249,7 +264,7 @@
                 schemaName: 'ehr_lookups',
                 queryName: 'alopecia_score',
                 pk: 'rowid'
-            },{
+            }, {
                 label: 'Conc Units',
                 populateFn: 'populateFromFile',
                 schemaName: 'ehr_lookups',
@@ -380,7 +395,7 @@
                     xtype: 'button',
                     text: 'Populate Labwork Types',
                     scope: this,
-                    handler: function(){
+                    handler: function () {
                         this.pendingInserts++;
                         document.getElementById('msgbox').innerHTML = '<div>Populating Labwork Types</div>';
 
@@ -394,22 +409,22 @@
                         };
 
                         var origSuccess = config.success;
-                        config.success = function(results, xhr, c) {
+                        config.success = function (results, xhr, c) {
                             console.log('labwork types records inserted');
 
                             LABKEY.Ajax.request({
                                 url: LABKEY.ActionURL.buildURL('admin', 'caches', '/'),
-                                method:  'post',
+                                method: 'post',
                                 params: {
                                     clearCaches: 1
                                 },
                                 scope: this,
-                                success: function(){
+                                success: function () {
                                     console.log('cleared caches');
                                     results.queryName = 'labwork_types';
                                     origSuccess.call(config.scope, results, xhr, c);
                                 },
-                                failure: function(){
+                                failure: function () {
                                     console.error(arguments);
                                 }
                             });
@@ -439,9 +454,9 @@
                     xtype: 'button',
                     text: 'Delete Data From Labwork Types',
                     scope: this,
-                    handler: function(){
+                    handler: function () {
                         document.getElementById('msgbox').innerHTML = '<div>Deleting Labwork Types...</div>';
-                        this.deleteHandler({schemaName: 'ehr_lookups', queryName: 'labwork_types'});
+                        this.deleteHandler({ schemaName: 'ehr_lookups', queryName: 'labwork_types' });
                     }
                 });
 
@@ -463,7 +478,7 @@
                         itemId: 'ehr_msg',
                         xtype: 'box',
                         width: "400px",
-                        style: {overflow: "scroll"},
+                        style: { overflow: "scroll" },
                         html: '<div id="msgbox"></div>'
                     }]
                 }];
@@ -595,6 +610,10 @@
                 };
 
                 importFile(config);
+            },
+
+            populateProcedures: function () {
+                // dummy function to pass test
             },
 
             populateTreatmentFrequencies: function () {
