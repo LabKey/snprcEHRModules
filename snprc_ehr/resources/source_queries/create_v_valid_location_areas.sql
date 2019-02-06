@@ -19,7 +19,7 @@ AS
 -- ==========================================================================================
 -- Author:		Scott Rouse
 -- Create date: 03/16/2018
--- Description:	Select for valid_locationAreas.  Will replace rooms.tsv
+-- Description:	Select for valid_locationAreas.  Will replace area.tsv
 -- Changes:
 -- removed objectId not LK table
 -- Added Left trim to description to cap at 100 char
