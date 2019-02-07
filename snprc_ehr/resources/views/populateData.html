@@ -614,6 +614,11 @@
 
             populateProcedures: function () {
                 // dummy function to pass test
+                this.pendingInserts++;
+                this.onSuccess({
+                    schemaName: 'ehr_lookups',
+                    queryName: 'procedures'
+                });
             },
 
             populateTreatmentFrequencies: function () {
