@@ -33,9 +33,6 @@ Ext4.onReady(function (){
                 {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Rooms Located In Each Area'},
                 {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Edit Rooms in the System'},
                 {queryName: 'housingStatus', schemaName: 'ehr_lookups', title: 'Housing Status'}
-
-               // {queryName: 'cage', schemaName: 'ehr_lookups', title: 'Cages And Dimensions'},
-               // {queryName: 'cageclass', schemaName: 'ehr_lookups', title: 'Cage Classes and Their SqFt/Height'}
             ]
         },{
             header: 'Treatment Lists',
@@ -77,29 +74,29 @@ Ext4.onReady(function (){
                 {queryName: 'notes_category', schemaName: 'ehr_lookups', title: 'Notes Categories'},
                 {queryName: 'problem_list_category', schemaName: 'ehr_lookups', title: 'Problem List Category (Not currently used)'},
                 {queryName: 'fee_schedule_type', schemaName: 'ehr_lookups', title: 'Fee Schedule Types'}
+                {queryName: 'validAccounts', schemaName: 'snprc_ehr', title: 'Account List'},
 
             ]
         },{
             header: 'Drop-down Lists',
             items: [
                 {queryName: 'alopecia_score', schemaName: 'ehr_lookups', title: 'Alopecia Score'},
+                {queryName: 'status_codes', schemaName: 'ehr_lookups', title: 'Animal Status Codes'},
+                {queryName: 'flag_categories', schemaName: 'ehr_lookups', title: 'Animal Attribute Categories (Flag Categories)'},
+                {queryName: 'flag_values', schemaName: 'ehr_lookups', title: 'Animal Attribute values (Flag types)'},
+                {queryName: 'source', schemaName: 'ehr_lookups', title: 'Animal Source Codes'},
+                {queryName: 'AcquisitionType', schemaName: 'ehr_lookups', title: 'Acquisition Codes'},
                 {queryName: 'birth_type', schemaName: 'ehr_lookups', title: 'Birth Type Field'},
                 {queryName: 'encounter_types', schemaName: 'ehr_lookups', title: 'Encounter Types'},
-                {queryName: 'source', schemaName: 'ehr_lookups', title: 'Animal Source Codes'},
                 {queryName: 'species', schemaName: 'snprc_ehr', title: 'Species'},
                 {queryName: 'species_codes', schemaName: 'ehr_lookups', title: 'Species Codes'},
-                {queryName: 'status_codes', schemaName: 'ehr_lookups', title: 'Animal Status Codes'},
                 {queryName: 'valid_bd_status', schemaName: 'snprc_ehr', title: 'Birth Date Status Codes'},
                 {queryName: 'valid_birth_code', schemaName: 'snprc_ehr', title: 'Birth Codes'},
                 {queryName: 'valid_death_code', schemaName: 'snprc_ehr', title: 'Death Codes'},
                 {queryName: 'DispositionType', schemaName: 'ehr_lookups', title: 'Disposition Codes'},
-                {queryName: 'AcquisitionType', schemaName: 'ehr_lookups', title: 'Acquisition Codes'},
-                {queryName: 'validAccounts', schemaName: 'snprc_ehr', title: 'Account List'},
                 {queryName: 'ValidChargeBySpecies', schemaName: 'snprc_ehr', title: 'Species Based ChargeIds'},
                 {queryName: 'ValidInstitutions', schemaName: 'snprc_ehr', title: 'Institution List'},
                 {queryName: 'ValidVets', schemaName: 'snprc_ehr', title: 'Veterinarian List'},
-                {queryName: 'flag_values', schemaName: 'ehr_lookups', title: 'Animal Attribute values (Flag types)'},
-                {queryName: 'flag_categories', schemaName: 'ehr_lookups', title: 'Animal Attribute Categories (Flag Categories)'},
                 {queryName: 'valid_clinical_resolutions', schemaName: 'ehr_lookups', title: 'Clinical Resolution Types'},
                 {queryName: 'tb_site', schemaName: 'ehr_lookups', title: 'TB Sites'},
                 {queryName: 'blood_sample_type', schemaName: 'ehr_lookups', title: 'Blood Sample Types (Not currently used)'},

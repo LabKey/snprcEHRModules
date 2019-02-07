@@ -1,5 +1,6 @@
 species	min_weight	max_weight
-Marmoset	0.0	1.0
-Cynomolgus	0.0	20.0
-Rhesus	0.0	35.0
-Vervet	0.0	20.0
+CJ	0.0	1.0
+MF	0.0	20.0
+MM	0.0	35.0
+PC	0.0	60
+PT	0.0	100

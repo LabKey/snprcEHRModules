@@ -396,10 +396,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         beginAt(WebTestHelper.getBaseURL() + "/SNPRC_EHR/" + getContainerPath() + "/populateData.view");
 
         repopulate("Lookup Sets");
-        repopulate("Procedures");
-        repopulate("Labwork Types");
         repopulate("All");
-        repopulate("SNOMED Codes");
+        repopulate("Weight Ranges");
     }
 
     @Before
