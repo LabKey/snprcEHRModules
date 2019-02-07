@@ -1541,7 +1541,7 @@
             <index type="non-unique">
                 <column>account</column>
             </index>
-    </indices>
+        </indices>
         <tableTitle>Animal Accounts</tableTitle>
     </table>
     <table tableName="deaths" tableDbType="TABLE">
@@ -2432,7 +2432,7 @@
                 <datatype>timestamp</datatype>
             </column>
             <column columnName="assay_RowId">
-                    <datatype>integer</datatype>
+                <datatype>integer</datatype>
             </column>
         </columns>
         <tableTitle>Assay Clinpath Runs</tableTitle>
@@ -2505,5 +2505,91 @@
             </column>
         </columns>
         <tableTitle>SNPRC assay Labwork Results</tableTitle>
+    </table>
+    <table tableName="DailyObservations" tableDbType="TABLE">
+         <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+            </column>
+            <column columnName="Water">
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+                <columnTitle>Water available</columnTitle>
+            </column>
+            <column columnName="Feed">
+                <datatype>integer</datatype>
+                <scale>1</scale>
+                <columnTitle>Feed (% eaten)</columnTitle>
+            </column>
+            <column columnName="Comments">
+                <datatype>varchar</datatype>
+            </column>
+             <column columnName="SaNormal">
+                 <columnTitle>Stool: Normal</columnTitle>
+                 <datatype>varchar</datatype>
+                 <scale>1</scale>
+             </column>
+             <column columnName="SaNone">
+                <columnTitle>Stool: None</columnTitle>
+                <datatype>varchar</datatype>
+                 <scale>1</scale>
+            </column>
+            <column columnName="SaBloody">
+                <columnTitle>Stool: Bloody</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="SaDry">
+                <columnTitle>Stool: Dry</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="SaOther">
+                <columnTitle>Stool: Other</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="SaPellet">
+                <columnTitle>Stool: Pellet</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="SaSoft">
+                <columnTitle>Stool: Soft</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="SaUnknown">
+                <columnTitle>Stool: Unknown</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="SaWatery">
+                <columnTitle>Stool: Watery</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="HousingStatus">
+                <columnTitle>Housing status</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>HousingStatus</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                    <fkDisplayColumnName>Description</fkDisplayColumnName>
+                </fk>
+
+            </column>
+        </columns>
     </table>
 </tables>
