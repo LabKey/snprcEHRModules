@@ -81,12 +81,6 @@ public class FeeScheduleController extends SpringActionController
             //form.getRequest().getSession().setAttribute("tabPage", "");
             return url;
         }
-
-        @Override
-        public NavTree appendNavTrail(NavTree root)
-        {
-            return null;
-        }
     }
 
 
