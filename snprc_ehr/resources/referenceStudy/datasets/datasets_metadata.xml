@@ -2592,4 +2592,59 @@
             </column>
         </columns>
     </table>
+<table tableName="CycleDaily" tableDbType="TABLE">
+<columns>
+    <column columnName="Id">
+        <datatype>varchar</datatype>
+        <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+        <importAliases>
+            <importAlias>ptid</importAlias>
+        </importAliases>
+    </column>
+    <column columnName="date">
+        <datatype>timestamp</datatype>
+        <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+        <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+    </column>
+    <column columnName="ObserverEmp">
+        <datatype>varchar</datatype>
+        <scale>128</scale>
+        <columnTitle>Observer</columnTitle>
+    </column>
+    <column columnName="CycleLocation">
+        <datatype>varchar</datatype>
+        <scale>7</scale>
+        <columnTitle>Cycle Location</columnTitle>
+    </column>
+    <column columnName="MaleStatus">
+        <datatype>varchar</datatype>
+        <scale>1</scale>
+    </column>
+    <column columnName="MaleId">
+        <columnTitle>Male Id</columnTitle>
+        <datatype>varchar</datatype>
+        <scale>6</scale>
+    </column>
+    <column columnName="TumescenceIndex">
+        <columnTitle>Tumescence Index</columnTitle>
+        <datatype>varchar</datatype>
+        <scale>1</scale>
+    </column>
+    <column columnName="VaginalBleeding">
+        <columnTitle>Vaginal Bleeding</columnTitle>
+        <datatype>varchar</datatype>
+        <scale>1</scale>
+    </column>
+    <column columnName="PurpleColor">
+        <columnTitle>Purple Color</columnTitle>
+        <datatype>varchar</datatype>
+        <scale>1</scale>
+    </column>
+    <column columnName="CarryingInfant">
+        <columnTitle>Carrying Infant</columnTitle>
+        <datatype>varchar</datatype>
+        <scale>1</scale>
+    </column>
+</columns>
+</table>
 </tables>
