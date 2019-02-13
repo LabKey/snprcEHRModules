@@ -108,7 +108,7 @@
 .timeline-grid .react-grid-Empty {
     margin-top: 85px;
     border-top: 2px solid rgb(180, 180, 180) !important;
-    padding-bottom: 140px !important;
+    padding-bottom: 65px !important;
     background-color: rgb(250, 250, 250);
 }
 
@@ -120,6 +120,14 @@
 
 .timeline-grid .add-delete-btn {
     margin-left: 15px;
+    height: 27px;
+    width: 27px;
+}
+
+.timeline-grid .add-delete-btn svg{
+    position: relative;
+    top: -2px;
+    left: -6px;
 }
 
 .timeline-grid .chbox {
