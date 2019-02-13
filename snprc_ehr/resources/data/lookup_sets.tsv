@@ -1,5 +1,5 @@
-setname	label	keyfield	titleColumn
-housingStatus	Housing Status	value
+setname	label	keyfield	titleColumn			
+housingStatus	Housing Status	value				
 housingDefinition	Housing Definition	value				
 housingTypes	Housing Types	value				
 AccessionCode	Accession Code	Value	Description			
@@ -12,7 +12,7 @@ labworkChargeType	Labwork Charge Types	value
 notes_category	Notes Category	value				
 encounter_roles	Encounter Roles	value				
 encounter_types	Encounter Types	value				
-activeInactive	Active-Inactive	value	description
+activeInactive	Active-Inactive	value	description			
 alopecia_score	Alopecia Score	value				
 project_use_category	Center Project Use Categories	value				
 project_type	Project Types	value	description	title	sort_order	date_disabled
@@ -34,6 +34,6 @@ yesno	Yes/No	value
 fee_schedule_type	Fee Schedule Types	value	description	title	sort_order	date_disabled
 apath_record_status	Apath Record Status	value	description			
 apath_death_type	Apath Death Codes	value	description			
-pkg_type	Package Types	value	description	sort_order
-valid_clinical_resolutions		value	status
-AccountGroups	Account Groups	value	description	sort_order
+pkg_type	Package Types	value	description	sort_order		
+valid_clinical_resolutions	value	status				
+AccountGroups	Account Groups	value	description	sort_order		
