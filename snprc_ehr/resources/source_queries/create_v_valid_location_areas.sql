@@ -14,23 +14,42 @@
  * limitations under the License.
  */
 
-CREATE VIEW [labkey_etl].[v_valid_location_areas]
+ALTER VIEW [labkey_etl].[v_valid_location_areas]
 AS
--- ==========================================================================================
--- Author:		Scott Rouse
--- Create date: 03/16/2018
--- Description:	Select for valid_locationAreas.  Will replace area.tsv
--- Changes:
--- removed objectId not LK table
--- Added Left trim to description to cap at 100 char
---
--- Does not have object_id or created, modified columna.
--- Removed them 03.19.2018 stt
--- ==========================================================================================
+    -- ==========================================================================================
+    -- Author:		Scott Rouse
+    -- Create date: 03/16/2018
+    -- Description:	Select for valid_locationAreas.  Will replace area.tsv
+    -- Changes:
+    -- removed objectId not LK table
+    -- Added Left trim to description to cap at 100 char
+    --
+    -- Does not have object_id or created, modified columna.
+    -- Removed them 03.19.2018 stt
+    -- 1/8/2019 added description and dateDisabled tjh
+    -- ==========================================================================================
 
-SELECT DISTINCT cast(vl.location as int) AS area
-FROM dbo.valid_locations vl
+    SELECT
+            CAST(vl.location AS INT) AS area,
+            vl.description           AS description,
+            vl.close_date            AS dateDisabled
+    FROM
+            dbo.valid_locations AS vl
+        INNER JOIN
+            (
+                SELECT
+                    MIN(location) AS min_location
+                FROM
+                    dbo.valid_locations AS vl2
+                GROUP BY
+                    CAST(location AS INT)
+            )                   AS d
+                ON vl.location = d.min_location
 
-go
+GO
 
-GRANT SELECT ON labkey_etl.v_valid_location_areas TO z_labkey;
+GRANT
+    SELECT
+    ON labkey_etl.v_valid_location_areas
+    TO
+    z_labkey;

@@ -28,6 +28,7 @@ import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.exp.api.StorageProvisioner;
 import org.labkey.api.exp.property.Domain;
+import org.labkey.api.ldk.LDKService;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.ExprColumn;
@@ -178,6 +179,24 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (matches(ti, "ehr", "project")) {
             customizeProjectTable((AbstractTableInfo) ti);
+        }
+
+        if (matches(ti, "ehr_lookups", "areas"))
+        {
+            LDKService.get().applyNaturalSort(ti, "area");
+        }
+
+        if (matches(ti, "ehr_lookups", "rooms"))
+        {
+            LDKService.get().applyNaturalSort(ti, "room");
+        }
+        if (matches(ti, "ehr_lookups", "DispositionType"))
+        {
+            LDKService.get().applyNaturalSort(ti, "value");
+        }
+        if (matches(ti, "ehr_lookups", "id_type"))
+        {
+            LDKService.get().applyNaturalSort(ti, "value");
         }
     }
 

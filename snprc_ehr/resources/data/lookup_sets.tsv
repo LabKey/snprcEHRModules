@@ -1,37 +1,40 @@
-setname	label	keyfield	titleColumn
-housingStatus	Housing Status	value
-housingDefinition	Housing Definition	value
-housingTypes	Housing Types	value
-AccessionCode	Accession Code	Value	Description
-AcquisitionType	Acquisition Types	Value	Description
-DispositionType	Disposition Types	Value	Description
-MatingType	Mating Types	value
-tb_site	TB Site	value
-blood_sample_type	Blood Sample Types	value
-labworkChargeType	Labwork Charge Types	value
-notes_category	Notes Category	value
-encounter_roles	Encounter Roles	value
-encounter_types	Encounter Types	value
-activeInactive	Active-Inactive	value
-alopecia_score	Alopecia Score	value
-project_use_category	Center Project Use Categories	value
+setname	label	keyfield	titleColumn			
+areas						
+housingStatus	Housing Status	value				
+housingDefinition	Housing Definition	value				
+housingTypes	Housing Types	value				
+AccessionCode	Accession Code	Value	Description			
+AcquisitionType	Acquisition Types	Value	Description			
+DispositionType	Disposition Types	Value	Description			
+MatingType	Mating Types	value				
+tb_site	TB Site	value				
+blood_sample_type	Blood Sample Types	value				
+labworkChargeType	Labwork Charge Types	value				
+notes_category	Notes Category	value				
+encounter_roles	Encounter Roles	value				
+encounter_types	Encounter Types	value				
+activeInactive	Active-Inactive	value	description
+alopecia_score	Alopecia Score	value				
+project_use_category	Center Project Use Categories	value				
 project_type	Project Types	value	description	title	sort_order	date_disabled
-procedure_drug_templates	Procedure Drug Templates	value
-problem_list_subcategory	Problem List Subcategory	value
-clinremarks_category	Clinremarks Category Field Values	value
-drug_categories	Drug Category Field Values	value
-problem_list_category	Problem List Category Field Values	value
-housing_reason	Housing Reason Field Values	value	title
-id_type	Id Type	value	Description
-assignment_status	Assignment Status	value
-treatment_frequency	Treatment Frequency	value
-status_codes	Status	code
-preg_term_code	Pregnancy Termination Code	value
-proc_type	Procedure Type	code	description
-usda_levels	USDA Category	usda_level
-rearing_type	Rearing Type	value	Description
-yesno	Yes/No	value
+procedure_drug_templates	Procedure Drug Templates	value				
+problem_list_subcategory	Problem List Subcategory	value				
+clinremarks_category	Clinremarks Category Field Values	value				
+drug_categories	Drug Category Field Values	value				
+problem_list_category	Problem List Category Field Values	value				
+housing_reason	Housing Reason Field Values	value	title			
+id_type	Id Type	value	Description			
+assignment_status	Assignment Status	value				
+treatment_frequency	Treatment Frequency	value				
+status_codes	Status	code				
+preg_term_code	Pregnancy Termination Code	value				
+proc_type	Procedure Type	code	description			
+usda_levels	USDA Category	usda_level				
+rearing_type	Rearing Type	value	Description			
+yesno	Yes/No	value				
 fee_schedule_type	Fee Schedule Types	value	description	title	sort_order	date_disabled
-apath_record_status	Apath Record Status	value	description
-apath_death_type	Apath Death Codes	value	description
+apath_record_status	Apath Record Status	value	description			
+apath_death_type	Apath Death Codes	value	description			
 pkg_type	Package Types	value	description	sort_order
+valid_clinical_resolutions		value	status
+AccountGroups	Account Groups	value	description	sort_order

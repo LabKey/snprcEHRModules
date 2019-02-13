@@ -1,0 +1,13 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="displayName"/>
+        <column name="emailAddress"/>
+        <column name="status"/>
+        <column name="sort_order"/>
+        <column name="date_disabled" />
+    </columns>
+    <sorts>
+        <sort column="status"/>
+        <sort column="displayName"/>
+    </sorts>
+</customView>

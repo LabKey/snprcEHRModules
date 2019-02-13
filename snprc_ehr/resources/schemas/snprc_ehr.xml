@@ -35,7 +35,8 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -88,7 +89,8 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -152,7 +154,8 @@
                 </fk>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -255,7 +258,10 @@
                     <fkColumnName>code</fkColumnName>
                 </fk>
             </column>
-            <column columnName="objectid"/>
+            <column columnName="objectid">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
             <column columnName="tid"/>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -325,7 +331,8 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
         </columns>
     </table>
@@ -346,7 +353,12 @@
             <column columnName="accountStatus">
                 <columnTitle>Account Status</columnTitle>
                 <nullable>false</nullable>
-                <description>Account status code (A = Active, I = Inactive)</description>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>activeInactive</fkTable>
+                    <fkColumnName>Value</fkColumnName>
+                    <fkDisplayColumnName>description</fkDisplayColumnName>
+                </fk>
             </column>
             <column columnName="date">
                 <columnTitle>Start Date</columnTitle>
@@ -363,15 +375,20 @@
             </column>
             <column columnName="accountGroup">
                 <columnTitle>Account Group</columnTitle>
-                <nullable>true</nullable>
+                <nullable>false</nullable>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>AccountGroups</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
             <column columnName="objectid">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="container">
                 <nullable>false</nullable>
@@ -482,8 +499,8 @@
                 <isHidden>true</isHidden>
             </column>
             <column columnName="ObjectId">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created">
                 <nullable>true</nullable>
@@ -591,8 +608,8 @@
                 <isHidden>true</isHidden>
             </column>
             <column columnName="ObjectId">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created">
                 <nullable>true</nullable>
@@ -664,8 +681,8 @@
                 <isKeyField>true</isKeyField>
             </column>
             <column columnName="ObjectId">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created">
                 <nullable>true</nullable>
@@ -755,8 +772,8 @@
                 <columnTitle>Institution's website</columnTitle>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created">
                 <nullable>true</nullable>
@@ -826,6 +843,7 @@
                     <fkDbSchema>ehr_lookups</fkDbSchema>
                     <fkTable>activeInactive</fkTable>
                     <fkColumnName>Value</fkColumnName>
+                    <fkDisplayColumnName>Description</fkDisplayColumnName>
                 </fk>
             </column>
             <column columnName="container">
@@ -893,7 +911,8 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="objectid">
-                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -901,71 +920,6 @@
             <column columnName="ModifiedBy"/>
         </columns>
     </table>
-    <table tableName="valid_birth_code" tableDbType="TABLE" useColumnOrder="true">
-        <tableTitle>Valid birth code</tableTitle>
-        <pkColumnName>value</pkColumnName>
-        <columns>
-            <column columnName="value">
-                <isKeyField>true</isKeyField>
-            </column>
-            <column columnName="description">
-                <nullable>false</nullable>
-            </column>
-            <column columnName="container">
-                <nullable>false</nullable>
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="objectid">
-                <isHidden>true</isHidden>
-                <isUserEditable>false</isUserEditable>
-            </column>
-            <column columnName="Created">
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="CreatedBy">
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="Modified">
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="ModifiedBy">
-                <isHidden>true</isHidden>
-            </column>
-        </columns>
-    </table>
-    <table tableName="valid_death_code" tableDbType="TABLE" useColumnOrder="true">
-        <tableTitle>Valid death codes</tableTitle>
-        <pkColumnName>value</pkColumnName>
-        <columns>
-            <column columnName="value">
-                <isKeyField>true</isKeyField>
-            </column>
-            <column columnName="description">
-                <nullable>false</nullable>
-            </column>
-            <column columnName="container">
-                <nullable>false</nullable>
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="objectid">
-                <isHidden>true</isHidden>
-                <isUserEditable>false</isUserEditable>
-            </column>
-            <column columnName="Created">
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="CreatedBy">
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="Modified">
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="ModifiedBy">
-                <isHidden>true</isHidden>
-            </column>
-        </columns>
-    </table>
-
     <table tableName="animal_group_categories" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Animal Group Categories</tableTitle>
         <pkColumnName>category_code</pkColumnName>
@@ -1029,8 +983,8 @@
                 <isHidden>true</isHidden>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -1101,8 +1055,8 @@
                 <isHidden>true</isHidden>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -1170,8 +1124,8 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="objectid">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -1229,8 +1183,8 @@
             </column>
             <column columnName="Purpose" />
             <column columnName="objectid">
-                <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="container">
                 <nullable>false</nullable>
@@ -1285,7 +1239,10 @@
         <column columnName="BudgetYear" />
         <column columnName="Cost" />
         <column columnName="FileName" />
-        <column columnName="objectid" />
+        <column columnName="objectid" >
+            <isHidden>true</isHidden>
+            <isUserEditable>false</isUserEditable>
+        </column>
         <column columnName="Created"/>
         <column columnName="CreatedBy"/>
         <column columnName="Modified"/>
@@ -1298,7 +1255,10 @@
         <columns>
             <column columnName="FsSpecies" />
             <column columnName="SpeciesCode" />
-            <column columnName="ObjectId" />
+            <column columnName="ObjectId">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>

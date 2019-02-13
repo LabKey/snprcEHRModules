@@ -10,16 +10,16 @@ Ext4.onReady(function (){
     var webpart = <%=webpartContext%>;
 
     Ext4.get(webpart.wrapperDivId).update(
-            '<div style="max-width:920px">' +
+            '<div style="max-width:990px">' +
             '<table>' +
             '<tr style="vertical-align:top">' +
-            '    <td style="width:300px">' +
+            '    <td style="width:330px">' +
             '        <div id="menu1_'+webpart.wrapperDivId+'"></div>' +
             '    </td>' +
-            '    <td style="width:300px;vertical-align:top">' +
+            '    <td style="width:330px;vertical-align:top">' +
             '        <div id="menu2_'+webpart.wrapperDivId+'"></div>' +
             '    </td>' +
-            '    <td style="width:300px">' +
+            '    <td style="width:330px">' +
             '        <div id="menu3_'+webpart.wrapperDivId+'"></div>' +
             '    </td>' +
             '</tr>' +
@@ -30,8 +30,7 @@ Ext4.onReady(function (){
         var menuCfg1 = {
             renderTo: "menu1_"+webpart.wrapperDivId,
             sections: new Array(),
-            columns: 3,
-            colWidth: 300,
+            colWidth: 330,
             renderer: function(item){
                 var cfg = {
                     html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
@@ -46,9 +45,8 @@ Ext4.onReady(function (){
             header: 'Housing',
             items: [
                 {queryName: 'areas', schemaName: 'ehr_lookups', title: 'Areas'},
-                {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Rooms Located In Each Area'},
-                {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Edit Rooms in the System'},
-                {queryName: 'housingStatus', schemaName: 'ehr_lookups', title: 'Housing Status'}
+                {queryName: 'housingStatus', schemaName: 'ehr_lookups', title: 'Housing Status'},
+                {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Rooms (Locations)'}
             ]
         },{
             header: 'Treatment Lists',
@@ -60,7 +58,7 @@ Ext4.onReady(function (){
                 {queryName: 'volume_units', schemaName: 'ehr_lookups', title: 'Drug Volume Units'},
                 //{queryName: 'drug_defaults', schemaName: 'ehr_lookups', title: 'Drug Default Values'},
                 {queryName: 'routes', schemaName: 'ehr_lookups', title: 'Drug Routes'},
-                {queryName: 'treatment_codes', schemaName: 'ehr_lookups', title: 'Common Treatments'},
+                {queryName: 'treatment_codes', schemaName: 'ehr_lookups', title: 'Common Treatments (Not used)'},
                 {queryName: 'treatment_frequency', schemaName: 'ehr_lookups', title: 'Treatment Frequencies'},
 
             ]
@@ -73,7 +71,7 @@ Ext4.onReady(function (){
                 {queryName: 'labworkChargeType', schemaName: 'ehr_lookups', title: 'Labwork Charge Types'},
                 {queryName: 'apath_record_status', schemaName: 'ehr_lookups', title: 'APath Record Status'},
                 {queryName: 'apath_death_type', schemaName: 'ehr_lookups', title: 'APath Death Types'},
-                {queryName: 'Accession Code', schemaName: 'ehr_lookups', title: 'APath Accession Types'}
+                {queryName: 'AccessionCode', schemaName: 'ehr_lookups', title: 'APath Accession Types'}
 
             ]
         }];
@@ -82,8 +80,7 @@ Ext4.onReady(function (){
         var menuCfg2 = {
             renderTo: "menu2_"+webpart.wrapperDivId,
             sections: new Array(),
-            columns: 3,
-            colWidth: 300,
+            colWidth: 330,
             renderer: function(item){
                 var cfg = {
                     html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
@@ -101,18 +98,16 @@ Ext4.onReady(function (){
                 {queryName: 'alopecia_score', schemaName: 'ehr_lookups', title: 'Alopecia Score'},
                 {queryName: 'id_type', schemaName: 'ehr_lookups', title: 'Animal ID Types'},
                 {queryName: 'status_codes', schemaName: 'ehr_lookups', title: 'Animal Status Codes'},
-                {queryName: 'flag_categories', schemaName: 'ehr_lookups', title: 'Animal Attribute Categories (Flag Categories)'},
-                {queryName: 'flag_values', schemaName: 'ehr_lookups', title: 'Animal Attribute values (Flag types)'},
+                {queryName: 'flag_categories', schemaName: 'ehr_lookups', title: 'Animal Attribute (Flag) Categories'},
+                {queryName: 'flag_values', schemaName: 'ehr_lookups', title: 'Animal Attribute (Flag) values'},
                 {queryName: 'source', schemaName: 'ehr_lookups', title: 'Animal Source Codes'},
                 {queryName: 'AcquisitionType', schemaName: 'ehr_lookups', title: 'Acquisition Codes'},
-                {queryName: 'blood_sample_type', schemaName: 'ehr_lookups', title: 'Blood Sample Types (Not currently used)'},
-                {queryName: 'valid_birth_code', schemaName: 'snprc_ehr', title: 'Birth Codes'},
+                {queryName: 'blood_sample_type', schemaName: 'ehr_lookups', title: 'Blood Sample Types (Not used)'},
                 {queryName: 'valid_bd_status', schemaName: 'snprc_ehr', title: 'Birth Date Status Codes'},
                 {queryName: 'valid_clinical_resolutions', schemaName: 'ehr_lookups', title: 'Clinical Resolution Types'},
-                {queryName: 'valid_death_code', schemaName: 'snprc_ehr', title: 'Death Codes'},
                 {queryName: 'DispositionType', schemaName: 'ehr_lookups', title: 'Disposition Codes'},
                 {queryName: 'encounter_types', schemaName: 'ehr_lookups', title: 'Encounter Types'},
-                {queryName: 'geographic_origins', schemaName: 'ehr_lookups', title: 'Geographic Origins (Not currently used)'},
+                {queryName: 'geographic_origins', schemaName: 'ehr_lookups', title: 'Geographic Origins (Not used)'},
                 {queryName: 'ValidInstitutions', schemaName: 'snprc_ehr', title: 'Institution List'},
                 {queryName: 'preg_term_code', schemaName: 'ehr_lookups', title: 'Pregnancy Termination Codes'},
                 {queryName: 'proc_type', schemaName: 'ehr_lookups', title: 'Procedure Types'},
@@ -127,8 +122,7 @@ Ext4.onReady(function (){
         var menuCfg3 = {
             renderTo: "menu3_"+webpart.wrapperDivId,
             sections: new Array(),
-            columns: 3,
-            colWidth: 300,
+            colWidth: 330,
             renderer: function(item){
                 var cfg = {
                     html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
@@ -148,20 +142,19 @@ Ext4.onReady(function (){
                 // {queryName: 'snomed_qualifiers', schemaName: 'ehr_lookups', title: 'SNOMED Qualifiers'},
                 // {queryName: 'snomed_subsets', schemaName: 'ehr_lookups', title: 'SNOMED Subsets'},
                 // {queryName: 'snomed_subset_codes', schemaName: 'ehr_lookups', title: 'SNOMED Subset Codes'},
+                {queryName: 'validAccounts', schemaName: 'snprc_ehr', title: 'Account List'},
+                {queryName: 'AccountGroups', schemaName: 'ehr_lookups', title: 'Account Groups'},
                 {queryName: 'fee_schedule_type', schemaName: 'ehr_lookups', title: 'Fee Schedule Types'},
                 {queryName: 'assignment_status', schemaName: 'ehr_lookups', title: 'IACUC Assignment Status'},
                 {queryName: 'notes_category', schemaName: 'ehr_lookups', title: 'Notes Categories'},
-                {queryName: 'problem_list_category', schemaName: 'ehr_lookups', title: 'Problem List Category (Not currently used)'},
-                {queryName: 'species', schemaName: 'snprc_ehr', title: 'Two-Character Species codes'},
-                {queryName: 'species_codes', schemaName: 'ehr_lookups', title: 'Species Codes'},
-                {queryName: 'validAccounts', schemaName: 'snprc_ehr', title: 'Account List'},
+                {queryName: 'problem_list_category', schemaName: 'ehr_lookups', title: 'Problem List Category (Not used)'},
+                {queryName: 'species', schemaName: 'snprc_ehr', title: 'Species codes (Three-character)'},
+                {queryName: 'species_codes', schemaName: 'ehr_lookups', title: 'Species Codes (Two-character)'},
                 {queryName: 'ValidChargeBySpecies', schemaName: 'snprc_ehr', title: 'Species Based ChargeIds'},
                 {queryName: 'weight_ranges', schemaName: 'ehr_lookups', title: 'Weight: Min/Max Allowable Per Species'}
 
             ]
         }];
-
-        var section;
 
         Ext4.create('LDK.panel.NavPanel', menuCfg1);
         Ext4.create('LDK.panel.NavPanel', menuCfg2);

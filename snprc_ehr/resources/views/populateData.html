@@ -354,6 +354,12 @@
                 schemaName: 'ehr_lookups',
                 queryName: 'weight_ranges',
                 pk: 'rowid'
+            }, {
+                label: 'Valid Clinical Resolutions',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'valid_clinical_resolutions',
+                pk: 'value'
             }
         ];
 
