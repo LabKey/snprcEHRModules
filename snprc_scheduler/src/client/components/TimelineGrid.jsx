@@ -12,6 +12,11 @@ import {
 } from "../actions/dataActions";
 import connect from "react-redux/es/connect/connect";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPlus);
 
 function MyCustomHeader(props) {
     let cls = 'procedure-tl-grid-hdr';
@@ -63,7 +68,8 @@ class TimelineGrid extends React.Component {
             showProcNote: false,
             procNoteName: "",
             procNote: "",
-            timelineId: undefined  // Saves the last selected timeline id
+            // timelineId: undefined,  // Saves the last selected timeline id
+            rowId: undefined
         };
 
         this.state.columns = this.getColumns(props.selectedProject);
@@ -169,11 +175,12 @@ class TimelineGrid extends React.Component {
         let sortedRows = [];
 
         // If we have already loaded the saved timeline data and timeline items have not changed, don't reload (prevents infinite loop)
-        if (timeline != null && timeline.TimelineId === this.state.timelineId) {
+        if (timeline != null && timeline.RowId === this.state.rowId) {
+        // if (timeline != null && timeline.TimelineId === this.state.timelineId) {
             sortedRows = this.state.rows;
         }
         // Loading first time
-        else if (timeline == null && typeof this.state.timelineId === "undefined") {
+        else if (timeline == null && typeof this.state.rowId === "undefined") {
             sortedRows = this.state.rows;
         }
         else { // Reload from saved data
@@ -181,14 +188,16 @@ class TimelineGrid extends React.Component {
             // First sort columns
             let sortedCols = this.getColumns(this.props.selectedProject);
 
-            let row = [{RowIdx: 0, StudyDay: 'Proc. Note', ScheduleDate: ''}]; // empty row for procedure notes
+            let row = []; // empty row for procedure notes
             let tlRows = [];
             let lastRowIdx = 0;
 
             if (timeline != null) {
 
-                this.state.timelineId = timeline.TimelineId;
+                this.state.rowId = timeline.RowId;
                 if (timeline.TimelineItems != null && Array.isArray(timeline.TimelineItems)) {
+
+                    row = [{RowIdx: 0, StudyDay: 'Proc. Note', ScheduleDate: ''}]; // empty row for procedure notes
 
                     let savedRows;
                     timeline.TimelineItems.forEach(item => {
@@ -403,20 +412,29 @@ class TimelineGrid extends React.Component {
         this.setState(stateCopy);
     };
 
+    getTooltip = (label) => {
+        return (<Tooltip id="tooltip">
+            {label}
+        </Tooltip>)
+    }
+
     // Add a row
     onAddClick = () => {
-        const stateCopy = Object.assign({}, this.state);
-        let RowIdx = this.props.lastRowIdx;
-        RowIdx++;
 
-        const newRow = { RowIdx: RowIdx, StudyDay: "", ScheduleDate: null, IsDirty: true, IsDeleted: false };
-        this.props.onAddTimelineItem(newRow);
+        if (this.props.selectedTimeline) {
+            const stateCopy = Object.assign({}, this.state);
+            let RowIdx = this.props.lastRowIdx;
+            RowIdx++;
 
-        stateCopy.rows.push(newRow);
+            const newRow = {RowIdx: RowIdx, StudyDay: "", ScheduleDate: null, IsDirty: true, IsDeleted: false};
+            this.props.onAddTimelineItem(newRow);
 
-        this.setState(stateCopy);
+            stateCopy.rows.push(newRow);
 
-        this.props.onUpdateSelectedTimeline({lastRowIdx: RowIdx});
+            this.setState(stateCopy);
+
+            this.props.onUpdateSelectedTimeline({lastRowIdx: RowIdx});
+        }
     };
 
     // Finish drag and drop of column
@@ -515,7 +533,7 @@ class TimelineGrid extends React.Component {
     };
 
     render() {
-        this.loadRows(this.props.selectedTimeline);
+        this.loadRows();
 
         return (
                 <div className='timeline-grid'>
@@ -538,10 +556,12 @@ class TimelineGrid extends React.Component {
                     </Modal>
                     <div className='col-sm-12'>
                         <div className='col-sm-2 row input-row'>
-                            <Button
-                                    className='add-delete-btn'
-                                    onClick={this.onAddClick}
-                            ><i className='fa fa-plus' /></Button>
+                            <OverlayTrigger placement="top" overlay={this.getTooltip("New timeline study day")}>
+                                <Button
+                                        className='add-delete-btn'
+                                        onClick={this.onAddClick}
+                                ><FontAwesomeIcon icon={["fa", "plus"]}/></Button>
+                            </OverlayTrigger>
                         </div>
                         <div className='col-sm-10' />
                     </div>
@@ -556,7 +576,7 @@ class TimelineGrid extends React.Component {
                                     onGridRowsUpdated={this.onGridRowsUpdated}
                                     enableCellSelect={true}
                                     getCellActions={this.getCellActions}
-                                    minHeight={520}
+                                    minHeight={445}
                                     onGridSort={this.setSort}
                                     onRowClick={this.onRowClick}
                                     emptyRowsView={this.EmptyRowsView}
@@ -570,8 +590,8 @@ class TimelineGrid extends React.Component {
 
 const mapStateToProps = state => ({
     selectedProject: state.project.selectedProject || null,
-    selectedTimeline: state.project.selectedTimeline || null,
-    lastRowIdx: state.project.selectedTimeline ? (state.project.selectedTimeline.lastRowIdx || 0) : 0
+    selectedTimeline: state.timeline.selectedTimeline || null,
+    lastRowIdx: state.timeline.selectedTimeline ? (state.timeline.selectedTimeline.lastRowIdx || 0) : 0
 })
 
 const mapDispatchToProps = dispatch => ({

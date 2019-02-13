@@ -40,7 +40,9 @@ class TimelineDetails extends React.Component {
     }
 
     render() {
-        if (this.props.selectedTimeline != null || FORCE_RENDER) {
+        const timeline = this.props.selectedTimeline || {};
+
+        // if (this.props.selectedTimeline != null || FORCE_RENDER) {
             return (
                     <div className='container-fluid details-frame' style={{textAlign: 'left'}}>
                         <div className='col-sm-4'>
@@ -53,104 +55,111 @@ class TimelineDetails extends React.Component {
                             <div className='row input-row'>
                                 <div className='col-sm-4 zero-side-padding'><ControlLabel>Research Coordinator</ControlLabel></div>
                                 <div className='col-sm-7'><FormControl type='text' className='input-wide' id='RC'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.RC : ''}
+                                                value={timeline.RC ? timeline.RC : ''}
                                                 onChange={this.handleChange}
+                                                disabled={!timeline.RowId}
                                 /></div>
                             </div>
                             <div className='row input-row'>
                                 <div className='col-sm-4 zero-side-padding'><ControlLabel>Lead Technician</ControlLabel></div>
-                                <div className='col-sm-7'><FormControl type='text' className='input-wide' id='LeadTechs'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.LeadTechs : ''}
+                                <div className='col-sm-7'><FormControl type='text' className='input-wide' id='LeadTech'
+                                                value={timeline.LeadTech ? timeline.LeadTech : ''}
                                                 onChange={this.handleChange}
+                                                disabled={!timeline.RowId}
                                 /></div>
                             </div>
                             <div className='row input-row'>
-                                <div className='col-sm-4  zero-side-padding'><ControlLabel>Draft</ControlLabel></div>
+                                <div className='col-sm-4  zero-side-padding'><ControlLabel ref='timeline-draft-state'>Draft</ControlLabel></div>
                                 <div className='col-sm-6'><FormControl type='checkbox' id='QcState' style={{width: '20px', height: '20px'}}
-                                                checked={this.props.selectedTimeline && this.props.selectedTimeline.QcState ? (this.props.selectedTimeline.QcState === 4) : false}
+                                                checked={timeline.QcState ? (timeline.QcState === 4) : false}
                                                 onChange={this.handleDraftCheck}
+                                                disabled={!timeline.RowId}
                                 /></div>
                             </div>
                         </div>
                         <div className='col-sm-4'>
                             <div className='row input-row'>
-                                <div className='col-sm-6'>
-                                    <div className='col-sm-4 zero-side-padding'><ControlLabel>Start</ControlLabel></div>
-                                    <div className='col-sm-8'><FormControl type='date' className='input-wide' id='StartDate'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.StartDate : ''}
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>Start</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='date' className='input-wide' id='StartDate'
+                                                value={timeline.StartDate ? timeline.StartDate : ''}
                                                 onChange={this.handleChange}
+                                                disabled={!timeline.RowId}
                                     /></div>
                                 </div>
-                                <div className='col-sm-6'>
-                                    <div className='col-sm-4 zero-side-padding'><ControlLabel>End</ControlLabel></div>
-                                    <div className='col-sm-8'><FormControl type='date' className='input-wide' id='EndDate'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.EndDate : ''}
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>End</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='date' className='input-wide' id='EndDate'
+                                                value={timeline.EndDate ? timeline.EndDate : ''}
                                                 onChange={this.handleChange}
+                                                disabled={!timeline.RowId}
                                     /></div>
                                 </div>
                             </div>
                             <div className='row input-row'>
-                                <div className='col-sm-6'>
-                                    <div className='col-sm-4 zero-side-padding'><ControlLabel>Created</ControlLabel></div>
-                                    <div className='col-sm-8'><FormControl type='date' className='input-wide' id='Created'
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>Created</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='date' className='input-wide' id='Created'
                                                                      readOnly={true}
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.Created : ''}
+                                                value={timeline.Created ? timeline.Created : ''}
                                     /></div>
                                 </div>
-                                <div className='col-sm-6'>
-                                    <div className='col-sm-4 zero-side-padding'><ControlLabel>Created By</ControlLabel></div>
-                                    <div className='col-sm-8'><FormControl type='text' className='input-wide' id='CreatedByName'
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>Created By</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='text' className='input-wide' id='CreatedByName'
                                                                      readOnly={true}
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.CreatedByName : ''}
+                                                value={timeline.CreatedByName ? timeline.CreatedByName : ''}
                                     /></div>
                                 </div>
                             </div>
                             <div className='row input-row'>
-                                <div className='col-sm-6'>
-                                    <div className='col-sm-4 zero-side-padding'><ControlLabel>Modified</ControlLabel></div>
-                                    <div className='col-sm-8'><FormControl type='date' className='input-wide' id='Modified'
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>Modified</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='date' className='input-wide' id='Modified'
                                                                      readOnly={true}
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.Modified : ''}
+                                                value={timeline.Modified ? timeline.Modified : ''}
                                     /></div>
                                 </div>
-                                <div className='col-sm-6'>
-                                    <div className='col-sm-4 zero-side-padding'><ControlLabel>Modified By</ControlLabel></div>
-                                    <div className='col-sm-8'><FormControl type='text' className='input-wide' id='ModifiedByName'
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>Modified By</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='text' className='input-wide' id='ModifiedByName'
                                                                      readOnly={true}
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.ModifiedByName : ''}
+                                                value={timeline.ModifiedByName ? timeline.ModifiedByName : ''}
                                     /></div>
                                 </div>
                             </div>
 
                         </div>
                         <div className='col-sm-4'>
-                            <div className='row' style={{marginLeft: '20px'}}>
+                            <div className='row'>
                                 <div className='col-sm-4'><ControlLabel>Study Notes</ControlLabel></div>
-                                <div className='col-sm-8 zero-side-padding'><FormControl componentClass="textarea" id='Notes'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.Notes : ''}
+                                <div className='col-sm-7 zero-side-padding'><FormControl componentClass="textarea" id='Notes'
+                                                value={timeline.Notes ? timeline.Notes : ''}
                                                 onChange={this.handleChange}
+                                                disabled={!timeline.RowId}
                                 /></div>
                             </div>
-                            <div className='row' style={{marginLeft: '20px'}}>
+                            <div className='row'>
                                 <div className='col-sm-4'><ControlLabel>Scheduler Notes</ControlLabel></div>
-                                <div className='col-sm-8 zero-side-padding'><FormControl componentClass="textarea" id='SchedulerNotes'
-                                                value={this.props.selectedTimeline ? this.props.selectedTimeline.SchedulerNotes : ''}
+                                <div className='col-sm-7 zero-side-padding'><FormControl componentClass="textarea" id='SchedulerNotes'
+                                                value={timeline.SchedulerNotes ? timeline.SchedulerNotes : ''}
                                                 onChange={this.handleChange}
+                                                disabled={!timeline.RowId}
                                 /></div>
                             </div>
                         </div>
                     </div>
             )
-        } else {
-            return <div>Please select a timeline to view it's details</div>
-        }
+        // } else {
+        //     return <div>Please select a timeline to view it's details</div>
+        // }
 
     }
 }
 
 const mapStateToProps = state => ({
     selectedProject: state.project.selectedProject || null,
-    selectedTimeline: state.project.selectedTimeline || null
+    selectedTimeline: state.timeline.selectedTimeline || null
 });
 
 const mapDispatchToProps = dispatch => ({

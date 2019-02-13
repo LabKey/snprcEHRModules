@@ -12,6 +12,7 @@ import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import { filterAnimals } from '../actions/dataActions';
+import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 
 class AnimalList extends React.Component {
     
@@ -61,6 +62,15 @@ class AnimalList extends React.Component {
         this.setState({animals: formattedAnimals});
     }
 
+    selectRowProp = {
+        mode: 'checkbox',
+        clickToSelect: true
+    };
+
+    options = {
+        noDataText: 'No timelines available'
+    };
+
     render = () => { 
         let animalCount = this.state.animals ? this.state.animals.length : 0;
         let searchJSX = (                    
@@ -73,8 +83,6 @@ class AnimalList extends React.Component {
                 className="form-control search-input"
                 name="animalSearch"
                 placeholder="Search animals" />
-            <span className="input-group-addon input-group-addon-buffer" title="Import animal list"><Glyphicon glyph="save"/></span>
-            <span className="input-group-addon input-group-addon-buffer" title="Export animal list"><Glyphicon glyph="open"/></span>
             </div>
         );
         if (animalCount > 0) {
@@ -82,24 +90,23 @@ class AnimalList extends React.Component {
                 <div>
                     {searchJSX}
                     <div>
-                        <ReactDataGrid
-                            rowKey="Id4"
-                            columns={this.state.animalCols}
-                            rowGetter={this.animalRowGetter}
-                            rowsCount={animalCount}
-                            minHeight={245}
-                            rowSelection={{
-                                showCheckbox: true,
-                                enableShiftSelect: true,
-                                onRowsSelected: this.onAnimalRowsSelected,
-                                onRowsDeselected: this.onAnimalRowsDeselected,
-                                selectBy: { indexes: this.state.selectedAnimals }
-                            }}
-                        />                                    
+                        <BootstrapTable
+                                ref='animal-table'
+                                className='animal-table'
+                                data={this.state.animals}
+                                options={this.options}
+                                selectRow={this.selectRowProp}
+                                height={205}
+                        >
+                            <TableHeaderColumn dataField='Id' isKey={true} dataSort={ true }>ID</TableHeaderColumn>
+                            <TableHeaderColumn dataField='Gender' dataSort={ true }>Gender</TableHeaderColumn>
+                            <TableHeaderColumn dataField='Weight' dataSort={ true }>Weight</TableHeaderColumn>
+                            <TableHeaderColumn dataField='Age' dataSort={ true }>Age</TableHeaderColumn>
+                        </BootstrapTable>
                     </div>
                 </div>
             )
-        } else return <div style={{ minHeight: 290 }}>{searchJSX}<div> No assignable animals found. </div></div>
+        } else return <div style={{ minHeight: 251 }}>{searchJSX}<div> No assignable animals found. </div></div>
     }
 
   }

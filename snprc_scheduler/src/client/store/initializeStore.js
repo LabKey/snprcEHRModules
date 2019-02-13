@@ -20,6 +20,7 @@ import ReduxThunk from 'redux-thunk';
 // import reducers
 import rootReducer from '../reducers/rootReducer';
 import projectReducer from '../reducers/projectReducer';
+import timelineReducer from "../reducers/timelineReducer";
 
 // enable redux developer tools  
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -29,6 +30,7 @@ export default () => {
     const store = createStore(
         combineReducers({
             project: projectReducer,
+            timeline: timelineReducer,
             root: rootReducer
         }),
         composeEnhancers(applyMiddleware(ReduxThunk))

@@ -89,7 +89,7 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
         return this;
     }
 
-    public boolean isTimelineInUse(int timelineId, int revisionNum)
+    public boolean isTimelineInUse(Integer timelineId, Integer revisionNum)
     {
         Set<String> cols = new HashSet<>();
         cols.add("IsScheduled");
