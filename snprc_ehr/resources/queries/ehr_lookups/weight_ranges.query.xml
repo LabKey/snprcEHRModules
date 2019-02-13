@@ -10,7 +10,7 @@
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>species_codes</fkTable>
-                            <fkColumnName>code</fkColumnName>
+                            <fkColumnName>common_name</fkColumnName>
                         </fk>
                     </column>
                 </columns>

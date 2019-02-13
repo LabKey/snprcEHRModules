@@ -4,7 +4,7 @@ AP	Ateles paniscus	Spider monkey
 AT	Aotus trivirgatus	Owl monkey
 CA	Cercopithecus aethiops	Grivet (African green monkey)
 CB	Cebus spp	Capuchin monkey
-CJ	Callithrix jacchus	Common marmoset
+CJ	Callithrix jacchus	Marmoset
 CL	Canis familiaris	Dog
 CP	Cavia porcellus	Guinea pig
 DH	Equus caballus	Domestic horse
@@ -13,8 +13,8 @@ GT	Capra hircus	Goat
 KG	Macropus spp.	Kangaroo
 MA	Mesocricetus auratus	Hamster
 MD	Monodelphis domestica	Gray short-tail opossum
-MF	Macaca fascicularis	Cynomolgus monkey
-MM	Macaca mulatta	Rhesus monkey
+MF	Macaca fascicularis	Cynomolgus
+MM	Macaca mulatta	Rhesus
 MN	Macaca nemestrina	Pig-tail monkey
 MU	Mus musculus	Mouse
 OV	Ovis aries	Domestic sheep
