@@ -1,6 +1,5 @@
-setname	label	keyfield	titleColumn			
-areas						
-housingStatus	Housing Status	value				
+setname	label	keyfield	titleColumn
+housingStatus	Housing Status	value
 housingDefinition	Housing Definition	value				
 housingTypes	Housing Types	value				
 AccessionCode	Accession Code	Value	Description			
