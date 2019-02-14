@@ -35,5 +35,6 @@ fee_schedule_type	Fee Schedule Types	value	description	title	sort_order	date_dis
 apath_record_status	Apath Record Status	value	description			
 apath_death_type	Apath Death Codes	value	description			
 pkg_type	Package Types	value	description	sort_order		
-valid_clinical_resolutions	value	status				
-AccountGroups	Account Groups	value	description	sort_order		
+valid_clinical_resolutions	Clinical Resolutions	value	status
+AccountGroups	Account Groups	value	description	sort_order
+speciesCommonNames	Species Common Names	value	sort_order	date_disabled
