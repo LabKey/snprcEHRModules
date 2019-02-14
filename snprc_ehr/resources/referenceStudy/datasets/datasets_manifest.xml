@@ -173,5 +173,8 @@
         <dataset name="CycleDaily" id="5045" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="Vaccine" id="5046" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

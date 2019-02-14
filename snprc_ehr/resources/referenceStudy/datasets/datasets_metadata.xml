@@ -2647,4 +2647,31 @@
     </column>
 </columns>
 </table>
+    <table tableName="Vaccine" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="Vaccine">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="PkgId">
+                <datatype>integer</datatype>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ProcId">
+                <datatype>integer</datatype>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>Vaccine</tableTitle>
+    </table>
 </tables>
