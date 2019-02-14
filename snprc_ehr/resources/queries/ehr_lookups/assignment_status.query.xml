@@ -1,11 +1,13 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="project_type" tableDbType="TABLE">
-                <titleColumn>Description</titleColumn>
+            <table tableName="assignment_status" tableDbType="TABLE">
+                <tableTitle>IACUC Assignment Status</tableTitle>
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <columns>
                     <column columnName="value">
-                        <columnTitle>Project Type Code</columnTitle>
+                        <isKeyField>true</isKeyField>
+                        <columnTitle>Assignment Status Code</columnTitle>
                     </column>
                     <column columnName="title">
                         <isUserEditable>false</isUserEditable>

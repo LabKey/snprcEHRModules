@@ -1,18 +1,17 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="species_codes" tableDbType="TABLE">
-                <tableTitle>Species</tableTitle>
-                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
+            <table tableName="validAccounts" tableDbType="TABLE" useColumnOrder="true">
                 <columns>
-                    <column columnName="species">
+                    <column columnName="accountGroup">
+                        <columnTitle>Account Group</columnTitle>
+                        <nullable>false</nullable>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>speciesCommonNames</fkTable>
+                            <fkTable>AccountGroups</fkTable>
                             <fkColumnName>value</fkColumnName>
                             <fkDisplayColumnName>value</fkDisplayColumnName>
                         </fk>
-                        <displayWidth>600</displayWidth>
                     </column>
                 </columns>
             </table>

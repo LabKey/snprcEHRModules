@@ -1,11 +1,10 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="project_type" tableDbType="TABLE">
-                <titleColumn>Description</titleColumn>
+            <table tableName="tb_site" tableDbType="TABLE">
                 <columns>
                     <column columnName="value">
-                        <columnTitle>Project Type Code</columnTitle>
+                        <columnTitle>TB Site</columnTitle>
                     </column>
                     <column columnName="title">
                         <isUserEditable>false</isUserEditable>

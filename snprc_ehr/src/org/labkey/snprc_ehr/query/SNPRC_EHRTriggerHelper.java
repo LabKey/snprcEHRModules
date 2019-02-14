@@ -125,6 +125,24 @@ public class SNPRC_EHRTriggerHelper
     }
 
     /**
+     * Auto-generate the next institution_id
+     *
+     * @return integer
+     */
+    public Integer getNextInstitutionCode()
+    {
+        DbSchema schema = SNPRC_EHRSchema.getInstance().getSchema(); //  QueryService.get().getUserSchema(getUser(), getContainer(), "").getDbSchema();
+        SQLFragment sql = new SQLFragment("SELECT MAX(vi.institution_id) AS MAX_CODE FROM ");
+        sql.append(schema.getTable("ValidInstitutions"), "vi");
+        SqlSelector sqlSelector = new SqlSelector(schema, sql);
+
+        Integer institution_id = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the idType at 1
+        return (institution_id == null) ? 1 : institution_id + 1;
+    }
+
+    /**
      * Auto-generate the next id_type
      *
      * @return integer

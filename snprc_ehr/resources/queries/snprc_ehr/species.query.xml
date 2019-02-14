@@ -1,12 +1,12 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="speciesCommonNames" tableDbType="NOT_IN_DB">
-                <tableTitle>Species Common Names</tableTitle>
+            <table tableName="species" tableDbType="TABLE">
+                <tableTitle>Three-character Species Codes</tableTitle>
                 <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <columns>
-                    <column columnName="common_name">
-                        <isKeyField>true</isKeyField>
+                    <column columnName="tid">
+                        <isUserEditable>false</isUserEditable>
                     </column>
                 </columns>
             </table>

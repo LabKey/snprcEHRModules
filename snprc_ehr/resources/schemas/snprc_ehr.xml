@@ -380,6 +380,7 @@
                     <fkDbSchema>ehr_lookups</fkDbSchema>
                     <fkTable>AccountGroups</fkTable>
                     <fkColumnName>value</fkColumnName>
+                    <fkDisplayColumnName>value</fkDisplayColumnName>
                 </fk>
             </column>
             <column columnName="Created"/>
@@ -750,6 +751,7 @@
             <column columnName="institution_id">
                 <isKeyField>true</isKeyField>
                 <columnTitle>Institution ID</columnTitle>
+                <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="institution_name">
                 <columnTitle>Institution Name</columnTitle>
@@ -769,7 +771,7 @@
             </column>
             <column columnName="web_site">
                 <nullable>true</nullable>
-                <columnTitle>Institution's website</columnTitle>
+                <columnTitle>Website</columnTitle>
             </column>
             <column columnName="objectid">
                 <isHidden>true</isHidden>

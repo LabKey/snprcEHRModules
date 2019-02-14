@@ -2,15 +2,16 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="species_codes" tableDbType="TABLE">
-                <tableTitle>Species</tableTitle>
+                <tableTitle>Two-character Species Codes</tableTitle>
                 <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <columns>
                     <column columnName="common_name">
-                        <isKeyField>true</isKeyField>
+                        <columnTitle>Common Name</columnTitle>
+                        <displayWidth>200</displayWidth>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>speciesCommonNames</fkTable>
-                            <fkColumnName>common_name</fkColumnName>
+                            <fkColumnName>value</fkColumnName>
                         </fk>
                     </column>
                 </columns>

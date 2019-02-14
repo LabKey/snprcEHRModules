@@ -9,6 +9,12 @@
                         <isKeyField>true</isKeyField>
                         <columnTitle>Group Name</columnTitle>
                     </column>
+                    <column columnName="title">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                    <column columnName="category">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
                 </columns>
             </table>
         </tables>
