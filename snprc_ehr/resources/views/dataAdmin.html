@@ -10,7 +10,7 @@ Ext4.onReady(function (){
     var webpart = <%=webpartContext%>;
 
     Ext4.get(webpart.wrapperDivId).update(
-            '<div style="max-width:990px">' +
+            '<div style="max-width:1000px">' +
             '<table>' +
             '<tr style="vertical-align:top">' +
             '    <td style="width:330px">' +
@@ -19,7 +19,7 @@ Ext4.onReady(function (){
             '    <td style="width:330px;vertical-align:top">' +
             '        <div id="menu2_'+webpart.wrapperDivId+'"></div>' +
             '    </td>' +
-            '    <td style="width:330px">' +
+            '    <td style="width:340px">' +
             '        <div id="menu3_'+webpart.wrapperDivId+'"></div>' +
             '    </td>' +
             '</tr>' +
@@ -122,7 +122,7 @@ Ext4.onReady(function (){
         var menuCfg3 = {
             renderTo: "menu3_"+webpart.wrapperDivId,
             sections: new Array(),
-            colWidth: 330,
+            colWidth: 340,
             renderer: function(item){
                 var cfg = {
                     html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
