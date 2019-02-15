@@ -48,3 +48,5 @@ UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Daily Cycles' as Label, 'CycleDaily' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Vaccine' as Label, 'Vaccine' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Clinical' as CategoryId,'Blood Type' as Label, 'BloodType' as Name,  true as ShowByDefault, true as isAnimal

@@ -2674,4 +2674,23 @@
         </columns>
         <tableTitle>Vaccine</tableTitle>
     </table>
+    <table tableName="BloodType" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="BloodType">
+                <datatype>varchar</datatype>
+                <scale>6</scale>
+         </column>
+        </columns>
+         <tableTitle>BloodType</tableTitle>
+    </table>
 </tables>

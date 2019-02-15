@@ -176,5 +176,8 @@
         <dataset name="Vaccine" id="5046" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="BloodType" id="5047" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

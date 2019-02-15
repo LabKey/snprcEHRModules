@@ -31,7 +31,13 @@ SELECT v.ID 							AS Id,
        tc.createdby						AS createdby,
        v.TIMESTAMP
 
-
 FROM dbo.V_VACCINE v
        INNER JOIN dbo.TAC_COLUMNS tc
                   ON tc.object_id = v.OBJECT_ID
+
+
+
+       GO
+
+GRANT SELECT ON Labkey_etl.v_vaccine TO z_labkey
+       GO
