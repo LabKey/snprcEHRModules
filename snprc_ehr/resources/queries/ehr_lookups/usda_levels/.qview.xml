@@ -1,0 +1,8 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="usda_level"/>
+    </columns>
+    <sorts>
+        <sort column="usda_level"/>
+    </sorts>
+</customView>

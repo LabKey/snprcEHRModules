@@ -34,7 +34,6 @@
     <li><a href="<%=h(buildURL(RelatedTablesController.GetValidInstitutionsViewAction.class))%>">Valid Institutions</a>
     </li>
     <li><a href="<%=h(buildURL(RelatedTablesController.GetValidVetsAction.class))%>">Valid Vets</a></li>
-    <li><a href="<%=h(buildURL(RelatedTablesController.GetValidBirthDeathCodesViewAction.class))%>">Valid Birth / Death Codes</a></li>
     <li><a href="<%=h(buildURL(RelatedTablesController.GetPopulateLookupsViewAction.class))%>">Populate Lookups</a></li>
 
 </ul>

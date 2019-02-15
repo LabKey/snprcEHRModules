@@ -1,0 +1,19 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="Pregnancy Termination Codes" tableDbType="TABLE">
+                <columns>
+                    <column columnName="value">
+                        <columnTitle>Termination Code</columnTitle>
+                    </column>
+                    <column columnName="title">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                    <column columnName="category">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

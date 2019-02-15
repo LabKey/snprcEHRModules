@@ -123,7 +123,8 @@ Ext4.onReady(function(){
             },
             items: [
                 {name: 'EHR Admin Page', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/ehrAdmin.view'},
-                {name: 'Manage EHR Study', url: '<%=contextPath%>/study' + ctx['EHRStudyContainer'] + '/manageStudy.view?'}
+                {name: 'Manage EHR Study', url: '<%=contextPath%>/study' + ctx['EHRStudyContainer'] + '/manageStudy.view?'},
+                {name: 'Manage Lookup Tables', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/dataAdmin.view'}
             ]
         });
     }

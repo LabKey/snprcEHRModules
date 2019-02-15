@@ -19,9 +19,9 @@
                         <isHidden>false</isHidden>
                         <fk>
                             <fkColumnName>accountGroup</fkColumnName>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>distinctAccountGroups</fkTable>
-                            <fkDisplayColumnName>accountGroup</fkDisplayColumnName>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>AccountGroups</fkTable>
+                            <fkDisplayColumnName>value</fkDisplayColumnName>
                         </fk>
                     </column>
                 </columns>

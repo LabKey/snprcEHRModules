@@ -1,0 +1,22 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="AccountGroups" tableDbType="TABLE">
+                <tableTitle>Account Groups</tableTitle>
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
+                <columns>
+                    <column columnName="value">
+                        <isKeyField>true</isKeyField>
+                        <columnTitle>Group Name</columnTitle>
+                    </column>
+                    <column columnName="title">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                    <column columnName="category">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

@@ -16,7 +16,7 @@
                     <column columnName="cause">
                         <columnTitle>Type of Death</columnTitle>
                         <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>valid_death_code</fkTable>
                             <fkColumnName>value</fkColumnName>
                             <fkDisplayColumnName>description</fkDisplayColumnName>

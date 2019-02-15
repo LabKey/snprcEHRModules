@@ -2,6 +2,8 @@
     <columns>
         <column name="room"/>
         <column name="area"/>
+        <column name="building"/>
+        <column name="maxCages"/>
         <column name="sort_order" />
         <column name="dateDisabled" />
     </columns>

@@ -1,21 +1,32 @@
-code	scientific_name	common_name
+﻿code	scientific_name	common_name
 AL	Aloutta spp.	Howler monkey
 AP	Ateles paniscus	Spider monkey
 AT	Aotus trivirgatus	Owl monkey
 CA	Cercopithecus aethiops	Grivet (African green monkey)
 CB	Cebus spp	Capuchin monkey
-CJ	Callithrix jacchus	Common marmoset
+CJ	Callithrix jacchus	Marmoset
 CL	Canis familiaris	Dog
 CP	Cavia porcellus	Guinea pig
+DH	Equus caballus	Domestic horse
+DR	Odeocoileus spp.	New World antlered deer
+GT	Capra hircus	Goat
+KG	Macropus spp.	Kangaroo
 MA	Mesocricetus auratus	Hamster
-MF	Macaca fascicularis	Cynomolgus monkey
-MM	Macaca mulatta	Rhesus monkey
+MD	Monodelphis domestica	Gray short-tail opossum
+MF	Macaca fascicularis	Cynomolgus
+MM	Macaca mulatta	Rhesus
 MN	Macaca nemestrina	Pig-tail monkey
 MU	Mus musculus	Mouse
-RB	Oryctolagus cuniculus	Rabbit
+OV	Ovis aries	Domestic sheep
 PC	Papio cynocephalus	Baboon
 PO	Pongo pygmaeus	Orangutan
 PT	Pan troglodytes	Chimpanzee
 RA	Rousettus aegyptiacus	Egyptian fruit bat
+RB	Oryctolagus cuniculus	Rabbit
+RT	Rattus norvegicus	Rat
 SB	Saimiri boliviensis	Squirrel monkey
 SM	Saguinus mystax	Tamarin
+TK	Meleagris gallopavo	Turkey
+UN	Unknown	Unknown
+XL	Xenopus laevis	Frog
+ZZ	designator for apath data	designator for apath data

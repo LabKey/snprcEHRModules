@@ -38,9 +38,7 @@ SELECT
   v.tid                           AS vetId,
   v.vet_name                      AS displayName,
   v.email_address                 AS emailAddress,
-  CASE WHEN v.status = 'A'
-    THEN 'Active'
-  ELSE 'Inactive' END             AS status,
+  v.status                        AS status,
   v.object_id                     AS objectid,
   v.entry_date_tm                 AS modified,
   dbo.f_map_username(v.user_name) AS modifiedby,

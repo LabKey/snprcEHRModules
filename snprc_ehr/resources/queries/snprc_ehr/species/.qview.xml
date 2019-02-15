@@ -1,0 +1,20 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="arc_species_code"/>
+        <column name="species_code"/>
+        <column name="common"/>
+        <column name="scientific_name"/>
+        <column name="primate"/>
+        <column name="id_prefix"/>
+        <column name="mhc_prefix"/>
+        <column name="blood_per_kg"/>
+        <column name="max_draw_pct"/>
+        <column name="blood_draw_interval"/>
+        <column name="cites_code"/>
+        <column name="dateDisabled" />
+    </columns>
+    <sorts>
+        <sort column="arc_species_code"/>
+        <sort column="species_code"/>
+    </sorts>
+</customView>
