@@ -179,5 +179,8 @@
         <dataset name="BloodType" id="5047" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="ObScan" id="5048" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

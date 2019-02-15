@@ -2693,4 +2693,20 @@
         </columns>
          <tableTitle>BloodType</tableTitle>
     </table>
+    <table tableName="ObScan" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>datetime</datatype>
+            </column>
+
+        </columns>
+        <tableTitle>ObScan</tableTitle>
+    </table>
 </tables>
