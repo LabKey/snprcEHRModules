@@ -36,4 +36,5 @@ apath_death_type	Apath Death Codes	value	description
 pkg_type	Package Types	value	description	sort_order		
 valid_clinical_resolutions	Clinical Resolutions	value	value	status		
 AccountGroups	Account Groups	value	description	sort_order		
-speciesCommonNames	Species Common Names	value	value	sort_order	date_disabled	
+speciesCommonNames	Species Common Names	value	value	sort_order	date_disabled
+chargeBySpeciesTypes	Charge By Species Types	value	description

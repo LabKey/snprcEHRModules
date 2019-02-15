@@ -348,7 +348,14 @@
                 schemaName: 'ehr_lookups',
                 queryName: 'valid_clinical_resolutions',
                 pk: 'value'
+            }, {
+                label: 'Charge By Species Types',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'chargeBySpeciesTypes',
+                pk: 'value'
             }
+
         ];
 
         tables.sort(function (a, b) {
