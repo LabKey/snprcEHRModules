@@ -20,6 +20,7 @@ import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
+import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.Selector;
@@ -113,8 +114,8 @@ public class SNPRC_EHRTriggerHelper
      */
     public Integer getNextVetCode()
     {
-        SQLFragment sql = new SQLFragment("SELECT MAX(vetid) AS MAX_CODE FROM ");
-        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoValidVets());
+        SQLFragment sql = new SQLFragment("SELECT MAX(v.vetid) AS MAX_CODE FROM ");
+        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoValidVets(),"v");
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
         Integer vetId = sqlSelector.getObject(Integer.class);
@@ -124,14 +125,50 @@ public class SNPRC_EHRTriggerHelper
     }
 
     /**
+     * Auto-generate the next institution_id
+     *
+     * @return integer
+     */
+    public Integer getNextInstitutionCode()
+    {
+        DbSchema schema = SNPRC_EHRSchema.getInstance().getSchema(); //  QueryService.get().getUserSchema(getUser(), getContainer(), "").getDbSchema();
+        SQLFragment sql = new SQLFragment("SELECT MAX(vi.institution_id) AS MAX_CODE FROM ");
+        sql.append(schema.getTable("ValidInstitutions"), "vi");
+        SqlSelector sqlSelector = new SqlSelector(schema, sql);
+
+        Integer institution_id = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the idType at 1
+        return (institution_id == null) ? 1 : institution_id + 1;
+    }
+
+    /**
+     * Auto-generate the next id_type
+     *
+     * @return integer
+     */
+    public Integer getNextIdType()
+    {
+        DbSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "ehr_lookups").getDbSchema();
+        SQLFragment sql = new SQLFragment("SELECT MAX(cast(i.value as int)) AS MAX_CODE FROM ");
+        sql.append(getTableInfo("ehr_lookups", "id_type"), "i");
+        SqlSelector sqlSelector = new SqlSelector(schema, sql);
+
+        Integer idType = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the idType at 1
+        return (idType == null) ? 1 : idType + 1;
+    }
+
+    /**
      * Auto-generate the next animal group code
      *
      * @return integer
      */
     public Integer getNextAnimalGroup()
     {
-        SQLFragment sql = new SQLFragment("SELECT MAX(code) AS MAX_CODE FROM ");
-        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups());
+        SQLFragment sql = new SQLFragment("SELECT MAX(ag.code) AS MAX_CODE FROM ");
+        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), "ag");
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
         Integer code = sqlSelector.getObject(Integer.class);
@@ -146,8 +183,8 @@ public class SNPRC_EHRTriggerHelper
      */
     public Integer getNextAnimalGroupCategory()
     {
-        SQLFragment sql = new SQLFragment("SELECT MAX(category_code) AS MAX_CODE FROM ");
-        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories());
+        SQLFragment sql = new SQLFragment("SELECT MAX(agc.category_code) AS MAX_CODE FROM ");
+        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), "agc");
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
         Integer category_code = sqlSelector.getObject(Integer.class);

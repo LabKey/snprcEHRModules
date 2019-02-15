@@ -1,0 +1,26 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="chargeBySpeciesTypes" tableDbType="TABLE">
+                <tableTitle>Charge By Species Types</tableTitle>
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer"/>
+                <columns>
+                    <column columnName="value">
+                        <columnTitle>Type (2 characters)</columnTitle>
+                        <inputType>text</inputType>
+                        <inputLength>2</inputLength>
+                        <nullable>false</nullable>
+                    </column>
+                    <column columnName="category">
+                        <isHidden>true</isHidden>
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                    <column columnName="title">
+                        <isHidden>true</isHidden>
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

@@ -26,11 +26,9 @@ import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SQLFragment;
-import org.labkey.api.data.Selector;
 import org.labkey.api.data.Selector.ForEachBlock;
 import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.data.SqlSelector;
-import org.labkey.api.data.StopIteratingException;
 import org.labkey.api.data.Table;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.ehr.dataentry.DataEntryForm;
@@ -112,30 +110,6 @@ public class RelatedTablesController extends SpringActionController
             return root.addChild("Valid Vets");
         }
     }
-    @RequiresPermission(ManageRelatedTablesPermission.class)
-    public class GetValidBirthDeathCodesViewAction extends SimpleViewAction<Object>
-    {
-
-        @Override
-        public ModelAndView getView(Object form, BindException errors)
-        {
-
-            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/ValidBirthAndDeathCodes.jsp", this);
-            view.setTitle("Valid Birth / Death Codes");
-            view.setHidePageTitle(true);
-            view.setFrame(WebPartView.FrameType.PORTAL);
-
-
-            return view;
-        }
-
-        @Override
-        public NavTree appendNavTrail(NavTree root)
-        {
-            return root.addChild("Valid Birth / Death Codes");
-        }
-    }
-
 
     /**
      * CRUD lookups

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Species Common Names</name>
+    <description>Common names for two-character species codes</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_speciesCommonNames" />
+            <destination schemaName="ehr_lookups" queryName="speciesCommonNames" bulkLoad="true" targetOption="truncate" />
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>

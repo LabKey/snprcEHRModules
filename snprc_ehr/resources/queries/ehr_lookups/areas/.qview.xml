@@ -1,0 +1,10 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="area"/>
+        <column name="description"/>
+        <column name="dateDisabled"/>
+    </columns>
+    <sorts>
+        <sort column="area" />
+    </sorts>
+</customView>

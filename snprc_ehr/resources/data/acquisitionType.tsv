@@ -1,32 +1,33 @@
-﻿value	description
-0	Unknown
-1	Colony-born, Vaginal delivery (at TBRI)
-2	Colony-born, Cesarean delivery (at TBRI)
-3	Stillbirth/Abortion
-4	Trapped by TBRI
-5	Received by trade
-6	Surgical Removal of dead fetus
-7	New Purchase
-8	Gift (from outside source)
-9	Return of TBRI Loan
-10	Outside Loan to TBRI
-11	Re-Purchase
-12	Admission to TBRI for treatment
-13	Admission to TBRI for boarding
-14	Purchase, wild-born, known provenance
-15	Purchase, wild-born, unknown provenance
-16	Purchase, colony-born, other colony
-17	Gift, wild-born
-18	Gift, colony-born
-19	Loan, wild-born
-20	Loan, colony-born
-21	Returned to TBRI (inadequate model)
-22	Colony-born, other colony, by Cesarean Section (dam resides or intending to be returned to SFBR)
-23	Colony-born, other colony, by Vaginal delivery (dam resides or intending to be returned to SFBR)
-24	Admit to TBRI for quarantine period (tether, surgery...prior to release)
-25	NON TxBiomed data acquisition
-26	Research related (return to TBRI)
-27	Reacquired to complete medical history
-28	euthanized in utero, colony management
-50	Re-IDed (DBA addition, not physical addition to colony)
-97	Parental data only, animal never at TBRI
+﻿title	value	category	description	sort_order	date_disabled
+	0	Acquisition	Unknown	0	
+	1	Birth	Colony-born, Vaginal delivery (at TBRI)	1	
+	2	Birth	Colony-born, Cesarean delivery (at TBRI)	2	
+	3	Birth	Stillbirth/Abortion	3	
+	4	Acquisition	Trapped by TBRI	4	
+	5	Acquisition	Received by trade	5	
+	6	Birth	Surgical Removal of dead fetus	6	
+	7	Acquisition	New Purchase	7	
+	8	Acquisition	Gift (from outside source)	8	
+	9	Acquisition	Return of TBRI Loan	9	
+	10	Acquisition	Outside Loan to TBRI	10	
+	11	Acquisition	Re-Purchase	11	
+	12	Acquisition	Admission to TBRI for treatment	12	
+	13	Acquisition	Admission to TBRI for boarding	13	
+	14	Acquisition	Purchase, wild-born, known provenance	14	
+	15	Acquisition	Purchase, wild-born, unknown provenance	15	
+	16	Acquisition	Purchase, colony-born, other colony	16	
+	17	Acquisition	Gift, wild-born	17	
+	18	Acquisition	Gift, colony-born	18	
+	19	Acquisition	Loan, wild-born	19	
+	20	Acquisition	Loan, colony-born	20	
+	21	Acquisition	Returned to TBRI (inadequate model)	21	
+	22	Birth	Colony-born, other colony, by Cesarean Section (dam resides or intending to be returned to SFBR)	22	
+	23	Birth	Colony-born, other colony, by Vaginal delivery (dam resides or intending to be returned to SFBR)	23	
+	24	Acquisition	Admit to TBRI for quarantine period (tether, surgery...prior to release)	24	
+	25	Acquisition	NON TxBiomed data acquisition	25	
+	26	Acquisition	Research related (return to TBRI)	26	
+	27	Acquisition	Reacquired to complete medical history	27	
+	28	Birth	euthanized in utero, colony management	28	
+	29	Acquisition	UTHS - Animal returned from UT Health Sciences Center	29	
+	50	Acquisition	Re-IDed (DBA addition, not physical addition to colony)	50	
+	97	Acquisition	Parental data only, animal never at TBRI	97	

@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="notes" tableDbType="TABLE" useColumnOrder="true">
-                <tableTitle>DCM Notes</tableTitle>
+                <tableTitle>Notes (Remarks)</tableTitle>
                 <tableUrl />
                 <insertUrl />
                 <importUrl />

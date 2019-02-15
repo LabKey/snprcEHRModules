@@ -1,0 +1,13 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="account"/>
+        <column name="accountStatus"/>
+        <column name="date"/>
+        <column name="enddate"/>
+        <column name="description"/>
+        <column name="accountGroup"/>
+    </columns>
+    <sorts>
+        <sort column="account"/>
+    </sorts>
+</customView>
