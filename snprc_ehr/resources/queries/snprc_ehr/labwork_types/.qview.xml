@@ -1,0 +1,8 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="ServiceType"/>
+    </columns>
+    <sorts>
+        <sort column="ServiceType"/>
+    </sorts>
+</customView>

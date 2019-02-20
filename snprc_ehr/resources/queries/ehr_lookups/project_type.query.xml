@@ -3,6 +3,17 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="project_type" tableDbType="TABLE">
                 <titleColumn>Description</titleColumn>
+                <columns>
+                    <column columnName="value">
+                        <columnTitle>Project Type Code</columnTitle>
+                    </column>
+                    <column columnName="title">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                    <column columnName="category">
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                </columns>
             </table>
         </tables>
     </metadata>

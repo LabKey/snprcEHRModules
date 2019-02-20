@@ -1,0 +1,18 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="ServiceId"/>
+        <column name="ServiceName"/>
+        <column name="Dataset"/>
+        <column name="ChargeType"/>
+        <column name="CollectionMethod"/>
+        <column name="Tissue"/>
+        <column name="OutsideLab"/>
+        <column name="Method"/>
+        <column name="Active"/>
+        <column name="Bench"/>
+        <column name="dateDisabled" />
+    </columns>
+    <sorts>
+        <sort column="ServiceId"/>
+    </sorts>
+</customView>

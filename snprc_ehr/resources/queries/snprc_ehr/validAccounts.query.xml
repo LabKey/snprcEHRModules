@@ -1,0 +1,20 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="validAccounts" tableDbType="TABLE" useColumnOrder="true">
+                <columns>
+                    <column columnName="accountGroup">
+                        <columnTitle>Account Group</columnTitle>
+                        <nullable>false</nullable>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>AccountGroups</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                            <fkDisplayColumnName>value</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
