@@ -252,7 +252,7 @@ public class SNPRC_EHRTriggerHelper
             filter.addCondition(FieldKey.fromString("Id"), id, CompareType.EQUAL);
             filter.addCondition(FieldKey.fromString("objectid"), objectId, CompareType.NEQ_OR_NULL);
 
-            TableInfo flagsTable = getTableInfo("study", "Animal Record Flags");
+            TableInfo flagsTable = getTableInfo("study", "flags");
             final List<Map<String, Object>> rows = new ArrayList<>();
             final List<Map<String, Object>> oldKeys = new ArrayList<>();
             QueryUpdateService qus = flagsTable.getUpdateService();
