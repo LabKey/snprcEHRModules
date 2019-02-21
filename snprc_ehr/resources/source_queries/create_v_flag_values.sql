@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-CREATE VIEW [labkey_etl].[V_FLAG_VALUES] AS
+ALTER VIEW [labkey_etl].[V_FLAG_VALUES] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 3/28/2016
@@ -22,22 +22,25 @@ CREATE VIEW [labkey_etl].[V_FLAG_VALUES] AS
 -- Note:
 --
 -- Changes:
---
+-- 2/18/2019 rewrite tjh
 -- ==========================================================================================
 
-SELECT f.category ,
-       f.value ,
-       f.code ,
-       f.description ,
-       f.objectid ,
-       f.datedisabled,
-       f.entry_date_tm,
-       f.timestamp
-FROM labkey_etl.flag_values AS f
-
+SELECT 
+       va.category AS category,
+	   va.attribute AS value,
+       va.attribute_desc AS description,
+       va.code AS code,
+	   va.display_order AS sort_order,
+       va.object_id AS objectId,
+       va.entry_date_tm                 AS modified,
+       dbo.f_map_username(va.user_name) AS modifiedby,
+       tc.created                       AS created,
+       tc.createdby                     AS createdby,
+       va.timestamp AS timestamp
+FROM dbo.valid_attributes AS va
+ LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = va.object_id
 
 GO
 grant SELECT on [labkey_etl].[v_flag_values] to z_labkey
 
 go
-
