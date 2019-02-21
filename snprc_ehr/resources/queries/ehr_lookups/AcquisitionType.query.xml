@@ -1,0 +1,19 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="AcquisitionType" tableDbType="TABLE">
+                <tableTitle>Acquisition Codes</tableTitle>
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer"/>
+                <columns>
+                    <column columnName="value">
+                        <columnTitle>Acq Code</columnTitle>
+                    </column>
+                    <column columnName="title">
+                        <isHidden>true</isHidden>
+                        <isUserEditable>false</isUserEditable>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

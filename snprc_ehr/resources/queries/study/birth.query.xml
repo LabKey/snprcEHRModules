@@ -23,7 +23,7 @@
                     <column columnName="birth_code">
                         <columnTitle>Birth Type</columnTitle>
                         <fk>
-                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>valid_birth_code</fkTable>
                             <fkColumnName>value</fkColumnName>
                             <fkDisplayColumnName>Description</fkDisplayColumnName>
