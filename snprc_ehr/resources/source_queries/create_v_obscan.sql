@@ -10,7 +10,7 @@ SET QUOTED_IDENTIFIER ON
 /*==============================================================*/
 /* View: v_blood_type data                                             */
 /*==============================================================*/
-create VIEW [labkey_etl].[v_obscan] as
+ALTER VIEW [labkey_etl].[v_obscan] as
 -- ====================================================================================================================
 -- Object: v_obscan
 -- Author:		Scott Rouse
@@ -26,27 +26,28 @@ create VIEW [labkey_etl].[v_obscan] as
        o.sire_id						AS SireId,
        o.edc							AS EDC,
        o.adjusted						AS Adjusted,
-       o.measured_fhr					AS MeasuredFHR,
+       o.measured_fhr					AS MeasuredFetalHR,
        o.amt_amntc_fl					AS AmnioticFluidAmount,
        o.cond_amntc_fl					AS AmnioticFluidCondition,
-       o.placenta_loc_fc				AS PlacentaLocFc,
-       o.placenta_loc_ap				AS PlacentaLocAp,
-       o.placenta_loc_lr				AS PlacentaLocLr,
+       o.placenta_loc_fc				AS PlacentaLocFC,
+       o.placenta_loc_ap				AS PlacentaLocAP,
+       o.placenta_loc_lr				AS PlacentaLocLR,
        o.placenta_grade					AS PlacentaGrade,
        o.placenta_comment				AS PlacentaComment,
        o.measured_bpd					AS MeasuredBPD,
        o.bpd_age						AS BPDAge,
        o.measured_fod					AS MeasuredFOD,
        o.fod_age						AS FODAge,
-       o.measured_hc					AS MeasuredFc,
-       o.hc_age							AS HcAge,
-       o.femur_len						AS FemurLen,
+       o.measured_hc					AS MeasuredHC,
+       o.hc_age							AS HCAge,
+       o.femur_len						AS FemurLength,
        o.femur_age						AS FemurAge,
        o.cycle_age						AS CycleAge,
        o.average_scan_age				AS AverageScanAge,
        o.scanner_emp_num				AS ScannerEmpNum,
-       o.comment						AS comment,
+       o.comment						AS Comment,
 	   o.object_id						AS objectid,
+	   o.entry_date_tm					AS modified,
        dbo.f_map_username(o.user_name)	AS modifiedBy,
        tc.created						AS created,
        tc.createdby						AS createdby,
@@ -64,9 +65,4 @@ GRANT SELECT ON Labkey_etl.v_obscan TO z_labkey
 
 
 
-       o.user_name,
-       o.entry_date_tm,
-       o.timestamp
-	FROM dbo.obscan o
-
-
+   

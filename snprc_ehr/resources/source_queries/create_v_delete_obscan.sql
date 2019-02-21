@@ -20,15 +20,14 @@ create VIEW [labkey_etl].[v_delete_obscan] as
 SELECT
   ao.object_id,
   ao.audit_date_tm
-
 FROM audit.audit_obscan AS ao
        -- select primates only from the TxBiomed colony
        INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ao.id
 WHERE ao.audit_action = 'D' AND ao.object_id IS NOT NULL
 
-  go
+ go
 
 GRANT SELECT on labkey_etl.v_delete_obscan to z_labkey
 GRANT SELECT ON audit.audit_obscan TO z_labkey
 
-  go
+go

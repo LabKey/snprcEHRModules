@@ -1,7 +1,124 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
+        <column name="ScanRefNum">
+            <properties>
+                <property name="columnTitle" value="Scan Reference Number"/>
+            </properties>
+        </column>
         <column name="Id"/>
-        <column name="date"/>
+        <column name="date">
+            <properties>
+                <property name="columnTitle" value="Scan Date"/>
+            </properties>
+        </column>
+        <column name="Reason">
+            <properties>
+                <property name="columnTitle" value="Scan Reason"/>
+            </properties>
+        </column>
+        <column name="SireId">
+        </column>
+        <column name="EDC"/>
+        <column name="Adjusted"/>
+        <column name="MeasuredFetalHR">
+            <properties>
+                <property name="columnTitle" value="Measured Fetal Heart Rate"/>
+            </properties>
+        </column>
+        <column name="AmnioticFluidAmount">
+            <properties>
+                <property name="columnTitle" value="Amount Amniotic Fluid Removed"/>
+            </properties>
+        </column>
+        <column name="AmnioticFluidCondition">
+            <properties>
+                <property name="columnTitle" value="Condition of Amniotic Fluid"/>
+            </properties>
+        </column>
+        <column name="PlacentaLocFC">
+            <properties>
+                <property name="columnTitle" value="Placenta Location F to C"/>
+            </properties>
+        </column>
+        <column name="PlacentaLocAP">
+            <properties>
+                <property name="columnTitle" value="Placenta Location A to P"/>
+            </properties>
+        </column>
+        <column name="PlacentaLocLR">
+            <properties>
+                <property name="columnTitle" value="Placenta Location L to R"/>
+            </properties>
+        </column>
+        <column name="PlacentaGrade">
+            <properties>
+                <property name="columnTitle" value="Placenta Grade"/>
+            </properties>
+        </column>
+        <column name="PlacentaComment">
+            <properties>
+                <property name="columnTitle" value="Placenta Location Comment"/>
+            </properties>
+        </column>
+        <column name="MeasuredBPD">
+            <properties>
+                <property name="columnTitle" value="Measured Biparietal Diameter"/>
+            </properties>
+        </column>
+        <column name="BPDAge">
+            <properties>
+                <property name="columnTitle" value="Biparietal Gestational Age"/>
+            </properties>
+        </column>
+        <column name="MeasuredFOD">
+            <properties>
+                <property name="columnTitle" value="Fronto-Occipital Diameter"/>
+            </properties>
+        </column>
+        <column name="FODAge">
+            <properties>
+                <property name="columnTitle" value="Fronto-Occipital Gestational Age"/>
+            </properties>
+        </column>
+        <column name="MeasuredHC">
+            <properties>
+                <property name="columnTitle" value="Measured Head Circumference"/>
+            </properties>
+        </column>
+        <column name="HCAge">
+            <properties>
+                <property name="columnTitle" value="Age by Head Circumference"/>
+            </properties>
+        </column>
+        <column name="FemurLength">
+            <properties>
+                <property name="columnTitle" value="Femur Length"/>
+            </properties>
+        </column>
+        <column name="FemurAge">
+            <properties>
+                <property name="columnTitle" value="Femur Gestational Age"/>
+            </properties>
+        </column>
+        <column name="CycleAge">
+            <properties>
+                <property name="columnTitle" value="Cycle Age"/>
+            </properties>
+        </column>
+        <column name="AverageScanAge">
+            <properties>
+                <property name="columnTitle" value="Average Scan Age"/>
+            </properties>
+        </column>
+        <column name="ScannerEmpNum">
+        </column>
+        <column name="Comment">
+        </column>
+        <column name="modifiedBy">
+            <properties>
+                <property name="columnTitle" value="User Name"/>
+            </properties>
+        </column>
     </columns>
     <sorts>
         <sort column="Id" descending="false"/>
