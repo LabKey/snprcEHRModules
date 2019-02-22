@@ -15,5 +15,5 @@ default.property.Created=dfcreate
 # NOTE: if there are NO explicit import definitions, we will try to import all files matching pattern
 # NOTE: if there are ANY explicit mapping, we will only import listed datasets
 
-default.filePattern=dataset(\\d*).tsv
+default.filePattern=dataset(\\ddddd*).tsv
 default.importAllMatches=TRUE
