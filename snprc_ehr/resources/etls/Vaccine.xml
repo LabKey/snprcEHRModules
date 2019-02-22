@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>OldDaily Observations</name>
-    <description>Daily Observations (into clinical_observations)</description>
+    <name>Vaccine</name>
+    <description>Animal Vaccine History</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="v_observations" />
-            <destination schemaName="study" queryName="clinical_observations" bulkLoad="true" batchSize="5000" targetOption="merge">
+            <source schemaName="snprcSrc" queryName="v_vaccine" />
+            <destination schemaName="study" queryName="vaccine" bulkLoad="true" targetOption="merge">
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>
@@ -18,7 +18,7 @@
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
-        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_observations" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_vaccine" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>
         <poll interval="60m" />
