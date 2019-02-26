@@ -1269,5 +1269,34 @@
         </columns>
         <tableTitle>Fee Schedule Species Lookup</tableTitle>
     </table>
+    <table tableName="LocationTemperature" tableDbType="TABLE">
+        <pkColumnName>Room, Date</pkColumnName>
+        <columns>
+            <column columnName="Room">
+                <datatype>varchar</datatype>
+                <scale>100</scale>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="LowTemperature">
+                <datatype>decimal</datatype>
+            </column>
+            <column columnName="HighTemperature">
+                <datatype>decimal</datatype>
+            </column>
+            <column columnName="Notify" />
+            <column columnName="ObjectId">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container" />
+        </columns>
+        <tableTitle>Location temperature</tableTitle>
+    </table>
 </tables>
 
