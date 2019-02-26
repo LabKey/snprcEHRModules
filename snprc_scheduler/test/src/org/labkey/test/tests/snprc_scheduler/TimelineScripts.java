@@ -33,12 +33,13 @@ public class TimelineScripts
         // if timelineObject id is not null then an update was requested
         if (testTimelineObjectId != null )
         {
-            timelineScript = timelineScript + "        'ObjectId' : '" + testTimelineObjectId + "',\n" +
+            timelineScript = timelineScript +
+                    "        'TimelineId'  : "+ TIMELINE_ID + ",\n" +
+                    "        'RevisionNum'  : "+ REVISION_NUM + ",\n" +
+                    "        'ObjectId' : '" + testTimelineObjectId + "',\n" +
                     "        'IsDirty' : true,\n ";
         }
         timelineScript = timelineScript +
-                "        'TimelineId'  : "+ TIMELINE_ID + ",\n" +
-                "        'RevisionNum'  : "+ REVISION_NUM + ",\n" +
                 "        'IsDeleted'  : false ,\n" +
                 "        'Description' : 'Timeline #1 revision 1',\n" +
                 "        'ProjectObjectId' : '" + testProjectObjectId + "',\n" +

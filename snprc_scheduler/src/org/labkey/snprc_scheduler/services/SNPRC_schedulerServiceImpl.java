@@ -135,6 +135,9 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         {
             try (DbScope.Transaction transaction = scope.ensureTransaction())
             {
+                // Validate new timeline for saving (throws BatchValidationException)
+                SNPRC_schedulerServiceValidator.validateNewTimeline(timeline, c, u, errors);
+
                 SNPRC_schedulerManager.get().updateTimeline(c, u, timeline, errors);
 
                 // update the Timelineitem table
@@ -155,6 +158,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                             }
                         }
                     }
+                    SNPRC_schedulerServiceValidator.validateNewTimelineItems(timelineItems, timeline, c, u, errors);
 
                     SNPRC_schedulerManager.get().updateTimelineItems(c, u, timelineItems, errors); //new BatchValidationException());
                 }
@@ -176,6 +180,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
                         }
                     }
+                    SNPRC_schedulerServiceValidator.validateNewTimelineProjectItems(timelineProjectItems, timeline, c, u, errors);
+
                     SNPRC_schedulerManager.get().updateTimelineProjectItems(c, u, timelineProjectItems, errors); //new BatchValidationException());
                 }
 
@@ -194,6 +200,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                             timelineAnimalItems.add(newItem);
                         }
                     }
+                    SNPRC_schedulerServiceValidator.validateNewTimelineAnimalItems(timelineAnimalItems, timeline, c, u, errors);
 
                     SNPRC_schedulerManager.get().updateTimelineAnimalItems(c, u, timelineAnimalItems, errors); //new BatchValidationException());
                 }
@@ -216,6 +223,10 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
                 }
 
+            }
+            catch (BatchValidationException b)
+            {
+                // Message has already been concatenated to errors variable
             }
             catch (RuntimeException e)
             {
