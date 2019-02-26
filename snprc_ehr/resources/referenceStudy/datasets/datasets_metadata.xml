@@ -203,6 +203,9 @@
             <column columnName="flag">
                 <datatype>integer</datatype>
             </column>
+            <column columnName="remark">
+                <datatype>varchar</datatype>
+            </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>

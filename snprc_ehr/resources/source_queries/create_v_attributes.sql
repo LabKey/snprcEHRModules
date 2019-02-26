@@ -47,7 +47,7 @@ SELECT
   tc.createdby                    AS createdby,
   a.timestamp
 FROM dbo.attributes AS a
-  INNER JOIN labkey_etl.flag_values AS fv ON a.attribute = fv.value
+  INNER JOIN labkey_etl.v_flag_values AS fv ON a.attribute = fv.value
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = a.object_id
   ---- select primates only from the TxBiomed colony
   INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = a.id
