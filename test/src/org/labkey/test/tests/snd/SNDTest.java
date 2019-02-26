@@ -1399,6 +1399,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         editPage.setNarrative(canterburySuperPackageNarrative);
         editPage.setDescription(canterburySuperPackageDescription);
         editPage.getAvailablePackage(description).clickMenuItem("Add");
+        sleep(1000);
         listPage = editPage.clickSave();
 
         // then remove it
