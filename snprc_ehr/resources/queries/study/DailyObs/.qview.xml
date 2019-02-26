@@ -1,0 +1,48 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id">
+            <properties>
+                <property name="columnTitle" value="Id"/>
+            </properties>
+        </column>
+        <column name="Date">
+            <properties>
+                <property name="columnTitle" value="Observation Date"/>
+            </properties>
+        </column>
+        <column name="Stool">
+            <properties>
+                <property name="columnTitle" value="Stool"/>
+            </properties>
+        </column>
+        <column name="Water">
+            <properties>
+                <property name="columnTitle" value="Water available"/>
+            </properties>
+        </column>
+        <column name="Feed">
+            <properties>
+                <property name="columnTitle" value="Feed (% eaten)"/>
+            </properties>
+        </column>
+        <column name="Housing">
+            <properties>
+                <property name="columnTitle" value="Housing Status"/>
+            </properties>
+        </column>
+        <column name="Comments">
+            <properties>
+                <property name="columnTitle" value="Comments"/>
+            </properties>
+        </column>
+        <column name="modifiedby">
+            <properties>
+                <property name="columnTitle" value="User Name"/>
+            </properties>
+        </column>
+    </columns>
+    <sorts>
+        <sort column="Id" descending="false"/>
+        <sort column="date" descending="true" />
+    </sorts>
+</customView>

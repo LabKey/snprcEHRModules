@@ -164,5 +164,23 @@
         <dataset name="assay_labworkResults" id="5042" demographicData="false" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="DailyObservations" id="5043" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="Cycle" id="5044" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="CycleDaily" id="5045" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="Vaccine" id="5046" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="BloodType" id="5047" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="ObScan" id="5048" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>
