@@ -15,12 +15,12 @@ CREATE VIEW [labkey_etl].[v_location_temperature] AS
 -- ==========================================================================================
 -- Author:		Scott Rouse
 -- Create date:	02/05/2019
--- Description:	Selects the location_temperature data for LabKey ehr.protocol dataset
+-- Description:	Selects the location_temperature date LabKey ehr.protocol dataset
 -- Note:
 --	Temps are numeric(6,2)
 --	
 -- Changes:
--- 02/14/2019  ...
+-- 02/XX/2019  ...
 -- ==========================================================================================
 
 SELECT lt.location			AS	Room,
