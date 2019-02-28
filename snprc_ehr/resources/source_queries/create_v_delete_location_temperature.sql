@@ -29,13 +29,8 @@ ALTER VIEW [labkey_etl].[v_delete_location_temperature] AS
 
 SELECT al.object_id,
        al.audit_date_tm
-
-
 FROM audit.audit_location_temperature AS al
-
-WHERE al.audit_action = 'D' AND al.object_id IS NOT NULL
-
-
+	WHERE al.audit_action = 'D' AND al.object_id IS NOT NULL
 
   GO
 
