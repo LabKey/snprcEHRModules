@@ -124,7 +124,7 @@ public class AnimalGroupsController extends SpringActionController
      * Get all defined categories
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetCategoriesAction extends ApiAction<AnimalGroupCategory>
+    public class GetCategoriesAction extends ReadOnlyApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory o, BindException errors)
@@ -277,7 +277,7 @@ public class AnimalGroupsController extends SpringActionController
      * @TODO: move this to a species controller?
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetSpeciesAction extends ApiAction<AnimalSpecies>
+    public class GetSpeciesAction extends ReadOnlyApiAction<AnimalSpecies>
     {
         @Override
         public ApiResponse execute(AnimalSpecies o, BindException errors)
@@ -321,7 +321,7 @@ public class AnimalGroupsController extends SpringActionController
      * Given a category, get all its groups
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetGroupsByCategoryAction extends ApiAction<AnimalGroup>
+    public class GetGroupsByCategoryAction extends ReadOnlyApiAction<AnimalGroup>
     {
         @Override
         public ApiResponse execute(AnimalGroup animalGroup, BindException errors)
@@ -343,7 +343,7 @@ public class AnimalGroupsController extends SpringActionController
      * Given a group, load all animals that are assigned to it
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetAnimalsByGroupAction extends ApiAction<GroupMember>
+    public class GetAnimalsByGroupAction extends ReadOnlyApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
@@ -380,7 +380,7 @@ public class AnimalGroupsController extends SpringActionController
      * Get Animals by name (animal id) - defined to present a list of valid animals to the user
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetAnimalsByNameAction extends ApiAction<GroupMember>
+    public class GetAnimalsByNameAction extends ReadOnlyApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)

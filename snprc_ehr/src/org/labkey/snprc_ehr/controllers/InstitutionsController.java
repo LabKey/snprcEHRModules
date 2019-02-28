@@ -62,7 +62,7 @@ public class InstitutionsController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class GetInstitutionsAction extends ApiAction<Institution>
+    public class GetInstitutionsAction extends ReadOnlyApiAction<Institution>
     {
         @Override
         public ApiResponse execute(Institution institution, BindException errors)
@@ -89,7 +89,7 @@ public class InstitutionsController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class GetStatesAction extends ApiAction<Object>
+    public class GetStatesAction extends ReadOnlyApiAction<Object>
     {
         @Override
         public ApiResponse execute(Object o, BindException errors)
@@ -104,7 +104,7 @@ public class InstitutionsController extends SpringActionController
     }
 
     @RequiresPermission(ManageRelatedTablesPermission.class)
-    public class UpdateInstitutionAction extends ApiAction<Institution>
+    public class UpdateInstitutionAction extends MutatingApiAction<Institution>
     {
 
 
@@ -173,7 +173,7 @@ public class InstitutionsController extends SpringActionController
     }
 
     @RequiresPermission(ManageRelatedTablesPermission.class)
-    public class DeleteInstitutionAction extends ApiAction<Institution>
+    public class DeleteInstitutionAction extends MutatingApiAction<Institution>
     {
 
 

@@ -140,7 +140,7 @@ public class RelatedTablesController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class GetLookupSetsAction extends ApiAction<SimpleApiJsonForm>
+    public class GetLookupSetsAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
         {
@@ -196,7 +196,7 @@ public class RelatedTablesController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class GetLookupSetValuesAction extends ApiAction<LookupSetForm>
+    public class GetLookupSetValuesAction extends ReadOnlyApiAction<LookupSetForm>
     {
         public ApiResponse execute(LookupSetForm form, BindException errors)
         {
@@ -236,7 +236,7 @@ public class RelatedTablesController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class UpdateLookupSetValuesAction extends ApiAction<SimpleApiJsonForm>
+    public class UpdateLookupSetValuesAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -296,7 +296,7 @@ public class RelatedTablesController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class DeleteLookupSetValuesAction extends ApiAction<SimpleApiJsonForm>
+    public class DeleteLookupSetValuesAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -324,7 +324,7 @@ public class RelatedTablesController extends SpringActionController
 
 
     @RequiresPermission(AdminPermission.class)
-    public class UpdateLookupSetAction extends ApiAction<LookupSetForm>
+    public class UpdateLookupSetAction extends MutatingApiAction<LookupSetForm>
     {
         @Override
         public ApiResponse execute(LookupSetForm lookupSetForm, BindException errors)
@@ -377,7 +377,7 @@ public class RelatedTablesController extends SpringActionController
 
 
     @RequiresPermission(AdminPermission.class)
-    public class DeleteLookupSetAction extends ApiAction<LookupSetForm>
+    public class DeleteLookupSetAction extends MutatingApiAction<LookupSetForm>
     {
         @Override
         public ApiResponse execute(LookupSetForm lookupSetForm, BindException errors)

@@ -106,7 +106,7 @@ public class AnimalsHierarchyController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class GetHierarchy extends ApiAction<Node>
+    public class GetHierarchy extends ReadOnlyApiAction<Node>
     {
         @Override
         public Object execute(Node nodeForm, BindException errors)
@@ -203,7 +203,7 @@ public class AnimalsHierarchyController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetAnimals extends ApiAction<AnimalsBy>
+    public class GetAnimals extends ReadOnlyApiAction<AnimalsBy>
     {
         @Override
         public Object execute(AnimalsBy animalsBy, BindException errors)
@@ -278,7 +278,7 @@ public class AnimalsHierarchyController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetLocationsPath extends ApiAction<Animal>
+    public class GetLocationsPath extends ReadOnlyApiAction<Animal>
     {
         @Override
         public ApiResponse execute(Animal animal, BindException errors)
@@ -328,7 +328,7 @@ public class AnimalsHierarchyController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetReportsAction extends ApiAction<Object>
+    public class GetReportsAction extends ReadOnlyApiAction<Object>
     {
         public Object execute(Object o, BindException errors)
         {
