@@ -237,20 +237,22 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     }
     private void customizeHousingTable(AbstractTableInfo ti)
     {
-        if (ti.getColumn("effectiveCage") == null)
-        {
-            UserSchema us = getUserSchema(ti, "study");
+// ToDo: uncomment for paired caging. tjh
 
-            if (us != null)
-            {
-                ColumnInfo lsidCol = ti.getColumn("lsid");
-                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "effectiveCage"));
-                col.setLabel("Lowest Joined Cage");
-                col.setUserEditable(false);
-                col.setIsUnselectable(true);
-                col.setFk(new QueryForeignKey(us, null, "housingEffectiveCage", "lsid", "effectiveCage"));
-            }
-        }
+//        if (ti.getColumn("effectiveCage") == null)
+//        {
+//            UserSchema us = getUserSchema(ti, "study");
+//
+//            if (us != null)
+//            {
+//                ColumnInfo lsidCol = ti.getColumn("lsid");
+//                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "effectiveCage"));
+//                col.setLabel("Lowest Joined Cage");
+//                col.setUserEditable(false);
+//                col.setIsUnselectable(true);
+//                col.setFk(new QueryForeignKey(us, null, "housingEffectiveCage", "lsid", "effectiveCage"));
+//            }
+//        }
 
         if (ti.getColumn("daysInRoom") == null)
         {
