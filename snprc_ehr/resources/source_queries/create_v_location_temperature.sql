@@ -11,7 +11,7 @@ SET QUOTED_IDENTIFIER ON
 
 
 
-CREATE VIEW [labkey_etl].[v_location_temperature] AS
+ALTER VIEW [labkey_etl].[v_location_temperature] AS
 -- ==========================================================================================
 -- Author:		Scott Rouse
 -- Create date:	02/05/2019
@@ -20,7 +20,7 @@ CREATE VIEW [labkey_etl].[v_location_temperature] AS
 --	Temps are numeric(6,2)
 --	
 -- Changes:
--- 02/XX/2019  ...
+-- 02/26/2019  added TAC columns...
 -- ==========================================================================================
 
 SELECT lt.location			AS	Room,
@@ -28,9 +28,9 @@ SELECT lt.location			AS	Room,
        lt.low_temperature	AS	LowTemperature,
        lt.high_temperature	AS	HighTemperature,
        lt.notify			AS	Notify,
-       lt.object_id AS objectid,
+       lt.object_id			AS objectid,
+	     lt.entry_date_tm		AS	modified,
        dbo.f_map_username(lt.user_name) AS modifiedby,
-       lt.entry_date_tm		AS	modified,
        tc.created       AS created,
        tc.createdby     AS createdby,
        lt.timestamp			AS timestamp
