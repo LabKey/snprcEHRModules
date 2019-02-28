@@ -16,7 +16,7 @@
                             <fkDisplayColumnName>room</fkDisplayColumnName>
                         </fk>
                     </column>
-                    <column columnName="diCreated">
+                   <column columnName="diCreated">
                         <isHidden>true</isHidden>
                     </column>
                     <column columnName="diCreatedBy">

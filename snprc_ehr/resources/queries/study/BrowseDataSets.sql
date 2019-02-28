@@ -50,3 +50,5 @@ UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Vaccine' as Label, 'Vaccine' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Blood Type' as Label, 'BloodType' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Location Temperature' as Label, 'LocationTemperature' as Name,  true as ShowByDefault, false as isAnimal
