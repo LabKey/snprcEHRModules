@@ -38,7 +38,7 @@ import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.WebPartView;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
-import org.labkey.snprc_ehr.security.ManageRelatedTablesPermission;
+import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,7 +63,7 @@ public class RelatedTablesController extends SpringActionController
         setActionResolver(_actionResolver);
     }
 
-    @RequiresPermission(ManageRelatedTablesPermission.class)
+    @RequiresPermission(ManageLookupTablesPermission.class)
     public class GetValidInstitutionsViewAction extends SimpleViewAction<Object>
     {
 
@@ -87,7 +87,7 @@ public class RelatedTablesController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageRelatedTablesPermission.class)
+    @RequiresPermission(ManageLookupTablesPermission.class)
     public class GetValidVetsAction extends SimpleViewAction<Object>
     {
 

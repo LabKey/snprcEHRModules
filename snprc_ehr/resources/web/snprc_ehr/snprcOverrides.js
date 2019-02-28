@@ -5,80 +5,79 @@
  */
 Ext4.namespace('SNPRC_EHR');
 
-LDK.Utils.splitIds = function(subjects, unsorted)
-        {
-            subjects = Ext4.String.trim(subjects);
+LDK.Utils.splitIds = function (subjects, unsorted) {
+    subjects = Ext4.String.trim(subjects);
 
-            // Expand "X..Y" into X, X+1, X+2, ..., Y
-            if (subjects.match(/[0-9]+\.\.[0-9]+/))
-            {
-                var sections = subjects.split("..");
-                if (sections.length == 2)
-                {
-                    var num1 = parseInt(sections[0]);
-                    var num2 = parseInt(sections[1]);
-                    var start = Math.min(num1, num2);
-                    var end = Math.max(num1, num2);
+    // Expand "X..Y" into X, X+1, X+2, ..., Y
+    if (subjects.match(/[0-9]+\.\.[0-9]+/)) {
+        var sections = subjects.split("..");
+        if (sections.length == 2) {
+            var num1 = parseInt(sections[0]);
+            var num2 = parseInt(sections[1]);
+            var start = Math.min(num1, num2);
+            var end = Math.max(num1, num2);
 
-                    var result = [];
-                    for (var x = start; x <= end; x++)
-                    {
-                        result.push(x);
-                    }
-                    return result;
-                }
+            var result = [];
+            for (var x = start; x <= end; x++) {
+                result.push(x);
             }
+            return result;
+        }
+    }
 
-            // Replace IDs of the form "1 2345" with "1_2345"
-            subjects = subjects.replace(/([0-9])( )([0-9][0-9][0-9][0-9])/g, '$1_$3');
-            // All other whitespace gets trimmed
-            subjects = subjects.replace(/[\s,;]+/g, ';');
-            subjects = subjects.replace(/(^;|;$)/g, '');
+    // Replace IDs of the form "1 2345" with "1_2345"
+    subjects = subjects.replace(/([0-9])( )([0-9][0-9][0-9][0-9])/g, '$1_$3');
+    // All other whitespace gets trimmed
+    subjects = subjects.replace(/[\s,;]+/g, ';');
+    subjects = subjects.replace(/(^;|;$)/g, '');
 
-            // SNPRC identifiers use upper case characters
-            subjects = subjects.toUpperCase();
+    // SNPRC identifiers use upper case characters
+    subjects = subjects.toUpperCase();
 
-            if(subjects)
-            {
-                var result = subjects.split(';');
-                result = Ext4.unique(result);
-                if (!unsorted) {
-                    result = result.sort();
-                }
-                return result;
-            }
-            else
-                return [];
-        };
+    if (subjects) {
+        var result = subjects.split(';');
+        result = Ext4.unique(result);
+        if (!unsorted) {
+            result = result.sort();
+        }
+        return result;
+    }
+    else
+        return [];
+};
 
 
 Ext4.override(EHR.panel.SnapshotPanel, {
-    appendParentageResults: function(toSet, results){
+    appendParentageResults: function (toSet, results) {
 
-        if (results){
+        if (results) {
             var parentMap = {};
-            Ext4.each(results, function(row){
+            Ext4.each(results, function (row) {
                 var parent = row.parent;
                 var relationship = row.relationship;
 
-                if (parent && relationship){
+                if (parent && relationship) {
                     var text = relationship + ' - ' + parent;
 
                     if (!parentMap[text])
                         parentMap[text] = [];
 
                     var method = row.method;
-                    if (method){
+                    if (method) {
                         parentMap[text].push(method);
                     }
                 }
             }, this);
 
             var values = [];
-            Ext4.Array.forEach(Ext4.Object.getKeys(parentMap).sort(), function(text){
+            Ext4.Array.forEach(Ext4.Object.getKeys(parentMap).sort(), function (text) {
                 parentMap[text] = Ext4.unique(parentMap[text]);
                 var method = parentMap[text].join(', ');
-                    values.push('<a href="' + LABKEY.ActionURL.buildURL('query', 'executeQuery', null, {schemaName: 'study', 'query.queryName': 'demographicsParentStatus', 'query.Id~eq': this.subjectId}) + '" target="_blank">' + text + (method ? ' (' + method + ')' : '') + '</a>');
+                values.push('<a href="' + LABKEY.ActionURL.buildURL('query', 'executeQuery', null, {
+                    schemaName: 'study',
+                    'query.queryName': 'demographicsParentStatus',
+                    'query.Id~eq': this.subjectId
+                }) + '" target="_blank">' + text + (method ? ' (' + method + ')' : '') + '</a>');
             }, this);
 
             if (values.length)
@@ -91,11 +90,11 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
     },
 
-    appendIdHistoryResults: function(toSet, results){
+    appendIdHistoryResults: function (toSet, results) {
         var text = [];
-        if (results){
+        if (results) {
             var rows = [];
-            Ext4.each(results, function(row){
+            Ext4.each(results, function (row) {
                 var newRow = {
                     id_value: row['value'],
                     id_type: row['id_type/description']
@@ -103,7 +102,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                 rows.push(newRow);
             }, this);
 
-            Ext4.each(rows, function(r){
+            Ext4.each(rows, function (r) {
                 text.push('<tr><td nowrap>' + r.id_type + ':' + '</td><td style="padding-left: 5px;" nowrap>' + r.id_value + '</td></tr>');
             }, this);
         }
@@ -112,53 +111,55 @@ Ext4.override(EHR.panel.SnapshotPanel, {
     },
 
 
-    appendCurrentAccountsResults: function(toSet, results){
-    var text = [];
-    if (results){
-        var rows = [];
-        Ext4.each(results, function(row){
-            var newRow = {
-                account_date: row['date'],
-                account: row['account'],
-            };
-            rows.push(newRow);
-        }, this);
-
-        Ext4.each(rows, function(r){
-            var d = LDK.ConvertUtils.parseDate(r.account_date,LABKEY.extDefaultDateFormat);
-            text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat)  +
-                    '</td><td style="padding-left: 5px;" nowrap>' + r.account + '</td></tr>');
-        }, this);        }
-
-    toSet['currentAccounts'] = text.length ? '<table>' + text.join('') + '</table>' : null;
-    },
-
-
-    appendCases: function(toSet, results){
+    appendCurrentAccountsResults: function (toSet, results) {
         var text = [];
-        if (results){
+        if (results) {
             var rows = [];
-            Ext4.each(results, function(row){
+            Ext4.each(results, function (row) {
                 var newRow = {
-                   admit_date: row['date'],
-                   admit_complaint: row['admitcomplaint'],
+                    account_date: row['date'],
+                    account: row['account'],
                 };
                 rows.push(newRow);
             }, this);
 
-            Ext4.each(rows, function(r){
-                var d = LDK.ConvertUtils.parseDate(r.admit_date,LABKEY.extDefaultDateFormat);
+            Ext4.each(rows, function (r) {
+                var d = LDK.ConvertUtils.parseDate(r.account_date, LABKEY.extDefaultDateFormat);
+                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat) +
+                        '</td><td style="padding-left: 5px;" nowrap>' + r.account + '</td></tr>');
+            }, this);
+        }
+
+        toSet['currentAccounts'] = text.length ? '<table>' + text.join('') + '</table>' : null;
+    },
+
+
+    appendCases: function (toSet, results) {
+        var text = [];
+        if (results) {
+            var rows = [];
+            Ext4.each(results, function (row) {
+                var newRow = {
+                    admit_date: row['date'],
+                    admit_complaint: row['admitcomplaint'],
+                };
+                rows.push(newRow);
+            }, this);
+
+            Ext4.each(rows, function (r) {
+                var d = LDK.ConvertUtils.parseDate(r.admit_date, LABKEY.extDefaultDateFormat);
                 text.push(d.format(LABKEY.extDefaultDateFormat) + ' ' + r.admit_complaint);
-            }, this);        }
+            }, this);
+        }
 
         toSet['activeCases'] = text.length ? text.join(',<br>') : 'None';
     },
 
-    appendCurrentPedigreeResults: function(toSet, results){
+    appendCurrentPedigreeResults: function (toSet, results) {
         var text = [];
-        if (results){
+        if (results) {
             var rows = [];
-            Ext4.each(results, function(row){
+            Ext4.each(results, function (row) {
                 var newRow = {
                     pedigree_date: row['date'],
                     pedigree: row['pedigree'],
@@ -166,20 +167,21 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                 rows.push(newRow);
             }, this);
 
-            Ext4.each(rows, function(r){
-                var d = LDK.ConvertUtils.parseDate(r.pedigree_date,LABKEY.extDefaultDateFormat);
-                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat)  +
+            Ext4.each(rows, function (r) {
+                var d = LDK.ConvertUtils.parseDate(r.pedigree_date, LABKEY.extDefaultDateFormat);
+                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat) +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.pedigree + '</td></tr>');
-            }, this);        }
+            }, this);
+        }
 
         toSet['currentPedigree'] = text.length ? '<table>' + text.join('') + '</table>' : 'N/A';
     },
 
-    appendCurrentDietResults: function(toSet, results){
+    appendCurrentDietResults: function (toSet, results) {
         var text = [];
-        if (results){
+        if (results) {
             var rows = [];
-            Ext4.each(results, function(row){
+            Ext4.each(results, function (row) {
                 var newRow = {
                     diet_date: row['date'],
                     diet: row['code/meaning'],
@@ -187,22 +189,23 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                 rows.push(newRow);
             }, this);
 
-            Ext4.each(rows, function(r){
-                var d = LDK.ConvertUtils.parseDate(r.diet_date,LABKEY.extDefaultDateFormat);
-                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat)  +
+            Ext4.each(rows, function (r) {
+                var d = LDK.ConvertUtils.parseDate(r.diet_date, LABKEY.extDefaultDateFormat);
+                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat) +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.diet + '</td></tr>');
-            }, this);        }
+            }, this);
+        }
 
         toSet['currentDiet'] = text.length ? '<table>' + text.join('') + '</table>' : 'None';
     },
 
-    appendGroups: function(toSet, results){
+    appendGroups: function (toSet, results) {
 
         var values = [];
-        if (results){
-            Ext4.each(results, function(row){
+        if (results) {
+            Ext4.each(results, function (row) {
 
-                if (row['groupId/category_code/description'] === null ){
+                if (row['groupId/category_code/description'] === null) {
                     values.push(row['groupId/name']);
                 }
                 else {
@@ -214,7 +217,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['groups'] = values.length ? values.join('<br>') : 'None';
     },
 
-    appendAssignments: function(toSet, results){
+    appendAssignments: function (toSet, results) {
         toSet['assignments'] = null;
 
         if (this.redacted) {
@@ -222,11 +225,11 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         }
 
         var values = [];
-        if (results){
-            Ext4.each(results, function(row){
+        if (results) {
+            Ext4.each(results, function (row) {
                 var val = row['protocol/displayName'] || ' ';
                 val += ' [' + row['protocol/inves'] + ']';
-               // val += ' [' + row['protocol/title'] + ']';
+                // val += ' [' + row['protocol/title'] + ']';
 
                 if (val)
                     values.push(val);
@@ -236,7 +239,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['assignments'] = values.length ? values.join('<br>') : 'None';
     },
 
-    getBaseItems: function(){
+    getBaseItems: function () {
         return [{
             xtype: 'container',
             border: false,
@@ -246,7 +249,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             items: [{
                 xtype: 'container',
                 html: '<b>Summary:</b><hr>'
-            },{
+            }, {
                 bodyStyle: 'padding: 5px;',
                 layout: 'column',
                 defaults: {
@@ -264,26 +267,26 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         fieldLabel: 'Location',
                         //width: 420,
                         name: 'location'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         hidden: this.redacted,
                         name: 'assignments',
                         fieldLabel: 'IACUC Assignments'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Groups',
                         hidden: this.redacted,
                         name: 'groups'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Open Admissions',
                         name: 'activeCases'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Current Account',
                         name: 'currentAccounts'
                     }]
-                },{
+                }, {
                     xtype: 'container',
                     columnWidth: 0.25,
                     defaults: {
@@ -294,24 +297,24 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Status',
                         name: 'calculated_status'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Gender',
                         name: 'gender'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Species',
                         name: 'species'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Age',
                         name: 'age'
-                    },{
-                    xtype: 'displayfield',
-                    fieldLabel: 'Current Diet',
-                    name: 'currentDiet'
-                }]
-                },{
+                    }, {
+                        xtype: 'displayfield',
+                        fieldLabel: 'Current Diet',
+                        name: 'currentDiet'
+                    }]
+                }, {
                     xtype: 'container',
                     columnWidth: 0.35,
                     defaults: {
@@ -322,15 +325,15 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Flags',
                         name: 'flags'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Last TB Date',
                         name: 'lastTB'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Weights',
                         name: 'weights'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Id History',
                         name: 'idHistories'
@@ -340,7 +343,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         }];
     },
 
-    getExtendedItems: function(){
+    getExtendedItems: function () {
         return [{
             xtype: 'container',
             name: 'additionalInformation',
@@ -352,7 +355,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             items: [{
                 xtype: 'container',
                 html: '<b>Additional Information</b><hr>'
-            },{
+            }, {
                 layout: 'column',
                 defaults: {
                     labelWidth: this.defaultLabelWidth
@@ -371,16 +374,16 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         width: 350,
                         fieldLabel: 'Geographic Origin',
                         name: 'geographic_origin'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Birth',
                         name: 'birth'
-                    },{
+                    }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Death',
                         name: 'death'
                     }]
-                },{
+                }, {
                     xtype: 'container',
                     columnWidth: 0.5,
                     defaults: {
@@ -406,12 +409,12 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         }];
     },
 
-    onLoad: function(ids, resultMap){
-        if (this.disableAnimalLoad){
+    onLoad: function (ids, resultMap) {
+        if (this.disableAnimalLoad) {
             return;
         }
 
-        if (this.isDestroyed){
+        if (this.isDestroyed) {
             return;
         }
 
@@ -419,8 +422,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         var id = ids[0];
         var results = resultMap[id];
-        if (!results){
-            if (id){
+        if (!results) {
+            if (id) {
                 toSet['animalId'] = id;
                 toSet['calculated_status'] = '<span style="background-color:yellow">Unknown</span>';
             }
@@ -444,7 +447,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendAssignments(toSet, results.getActiveAssignments());
 
-        if (!this.redacted){
+        if (!this.redacted) {
             this.appendAssignmentsAndGroups(toSet, results);
             this.appendGroups(toSet, results.getActiveAnimalGroups());
         }
@@ -456,7 +459,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         this.appendFlags(toSet, results.getActiveFlags());
         this.appendTBResults(toSet, results.getTBRecord());
 
-        if (this.showExtendedInformation){
+        if (this.showExtendedInformation) {
             this.appendBirthResults(toSet, results.getBirthInfo(), results.getBirth());
             this.appendDeathResults(toSet, results.getDeathInfo());
             this.appendParentageResults(toSet, results.getParents());
@@ -471,3 +474,21 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 //    }
 
 });
+
+// Ext4.override(EHR.panel.EnterDataPanel, {
+//
+//     getQueueSections: function () {
+//         return [{
+//             header: 'Reports',
+//             renderer: function (item) {
+//                 return item;
+//             },
+//             items: [{
+//                 xtype: 'ldk-linkbutton',
+//                 text: 'Service Request Summary',
+//                 linkCls: 'labkey-text-link',
+//                 href: LABKEY.ActionURL.buildURL('ldk', 'runNotification', null, {key: 'org.labkey.snprc_ehr.notification.RequestAdminNotification'})
+//             }]
+//         }]
+//     }
+// });
