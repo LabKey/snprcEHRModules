@@ -23,6 +23,7 @@ import org.labkey.api.module.Module;
 import org.labkey.api.view.HttpView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.WebPartView;
+import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 
 import java.util.Arrays;
 
@@ -31,15 +32,25 @@ import java.util.Arrays;
  */
 public class RelatedTablesFormType extends AbstractDataEntryForm
 {
-    public static final String NAME = "RelatedTables";
+    public static final String NAME = "LookupTables";
 
     public RelatedTablesFormType(DataEntryFormContext ctx, Module owner)
     {
 
-        super(ctx, owner, NAME, "Related Tables", "Related Tables", Arrays.<FormSection>asList());
+        super(ctx, owner, NAME, "Lookup Tables", "Related Tables", Arrays.<FormSection>asList());
 
     }
+    @Override
+    protected boolean canInsert()
+    {
 
+        if (!getCtx().getContainer().hasPermission(getCtx().getUser(), ManageLookupTablesPermission.class))
+        {
+            return false;
+        }
+
+        return super.canInsert();
+    }
     @Override
     public HttpView createView()
     {

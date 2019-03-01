@@ -19,11 +19,12 @@ import org.labkey.api.security.permissions.AbstractPermission;
 
 /**
  * Created by lkacimi on 4/12/2017.
+ * Renamed and re-purposed on 2/26/2019. tjh
  */
-public class ManageRelatedTablesPermission extends AbstractPermission
+public class ManageLookupTablesPermission extends AbstractPermission
 {
-    public ManageRelatedTablesPermission()
+    public ManageLookupTablesPermission()
     {
-        super("ManageRelatedTablesPermission", "This is the base permission required to perform CRUD operations on related tables");
+        super("ManageLookupTablesPermission", "This is the base permission required to perform CRUD operations on Lookup tables");
     }
 }
