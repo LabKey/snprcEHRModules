@@ -588,6 +588,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     public void testAnimalHistoryNoFilter()
     {
         clickTab("Animal History");
+        waitForText("General");
         new SNPRCAnimalHistoryPage(getDriver())
                 .selectEntireDatabaseSearch()
                 .refreshReport();
