@@ -37,7 +37,7 @@ import org.labkey.api.util.GUID;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.domain.Institution;
 import org.labkey.snprc_ehr.helpers.SortFilterHelper;
-import org.labkey.snprc_ehr.security.ManageRelatedTablesPermission;
+import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.labkey.snprc_ehr.services.StatesService;
 import org.springframework.validation.BindException;
 
@@ -103,7 +103,7 @@ public class InstitutionsController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageRelatedTablesPermission.class)
+    @RequiresPermission(ManageLookupTablesPermission.class)
     public class UpdateInstitutionAction extends ApiAction<Institution>
     {
 
@@ -172,7 +172,7 @@ public class InstitutionsController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageRelatedTablesPermission.class)
+    @RequiresPermission(ManageLookupTablesPermission.class)
     public class DeleteInstitutionAction extends ApiAction<Institution>
     {
 
