@@ -6,7 +6,7 @@ breedingGrpAssignments	Reproductive Management	query	Breeding Group Assignments	
 animalAccounts	Assignments and Groups	query	Account Assignments	true		study	animalAccounts			date	false	false			This report contains the charge account assignments
 colonyAssignments	Assignments and Groups	query	Colony Assignments	true		study	colonyAssignments			date	false	false			This report contains the colony assignments for the animal
 pregnancyHistory	Reproductive Management	query	Pregnancy History	true		study	pregnancyHistory			date	false	false			Contains reproductive history data
-estrousCyclePivot	Reproductive Management	query	Cycle History	true		study	estrousCyclePivot			date	false	false			Contains daily estrous cycle readings
+CycleDaily	Reproductive Management	query	Cycle History	true		study	CycleDaily			date	false	false			Contains daily estrous cycle readings
 activeAssignments	Assignments and Groups	query	Active Assignments	true		study	Assignment	Active Assignments		date	false	false		qcstate/publicdata	This report shows the active assignments for each animal
 assignmentHistory	Assignments and Groups	query	Assignment History	true		study	Assignment			date	false	false		qcstate/publicdata	This report shows all assignments records for the animals
 biochemistry	Lab Results	query	Biochemistry	true		study	chemPivot			date	false	false			Contains results of chemistry panels.  Can be displayed either by panel, or showing reference ranges
@@ -16,12 +16,12 @@ surveillance	Lab Results	query	Surveillance	true		study	surveillancePivot			date
 urinalysis	Lab Results	query	Urinalysis	true		study	urinalysisPivot			date	false	false			Contains urinalysis results
 miscTests	Lab Results	query	Misc Tests	true		study	miscPivot			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
 surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
-Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata
-Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata
-procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata
-proceduresBeforeDisposition	Clinical	js	"Procedures Before Disposition"	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata
+Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata	
+Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata	
+procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata	
+proceduresBeforeDisposition	Clinical	js	Procedures Before Disposition	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata	
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
-dailyObsPivot	Clinical	query	Daily Obs	true		study	dailyObsPivot			date	false	false			Contains daily observations
+DailyObs	Clinical	query	Daily Obs	true		study	DailyObs			date	false	false			Contains daily observations
 clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
 Alopecia	Clinical	query	Alopecia Scores	true		study	Alopecia			date	false	false		qcstate/publicdata	This report contains the alopecia scores for the animal
@@ -51,7 +51,7 @@ blood	General	query	Blood Draw History	true		study	Blood Draws			date	false	fals
 idHistory	General	query	ID History	true		study	idHistory			id_date	false	false			This report contains a summary of the identifiers that have been assigned for each animal
 generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
-reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
-menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
-freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
+reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata	
+menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata	
+freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata	
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
