@@ -1,40 +1,47 @@
-setname	label	keyfield	titleColumn			
-housingStatus	Housing Status	value	description			
-housingDefinition	Housing Definition	value	description			
-housingTypes	Housing Types	value	description			
-AccessionCode	Accession Code	value	Description			
-AcquisitionType	Acquisition Types	value	Description			
-DispositionType	Disposition Types	value	Description			
-MatingType	Mating Types	value	description			
-tb_site	TB Site	value	value			
-blood_sample_type	Blood Sample Types	value	value			
-labworkChargeType	Labwork Charge Types	value	title			
-notes_category	Notes Category	value	value			
-encounter_roles	Encounter Roles	value	value			
-encounter_types	Encounter Types	value	value			
-activeInactive	Active-Inactive	value	description			
-alopecia_score	Alopecia Score	value	value			
-project_use_category	Center Project Use Categories	value	value			
+setname	label	keyfield	titleColumn
+housingStatus	Housing Status	value	description
+housingDefinition	Housing Definition	value	description
+housingTypes	Housing Types	value	description
+AccessionCode	Accession Code	value	Description
+AcquisitionType	Acquisition Types	value	Description
+DispositionType	Disposition Types	value	Description
+MatingType	Mating Types	value	description
+tb_site	TB Site	value	value
+blood_sample_type	Blood Sample Types	value	value
+labworkChargeType	Labwork Charge Types	value	title
+notes_category	Notes Category	value	value
+encounter_roles	Encounter Roles	value	value
+encounter_types	Encounter Types	value	value
+activeInactive	Active-Inactive	value	description
+alopecia_score	Alopecia Score	value	value
+project_use_category	Center Project Use Categories	value	value
 project_type	Project Types	value	description	title	sort_order	date_disabled
-procedure_drug_templates	Procedure Drug Templates	value	value			
-problem_list_subcategory	Problem List Subcategory	value	value			
-clinremarks_category	Clinremarks Category Field Values	value	value			
-drug_categories	Drug Category Field Values	value	value			
-problem_list_category	Problem List Category Field Values	value	value			
-housing_reason	Housing Reason Field Values	value	title			
-id_type	Id Type	value	Description			
-assignment_status	Assignment Status	value	description			
-status_codes	Status	code	code			
-preg_term_code	Pregnancy Termination Code	value	value			
-proc_type	Procedure Type	code	description			
-usda_levels	USDA Category	usda_level	usda_level			
-rearing_type	Rearing Type	value	Description			
-yesno	Yes/No	value	value			
+procedure_drug_templates	Procedure Drug Templates	value	value
+problem_list_subcategory	Problem List Subcategory	value	value
+clinremarks_category	Clinremarks Category Field Values	value	value
+drug_categories	Drug Category Field Values	value	value
+problem_list_category	Problem List Category Field Values	value	value
+housing_reason	Housing Reason Field Values	value	title
+id_type	Id Type	value	Description
+assignment_status	Assignment Status	value	description
+status_codes	Status	code	code
+preg_term_code	Pregnancy Termination Code	value	value
+proc_type	Procedure Type	code	description
+usda_levels	USDA Category	usda_level	usda_level
+rearing_type	Rearing Type	value	Description
+yesno	Yes/No	value	value
 fee_schedule_type	Fee Schedule Types	value	description	title	sort_order	date_disabled
-apath_record_status	Apath Record Status	value	description			
-apath_death_type	Apath Death Codes	value	description			
-pkg_type	Package Types	value	description	sort_order		
-valid_clinical_resolutions	Clinical Resolutions	value	value	status		
-AccountGroups	Account Groups	value	description	sort_order		
+apath_record_status	Apath Record Status	value	description
+apath_death_type	Apath Death Codes	value	description
+pkg_type	Package Types	value	description	sort_order
+valid_clinical_resolutions	Clinical Resolutions	value	value	status
+AccountGroups	Account Groups	value	description	sort_order
 speciesCommonNames	Species Common Names	value	value	sort_order	date_disabled
 chargeBySpeciesTypes	Charge By Species Types	value	description
+obscan_cond_amntc_fl	Condition of Amniotic Fluid	value		sort_order						
+obscan_placenta_comment	Placenta Comment	value		sort_order						
+obscan_placenta_loc_ap	Placenta Location A to P	value		sort_order						
+obscan_placenta_loc_fc	Placenta Location F to C	value		sort_order						
+obscan_placenta_loc_lr	Placenta Location L to R	value		sort_order						
+obscan_placenta_grade	Placenta Grade	value		sort_order						
+obscan_reason	Reason for Scan	value		sort_order						

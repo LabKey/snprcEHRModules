@@ -43,4 +43,12 @@ select 'study' as schema, 'Colony Management' as CategoryId,'Animal Accounts & G
 UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'MHC Data' as Label, 'MhcData' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'Clinical' as CategoryId,'Daily Observations' as Label, 'dailyObsPivot' as Name,  true as ShowByDefault, true as isAnimal
+select 'study' as schema, 'Clinical' as CategoryId,'Daily Observations' as Label, 'DailyObs' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Clinical' as CategoryId,'Daily Cycles' as Label, 'CycleDaily' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Clinical' as CategoryId,'Vaccine' as Label, 'Vaccine' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Clinical' as CategoryId,'Blood Type' as Label, 'BloodType' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Location Temperature' as Label, 'LocationTemperature' as Name,  true as ShowByDefault, false as isAnimal

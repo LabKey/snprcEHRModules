@@ -1,0 +1,28 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id">
+            <properties>
+                <property name="columnTitle" value="Id"/>
+            </properties>
+        </column>
+        <column name="Date">
+            <properties>
+                <property name="columnTitle" value="Vaccination Date"/>
+            </properties>
+        </column>
+        <column name="Vaccine">
+            <properties>
+                <property name="columnTitle" value="Vaccine"/>
+            </properties>
+        </column>
+        <column name="modifiedby">
+            <properties>
+                <property name="columnTitle" value="User Name"/>
+            </properties>
+        </column>
+    </columns>
+    <sorts>
+        <sort column="Id" descending="false"/>
+        <sort column="date" descending="true" />
+    </sorts>
+</customView>
