@@ -156,6 +156,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         initTest.doSetup();
     }
 
+    private void goToAnimalHistory()
+    {
+        clickTab("Animal History");
+        waitForText("General");
+    }
+
     private void doSetup() throws Exception
     {
         new RReportHelper(this).ensureRConfig();
@@ -526,7 +532,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testAnimalHistorySingleAnimalFilter()
     {
-        clickTab("Animal History");
+        goToAnimalHistory();
         new SNPRCAnimalHistoryPage(getDriver())
                 .searchSingleAnimal("12345");
         waitForText("Overview: 12345");
@@ -545,7 +551,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         final List<String> conflictedIds = Arrays.asList("TEST4551032", "TEST5904521");
         final String notFound = "1234";
 
-        clickTab("Animal History");
+        goToAnimalHistory();
         final SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver())
                 .selectMultiAnimalSearch()
                 .replaceSubjects(id + ";" + alias + ";" + conflictedAlias + ";" + notFound)
@@ -569,7 +575,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testAnimalHistoryMultiAnimalFilterSNPRCOverrides()
     {
-        clickTab("Animal History");
+        goToAnimalHistory();
         final SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver());
         List<String> ids = historyPage.selectMultiAnimalSearch()
                 .replaceSubjects("1..5")
@@ -587,8 +593,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testAnimalHistoryNoFilter()
     {
-        clickTab("Animal History");
-        waitForText("General");
+        goToAnimalHistory();
         new SNPRCAnimalHistoryPage(getDriver())
                 .selectEntireDatabaseSearch()
                 .refreshReport();
@@ -788,7 +793,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Test
     public void testAnimalHistoryReports()
     {
-        clickTab("Animal History");
+        goToAnimalHistory();
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
         animalHistoryPage.searchSingleAnimal("TEST1441142", "No active housing");
         _helper.verifyAllReportTabs(animalHistoryPage);
