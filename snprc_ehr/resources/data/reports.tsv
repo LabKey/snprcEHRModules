@@ -55,3 +55,5 @@ reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDe
 menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata	
 freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata	
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
+Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata	
+blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			Contains blood type.
