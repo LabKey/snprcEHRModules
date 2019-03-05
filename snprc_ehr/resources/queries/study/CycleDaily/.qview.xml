@@ -6,13 +6,29 @@
                 <property name="columnTitle" value="Cycle Date"/>
             </properties>
         </column>
-        <column name="CycleLocation"/>
+        <column name="TumescenceIndex">
+            <properties>
+                <property name = "columnTitle" value="TI"/>
+            </properties>
+        </column>
+        <column name="VaginalBleeding">
+            <properties>
+                <property name = "columnTitle" value="VI"/>
+            </properties>
+        </column>
+        <column name="PurpleColor">
+            <properties>
+                <property name = "columnTitle" value="PC"/>
+            </properties>
+        </column>
+        <column name="CarryingInfant">
+            <properties>
+                <property name = "columnTitle" value="CI"/>
+            </properties>
+        </column>
         <column name="MaleStatus"/>
         <column name="MaleId"/>
-        <column name="TumescenceIndex"/>
-        <column name="VaginalBleeding"/>
-        <column name="PurpleColor"/>
-        <column name="CarryingInfant"/>
+        <column name="CycleLocation"/>
         <column name="modifiedby">
             <properties>
                 <property name="columnTitle" value="User Name"/>
