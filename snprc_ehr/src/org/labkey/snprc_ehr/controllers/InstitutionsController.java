@@ -16,7 +16,8 @@
 package org.labkey.snprc_ehr.controllers;
 
 import org.json.JSONObject;
-import org.labkey.api.action.ApiAction;
+import org.labkey.api.action.ReadOnlyApiAction;
+import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.SpringActionController;
@@ -62,7 +63,7 @@ public class InstitutionsController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class GetInstitutionsAction extends ApiAction<Institution>
+    public class GetInstitutionsAction extends ReadOnlyApiAction<Institution>
     {
         @Override
         public ApiResponse execute(Institution institution, BindException errors)
@@ -89,7 +90,7 @@ public class InstitutionsController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class GetStatesAction extends ApiAction<Object>
+    public class GetStatesAction extends ReadOnlyApiAction<Object>
     {
         @Override
         public ApiResponse execute(Object o, BindException errors)
@@ -103,11 +104,9 @@ public class InstitutionsController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageLookupTablesPermission.class)
-    public class UpdateInstitutionAction extends ApiAction<Institution>
+    @RequiresPermission(ManageRelatedTablesPermission.class)
+    public class UpdateInstitutionAction extends MutatingApiAction<Institution>
     {
-
-
         public ApiResponse execute(Institution institution, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
@@ -172,11 +171,9 @@ public class InstitutionsController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageLookupTablesPermission.class)
-    public class DeleteInstitutionAction extends ApiAction<Institution>
+    @RequiresPermission(ManageRelatedTablesPermission.class)
+    public class DeleteInstitutionAction extends MutatingApiAction<Institution>
     {
-
-
         public ApiResponse execute(Institution institution, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
