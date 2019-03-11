@@ -1,6 +1,5 @@
 package org.labkey.snprc_scheduler;
 
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.ApiResponse;

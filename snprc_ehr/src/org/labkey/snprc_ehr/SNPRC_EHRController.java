@@ -17,6 +17,7 @@
 package org.labkey.snprc_ehr;
 
 import org.labkey.api.action.FormViewAction;
+import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminPermission;
@@ -25,6 +26,7 @@ import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.snprc_ehr.notification.SSRSConfigManager;
+import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -125,5 +127,25 @@ public class SNPRC_EHRController extends SpringActionController
         {
             return root.addChild("SSRS Configuration");
         }
+    }
+
+    @RequiresPermission(ManageLookupTablesPermission.class)
+    public class EditLookupTablesAction extends SimpleViewAction
+    {
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            root.addChild("Lookup Table Admin", new ActionURL(true));
+            return root;
+        }
+
+
+        @Override
+        public ModelAndView getView(Object o, BindException errors)
+        {
+            return new JspView<>("/org/labkey/snprc_ehr/views/EditLookupTables.jsp");
+        }
+
     }
 }
