@@ -6,7 +6,7 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_obscan" />
-            <destination schemaName="study" queryName="obscan" bulkLoad="true" targetOption="merge">
+            <destination schemaName="study" queryName="obscan" bulkLoad="true" batchSize="10000" targetOption="merge">
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>
