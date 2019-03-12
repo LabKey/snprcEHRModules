@@ -104,7 +104,7 @@ public class InstitutionsController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageRelatedTablesPermission.class)
+    @RequiresPermission(ManageLookupTablesPermission.class)
     public class UpdateInstitutionAction extends MutatingApiAction<Institution>
     {
         public ApiResponse execute(Institution institution, BindException errors)
@@ -171,7 +171,7 @@ public class InstitutionsController extends SpringActionController
         }
     }
 
-    @RequiresPermission(ManageRelatedTablesPermission.class)
+    @RequiresPermission(ManageLookupTablesPermission.class)
     public class DeleteInstitutionAction extends MutatingApiAction<Institution>
     {
         public ApiResponse execute(Institution institution, BindException errors)
