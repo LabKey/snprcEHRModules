@@ -157,6 +157,7 @@ public class EditPackagePage extends LabKeyPage<EditPackagePage.ElementCache>
 
     public PackageListPage clickSave()
     {
+        scrollIntoView(elementCache().saveButton);
         waitFor(()-> elementCache().saveButton.getAttribute("disabled")==null,
                 "'Save' button is disabled", 2000);
         elementCache().saveButton.click();
