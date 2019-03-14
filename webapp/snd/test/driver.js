@@ -488,6 +488,7 @@
         for (var i = 0; i < roleData.length; i++) {
             multi.add(LABKEY.Ajax.request,
                     {
+                        method: 'POST',
                         url: TEST_URLS.UPDATE_ROLE_URL,
                         jsonData: roleData[i],
                         failure: function (json) {
@@ -534,6 +535,7 @@
 
                 // console.log('savePackage, savePackage api - index: ' + index);
                 LABKEY.Ajax.request({
+                    method: 'POST',
                     url: TEST_URLS.SAVE_PKG_URL,
                     jsonData: packageData,
                     scope: this,
@@ -592,6 +594,7 @@
                 projectData.projectItems = projectItems;
 
                 LABKEY.Ajax.request({
+                    method: 'POST',
                     url: TEST_URLS.SAVE_PROJECT_URL,
                     jsonData: projectData,
                     scope: this,

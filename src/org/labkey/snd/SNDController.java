@@ -22,6 +22,8 @@ import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.FormHandlerAction;
+import org.labkey.api.action.MutatingApiAction;
+import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
@@ -103,7 +105,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class SavePackageAction extends ApiAction<SimpleApiJsonForm>
+    public class SavePackageAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         private GWTPropertyDescriptor convertJsonToPropertyDescriptor(JSONObject json, BindException errors)
         {
@@ -440,7 +442,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class GetPackagesAction extends ApiAction<SimpleApiJsonForm>
+    public class GetPackagesAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
@@ -526,7 +528,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class SaveProjectAction extends ApiAction<SimpleApiJsonForm>
+    public class SaveProjectAction extends MutatingApiAction<SimpleApiJsonForm>
     {
 
         public static final String dateFormat = "yyyy-MM-dd";
@@ -708,7 +710,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class GetProjectAction extends ApiAction<SimpleApiJsonForm>
+    public class GetProjectAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
@@ -764,7 +766,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetEventAction extends ApiAction<SimpleApiJsonForm>
+    public class GetEventAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
@@ -849,7 +851,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(InsertPermission.class)
-    public class SaveEventAction extends ApiAction<SimpleApiJsonForm>
+    public class SaveEventAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
@@ -1097,7 +1099,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class RegisterTestTriggerFactoryAction extends ApiAction<SimpleApiJsonForm>
+    public class RegisterTestTriggerFactoryAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public Object execute(SimpleApiJsonForm form, BindException errors)
@@ -1136,7 +1138,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class ClearNarrativeCacheAction extends ApiAction<SimpleApiJsonForm>
+    public class ClearNarrativeCacheAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public Object execute(SimpleApiJsonForm form, BindException errors)
@@ -1147,7 +1149,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class FillInNarrativeCacheAction extends ApiAction<SimpleApiJsonForm>
+    public class FillInNarrativeCacheAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public Object execute(SimpleApiJsonForm form, BindException errors)
@@ -1158,7 +1160,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class PopulateQCStatesAction extends ApiAction<SimpleApiJsonForm>
+    public class PopulateQCStatesAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public Object execute(SimpleApiJsonForm form, BindException errors)
@@ -1239,7 +1241,7 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class UpdateRoleAction extends ApiAction<SimpleApiJsonForm>
+    public class UpdateRoleAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public Object execute(SimpleApiJsonForm form, BindException errors)
