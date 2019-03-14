@@ -88,7 +88,8 @@ import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
-import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
+import org.labkey.snprc_ehr.security.ManageLookupTablesRole;
+import org.labkey.snprc_ehr.security.SNPRC_EHREditRole;
 import org.labkey.snprc_ehr.snd.SNPRCEventTriggerFactory;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
@@ -135,7 +136,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         //additional roles
         RoleManager.registerRole(new ManageGroupMembersRole());
-        RoleManager.registerRole(new ManageRelatedTablesRole());
+        RoleManager.registerRole(new ManageLookupTablesRole());
+        RoleManager.registerRole(new SNPRC_EHREditRole());
 
         SNDService.get().registerEventTriggerFactory(this, new SNPRCEventTriggerFactory());
 
