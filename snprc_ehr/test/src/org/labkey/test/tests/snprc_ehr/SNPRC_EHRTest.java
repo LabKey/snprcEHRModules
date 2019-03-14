@@ -160,6 +160,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         clickTab("Animal History");
         waitForText("General");
+        waitForText("Enter Subject Id");
     }
 
     private void doSetup() throws Exception
