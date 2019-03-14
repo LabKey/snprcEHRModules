@@ -31,6 +31,7 @@ import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
+import org.labkey.api.pipeline.PipelineService;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.QuerySchema;
@@ -54,19 +55,19 @@ import org.labkey.snprc_ehr.controllers.InstitutionsController;
 import org.labkey.snprc_ehr.controllers.RelatedTablesController;
 import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
+import org.labkey.snprc_ehr.dataentry.dataentry.EditLookupTablesFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.FlagsFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.GroupsCategoriesFormType;
-import org.labkey.snprc_ehr.dataentry.dataentry.RelatedTablesFormType;
 import org.labkey.snprc_ehr.demographics.ActiveAnimalGroupsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveAssignmentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.BirthDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
@@ -91,13 +92,13 @@ import org.labkey.snprc_ehr.security.ManageRelatedTablesRole;
 import org.labkey.snprc_ehr.snd.SNPRCEventTriggerFactory;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
-//import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
-import org.labkey.api.pipeline.PipelineService;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+
+//import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
 
 public class SNPRC_EHRModule extends ExtendedSimpleModule
 {
@@ -112,7 +113,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public double getVersion()
     {
-        return 18.31;
+        return 19.11;
     }
 
     @Override
@@ -156,6 +157,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/ColonyUsage.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/EnterDataPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcReports.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcOverrides.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/demographicsRecord.js"), this);
@@ -169,6 +171,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerActionOverride("begin", this, "views/begin.html");
         EHRService.get().registerActionOverride("ehrAdmin", this, "views/ehrAdmin.html");
         EHRService.get().registerActionOverride("populateInitialData", this, "views/populateData.html");
+        EHRService.get().registerActionOverride("enterData", this, "views/enterData.html");
 
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
         EHRService.get().registerDemographicsProvider(new IdHistoryDemographicsProvider(this));
@@ -274,7 +277,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         //this becomes a marker - EHR will display a link referencing this entry form
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
 
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(RelatedTablesFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(EditLookupTablesFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MatingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PregnancyConfirmationFormType.class, this));

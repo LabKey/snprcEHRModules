@@ -99,7 +99,7 @@ Ext4.onReady(function(){
                 {name: 'Compare Lists of Animals', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/utilities.view?'},
                 //{name: 'Drug Formulary', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=drug_defaults'},
                 //{name: 'Procedure List', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=procedures&query.viewName=Active Procedures'},
-                {name: 'Search Center SNOMED Codes', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=snomed'},
+                //{name: 'Search Center SNOMED Codes', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=snomed'},
                 //{name: 'Mature Female Exposed To Fertile Male', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr&query.queryName=animalExposure&query.viewName=Mature Female Exposed To Fertile Male'}
             ]
         },{
@@ -124,7 +124,7 @@ Ext4.onReady(function(){
             items: [
                 {name: 'EHR Admin Page', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/ehrAdmin.view'},
                 {name: 'Manage EHR Study', url: '<%=contextPath%>/study' + ctx['EHRStudyContainer'] + '/manageStudy.view?'},
-                {name: 'Manage Lookup Tables', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/dataAdmin.view'}
+                {name: 'Manage Lookup Tables', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/editLookupTables.view'}
             ]
         });
     }

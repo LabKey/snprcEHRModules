@@ -25,7 +25,7 @@ ALTER VIEW [labkey_etl].[V_FLAG_VALUES] AS
 -- 2/18/2019 rewrite tjh
 -- ==========================================================================================
 
-SELECT 
+SELECT
        va.category AS category,
 	   va.attribute AS value,
        va.attribute_desc AS description,
@@ -44,3 +44,4 @@ GO
 grant SELECT on [labkey_etl].[v_flag_values] to z_labkey
 
 go
+

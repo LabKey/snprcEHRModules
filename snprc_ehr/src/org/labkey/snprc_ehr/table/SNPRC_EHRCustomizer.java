@@ -26,6 +26,7 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ehr.EHRService;
+import org.labkey.api.ehr.security.EHRDataEntryPermission;
 import org.labkey.api.exp.api.StorageProvisioner;
 import org.labkey.api.exp.property.Domain;
 import org.labkey.api.ldk.LDKService;
@@ -198,6 +199,10 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             LDKService.get().applyNaturalSort(ti, "value");
         }
+        if (matches(ti, "ehr", "tasks") || matches(ti, "ehr", "my_tasks"))
+        {
+            customizeTasks(ti);
+        }
     }
 
     /**
@@ -210,6 +215,36 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             return ti.getSchema().getName().equalsIgnoreCase(schema) && (ti.getName().equalsIgnoreCase(query) || ti.getTitle().equalsIgnoreCase(query));
         else
             return ti.getSchema().getName().equalsIgnoreCase(schema) && ti.getName().equalsIgnoreCase(query);
+    }
+
+    private void customizeTasks(AbstractTableInfo ti)
+    {
+        DetailsURL detailsURL = DetailsURL.fromString("/ehr/dataEntryFormDetails.view?formType=${formtype}&taskid=${taskid}");
+
+        ColumnInfo updateCol = ti.getColumn("updateTitle");
+        if (updateCol == null)
+        {
+            updateCol = new WrappedColumn(ti.getColumn("title"), "updateTitle");
+            ti.addColumn(updateCol);
+        }
+
+        ColumnInfo updateTaskId = ti.getColumn("updateTaskId");
+        if (updateTaskId == null)
+        {
+            updateTaskId = new WrappedColumn(ti.getColumn("rowid"), "updateTaskId");
+            ti.addColumn(updateTaskId);
+        }
+
+        if (ti.getUserSchema().getContainer().hasPermission(ti.getUserSchema().getUser(), EHRDataEntryPermission.class))
+        {
+            updateCol.setURL(DetailsURL.fromString("/ehr/dataEntryForm.view?formType=${formtype}&taskid=${taskid}"));
+            updateTaskId.setURL(DetailsURL.fromString("/ehr/dataEntryForm.view?formType=${formtype}&taskid=${taskid}"));
+        }
+        else
+        {
+            updateCol.setURL(detailsURL);
+            updateTaskId.setURL(detailsURL);
+        }
     }
 
     private void customizeEncounterTable(AbstractTableInfo ti)
@@ -237,20 +272,22 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     }
     private void customizeHousingTable(AbstractTableInfo ti)
     {
-        if (ti.getColumn("effectiveCage") == null)
-        {
-            UserSchema us = getUserSchema(ti, "study");
+// ToDo: uncomment for paired caging. tjh
 
-            if (us != null)
-            {
-                ColumnInfo lsidCol = ti.getColumn("lsid");
-                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "effectiveCage"));
-                col.setLabel("Lowest Joined Cage");
-                col.setUserEditable(false);
-                col.setIsUnselectable(true);
-                col.setFk(new QueryForeignKey(us, null, "housingEffectiveCage", "lsid", "effectiveCage"));
-            }
-        }
+//        if (ti.getColumn("effectiveCage") == null)
+//        {
+//            UserSchema us = getUserSchema(ti, "study");
+//
+//            if (us != null)
+//            {
+//                ColumnInfo lsidCol = ti.getColumn("lsid");
+//                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "effectiveCage"));
+//                col.setLabel("Lowest Joined Cage");
+//                col.setUserEditable(false);
+//                col.setIsUnselectable(true);
+//                col.setFk(new QueryForeignKey(us, null, "housingEffectiveCage", "lsid", "effectiveCage"));
+//            }
+//        }
 
         if (ti.getColumn("daysInRoom") == null)
         {
