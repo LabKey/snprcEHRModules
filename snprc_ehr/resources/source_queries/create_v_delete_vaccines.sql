@@ -17,6 +17,8 @@ CREATE VIEW [labkey_etl].[v_delete_vaccine] as
 -- Create date: 02/14/2019
 -- Note: parts stolen from delete_blood
 --
+--	Changes:
+--	srr added permits to audit_vaccine
 -- ==========================================================================================
 
 SELECT cp.OBJECT_ID,
@@ -40,4 +42,5 @@ WHERE SP.PKG_ID IN (SELECT pc.PKG_ID FROM dbo.PKG_CATEGORY AS pc
 GO
 
 GRANT SELECT on labkey_etl.v_delete_vaccine to z_labkey
-GRANT SELECT ON audit.audit_coded_procs TO z_labkey
+GRANT SELECT ON audit.audit_vaccine TO z_labkey
+
