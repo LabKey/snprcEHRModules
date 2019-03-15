@@ -100,6 +100,7 @@
                 LABKEY.Ajax.request({
                     success: fillInCacheSuccess,
                     failure: handleFailure,
+                    method: 'POST',
                     url: LABKEY.ActionURL.buildURL('snd', 'fillInNarrativeCache.api'),
                     params: {},
                     scope: this
@@ -112,6 +113,7 @@
                     LABKEY.Ajax.request({
                         success: clearingCacheSuccess,
                         failure: handleFailure,
+                        method: 'POST',
                         url: LABKEY.ActionURL.buildURL('snd', 'clearNarrativeCache.api'),
                         params: {},
                         scope: this
@@ -144,6 +146,7 @@
                 LABKEY.Ajax.request({
                     success: insertQCStateSuccess,
                     failure: handleFailure,
+                    method: 'POST',
                     url: LABKEY.ActionURL.buildURL('snd', 'populateQCStates.api'),
                     params: {},
                     scope: this
