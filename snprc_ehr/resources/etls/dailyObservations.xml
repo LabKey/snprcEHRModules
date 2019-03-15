@@ -6,7 +6,7 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_daily_observations" />
-            <destination schemaName="study" queryName="dailyObservations" bulkLoad="true" targetOption="merge">
+            <destination schemaName="study" queryName="dailyObservations" batchSize="10000" bulkLoad="true" targetOption="merge">
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>

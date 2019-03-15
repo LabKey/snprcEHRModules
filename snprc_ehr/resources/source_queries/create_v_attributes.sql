@@ -41,6 +41,7 @@ SELECT
   fv.code                         AS flag,
   a.comment                       AS remark,
   a.object_id                     AS objectId,
+  tc.createdBy                    AS performedBy,
   a.entry_date_tm                 AS modified,
   dbo.f_map_username(a.user_name) AS modifiedby,
   tc.created                      AS created,

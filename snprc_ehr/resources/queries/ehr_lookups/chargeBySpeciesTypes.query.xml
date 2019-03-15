@@ -4,9 +4,11 @@
             <table tableName="chargeBySpeciesTypes" tableDbType="TABLE">
                 <tableTitle>Charge By Species Types</tableTitle>
                 <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer"/>
+                <pkColumnName>value</pkColumnName>
                 <columns>
                     <column columnName="value">
                         <columnTitle>Type (2 characters)</columnTitle>
+                        <scale>2</scale>
                         <inputType>text</inputType>
                         <inputLength>2</inputLength>
                         <nullable>false</nullable>

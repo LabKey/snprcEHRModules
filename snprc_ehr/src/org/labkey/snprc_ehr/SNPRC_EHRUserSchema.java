@@ -27,7 +27,7 @@ import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.Permission;
 import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.snprc_ehr.security.ManageGroupMembersPermission;
-import org.labkey.snprc_ehr.security.ManageRelatedTablesPermission;
+import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 
 /**
  * Created by lkacimi on 5/4/2017.
@@ -52,7 +52,7 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
             case SNPRC_EHRSchema.TABLE_VALID_BIRTH_CODES:
             case SNPRC_EHRSchema.TABLE_VALID_DEATH_CODES:
             case SNPRC_EHRSchema.TABLE_VALID_INSTITUTIONS:
-                return getCustomPermissionTable(createSourceTable(nameLowercased), ManageRelatedTablesPermission.class);
+                return getCustomPermissionTable(createSourceTable(nameLowercased), ManageLookupTablesPermission.class);
             case SNPRC_EHRSchema.TABLE_GROUP_CATEGORIES:
             case SNPRC_EHRSchema.TABLE_ANIMAL_GROUPS:
                 return getCustomPermissionTable(createSourceTable(nameLowercased), ManageGroupMembersPermission.class);
