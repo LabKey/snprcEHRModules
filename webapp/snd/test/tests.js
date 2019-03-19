@@ -299,7 +299,7 @@
             run: function(){
                 return{
                     request:{
-                        method: 'POST'
+                        method: 'POST',
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId: 1800002,
