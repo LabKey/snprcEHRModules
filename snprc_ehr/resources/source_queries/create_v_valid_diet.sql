@@ -8,16 +8,17 @@ ALTER VIEW [labkey_etl].[v_valid_diet] AS
 -- Create date: 03/05/2019
 -- Changes:
 --
--- 03/11/2019  added tid as DietId
+-- 03/11/2019  srr added tid as DietId
+-- 03/19/2019  srr refactored DietId to DietCode to better agree with naming elsewhere
 -- ==========================================================================================
 
 SELECT
-  vd.diet							AS Diet,
-  vd.arc_species_code				AS ARCSpeciesCode,
+  vd.diet							    AS Diet,
+  vd.arc_species_code		AS ARCSpeciesCode,
   vd.start_date						AS StartDate,
   vd.stop_date						AS StopDate,
   vd.snomed_code					AS SnomedCode,
-  vd.tid                            AS DietId,
+  vd.tid                 AS DietCode,
   vd.object_id						AS objectid,
   vd.entry_date_tm					AS modified,
   dbo.f_map_username(vd.user_name)	AS modifiedby,
