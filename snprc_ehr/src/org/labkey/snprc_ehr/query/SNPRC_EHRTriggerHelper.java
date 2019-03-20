@@ -115,7 +115,8 @@ public class SNPRC_EHRTriggerHelper
     public Integer getNextVetCode()
     {
         SQLFragment sql = new SQLFragment("SELECT MAX(v.vetid) AS MAX_CODE FROM ");
-        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoValidVets(),"v");
+        sql.append(getTableInfo("snprc_ehr", "validVets"), "v");
+        //sql.append(SNPRC_EHRSchema.getInstance().getTableInfoValidVets(),"v");
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
         Integer vetId = sqlSelector.getObject(Integer.class);
@@ -131,9 +132,10 @@ public class SNPRC_EHRTriggerHelper
      */
     public Integer getNextInstitutionCode()
     {
-        DbSchema schema = SNPRC_EHRSchema.getInstance().getSchema(); //  QueryService.get().getUserSchema(getUser(), getContainer(), "").getDbSchema();
+        DbSchema schema = SNPRC_EHRSchema.getInstance().getSchema();
         SQLFragment sql = new SQLFragment("SELECT MAX(vi.institution_id) AS MAX_CODE FROM ");
-        sql.append(schema.getTable("ValidInstitutions"), "vi");
+        sql.append(getTableInfo("snprc_ehr", "animal_groups"), "vi");
+        //sql.append(schema.getTable("ValidInstitutions"), "vi");
         SqlSelector sqlSelector = new SqlSelector(schema, sql);
 
         Integer institution_id = sqlSelector.getObject(Integer.class);
@@ -168,7 +170,7 @@ public class SNPRC_EHRTriggerHelper
     public Integer getNextAnimalGroup()
     {
         SQLFragment sql = new SQLFragment("SELECT MAX(ag.code) AS MAX_CODE FROM ");
-        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), "ag");
+        sql.append(getTableInfo("snprc_ehr", "animal_groups"), "ag");
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
         Integer code = sqlSelector.getObject(Integer.class);

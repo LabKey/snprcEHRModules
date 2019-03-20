@@ -10,7 +10,7 @@ SET QUOTED_IDENTIFIER ON
 /*==============================================================*/
 /* View: v_observations                                             */
 /*==============================================================*/
-Alter VIEW [labkey_etl].[v_daily_observations] as
+CREATE VIEW [labkey_etl].[v_daily_observations] as
 -- ====================================================================================================================
 -- Object: v_daily_observations
 -- Author:		Scott Rouse

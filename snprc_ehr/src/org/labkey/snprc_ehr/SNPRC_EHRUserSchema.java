@@ -39,6 +39,11 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
         super(SNPRC_EHRSchema.NAME, null, user, container, dbschema);
     }
 
+    public SNPRC_EHRUserSchema(User user, Container container)
+    {
+        super(SNPRC_EHRSchema.NAME, null, user, container, SNPRC_EHRSchema.getInstance().getSchema());
+    }
+
     protected TableInfo createWrappedTable(String name, @NotNull TableInfo schemaTable)
     {
         String nameLowercased = name.toLowerCase();
@@ -66,5 +71,6 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
 
         return ret.init();
     }
+
 
 }

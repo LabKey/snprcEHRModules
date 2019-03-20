@@ -36,4 +36,4 @@ FROM audit.audit_location_temperature AS al
 
 
 GRANT SELECT on labkey_etl.v_delete_location_temperature to z_labkey
-GRANT SELECT ON audit.audit_valid_vet TO z_labkey
+GRANT SELECT ON audit.audit_location_temperature TO z_labkey
