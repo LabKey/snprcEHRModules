@@ -1290,6 +1290,7 @@
             <column columnName="ObjectId">
                 <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isReadOnly>true</isReadOnly>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
@@ -1329,18 +1330,20 @@
         </columns>
         <tableTitle>Location temperature</tableTitle>
     </table>
-    <table tableName="ValidDiet" tableDbType="TABLE">
+    <table tableName="ValidDiet" tableDbType="TABLE" useColumnOrder="true">
         <pkColumnName>Diet</pkColumnName>
         <columns>
             <column columnName="Diet">
                 <datatype>varchar</datatype>
                 <scale>20</scale>
+                <isKeyField>true</isKeyField>
             </column>
             <column columnName="ARCSpeciesCode">
                 <datatype>varchar</datatype>
                 <scale>2</scale>
             </column>
             <column columnName="StartDate">
+                <isKeyField>true</isKeyField>
                 <datatype>timestamp</datatype>
             </column>
             <column columnName="StopDate">
@@ -1354,6 +1357,7 @@
             <column columnName="ObjectId">
                 <nullable>false</nullable>
                 <isHidden>true</isHidden>
+                <isReadOnly>true</isReadOnly>
             </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
