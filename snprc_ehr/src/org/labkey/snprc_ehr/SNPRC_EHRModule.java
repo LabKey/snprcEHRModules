@@ -51,8 +51,6 @@ import org.labkey.api.view.template.ClientDependency;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
 import org.labkey.snprc_ehr.controllers.FeeScheduleController;
-import org.labkey.snprc_ehr.controllers.InstitutionsController;
-import org.labkey.snprc_ehr.controllers.RelatedTablesController;
 import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.EditLookupTablesFormType;
@@ -73,7 +71,6 @@ import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
 import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
 import org.labkey.snprc_ehr.domain.AnimalSpecies;
-import org.labkey.snprc_ehr.domain.Institution;
 import org.labkey.snprc_ehr.history.AccountDataSource;
 import org.labkey.snprc_ehr.history.DefaultAssignmentDataSource;
 import org.labkey.snprc_ehr.history.DefaultBloodDrawDataSource;
@@ -130,8 +127,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         //Controllers
         addController(AnimalGroupsController.NAME.toLowerCase(), AnimalGroupsController.class);
         addController(AnimalsHierarchyController.NAME.toLowerCase(), AnimalsHierarchyController.class);
-        addController(RelatedTablesController.NAME.toLowerCase(), RelatedTablesController.class);
-        addController(InstitutionsController.NAME.toLowerCase(), InstitutionsController.class);
         addController(FeeScheduleController.NAME.toLowerCase(), FeeScheduleController.class);
 
         //additional roles
@@ -142,7 +137,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         SNDService.get().registerEventTriggerFactory(this, new SNPRCEventTriggerFactory());
 
         //register factory beans to map foo_bar column names to fooBar
-        ObjectFactory.Registry.register(Institution.class, new SNPRCBeanFactory<>(Institution.class));
         ObjectFactory.Registry.register(AnimalGroup.class, new SNPRCBeanFactory<>(AnimalGroup.class));
         ObjectFactory.Registry.register(AnimalGroupCategory.class, new SNPRCBeanFactory<>(AnimalGroupCategory.class));
         ObjectFactory.Registry.register(AnimalSpecies.class, new SNPRCBeanFactory<>(AnimalSpecies.class));
@@ -278,6 +272,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         //this becomes a marker - EHR will display a link referencing this entry form
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
+
 
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(EditLookupTablesFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));

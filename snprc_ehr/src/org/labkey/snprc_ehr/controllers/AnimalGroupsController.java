@@ -21,10 +21,10 @@ package org.labkey.snprc_ehr.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.MutatingApiAction;
+import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
@@ -38,7 +38,6 @@ import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.Sort;
 import org.labkey.api.data.SqlSelector;
-import org.labkey.api.data.Table;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
@@ -56,8 +55,9 @@ import org.labkey.api.util.GUID;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
-import org.labkey.query.audit.QueryExportAuditProvider;
+import org.labkey.query.audit.QueryUpdateAuditProvider;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
+import org.labkey.snprc_ehr.SNPRC_EHRUserSchema;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
 import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
 import org.labkey.snprc_ehr.domain.AnimalSpecies;
@@ -103,21 +103,16 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public NavTree appendNavTrail(NavTree root)
         {
-
             root.addChild("Animal Group Categories", new ActionURL(GroupCategoriesAction.class, getContainer()));
             return root;
-
         }
 
 
         @Override
         public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors)
         {
-
             return new JspView<>("/org/labkey/snprc_ehr/views/AnimalGroups.jsp");
         }
-
-
     }
 
     /**
@@ -140,7 +135,8 @@ public class AnimalGroupsController extends SpringActionController
             // These tables (cycles, pedigree, colonies) must be updated directly. Insert not permitted. tjh
             filter.addCondition(FieldKey.fromString("category_code"), 11, CompareType.GTE);
 
-            ArrayList<AnimalGroupCategory> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), filter, sort).getArrayList(AnimalGroupCategory.class);
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            ArrayList<AnimalGroupCategory> rows = new TableSelector(us.getTable("animal_group_categories"), filter, sort).getArrayList(AnimalGroupCategory.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
             for (AnimalGroupCategory form : rows)
@@ -157,20 +153,22 @@ public class AnimalGroupsController extends SpringActionController
     /**
      * Update/Add category
      */
+    // TODO: add audit event logging
     @RequiresPermission(EHRDataEntryPermission.class)
     public class UpdateCategoriesAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory o, BindException errors)
         {
+
+            Map<String, Object> props = new HashMap<>();
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
             ObjectFactory factory = ObjectFactory.Registry.getFactory(AnimalGroupCategory.class);
-            UserSchema schema = QueryService.get().getUserSchema(this.getViewContext().getUser(), this.getViewContext().getContainer(), "snprc_ehr");
-            TableInfo table = schema.getTable("animal_group_categories");
-            DbScope scope = schema.getDbSchema().getScope();
+
+            TableInfo table = us.getTable("animal_group_categories");
             QueryUpdateService qus = table.getUpdateService();
             BatchValidationException batchErrors = new BatchValidationException();
 
-            Map<String, Object> props = new HashMap<String, Object>();
             Map primaryKey = new HashMap();
             List pk = new ArrayList();
             List<Map<String, Object>> rowsList = new ArrayList<>();
@@ -180,14 +178,14 @@ public class AnimalGroupsController extends SpringActionController
                 if (o.getCategoryCode() != 0)
                 {
                     Map categoryAsMap = factory.toMap(o, null);
+
                     categoryAsMap.put("container", this.getContainer().getId());
                     primaryKey.put("category_code", o.getCategoryCode());
 
                     pk.add(primaryKey);
                     rowsList.add(categoryAsMap);
 
-                    //Table.update(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap, o.getCategoryCode());
-                    qus.updateRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, pk, null, null);
+                    qus.updateRows(this.getUser(), getContainer(), rowsList, pk, null, null);
 
                 }
                 else
@@ -200,8 +198,7 @@ public class AnimalGroupsController extends SpringActionController
 
                     rowsList.add(categoryAsMap);
 
-                    //Table.insert(getUser(), SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), categoryAsMap);
-                    qus.insertRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, batchErrors, null, null);
+                    qus.insertRows(getUser(), getContainer(), rowsList, batchErrors, null, null);
                     if (batchErrors.hasErrors()) throw batchErrors;
 
                     props.put("categoryCode", o.getCategoryCode());
@@ -222,12 +219,14 @@ public class AnimalGroupsController extends SpringActionController
 
         private Integer getNextCategoryId()
         {
-            SQLFragment sql = new SQLFragment("SELECT MAX(category_code) AS MAX_CODE FROM ");
-            sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories());
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            TableInfo table = us.getTable("animal_group_categories");
+
+            SQLFragment sql = new SQLFragment("SELECT MAX(agc.category_code) AS MAX_CODE FROM ");
+            sql.append(table, "agc");
             SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
             return sqlSelector.getObject(Integer.class) + 1;
-
         }
     }
 
@@ -237,44 +236,70 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors)
         {
-
-            TableInfo table = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
-            SimpleFilter filter = new SimpleFilter();
-            filter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
-
-            List<AnimalGroup> groups = new TableSelector(table, filter, null).getArrayList(AnimalGroup.class);
-
-            Map<String, Object> props = new HashMap<String, Object>();
-
-            if (groups == null || groups.isEmpty())
+                Map<String, Object> props = new HashMap<String, Object>();
+            try
             {
-                TableInfo categoriesTable = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories();
-                SimpleFilter categoriesFilter = new SimpleFilter();
-                categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
-                Map<String, String> animalGroupsCategory = new TableSelector(categoriesTable, categoriesFilter, null).getObject(Map.class);
-                QueryExportAuditProvider.QueryExportAuditEvent event = new QueryExportAuditProvider.QueryExportAuditEvent(this.getContainer().getId(), animalGroupsCategory.get("objectid"));
-                event.setQueryName("animal_group_categories");
-                event.setSchemaName("snprc_ehr");
-                Table.delete(categoriesTable, categoriesFilter);
-                AuditLogService.get().addEvent(this.getUser(), event);
-                props.put("success", true);
+                UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+                TableInfo table = us.getTable("animal_groups");
 
+                SimpleFilter filter = new SimpleFilter();
+                filter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
+
+                List<AnimalGroup> groups = new TableSelector(table, filter, null).getArrayList(AnimalGroup.class);
+                if (groups == null || groups.isEmpty())
+                {
+                    UserSchema cs = new SNPRC_EHRUserSchema(getUser(), getContainer());
+                    TableInfo categoriesTable = cs.getTable("animal_group_categories");
+
+                    SimpleFilter categoriesFilter = new SimpleFilter();
+                    categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
+                    Map<String, Object> animalGroupsCategory = new TableSelector(categoriesTable, categoriesFilter, null).getObject(Map.class);
+
+                    List<Map<String, Object>> keys = new ArrayList<Map<String, Object>>();
+
+                    Map<String, Object> idMap = new HashMap<>();
+                    idMap.put("category_code", animalGroupsCategory.get("category_code"));
+                    keys.add(idMap);
+
+                    QueryUpdateAuditProvider.QueryUpdateAuditEvent event = new QueryUpdateAuditProvider.QueryUpdateAuditEvent(getContainer().getId(), (String) animalGroupsCategory.get("objectid"));
+                    event.setQueryName("animal_group_categories");
+                    event.setSchemaName("snprc_ehr");
+                    event.setComment("Row was deleted.");
+                    event.setOldRecordMap(animalGroupsCategory.toString());
+
+                    QueryUpdateService qus = categoriesTable.getUpdateService();
+                    try
+                    {
+                        qus.deleteRows(getUser(), getContainer(), keys, null, null);
+                        props.put("success", true);
+                        AuditLogService.get().addEvent(getUser(), event);
+                        return new ApiSimpleResponse(props);
+                    }
+                    catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e)
+                    {
+                        props.put("success", false);
+                        props.put("message", e.getMessage());
+                        return new ApiSimpleResponse(props);
+                    }
+                }
+                else
+                {
+
+                    props.put("success", false);
+                    props.put("message", "Unable to delete this category, Please delete this category groups first");
+                }
             }
-            else
+            catch (Exception e)
             {
-
                 props.put("success", false);
-                props.put("message", "Unable to delete this category, Please delete this category groups first");
+                props.put("message", e.getMessage());
             }
-
             return new ApiSimpleResponse(props);
         }
     }
 
     /**
      * Get all defined species, needed when editing categories
-     *
-     * @TODO: move this to a species controller?
      */
     @RequiresPermission(EHRDataEntryPermission.class)
     public class GetSpeciesAction extends ReadOnlyApiAction<AnimalSpecies>
@@ -289,11 +314,12 @@ public class AnimalGroupsController extends SpringActionController
             {
                 SQLFragment sql = new SQLFragment("SELECT sc.code AS arcSpeciesCode,\n" +
                         "       sc.common_name AS common,\n" +
-                        "       sc.scientific_name AS scientificName\n" +
-                        "   FROM ehr_lookups.species_codes AS sc\n" +
-                        "   JOIN (SELECT DISTINCT arc_species_code, primate\n" +
-                        "           FROM snprc_ehr.species AS s\n" +
-                        "           WHERE s.dateDisabled IS NULL AND s.primate = 'Y' ) AS s on s.arc_species_code = sc.code");
+                        "       sc.scientific_name AS scientificName\n FROM ");
+                sql.append(QueryService.get().getUserSchema(getUser(), getContainer(), "ehr_lookups").getTable("species_codes"), "sc");
+                sql.append("\n   JOIN (SELECT DISTINCT arc_species_code, primate\n FROM ");
+                sql.append(QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_ehr").getTable("species"), "s");
+                sql.append("\n         WHERE s.dateDisabled IS NULL AND s.primate = 'Y' ) AS s on s.arc_species_code = sc.code");
+
                 SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
                 ArrayList<AnimalSpecies> rows = sqlSelector.getArrayList(AnimalSpecies.class);
 
@@ -327,7 +353,10 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(AnimalGroup animalGroup, BindException errors)
         {
             Map<String, Object> props = new HashMap<String, Object>();
-            ArrayList<AnimalGroup> rows = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), new SimpleFilter().addCondition("category_code", animalGroup.getCategoryCode(), CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+
+            ArrayList<AnimalGroup> rows = new TableSelector(us.getTable("animal_groups"),
+                    new SimpleFilter().addCondition(FieldKey.fromString("category_code"), animalGroup.getCategoryCode(), CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
             for (AnimalGroup form : rows)
@@ -385,7 +414,9 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
-            TableInfo table = SNPRC_EHRSchema.getInstance().getStudySchema().getTable("Participant");
+            UserSchema us = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
+            TableInfo table = us.getTable("Participant");
+
             SimpleFilter filter = new SimpleFilter();
             filter.addCondition(FieldKey.fromString("participantId"), groupMember.getParticipantid(), CompareType.STARTS_WITH);
             List<GroupMember> animals = new TableSelector(table, filter, null).getArrayList(GroupMember.class);
@@ -405,6 +436,7 @@ public class AnimalGroupsController extends SpringActionController
      * Edit/Add a new group
      * validation of the data takes place in the animal_groups.js trigger script
      */
+    // TODO: add audit event logging
     @RequiresPermission(EHRDataEntryPermission.class)
     public class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
@@ -425,7 +457,7 @@ public class AnimalGroupsController extends SpringActionController
                 rows = new JSONArray();
                 rows.put(0, (JSONObject) json.get("rows"));
             }
-            UserSchema schema = QueryService.get().getUserSchema(this.getViewContext().getUser(), this.getViewContext().getContainer(), "snprc_ehr");
+            UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_ehr");
             TableInfo table = schema.getTable("animal_groups");
             DbScope scope = schema.getDbSchema().getScope();
             QueryUpdateService qus = table.getUpdateService();
@@ -455,7 +487,7 @@ public class AnimalGroupsController extends SpringActionController
 
                         pk.add(primaryKey);
 
-                        qus.updateRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, pk, null, null);
+                        qus.updateRows(getUser(), getContainer(), rowsList, pk, null, null);
 
                     }
                     else // insert a new row
@@ -465,7 +497,7 @@ public class AnimalGroupsController extends SpringActionController
                         mappedRows.put("category_code", o.get("categoryCode"));
                         mappedRows.put("sort_order", o.get("sortOrder"));
                         rowsList.add(mappedRows);
-                        qus.insertRows(this.getViewContext().getUser(), this.getViewContext().getContainer(), rowsList, batchErrors, null, null);
+                        qus.insertRows(getUser(), getContainer(), rowsList, batchErrors, null, null);
                         if (batchErrors.hasErrors()) throw batchErrors;
                     }
 
@@ -493,15 +525,12 @@ public class AnimalGroupsController extends SpringActionController
          */
         private Integer getNextGroupCode(int categoryCode, boolean ignoreCategory)
         {
-
             if (!ignoreCategory)
             {
                 return this.getNextGroupCode(categoryCode);
             }
 
-
             return this.getNextGroupCode();
-
         }
 
 
@@ -513,9 +542,11 @@ public class AnimalGroupsController extends SpringActionController
          */
         private Integer getNextGroupCode(int categoryCode)
         {
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            TableInfo table = us.getTable("animal_groups");
 
-            SQLFragment sql = new SQLFragment("SELECT MAX(category_code), MAX(code) AS MAX_CODE FROM ");
-            sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups());
+            SQLFragment sql = new SQLFragment("SELECT MAX(ag.category_code), MAX(ag.code) AS MAX_CODE FROM ");
+            sql.append(table, "ag");
             sql.append(" WHERE category_code = ?").add(categoryCode);
             sql.append(" GROUP BY category_code");
             SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
@@ -533,9 +564,12 @@ public class AnimalGroupsController extends SpringActionController
 
         private Integer getNextGroupCode()
         {
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            TableInfo table = us.getTable("animal_groups");
 
-            SQLFragment sql = new SQLFragment("SELECT MAX(code) AS MAX_CODE FROM ");
-            sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups());
+            SQLFragment sql = new SQLFragment("SELECT MAX(ag.code) AS MAX_CODE FROM ");
+            sql.append(table, "ag");
+
             SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
             return sqlSelector.getObject(Integer.class) + 1;
@@ -564,33 +598,54 @@ public class AnimalGroupsController extends SpringActionController
                 rows = new JSONArray();
                 rows.put(0, (JSONObject) json.get("rows"));
             }
-            TableInfo groupTable = SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups();
 
-            UserSchema schema = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
-            TableInfo table = schema.getTable("animal_group_members");
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            TableInfo groupsTable = us.getTable("animal_groups");
+
+            UserSchema ss = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
+            TableInfo studyTable = ss.getTable("animal_group_members");
+
             SimpleFilter filter = new SimpleFilter();
             filter.addCondition(FieldKey.fromString("groupid"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
 
-
-            TableSelector tableSelector = new TableSelector(table, filter, null);
+            TableSelector tableSelector = new TableSelector(studyTable, filter, null);
             List<GroupMember> members = tableSelector.getArrayList(GroupMember.class);
 
             if (!members.isEmpty())
             {
+                // can't delete group with animals assigned
                 props.put("success", false);
+                props.put("message", "Can't delete group with animals assigned.");
             }
             else
             {
+                SimpleFilter codeFilter = new SimpleFilter();
+                codeFilter.addCondition(FieldKey.fromString("code"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
+                Map<String, String> animalGroup = new TableSelector(groupsTable, codeFilter, null).getObject(Map.class);
 
-                SimpleFilter deleteFilter = new SimpleFilter();
-                deleteFilter.addCondition(FieldKey.fromString("code"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
-                Map<String, String> animalGroup = new TableSelector(groupTable, deleteFilter, null).getObject(Map.class);
-                QueryExportAuditProvider.QueryExportAuditEvent event = new QueryExportAuditProvider.QueryExportAuditEvent(this.getContainer().getId(), animalGroup.get("objectid"));
+                List<Map<String, Object>> keys = new ArrayList<>();
+                Map<String, Object> codeMap = new HashMap<>();
+                codeMap.put("code", animalGroup.get("code"));
+                codeMap.put("category_code", animalGroup.get("category_code"));
+                keys.add(codeMap);
+
+                QueryUpdateAuditProvider.QueryUpdateAuditEvent event = new QueryUpdateAuditProvider.QueryUpdateAuditEvent(getContainer().getId(), (String) animalGroup.get("objectid"));
                 event.setQueryName("animal_groups");
                 event.setSchemaName("snprc_ehr");
-                Table.delete(groupTable, deleteFilter);
-                AuditLogService.get().addEvent(this.getUser(), event);
-                props.put("success", true);
+                event.setComment("Row was deleted.");
+                event.setOldRecordMap(animalGroup.toString());
+
+                QueryUpdateService qus = groupsTable.getUpdateService();
+                try
+                {
+                    qus.deleteRows(getUser(), getContainer(), keys, null, null);
+                    props.put("success", true);
+                    AuditLogService.get().addEvent(getUser(), event);
+                }
+                catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e) {
+                    props.put("success", false);
+                    props.put("message", e.getMessage());
+                }
             }
 
             return new ApiSimpleResponse(props);
@@ -657,9 +712,9 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
-            UserSchema schema = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
-            TableInfo table = schema.getTable("animal_group_members");
 
+            UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
+            TableInfo table = schema.getTable("animal_group_members");
 
             /**
              * SELECT GROUP MEMBER FIRST -- We need objectId to be able to use QueryUpdateService
@@ -686,7 +741,7 @@ public class AnimalGroupsController extends SpringActionController
                 QueryUpdateService qus = table.getUpdateService();
                 try
                 {
-                    qus.deleteRows(this.getUser(), this.getContainer(), keys, null, null);
+                    qus.deleteRows(getUser(), getContainer(), keys, null, null);
                     props.put("success", true);
                     return new ApiSimpleResponse(props);
                 }
