@@ -1,0 +1,16 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="ValidDiet" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <columns>
+                    <column columnName="Diet"/>
+                    <column columnName="ARCSpeciesCode"/>
+                    <column columnName="StartDate"/>
+                    <column columnName="StopDate"/>
+                    <column columnName="SnomedCode"/>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

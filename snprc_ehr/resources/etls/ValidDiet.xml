@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>ObScan</name>
-    <description>Ob Scan Data</description>
+    <name>_SNPRC Valid Diets</name>
+    <description>Valid Diets</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprcSrc" queryName="v_obscan" />
-            <destination schemaName="study" queryName="obscan" bulkLoad="true" batchSize="10000" targetOption="merge">
+            <source schemaName="snprcSrc" queryName="v_valid_diet" />
+            <destination schemaName="snprc_ehr" queryName="ValidDiet" bulkLoad="true" batchSize="500" targetOption="merge">
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>
@@ -18,7 +18,7 @@
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
-        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_obscan" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="OBJECT_ID" targetKeyColumnName="objectid"/>
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_valid_diet" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="object_id" targetKeyColumnName="objectid"/>
     </incrementalFilter>
     <schedule>
         <poll interval="60m" />

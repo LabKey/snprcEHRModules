@@ -1,6 +1,7 @@
 package org.labkey.snprc_scheduler;
 
 import org.json.JSONObject;
+import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
@@ -62,7 +63,7 @@ public class SNPRC_schedulerController extends SpringActionController
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-    public class getActiveTimelinesAction extends MutatingApiAction<Timeline>
+    public class getActiveTimelinesAction extends ReadOnlyApiAction<Timeline>
     {
         @Override
         public ApiResponse execute(Timeline timeline, BindException errors)
@@ -104,7 +105,7 @@ public class SNPRC_schedulerController extends SpringActionController
      */
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-    public class getActiveProjectsAction extends MutatingApiAction<SimpleApiJsonForm>
+    public class getActiveProjectsAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
