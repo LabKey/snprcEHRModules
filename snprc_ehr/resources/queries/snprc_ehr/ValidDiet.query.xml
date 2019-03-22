@@ -1,14 +1,16 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="ValidDiet" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
+            <table tableName="ValidDiet" tableDbType="TABLE">
                 <columns>
-                    <column columnName="Diet"/>
-                    <column columnName="ARCSpeciesCode"/>
-                    <column columnName="StartDate"/>
-                    <column columnName="StopDate"/>
-                    <column columnName="SnomedCode"/>
+                    <column columnName="ARCSpeciesCode">
+                        <columnTitle>Arc Species Code</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>ActiveSpecies</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
                 </columns>
             </table>
         </tables>

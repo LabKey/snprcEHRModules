@@ -186,7 +186,8 @@ public class SNPRC_EHRTriggerHelper
     public Integer getNextAnimalGroupCategory()
     {
         SQLFragment sql = new SQLFragment("SELECT MAX(agc.category_code) AS MAX_CODE FROM ");
-        sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), "agc");
+        sql.append(getTableInfo("snprc_ehr","animal_group_categories"),"agc");
+       // sql.append(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), "agc");
         SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
 
         Integer category_code = sqlSelector.getObject(Integer.class);
@@ -194,7 +195,23 @@ public class SNPRC_EHRTriggerHelper
         // if table has been truncated - reseed the code at 11 (codes below 11 are reserved)
         return (category_code == null) ? 11 : category_code + 1;
     }
+    /**
+     * Auto-generate the next DietCode
+     *
+     * @return integer
+     */
+    public Integer getNextDietCode()
+    {
+        DbSchema schema = SNPRC_EHRSchema.getInstance().getSchema();
+        SQLFragment sql = new SQLFragment("SELECT MAX(d.DietCode) AS MAX_CODE FROM ");
+        sql.append(getTableInfo("snprc_ehr", "ValidDiet"), "d");
+        SqlSelector sqlSelector = new SqlSelector(schema, sql);
 
+        Integer dietCode = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the dietCode at 1
+        return (dietCode == null) ? 1 : dietCode + 1;
+    }
 
 
     public Map<String, Object> getExtraContext()
