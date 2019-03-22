@@ -168,6 +168,7 @@
                     {queryName: 'validAccounts', schemaName: 'snprc_ehr', title: 'Account List'},
                     {queryName: 'AccountGroups', schemaName: 'ehr_lookups', title: 'Account Groups'},
                     {queryName: 'chargeBySpeciesTypes', schemaName: 'ehr_lookups', title: 'Charge by Species Types'},
+                    {queryName: 'ValidDiet', schemaName: 'snprc_ehr', title: 'Valid Diets'},
                     {queryName: 'fee_schedule_type', schemaName: 'ehr_lookups', title: 'Fee Schedule Types'},
                     {queryName: 'assignment_status', schemaName: 'ehr_lookups', title: 'IACUC Assignment Status'},
                     {queryName: 'notes_category', schemaName: 'ehr_lookups', title: 'Notes Categories'},

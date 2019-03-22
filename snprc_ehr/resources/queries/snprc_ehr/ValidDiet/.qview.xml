@@ -1,12 +1,13 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
         <column name="Diet"/>
-        <column name="ArcSpecies"/>
+        <column name="ArcSpeciesCode"/>
         <column name="StartDate"/>
         <column name="StopDate"/>
         <column name="SnomedCode"/>
     </columns>
     <sorts>
         <sort column="Diet"/>
+        <sort column="StartDate" />
     </sorts>
 </customView>
