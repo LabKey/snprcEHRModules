@@ -28,7 +28,6 @@ import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
-import org.labkey.api.audit.AuditLogService;
 import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
@@ -55,7 +54,6 @@ import org.labkey.api.util.GUID;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
-import org.labkey.query.audit.QueryUpdateAuditProvider;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.SNPRC_EHRUserSchema;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
@@ -153,7 +151,6 @@ public class AnimalGroupsController extends SpringActionController
     /**
      * Update/Add category
      */
-    // TODO: add audit event logging
     @RequiresPermission(EHRDataEntryPermission.class)
     public class UpdateCategoriesAction extends MutatingApiAction<AnimalGroupCategory>
     {
@@ -261,18 +258,11 @@ public class AnimalGroupsController extends SpringActionController
                     idMap.put("category_code", animalGroupsCategory.get("category_code"));
                     keys.add(idMap);
 
-                    QueryUpdateAuditProvider.QueryUpdateAuditEvent event = new QueryUpdateAuditProvider.QueryUpdateAuditEvent(getContainer().getId(), (String) animalGroupsCategory.get("objectid"));
-                    event.setQueryName("animal_group_categories");
-                    event.setSchemaName("snprc_ehr");
-                    event.setComment("Row was deleted.");
-                    event.setOldRecordMap(animalGroupsCategory.toString());
-
                     QueryUpdateService qus = categoriesTable.getUpdateService();
                     try
                     {
                         qus.deleteRows(getUser(), getContainer(), keys, null, null);
                         props.put("success", true);
-                        AuditLogService.get().addEvent(getUser(), event);
                         return new ApiSimpleResponse(props);
                     }
                     catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e)
@@ -436,7 +426,6 @@ public class AnimalGroupsController extends SpringActionController
      * Edit/Add a new group
      * validation of the data takes place in the animal_groups.js trigger script
      */
-    // TODO: add audit event logging
     @RequiresPermission(EHRDataEntryPermission.class)
     public class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
@@ -629,18 +618,11 @@ public class AnimalGroupsController extends SpringActionController
                 codeMap.put("category_code", animalGroup.get("category_code"));
                 keys.add(codeMap);
 
-                QueryUpdateAuditProvider.QueryUpdateAuditEvent event = new QueryUpdateAuditProvider.QueryUpdateAuditEvent(getContainer().getId(), (String) animalGroup.get("objectid"));
-                event.setQueryName("animal_groups");
-                event.setSchemaName("snprc_ehr");
-                event.setComment("Row was deleted.");
-                event.setOldRecordMap(animalGroup.toString());
-
                 QueryUpdateService qus = groupsTable.getUpdateService();
                 try
                 {
                     qus.deleteRows(getUser(), getContainer(), keys, null, null);
                     props.put("success", true);
-                    AuditLogService.get().addEvent(getUser(), event);
                 }
                 catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e) {
                     props.put("success", false);
