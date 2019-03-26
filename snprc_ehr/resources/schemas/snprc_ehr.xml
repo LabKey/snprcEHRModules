@@ -1368,6 +1368,7 @@
             <column columnName="SnomedCode">
                 <datatype>varchar</datatype>
                 <scale>7</scale>
+                <isReadOnly>true</isReadOnly>
             </column>
             <column columnName="ObjectId">
                 <nullable>false</nullable>
