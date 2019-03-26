@@ -1343,7 +1343,7 @@
     </table>
     <table tableName="ValidDiet" tableDbType="TABLE" useColumnOrder="true">
         <auditLogging>DETAILED</auditLogging>
-        <pkColumnName>Diet</pkColumnName>
+        <pkColumnName>Diet, StartDate</pkColumnName>
         <columns>
             <column columnName="Diet">
                 <datatype>varchar</datatype>
