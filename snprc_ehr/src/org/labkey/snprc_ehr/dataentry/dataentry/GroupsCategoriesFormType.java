@@ -58,13 +58,10 @@ public class GroupsCategoriesFormType extends AbstractDataEntryForm
     @Override
     protected boolean canInsert()
     {
-
         if (!getCtx().getContainer().hasPermission(getCtx().getUser(), ManageGroupMembersPermission.class))
-        {
             return false;
-        }
-
-        return super.canInsert();
+        else
+            return super.canInsert();
     }
 
     @Override

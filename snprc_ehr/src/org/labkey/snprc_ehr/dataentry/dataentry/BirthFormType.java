@@ -23,6 +23,7 @@ import org.labkey.api.ehr.dataentry.TaskForm;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
 import org.labkey.api.module.Module;
 import org.labkey.api.view.template.ClientDependency;
+import org.labkey.snprc_ehr.security.SNPRC_ERHEditPermission;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +93,14 @@ public class BirthFormType extends TaskForm
         return ret;
     }
 */
+    @Override
+    protected boolean canInsert()
+    {
+        if (!getCtx().getContainer().hasPermission(getCtx().getUser(), SNPRC_ERHEditPermission.class))
+            return false;
+        else
+            return super.canInsert();
+    }
 
     @Override
     protected List<String> getButtonConfigs()
