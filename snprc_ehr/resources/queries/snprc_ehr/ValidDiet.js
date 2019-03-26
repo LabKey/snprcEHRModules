@@ -8,8 +8,7 @@ function beforeInsert(row,errors) {
 
     if (row.DietCode === undefined || row.DietCode == 'undefined') {
        row.DietCode = dCode;
-    }
-    if (row.SnomedCode === undefined || row.SnomedCode == 'undefined') {
+        // Refactored to generate FauxMed code if DietCode is generated srr 03.26.19
         // Used to generate a 7 character FauxMed code i.e. S-001234
         var fauxRight = "00000" + dCode;
         row.SnomedCode = "S-" + fauxRight.slice(fauxRight.length-5,fauxRight.length);
