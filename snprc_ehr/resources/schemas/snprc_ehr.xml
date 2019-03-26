@@ -1365,9 +1365,6 @@
                 <datatype>timestamp</datatype>
                 <nullable>true</nullable>
             </column>
-            <column columnName="DietCode">
-                <isReadOnly>true</isReadOnly>
-            </column>
             <column columnName="SnomedCode">
                 <datatype>varchar</datatype>
                 <scale>7</scale>
