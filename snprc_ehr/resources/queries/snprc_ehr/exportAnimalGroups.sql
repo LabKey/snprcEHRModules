@@ -24,4 +24,4 @@ SELECT
   g.modified as entry_date_tm,
   g.modifiedby.displayName as user_name,
   g.objectId as object_id
-FROM animal_groups as g
+FROM snprc_ehr.animal_groups as g

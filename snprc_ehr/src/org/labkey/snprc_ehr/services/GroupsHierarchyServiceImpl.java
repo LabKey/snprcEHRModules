@@ -23,7 +23,7 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.view.ViewContext;
-import org.labkey.snprc_ehr.SNPRC_EHRSchema;
+import org.labkey.snprc_ehr.SNPRC_EHRUserSchema;
 import org.labkey.snprc_ehr.domain.Animal;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
 import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
@@ -44,12 +44,10 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
 {
     private ViewContext viewContext;
 
-
     public GroupsHierarchyServiceImpl(ViewContext viewContext)
     {
         this.viewContext = viewContext;
     }
-
 
     @Override
     public List<Node> getRootNodes()
@@ -57,7 +55,9 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
         List<Node> categoryNodes = new ArrayList<Node>();
         SimpleFilter displayable = new SimpleFilter();
         displayable.addCondition(FieldKey.fromString("displayable"), "Y", CompareType.EQUAL);
-        ArrayList<AnimalGroupCategory> categories = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroupCategories(), displayable, null).getArrayList(AnimalGroupCategory.class);
+
+        UserSchema us = new SNPRC_EHRUserSchema(this.viewContext.getUser(), this.viewContext.getContainer());
+        ArrayList<AnimalGroupCategory> categories = new TableSelector(us.getTable("animal_group_categories"), displayable, null).getArrayList(AnimalGroupCategory.class);
         for (AnimalGroupCategory category : categories)
         {
             Node categoryNode = new Node();
@@ -65,7 +65,6 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             categoryNode.setText(category.getDescription());
             categoryNode.setNodeClass("category");
             categoryNodes.add(categoryNode);
-
         }
         return categoryNodes;
     }
@@ -77,7 +76,11 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
         try
         {
             Integer categoryCode = Integer.parseInt(node.getNode().replace("CATEGORY-", ""));
-            ArrayList<AnimalGroup> categoryGroups = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), new SimpleFilter().addCondition("category_code", categoryCode, CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
+            UserSchema us = new SNPRC_EHRUserSchema(this.viewContext.getUser(), this.viewContext.getContainer());
+
+            ArrayList<AnimalGroup> categoryGroups = new TableSelector(us.getTable("animal_groups"),
+                        new SimpleFilter().addCondition(FieldKey.fromString("category_code"), categoryCode, CompareType.EQUAL),
+                    null).getArrayList(AnimalGroup.class);
             for (AnimalGroup group : categoryGroups)
             {
                 Node groupNode = new Node();
@@ -87,16 +90,12 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
 
                 categoryGroupNodes.add(groupNode);
             }
-
             return categoryGroupNodes;
-
-
         }
         catch (Exception ex)
         {
             return categoryGroupNodes;
         }
-
     }
 
     @Override
@@ -127,7 +126,6 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                         new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.ISBLANK, null),
                         new CompareType.CompareClause(FieldKey.fromString("enddate"), CompareType.DATE_GT, today)
                 ));
-
             }
 
             UserSchema schema = QueryService.get().getUserSchema(this.viewContext.getUser(), this.viewContext.getContainer(), "study");
@@ -137,20 +135,16 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             List<GroupMember> groupMembers = new TableSelector(table, filter, null).getArrayList(GroupMember.class);
             for (GroupMember member : groupMembers)
             {
-
                 Animal animal = new Animal();
                 animal.setParticipantid(member.getParticipantid());
                 animal.setId(node.getNode() + '-' + member.getId());
                 animal.setText(member.getId());
                 animal.setLeaf(true);
 
-
                 if (!animals.contains(animal))
                 {
                     animals.add(animal);
                 }
-
-
             }
 
             TableInfo demographicsTable = schema.getTable("demographics");
@@ -161,7 +155,6 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             {
                 animalIds.add(animal.getText());
             }
-
 
             animalFilter.addCondition(FieldKey.fromString("id"), animalIds, CompareType.IN);
             Map<String, Map<String, String>> demographicsMap = new HashMap<>();
@@ -188,21 +181,17 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             animals.removeAll(notAliveAnimals);
 
             return animals;
-
-
         }
         catch (Exception ex)
         {
             return new ArrayList<Animal>();
         }
-
     }
 
     @Override
     public boolean isRootNode(Node node)
     {
         return this.hasSubNodes(node);
-
     }
 
     @Override
@@ -220,7 +209,10 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
         }
         Node rootNode = new Node();
         Map<String, Object> props = new HashMap<String, Object>();
-        AnimalGroup group = new TableSelector(SNPRC_EHRSchema.getInstance().getTableInfoAnimalGroups(), new SimpleFilter().addCondition("code", node.getNode().replace("GROUP-", ""), CompareType.EQUAL), null).getObject(AnimalGroup.class);
+
+        UserSchema us = new SNPRC_EHRUserSchema(this.viewContext.getUser(), this.viewContext.getContainer());
+        AnimalGroup group = new TableSelector(us.getTable("animal_groups"), new SimpleFilter().addCondition(FieldKey.fromString("code"),
+                node.getNode().replace("GROUP-", ""), CompareType.EQUAL), null).getObject(AnimalGroup.class);
 
         rootNode.setNode("CATEGORY-" + group.getCategoryCode());
         rootNode.setNodeClass("category");
@@ -239,13 +231,11 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
 
         Animal animalRecord = new TableSelector(demographicsTable, demographicsFilter, null).getObject(Animal.class);
 
-
         List<Node> locationsPath = new ArrayList<Node>();
 
         AnimalNodePath animalNodePath = new AnimalNodePath();
         animalNodePath.setAnimalId(animal.getParticipantid());
         animalNodePath.setLocations(locationsPath);
-
 
         String animalId = animal.getParticipantid();
 
@@ -262,14 +252,11 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                     return animalNodePath;
                 }
                 animalId = (String) secondaryId.get("id");
-
-
             }
             catch (Exception ex)
             {
                 return animalNodePath;
             }
-
         }
         SimpleFilter currentAssignmentFilter = new SimpleFilter();
         Date today = new Date();
@@ -291,7 +278,6 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
         locationsPath.add(this.getRootNode(node));
         locationsPath.add(node);
         animalNodePath.setAnimalId("GROUP-" + firstActiveAssignment.getGroupid() + "-" + animalId);
-
 
         return animalNodePath;
     }

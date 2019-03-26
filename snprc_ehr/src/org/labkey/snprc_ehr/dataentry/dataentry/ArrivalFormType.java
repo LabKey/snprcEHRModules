@@ -19,15 +19,13 @@ import org.json.JSONObject;
 import org.labkey.api.ehr.dataentry.AnimalDetailsFormSection;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.FormSection;
-import org.labkey.api.ehr.dataentry.TaskForm;
 import org.labkey.api.ehr.dataentry.TaskFormSection;
 import org.labkey.api.ehr.dataentry.WeightFormSection;
 import org.labkey.api.ehr.dataentry.forms.DocumentArchiveFormSection;
 import org.labkey.api.module.Module;
+import org.labkey.snprc_ehr.security.SNPRC_ERHEditPermission;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -35,7 +33,7 @@ import java.util.List;
  * Date: 7/29/13
  * Time: 5:03 PM
  */
-public class ArrivalFormType extends TaskForm
+public class ArrivalFormType extends SNPRCTaskForm
 {
     public static final String NAME = "arrival";
 
@@ -70,16 +68,11 @@ public class ArrivalFormType extends TaskForm
     }
 
     @Override
-    protected List<String> getButtonConfigs()
+    protected boolean canInsert()
     {
-        List<String> ret = super.getButtonConfigs();
-
-        List<String> defaultButtons = new ArrayList<String>();
-
-        defaultButtons.add("BIRTHARRIVALFINAL");
-        defaultButtons.add("BIRTHARRIVALREVIEW");
-
-        return defaultButtons;
+        if (!getCtx().getContainer().hasPermission(getCtx().getUser(), SNPRC_ERHEditPermission.class))
+            return false;
+        else
+            return super.canInsert();
     }
-
 }

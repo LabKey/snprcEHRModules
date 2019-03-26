@@ -21,9 +21,9 @@ import org.labkey.api.security.roles.AbstractRole;
  * Created by lkacimi on 4/12/2017.
  * Renamed and re-purposed on 2/26/2019. tjh
  */
-public class ManageRelatedTablesRole extends AbstractRole
+public class ManageLookupTablesRole extends AbstractRole
 {
-    public ManageRelatedTablesRole()
+    public ManageLookupTablesRole()
     {
         super("SNPRC Lookup Tables", "This role is required to perform CRUD operations on lookup tables",
                 ManageLookupTablesPermission.class
