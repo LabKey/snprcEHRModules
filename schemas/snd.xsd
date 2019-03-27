@@ -6,7 +6,7 @@
            xmlns:dat="http://labkey.org/data/xml"
            xmlns="http://txbiomed.org/snd">
 
-    <xs:import namespace="http://labkey.org/data/xml" schemaLocation="../../../api/schemas/tableInfo.xsd"/>
+    <xs:import namespace="http://labkey.org/data/xml" schemaLocation="../../../modules/platform/api/schemas/tableInfo.xsd"/>
 
     <xs:element name="export">
         <xs:complexType>
