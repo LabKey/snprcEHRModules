@@ -69,7 +69,7 @@
                 items: [
                     {queryName: 'areas', schemaName: 'ehr_lookups', title: 'Areas'},
                     {queryName: 'housingStatus', schemaName: 'ehr_lookups', title: 'Housing Status'},
-                    {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Rooms (Locations)'}
+                    {queryName: 'rooms', schemaName: 'ehr_lookups', title: 'Rooms (Valid Locations)'}
                 ]
             },{
                 header: 'Treatment Lists',
