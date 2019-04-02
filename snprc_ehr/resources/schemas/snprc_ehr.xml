@@ -16,9 +16,10 @@
  * limitations under the License.
 
  -->
-<tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd"
+<tables xsi:schemaLocation="http://labkey.org/data/xml ../../../../../server/modules/platform/api/schemas/tableInfo.xsd"
         xmlns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <table tableName="package" tableDbType="TABLE" useColumnOrder="true">
+        <auditLogging>DETAILED</auditLogging>
         <tableTitle>Package</tableTitle>
         <pkColumnName>id</pkColumnName>
         <columns>
@@ -77,6 +78,7 @@
     </table>
     <table tableName="package_category" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Package Category</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>id</pkColumnName>
         <columns>
             <column columnName="id">
@@ -130,6 +132,7 @@
     </table>
     <table tableName="package_category_junction" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Package Category Junction</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>rowId</pkColumnName>
         <columns>
             <column columnName="rowId">
@@ -195,10 +198,7 @@
     </table>
     <table tableName="species" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Species</tableTitle>
-        <importUrl></importUrl>
-        <insertUrl></insertUrl>
-        <updateUrl></updateUrl>
-        <deleteUrl></deleteUrl>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>species_code</pkColumnName>
         <columns>
             <column columnName="species_code">
@@ -301,6 +301,7 @@
     </table>
     <table tableName="clinical_observation_datasets" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Clinical Observation Datasets</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <importUrl></importUrl>
         <insertUrl></insertUrl>
         <updateUrl></updateUrl>
@@ -338,6 +339,7 @@
     </table>
     <table tableName="validAccounts" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Valid SNPRC Animal Accounts</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <importUrl></importUrl>
         <insertUrl></insertUrl>
         <updateUrl></updateUrl>
@@ -827,6 +829,7 @@
     </table>
     <table tableName="validVets" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Valid Veterinarians</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>vetId</pkColumnName>
         <columns>
             <column columnName="vetId">
@@ -901,6 +904,7 @@
     </table>
     <table tableName="valid_bd_status" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Valid birth date status</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>value</pkColumnName>
         <columns>
             <column columnName="value">
@@ -924,6 +928,7 @@
     </table>
     <table tableName="animal_group_categories" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Animal Group Categories</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>category_code</pkColumnName>
         <columns>
             <column columnName="category_code">
@@ -1027,6 +1032,7 @@
 
     <table tableName="animal_groups" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>SNPRC Animal Groups</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>code</pkColumnName>
         <columns>
             <column columnName="code">
@@ -1097,6 +1103,7 @@
         </columns>
     </table>
     <table tableName="MhcData" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>RowId</pkColumnName>
         <columns>
             <column columnName="Id">
@@ -1167,6 +1174,7 @@
         <tableTitle>MhcData</tableTitle>
     </table>
     <table tableName="ValidChargeBySpecies" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>RowId</pkColumnName>
         <columns>
             <column columnName="Project">
@@ -1230,6 +1238,7 @@
         <tableTitle>Valid Charge by Species</tableTitle>
     </table>
     <table tableName="FeeSchedule" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>RowId</pkColumnName>
         <columns>
             <column columnName="RowId"/>
@@ -1254,6 +1263,7 @@
         <tableTitle>Fee Schedule</tableTitle>
     </table>
     <table tableName="FeeScheduleSpeciesLookup" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>FsSpecies, SpeciesCode</pkColumnName>
         <columns>
             <column columnName="FsSpecies"/>
@@ -1271,6 +1281,7 @@
         <tableTitle>Fee Schedule Species Lookup</tableTitle>
     </table>
     <table tableName="LocationTemperature" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>Room, Date</pkColumnName>
         <columns>
             <column columnName="Room">
@@ -1331,7 +1342,8 @@
         <tableTitle>Location temperature</tableTitle>
     </table>
     <table tableName="ValidDiet" tableDbType="TABLE" useColumnOrder="true">
-        <pkColumnName>Diet</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <pkColumnName>Diet, StartDate</pkColumnName>
         <columns>
             <column columnName="Diet">
                 <datatype>varchar</datatype>
@@ -1346,6 +1358,9 @@
                 <isKeyField>true</isKeyField>
                 <datatype>timestamp</datatype>
             </column>
+            <column columnName="DietCode">
+                <isReadOnly>true</isReadOnly>
+            </column>
             <column columnName="StopDate">
                 <datatype>timestamp</datatype>
                 <nullable>true</nullable>
@@ -1353,6 +1368,7 @@
             <column columnName="SnomedCode">
                 <datatype>varchar</datatype>
                 <scale>7</scale>
+                <isReadOnly>true</isReadOnly>
             </column>
             <column columnName="ObjectId">
                 <nullable>false</nullable>
