@@ -94,8 +94,7 @@
                 },
                 {
                     xtype: 'group-category-form-panel',
-                    region: 'east',
-                    width: '30%'
+                    region: 'east'
                 },
                 {
                     xtype: 'groups-grid-panel',

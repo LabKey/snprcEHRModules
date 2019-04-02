@@ -405,15 +405,16 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
             UserSchema us = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
-            TableInfo table = us.getTable("Participant");
+            TableInfo table = us.getTable("Animal");
 
             SimpleFilter filter = new SimpleFilter();
-            filter.addCondition(FieldKey.fromString("participantId"), groupMember.getParticipantid(), CompareType.STARTS_WITH);
+            filter.addCondition(FieldKey.fromString("Id"), groupMember.getId(), CompareType.STARTS_WITH);
             List<GroupMember> animals = new TableSelector(table, filter, null).getArrayList(GroupMember.class);
             Map props = new CaseInsensitiveHashMap();
             List<JSONObject> jsonRows = new ArrayList<>();
             for (GroupMember form : animals)
             {
+                form.setParticipantid(form.getId());
                 jsonRows.add(form.toJSON());
             }
             props.put("success", true);
