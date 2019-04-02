@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="miscPivot" tableDbType="TABLE">
-                <tableTitle>Chemistry Results</tableTitle>
+                <tableTitle>Misc Lab Results</tableTitle>
                 <columns>
                     <column columnName="resultOORIndicator">
                         <isHidden>true</isHidden>
