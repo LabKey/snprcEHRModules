@@ -15,11 +15,6 @@
                 <property name="columnTitle" value="Vaccine"/>
             </properties>
         </column>
-        <column name="modifiedby">
-            <properties>
-                <property name="columnTitle" value="User Name"/>
-            </properties>
-        </column>
     </columns>
     <sorts>
         <sort column="Id" descending="false"/>
