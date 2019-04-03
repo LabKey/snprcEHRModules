@@ -39,7 +39,7 @@ public class GroupsCategoriesFormType extends AbstractDataEntryForm
     public GroupsCategoriesFormType(DataEntryFormContext ctx, Module owner)
     {
 
-        super(ctx, owner, NAME, "Animal Group Categories", "Colony Management", Arrays.<FormSection>asList());
+        super(ctx, owner, NAME, "Animal Group Management", "Colony Management", Arrays.<FormSection>asList());
 
     }
 
