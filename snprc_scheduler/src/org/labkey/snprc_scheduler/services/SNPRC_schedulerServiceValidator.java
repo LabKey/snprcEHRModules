@@ -161,12 +161,12 @@ public class SNPRC_schedulerServiceValidator
                 // Make sure that things that shouldn't change haven't been changed
                 //   Business Rules say that ProjectId and RevisionNum should not change
 
-                if (timeline.getProjectId() == null || !timeline.getProjectId().equals(timelineRow.get("ProjectId")))
+                if (timeline.getProjectId() != null && !timeline.getProjectId().equals(timelineRow.get("ProjectId")))
                 {
                     errors.addRowError(new ValidationException("Invalid change to ProjectId")); //tested
                     throw errors;
                 }
-                if (timeline.getProjectRevisionNum() == null || !timeline.getProjectRevisionNum().equals(timelineRow.get("ProjectRevisionNum")))
+                if (timeline.getProjectRevisionNum() != null && !timeline.getProjectRevisionNum().equals(timelineRow.get("ProjectRevisionNum")))
                 {
                     errors.addRowError(new ValidationException("Invalid change to ProjectRevisionNum")); //tested!
                     throw errors;

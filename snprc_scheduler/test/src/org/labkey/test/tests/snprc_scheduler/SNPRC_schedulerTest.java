@@ -123,15 +123,30 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
 
         importStudy();
         setup_sndData();
-//        try
-//        {
-//            populateEHRTables();
-//        }
-//        catch (Exception e) {
-//            //ignore
-//        }
+        setEHRModuleProperties();
+        try
+        {
+            populateEHRTables();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
+        //defineQCStates();
+//
+//        Connection connection = createDefaultConnection(true);
+//        SetupScripts.setupProjects(connection, getCurrentContainerPath());
     }
+
+
+//    protected void defineQCStates()
+//    {
+//        log("============================================================ \n Define QC states for EHR study\n=================================================================");
+//
+//        beginAt("/ehr/" + getCurrentContainerPath() + "/ensureQCStates.view");
+//        clickButton("OK");
+//    }
 
 
     protected void importStudy()

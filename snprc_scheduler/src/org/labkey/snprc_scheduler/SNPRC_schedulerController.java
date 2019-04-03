@@ -1,11 +1,11 @@
 package org.labkey.snprc_scheduler;
 
 import org.json.JSONObject;
-import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.action.MutatingApiAction;
+import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SpringActionController;
@@ -93,6 +93,54 @@ public class SNPRC_schedulerController extends SpringActionController
             return new ApiSimpleResponse(props);
         }
     }
+// Todo: Add API action for Active Timelines
+
+//     @SuppressWarnings("Duplicates")
+//     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
+//     public class getTimelinesAction extends MutatingApiAction<SimpleApiJsonForm>
+//     {
+//         @Override
+//         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
+//         {
+//             Map<String, Object> props = new HashMap<>();
+//             Map<String, Object> Timelines = null;
+//             List<JSONObject> jsonProjects = new ArrayList<>();
+//             PropertyValues pv = getPropertyValues();
+//             String species = null;
+//             Date startingDate = null;
+//
+//             if (!pv.isEmpty())
+//             {
+//                 species = pv.getPropertyValue("RevisionNum").getValue().toString();
+//                 try
+//                 {
+//                     String dateString = pv.getPropertyValue("RevisionNum").getValue().toString();
+//                     startingDate = SNPRC_schedulerServiceValidator.StartTimefromISOLocalDate(dateString);
+//                 }
+//                 catch (Exception e)
+//                 {
+//                     ValidationException err = new ValidationException("Error parsing timeline date: " + e.getMessage());
+//                     throw err;
+//                 }
+//                 UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_scheduler");
+//                 TableInfo timelines = schema.getTable("timeline");
+//                 SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("species"), species, CompareType.EQUAL);
+//                 if (startingDate != null)
+//                 {
+//                     filter.addCondition(FieldKey.fromParts("startDate"), startingDate, CompareType.DATE_GTE);
+//                 }
+//                 TableSelector ts = new TableSelector(timelines, filter, null);
+//                 Timelines = ts.getMap();
+//             }
+//             catch (Exception e)
+//             {
+//                 props.put("success", false);
+//                 props.put("message", e.getMessage());
+//             }
+//             return new ApiSimpleResponse(props));
+//         }
+//
+//     }
 
     /**
      * getActiveProjectsAction
