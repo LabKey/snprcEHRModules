@@ -18,12 +18,14 @@ import org.labkey.remoteapi.query.Sort;
 import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.ModulePropertyValue;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.util.ApiPermissionsHelper;
+import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
 
 import java.io.File;
@@ -148,6 +150,15 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
 //        clickButton("OK");
 //    }
 
+    @LogMethod
+    protected void setEHRModuleProperties()
+    {
+        List<ModulePropertyValue> props = new ArrayList<>();
+        props.add(new ModulePropertyValue("EHR", "/" + getProjectName(), "EHRStudyContainer", "/" + getProjectName() ));
+
+        goToProjectHome();
+        setModuleProperties(props);
+    }
 
     protected void importStudy()
     {
