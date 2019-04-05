@@ -35,6 +35,7 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_GROUP_MEMBERS] AS
 -- 3/1/2016 - Added valid_pedigrees. tjh
 -- 3/3/2016 - Added account_group. tjh
 -- 11/3/2016  added modified, modifiedby, created, and createdby columns tjh
+-- 4/1/2019 - removed animal_group_members query. tjh
 -- ==========================================================================================
 
 
@@ -94,29 +95,30 @@ FROM dbo.pedigree AS p
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.object_id
   INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = p.id
 
-UNION
-SELECT
-  LTRIM(RTRIM(agm.id))              AS id,
-  agc.description                   AS GroupCategory,
-  ag.code                           AS groupId,
-  agm.start_date                    AS date,
-  agm.end_date                      AS enddate,
-  agm.object_id                     AS objectid,
-  agm.entry_date_tm                 AS modified,
-  dbo.f_map_username(agm.user_name) AS modifiedby,
-  tc.created                        AS created,
-  tc.createdby                      AS createdby,
-  agm.timestamp
-FROM dbo.animal_group_members AS agm
-
-  INNER JOIN animal_groups AS ag ON ag.code = agm.code
-  INNER JOIN dbo.animal_group_categories AS agc ON agc.category_code = ag.category_code
-  LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = agm.object_id
-  INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = agm.id
+-- UNION
+-- SELECT
+--   LTRIM(RTRIM(agm.id))              AS id,
+--   agc.description                   AS GroupCategory,
+--   ag.code                           AS groupId,
+--   agm.start_date                    AS date,
+--   agm.end_date                      AS enddate,
+--   agm.object_id                     AS objectid,
+--   agm.entry_date_tm                 AS modified,
+--   dbo.f_map_username(agm.user_name) AS modifiedby,
+--   tc.created                        AS created,
+--   tc.createdby                      AS createdby,
+--   agm.timestamp
+-- FROM dbo.animal_group_members AS agm
+--
+--        INNER JOIN animal_groups AS ag ON ag.code = agm.code
+--        INNER JOIN dbo.animal_group_categories AS agc ON agc.category_code = ag.category_code
+--        LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = agm.object_id
+--        INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = agm.id
 GO
 
 GRANT SELECT ON labkey_etl.V_ANIMAL_GROUP_MEMBERS TO z_labkey
 GRANT SELECT ON dbo.pedigree TO z_labkey
 GRANT SELECT ON dbo.colony TO z_labkey
 GRANT SELECT ON dbo.cycle TO z_labkey
+GRANT SELECT ON dbo.animal_groups TO z_labkey;
 GO

@@ -32,6 +32,7 @@ alter VIEW [labkey_etl].[V_DELETE_ANIMAL_GROUP_MEMBERS] as
 -- 3/3/2016 Added account_group. tjh
 -- 3/8/2016 Removed account_group. tjh
 -- 2/20/2017 Added animal_group_members. tjh
+-- 4/1/2019 Removed animal_group_members. tjh
 -- ==========================================================================================
 SELECT 
 	ac.object_id,
@@ -57,13 +58,13 @@ SELECT p.object_id,
 FROM audit.audit_pedigree AS p
 WHERE p.AUDIT_ACTION = 'D' AND p.object_id IS NOT NULL
 
-UNION
-
-SELECT agm.object_id,
-		agm.audit_date_tm
-
-FROM audit.audit_animal_group_members AS agm
-WHERE agm.AUDIT_ACTION = 'D' AND agm.object_id IS NOT NULL
+-- UNION
+--
+-- SELECT agm.object_id,
+-- 			 agm.audit_date_tm
+--
+-- FROM audit.audit_animal_group_members AS agm
+-- WHERE agm.AUDIT_ACTION = 'D' AND agm.object_id IS NOT NULL
 
 GO 
 
@@ -71,7 +72,6 @@ GRANT SELECT on labkey_etl.V_DELETE_ANIMAL_GROUP_MEMBERS to z_labkey
 GRANT SELECT ON audit.audit_breeding_grp TO z_labkey
 GRANT SELECT ON audit.audit_colony TO z_labkey
 GRANT SELECT ON audit.audit_pedigree TO z_labkey
-GRANT SELECT ON AUDIT.audit_animal_group_members TO z_labkey
 
 
 go
