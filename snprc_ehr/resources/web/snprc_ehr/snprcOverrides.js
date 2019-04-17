@@ -342,6 +342,47 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }]
         }];
     },
+    appendMhcSummary: function (toSet, results) {
+        if (results) {
+            toSet['mhcSummary'] = '<a onclick="SNPRC_EHR.Utils.showMhcPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
+        }
+        else {
+            toSet['mhcSummary'] = ''
+        }
+    }, appendFlags: function(toSet, results){
+        var values = [];
+        if (results){
+            Ext4.each(results, function(row){
+                var category = row['flag/category'];
+                var highlight = row['flag/category/doHighlight'];
+                var omit = row['flag/category/omitFromOverview'];
+
+                //skip
+                if (omit === true)
+                    return;
+
+                if (category)
+                    category = Ext4.String.trim(category);
+
+                var val = LABKEY.Utils.encodeHtml(this.getFlagDisplayValue(row));
+                var text = val;
+                if (category)
+                    text = LABKEY.Utils.encodeHtml(category) + ': ' + val;
+
+                if (text && highlight)
+                    text = '<span style="background-color:yellow">' + text + '</span>';
+
+                if (text)
+                    values.push(text);
+            }, this);
+
+            if (values.length) {
+                values = Ext4.unique(values);
+            }
+        }
+
+        toSet['flags'] = values.length ? '<a onclick="SNPRC_EHR.Utils.showFlagPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' + values.join('<br>') + '</div>' : null;
+    },
 
     getExtendedItems: function () {
         return [{
@@ -372,8 +413,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                     items: [{
                         xtype: 'displayfield',
                         width: 350,
-                        fieldLabel: 'Geographic Origin',
-                        name: 'geographic_origin'
+                        fieldLabel: 'MHC Summary',
+                        name: 'mhcSummary'
                     }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Birth',
@@ -463,6 +504,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             this.appendBirthResults(toSet, results.getBirthInfo(), results.getBirth());
             this.appendDeathResults(toSet, results.getDeathInfo());
             this.appendParentageResults(toSet, results.getParents());
+            this.appendMhcSummary(toSet, results.getMhcSummary());
         }
 
         this.getForm().setValues(toSet);

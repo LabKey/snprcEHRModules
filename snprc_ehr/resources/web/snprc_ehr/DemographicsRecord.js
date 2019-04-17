@@ -127,8 +127,11 @@ EHR.DemographicsRecord = function(data){
             return data['gender/meaning'];
         },
 
-        getGeographicOrigin: function(){
-            return data['geographic_origin'];
+        getMhcSummary: function(){
+            return data['mhcSummary'];
+        },
+        getGeographicOrigin: function() {
+            return '';
         },
 
         getMostRecentWeight: function(){
