@@ -51,4 +51,8 @@ select 'study' as schema, 'Clinical' as CategoryId,'Vaccine' as Label, 'Vaccine'
 UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Blood Type' as Label, 'BloodType' as Name,  true as ShowByDefault, true as isAnimal
 UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Parasitology (Non O&P)' as Label, 'ParasitologyPivot' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Parasitology O&P' as Label, 'ParasitologyPivotOP' as Name,  true as ShowByDefault, true as isAnimal
+UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Location Temperature' as Label, 'LocationTemperature' as Name,  true as ShowByDefault, false as isAnimal
