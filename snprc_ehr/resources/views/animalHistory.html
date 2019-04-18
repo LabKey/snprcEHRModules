@@ -1,5 +1,6 @@
 <script type="text/javascript">
 
+    LABKEY.Utils.requiresScript("snprc_ehr/utils.js", function () {});
     Ext4.onReady(function (){
         var webpart = <%=webpartContext%>;
         var ctx = EHR.Utils.getEHRContext(webpart.wrapperDivId, ['DefaultAnimalHistoryReport']);
