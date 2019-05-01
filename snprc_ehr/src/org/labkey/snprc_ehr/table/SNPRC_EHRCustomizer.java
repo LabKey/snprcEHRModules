@@ -17,6 +17,7 @@ package org.labkey.snprc_ehr.table;
 
 import org.apache.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
+import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ForeignKey;
@@ -117,9 +118,9 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
      */
     public void doSharedCustomization(AbstractTableInfo ti)
     {
-        ColumnInfo snomedCol = ti.getColumn("code");
-        if (snomedCol != null)
+        if (ti.getColumn("code") != null)
         {
+            BaseColumnInfo snomedCol = ti.getMutableColumn("code");
             ForeignKey fk = snomedCol.getFk();
             if (fk != null && fk.getLookupTableName().equalsIgnoreCase("snomed"))
             {
@@ -127,21 +128,21 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             }
         }
 
-        ColumnInfo species = ti.getColumn("species");
-        if (species != null)
+        if (ti.getColumn("species") != null)
         {
+            BaseColumnInfo species = ti.getMutableColumn("species");
             ForeignKey fk = species.getFk();
             if (fk != null && fk.getLookupTableName().equalsIgnoreCase("species") && fk.getLookupSchemaName().equalsIgnoreCase("ehr_lookups"))
             {
                 UserSchema us = getEHRUserSchema(ti, SNPRC_EHRSchema.NAME);
-                species.setFk(new QueryForeignKey(us, null, "species", null, null));
+                species.setFk(new QueryForeignKey(QueryForeignKey.from(us, ti.getContainerFilter())
+                        .table("species")));
             }
         }
 
-        ColumnInfo project = ti.getColumn("project");
-        if (project != null)
+        if (ti.getColumn("project") != null)
         {
-            project.setLabel("Charge Id");
+            ti.getMutableColumn("project").setLabel("Charge Id");
         }
     }
 
@@ -221,14 +222,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     {
         DetailsURL detailsURL = DetailsURL.fromString("/ehr/dataEntryFormDetails.view?formType=${formtype}&taskid=${taskid}");
 
-        ColumnInfo updateCol = ti.getColumn("updateTitle");
+        BaseColumnInfo updateCol = ti.getMutableColumn("updateTitle");
         if (updateCol == null)
         {
             updateCol = new WrappedColumn(ti.getColumn("title"), "updateTitle");
             ti.addColumn(updateCol);
         }
 
-        ColumnInfo updateTaskId = ti.getColumn("updateTaskId");
+        BaseColumnInfo updateTaskId = ti.getMutableColumn("updateTaskId");
         if (updateTaskId == null)
         {
             updateTaskId = new WrappedColumn(ti.getColumn("rowid"), "updateTaskId");
@@ -249,7 +250,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     private void customizeEncounterTable(AbstractTableInfo ti)
     {
-        ti.getColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
+        ti.getMutableColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
     }
     private void customizeProjectTable(AbstractTableInfo ti)
     {
@@ -261,11 +262,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             if (us != null)
             {
                 ColumnInfo project = ti.getColumn("project");
-                ColumnInfo col = ti.addColumn(new WrappedColumn(project, "species"));
+                BaseColumnInfo col = ti.addColumn(new WrappedColumn(project, "species"));
                 col.setLabel("Species");
                 col.setUserEditable(false);
                 col.setIsUnselectable(false);
-                col.setFk(new QueryForeignKey(us, null, "projectSpecies", "project", "species"));
+                col.setFk(new QueryForeignKey(QueryForeignKey.from(us, ti.getContainerFilter())
+                        .table("projectSpecies")
+                        .key("project")
+                        .display("species")));
             }
         }
 
@@ -317,14 +321,17 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 wrapped.setLabel("Cage Position");
                 wrapped.setIsUnselectable(true);
                 wrapped.setUserEditable(false);
-                wrapped.setFk(new QueryForeignKey(us, null, "cage_positions", "cage", "cage"));
+                wrapped.setFk(new QueryForeignKey(QueryForeignKey.from(us, ti.getContainerFilter())
+                        .table("cage_positions")
+                        .key("cage")
+                        .display("cage")));
                 ti.addColumn(wrapped);
             }
         }
 
         if (ti.getColumn("cond") != null)
         {
-            ti.getColumn("cond").setHidden(true);
+            ti.getMutableColumn("cond").setHidden(true);
         }
 
         if (ti.getColumn("previousLocation") == null)
@@ -333,11 +340,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             if (us != null)
             {
                 ColumnInfo lsidCol = ti.getColumn("lsid");
-                ColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "previousLocation"));
+                BaseColumnInfo col = ti.addColumn(new WrappedColumn(lsidCol, "previousLocation"));
                 col.setLabel("Previous Location");
                 col.setUserEditable(false);
                 col.setIsUnselectable(true);
-                col.setFk(new QueryForeignKey(us, null, "housingPreviousLocation", "lsid", "location"));
+                col.setFk(new QueryForeignKey(QueryForeignKey.from(us, ti.getContainerFilter())
+                        .table("housingPreviousLocation")
+                        .key("lsid")
+                        .display("location")));
             }
         }
     }
@@ -354,7 +364,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (ds.getColumn("flags") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "attributes", "flags", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "attributes", "flags", "Id", "Id");
             col.setLabel("Attributes");
             col.setDescription("Animal Attributes");
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&queryName=flag_values&query.Id~eq=${Id}", ds.getContainerContext()));
@@ -362,20 +372,20 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (ds.getColumn("parents") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "parents", "demographicsParents", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "parents", "demographicsParents", "Id", "Id");
             col.setLabel("Parents");
             ds.addColumn(col);
         }
 
         if (ds.getColumn("mhcSummary") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "mhcSummary", "mhcSummary", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "mhcSummary", "mhcSummary", "Id", "Id");
             col.setLabel("mhcSummary");
             ds.addColumn(col);
         }
         if (ds.getColumn("totalOffspring") == null)
         {
-            ColumnInfo col15 = getWrappedCol(us, ds, "totalOffspring", "demographicsTotalOffspring", "Id", "Id");
+            BaseColumnInfo col15 = getWrappedCol(us, ds, "totalOffspring", "demographicsTotalOffspring", "Id", "Id");
             col15.setLabel("Number of Offspring");
             col15.setDescription("Shows the total offspring of each animal");
             ds.addColumn(col15);
@@ -383,7 +393,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("labworkHistory") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "labworkHistory", "demographicsLabwork", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "labworkHistory", "demographicsLabwork", "Id", "Id");
             col.setLabel("Labwork History");
             col.setDescription("Shows the date of last labwork for a subsets of tests");
             ds.addColumn(col);
@@ -392,7 +402,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         //do we have freezer samples?
         if (ds.getColumn("freezerSamples") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "freezerSamples", "demographicsFreezers", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "freezerSamples", "demographicsFreezers", "Id", "Id");
             col.setLabel("Freezer Samples");
             col.setDescription("Shows the number of archived freezer samples");
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=freezerWorks&query.Id~eq=${Id}", ds.getContainerContext()));
@@ -400,7 +410,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (ds.getColumn("idHistoryList") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "idHistoryList", "demographicsIdHistory", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "idHistoryList", "demographicsIdHistory", "Id", "Id");
             col.setLabel("Id Hx List");
             col.setDescription("List of Ids assigned to animal");
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=idHistory&query.Id~eq=${Id}", ds.getContainerContext()));
@@ -409,7 +419,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("activeAccounts") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", "Id", "Id");
             col.setLabel("Accounts - Active");
             col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
             ds.addColumn(col);
@@ -417,7 +427,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("packageCategory") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", "Id", "Id");
             col.setLabel("Package Category");
             col.setDescription("Shows the package category for procedures");
             ds.addColumn(col);
@@ -425,7 +435,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("activeAssignments") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "activeAssignments", "demographicsActiveAssignment", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "activeAssignments", "demographicsActiveAssignment", "Id", "Id");
             col.setLabel("IACUC Assignments - Active");
             col.setDescription("Shows all protocols to which the animal is actively assigned on the current date");
             ds.addColumn(col);
@@ -433,7 +443,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("activeGroups") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "activeGroups", "demographicsAnimalGroups", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "activeGroups", "demographicsAnimalGroups", "Id", "Id");
             col.setLabel("Animal Groups - Active");
             col.setDescription("Shows all groups to which the animal is actively assigned on the current date");
             ds.addColumn(col);
@@ -441,7 +451,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("MostRecentTBDate") == null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "MostRecentTBDate", "demographicsMostRecentTBDate", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "MostRecentTBDate", "demographicsMostRecentTBDate", "Id", "Id");
             col.setLabel("Most Recent TB");
             col.setDescription("Queries the most recent TB date for the animal.");
             ds.addColumn(col);
@@ -450,7 +460,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         // Change label and description 8/31/2017 tjh
         if (ds.getColumn("MostRecentArrival") != null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "MostRecentArrival", "demographicsArrival", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "MostRecentArrival", "demographicsArrival", "Id", "Id");
             ds.removeColumn(col);
             col.setLabel("Acquisition");
             col.setDescription("Calculates the earliest and most recent acquisition per animal.");
@@ -460,7 +470,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         // Change label and description 8/31/2017 tjh
         if (ds.getColumn("MostRecentDeparture") != null)
         {
-            ColumnInfo col = getWrappedCol(us, ds, "MostRecentDeparture", "demographicsMostRecentDeparture", "Id", "Id");
+            BaseColumnInfo col = getWrappedCol(us, ds, "MostRecentDeparture", "demographicsMostRecentDeparture", "Id", "Id");
             ds.removeColumn(col);
             col.setLabel("Disposition");
             col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
@@ -470,7 +480,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             if (ds.getColumn("geneticAssays") == null)
             {
-                ColumnInfo col = getWrappedCol(genetics, ds, "geneticAssays", "total_assays", "Id", "Id");
+                BaseColumnInfo col = getWrappedCol(genetics, ds, "geneticAssays", "total_assays", "Id", "Id");
                 col.setLabel("Genetic Assays");
                 col.setDescription("Show if genetic assays exist for ID");
                 ds.addColumn(col);
@@ -482,14 +492,17 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
     }
 
-    private ColumnInfo getWrappedCol(UserSchema us, AbstractTableInfo ds, String name, String queryName, String colName, String targetCol)
+    private BaseColumnInfo getWrappedCol(UserSchema us, AbstractTableInfo ds, String name, String queryName, String colName, String targetCol)
     {
 
         WrappedColumn col = new WrappedColumn(ds.getColumn(colName), name);
         col.setReadOnly(true);
         col.setIsUnselectable(true);
         col.setUserEditable(false);
-        col.setFk(new QueryForeignKey(us, null, queryName, targetCol, targetCol));
+        col.setFk(new QueryForeignKey(QueryForeignKey.from(us, ds.getContainerFilter())
+                .table(queryName)
+                .key(targetCol)
+                .display(targetCol)));
 
         return col;
     }
