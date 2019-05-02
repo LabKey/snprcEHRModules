@@ -47,6 +47,7 @@ public class TimelineScripts
                     "        'IsDirty' : true,\n ";
         }
         timelineScript = timelineScript +
+                "        'IsInUse'  : false ,\n" +
                 "        'IsDeleted'  : false ,\n" +
                 "        'Description' : 'Timeline #1 revision 1',\n" +
                 "        'ProjectObjectId' : '" + testProjectObjectId + "',\n" +

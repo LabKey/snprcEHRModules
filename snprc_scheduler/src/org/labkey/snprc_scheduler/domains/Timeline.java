@@ -86,6 +86,7 @@ public class Timeline //extends Entity
     {
         this.setDeleted(false);
         this.setDirty(false);
+        this.setInUse(false);
     }
 
     public Timeline(Container c, User u, JSONObject json) throws RuntimeException
