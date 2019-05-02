@@ -47,6 +47,7 @@ public class Timeline //extends Entity
     private Integer _qcState;
     private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the timeline record and all associated TimelineItem, TimelineAnimalJunction, TimelineProject items.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
+    private Boolean _isInUse;    // NOTE WELL: is set to true if TBD
     private List<TimelineItem> _timelineItems = new ArrayList<>(); // list of TimelineItem objects associated with the timeline
     private List<TimelineProjectItem> _timelineProjectItems = new ArrayList<>(); // list of TimelineProjectItem objects associated with the timeline
     private List<TimelineAnimalJunction> _timelineAnimalItems = new ArrayList<>(); // list of animals assigned to timeline
@@ -76,6 +77,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_ANIMAL_ITEMS = "TimelineAnimalItems";
     public static final String TIMELINE_IS_DELETED = "IsDeleted";
     public static final String TIMELINE_IS_DIRTY = "IsDirty";
+    public static final String TIMELINE_IS_IN_USE = "IsInUse";
     public static final String TIMELINE_RC = "RC";
 
     public static final String TIMELINE_DATE_FORMAT = "yyyy-MM-dd";  //
@@ -110,6 +112,7 @@ public class Timeline //extends Entity
             this.setProjectRevisionNum(json.has(Timeline.TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_PROJECT_REVISION_NUM) : null);
             this.setDeleted(json.has(Timeline.TIMELINE_IS_DELETED) && json.getBoolean(Timeline.TIMELINE_IS_DELETED));
             this.setDirty(json.has(Timeline.TIMELINE_IS_DIRTY) && json.getBoolean(Timeline.TIMELINE_IS_DIRTY));
+            this.setInUse(json.has(Timeline.TIMELINE_IS_IN_USE) && json.getBoolean(Timeline.TIMELINE_IS_IN_USE));
             this.setRc(json.has(Timeline.TIMELINE_RC) ? json.getString(Timeline.TIMELINE_RC) : null);
 
             String startDateString = json.has(Timeline.TIMELINE_STARTDATE) ? json.getString(Timeline.TIMELINE_STARTDATE) : null;
@@ -438,6 +441,16 @@ public class Timeline //extends Entity
         _rc = rc;
     }
 
+    public Boolean getInUse()
+    {
+        return _isInUse;
+    }
+
+    public void setInUse(Boolean inUse)
+    {
+        _isInUse = inUse;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c, User u)
     {
@@ -464,6 +477,7 @@ public class Timeline //extends Entity
         values.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
         values.put(TIMELINE_IS_DELETED, getDeleted());
         values.put(TIMELINE_IS_DIRTY, getDirty());
+        values.put(TIMELINE_IS_IN_USE, getInUse());
         values.put(TIMELINE_RC, getRc());
 
         if (getTimelineItems().size() > 0)
@@ -530,6 +544,7 @@ public class Timeline //extends Entity
         json.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
         json.put(TIMELINE_IS_DELETED, getDeleted());
         json.put(TIMELINE_IS_DIRTY, getDirty());
+        json.put(TIMELINE_IS_IN_USE, getInUse());
         json.put(TIMELINE_RC, getRc());
 
         if (getTimelineItems().size() > 0)
@@ -592,7 +607,7 @@ public class Timeline //extends Entity
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Timeline)) return false;
         Timeline timeline = (Timeline) o;
         return Objects.equals(_timelineId, timeline._timelineId) &&
                 Objects.equals(_revisionNum, timeline._revisionNum) &&
@@ -616,6 +631,7 @@ public class Timeline //extends Entity
                 Objects.equals(_qcState, timeline._qcState) &&
                 Objects.equals(_isDeleted, timeline._isDeleted) &&
                 Objects.equals(_isDirty, timeline._isDirty) &&
+                Objects.equals(_isInUse, timeline._isInUse) &&
                 Objects.equals(_timelineItems, timeline._timelineItems) &&
                 Objects.equals(_timelineProjectItems, timeline._timelineProjectItems) &&
                 Objects.equals(_timelineAnimalItems, timeline._timelineAnimalItems);
@@ -624,6 +640,6 @@ public class Timeline //extends Entity
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
+        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _isInUse, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
     }
 }

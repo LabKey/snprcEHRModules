@@ -81,7 +81,6 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
 
         SQLFragment revisionNumSql = new SQLFragment();
         revisionNumSql.append("(SELECT pr.RevisionNum FROM snd.Projects as pr");
-
         revisionNumSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
         ExprColumn revisionNumCol = new ExprColumn(this, "ProjectRevisionNum", revisionNumSql, JdbcType.INTEGER);
         addColumn(revisionNumCol);
