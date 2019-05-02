@@ -1,0 +1,18 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" label="All Protocols">
+    <columns>
+        <column name="protocol"/>
+        <!--<column name="external_id"/>-->
+        <column name="title"/>
+        <column name="inves"/>
+        <column name="approve"/>
+        <column name="last_modification"/>
+        <column name="first_approval"/>
+        <column name="enddate"/>
+        <column name="usda_level"/>
+        <column name="maxAnimals"/>
+        <column name="veterinarian"/>
+    </columns>
+    <sorts>
+        <sort column="protocol" />
+    </sorts>
+</customView>

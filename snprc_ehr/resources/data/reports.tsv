@@ -57,4 +57,6 @@ freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	f
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
 Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata	
 blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			Contains blood type.
+ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	ParasitologyPivot			date	false	false			Parasitology data.
+ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes

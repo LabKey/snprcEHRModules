@@ -143,31 +143,31 @@ Ext4.define("GroupsGridPanel", {
             ]
         }
     ]
-    ,
-    buttons: [
-        {
-            text: 'Submit',
-            handler: function () {
-                var self = this;
-                this.up('grid').getStore().save({
-                    success: function () {
-                        self.up('grid').getStore().load({
-                            params: {
-                                'categoryCode': self.up('grid').getStore().getCategory()
-                            }
-
-                        });
-                    },
-                    failure: function () {
-                        Ext4.MessageBox.alert("Something went Wrong!", "Unable to add/update Group(s)");
-                    }
-
-                });
-
-
-            }
-        }
-    ]
+    // ,
+    // buttons: [
+    //     {
+    //         text: 'Submit',
+    //         handler: function () {
+    //             var self = this;
+    //             this.up('grid').getStore().save({
+    //                 success: function () {
+    //                     self.up('grid').getStore().load({
+    //                         params: {
+    //                             'categoryCode': self.up('grid').getStore().getCategory()
+    //                         }
+    //
+    //                     });
+    //                 },
+    //                 failure: function () {
+    //                     Ext4.MessageBox.alert("Something went Wrong!", "Unable to add/update Group(s)");
+    //                 }
+    //
+    //             });
+    //
+    //
+    //         }
+    //     }
+    // ]
 
     ,
     updateGroups: function () {

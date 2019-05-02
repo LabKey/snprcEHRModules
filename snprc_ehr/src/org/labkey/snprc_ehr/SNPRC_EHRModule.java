@@ -38,6 +38,7 @@ import org.labkey.api.query.QuerySchema;
 import org.labkey.api.resource.Resource;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.view.ActionURL;
@@ -48,6 +49,7 @@ import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
+import org.labkey.snprc_ehr.buttons.SnprcUserEditButton;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
 import org.labkey.snprc_ehr.controllers.FeeScheduleController;
@@ -66,6 +68,7 @@ import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.MhcSummaryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.TBDemographicsProvider;
 import org.labkey.snprc_ehr.domain.AnimalGroup;
@@ -151,6 +154,12 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         assert r != null;
         EHRService.get().registerTriggerScript(this, r);
 
+        // register MoreActions buttons
+
+        EHRService.get().registerMoreActionsButton(new SnprcUserEditButton(this, "study", "flags", UpdatePermission.class),
+                    "study", "flags");
+
+        // register client dependencies
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/ColonyUsage.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/EnterDataPanel.js"), this);
@@ -159,6 +168,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/demographicsRecord.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.fromPath("ehr/reports.js"), this);
 
+        // register action overrides
         EHRService.get().registerActionOverride("colonyOverview", this, "views/colonyOverview.html");
         EHRService.get().registerActionOverride("projectQueries", this, "views/projectQueries.html");
         EHRService.get().registerActionOverride("protocolDetails", this, "views/protocolDetails.html");
@@ -168,6 +178,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerActionOverride("ehrAdmin", this, "views/ehrAdmin.html");
         EHRService.get().registerActionOverride("populateInitialData", this, "views/populateData.html");
         EHRService.get().registerActionOverride("enterData", this, "views/enterData.html");
+
 
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
         EHRService.get().registerDemographicsProvider(new IdHistoryDemographicsProvider(this));
@@ -181,6 +192,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerDemographicsProvider(new DeathsDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new TBDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new ActiveFlagsDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new MhcSummaryDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Population Summary By Species, Gender and Age", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=colonyPopulationByAge"), "Other Searches");
