@@ -39,6 +39,7 @@ export const UPDATE_TIMELINE_PROJECT_ITEM = 'UPDATE_TIMELINE_PROJECT_ITEM';
 export const ASSIGN_TIMELINE_PROCEDURE = 'ASSIGN_TIMELINE_PROCEDURE';
 export const DELETE_TIMELINE_ITEM = 'DELETE_TIMELINE_ITEM';
 export const PROJECT_LIST_SORTED = 'PROJECT_LIST_SORTED';
+export const SET_TIMELINE_DAY_0 = 'SET_TIMELINE_DAY_0';
 export const TIMELINE_LIST_SORTED = 'TIMELINE_LIST_SORTED';
 export const NEW_TIMELINE = 'NEW_TIMELINE';
 export const NO_OP = 'NO_OP';
@@ -80,6 +81,7 @@ export function createAction(type, payload) {
         case UPDATE_TIMELINE_PROJECT_ITEM: return { type: type, payload: payload };
         case ASSIGN_TIMELINE_PROCEDURE: return { type: type, payload: payload };
         case DELETE_TIMELINE_ITEM: return { type: type, payload: payload };
+        case SET_TIMELINE_DAY_0: return { type: type, payload: payload };
         case TIMELINE_LIST_SORTED: return { type: type, payload: payload };
         case NEW_TIMELINE: return { type: type, payload: payload };
         case PROJECT_LIST_SORTED: return { type: type, payload: payload };
@@ -150,14 +152,15 @@ export function fetchAnimalsByProject(projectId, revision) {
     };
 }
 
-export function fetchTimelinesByProject(objectid) {
-    if (verboseOutput) console.log('fetchTimelinesByProject(' + objectid + ')');
-    const API_ENDPOINT = BASE_URI + BASE_API + 'getActiveTimelines.view?projectObjectId=' + objectid
+export function fetchTimelinesByProject(selectedProject) {
+    if (verboseOutput) console.log('fetchTimelinesByProject(' + selectedProject.objectId + ')');
+    const API_ENDPOINT = BASE_URI + BASE_API + 'getActiveTimelines.view?projectObjectId=' + selectedProject.objectId;
     return (dispatch) => {
-        dispatch(createAction(TIMELINE_LIST_REQUESTED, {objectid} ));
+        dispatch(createAction(TIMELINE_LIST_REQUESTED, selectedProject.objectId ));
         fetch(API_ENDPOINT)
         .then(response => response.json())
-        .then(data => { if (data.success) dispatch(createAction(TIMELINE_LIST_RECEIVED, data.rows)); })
+        .then(data => { if (data.success) dispatch(createAction(TIMELINE_LIST_RECEIVED,
+                {timelines: data.rows, selectedProject: selectedProject})); })
         .catch((error) => dispatch(createAction(TIMELINE_LIST_REQUEST_FAILED, error)));
     }    
 }
@@ -183,12 +186,12 @@ export function filterAnimals(pattern) {
     }
 }
 
-export function selectProject(projectId, revision, objectid) {
-    if (verboseOutput) console.log('selectProject(' + projectId + ',' + revision + ')');
+export function selectProject(selectedProject) {
+    if (verboseOutput) console.log('selectProject(' + selectedProject.projectId + ',' + selectedProject.revisionNum + ')');
     return (dispatch) => {
-        dispatch(createAction(PROJECT_SELECTED, projectId));
-        dispatch(fetchAnimalsByProject(projectId, revision));
-        dispatch(fetchTimelinesByProject(objectid));
+        dispatch(createAction(PROJECT_SELECTED, selectedProject.projectId));
+        dispatch(fetchAnimalsByProject(selectedProject.projectId, selectedProject.revisionNum));
+        dispatch(fetchTimelinesByProject(selectedProject));
     }
 }
 
@@ -262,9 +265,33 @@ export function deleteTimelineItem(timelineItem) {
     }
 }
 
-export function newTimeline(timeline) {
+export function newTimeline(timeline, selectedProject) {
     if (verboseOutput) console.log('NEW_TIMELINE');
     return (dispatch) => {
-        dispatch(createAction(NEW_TIMELINE, timeline));
+        dispatch(createAction(NEW_TIMELINE, {timeline: timeline, selectedProject: selectedProject}));
     }
+}
+
+export function setTimelineDayZero(day0, forceReload) {
+    if (verboseOutput) console.log('SET_TIMELINE_DAY_0');
+    return (dispatch) => {
+        dispatch(createAction(SET_TIMELINE_DAY_0, {day0: day0, forceReload: forceReload}));
+    }
+}
+
+export function formatDateString(date) {
+    let newDate = new Date(date);
+    return newDate.toISOString().substring(0, "yyyy-MM-dd".length)
+}
+
+export function addDaysToDate(date, days) {
+    let result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return formatDateString(result);
+}
+
+export function getDay0Date(date, days) {
+    let result = new Date(date);
+    result.setDate(result.getDate() - days);
+    return formatDateString(result);
 }

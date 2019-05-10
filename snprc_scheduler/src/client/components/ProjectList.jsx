@@ -40,6 +40,10 @@ class ProjectList extends React.Component {
     }
 
     componentWillUnmount = () => this.disconnect();
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return true;
+    }
     
     onProjectRowsSelected = (row, isSelected, e) => {
 
@@ -104,7 +108,7 @@ class ProjectList extends React.Component {
                         data={this.state.projects}
                         options={this.options}
                         selectRow={this.selectRowProp}
-                        height={189}
+                        height={224}
                 >
                     <TableHeaderColumn dataField='projectId' isKey={true} hidden/>
                     <TableHeaderColumn dataField='Iacuc' width='80px' dataSort={ true }>IACUC</TableHeaderColumn>
@@ -126,8 +130,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSelectProject: selectedProject => dispatch(selectProject(selectedProject.projectId,
-            selectedProject.revisionNum, selectedProject.objectId))
+    onSelectProject: selectedProject => dispatch(selectProject(selectedProject))
 })
 
 export default connect(

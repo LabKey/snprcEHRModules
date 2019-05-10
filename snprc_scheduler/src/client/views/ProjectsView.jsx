@@ -6,7 +6,7 @@ import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
 import TimelineList from '../components/TimelineList';
 import TimelineDetails from '../components/TimelineDetails';
-import {Button, Modal, Panel, PanelGroup} from "react-bootstrap";
+import {Accordion, Card, Button, Modal, Panel, PanelGroup} from "react-bootstrap";
 import CalendarDetails from "../components/CalendarDetails";
 import AnimalDetails from "../components/AnimalDetails";
 import ProjectMain from "../components/ProjectMain";
@@ -38,7 +38,15 @@ class ProjectsView extends React.Component {
         };
     }
 
-    handleAccordionSelectionChange = (tabIndex) => this.setState({ selectedTab: tabIndex });
+    handleAccordionSelectionChange = (tabIndex) => {
+        if (tabIndex != null) {
+            this.setState({selectedTab: tabIndex});
+        }
+    };
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return true;
+    };
     
     getDetailComponent = (tabIndex) => {
         switch (tabIndex) {
@@ -48,7 +56,7 @@ class ProjectsView extends React.Component {
             case TAB_CALENDAR: return <CalendarDetails />;
             default: return <CalendarDetails />;
         }
-    }
+    };
 
     getMainComponent = (tabIndex) => {
         switch (tabIndex) {
@@ -58,7 +66,7 @@ class ProjectsView extends React.Component {
             case TAB_CALENDAR: return <AnimalMain />;
             default: return <ProjectMain />;
         }
-    }
+    };
 
     modalStyle = () => {
 
@@ -144,9 +152,21 @@ class ProjectsView extends React.Component {
                 }
             });
         };
-    }
+    };
+
+    formatAccordionTitle = (title) => {
+        let formatted = title;
+        // if (title && title.length > 25) {
+        //     formatted = title.substring(0, 25);
+        //     formatted += '...';
+        // }
+
+        return formatted;
+    };
 
     render() {
+
+        const { selectedProject, selectedTimeline } = this.props;
 
         let detailView = this.getDetailComponent(this.state.selectedTab);
         let mainView = this.getMainComponent(this.state.selectedTab);
@@ -161,13 +181,19 @@ class ProjectsView extends React.Component {
                     >
                 <Panel eventKey={TAB_PROJECTS}>
                     <Panel.Heading>
-                        <Panel.Title toggle>Projects</Panel.Title>
+                        <Panel.Title toggle className='scheduler-bs-accordion-title'>{'Projects' +
+                            ((selectedProject && selectedProject.description)
+                            ? (' - ' + selectedProject.description) : '')}
+                        </Panel.Title>
                     </Panel.Heading>
                     <Panel.Body collapsible><ProjectList store={this.props.store} /></Panel.Body>
                 </Panel>
                 <Panel eventKey={TAB_TIMELINES}>
                     <Panel.Heading>
-                        <Panel.Title toggle>Timelines</Panel.Title>
+                        <Panel.Title toggle className='scheduler-bs-accordion-title'>{'Timelines' +
+                            ((selectedTimeline && selectedTimeline.Description)
+                            ? (' - ' + selectedTimeline.Description) : '')}
+                        </Panel.Title>
                     </Panel.Heading>
                     <Panel.Body collapsible><TimelineList /></Panel.Body>
                 </Panel>
@@ -177,15 +203,9 @@ class ProjectsView extends React.Component {
                     </Panel.Heading>
                     <Panel.Body collapsible><AnimalList store={this.props.store} /></Panel.Body>
                 </Panel>
-                <Panel eventKey={TAB_CALENDAR}>
-                    <Panel.Heading>
-                        <Panel.Title toggle>Calendar</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body collapsible><CalendarList /></Panel.Body>
-                </Panel>
             </PanelGroup>
         );
-        return <div>
+        return <div className='scheduler-view'>
             <Modal
                     // onHide={this.close}
                     style={this.modalStyle()}
@@ -200,8 +220,8 @@ class ProjectsView extends React.Component {
             </Modal>
             <div className='row spacer-row'></div>
             <div className='row'>
-                <div className='col-sm-12'>{detailView}</div>
-                <div className='col-sm-3'>
+                <div className='col-sm-12 zero-right-padding'>{detailView}</div>
+                <div className='col-sm-4'>
                     <div className='col-sm-12'>
                         {accordionComponent}
                     </div>
@@ -212,7 +232,7 @@ class ProjectsView extends React.Component {
                         <div className='col-sm-6'> <Button onClick={this.cancel} className='scheduler-save-cancel-btn'>Cancel</Button> </div>
                     </div>
                 </div>
-                <div className='col-sm-9'>{mainView}</div>
+                <div className='col-sm-8 zero-side-padding'>{mainView}</div>
             </div>
         </div>
     }

@@ -108,7 +108,7 @@ class TimelineList extends React.Component {
                     ProjectObjectId: this.props.selectedProject.ProjectObjectId,
                 };
 
-                this.props.onNewTimeline(newTimeline);
+                this.props.onNewTimeline(newTimeline, this.props.selectedProject);
 
                 this.setExpandedTimelineId(newTimeline.RowId);
 
@@ -329,7 +329,7 @@ class TimelineList extends React.Component {
                     data={this.props.timelines}
                     options={this.options}
                     // selectRow={this.selectRowProp}
-                    height={208}
+                    height={243}
                     expandableRow={this.isExpandableRow}
                     expandComponent={this.expandComponent}
                     expandColumnOptions={{
@@ -364,7 +364,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onSelectTimeline: selectedTimeline => dispatch(selectTimeline(selectedTimeline)),
-    onNewTimeline: timeline => dispatch(newTimeline(timeline)),
+    onNewTimeline: (timeline, selectedProject) => dispatch(newTimeline(timeline, selectedProject)),
     onUpdateTimeline: selectedProject => dispatch(updateSelectedTimeline(selectedProject))
 })
 

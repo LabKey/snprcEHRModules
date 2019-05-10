@@ -96,7 +96,7 @@ class AnimalList extends React.Component {
                                 data={this.state.animals}
                                 options={this.options}
                                 selectRow={this.selectRowProp}
-                                height={205}
+                                height={240}
                         >
                             <TableHeaderColumn dataField='Id' isKey={true} dataSort={ true }>ID</TableHeaderColumn>
                             <TableHeaderColumn dataField='Gender' dataSort={ true }>Gender</TableHeaderColumn>
@@ -106,7 +106,7 @@ class AnimalList extends React.Component {
                     </div>
                 </div>
             )
-        } else return <div style={{ minHeight: 251 }}>{searchJSX}<div> No assignable animals found. </div></div>
+        } else return <div style={{ minHeight: 286 }}>{searchJSX}<div> No assignable animals found. </div></div>
     }
 
   }

@@ -22,15 +22,15 @@ class ProjectMain extends React.Component {
             selectedProjects = [];
         }
 
-        return <div>
+        return <div className='col-sm-12 scheduler-projects'>
 
-            <div><h4>All Active Projects</h4></div>
+            <h4>All Active Projects</h4>
             <BootstrapTable
                     ref='project-main-table'
                     className='project-main-table'
                     data={this.props.projects}
                     options={this.options}
-                    height={445}
+                    height={438}
             >
                 <TableHeaderColumn dataField='projectId' isKey={true}>Project ID</TableHeaderColumn>
                 <TableHeaderColumn dataField='revisionNum'>Revision</TableHeaderColumn>

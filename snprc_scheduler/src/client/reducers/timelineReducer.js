@@ -14,7 +14,9 @@ import {
     UPDATE_TIMELINE_PROJECT_ITEM,
     ASSIGN_TIMELINE_PROCEDURE,
     DELETE_TIMELINE_ITEM,
-    NEW_TIMELINE
+    NEW_TIMELINE,
+    SET_TIMELINE_DAY_0,
+    addDaysToDate, formatDateString
 } from "../actions/dataActions";
 import {verboseOutput} from "./projectReducer";
 
@@ -32,7 +34,7 @@ export default (state = { }, action) => {
     switch (action.type) {
         case TIMELINE_LIST_RECEIVED:
             // action payload is the timeline array
-            nextState.timelines = action.payload;
+            nextState.timelines = action.payload.timelines;
 
             // Add rowid, timelineitems, timelineprojectitems and timelineanimalitems for UI
             for (const tl of nextState.timelines) {
@@ -43,7 +45,9 @@ export default (state = { }, action) => {
                 }
 
                 if (!tl.TimelineProjectItems) {
-                    tl.TimelineProjectItems = [];
+                    tl.TimelineProjectItems = action.payload.selectedProject.ProjectItems.map((item, index) => {
+                        return {ProjectItemId: item.projectItemId, SortOrder: index}
+                    });
                 }
 
                 if (!tl.TimelineAnimalItems) {
@@ -61,16 +65,17 @@ export default (state = { }, action) => {
                 IsDeleted: false,
                 IsDirty: false,
                 QcState: 4,
-                TimelineProjectItems: [],
+                TimelineProjectItems: action.payload.selectedProject.ProjectItems,
                 TimelineAnimalItems: [],
                 TimelineItems: []
             };
 
-            let newTimeline = Object.assign({}, timelineTemplate, action.payload);
+            let newTimeline = Object.assign({}, timelineTemplate, action.payload.timeline);
 
-            // nextState.timelines = Object.assign({ }, nextState.timelines);
-            nextState.timelines.push(newTimeline);
-            nextState.selectedTimeline = newTimeline;
+            if (nextState.timelines) {
+                nextState.timelines.push(newTimeline);
+                nextState.selectedTimeline = newTimeline;
+            }
             break;
         case TIMELINE_DUPLICATED:
             // action payload is the timeline object
@@ -122,16 +127,23 @@ export default (state = { }, action) => {
             break;
         case ADD_TIMELINE_ITEM:
             // action payload is the timeline item
-            nextState.selectedTimeline.TimelineItems.push(action.payload);
+            if (nextState.selectedTimeline && nextState.selectedTimeline.TimelineItems) {
+                nextState.selectedTimeline.TimelineItems.push(action.payload);
+            }
+
+            nextState.selectedTimeline.isDirty = true;
             break;
         case UPDATE_TIMELINE_ROW:
             // action payload is timeline item
             nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
                 if(action.payload.RowIdx === item.RowIdx) {
-                    return { ...item, ...action.payload }
+                    item = Object.assign({ }, item);
+                    item.StudyDay = parseInt(action.payload.StudyDay);
+                    item.ScheduleDate = action.payload.ScheduleDate;
                 }
-                else return item;
-            })
+                return item;
+            });
+            nextState.selectedTimeline.isDirty = true;
 
             break;
         case UPDATE_TIMELINE_ITEM:
@@ -142,11 +154,13 @@ export default (state = { }, action) => {
                     return { ...item, ...action.payload }
                 }
                 else return item;
-            })
+            });
+            nextState.selectedTimeline.isDirty = true;
 
             break;
         case UPDATE_SELECTED_TIMELINE:
             nextState.selectedTimeline = {...nextState.selectedTimeline, ...action.payload};
+            nextState.selectedTimeline.isDirty = true;
             break;
         case ASSIGN_TIMELINE_PROCEDURE:
 
@@ -199,6 +213,8 @@ export default (state = { }, action) => {
                 }
             }
 
+            nextState.selectedTimeline.isDirty = true;
+
             break;
         case UPDATE_TIMELINE_PROJECT_ITEM:
 
@@ -209,7 +225,9 @@ export default (state = { }, action) => {
                 }
 
                 return projItem;
-            })
+            });
+
+            nextState.selectedTimeline.isDirty = true;
 
             break;
         case DELETE_TIMELINE_ITEM:
@@ -224,6 +242,40 @@ export default (state = { }, action) => {
                 }
                 return true;
             });
+
+            nextState.selectedTimeline.isDirty = true;
+
+            break;
+        case SET_TIMELINE_DAY_0:
+            const { day0, forceReload } = action.payload;
+
+            nextState.selectedTimeline = Object.assign({ }, nextState.selectedTimeline);
+
+            if (day0) {
+                // Set in selected timeline for timeline details
+                nextState.selectedTimeline.StudyDay0 = formatDateString(day0);
+            }
+            else {
+                // Clearing day0
+                nextState.selectedTimeline.StudyDay0 = day0;
+            }
+
+            // Calculate and update or clear timeline items scheduled dates
+            let newTimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                item = Object.assign({ }, item);
+                if (day0) {
+                    item.ScheduleDate = addDaysToDate(action.payload.day0, parseInt(item.StudyDay));
+                }
+                else {
+                    item.ScheduleDate = null;
+                }
+                item.IsDirty = true;
+                return item;
+            });
+
+            nextState.selectedTimeline.TimelineItems = newTimelineItems;
+            nextState.selectedTimeline.isDirty = true;
+            nextState.selectedTimeline.forceReload = action.payload.forceReload;
 
             break;
     };

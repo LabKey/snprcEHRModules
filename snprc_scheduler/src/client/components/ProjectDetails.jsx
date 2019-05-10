@@ -48,7 +48,7 @@ class ProjectDetails extends React.Component {
                                                              value={this.props.selectedProject.VsNumber || ''}/></div>
                         </div>
                     </div>
-                    <div className='col-sm-4'>
+                    <div className='col-sm-4 zero-right-padding'>
                         <div className='row input-row'>
                             <div className='col-sm-4 zero-side-padding'><ControlLabel>Start Date</ControlLabel></div>
                             <div className='col-sm-7'><FormControl type='text' className='input-wide' id="startDate" readOnly

@@ -1,10 +1,12 @@
 import React from 'react';
-import PropTypes from "prop-types";
-import {selectTimeline, updateSelectedTimeline} from "../actions/dataActions";
+import {
+    addDaysToDate,
+    formatDateString,
+    setTimelineDayZero,
+    updateSelectedTimeline
+} from "../actions/dataActions";
 import connect from "react-redux/es/connect/connect";
-import {Checkbox, ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
-
-const FORCE_RENDER = true;
+import {ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
 
 function FieldGroup({ id, label, help, ...props }) {
     return (
@@ -30,22 +32,26 @@ class TimelineDetails extends React.Component {
             [e.target.id]: e.target.value,
             IsDirty: true
         })
-    }
+    };
 
     handleDraftCheck = (e) => {
         this.props.onUpdateSelectedTimeline({
             [e.target.id]: e.target.checked === true ? 4 : 1,
             IsDirty: true
         })
-    }
+    };
+
+    handleStudyDay0 = (e) => {
+        let date = e.target.value;
+        this.props.onUpdateTimelineDayZero(date, true);
+    };
 
     render() {
         const timeline = this.props.selectedTimeline || {};
 
-        // if (this.props.selectedTimeline != null || FORCE_RENDER) {
             return (
                     <div className='container-fluid details-frame' style={{textAlign: 'left'}}>
-                        <div className='col-sm-4'>
+                        <div className='col-sm-4 zero-right-padding'>
                             <div className='row input-row'>
                                 <div className='col-sm-4 zero-side-padding'><ControlLabel>Project</ControlLabel></div>
                                 <div className='col-sm-7'><FormControl type='text' className='input-wide' disabled
@@ -77,7 +83,18 @@ class TimelineDetails extends React.Component {
                                 /></div>
                             </div>
                         </div>
-                        <div className='col-sm-4'>
+                        <div className='col-sm-5 zero-left-padding'>
+                            <div className='row input-row'>
+                                <div className='col-sm-6 zero-side-padding'>
+                                    <div className='col-sm-5 zero-side-padding'><ControlLabel>Study Day 0</ControlLabel></div>
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='date' className='input-wide' id='StudyDay0'
+                                                                                             onChange={this.handleStudyDay0}
+                                                                                             value={timeline.StudyDay0 ? timeline.StudyDay0 : ''}
+                                    /></div>
+                                </div>
+                                <div className='col-sm-6 zero-side-padding'>
+                                </div>
+                            </div>
                             <div className='row input-row'>
                                 <div className='col-sm-6 zero-side-padding'>
                                     <div className='col-sm-5 zero-side-padding'><ControlLabel>Start</ControlLabel></div>
@@ -130,9 +147,9 @@ class TimelineDetails extends React.Component {
                             </div>
 
                         </div>
-                        <div className='col-sm-4'>
+                        <div className='col-sm-3 zero-right-padding'>
                             <div className='row'>
-                                <div className='col-sm-4'><ControlLabel>Study Notes</ControlLabel></div>
+                                <div className='col-sm-4'><ControlLabel className='wrap-words input-wide'>Study Notes</ControlLabel></div>
                                 <div className='col-sm-7 zero-side-padding'><FormControl componentClass="textarea" id='Notes'
                                                 value={timeline.Notes ? timeline.Notes : ''}
                                                 onChange={this.handleChange}
@@ -140,7 +157,7 @@ class TimelineDetails extends React.Component {
                                 /></div>
                             </div>
                             <div className='row'>
-                                <div className='col-sm-4'><ControlLabel>Scheduler Notes</ControlLabel></div>
+                                <div className='col-sm-4'><ControlLabel className='wrap-words input-wide'>Scheduler Notes</ControlLabel></div>
                                 <div className='col-sm-7 zero-side-padding'><FormControl componentClass="textarea" id='SchedulerNotes'
                                                 value={timeline.SchedulerNotes ? timeline.SchedulerNotes : ''}
                                                 onChange={this.handleChange}
@@ -163,8 +180,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onUpdateSelectedTimeline: timeline => dispatch(updateSelectedTimeline(timeline))
-})
+    onUpdateSelectedTimeline: timeline => dispatch(updateSelectedTimeline(timeline)),
+    onUpdateTimelineDayZero: (day0, forceReload) => dispatch(setTimelineDayZero(day0, forceReload))
+});
 
 export default connect(
         mapStateToProps,
