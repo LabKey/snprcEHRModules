@@ -9,19 +9,23 @@ import org.junit.runners.MethodSorters;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.remoteapi.query.Filter;
+import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.Row;
 import org.labkey.remoteapi.query.Rowset;
 import org.labkey.remoteapi.query.SelectRowsCommand;
 import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.Sort;
+import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.ModulePropertyValue;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.util.ApiPermissionsHelper;
+import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
 
 import java.io.File;
@@ -51,6 +55,29 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     final static String SNPRC_EHR_PATH  = "externalModules/snprcEHRModules/snprc_ehr";
     private static Integer _pipelineJobCount = 0;
 
+    private static final File PROTOCOL_TSV = TestFileUtils.getSampleData("ehr/protocol.tsv");
+    private static final File PROJECT_TSV = TestFileUtils.getSampleData("ehr/project.tsv");
+
+
+    protected void populateEHRTables() throws Exception
+    {
+        Connection connection = createDefaultConnection(true);
+
+        InsertRowsCommand command = new InsertRowsCommand("ehr", "protocol");
+        command.setRows(loadTsv(PROTOCOL_TSV));
+        command.execute(connection, getProjectName()).getRows();
+
+        command = new InsertRowsCommand("ehr", "project");
+        command.setRows(loadTsv(PROJECT_TSV));
+        command.execute(connection, getProjectName()).getRows();
+
+    }
+
+    public List<Map<String, Object>> loadTsv(File tsv)
+    {
+        TabLoader loader = new TabLoader(tsv, true);
+        return loader.load();
+    }
 
     @BeforeClass
     public static void setupProject()
@@ -72,6 +99,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
 
         _containerHelper.createProject(getProjectName(), null);
         _containerHelper.enableModule("SNPRC_scheduler");
+//        _containerHelper.enableModules(Arrays.asList("SNPRC_scheduler", "snprc_ehr"));
 
         // create users
         READER_USER.setUserId(_userHelper.createUser(READER_USER.getEmail(), false, true).getUserId().intValue());
@@ -97,8 +125,40 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
 
         importStudy();
         setup_sndData();
+        setEHRModuleProperties();
+        try
+        {
+            populateEHRTables();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        //defineQCStates();
+//
+//        Connection connection = createDefaultConnection(true);
+//        SetupScripts.setupProjects(connection, getCurrentContainerPath());
     }
 
+
+//    protected void defineQCStates()
+//    {
+//        log("============================================================ \n Define QC states for EHR study\n=================================================================");
+//
+//        beginAt("/ehr/" + getCurrentContainerPath() + "/ensureQCStates.view");
+//        clickButton("OK");
+//    }
+
+    @LogMethod
+    protected void setEHRModuleProperties()
+    {
+        List<ModulePropertyValue> props = new ArrayList<>();
+        props.add(new ModulePropertyValue("EHR", "/" + getProjectName(), "EHRStudyContainer", "/" + getProjectName() ));
+
+        goToProjectHome();
+        setModuleProperties(props);
+    }
 
     protected void importStudy()
     {
@@ -200,7 +260,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         TimelineScripts ts = new TimelineScripts();
 
         String testProjectObjectId = getTestProjectObjectId();
-        ArrayList<Map<String, Integer>> projectItems = getProjectItems(testProjectObjectId);
+        ArrayList<Map<String, Object>> projectItems = getProjectItems(testProjectObjectId);
 
         // Verify READER_ROLE cannot insert timeline data
         impersonate(READER_USER.getEmail());
@@ -224,7 +284,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         TimelineScripts ts = new TimelineScripts();
 
         String testProjectObjectId = getTestProjectObjectId();
-        ArrayList<Map<String, Integer>> projectItems = getProjectItems(testProjectObjectId);
+        ArrayList<Map<String, Object>> projectItems = getProjectItems(testProjectObjectId);
 
         // Verify EDITOR_ROLE can update timeline data
         impersonate(EDITOR_USER.getEmail());
@@ -274,7 +334,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     public List<String> getAssociatedModules()
     {
         //return Collections.singletonList("Snprc_scheduler");
-        return Arrays.asList("ehr", "snprc_ehr", "snprc_scheduler", "SND");
+        return Arrays.asList("snprc_ehr", "snprc_scheduler", "SND");
     }
 
     private String getTestProjectObjectId()
@@ -307,9 +367,9 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         return projectObjectId;
     }
 
-    private ArrayList<Map<String, Integer>> getProjectItems(String parentObjectId)
+    private ArrayList<Map<String, Object>> getProjectItems(String parentObjectId)
     {
-        ArrayList<Map<String, Integer>> projectItems = new ArrayList<>();
+        ArrayList<Map<String, Object>> projectItems = new ArrayList<>();
 
         Connection cn = createDefaultConnection(false);
         SelectRowsCommand selectCmd = new SelectRowsCommand("snd", "ProjectItems");
@@ -322,13 +382,14 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
             SelectRowsResponse response = selectCmd.execute(cn, getCurrentContainerPath());
 
             Rowset rows = response.getRowset();
-            Map<String, Integer> rowMap = null;
+            Map<String, Object> rowMap = null;
 
             for (Row row : rows)
             {
                 rowMap = new HashMap<>();
                 rowMap.put("ProjectItemId", Integer.parseInt(row.getValue("ProjectItemId").toString()));
                 rowMap.put("SuperPkgId", Integer.parseInt(row.getValue("SuperPkgId").toString()));
+                rowMap.put("ObjectId", row.getValue("ObjectId"));
                 projectItems.add(rowMap);
             }
 

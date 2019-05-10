@@ -49,7 +49,7 @@ public class ClinicalReportFormType extends TaskForm
 
     public ClinicalReportFormType(DataEntryFormContext ctx, Module owner)
     {
-        super(ctx, owner, NAME, LABEL, "Clinical", Arrays.<FormSection>asList(
+        super(ctx, owner, NAME, LABEL, "Clinical", Arrays.asList(
                 new NonStoreFormSection("Instructions", "Instructions", "ehr-examinstructionspanel", Arrays.asList(ClientDependency.fromPath("ehr/panel/ExamInstructionsPanel.js"))),
                 new TaskFormSection(),
                 new ExtendedAnimalDetailsFormSection(),
@@ -100,7 +100,7 @@ public class ClinicalReportFormType extends TaskForm
         setJavascriptClass("EHR.panel.ExamDataEntryPanel");
 
         //Added 4-3-2015 Blasa
-        addClientDependency(ClientDependency.fromFilePath("snprc_ehr/panel/HousingDataEntryPanel.js"));
+        addClientDependency(ClientDependency.fromPath("snprc_ehr/panel/HousingDataEntryPanel.js"));
         setJavascriptClass("SNPRC_EHR.panel.HousingDataEntryPanel");
 
         //Removed temporarily  7-2-2015   Blasa

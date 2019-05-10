@@ -9,36 +9,45 @@ public class TimelineScripts
     public static final Integer TIMELINE_ID = 101;
     public static final Integer REVISION_NUM = 0;
 
-    public String saveTimelineScript(String testTimelineObjectId, String testProjectObjectId, ArrayList<Map<String, Integer>> projectItems)
+    public String saveTimelineScript(String testTimelineObjectId, String testProjectObjectId, ArrayList<Map<String, Object>> projectItems)
     {
         Integer projectItemId1 = 0;
         Integer projectItemId2 = 0;
         Integer projectItemId3 = 0;
 
-
         if (testProjectObjectId != null)
         {
-            projectItemId1 = projectItems.get(0).get("ProjectItemId");
-            projectItemId2 = projectItems.get(1).get("ProjectItemId");
-            projectItemId3 = projectItems.get(2).get("ProjectItemId");
+            projectItemId1 = (Integer) projectItems.get(0).get("ProjectItemId");
+            projectItemId2 = (Integer) projectItems.get(1).get("ProjectItemId");
+            projectItemId3 = (Integer) projectItems.get(2).get("ProjectItemId");
         }
 
         String timelineScript = "LABKEY.Ajax.request({\n" +
                 "    method: 'POST',\n" +
                 "    url: LABKEY.ActionURL.buildURL('snprc_scheduler', 'updateTimeline.api'),\n" +
-                "    success: function(){ callback('Success!'); },\n" +
+                "    success: function(data){\n" +
+                "       var response = JSON.parse(data.response);\n" +
+                "       if (response.success) {\n" +
+                "             callback('Success!');\n" +
+                "       }\n" +
+                "       else {\n" +
+                "             callback(response.responseText);\n" +
+                "       }\n" +
+                "    },\n" +
                 "    failure: function(e){ callback(e.responseText); },\n" +
                 "    jsonData: {\n" ;
 
         // if timelineObject id is not null then an update was requested
         if (testTimelineObjectId != null )
         {
-            timelineScript = timelineScript + "        'ObjectId' : '" + testTimelineObjectId + "',\n" +
+            timelineScript = timelineScript +
+                    "        'ObjectId' : '" + testTimelineObjectId + "',\n" +
+                    "        'TimelineId'  : "+ TIMELINE_ID + ",\n" +
+                    "        'RevisionNum'  : "+ REVISION_NUM + ",\n" +
                     "        'IsDirty' : true,\n ";
         }
         timelineScript = timelineScript +
-                "        'TimelineId'  : "+ TIMELINE_ID + ",\n" +
-                "        'RevisionNum'  : "+ REVISION_NUM + ",\n" +
+                "        'IsInUse'  : false ,\n" +
                 "        'IsDeleted'  : false ,\n" +
                 "        'Description' : 'Timeline #1 revision 1',\n" +
                 "        'ProjectObjectId' : '" + testProjectObjectId + "',\n" +
@@ -68,13 +77,31 @@ public class TimelineScripts
                 "           'ProjectItemId' : " + projectItemId3 + "}\n" +
                 "        ],\n" +
                 "        'TimelineProjectItems' : [\n" +
-                "           { 'SortOrder' : 0,\n" +
+                "           { 'SortOrder' : 0,\n" ;
+                // updating the timeline add the projectItem objectId
+                if (testTimelineObjectId != null)
+                {
+                    timelineScript = timelineScript + "'ObjectId' : '" + projectItems.get(0).get("ObjectId") + "',\n";
+                }
+                timelineScript = timelineScript +
                 "           'ProjectItemId'  : " + projectItemId1 + ",\n" +
                 "           'TimelineFootNotes' : 'Bla bla bla note 1' },\n " +
-                "           {'SortOrder' : 0,\n" +
+                "           {'SortOrder' : 0,\n";
+                // updating the timeline add the projectItem objectId
+                if (testTimelineObjectId != null)
+                {
+                    timelineScript = timelineScript + "'ObjectId' : '" + projectItems.get(1).get("ObjectId") + "',\n";
+                }
+                timelineScript = timelineScript +
                 "           'ProjectItemId'  : " + projectItemId2 + ",\n" +
                 "           'TimelineFootNotes' : 'Bla bla bla note 2' },\n " +
-                "           {'SortOrder' : 0,\n" +
+                "           {'SortOrder' : 0,\n";
+                // updating the timeline add the projectItem objectId
+                if (testTimelineObjectId != null)
+                {
+                    timelineScript = timelineScript + "'ObjectId' : '" + projectItems.get(2).get("ObjectId") + "',\n";
+                }
+                timelineScript = timelineScript +
                 "           'ProjectItemId'  : " + projectItemId3 + ",\n" +
                 "           'TimelineFootNotes' : 'Bla bla bla note 3' }\n " +
                 "       ],\n" +
@@ -105,6 +132,7 @@ public class TimelineScripts
                 "          'Age' : '12.6 years'}\n" +
                 "       ]}\n" +
                 " })\n";
+        //log(timelineScript);
 
         return timelineScript;
     }
@@ -115,7 +143,15 @@ public class TimelineScripts
         String timelineScript = "LABKEY.Ajax.request({\n" +
                 "    method: 'POST',\n" +
                 "    url: LABKEY.ActionURL.buildURL('snprc_scheduler', 'updateTimeline.api'),\n" +
-                "    success: function(){ callback('Success!'); },\n" +
+                "    success: function(data){\n" +
+                "       var response = JSON.parse(data.response);\n" +
+                "       if (response.success) {\n" +
+                "             callback('Success!');\n" +
+                "       }\n" +
+                "       else {\n" +
+                "             callback('Failure!');\n" +
+                "       }\n" +
+                "    },\n" +
                 "    failure: function(e){ callback(e.responseText); },\n" +
                 "    jsonData: {\n" +
                 "        'TimelineId'  : "+ TIMELINE_ID + ",\n" +

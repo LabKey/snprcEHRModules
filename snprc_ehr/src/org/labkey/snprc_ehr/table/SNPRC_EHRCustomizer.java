@@ -367,6 +367,12 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ds.addColumn(col);
         }
 
+        if (ds.getColumn("mhcSummary") == null)
+        {
+            ColumnInfo col = getWrappedCol(us, ds, "mhcSummary", "mhcSummary", "Id", "Id");
+            col.setLabel("mhcSummary");
+            ds.addColumn(col);
+        }
         if (ds.getColumn("totalOffspring") == null)
         {
             ColumnInfo col15 = getWrappedCol(us, ds, "totalOffspring", "demographicsTotalOffspring", "Id", "Id");

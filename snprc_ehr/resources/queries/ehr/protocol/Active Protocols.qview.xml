@@ -1,0 +1,20 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="protocol"/>
+        <!--<column name="external_id"/>-->
+        <column name="title"/>
+        <column name="inves"/>
+        <column name="last_modification"/>
+        <column name="first_approval"/>
+        <column name="enddate"/>
+        <column name="usda_level"/>
+        <column name="maxAnimals"/>
+        <column name="veterinarian"/>
+    </columns>
+   <filters>
+       <filter column="enddateCoalesced" operator="dategte" value="-0d"/>
+   </filters>
+   <sorts>
+       <sort column="protocol"/>
+   </sorts>
+</customView>
