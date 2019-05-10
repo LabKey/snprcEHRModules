@@ -897,7 +897,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         click(Locator.linkContainingText("Populate QC States"));
         waitForText("QC states inserted");
-
+        sleep(3000);
         Locator closeButton = Locator.tagWithClass("button", "close")
                 .withAttribute("data-dismiss", "modal");
         waitAndClick(closeButton);
@@ -1733,7 +1733,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         runScript(editProjectApi(TEST_PROJECT_ID + 1, 0, "projectItems", null));
 
         // Expected QUS delete row errors
-        checkExpectedErrors(4);
+        checkExpectedErrors(6);
 
         goToSchemaBrowser();
         dataRegionTable = viewQueryData("snd", "Projects");
@@ -2070,7 +2070,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         log("Verifying no test failed");
         assertTextPresent("Complete","Failed tests: 0");
 
-        checkExpectedErrors(2);  // expected delete failures
+        checkExpectedErrors(3);  // expected delete failures
     }
 
     private String getPerimissionTableValue(int row, int col)
