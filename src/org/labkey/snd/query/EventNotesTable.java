@@ -16,13 +16,12 @@
 package org.labkey.snd.query;
 
 import org.jetbrains.annotations.NotNull;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.Permission;
-import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.snd.SNDUserSchema;
 
 public class EventNotesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
@@ -34,9 +33,9 @@ public class EventNotesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
      * @param schema
      * @param table
      */
-    public EventNotesTable(SNDUserSchema schema, TableInfo table)
+    public EventNotesTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override

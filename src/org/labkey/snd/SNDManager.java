@@ -105,7 +105,7 @@ public class SNDManager
 {
     private static final SNDManager _instance = new SNDManager();
 
-    private final StringKeyCache<Object> _cache;
+    private final StringKeyCache<Map<String, Map<String, Object>>> _cache;
 
     private List<TableInfo> _attributeLookups = new ArrayList<>();
 
@@ -121,7 +121,7 @@ public class SNDManager
         return _instance;
     }
 
-    public StringKeyCache getCache()
+    public StringKeyCache<Map<String, Map<String, Object>>> getCache()
     {
         return _cache;
     }
@@ -182,7 +182,7 @@ public class SNDManager
         if (dbTableInfo == null)
             throw new IllegalStateException(table + " db table info not found.");
 
-        SimpleUserSchema.SimpleTable simpleTable = new SimpleUserSchema.SimpleTable(schema, dbTableInfo);
+        SimpleUserSchema.SimpleTable simpleTable = new SimpleUserSchema.SimpleTable(schema, dbTableInfo, null);
         QueryUpdateService qus = new SimpleQueryUpdateService(simpleTable, dbTableInfo);
 
         if (qus == null)

@@ -16,7 +16,9 @@
 package org.labkey.snd.query;
 
 import org.jetbrains.annotations.NotNull;
+import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DisplayColumn;
 import org.labkey.api.data.DisplayColumnFactory;
 import org.labkey.api.data.TableInfo;
@@ -41,14 +43,15 @@ public class EventsCacheTable extends SimpleUserSchema.SimpleTable<SNDUserSchema
      * @param schema
      * @param table
      */
-    public EventsCacheTable(SNDUserSchema schema, TableInfo table)
+    public EventsCacheTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     static final List<FieldKey> defaultVisibleColumns = new ArrayList<>();
 
-    static {
+    static
+    {
         defaultVisibleColumns.add(FieldKey.fromParts("EventId"));
         defaultVisibleColumns.add(FieldKey.fromParts("HtmlNarrative"));
         defaultVisibleColumns.add(FieldKey.fromParts("Plain Text Narrative"));
@@ -71,14 +74,8 @@ public class EventsCacheTable extends SimpleUserSchema.SimpleTable<SNDUserSchema
     {
         super.init();
 
-        ColumnInfo plainTextNarrativeColumn = addColumn(wrapColumn("Plain Text Narrative", getRealTable().getColumn("HtmlNarrative")));
-        plainTextNarrativeColumn.setDisplayColumnFactory(new DisplayColumnFactory()
-        {
-            public DisplayColumn createRenderer(ColumnInfo colInfo)
-            {
-                return new PlainTextNarrativeDisplayColumn(colInfo);
-            }
-        });
+        BaseColumnInfo plainTextNarrativeColumn = addColumn(wrapColumn("Plain Text Narrative", getRealTable().getColumn("HtmlNarrative")));
+        plainTextNarrativeColumn.setDisplayColumnFactory(PlainTextNarrativeDisplayColumn::new);
 
         return this;
     }

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.collections.CaseInsensitiveTreeSet;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
@@ -69,36 +70,36 @@ public class SNDUserSchema extends SimpleUserSchema
         SuperPkgs
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new SuperPackagesTable(schema, SNDSchema.getInstance().getTableInfoSuperPkgs()).init();
+                        return new SuperPackagesTable(schema, SNDSchema.getInstance().getTableInfoSuperPkgs(), cf).init();
                     }
                 },
         Pkgs
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new PackagesTable(schema, SNDSchema.getInstance().getTableInfoPkgs()).init();
+                        return new PackagesTable(schema, SNDSchema.getInstance().getTableInfoPkgs(), cf).init();
                     }
                 },
         PkgCategories
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new CategoriesTable(schema, SNDSchema.getInstance().getTableInfoPkgCategories()).init();
+                        return new CategoriesTable(schema, SNDSchema.getInstance().getTableInfoPkgCategories(), cf).init();
 
                     }
                 },
         PkgCategoryJunction
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         SimpleUserSchema.SimpleTable<SNDUserSchema> table =
                                 new SimpleUserSchema.SimpleTable<>(
-                                        schema, SNDSchema.getInstance().getTableInfoPkgCategoryJunction()).init();
+                                        schema, SNDSchema.getInstance().getTableInfoPkgCategoryJunction(), cf).init();
 
                         return table;
                     }
@@ -106,11 +107,11 @@ public class SNDUserSchema extends SimpleUserSchema
         ProjectItems
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         SimpleUserSchema.SimpleTable<SNDUserSchema> table =
                                 new SimpleUserSchema.SimpleTable<>(
-                                        schema, SNDSchema.getInstance().getTableInfoProjectItems()).init();
+                                        schema, SNDSchema.getInstance().getTableInfoProjectItems(), cf).init();
 
                         return table;
                     }
@@ -118,27 +119,27 @@ public class SNDUserSchema extends SimpleUserSchema
         Projects
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new ProjectsTable(schema, SNDSchema.getInstance().getTableInfoProjects()).init();
+                        return new ProjectsTable(schema, SNDSchema.getInstance().getTableInfoProjects(), cf).init();
                     }
                 },
         Events
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new EventsTable(schema, SNDSchema.getInstance().getTableInfoEvents()).init();
+                        return new EventsTable(schema, SNDSchema.getInstance().getTableInfoEvents(), cf).init();
                     }
                 },
         EventNotes
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         if (!schema.getPermissionCheck() || schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class))
                         {
-                            return new EventNotesTable(schema, SNDSchema.getInstance().getTableInfoEventNotes()).init();
+                            return new EventNotesTable(schema, SNDSchema.getInstance().getTableInfoEventNotes(), cf).init();
                         }
 
                         return null;
@@ -147,11 +148,11 @@ public class SNDUserSchema extends SimpleUserSchema
         EventData
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         if (!schema.getPermissionCheck() || schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class))
                         {
-                            return new EventDataTable(schema, SNDSchema.getInstance().getTableInfoEventData()).init();
+                            return new EventDataTable(schema, SNDSchema.getInstance().getTableInfoEventData(), cf).init();
                         }
 
                         return null;
@@ -160,11 +161,11 @@ public class SNDUserSchema extends SimpleUserSchema
         AttributeData
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         if (!schema.getPermissionCheck() || schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class))
                         {
-                            return new AttributeDataTable(schema);
+                            return new AttributeDataTable(schema, cf);
                         }
 
                         return null;
@@ -173,19 +174,19 @@ public class SNDUserSchema extends SimpleUserSchema
         Lookups
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new LookupsTable(schema, SNDSchema.getInstance().getTableInfoLookups()).init();
+                        return new LookupsTable(schema, SNDSchema.getInstance().getTableInfoLookups(), cf).init();
                     }
                 },
         LookupSets
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         SimpleUserSchema.SimpleTable<SNDUserSchema> table =
                                 new SimpleUserSchema.SimpleTable<>(
-                                        schema, SNDSchema.getInstance().getTableInfoLookupSets()).init();
+                                        schema, SNDSchema.getInstance().getTableInfoLookupSets(), cf).init();
 
                         return table;
                     }
@@ -193,11 +194,11 @@ public class SNDUserSchema extends SimpleUserSchema
         EventsCache
                 {
                     @Override
-                    public TableInfo createTable(SNDUserSchema schema)
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
                         if (!schema.getPermissionCheck() || schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class))
                         {
-                            return new EventsCacheTable(schema, SNDSchema.getInstance().getTableInfoEventsCache()).init();
+                            return new EventsCacheTable(schema, SNDSchema.getInstance().getTableInfoEventsCache(), cf).init();
                         }
 
                         return null;
@@ -205,12 +206,12 @@ public class SNDUserSchema extends SimpleUserSchema
                 };
 
 
-        public abstract TableInfo createTable(SNDUserSchema schema);
+        public abstract TableInfo createTable(SNDUserSchema schema, ContainerFilter cf);
     }
 
     @Override
     @Nullable
-    public TableInfo createTable(String name)
+    public TableInfo createTable(String name, ContainerFilter cf)
     {
         if (name != null)
         {
@@ -226,7 +227,7 @@ public class SNDUserSchema extends SimpleUserSchema
             }
             if (tableType != null)
             {
-                return tableType.createTable(this);
+                return tableType.createTable(this, cf);
             }
             else
             {
@@ -234,7 +235,7 @@ public class SNDUserSchema extends SimpleUserSchema
                 if (nameMap.containsKey(name))
                 {
                     TableInfo table = SNDSchema.getInstance().getTableInfoLookups();
-                    return new LookupSetsTable(this, table, name, nameMap.get(name)).init();
+                    return new LookupSetsTable(this, table, name, nameMap.get(name), cf).init();
                 }
             }
         }
@@ -243,7 +244,7 @@ public class SNDUserSchema extends SimpleUserSchema
 
     public Map<String, Map<String, Object>> getLookupSets()
     {
-        Map<String, Map<String, Object>> nameMap = (Map<String, Map<String, Object>>) SNDManager.get().getCache().get(LookupSetsTable.getCacheKey(getContainer()));
+        Map<String, Map<String, Object>> nameMap = SNDManager.get().getCache().get(LookupSetsTable.getCacheKey(getContainer()));
         if (nameMap != null)
             return nameMap;
 

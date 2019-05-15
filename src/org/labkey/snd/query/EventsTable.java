@@ -18,6 +18,7 @@ package org.labkey.snd.query;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
@@ -27,7 +28,7 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.SNDService;
@@ -46,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventsTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
+public class EventsTable extends SimpleTable<SNDUserSchema>
 {
     /**
      * Create the simple table.
@@ -55,9 +56,9 @@ public class EventsTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
      * @param schema
      * @param table
      */
-    public EventsTable(SNDUserSchema schema, TableInfo table)
+    public EventsTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class EventsTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
 
     protected class UpdateService extends SimpleQueryUpdateService
     {
-        public UpdateService(SimpleUserSchema.SimpleTable ti)
+        public UpdateService(SimpleTable ti)
         {
             super(ti, ti.getRealTable());
         }

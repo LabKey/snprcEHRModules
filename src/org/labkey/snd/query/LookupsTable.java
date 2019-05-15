@@ -17,6 +17,7 @@ package org.labkey.snd.query;
 
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.query.BatchValidationException;
@@ -24,16 +25,16 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
-import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.security.User;
 import org.labkey.snd.SNDManager;
+import org.labkey.snd.SNDUserSchema;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class LookupsTable extends SimpleUserSchema.SimpleTable
+public class LookupsTable extends SimpleTable<SNDUserSchema>
 {
     /**
      * Create the simple table.
@@ -42,9 +43,9 @@ public class LookupsTable extends SimpleUserSchema.SimpleTable
      * @param schema
      * @param table
      */
-    public LookupsTable(UserSchema schema, TableInfo table)
+    public LookupsTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class LookupsTable extends SimpleUserSchema.SimpleTable
 
     protected class UpdateService extends SimpleQueryUpdateService
     {
-        public UpdateService(SimpleUserSchema.SimpleTable ti)
+        public UpdateService(SimpleTable ti)
         {
             super(ti, ti.getRealTable());
         }

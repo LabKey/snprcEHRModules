@@ -17,6 +17,7 @@ package org.labkey.snd.query;
 
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
@@ -30,7 +31,7 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.SNDSequencer;
@@ -45,7 +46,7 @@ import java.util.Map;
 /**
  * Created by marty on 8/27/2017.
  */
-public class CategoriesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
+public class CategoriesTable extends SimpleTable<SNDUserSchema>
 {
 
     /**
@@ -55,13 +56,13 @@ public class CategoriesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
      * @param schema
      * @param table
      */
-    public CategoriesTable(SNDUserSchema schema, TableInfo table)
+    public CategoriesTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override
-    public SimpleUserSchema.SimpleTable init()
+    public SimpleTable<SNDUserSchema> init()
     {
         super.init();
 
@@ -92,7 +93,7 @@ public class CategoriesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
 
     protected class UpdateService extends SimpleQueryUpdateService
     {
-        public UpdateService(SimpleUserSchema.SimpleTable ti)
+        public UpdateService(SimpleTable ti)
         {
             super(ti, ti.getRealTable());
         }

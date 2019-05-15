@@ -18,6 +18,7 @@ package org.labkey.snd.query;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
@@ -35,11 +36,10 @@ import org.labkey.api.query.DuplicateKeyException;
 import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.InvalidKeyException;
-import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.Package;
@@ -61,7 +61,7 @@ import java.util.Set;
 /**
  * Created by marty on 8/23/2017.
  */
-public class PackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
+public class PackagesTable extends SimpleTable<SNDUserSchema>
 {
 
     /**
@@ -71,13 +71,13 @@ public class PackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
      * @param schema
      * @param table
      */
-    public PackagesTable(SNDUserSchema schema, TableInfo table)
+    public PackagesTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override
-    public SimpleUserSchema.SimpleTable init()
+    public PackagesTable init()
     {
         super.init();
 
@@ -124,7 +124,7 @@ public class PackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
 
     protected class UpdateService extends SimpleQueryUpdateService
     {
-        public UpdateService(SimpleUserSchema.SimpleTable ti)
+        public UpdateService(SimpleTable ti)
         {
             super(ti, ti.getRealTable());
         }

@@ -17,6 +17,7 @@ package org.labkey.snd.query;
 
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
@@ -26,11 +27,10 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.InvalidKeyException;
-import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.SuperPackage;
@@ -50,7 +50,7 @@ import java.util.Set;
 /**
  * Created by marty on 8/23/2017.
  */
-public class SuperPackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
+public class SuperPackagesTable extends SimpleTable<SNDUserSchema>
 {
 
     /**
@@ -60,13 +60,13 @@ public class SuperPackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSche
      * @param schema
      * @param table
      */
-    public SuperPackagesTable(SNDUserSchema schema, TableInfo table)
+    public SuperPackagesTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override
-    public SimpleUserSchema.SimpleTable init()
+    public SuperPackagesTable init()
     {
         super.init();
 
@@ -117,7 +117,7 @@ public class SuperPackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSche
 
     protected class UpdateService extends SimpleQueryUpdateService
     {
-        public UpdateService(SimpleUserSchema.SimpleTable ti)
+        public UpdateService(SimpleTable ti)
         {
             super(ti, ti.getRealTable());
         }
@@ -146,7 +146,7 @@ public class SuperPackagesTable extends SimpleUserSchema.SimpleTable<SNDUserSche
             }
 
             // Delete project items associated with the super package
-            List<Integer> projItemIds = SNDManager.get().getProjectItemIdsForSuperPkgId(container, user, superPkgId);
+            List<Integer> projItemIds = SNDManager.getProjectItemIdsForSuperPkgId(container, user, superPkgId);
             List<Map<String, Object>> projItemRows = new ArrayList<>();
 
             UserSchema schema = SNDManager.getSndUserSchema(container, user);

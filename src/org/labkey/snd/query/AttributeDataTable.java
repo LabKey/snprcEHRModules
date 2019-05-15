@@ -23,6 +23,7 @@ import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.ContainerForeignKey;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
+import org.labkey.api.data.ForeignKey;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
@@ -36,11 +37,8 @@ import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.FilteredTable;
-import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryForeignKey;
-import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
-import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.query.UserSchema;
@@ -57,7 +55,6 @@ import org.labkey.snd.SNDSchema;
 import org.labkey.snd.SNDUserSchema;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,9 +69,9 @@ import java.util.Set;
  */
 public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 {
-    public AttributeDataTable(@NotNull SNDUserSchema userSchema)
+    public AttributeDataTable(@NotNull SNDUserSchema userSchema, ContainerFilter cf)
     {
-        super(OntologyManager.getTinfoObjectProperty(), userSchema);
+        super(OntologyManager.getTinfoObjectProperty(), userSchema, cf);
         setName(SNDUserSchema.TableType.AttributeData.name());
         setDescription("Event/package attribute data, one row per attribute/value combination.");
 
@@ -89,15 +86,19 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         // Inject a lookup to the EventData table
         ExprColumn eventDataCol = new ExprColumn(this, "EventData", new SQLFragment(ExprColumn.STR_TABLE_ALIAS + ".EventDataId"), JdbcType.VARCHAR);
         addColumn(eventDataCol);
-        eventDataCol.setFk(new QueryForeignKey(getUserSchema(), null, SNDUserSchema.TableType.EventData.name(), "EventDataId", "EventDataId", true));
+        eventDataCol.setFk(QueryForeignKey.from(getUserSchema(), this.getContainerFilter())
+                .table(SNDUserSchema.TableType.EventData.name())
+                .key("EventDataId")
+                .display("EventDataId")
+                .raw(true));
 
         // Inject a Container column directly into the table, making it easier to follow container filtering rules
         ExprColumn containerCol = new ExprColumn(this, "Container", new SQLFragment(ExprColumn.STR_TABLE_ALIAS  + ".Container"), JdbcType.VARCHAR);
         addColumn(containerCol);
         containerCol.setFk(new ContainerForeignKey(getUserSchema()));
 
-        getColumn("ObjectId").setFk(null);
-        getColumn("PropertyId").setLabel("Property");
+        getMutableColumn("ObjectId").setFk((ForeignKey)null);
+        getMutableColumn("PropertyId").setLabel("Property");
     }
 
     @Override
@@ -106,6 +107,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         // Handle this in the FROM SQL generation
     }
 
+    @Override
     @NotNull
     public SQLFragment getFromSQL(String alias)
     {
@@ -143,7 +145,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
     public QueryUpdateService getUpdateService()
     {
         UserSchema schema = SNDManager.getSndUserSchema(getContainer(), getUserSchema().getUser());
-        SimpleUserSchema.SimpleTable simpleTable = new SimpleUserSchema.SimpleTable(schema, this);
+        SimpleUserSchema.SimpleTable simpleTable = new SimpleUserSchema.SimpleTable(schema, this, null);
         return new AttributeDataTable.UpdateService(simpleTable);
     }
 
@@ -280,7 +282,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
                 Double floatValue = (Double) row.get("FloatValue");
                 String stringValue = (String) row.get("StringValue");
-                Character typeTag = ((String) row.get("TypeTag")).toCharArray()[0];
+                char typeTag = ((String) row.get("TypeTag")).toCharArray()[0];
                 String key = (String) row.get("_Key");
 
                 //add to list of cached narrative rows to delete
