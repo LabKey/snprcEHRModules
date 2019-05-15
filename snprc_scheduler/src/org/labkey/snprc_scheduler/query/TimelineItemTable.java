@@ -2,6 +2,7 @@ package org.labkey.snprc_scheduler.query;
 
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
@@ -26,9 +27,9 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
      * @param table
      */
 
-    public TimelineItemTable(SNPRC_schedulerUserSchema schema, TableInfo table)
+    public TimelineItemTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override
