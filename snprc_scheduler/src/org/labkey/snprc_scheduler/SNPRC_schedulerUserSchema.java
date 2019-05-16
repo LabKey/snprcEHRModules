@@ -2,6 +2,7 @@ package org.labkey.snprc_scheduler;
 
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.ldk.table.CustomPermissionsTable;
@@ -45,40 +46,40 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
         Timeline
                 {
                     @Override
-                    public TableInfo createTable(SNPRC_schedulerUserSchema schema)
+                    public TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf)
                     {
-                        return new TimelineTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimeline()).init();
+                        return new TimelineTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimeline(), cf).init();
                     }
                 },
         TimelineAnimalJunction
             {
                 @Override
-                public TableInfo createTable(SNPRC_schedulerUserSchema schema)
+                public TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf)
                 {
-                    return new TimelineAnimalJunctionTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction()).init();
+                    return new TimelineAnimalJunctionTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction(), cf).init();
                 }
             },
         TimelineProjectItem
                 {
                     @Override
-                    public TableInfo createTable(SNPRC_schedulerUserSchema schema)
+                    public TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf)
                     {
-                        return new TimelineProjectItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineProjectItem()).init();
+                        return new TimelineProjectItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineProjectItem(), cf).init();
                     }
                 },
         TimelineItem
                 {
                     @Override
-                    public TableInfo createTable(SNPRC_schedulerUserSchema schema)
+                    public TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf)
                     {
-                        return new TimelineItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem()).init();
+                        return new TimelineItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem(), cf).init();
                     }
                 };
 
-        public abstract TableInfo createTable(SNPRC_schedulerUserSchema schema);
-        }
+        public abstract TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf);
+    }
 
-
+/*         // TODO: Unused: needs change for immutable if retained
     private TableInfo getCustomPermissionTable(TableInfo schemaTable, Class<? extends Permission> perm)
     {
         CustomPermissionsTable result = new CustomPermissionsTable(this, schemaTable);
@@ -88,11 +89,11 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
 
         return result.init();
     }
-
+*/
 
     @Override
     @Nullable
-    public TableInfo createTable(String name)
+    public TableInfo createTable(String name, ContainerFilter cf)
     {
         if (name != null)
         {
@@ -108,7 +109,7 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
             }
             if (tableType != null)
             {
-                return tableType.createTable(this);
+                return tableType.createTable(this, cf);
             }
 
         }

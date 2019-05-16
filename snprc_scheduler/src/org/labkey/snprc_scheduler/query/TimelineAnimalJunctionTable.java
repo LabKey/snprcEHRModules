@@ -3,6 +3,7 @@ package org.labkey.snprc_scheduler.query;
 
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
@@ -23,9 +24,9 @@ public class TimelineAnimalJunctionTable extends SimpleUserSchema.SimpleTable<SN
      * Created by thawkins on 11/8/2018.
      */
 
-    public TimelineAnimalJunctionTable(SNPRC_schedulerUserSchema schema, TableInfo table)
+    public TimelineAnimalJunctionTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table, cf);
     }
 
     @Override

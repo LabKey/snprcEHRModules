@@ -3,6 +3,7 @@ package org.labkey.snprc_scheduler.query;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
@@ -38,9 +39,9 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
      * @param table
      */
 
-    public TimelineTable(SNPRC_schedulerUserSchema schema, TableInfo table)
+    public TimelineTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)
     {
-        super(schema, table);
+        super(schema, table ,cf);
     }
 
     @Override

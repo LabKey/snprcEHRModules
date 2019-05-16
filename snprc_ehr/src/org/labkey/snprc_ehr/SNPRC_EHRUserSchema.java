@@ -17,6 +17,7 @@ package org.labkey.snprc_ehr;
 
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.ldk.table.CustomPermissionsTable;
@@ -44,7 +45,7 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
         super(SNPRC_EHRSchema.NAME, null, user, container, SNPRC_EHRSchema.getInstance().getSchema());
     }
 
-    protected TableInfo createWrappedTable(String name, @NotNull TableInfo schemaTable)
+    protected TableInfo createWrappedTable(String name, @NotNull TableInfo schemaTable, ContainerFilter cf)
     {
         String nameLowercased = name.toLowerCase();
         switch(nameLowercased){
@@ -52,19 +53,19 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
             case SNPRC_EHRSchema.TABLE_VALID_BIRTH_CODES:
             case SNPRC_EHRSchema.TABLE_VALID_DEATH_CODES:
             case SNPRC_EHRSchema.TABLE_VALID_INSTITUTIONS:
-                return getCustomPermissionTable(createSourceTable(nameLowercased), ManageLookupTablesPermission.class);
+                return getCustomPermissionTable(createSourceTable(nameLowercased), cf, ManageLookupTablesPermission.class);
             case SNPRC_EHRSchema.TABLE_GROUP_CATEGORIES:
             case SNPRC_EHRSchema.TABLE_ANIMAL_GROUPS:
-                return getCustomPermissionTable(createSourceTable(nameLowercased), ManageGroupMembersPermission.class);
+                return getCustomPermissionTable(createSourceTable(nameLowercased), cf, ManageGroupMembersPermission.class);
         }
 
-        return super.createWrappedTable(name, schemaTable);
+        return super.createWrappedTable(name, schemaTable, cf);
     }
 
 
-    private TableInfo getCustomPermissionTable(TableInfo schemaTable, Class<? extends Permission> perm)
+    private TableInfo getCustomPermissionTable(TableInfo schemaTable, ContainerFilter cf, Class<? extends Permission> perm)
     {
-        CustomPermissionsTable ret = new CustomPermissionsTable(this, schemaTable);
+        CustomPermissionsTable ret = new CustomPermissionsTable(this, schemaTable, cf);
         ret.addPermissionMapping(InsertPermission.class, perm);
         ret.addPermissionMapping(UpdatePermission.class, perm);
         ret.addPermissionMapping(DeletePermission.class, perm);
