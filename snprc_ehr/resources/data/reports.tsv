@@ -61,3 +61,4 @@ blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			C
 ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	ParasitologyPivot			date	false	false			Parasitology data.
 ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes
+Flags	Colony Management	query	Animal Attributes (flags)	true		study	flags			StartDate	false	false		qcstate/publicdata	Animal attribute flags
