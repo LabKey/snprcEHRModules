@@ -1046,7 +1046,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         //TODO: Uncomment below and test for validity - I was unable to test since these tables are not exposed yet
 //        //DomainDescriptor
-//        Connection conn = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+//        Connection conn = WebTestHelper.getRemoteApiConnection();
 //        SelectRowsCommand selectFromDomainDescriptor = new SelectRowsCommand("exp", "DomainDescriptor");
 //        selectFromDomainDescriptor.addFilter(new Filter("Name", "Package-1", Filter.Operator.EQUAL));
 //        SelectRowsResponse resp = selectFromDomainDescriptor.execute(conn, getContainerPath());
