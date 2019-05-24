@@ -53,6 +53,10 @@ ALTER TABLE snprc_scheduler.StudyDayNotes
         PRIMARY KEY (ObjectId);
 GO
 
+-- Reference is not to unique row
+-- will handle integrity via a different mechanism
+-- srr 05.24.2019
+/*
 ALTER TABLE snprc_scheduler.StudyDayNotes
     ADD CONSTRAINT FK_STUDYDAY_FK_TIMELI_TIMELINE
         FOREIGN KEY (
@@ -63,4 +67,4 @@ ALTER TABLE snprc_scheduler.StudyDayNotes
                                                      TimelineObjectId,
                                                      StudyDay
                 );
-GO
+*/
