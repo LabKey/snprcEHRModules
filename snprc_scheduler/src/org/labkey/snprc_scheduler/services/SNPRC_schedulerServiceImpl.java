@@ -49,29 +49,28 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     }
 
     /**
-     * returns a list of active timelines for a projectId/RevisionNum
+     * returns a list of active timelines for a projectId/RevisionNum (via projectObjectId)
      */
-    //TODO: Client needs to be refactored to use ProjectObjectId instead of ProjectId/RevisionNum
+
     public List<JSONObject> getActiveTimelines(Container c, User u, String projectObjectId, BatchValidationException errors) throws ApiUsageException
     {
         List<JSONObject> timelinesJson = new ArrayList<>();
         try
         {
             UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
-            TableInfo timelineTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimeline();
-
+            TableInfo timelineTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter(), false, false);
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectObjectId"), projectObjectId, CompareType.EQUAL);
 
             List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
 
             //UserSchema studySchema = QueryService.get().getUserSchema(u, EHRService.get().getEHRStudyContainer(c), "study");
             UserSchema sndSchema = QueryService.get().getUserSchema(u, c, "snd");
-            TableInfo ti = sndSchema.getTable("Projects");
-            SimpleFilter sndFliter = null;
+            TableInfo ti = sndSchema.getTable("Projects", sndSchema.getDefaultContainerFilter(), false, false);
+            SimpleFilter sndFliter;
 
             for (Timeline timeline : timelines)
             {
-                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(timeline.getObjectId()));
+                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(timeline.getObjectId(), null));
                 timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
                 timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(timeline.getObjectId()));
                 timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
@@ -97,6 +96,55 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
         return timelinesJson;
     }
+
+//    //TODO: Client needs to be refactored to use ProjectObjectId instead of ProjectId/RevisionNum
+//    public List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, BatchValidationException errors) throws ApiUsageException
+//    {
+//        List<JSONObject> timelinesJson = new ArrayList<>();
+//        try
+//        {
+//            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+//            TableInfo timelineTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimeline();
+//
+//            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectObjectId"), projectObjectId, CompareType.EQUAL);
+//
+//            List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
+//
+//            //UserSchema studySchema = QueryService.get().getUserSchema(u, EHRService.get().getEHRStudyContainer(c), "study");
+//            UserSchema sndSchema = QueryService.get().getUserSchema(u, c, "snd");
+//            TableInfo ti = sndSchema.getTable("Projects");
+//            SimpleFilter sndFliter = null;
+//
+//            for (Timeline timeline : timelines)
+//            {
+//                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(timeline.getObjectId(), null));
+//                timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
+//                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(timeline.getObjectId()));
+//                timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
+//                timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
+//
+//                // add projectId and RevisionNum
+//                sndFliter = new SimpleFilter(FieldKey.fromParts("ObjectId"), timeline.getProjectObjectId(), CompareType.EQUAL);
+//                Map result = new TableSelector(ti, sndFliter, null).getMap();
+//
+//                if (result != null)
+//                {
+//                    timeline.setProjectId((Integer) result.get("ProjectId"));
+//                    timeline.setProjectRevisionNum((Integer) result.get("RevisionNum"));
+//                }
+//
+//                timelinesJson.add(timeline.toJSON(c, u));
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            throw new ApiUsageException(e);
+//        }
+//
+//        return timelinesJson;
+//    }
+
+
 
 
 

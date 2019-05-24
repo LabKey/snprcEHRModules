@@ -48,6 +48,9 @@ public class Timeline //extends Entity
     private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the timeline record and all associated TimelineItem, TimelineAnimalJunction, TimelineProject items.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
     private Boolean _isInUse;    // NOTE WELL: is set to true if TBD
+    private String _species;
+    private Integer _chargeId;
+    private String _protocol;
     private List<TimelineItem> _timelineItems = new ArrayList<>(); // list of TimelineItem objects associated with the timeline
     private List<TimelineProjectItem> _timelineProjectItems = new ArrayList<>(); // list of TimelineProjectItem objects associated with the timeline
     private List<TimelineAnimalJunction> _timelineAnimalItems = new ArrayList<>(); // list of animals assigned to timeline
@@ -78,7 +81,12 @@ public class Timeline //extends Entity
     public static final String TIMELINE_IS_DELETED = "IsDeleted";
     public static final String TIMELINE_IS_DIRTY = "IsDirty";
     public static final String TIMELINE_IS_IN_USE = "IsInUse";
+    public static final String TIMELINE_IS_SCHEDULED = "IsScheduled";
+    public static final String TIMELINE_HAS_ITEMS = "HasItems";
     public static final String TIMELINE_RC = "RC";
+    public static final String TIMELINE_SPECIES = "Species";
+    public static final String TIMELINE_CHARGE_ID = "ChargeId";
+    public static final String TIMELINE_PROTOCOL = "Protocol";
 
     public static final String TIMELINE_DATE_FORMAT = "yyyy-MM-dd";  //
     public static final String TIMELINE_DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
@@ -114,6 +122,9 @@ public class Timeline //extends Entity
             this.setDirty(json.has(Timeline.TIMELINE_IS_DIRTY) && json.getBoolean(Timeline.TIMELINE_IS_DIRTY));
             this.setInUse(json.has(Timeline.TIMELINE_IS_IN_USE) && json.getBoolean(Timeline.TIMELINE_IS_IN_USE));
             this.setRc(json.has(Timeline.TIMELINE_RC) ? json.getString(Timeline.TIMELINE_RC) : null);
+            this.setSpecies(json.has(Timeline.TIMELINE_SPECIES) ? json.getString(Timeline.TIMELINE_SPECIES) : null);
+            this.setProtocol(json.has(Timeline.TIMELINE_PROTOCOL) ? json.getString(Timeline.TIMELINE_PROTOCOL) : null);
+            this.setChargeId(json.has(Timeline.TIMELINE_CHARGE_ID) ? json.getInt(Timeline.TIMELINE_CHARGE_ID) : null);
 
             String startDateString = json.has(Timeline.TIMELINE_STARTDATE) ? json.getString(Timeline.TIMELINE_STARTDATE) : null;
             String endDateString = json.has(Timeline.TIMELINE_ENDDATE) ? json.getString(Timeline.TIMELINE_ENDDATE) : null;
@@ -451,6 +462,36 @@ public class Timeline //extends Entity
         _isInUse = inUse;
     }
 
+    public String getSpecies()
+    {
+        return _species;
+    }
+
+    public void setSpecies(String species)
+    {
+        _species = species;
+    }
+
+    public Integer getChargeId()
+    {
+        return _chargeId;
+    }
+
+    public void setChargeId(Integer chargeId)
+    {
+        _chargeId = chargeId;
+    }
+
+    public String getProtocol()
+    {
+        return _protocol;
+    }
+
+    public void setProtocol(String protocol)
+    {
+        _protocol = protocol;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c, User u)
     {
@@ -479,6 +520,9 @@ public class Timeline //extends Entity
         values.put(TIMELINE_IS_DIRTY, getDirty());
         values.put(TIMELINE_IS_IN_USE, getInUse());
         values.put(TIMELINE_RC, getRc());
+        values.put(TIMELINE_SPECIES, getSpecies());
+        values.put(TIMELINE_CHARGE_ID, getChargeId());
+        values.put(TIMELINE_PROTOCOL, getProtocol());
 
         if (getTimelineItems().size() > 0)
         {
@@ -546,6 +590,9 @@ public class Timeline //extends Entity
         json.put(TIMELINE_IS_DIRTY, getDirty());
         json.put(TIMELINE_IS_IN_USE, getInUse());
         json.put(TIMELINE_RC, getRc());
+        json.put(TIMELINE_SPECIES, getSpecies());
+        json.put(TIMELINE_CHARGE_ID, getChargeId());
+        json.put(TIMELINE_PROTOCOL, getProtocol());
 
         if (getTimelineItems().size() > 0)
         {
@@ -632,6 +679,9 @@ public class Timeline //extends Entity
                 Objects.equals(_isDeleted, timeline._isDeleted) &&
                 Objects.equals(_isDirty, timeline._isDirty) &&
                 Objects.equals(_isInUse, timeline._isInUse) &&
+                Objects.equals(_species, timeline._species) &&
+                Objects.equals(_chargeId, timeline._chargeId) &&
+                Objects.equals(_protocol, timeline._protocol) &&
                 Objects.equals(_timelineItems, timeline._timelineItems) &&
                 Objects.equals(_timelineProjectItems, timeline._timelineProjectItems) &&
                 Objects.equals(_timelineAnimalItems, timeline._timelineAnimalItems);
@@ -640,6 +690,6 @@ public class Timeline //extends Entity
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _isInUse, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
+        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _isInUse, _species, _chargeId, _protocol, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
     }
 }

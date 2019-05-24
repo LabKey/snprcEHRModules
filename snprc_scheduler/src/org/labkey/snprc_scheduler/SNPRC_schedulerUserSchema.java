@@ -5,13 +5,8 @@ import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.ldk.table.CustomPermissionsTable;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
-import org.labkey.api.security.permissions.DeletePermission;
-import org.labkey.api.security.permissions.InsertPermission;
-import org.labkey.api.security.permissions.Permission;
-import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.snprc_scheduler.query.TimelineAnimalJunctionTable;
 import org.labkey.snprc_scheduler.query.TimelineItemTable;
 import org.labkey.snprc_scheduler.query.TimelineProjectItemTable;
@@ -80,9 +75,9 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
     }
 
 /*         // TODO: Unused: needs change for immutable if retained
-    private TableInfo getCustomPermissionTable(TableInfo schemaTable, Class<? extends Permission> perm)
+    private TableInfo getCustomPermissionTable(TableInfo schemaTable, ContainerFilter cf,  Class<? extends Permission> perm)
     {
-        CustomPermissionsTable result = new CustomPermissionsTable(this, schemaTable);
+        CustomPermissionsTable result = new CustomPermissionsTable(this, schemaTable, cf);
         result.addPermissionMapping(InsertPermission.class, perm);
         result.addPermissionMapping(UpdatePermission.class, perm);
         result.addPermissionMapping(DeletePermission.class, perm);

@@ -1,5 +1,6 @@
 package org.labkey.snprc_scheduler;
 
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
@@ -98,18 +99,20 @@ public class SNPRC_schedulerManager
         }
         return userName;
     }
-
-    public List<TimelineItem> getTimelineItems(String timelineObjectId) throws ApiUsageException
+    // TODO: fb_snprc_edit
+    public List<TimelineItem> getTimelineItems(String timelineObjectId,@Nullable Date scheduleDate) throws ApiUsageException
     {
 
         List<TimelineItem> timelineItems;
         try
         {
-            //UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
             TableInfo timelineItemTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem();
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
-
+            if (scheduleDate != null)
+            {
+                filter.addCondition(FieldKey.fromParts(TimelineItem.TIMELINEITEM_SCHEDULE_DATE), scheduleDate, CompareType.DATE_EQUAL);
+            }
             timelineItems = new TableSelector(timelineItemTable, filter, null).getArrayList(TimelineItem.class);
 
         }
