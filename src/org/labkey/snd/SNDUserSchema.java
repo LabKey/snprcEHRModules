@@ -284,7 +284,7 @@ public class SNDUserSchema extends SimpleUserSchema
     }
 
     @Override
-    public synchronized Set<String> getVisibleTableNames()
+    public Set<String> getVisibleTableNames()
     {
         Set<String> tables = new CaseInsensitiveTreeSet();
         tables.addAll(super.getVisibleTableNames());

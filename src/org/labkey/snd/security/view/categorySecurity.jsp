@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 %>
-<%@ page import="org.labkey.snd.SNDController" %>
 <%@ page import="org.labkey.api.security.Group" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="org.labkey.api.security.SecurityPolicy" %>
 <%@ page import="org.labkey.api.security.SecurityPolicyManager" %>
-<%@ page import="org.labkey.api.snd.SNDService" %>
-<%@ page import="org.labkey.api.snd.Category" %>
-<%@ page import="org.labkey.snd.security.SNDSecurityManager" %>
 <%@ page import="org.labkey.api.security.roles.Role" %>
-<%@ page import="java.util.Map" %>
+<%@ page import="org.labkey.api.snd.Category" %>
+<%@ page import="org.labkey.api.snd.SNDService" %>
+<%@ page import="org.labkey.snd.SNDController" %>
+<%@ page import="org.labkey.snd.security.SNDSecurityManager" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
@@ -248,7 +248,7 @@
 
         <%= button("Save").submit(true) %>
         <%= button("Clear All").href("#").onClick("return clearAll();") %>
-        <%= button("Cancel").href(h(buildURL(SNDController.AdminAction.class))) %>
+        <%= button("Cancel").href(urlFor(SNDController.AdminAction.class)) %>
 
     </labkey:form>
 
