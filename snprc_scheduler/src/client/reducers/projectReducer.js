@@ -14,7 +14,7 @@ import _ from 'lodash';
 export const verboseOutput = false;
 const SEARCH_MODE_LABKEY = 1;
 const SEARCH_MODE_SND = 2;
-var SEARCH_MODE = SEARCH_MODE_SND;
+let SEARCH_MODE = SEARCH_MODE_SND;
 
 
 import {
@@ -28,32 +28,16 @@ import {
     PROJECT_LIST_SORTED
 } from "../actions/dataActions";
 
-function hasValue (source, value)  {
+const hasValue = (source, value) => {
     if (source == null) source = '';
     source = source.value ? source.value : source;
     source = (source + '').toUpperCase();
-    if (source.indexOf(value) > -1) return true;
-    return false;
+    return source.indexOf(value) > -1;
+
 };
 
-function cloneTimeline(source) {
-    let nt = Object.assign({ }, source);
-    nt = Object.assign(nt, { TimelineId: -1, revisionNum: -1, IsDraft: true });
-    
-    
-    
-    //console.log('source object:');
-    //console.log(source);
-    //nt.TimelineId = -1;
-    //nt.RevisionNum = -1;
-    //nt.IsDraft = true;
-    console.log('cloned object:');
-    console.log(nt);
-    return nt;
-}
-
 export default (state = { }, action) => {  
-    let nextState = Object.assign({ }, state);
+    let nextState = { ...state };
     let value = '';
     nextState.errors = [];
     switch (action.type) { 

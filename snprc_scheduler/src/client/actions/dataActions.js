@@ -233,11 +233,6 @@ export function fetchTimelinesByProject(selectedProject) {
     }
 }
 
-function isValidTimeline(timeline, timelines) {
-
-
-}
-
 export function expandAccordionTab(tab) {
     if (verboseOutput) console.log('EXPAND_ACCORDION_TAB');
     return (dispatch) => {

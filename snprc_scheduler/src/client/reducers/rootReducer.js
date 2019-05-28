@@ -23,7 +23,7 @@ const verboseOutput = false;
 
 export default (state = {}, action) => {
     if (verboseOutput) console.log('rootReducer -> ' + action.type);
-    let nextState = Object.assign({ }, state);
+    let nextState = { ...state };
 
     switch (action.type) {
 
