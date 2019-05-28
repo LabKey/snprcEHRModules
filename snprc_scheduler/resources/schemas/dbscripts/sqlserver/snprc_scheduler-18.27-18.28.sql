@@ -27,6 +27,8 @@ ALTER TABLE snprc_scheduler.TimelineItem
             );
 GO
 */
+-- drop table if it exists
+EXEC core.fn_dropifexists 'StudyDayNotes','snprc_scheduler', 'TABLE';
 
 
 /********************************************
