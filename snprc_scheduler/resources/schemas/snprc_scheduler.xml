@@ -38,7 +38,7 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="ProjectItemId">
-                <nullable>false</nullable>
+                <nullable>true</nullable>
             </column>
             <column columnName="TimelineObjectId">
                 <nullable>false</nullable>
