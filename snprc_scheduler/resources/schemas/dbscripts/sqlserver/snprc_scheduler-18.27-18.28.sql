@@ -14,6 +14,11 @@ for reference to the new StudyDayNotes table
 srr 05.22.2019
 *******************************************/
 
+-- Reference is not to unique row
+-- will handle integrity via a different mechanism
+-- srr 05.28.2019
+
+/*
 ALTER TABLE snprc_scheduler.TimelineItem
     ADD CONSTRAINT AK_AK_STUDYDAYNOTES_TIMELINE
         UNIQUE (
@@ -21,7 +26,7 @@ ALTER TABLE snprc_scheduler.TimelineItem
                 StudyDay
             );
 GO
-
+*/
 
 
 /********************************************
