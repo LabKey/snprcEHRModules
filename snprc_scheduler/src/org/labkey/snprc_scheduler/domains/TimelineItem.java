@@ -87,7 +87,7 @@ public class TimelineItem
         {
             // Find study day and project item id and parse as ints
             json.getInt(TimelineItem.TIMELINEITEM_STUDY_DAY);
-            json.getInt(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID);
+//            json.getInt(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID);
         }
         catch (Exception e)
         {

@@ -1,6 +1,6 @@
 
 .spacer-row {
-    min-height: 30px;
+    min-height: 57px;
 }
 
 .no-border {
@@ -41,6 +41,7 @@
 
 .scheduler-view {
     min-width: 1200px;
+    margin-top: -10px;
 }
 
 .input-wide {
@@ -74,6 +75,7 @@
 
 .details-frame {
     height: 145px;
+    margin-bottom: 10px;
 }
 
 .zero-side-padding {
@@ -125,3 +127,9 @@ textarea.form-control {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+
+.alert-banner {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+}
+

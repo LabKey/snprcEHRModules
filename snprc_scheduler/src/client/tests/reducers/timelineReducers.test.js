@@ -37,7 +37,7 @@ test('Should clone timeline returning a new timeline object with TimelineId = -1
     expect(state).toEqual(
             {
                 ...timelineState,
-                timelines: [ ...timelineData, {...timelineData[0], TimelineId: -1, revisionNum: -1, IsDraft: true} ]
+                timelines: [ ...timelineData, {...timelineData[0], TimelineId: -1, RevisionNum: -1, IsDraft: true} ]
 
             });
 });

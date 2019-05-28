@@ -6,7 +6,7 @@ import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
 import TimelineList from '../components/TimelineList';
 import TimelineDetails from '../components/TimelineDetails';
-import {Accordion, Card, Button, Modal, Panel, PanelGroup} from "react-bootstrap";
+import {Accordion, Card, Button, Modal, Panel, PanelGroup, Alert} from "react-bootstrap";
 import CalendarDetails from "../components/CalendarDetails";
 import AnimalDetails from "../components/AnimalDetails";
 import ProjectMain from "../components/ProjectMain";
@@ -15,37 +15,92 @@ import CalendarList from "../components/CalendarList";
 import AnimalMain from "../components/AnimalMain";
 
 import {
-    saveTimeline, saveTimelineSuccess
+    deleteNewTimelines,
+    expandAccordionTab, handleErrors,
+    hideAlertBanner,
+    hideConfirm,
+    saveTimeline,
+    saveTimelineSuccess, selectFirstTimeline,
+    selectTimeline,
+    setTimelineClean,
+    showAlertBanner,
+    showConfirm, TAB_ANIMALS,
+    TAB_PROJECTS,
+    TAB_TIMELINES
 } from '../actions/dataActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import Confirm from "../components/Confirm";
+import AlertModal from "../components/AlertModal";
 
 library.add(faSpinner)
 
-const TAB_PROJECTS = 0x0;
-const TAB_TIMELINES = 0x1;
-const TAB_ANIMALS = 0x2;
-const TAB_CALENDAR = 0x3;
+// const TAB_PROJECTS = 0x0;
+// const TAB_TIMELINES = 0x1;
+// const TAB_ANIMALS = 0x2;
+// const TAB_CALENDAR = 0x3;
 
 class ProjectsView extends React.Component {
         
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: TAB_PROJECTS,
             showSaving: false
         };
+
+        this.props.expandTab(TAB_PROJECTS);
+
+        window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.handleWindowBeforeUnload);
+    }
+
+    handleWindowBeforeUnload = (event) => {
+
+        if (this.props.selectedTimeline.IsDirty && !this.props.confirm.show) {
+            event.returnValue = 'Changes you made may not be saved.';
+        }
     }
 
     handleAccordionSelectionChange = (tabIndex) => {
-        if (tabIndex != null) {
-            this.setState({selectedTab: tabIndex});
-        }
-    };
+        const { selectedTimeline, selectTimeline, selectFirstTimeline, timelines, cleanTimeline, deleteNewTimelines, showConfirm, hideConfirm, expandTab } = this.props;
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return true;
+        if (tabIndex != null) {
+            if (tabIndex === 1) {
+                expandTab(tabIndex);
+                // if (timelines && timelines.length > 0) {
+                    selectFirstTimeline(timelines);
+                // }
+            }
+            else if (tabIndex === 0)
+                if (selectedTimeline && selectedTimeline.IsDirty) {
+                    showConfirm({
+                        title: 'Unsaved Data',
+                        msg: 'Navigating away from this timeline will lose unsaved data, including the timeline itself if not saved. Proceed without saving?',
+                        onConfirm: () => {
+                            hideConfirm();
+                            cleanTimeline(selectedTimeline);
+                            this.setState({confirmed: true});
+                            deleteNewTimelines();
+                            selectTimeline();
+                            expandTab(tabIndex);
+                        },
+                        onCancel: () => {
+                            hideConfirm();
+                        }
+                    })
+                }
+                else {
+                    selectTimeline();
+                    expandTab(tabIndex);
+                }
+            else {
+                expandTab(tabIndex);
+            }
+        }
     };
     
     getDetailComponent = (tabIndex) => {
@@ -53,7 +108,6 @@ class ProjectsView extends React.Component {
             case TAB_PROJECTS: return <ProjectDetails />;
             case TAB_ANIMALS: return <AnimalDetails />;
             case TAB_TIMELINES: return <TimelineDetails />;
-            case TAB_CALENDAR: return <CalendarDetails />;
             default: return <CalendarDetails />;
         }
     };
@@ -63,7 +117,6 @@ class ProjectsView extends React.Component {
             case TAB_PROJECTS: return <ProjectMain />;
             case TAB_ANIMALS: return  <AnimalMain />;
             case TAB_TIMELINES: return <TimelineGrid />;
-            case TAB_CALENDAR: return <AnimalMain />;
             default: return <ProjectMain />;
         }
     };
@@ -99,23 +152,29 @@ class ProjectsView extends React.Component {
     }
 
     cancel = () => {
-        let r = confirm('Any unsaved data will be lost and the page will reload.  Are you sure?');
-        if (r === true) {
-            location.reload();
-        }
-    }
+        this.props.showConfirm({
+            title: 'Unsaved Data',
+            msg: 'Any unsaved data will be lost and the page will reload.  Are you sure?',
+            onConfirm: () => {
+                location.reload();
+            },
+            onCancel: () => {
+                hideConfirm();
+            }
+        });
+    };
 
     save = () => {
         return () => {
-            const timeline = this.props.selectedTimeline;
-            timeline.IsDirty = true;
+            const {showAlertBanner, selectedTimeline} = this.props;
+            selectedTimeline.IsDirty = true;
 
             this.setState(state => {
                 state.showSaving = true;
                 return state;
             });
 
-            return saveTimeline(timeline).then((response) => {
+            return saveTimeline(selectedTimeline).then((response) => {
                 this.setState(state => {
                     state.showSaving = false;
                     return state;
@@ -123,16 +182,20 @@ class ProjectsView extends React.Component {
 
                 if (!response.success) {
                     if (response.responseText) {
-                        alert("Error on save: " + response.responseText);
-                        console.warn('save project error', response.responseText);
+                        showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
+                                    ", revision " + selectedTimeline.RevisionNum + ": " + response.responseText});
+                        console.warn('save timeline error', response.responseText);
                     }
                     else {
-                        alert("Error on save: Success value false");
-                        console.warn('save project error', "success value false");
+                        showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
+                                    ", revision " + selectedTimeline.RevisionNum + ": Success value false"});
+                        console.warn('save timeline error', "success value false");
                     }
                 }
                 else {
                     console.log('save timeline succeeded');
+                    showAlertBanner({variant: 'success', msg: selectedTimeline.Description + ", revision " + selectedTimeline.RevisionNum +
+                        " saved successfully."});
                     this.props.onSaveSuccess(response.rows);
                 }
 
@@ -143,38 +206,39 @@ class ProjectsView extends React.Component {
                 });
 
                 if (error.exception) {
-                    alert("Error on save: " + error.exception);
-                    console.warn('save project error', error.exception);
+                    showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
+                                ", revision " + selectedTimeline.RevisionNum + ": " + error.exception});
+                    console.warn('save timeline error', error.exception);
                 }
                 else if (error.errors) {
-                    alert("Error on save: " + error.errors[0].msg);
-                    console.warn('save project error', error.errors[0].msg);
+                    showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
+                                ", revision " + selectedTimeline.RevisionNum + ": " + error.errors[0].msg});
+                    console.warn('save timeline error', error.errors[0].msg);
+                }
+                else if (error.message) {
+                    showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
+                                ", revision " + selectedTimeline.RevisionNum + ": " + error.message});
+                    console.warn('save timeline error', error.message);
                 }
             });
         };
     };
 
-    formatAccordionTitle = (title) => {
-        let formatted = title;
-        // if (title && title.length > 25) {
-        //     formatted = title.substring(0, 25);
-        //     formatted += '...';
-        // }
-
-        return formatted;
-    };
+    dismissBanner = () => {
+        this.props.hideAlertBanner();
+    }
 
     render() {
 
-        const { selectedProject, selectedTimeline } = this.props;
+        const { selectedProject, selectedTimeline, confirm, alertModal, alertBanner, accordion } = this.props;
 
-        let detailView = this.getDetailComponent(this.state.selectedTab);
-        let mainView = this.getMainComponent(this.state.selectedTab);
+        let detailView = this.getDetailComponent(accordion ? accordion.tab : null);
+        let mainView = this.getMainComponent(accordion ? accordion.tab : null);
         let accordionComponent = (
             <PanelGroup
                     accordion
                     id="accordion-controller"
-                    activeKey={this.state.selectedTab}
+                    activeKey={accordion ? accordion.tab : TAB_PROJECTS}
                     onSelect={this.handleAccordionSelectionChange}
                     className = 'scheduler-bs-accordion'
                     style={{marginLeft: '20px'}}
@@ -218,7 +282,23 @@ class ProjectsView extends React.Component {
                     <FontAwesomeIcon icon={["fa", "spinner"]} size={"9x"} pulse/>
                 </div>
             </Modal>
-            <div className='row spacer-row'></div>
+            <Confirm show={confirm ? confirm.show : false}
+                           title={confirm ? confirm.title : ''}
+                           msg={confirm ? confirm.msg : ''}
+                           onConfirm={confirm ? confirm.onConfirm : null}
+                           onCancel={confirm ? confirm.onCancel : null}
+                           confirmButtonText='Yes'
+                           cancelButtonText='No'
+                           confirmVariant='danger'/>
+            <AlertModal show={alertModal ? alertModal.show : false}
+                     title={alertModal ? alertModal.title : ''}
+                     msg={alertModal ? alertModal.msg : ''}
+                     onDismiss={alertModal ? alertModal.onDismiss : null}
+                     dismissButtonText='OK'/>
+            {alertBanner && alertBanner.show &&
+                <Alert className="alert-banner" bsClass={'alert alert-' + alertBanner.variant} onDismiss={this.dismissBanner}>{alertBanner.msg}</Alert>
+            }
+            {(!alertBanner || !alertBanner.show) && <><div className='row spacer-row'></div></>}
             <div className='row'>
                 <div className='col-sm-12 zero-right-padding'>{detailView}</div>
                 <div className='col-sm-4'>
@@ -241,11 +321,25 @@ class ProjectsView extends React.Component {
 
 const mapStateToProps = state => ({
     selectedProject: state.project.selectedProject || null,
-    selectedTimeline: state.timeline.selectedTimeline || null
+    selectedTimeline: state.timeline.selectedTimeline || null,
+    timelines: state.timeline.timelines,
+    confirm: state.root.confirm,
+    alertModal: state.root.alertModal,
+    alertBanner: state.root.alertBanner,
+    accordion: state.root.accordion
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSaveSuccess: timeline => dispatch(saveTimelineSuccess(timeline))
+    onSaveSuccess: timeline => dispatch(saveTimelineSuccess(timeline)),
+    hideAlertBanner: timeline => dispatch(hideAlertBanner(timeline)),
+    showAlertBanner: timeline => dispatch(showAlertBanner(timeline)),
+    selectTimeline: timeline => dispatch(selectTimeline(timeline)),
+    selectFirstTimeline: timelines => dispatch(selectFirstTimeline(timelines)),
+    showConfirm: confirm => dispatch(showConfirm(confirm)),
+    hideConfirm: confirm => dispatch(hideConfirm(confirm)),
+    cleanTimeline: timeline => dispatch(setTimelineClean(timeline)),
+    deleteNewTimelines: timeline => dispatch(deleteNewTimelines(timeline)),
+    expandTab: tab => dispatch(expandAccordionTab(tab))
 })
 
 export default connect(

@@ -9,6 +9,7 @@
     ==================================================================================
 */
 
+export const EXPAND_ACCORDION_TAB = 'EXPAND_ACCORDION_TAB';
 export const PROJECT_LIST_REQUESTED = 'PROJECT_LIST_REQUESTED';
 export const PROJECT_LIST_RECEIVED = 'PROJECT_LIST_RECEIVED';
 export const PROJECT_LIST_REQUEST_FAILED = 'PROJECT_LIST_REQUEST_FAILED';
@@ -26,7 +27,8 @@ export const TIMELINE_SELECTED = 'TIMELINE_SELECTED';
 export const TIMELINE_SAVE_SUCCESS = 'TIMELINE_SAVE_SUCCESS';
 export const UPDATE_SELECTED_TIMELINE = 'UPDATE_SELECTED_TIMELINE';
 export const TIMELINE_REMOVED = 'TIMELINE_REMOVED';
-export const TIMELINE_DUPLICATED = 'TIMELINE_DUPLICATED';
+export const TIMELINE_CLONE = 'TIMELINE_CLONE';
+export const TIMELINE_REVISION = 'TIMELINE_REVISION';
 export const TIMELINE_STATE_CHANGED = 'TIMELINE_STATE_CHANGED';
 export const TIMELINE_DROPPED_ON_CALENDAR = 'TIMELINE_DROPPED_ON_CALENDAR';
 export const TIMELINE_ITEM_CREATED = 'TIMELINE_ITEM_CREATED';
@@ -42,21 +44,32 @@ export const PROJECT_LIST_SORTED = 'PROJECT_LIST_SORTED';
 export const SET_TIMELINE_DAY_0 = 'SET_TIMELINE_DAY_0';
 export const TIMELINE_LIST_SORTED = 'TIMELINE_LIST_SORTED';
 export const NEW_TIMELINE = 'NEW_TIMELINE';
+export const DELETE_NEW_TIMELINES = 'DELETE_NEW_TIMELINES';
+export const DELETE_TIMELINE = 'DELETE_TIMELINE';
+export const TIMELINE_CLEAN = 'TIMELINE_CLEAN';
+export const SHOW_CONFIRM = 'SHOW_CONFIRM';
+export const HIDE_CONFIRM = 'HIDE_CONFIRM';
+export const SHOW_ALERT_MODAL = 'SHOW_ALERT_MODAL';
+export const HIDE_ALERT_MODAL = 'HIDE_ALERT_MODAL';
+export const SHOW_ALERT_BANNER = 'SHOW_ALERT_BANNER';
+export const HIDE_ALERT_BANNER = 'HIDE_ALERT_BANNER';
 export const NO_OP = 'NO_OP';
+
+export const TAB_PROJECTS = 0x0;
+export const TAB_TIMELINES = 0x1;
+export const TAB_ANIMALS = 0x2;
 
 export const getBaseURI = () => {
     let data = (window.location+'').toString().split('//');
     return data[0]+'//'+data[1].split('/')[0];
 }
 
-export const BASE_URI = getBaseURI();
-export const BASE_API = '/labkey/snprc_scheduler/snprc/';
-
 const verboseOutput = false;
 
 export function createAction(type, payload) {
     switch(type) {
         case PROJECT_LIST_REQUESTED: return { type: type };
+        case EXPAND_ACCORDION_TAB: return { type: type, payload: payload };
         case PROJECT_LIST_RECEIVED: return { type: type, payload: payload };
         case PROJECT_LIST_REQUEST_FAILED: return { type: type, payload: payload, error: true };
         case ANIMAL_LIST_REQUESTED: return { type: type };
@@ -71,7 +84,8 @@ export function createAction(type, payload) {
         case TIMELINE_SELECTED: return { type: type, payload: payload };
         case TIMELINE_SAVE_SUCCESS: return { type: type, payload: payload };
         case UPDATE_SELECTED_TIMELINE: return { type: type, payload: payload };
-        case TIMELINE_DUPLICATED: return { type: type, payload: payload };
+        case TIMELINE_REVISION: return { type: type, payload: payload };
+        case TIMELINE_CLONE: return { type: type, payload: payload };
         case TIMELINE_ITEM_CREATED: return { type: type, payload: payload };
         case TIMELINE_ITEM_REMOVED: return { type: type, payload: payload };
         case TIMELINE_ITEM_SELECTED: return { type: type, payload: payload };
@@ -84,9 +98,35 @@ export function createAction(type, payload) {
         case SET_TIMELINE_DAY_0: return { type: type, payload: payload };
         case TIMELINE_LIST_SORTED: return { type: type, payload: payload };
         case NEW_TIMELINE: return { type: type, payload: payload };
+        case DELETE_NEW_TIMELINES: return { type: type, payload: payload };
+        case DELETE_TIMELINE: return { type: type, payload: payload };
         case PROJECT_LIST_SORTED: return { type: type, payload: payload };
+        case TIMELINE_CLEAN: return { type: type, payload: payload };
+        case SHOW_CONFIRM: return { type: type, payload: payload };
+        case HIDE_CONFIRM: return { type: type, payload: payload };
+        case SHOW_ALERT_MODAL: return { type: type, payload: payload };
+        case HIDE_ALERT_MODAL: return { type: type, payload: payload };
+        case SHOW_ALERT_BANNER: return { type: type, payload: payload };
+        case HIDE_ALERT_BANNER: return { type: type, payload: payload };
         default: return { type: type }
     }    
+}
+
+export function handleErrors(baseMsg, error) {
+    return (dispatch) => {
+        if (error.exception) {
+            dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.exception}));
+            console.warn('save project error', error.exception);
+        }
+        else if (error.errors) {
+            dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.errors[0].msg}));
+            console.warn('save project error', error.errors[0].msg);
+        }
+        else if (error.message) {
+            dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.message}));
+            console.warn('save project error', error.message);
+        }
+    }
 }
 
 export function saveTimeline(timelineData) {
@@ -118,16 +158,31 @@ function fetchProjects_LABKEY() {
 }
 
 function fetchProjects_SND() {
-    const API_ENDPOINT = BASE_URI + BASE_API + 'getActiveProjects.view?';
+    const API_ENDPOINT = LABKEY.ActionURL.getBaseURL() + LABKEY.ActionURL.getContainer() + '/SNPRC_Scheduler-getActiveProjects.view?';
     return (dispatch) => {
         dispatch(createAction(PROJECT_LIST_REQUESTED));
         fetch(API_ENDPOINT)
         .then(response => response.json())
         .then(data => { 
-            if (data.success) dispatch(createAction(PROJECT_LIST_RECEIVED, data.rows));
-            else dispatch(createAction(PROJECT_LIST_REQUEST_FAILED, null));
+            if (data.success) {
+                dispatch(createAction(PROJECT_LIST_RECEIVED, data.rows));
+
+                // Sort matches defaultSort on projects table to select first project
+                dispatch(selectProject(data.rows.sort(function(a, b){
+                    if (!a.description) {
+                        return 1;
+                    }
+                    if (!b.description) {
+                        return -1;
+                    }
+                    return (a.description > b.description ? 1 : -1)
+                })[0]));
+            }
+            else {
+                dispatch(handleErrors("Retrieving projects failed", error.exception));
+            }
         })
-        .catch((error) => dispatch(createAction(PROJECT_LIST_REQUEST_FAILED, error)));
+        .catch((error) => dispatch(handleErrors("Retrieving projects failed", error)));
     } 
 }
 
@@ -141,28 +196,95 @@ export function fetchAnimalsByProject(projectId, revision) {
     return (dispatch) => {
         dispatch(createAction(ANIMAL_LIST_REQUESTED));
         LABKEY.Query.selectRows({
-            queryName: 'AnimalsByProject', requiredVersion: 9.1, schemaName: 'snd', filterArray: [ 
+            queryName: 'AnimalsByProject', requiredVersion: 9.1, schemaName: 'snd', filterArray: [
                 LABKEY.Filter.create('ProjectId', projectId.toString(), LABKEY.Filter.Types.EQUAL),
                 LABKEY.Filter.create('RevisionNum', revision.toString(), LABKEY.Filter.Types.EQUAL)
-            ],           
+            ],
             columns: 'Id,ProjectId,RevisionNum,StartDate,EndDate,Gender,ChargeId,Iacuc,AssignmentStatus,Weight,Age',
-            success: (results) => { dispatch(createAction(ANIMAL_LIST_RECEIVED, results.rows)) },
-            failure: (error) => { dispatch(createAction(ANIMAL_LIST_REQUEST_FAILED, error)) }
+            success: (results) => {
+                dispatch(createAction(ANIMAL_LIST_RECEIVED, results.rows));
+            },
+            failure: (error) => {
+                dispatch(handleErrors("Retrieving animals failed", error));
+            }
         });
     };
 }
 
 export function fetchTimelinesByProject(selectedProject) {
     if (verboseOutput) console.log('fetchTimelinesByProject(' + selectedProject.objectId + ')');
-    const API_ENDPOINT = BASE_URI + BASE_API + 'getActiveTimelines.view?projectObjectId=' + selectedProject.objectId;
+    const API_ENDPOINT = LABKEY.ActionURL.getBaseURL() + LABKEY.ActionURL.getContainer() + '/SNPRC_Scheduler-getActiveTimelines.view?projectObjectId=' + selectedProject.objectId;
     return (dispatch) => {
-        dispatch(createAction(TIMELINE_LIST_REQUESTED, selectedProject.objectId ));
+        dispatch(createAction(TIMELINE_LIST_REQUESTED, selectedProject.objectId));
         fetch(API_ENDPOINT)
-        .then(response => response.json())
-        .then(data => { if (data.success) dispatch(createAction(TIMELINE_LIST_RECEIVED,
-                {timelines: data.rows, selectedProject: selectedProject})); })
-        .catch((error) => dispatch(createAction(TIMELINE_LIST_REQUEST_FAILED, error)));
-    }    
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        dispatch(createAction(TIMELINE_LIST_RECEIVED, {
+                            timelines: data.rows,
+                            selectedProject: selectedProject
+                        }));
+                    }
+                    else {
+                        dispatch(handleErrors("Retrieving timelines failed", data));
+                    }
+                })
+                .catch((error) => dispatch(handleErrors("Retrieving timelines failed", error)));
+    }
+}
+
+function isValidTimeline(timeline, timelines) {
+
+
+}
+
+export function expandAccordionTab(tab) {
+    if (verboseOutput) console.log('EXPAND_ACCORDION_TAB');
+    return (dispatch) => {
+        dispatch(createAction(EXPAND_ACCORDION_TAB, tab));
+    }
+}
+
+export function showConfirm(confirm) {
+    if (verboseOutput) console.log('SHOW_CONFIRM');
+    return (dispatch) => {
+        dispatch(createAction(SHOW_CONFIRM, confirm));
+    }
+}
+
+export function hideConfirm(confirm) {
+    if (verboseOutput) console.log('HIDE_CONFIRM');
+    return (dispatch) => {
+        dispatch(createAction(HIDE_CONFIRM, confirm));
+    }
+}
+
+export function showAlertModal(alert) {
+    if (verboseOutput) console.log('SHOW_ALERT_MODAL');
+    return (dispatch) => {
+        dispatch(createAction(SHOW_ALERT_MODAL, alert));
+    }
+}
+
+export function hideAlertModal(alert) {
+    if (verboseOutput) console.log('HIDE_ALERT_MODAL');
+    return (dispatch) => {
+        dispatch(createAction(HIDE_ALERT_MODAL, alert));
+    }
+}
+
+export function showAlertBanner(alert) {
+    if (verboseOutput) console.log('SHOW_ALERT_BANNER');
+    return (dispatch) => {
+        dispatch(createAction(SHOW_ALERT_BANNER, alert));
+    }
+}
+
+export function hideAlertBanner(alert) {
+    if (verboseOutput) console.log('HIDE_ALERT_BANNER');
+    return (dispatch) => {
+        dispatch(createAction(HIDE_ALERT_BANNER, alert));
+    }
 }
 
 export function filterProjects(pattern) {
@@ -199,15 +321,45 @@ export function selectTimeline(timeline) {
     if (verboseOutput) console.log('selectTimeline(' + timeline.TimelineId + ',' + timeline.RevisionNum + ')');
     return (dispatch) => {
         dispatch(createAction(TIMELINE_SELECTED, timeline));
+        if (timeline && timeline.IsInUse && timeline.Description) {
+            dispatch(showAlertBanner({show: true, variant: 'warning', msg: timeline.Description + ', Revision ' + timeline.RevisionNum + ' is in use.'}))
+        } else {
+            dispatch(hideAlertBanner());
+        }
     }    
 }
 
-export function duplicateTimeline(timeline) {
-    if (verboseOutput) console.log('duplicateTimeline(' + timeline.TimelineId + ',' + timeline.RevisionNum + ')');
-    return (dispatch) => {
-        dispatch(createAction(TIMELINE_DUPLICATED, timeline));
-    }   
+export function sortTimelines(timelines) {
+    timelines = timelines.sort(function(a, b){
+        if (!a.Description) {
+            return 1;
+        }
+        if (!b.Description) {
+            return -1;
+        }
+
+        if (a.Description === b.Description) {
+            return (a.RevisionNum > b.RevisionNum ? 1 : -1)
+        }
+        return (a.Description > b.Description ? 1 : -1)
+    });
+
+    return timelines;
 }
+
+export function selectFirstTimeline(timelines) {
+    if (timelines) {
+        timelines = sortTimelines(timelines);
+        return selectTimeline(timelines[0]);
+    }
+}
+
+// export function duplicateTimeline(timeline) {
+//     if (verboseOutput) console.log('duplicateTimeline(' + timeline.TimelineId + ',' + timeline.RevisionNum + ')');
+//     return (dispatch) => {
+//         dispatch(createAction(TIMELINE_DUPLICATED, timeline));
+//     }
+// }
 
 export function addTimelineItem(item) {
     if (verboseOutput) console.log('addTimelineItem(Study Day: ' + item.StudyDay);
@@ -223,17 +375,17 @@ export function updateTimelineRow(item) {
     }
 }
 
-export function updateTimelineItem(item) {
+export function updateTimelineItem(item, dirty) {
     if (verboseOutput) console.log('updateTimelineItem - Study Day: ' + item.StudyDay);
     return (dispatch) => {
-        dispatch(createAction(UPDATE_TIMELINE_ITEM, item));
+        dispatch(createAction(UPDATE_TIMELINE_ITEM, {item: item, dirty: dirty}));
     }
 }
 
-export function updateSelectedTimeline(timeline) {
+export function updateSelectedTimeline(timeline, dirty) {
     if (verboseOutput) console.log('updateSelectedTimeline');
     return (dispatch) => {
-        dispatch(createAction(UPDATE_SELECTED_TIMELINE, timeline));
+        dispatch(createAction(UPDATE_SELECTED_TIMELINE, {timeline: timeline, dirty: dirty}));
     }
 }
 
@@ -272,10 +424,38 @@ export function newTimeline(timeline, selectedProject) {
     }
 }
 
-export function setTimelineDayZero(day0, forceReload) {
+export function cloneTimeline(timeline) {
+    if (verboseOutput) console.log('TIMELINE_CLONE');
+    return (dispatch) => {
+        dispatch(createAction(TIMELINE_CLONE, timeline));
+    }
+}
+
+export function reviseTimeline(timeline) {
+    if (verboseOutput) console.log('TIMELINE_REVISION');
+    return (dispatch) => {
+        dispatch(createAction(TIMELINE_REVISION, timeline));
+    }
+}
+
+export function deleteNewTimelines(timeline) {
+    if (verboseOutput) console.log('DELETE_NEW_TIMELINES');
+    return (dispatch) => {
+        dispatch(createAction(DELETE_NEW_TIMELINES, timeline));
+    }
+}
+
+export function setTimelineDayZero(day0, forceReload, dirty) {
     if (verboseOutput) console.log('SET_TIMELINE_DAY_0');
     return (dispatch) => {
-        dispatch(createAction(SET_TIMELINE_DAY_0, {day0: day0, forceReload: forceReload}));
+        dispatch(createAction(SET_TIMELINE_DAY_0, {day0: day0, forceReload: forceReload, dirty: dirty}));
+    }
+}
+
+export function setTimelineClean(timeline) {
+    if (verboseOutput) console.log('TIMELINE_CLEAN');
+    return (dispatch) => {
+        dispatch(createAction(TIMELINE_CLEAN, timeline));
     }
 }
 
@@ -294,4 +474,12 @@ export function getDay0Date(date, days) {
     let result = new Date(date);
     result.setDate(result.getDate() - days);
     return formatDateString(result);
+}
+
+export function getNextRowId(id, timelines) {
+    do {
+        id++;
+    } while (timelines.find(timeline => {return timeline.RowId === id}));
+
+    return id;
 }

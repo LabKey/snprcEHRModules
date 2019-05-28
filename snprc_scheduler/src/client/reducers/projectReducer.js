@@ -61,7 +61,6 @@ export default (state = { }, action) => {
             // action payload is the project array
             nextState.allProjects = action.payload;
             nextState.projects = action.payload;
-            nextState.selectedProject = {};
             break;
         case ANIMAL_LIST_RECEIVED:
             // action payload is the animal array

@@ -4,11 +4,19 @@ import {Button, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import DraggableContainer from "./dnd/DraggableContainer";
 import Moment from 'react-moment';
 import {
-    addDaysToDate,
-    addTimelineItem, assignTimelineProcedure, deleteTimelineItem, formatDateString, getDay0Date,
-    selectTimeline, setTimelineDayZero,
+    addTimelineItem,
+    assignTimelineProcedure,
+    deleteTimelineItem,
+    formatDateString,
+    getDay0Date,
+    hideConfirm,
+    saveTimeline,
+    setTimelineDayZero,
+    showAlertBanner,
+    showConfirm,
     updateSelectedTimeline,
-    updateTimelineItem, updateTimelineProjectItem,
+    updateTimelineItem,
+    updateTimelineProjectItem,
     updateTimelineRow
 } from "../actions/dataActions";
 import connect from "react-redux/es/connect/connect";
@@ -30,6 +38,12 @@ function MyCustomHeader(props) {
     }
     else if (props.type === 'schedDate') {
         cls = 'time-tl-grid-hdr';
+    }
+    else if (props.type === 'schedDay') {
+        cls = 'wkDay-t1-grid-hdr';
+    }
+    else if (props.type === 'studyDayNote') {
+        cls = 'studyDayNote-t1-grid-hdr';
     }
     else {
         const tooltip = (
@@ -69,6 +83,7 @@ class TimelineGrid extends React.Component {
             procNoteName: "",
             procNote: "",
             rowId: undefined,
+            revisionNum: undefined,
             day0: ""
         };
 
@@ -76,16 +91,18 @@ class TimelineGrid extends React.Component {
     }
 
     CheckBoxFormatter = (colKey) => {
-        return ((props) => {
-            if (props.row.RowIdx === 0) {
-                const projItem = this.props.selectedTimeline.TimelineProjectItems.find((item) => item.ProjectItemId === colKey);
 
-                return <div onClick={this.handleNoteShow(colKey)}>
-                    <i><FontAwesomeIcon icon={projItem.TimelineFootNotes ? ["far", "file-alt"] : ["fa", "plus-circle"]}/></i>
+        return ((props) => {
+            const { selectedTimeline } = this.props;
+            if (props.row.RowIdx === 0 && selectedTimeline) {
+                const projItem = selectedTimeline.TimelineProjectItems.find((item) => item.ProjectItemId === colKey);
+
+                return <div onClick={this.handleNoteShow(colKey)} className={selectedTimeline.IsInUse ? 'timeline-grid-disabled' : ''} >
+                    <i><FontAwesomeIcon icon={(projItem && projItem.TimelineFootNotes) ? ["far", "file-alt"] : ["fa", "plus-circle"]}/></i>
                 </div>
             }
             else {
-                return <input type="checkbox" className='chbox' value={props.value} checked={props.value} onChange={() => {return null}}/>;
+                return <input disabled={selectedTimeline.IsInUse} type="checkbox" className='chbox' value={props.value} checked={props.value} onChange={() => {return null}}/>;
             }
         });
     };
@@ -93,11 +110,41 @@ class TimelineGrid extends React.Component {
     ScheduleDateFormatter = () => {
         return ((props) => {
             if (props.row.RowIdx !== 0 && props.row.ScheduleDate) {
-                return <div disabled><Moment format="MM/DD/YYYY" local>{props.row.ScheduleDate}</Moment></div>;
+                return <div className={'timeline-grid-disabled'}><Moment format="MM/DD/YYYY" local>{props.row.ScheduleDate}</Moment></div>;
             } else {
                 return <div />
             }
         });
+    };
+
+    WeekDateFormatter = () => {
+        return ((props) => {
+            if (props.row.RowIdx !== 0 && props.row.ScheduleDate) {
+                return <div className={'timeline-grid-disabled'}><Moment format="ddd" local>{props.row.ScheduleDate}</Moment></div>;
+            } else {
+                return <div />
+            }
+        });
+    };
+
+    StudyDayNoteFormatter = () => {
+        return ((props) => {
+            const tooltip = (
+                    <Tooltip id="tooltip">
+                        {props.row.StudyDayNote ? props.row.StudyDayNote : ''}
+                    </Tooltip>
+            );
+
+            if (props.row.RowIdx !== 0) {
+                return (
+                        <OverlayTrigger placement="top" overlay={tooltip}>
+                            <div>{props.row.StudyDayNote ? props.row.StudyDayNote : ''}</div>
+                        </OverlayTrigger>)
+            }
+            else {
+                return <div/>
+            }
+        })
     };
 
     StudyDayEditable = (rowData) => {
@@ -107,8 +154,18 @@ class TimelineGrid extends React.Component {
         return true;
     };
 
+    StudyDayNoteEditable = (rowData) => {
+        const { selectedTimeline } = this.props;
+
+        // First row and in use timeline not editable
+        if (rowData.RowIdx === 0 || selectedTimeline.IsInUse) {
+            return false;
+        }
+        return true;
+    };
+
     EmptyRowsView = () => {
-        const message = "Select a timeline";
+        const message = "Create a new timeline";
         return (
                 <div
                         style={{textAlign: "center", backgroundColor: "rgb(250, 250, 250)", padding: "100px"}}
@@ -123,12 +180,20 @@ class TimelineGrid extends React.Component {
             headerRenderer: <MyCustomHeader type='studyDay'/> },
         { key: "ScheduleDate", name: "Scheduled Date", rawName: "Scheduled Date", width: 100, height: 100, editable: false,
             headerRenderer: <MyCustomHeader type='schedDate'/>, formatter: this.ScheduleDateFormatter() },
+        { key: "ScheduleDay", name: "Day of the week", rawName: "Day of the week", width: 70, height: 70, editable: false,
+            headerRenderer: <MyCustomHeader type='schedDay'/>, formatter: this.WeekDateFormatter() }
     ];
+
+    defaultEndColumns = [
+        { key: "StudyDayNote", name: "Study Day Notes", rawName: "Study Day Notes", width: 400, height: 400,
+            editable: this.StudyDayNoteEditable, headerRenderer: <MyCustomHeader type='studyDayNote'/>, formatter: this.StudyDayNoteFormatter() },
+    ]
 
     getStudyDay0 = () => {
         const { selectedTimeline } = this.props;
 
-        if (selectedTimeline && selectedTimeline.TimelineItems && selectedTimeline.TimelineItems[0].ScheduleDate) {
+        if (selectedTimeline && selectedTimeline.TimelineItems && selectedTimeline.TimelineItems.length > 0
+                && selectedTimeline.TimelineItems[0].ScheduleDate) {
             const date = new Date(selectedTimeline.TimelineItems[0].ScheduleDate);
             return getDay0Date(formatDateString(date), parseInt(selectedTimeline.TimelineItems[0].StudyDay));
         }
@@ -190,7 +255,7 @@ class TimelineGrid extends React.Component {
 
         procCols = this.sortColumns(procCols);
 
-        return cols.concat(procCols);
+        return cols.concat(procCols).concat(this.defaultEndColumns);
     };
 
     updateScheduledDate = () => {
@@ -216,13 +281,13 @@ class TimelineGrid extends React.Component {
     };
 
     // Loads rows from redux state into local react state
-    loadRows = () => {
-        const {selectedTimeline, onUpdateTimelineItem, onUpdateSelectedTimeline} = this.props;
-        const {rows, rowId, sortColumn, sortDirection} = this.state;
+    loadRows = (dirty) => {
+        const {selectedTimeline, selectedProject, onUpdateTimelineItem, onUpdateSelectedTimeline} = this.props;
+        const {rows, rowId, revisionNum, sortColumn, sortDirection} = this.state;
         let allRows = [];
 
         // If we have already loaded the saved timeline data, don't reload (prevents infinite loop)
-        if (selectedTimeline != null && selectedTimeline.RowId === rowId) {
+        if (selectedTimeline != null && selectedTimeline.RowId === rowId && selectedTimeline.RevisionNum === revisionNum) {
             allRows = rows;
         }
         // Loading first time
@@ -233,11 +298,11 @@ class TimelineGrid extends React.Component {
 
             let day0 = this.getStudyDay0();
             if (day0) {
-                this.props.onUpdateTimelineDayZero(day0, false);
+                this.props.onUpdateTimelineDayZero(day0, false, false);
             }
 
             // First sort columns
-            let sortedCols = this.getColumns(this.props.selectedProject);
+            let sortedCols = this.getColumns(selectedProject);
 
             let row = []; // empty row for procedure notes
             let tlRows = [];
@@ -246,6 +311,7 @@ class TimelineGrid extends React.Component {
             if (selectedTimeline != null && selectedTimeline.Description) {
 
                 this.state.rowId = selectedTimeline.RowId;
+                this.state.revisionNum = selectedTimeline.RevisionNum;
                 if (selectedTimeline.TimelineItems != null && Array.isArray(selectedTimeline.TimelineItems)) {
 
                     row = [{RowIdx: 0, StudyDay: '', ScheduleDate: ''}]; // empty row for procedure notes
@@ -271,6 +337,7 @@ class TimelineGrid extends React.Component {
                                 tlRows.push({
                                     RowIdx: lastRowIdx,
                                     StudyDay: item.StudyDay,
+                                    StudyDayNote: item.StudyDayNote,
                                     ScheduleDate: item.ScheduleDate,
                                     ObjectId: item.ObjectId,
                                     TimelineObjectId: item.TimelineObjectId,
@@ -288,6 +355,7 @@ class TimelineGrid extends React.Component {
                             tlRows.push({
                                 RowIdx: lastRowIdx,
                                 StudyDay: item.StudyDay,
+                                StudyDayNote: item.StudyDayNote,
                                 ScheduleDate: item.ScheduleDate,
                                 ObjectId: item.ObjectId,
                                 TimelineObjectId: item.TimelineObjectId,
@@ -295,12 +363,12 @@ class TimelineGrid extends React.Component {
                             });
                         }
 
-                        onUpdateTimelineItem(item);
+                        onUpdateTimelineItem(item, dirty);
                     })
                 }
 
             }
-            onUpdateSelectedTimeline({lastRowIdx: lastRowIdx});
+            onUpdateSelectedTimeline({lastRowIdx: lastRowIdx}, dirty);
 
             // Sorts and sets rows in grid state
             let newState = this.sortRows(row.concat(tlRows), sortColumn, sortDirection, false);
@@ -324,30 +392,34 @@ class TimelineGrid extends React.Component {
 
     handleNoteShow = (colKey) => {
         return (() => {
+                    const {selectedTimeline} = this.props;
 
-                    let procNote = "", procNoteName = "";
+                    if (!selectedTimeline.IsInUse) {
 
-                    // Find column
-                    for (const column of this.state.columns) {
-                        if (column.key === colKey) {
+                        let procNote = "", procNoteName = "";
 
-                            // Find timeline project item
-                            for (const projItem of this.props.selectedTimeline.TimelineProjectItems) {
-                                if (projItem.ProjectItemId === column.key) {
-                                    procNote = projItem.TimelineFootNotes;
+                        // Find column
+                        for (const column of this.state.columns) {
+                            if (column.key === colKey) {
+
+                                // Find timeline project item
+                                for (const projItem of this.props.selectedTimeline.TimelineProjectItems) {
+                                    if (projItem.ProjectItemId === column.key) {
+                                        procNote = projItem.TimelineFootNotes;
+                                    }
                                 }
+                                procNoteName = column.name;
+                                break;
                             }
-                            procNoteName = column.name;
-                            break;
                         }
-                    }
 
-                    this.setState({
-                        showProcNote: true,
-                        procNoteName: procNoteName,
-                        procNote: procNote,
-                        procNoteColKey: colKey
-                    });
+                        this.setState({
+                            showProcNote: true,
+                            procNoteName: procNoteName,
+                            procNote: procNote,
+                            procNoteColKey: colKey
+                        });
+                    }
                 }
         )
     };
@@ -394,8 +466,10 @@ class TimelineGrid extends React.Component {
 
     // Delete row
     getCellActions = (column, row) => {
+        const { selectedTimeline } = this.props;
+
         let action = {
-            icon: <i className="fa fa-times" />,
+            icon: <i className={"fa fa-times timeline-grid-delete-icon " + (selectedTimeline && selectedTimeline.IsInUse ? 'timeline-grid-disabled' : '')} />,
             callback: () => {
                 (() => {
                     this.deleteTimepoint(row.RowIdx);
@@ -407,21 +481,28 @@ class TimelineGrid extends React.Component {
     };
 
     deleteTimepoint = (RowIdx) => {
-        const filteredRows = this.state.rows.filter(row => row.RowIdx !== RowIdx);
+        const { selectedTimeline } = this.props;
+        if (!selectedTimeline.IsInUse) {
+            const filteredRows = this.state.rows.filter(row => row.RowIdx !== RowIdx);
 
-        this.setState(state => {
-            state.rows = filteredRows;
-            return state;
-        });
+            this.setState(state => {
+                state.rows = filteredRows;
+                return state;
+            });
 
-        this.props.onDeleteTimelineItem({RowIdx: RowIdx});
+            this.props.onDeleteTimelineItem({RowIdx: RowIdx});
+        }
     };
 
     // Checkbox cell handler
     onRowClick = (rowIdx, row, column) => {
 
+        const { selectedTimeline } = this.props;
+
         // Noop for first row (procedure notes) and study day and date columns
-        if (!column || !column.key || rowIdx === 0 || column.idx === 0 || column.idx === 1) {
+        if (!column || !column.key || rowIdx === 0 ||
+                column.idx === 0 || column.idx === 1 || column.idx === 2 || column.key === 'StudyDayNote' ||
+                selectedTimeline.IsInUse) {
             return;
         }
 
@@ -454,7 +535,8 @@ class TimelineGrid extends React.Component {
             RowIdx: row.RowIdx,
             TimelineObjectId: row.TimelineObjectId,
             ScheduleDate: row.ScheduleDate,
-            StudyDay: row.StudyDay
+            StudyDay: row.StudyDay,
+            StudyDayNote: row.StudyDayNote
         })
     };
 
@@ -468,7 +550,7 @@ class TimelineGrid extends React.Component {
         }
 
         if (updated.StudyDay && selectedTimeline.StudyDay0) {
-            this.props.onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true);
+            this.props.onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true, true);
         }
 
         const stateCopy = Object.assign({ }, {rows: rows});
@@ -485,19 +567,20 @@ class TimelineGrid extends React.Component {
     onAddClick = () => {
         const { selectedTimeline } = this.props;
 
-        if (selectedTimeline && selectedTimeline.Description) {
+        if (selectedTimeline && selectedTimeline.Description && !selectedTimeline.IsInUse) {
             const stateCopy = Object.assign({}, this.state);
             let RowIdx = this.props.lastRowIdx;
             RowIdx++;
 
-            const newRow = {RowIdx: RowIdx, StudyDay: "", ScheduleDate: null, IsDirty: true, IsDeleted: false};
+            const newRow = {RowIdx: RowIdx, StudyDay: "", ScheduleDate: null, IsDirty: true, IsDeleted: false,
+                StudyDayNote: '', TimelineObjectId: selectedTimeline.ObjectId};
             this.props.onAddTimelineItem(newRow);
 
             stateCopy.rows.push(newRow);
 
             this.setState(stateCopy);
 
-            this.props.onUpdateSelectedTimeline({lastRowIdx: RowIdx});
+            this.props.onUpdateSelectedTimeline({lastRowIdx: RowIdx}, true);
         }
     };
 
@@ -598,15 +681,16 @@ class TimelineGrid extends React.Component {
 
 
     componentDidMount() {
-        this.loadRows();
+        this.loadRows(false);
     }
 
     componentDidUpdate() {
-        this.loadRows();
+        this.loadRows(false);
         this.updateScheduledDate();
     }
     render() {
         const { showProcNote, procNoteName, procNote, columns, rows } = this.state;
+        const { selectedTimeline } = this.props;
 
         return (
                 <div className='timeline-grid'>
@@ -631,6 +715,7 @@ class TimelineGrid extends React.Component {
                                 <Button
                                         className='add-delete-btn'
                                         onClick={this.onAddClick}
+                                        disabled={selectedTimeline.IsInUse}
                                 ><FontAwesomeIcon icon={["fa", "plus"]}/></Button>
                             </OverlayTrigger>
                         </div>
@@ -668,12 +753,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onAddTimelineItem: timelineItem => dispatch(addTimelineItem(timelineItem)),
     onUpdateTimelineRow: timelineItem => dispatch(updateTimelineRow(timelineItem)),
-    onUpdateTimelineItem: timelineItem => dispatch(updateTimelineItem(timelineItem)),
-    onUpdateSelectedTimeline: timeline => dispatch(updateSelectedTimeline(timeline)),
+    onUpdateTimelineItem: (timelineItem, dirty) => dispatch(updateTimelineItem(timelineItem, dirty)),
+    onUpdateSelectedTimeline: (timeline, dirty) => dispatch(updateSelectedTimeline(timeline, dirty)),
     onAssignTimelineProcedure: item => dispatch(assignTimelineProcedure(item)),
     onUpdateTimelineProjectItem: projectItem => dispatch(updateTimelineProjectItem(projectItem)),
     onDeleteTimelineItem: timelineItem => dispatch(deleteTimelineItem(timelineItem)),
-    onUpdateTimelineDayZero: (day0, forceReload) => dispatch(setTimelineDayZero(day0, forceReload))
+    onUpdateTimelineDayZero: (day0, forceReload, dirty) => dispatch(setTimelineDayZero(day0, forceReload, dirty)),
+    showAlertBanner: timeline => dispatch(showAlertBanner(timeline)),
+    showConfirm: confirm => dispatch(showConfirm(confirm)),
+    hideConfirm: confirm => dispatch(hideConfirm(confirm))
 })
 
 export default connect(

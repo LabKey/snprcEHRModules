@@ -12,7 +12,14 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import ReactDataGrid from 'react-data-grid';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
-import {selectProject, filterProjects, sortProjects, createAction, PROJECT_SELECTED} from '../actions/dataActions';
+import {
+    selectProject,
+    filterProjects,
+    sortProjects,
+    createAction,
+    PROJECT_SELECTED,
+    selectTimeline, TAB_TIMELINES, TAB_PROJECTS
+} from '../actions/dataActions';
 import connect from "react-redux/es/connect/connect";
 import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 
@@ -42,16 +49,22 @@ class ProjectList extends React.Component {
     componentWillUnmount = () => this.disconnect();
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return true;
+        const { accordion } = this.props;
+
+        return !!(!accordion || accordion.tab === TAB_PROJECTS);
     }
-    
+
     onProjectRowsSelected = (row, isSelected, e) => {
 
+        // Select project and empty selected timeline
         if (isSelected) {
             this.props.onSelectProject(row);
-        } else {
-
+            this.props.onSelectTimeline();
+            return true;
         }
+
+        // Cannot unselect
+        return false;
     }
 
     onProjectRowsDeselected = (rows) => {
@@ -77,19 +90,34 @@ class ProjectList extends React.Component {
         this.props.store.dispatch(sortProjects(sortColumn, sortDirection));
     };
 
+    getSelectedProjecId = () => {
+        return this.refs["project-table"].state.selectedRowKeys[0];
+    };
+
+    setSelectedProjectId = (id) => {
+        this.refs["project-table"].setState({
+            selectedRowKeys: [id]
+        });
+    };
+
     options = {
         noDataText: 'No projects available',
         defaultSortName: 'description',
-        defaultSortOrder: 'asc'
+        defaultSortOrder: 'asc',
     };
 
-    selectRowProp = {
-        mode: 'radio',
-        clickToSelect: true,
-        onSelect: this.onProjectRowsSelected
+    getInnerRowProps = (project) => {
+        return {
+            mode: 'radio',
+            clickToSelect: true,
+            onSelect: this.onProjectRowsSelected,
+            selected: (project >= 0 ? [project] : [])
+        }
     };
 
     render = () => {
+        const { selectedProject } = this.props;
+
         return (<div>
             <div className="input-group bottom-padding-8">
                 <span className="input-group-addon input-group-addon-buffer"><Glyphicon glyph="search"/></span>
@@ -107,7 +135,7 @@ class ProjectList extends React.Component {
                         className='project-table'
                         data={this.state.projects}
                         options={this.options}
-                        selectRow={this.selectRowProp}
+                        selectRow={this.getInnerRowProps(selectedProject ? selectedProject.projectId : -1)}
                         height={224}
                 >
                     <TableHeaderColumn dataField='projectId' isKey={true} hidden/>
@@ -130,7 +158,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSelectProject: selectedProject => dispatch(selectProject(selectedProject))
+    onSelectProject: selectedProject => dispatch(selectProject(selectedProject)),
+    onSelectTimeline: timeline => dispatch(selectTimeline(timeline))
 })
 
 export default connect(
