@@ -21,7 +21,7 @@ public enum SNPRC_schedulerSequencer
     {
         DbSequence sequence = DbSequenceManager.get(c, sequenceName);
         sequence.ensureMinimum(minId);
-        return sequence.next();
+        return Math.toIntExact(sequence.next());
     }
 
     public Integer ensureId(Container container, Integer id)
