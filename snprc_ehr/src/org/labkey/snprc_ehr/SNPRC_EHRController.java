@@ -16,15 +16,29 @@
 
 package org.labkey.snprc_ehr;
 
+import org.apache.commons.lang3.StringUtils;
 import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.data.TableInfo;
+import org.labkey.api.query.DetailsURL;
+import org.labkey.api.query.QueryAction;
+import org.labkey.api.query.QueryException;
+import org.labkey.api.query.QueryForm;
+import org.labkey.api.query.QueryParseException;
+import org.labkey.api.query.QueryView;
+import org.labkey.api.query.QueryWebPart;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
+import org.labkey.api.view.NotFoundException;
+import org.labkey.api.view.Portal;
+import org.labkey.api.view.WebPartFactory;
+import org.labkey.api.view.WebPartView;
 import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.springframework.validation.BindException;
@@ -33,6 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class SNPRC_EHRController extends SpringActionController
 {
@@ -148,4 +163,114 @@ public class SNPRC_EHRController extends SpringActionController
         }
 
     }
+
+
+    @RequiresPermission(UpdatePermission.class)
+    public class UpdateQueryAction extends SimpleViewAction<QueryForm>
+    {
+        private QueryForm _form;
+
+        public ModelAndView getView(QueryForm form, BindException errors) throws Exception
+        {
+            ensureQueryExists(form);
+
+            _form = form;
+
+            String schemaName = form.getSchemaName();
+            String queryName = form.getQueryName();
+
+            QueryView queryView = QueryView.create(form, errors);
+            TableInfo ti = queryView.getTable();
+            List<String> pks = ti.getPkColumnNames();
+            String keyField = null;
+            if (pks.size() == 1)
+                keyField = pks.get(0);
+
+            ActionURL url = getViewContext().getActionURL().clone();
+
+            if (keyField != null)
+            {
+                DetailsURL importUrl = DetailsURL.fromString("/query/importData.view?schemaName=" + schemaName + "&query.queryName=" + queryName + "&keyField=" + keyField);
+                importUrl.setContainerContext(getContainer());
+
+                DetailsURL updateUrl = DetailsURL.fromString("/ehr/dataEntryForm.view?formType=" + queryName + "&taskid=${taskid}");
+                updateUrl.setContainerContext(getContainer());
+
+                DetailsURL deleteUrl = DetailsURL.fromString("/query/deleteQueryRows.view?schemaName=" + schemaName + "&query.queryName=" + queryName);
+                deleteUrl.setContainerContext(getContainer());
+
+                url.addParameter("importURL", importUrl.toString());
+                url.addParameter("updateURL", updateUrl.toString());
+                url.addParameter("deleteURL", deleteUrl.toString());
+                url.addParameter("showInsertNewButton", false);
+                url.addParameter("dataRegionName", "query");
+            }
+
+            url.addParameter("queryName", queryName);
+            url.addParameter("allowChooseQuery", false);
+
+            WebPartFactory factory = Portal.getPortalPartCaseInsensitive("Query");
+            Portal.WebPart part = factory.createWebPart();
+            part.setProperties(url.getQueryString());
+
+            QueryWebPart qwp = new QueryWebPart(getViewContext(), part);
+            qwp.setTitle(ti.getTitle());
+            qwp.setFrame(WebPartView.FrameType.NONE);
+            return qwp;
+        }
+
+        public NavTree appendNavTrail(NavTree root)
+        {
+            TableInfo ti = null;
+            try
+            {
+                ti = _form.getSchema() == null ? null : _form.getSchema().getTable(_form.getQueryName());
+            }
+            catch (QueryParseException x)
+            {
+                /* */
+            }
+
+            root.addChild(ti == null ? _form.getQueryName() : ti.getTitle(), _form.urlFor(QueryAction.executeQuery));
+            return root;
+        }
+
+        protected void ensureQueryExists(QueryForm form)
+        {
+            if (form.getSchema() == null)
+            {
+                throw new NotFoundException("Could not find schema: " + form.getSchemaName());
+            }
+
+            if (StringUtils.isEmpty(form.getQueryName()))
+            {
+                throw new NotFoundException("Query not specified");
+            }
+
+            if (!queryExists(form))
+            {
+                throw new NotFoundException("Query '" + form.getQueryName() + "' in schema '" + form.getSchemaName() + "' doesn't exist.");
+            }
+        }
+
+        protected boolean queryExists(QueryForm form)
+        {
+            try
+            {
+                return form.getSchema() != null && form.getSchema().getTable(form.getQueryName()) != null;
+            }
+            catch (QueryParseException x)
+            {
+                // exists with errors
+                return true;
+            }
+            catch (QueryException x)
+            {
+                // exists with errors
+                return true;
+            }
+        }
+    }
+
+
 }

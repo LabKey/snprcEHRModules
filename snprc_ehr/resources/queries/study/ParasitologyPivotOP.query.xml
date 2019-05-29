@@ -11,9 +11,14 @@
                             <fkColumnName>Id</fkColumnName>
                         </fk>
                     </column>
+                    <column columnName="Date">
+                        <columnTitle>Test Date</columnTitle>
+                    </column>
                     <column columnName="panelName">
                         <columnTitle>Parasitology Panel Name</columnTitle>
-                        <displayWidth>200</displayWidth>
+                    </column>
+                    <column columnName="COMMENTS::QResults">
+                        <displayWidth>500</displayWidth>
                     </column>
                     <column columnName="runId">
                         <isHidden>true</isHidden>
