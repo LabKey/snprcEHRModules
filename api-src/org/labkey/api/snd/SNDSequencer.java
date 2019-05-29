@@ -38,11 +38,11 @@ public enum SNDSequencer
         minId = id;
     }
 
-    private Integer generateId(Container c)
+    private int generateId(Container c)
     {
         DbSequence sequence = DbSequenceManager.get(c, sequenceName);
         sequence.ensureMinimum(minId);
-        return (int)sequence.next(); // Does SND require long IDs? That's what DbSequence generates.
+        return Math.toIntExact(sequence.next());
     }
 
     public Integer ensureId(Container container, Integer id)
