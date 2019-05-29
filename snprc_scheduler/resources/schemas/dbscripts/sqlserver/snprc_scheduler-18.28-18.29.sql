@@ -139,3 +139,13 @@ END;
 GO
 
 ALTER TABLE snprc_scheduler.TimelineItem  ENABLE TRIGGER td_TimelineItem;
+
+/******************************************/
+-- setting ProjectItemID to NOT NULL
+
+
+ALTER TABLE snprc_scheduler.TimelineItem
+    ALTER COLUMN  ProjectitemId INT  NOT NULL
+
+srr 05.29.19
+/*****************************************/
