@@ -7,7 +7,7 @@
 <%
     String contextPath = request.getContextPath();
     Container c = getContainer();
-    String containerPath = text(c.getPath());
+    String containerPath = c.getPath();
 %>
 <%!
     @Override
