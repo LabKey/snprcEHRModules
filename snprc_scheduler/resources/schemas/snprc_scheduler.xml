@@ -17,6 +17,7 @@
             <column columnName="StartDate"/>
             <column columnName="EndDate"/>
             <column columnName="Description"/>
+            <column columnName="AnimalAccount"/>
             <column columnName="RC"/>
             <column columnName="LeadTech"/>
             <column columnName="Notes"/>
@@ -127,7 +128,7 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId">
+            <column columnName="ObjectId"/>
         </columns>
     </table>
 
