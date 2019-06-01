@@ -60,7 +60,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
 
         if(null != cell)
         {
-            switch (cell.getCellTypeEnum())
+            switch (cell.getCellType())
             {
                 case STRING:
                     value.append(cell.getStringCellValue());
