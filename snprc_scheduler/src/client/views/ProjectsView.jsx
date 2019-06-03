@@ -21,7 +21,7 @@ import {
     hideConfirm,
     saveTimeline,
     saveTimelineSuccess, selectFirstTimeline,
-    selectTimeline,
+    selectTimeline, setProjectRender,
     setTimelineClean,
     showAlertBanner,
     showConfirm, TAB_ANIMALS,
@@ -33,6 +33,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Confirm from "../components/Confirm";
 import AlertModal from "../components/AlertModal";
+import Collapse from "react-bootstrap/es/Collapse";
 
 library.add(faSpinner)
 
@@ -224,13 +225,17 @@ class ProjectsView extends React.Component {
         };
     };
 
+    testHandler = () => {
+        this.props.setProjectRender(true);
+    }
+
     dismissBanner = () => {
         this.props.hideAlertBanner();
     }
 
     render() {
 
-        const { selectedProject, selectedTimeline, confirm, alertModal, alertBanner, accordion } = this.props;
+        const { selectedProject, selectedTimeline, confirm, alertModal, alertBanner, accordion, hasPermission } = this.props;
 
         let detailView = this.getDetailComponent(accordion ? accordion.tab : null);
         let mainView = this.getMainComponent(accordion ? accordion.tab : null);
@@ -250,7 +255,9 @@ class ProjectsView extends React.Component {
                             ? (' - ' + selectedProject.description) : '')}
                         </Panel.Title>
                     </Panel.Heading>
-                    <Panel.Body collapsible><ProjectList store={this.props.store} /></Panel.Body>
+                    <Panel.Collapse onEntered={this.testHandler}>
+                        <Panel.Body><ProjectList store={this.props.store} /></Panel.Body>
+                    </Panel.Collapse>
                 </Panel>
                 <Panel eventKey={TAB_TIMELINES}>
                     <Panel.Heading>
@@ -269,6 +276,7 @@ class ProjectsView extends React.Component {
                 </Panel>
             </PanelGroup>
         );
+
         return <div className='scheduler-view'>
             <Modal
                     // onHide={this.close}
@@ -296,25 +304,32 @@ class ProjectsView extends React.Component {
                      onDismiss={alertModal ? alertModal.onDismiss : null}
                      dismissButtonText='OK'/>
             {alertBanner && alertBanner.show &&
-                <Alert className="alert-banner" bsClass={'alert alert-' + alertBanner.variant} onDismiss={this.dismissBanner}>{alertBanner.msg}</Alert>
+            <Collapse><Alert className="alert-banner" bsClass={'alert alert-' + alertBanner.variant} onDismiss={this.dismissBanner}>{alertBanner.msg}</Alert></Collapse>
             }
+
             {(!alertBanner || !alertBanner.show) && <><div className='row spacer-row'></div></>}
-            <div className='row'>
-                <div className='col-sm-12 zero-right-padding'>{detailView}</div>
-                <div className='col-sm-4'>
-                    <div className='col-sm-12'>
-                        {accordionComponent}
-                    </div>
-                    <div className='scheduler-save-cancel'>
-                        <div className='col-sm-6'>
-                            <Button disabled={this.props.selectedTimeline == null || this.props.selectedTimeline.RevisionNum == null} onClick={this.props.selectedTimeline ? this.save() : null} className='scheduler-save-cancel-btn'>Save</Button>
+            {hasPermission &&
+                <div className='row'>
+                    <div className='col-sm-12 zero-right-padding'>{detailView}</div>
+                    <div className='col-sm-4'>
+                        <div className='col-sm-12'>
+                            {accordionComponent}
                         </div>
-                        <div className='col-sm-6'> <Button onClick={this.cancel} className='scheduler-save-cancel-btn'>Cancel</Button> </div>
+                        <div className='scheduler-save-cancel'>
+                            <div className='col-sm-6'>
+                                <Button disabled={this.props.selectedTimeline == null || this.props.selectedTimeline.RevisionNum == null}
+                                        onClick={this.props.selectedTimeline ? this.save() : null}
+                                        className='scheduler-save-cancel-btn'>Save</Button>
+                            </div>
+                            <div className='col-sm-6'><Button onClick={this.cancel}
+                                                              className='scheduler-save-cancel-btn'>Cancel</Button></div>
+                        </div>
                     </div>
+                    <div className='col-sm-8 zero-side-padding'>{mainView}</div>
                 </div>
-                <div className='col-sm-8 zero-side-padding'>{mainView}</div>
-            </div>
+            }
         </div>
+
     }
 
   }
@@ -326,7 +341,8 @@ const mapStateToProps = state => ({
     confirm: state.root.confirm,
     alertModal: state.root.alertModal,
     alertBanner: state.root.alertBanner,
-    accordion: state.root.accordion
+    accordion: state.root.accordion,
+    hasPermission: state.root.hasPermission
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -339,7 +355,8 @@ const mapDispatchToProps = dispatch => ({
     hideConfirm: confirm => dispatch(hideConfirm(confirm)),
     cleanTimeline: timeline => dispatch(setTimelineClean(timeline)),
     deleteNewTimelines: timeline => dispatch(deleteNewTimelines(timeline)),
-    expandTab: tab => dispatch(expandAccordionTab(tab))
+    expandTab: tab => dispatch(expandAccordionTab(tab)),
+    setProjectRender: tab => dispatch(setProjectRender(tab))
 })
 
 export default connect(

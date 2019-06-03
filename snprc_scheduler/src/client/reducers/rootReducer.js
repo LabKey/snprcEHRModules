@@ -10,7 +10,7 @@
 */
 
 import {
-    EXPAND_ACCORDION_TAB,
+    EXPAND_ACCORDION_TAB, FORCE_PROJECT_RENDER, HAS_PERMISSION,
     HIDE_ALERT_BANNER,
     HIDE_ALERT_MODAL,
     HIDE_CONFIRM,
@@ -63,6 +63,20 @@ export default (state = {}, action) => {
         case HIDE_ALERT_BANNER:
             nextState.alertBanner = {};
             nextState.alertBanner.show = false;
+            break;
+        case HAS_PERMISSION:
+            nextState.hasPermission = action.payload;
+            nextState.alertBanner = {};
+            if (!action.payload) {
+                nextState.alertBanner.show = true;
+                nextState.alertBanner.variant = 'danger';
+                nextState.alertBanner.msg = 'You do not have permission to view this page';
+            } else {
+                nextState.alertBanner.show = false;
+            }
+            break;
+        case FORCE_PROJECT_RENDER:
+            nextState.projectRender = action.payload;
             break;
         default: return { ...state, payload: { }} ;
     };

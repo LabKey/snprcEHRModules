@@ -53,6 +53,8 @@ export const SHOW_ALERT_MODAL = 'SHOW_ALERT_MODAL';
 export const HIDE_ALERT_MODAL = 'HIDE_ALERT_MODAL';
 export const SHOW_ALERT_BANNER = 'SHOW_ALERT_BANNER';
 export const HIDE_ALERT_BANNER = 'HIDE_ALERT_BANNER';
+export const HAS_PERMISSION = 'HAS_PERMISSION';
+export const FORCE_PROJECT_RENDER = 'FORCE_PROJECT_RENDER';
 export const NO_OP = 'NO_OP';
 
 export const TAB_PROJECTS = 0x0;
@@ -108,6 +110,8 @@ export function createAction(type, payload) {
         case HIDE_ALERT_MODAL: return { type: type, payload: payload };
         case SHOW_ALERT_BANNER: return { type: type, payload: payload };
         case HIDE_ALERT_BANNER: return { type: type, payload: payload };
+        case HAS_PERMISSION: return { type: type, payload: payload };
+        case FORCE_PROJECT_RENDER: return { type: type, payload: payload };
         default: return { type: type }
     }    
 }
@@ -162,28 +166,36 @@ function fetchProjects_SND() {
     return (dispatch) => {
         dispatch(createAction(PROJECT_LIST_REQUESTED));
         fetch(API_ENDPOINT)
-        .then(response => response.json())
-        .then(data => { 
-            if (data.success) {
-                dispatch(createAction(PROJECT_LIST_RECEIVED, data.rows));
+                .then(response => {
+                    if (response.status === 403) {
+                        dispatch(setPermission(false));
+                    }
+                    else {
+                        dispatch(setPermission(true));
+                        response.json()
+                                .then(data => {
+                                    if (data.success) {
+                                        dispatch(createAction(PROJECT_LIST_RECEIVED, data.rows));
 
-                // Sort matches defaultSort on projects table to select first project
-                dispatch(selectProject(data.rows.sort(function(a, b){
-                    if (!a.description) {
-                        return 1;
+                                        // Sort matches defaultSort on projects table to select first project
+                                        dispatch(selectProject(data.rows.sort(function (a, b) {
+                                            if (!a.description) {
+                                                return 1;
+                                            }
+                                            if (!b.description) {
+                                                return -1;
+                                            }
+                                            return (a.description > b.description ? 1 : -1)
+                                        })[0]));
+                                    }
+                                    else {
+                                        dispatch(handleErrors("Retrieving projects failed", error.exception));
+                                    }
+                                })
                     }
-                    if (!b.description) {
-                        return -1;
-                    }
-                    return (a.description > b.description ? 1 : -1)
-                })[0]));
-            }
-            else {
-                dispatch(handleErrors("Retrieving projects failed", error.exception));
-            }
-        })
-        .catch((error) => dispatch(handleErrors("Retrieving projects failed", error)));
-    } 
+                })
+                .catch((error) => dispatch(handleErrors("Retrieving projects failed", error)));
+    }
 }
 
 export function fetchProjects() {
@@ -217,19 +229,27 @@ export function fetchTimelinesByProject(selectedProject) {
     return (dispatch) => {
         dispatch(createAction(TIMELINE_LIST_REQUESTED, selectedProject.objectId));
         fetch(API_ENDPOINT)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch(createAction(TIMELINE_LIST_RECEIVED, {
-                            timelines: data.rows,
-                            selectedProject: selectedProject
-                        }));
+                .then(response => {
+                    if (response.status === 403) {
+                        dispatch(setPermission(false));
                     }
                     else {
-                        dispatch(handleErrors("Retrieving timelines failed", data));
+                        dispatch(setPermission(true));
+                        response.json()
+                                .then(data => {
+                                    if (data.success) {
+                                        dispatch(createAction(TIMELINE_LIST_RECEIVED, {
+                                            timelines: data.rows,
+                                            selectedProject: selectedProject
+                                        }));
+                                    }
+                                    else {
+                                        dispatch(handleErrors("Retrieving timelines failed", data));
+                                    }
+                                })
+                                .catch((error) => dispatch(handleErrors("Retrieving timelines failed", error)));
                     }
                 })
-                .catch((error) => dispatch(handleErrors("Retrieving timelines failed", error)));
     }
 }
 
@@ -451,6 +471,20 @@ export function setTimelineClean(timeline) {
     if (verboseOutput) console.log('TIMELINE_CLEAN');
     return (dispatch) => {
         dispatch(createAction(TIMELINE_CLEAN, timeline));
+    }
+}
+
+export function setPermission(permission) {
+    if (verboseOutput) console.log('HAS_PERMISSION');
+    return (dispatch) => {
+        dispatch(createAction(HAS_PERMISSION, permission));
+    }
+}
+
+export function setProjectRender(render) {
+    if (verboseOutput) console.log('FORCE_PROJECT_RENDER');
+    return (dispatch) => {
+        dispatch(createAction(FORCE_PROJECT_RENDER, render));
     }
 }
 

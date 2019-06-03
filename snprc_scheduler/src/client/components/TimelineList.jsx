@@ -65,13 +65,6 @@ class TimelineList extends React.Component {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const { accordion } = this.props;
-
-        return true;
-        // return !!(accordion && accordion.tab === TAB_TIMELINES);
-    }
-
     timelineRowGetter = (index) =>  {
         if (index > -1)
          return this.props.timelines[index];
@@ -591,7 +584,6 @@ class TimelineList extends React.Component {
             defaultSortName: 'Description',
             defaultSortOrder: 'asc',
             noDataText: 'No timelines available',
-            // expanding: this.state.expanding,
             onExpand: this.handleExpand
         };
 
@@ -663,7 +655,8 @@ const mapStateToProps = state => ({
     selectedTimeline: (state.project.selectedProject != null) ? state.timeline.selectedTimeline : null,
     timelines: state.timeline.timelines  || null,
     lastRowId: state.timeline.lastRowId,
-    accordion: state.root.accordion
+    accordion: state.root.accordion,
+    projectRender: state.root.projectRender  // Bit of a hack to get a re-render
 })
 
 const mapDispatchToProps = dispatch => ({
