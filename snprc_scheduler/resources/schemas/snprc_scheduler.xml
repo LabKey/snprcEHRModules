@@ -49,7 +49,6 @@
                     <fkColumnName>ObjectId</fkColumnName>
                 </fk>
             </column>
-            <column columnName="AnimalAccount"/>
             <column columnName="StudyDay"/>
             <column columnName="ScheduleDate"/>
             <column columnName="Created"/>
