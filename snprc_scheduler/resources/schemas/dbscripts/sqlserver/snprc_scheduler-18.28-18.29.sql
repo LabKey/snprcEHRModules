@@ -7,12 +7,15 @@ Integrity triggers
 
 /*****************************  snprc_scheduler.tia_StudyDayNotes  *****************************************/
 
-if exists (select 1
-from sysobjects
-where id = object_id('snprc_scheduler.tiu_StudyDayNotes')
-and type = 'TR')
-drop trigger snprc_scheduler.tiu_StudyDayNotes
-    go
+IF EXISTS
+(
+    SELECT 1
+    FROM sysobjects
+    WHERE id = OBJECT_ID('snprc_scheduler.tiu_StudyDayNotes')
+          AND type = 'TR'
+)
+DROP TRIGGER snprc_scheduler.tiu_StudyDayNotes;
+GO
 
 
 /****** Object:  Trigger [snprc_scheduler].[tia_StudyDayNotes]    Script Date: 5/28/2019 10:50:47 AM ******/
@@ -29,51 +32,56 @@ GO
 	Sole purpose is to prevent a note entry for (timeline-study day) that does not exists.
 	For INSERT and UPDATE
  */
-CREATE TRIGGER snprc_scheduler.tiu_StudyDayNotes ON snprc_scheduler.StudyDayNotes FOR INSERT, UPDATE AS
+CREATE TRIGGER snprc_scheduler.tiu_StudyDayNotes
+    ON snprc_scheduler.StudyDayNotes
+    FOR INSERT, UPDATE
+    AS
 BEGIN
-DECLARE
-@numrows  INT,
-    @numnull  INT,
-    @errno    INT,
-    @errmsg   VARCHAR(255)
+DECLARE @numrows INT,
+            @numnull INT,
+            @errno INT,
+            @errmsg VARCHAR(255);
 
-SELECT   @numrows = @@rowcount
-             IF @numrows = 0
-RETURN
-IF	UPDATE(TimelineObjectId) OR
-UPDATE(StudyDay)
+SELECT @numrows = @@rowcount;
+IF @numrows = 0
+        RETURN;
+IF UPDATE(TimelineObjectId)
+       OR UPDATE(StudyDay)
 BEGIN
-IF (SELECT COUNT(*)
-FROM   SNPRC_Scheduler.Timelineitem  t
-INNER JOIN INSERTED i
-ON  i.StudyDay = t.StudyDay AND i.TimelineObjectId = t.TimelineObjectId
+IF
+(
+    SELECT COUNT(*)
+    FROM snprc_scheduler.TimelineItem t
+             INNER JOIN INSERTED i
+                        ON i.StudyDay = t.StudyDay
+                            AND i.TimelineObjectId = t.TimelineObjectId
 ) < 1
-    BEGIN
-SELECT @ERRNO  = 50001,
-       @ERRMSG = ' StudyDayNotes Trigger - TimelineObjectId - StudyDay pair do not exist SNPRC_Scheduler.Timelineitem. Cannot insert to SNPRC_Scheduler.StudyDayNotes'
-           GOTO ERROR
-END
-END
+BEGIN
+SELECT @errno = 50001,
+       @errmsg
+           = ' StudyDayNotes Trigger - TimelineObjectId - StudyDay pair do not exist SNPRC_Scheduler.Timelineitem. Cannot insert to SNPRC_Scheduler.StudyDayNotes';
+GOTO ERROR;
+END;
+END;
 
 -- Return if all is well
-    RETURN
+RETURN;
 
-/* Error handling */
+    /* Error handling */
 error:
-    RAISERROR( '%d: %s', 16, 0, @errno, @errmsg)
+    RAISERROR('%d: %s', 16, 0, @errno, @errmsg);
 -- LK will handle ROLLBACK  TRANSACTION
-END
-    GO
+END;
+GO
 
-ALTER TABLE snprc_scheduler.StudyDayNotes
-    ENABLE TRIGGER tiu_StudyDayNotes
+ALTER TABLE snprc_scheduler.StudyDayNotes ENABLE TRIGGER tiu_StudyDayNotes;
 
 
 
 /*****************************  snprc_scheduler.td_TimelineItem  *****************************************/
 
 
-    IF EXISTS
+IF EXISTS
 (
     SELECT 1
     FROM sysobjects
@@ -107,26 +115,36 @@ BEGIN
 DECLARE @numrows INT,
             @numnull INT,
             @errno INT,
-		    @errmsg VARCHAR(255);
+            @errmsg VARCHAR(255);
 
 SELECT @numrows = @@rowcount;
 IF @numrows = 0
         RETURN;
-    BEGIN
 
 IF
 (
-    SELECT COUNT(*)  -- TimelineItem rows for StudyDay-TimelineObjectID
-    FROM snprc_scheduler.TimelineItem tli
-    WHERE EXISTS (SELECT 1 FROM Deleted d WHERE d.ProjectitemId = tli.ProjectitemId)
-) > @numrows
+    SELECT COUNT(*) -- TimelineItem rows for StudyDay-TimelineObjectID
+    FROM snprc_scheduler.StudyDayNotes sdn
+             INNER JOIN Deleted d
+                        ON d.StudyDay = sdn.StudyDay
+                            AND d.TimelineObjectId = sdn.TimelineObjectId
+) > 0
+-- Code to check for orphan StudyDayNote rows
 BEGIN
-SELECT @errno = 50001,
-       @errmsg
-           = ' Timeline Item Trigger - TimelineItem has a StudyDayNote.  Note must be deleted first.  Data not modified.';
-GOTO ERROR;
+DECLARE @bla VARCHAR(200);
+SELECT @errno = 0;
+SET @bla = 'Must have something between BEGIN and END';
+
+/*
+-- if error:
+
+   SELECT @errno = 50001,
+           @errmsg
+               = ' Timeline Item Trigger - TimelineItem has a StudyDayNote.  Note must be deleted first.  Data not modified.';
+    GOTO ERROR;
+*/
 END;
-END;
+
 
 -- Return if all is well
 RETURN;
@@ -138,14 +156,14 @@ error:
 END;
 GO
 
-ALTER TABLE snprc_scheduler.TimelineItem  ENABLE TRIGGER td_TimelineItem;
+ALTER TABLE snprc_scheduler.TimelineItem ENABLE TRIGGER td_TimelineItem;
 
 /******************************************/
 -- setting ProjectItemID to NOT NULL
 
 
 ALTER TABLE snprc_scheduler.TimelineItem
-    ALTER COLUMN  ProjectitemId INT NULL
+    ALTER COLUMN ProjectitemId INT NULL;
 
 --srr 05.29.19
 /*****************************************/
