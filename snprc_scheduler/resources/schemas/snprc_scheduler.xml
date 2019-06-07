@@ -17,6 +17,7 @@
             <column columnName="StartDate"/>
             <column columnName="EndDate"/>
             <column columnName="Description"/>
+            <column columnName="AnimalAccount"/>
             <column columnName="RC"/>
             <column columnName="LeadTech"/>
             <column columnName="Notes"/>
@@ -38,7 +39,7 @@
                 <nullable>false</nullable>
             </column>
             <column columnName="ProjectItemId">
-                <nullable>false</nullable>
+                <nullable>true</nullable>
             </column>
             <column columnName="TimelineObjectId">
                 <nullable>false</nullable>
@@ -48,7 +49,6 @@
                     <fkColumnName>ObjectId</fkColumnName>
                 </fk>
             </column>
-            <column columnName="AnimalAccount"/>
             <column columnName="StudyDay"/>
             <column columnName="ScheduleDate"/>
             <column columnName="Created"/>
@@ -127,8 +127,7 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId">
+            <column columnName="ObjectId"/>
         </columns>
     </table>
-
 </tables>
