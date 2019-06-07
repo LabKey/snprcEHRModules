@@ -35,6 +35,8 @@ AS
 -- Changes:
 -- 4/12/2018 added permnissions and trimmed leading and trailing spaces from attrib_keys. tjh
 -- 10/11/2018 removing rows that have attribute values that are '' or null. tjh
+-- 05/13/19  Added a REPLACE to numeric/decimal CAST
+--           Purpose is to handle numeric data with commas (',') ~line 59  srr
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
   cp.ANIMAL_EVENT_ID               AS EventId,
@@ -49,7 +51,7 @@ SELECT TOP (99.999999999) PERCENT
 
   CASE WHEN (LOWER(pa.DATA_TYPE) = 'numeric' OR
     LOWER(pa.DATA_TYPE) = 'decimal')
-    THEN CAST (cpa.value AS FLOAT ) ELSE NULL END AS FloatValue,
+    THEN CAST (REPLACE(cpa.value,',','') AS FLOAT ) ELSE NULL END AS FloatValue,
 
   CASE WHEN LOWER(pa.DATA_TYPE) = 'string'
     THEN cpa.value ELSE NULL END AS StringValue,

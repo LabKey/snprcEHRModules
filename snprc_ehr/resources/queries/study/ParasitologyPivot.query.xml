@@ -13,7 +13,7 @@
                     </column>
                     <column columnName="panelName">
                         <columnTitle>Parasitology Panel Name</columnTitle>
-                        <displayWidth>200</displayWidth>
+                        <displayWidth>20</displayWidth>
                     </column>
                     <column columnName="runId">
                         <isHidden>true</isHidden>

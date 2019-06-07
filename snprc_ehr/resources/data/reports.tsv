@@ -25,6 +25,7 @@ DailyObs	Clinical	query	Daily Obs	true		study	DailyObs			date	false	false			Cont
 clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
 clinremarks	Clinical	query	Clinical Remarks	true		study	Clinical Remarks			date	false	false		qcstate/publicdata	This report contains the clinical remarks entered about each animal
 Alopecia	Clinical	query	Alopecia Scores	true		study	Alopecia			date	false	false		qcstate/publicdata	This report contains the alopecia scores for the animal
+Vaccines	Clinical	query	Vaccines	true		study	Vaccine			date	false	false		qcstate/publicdata	This report contains the vaccine data for the animal
 behaviorRemarks	Behavior	js	Behavior Remarks	true		study	underDevelopment	Behavior Remarks		date	false	false		qcstate/publicdata	This report contains the behavior remarks entered about each animal
 drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treatments		date	false	false		qcstate/publicdata	This report contains the behavior treatments entered about each animal
 treatments	Clinical	query	Therapies	true		study	Treatment Orders	Therapies		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
@@ -60,3 +61,4 @@ blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			C
 ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	ParasitologyPivot			date	false	false			Parasitology data.
 ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes
+Flags	Colony Management	query	Animal Attributes (flags)	true		study	flags			StartDate	false	false		qcstate/publicdata	Animal attribute flags
