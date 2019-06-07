@@ -99,6 +99,8 @@ CREATE TRIGGER [SNPRC_Scheduler].[td_TimelineItem]
 BEGIN
 /*****************************************************
  StudyDayNotes was an late addition to model.
+This trigger’s sole purpose is to enforce referential integrity
+  between TimelineItem and StudyDayNotes tables
 Each study day note requires one or more rows in the TimelineItem table.
 This trigger used two table variables:
 @Table_Notes holds rows that re required to have a matching row in the parent table.
@@ -113,7 +115,15 @@ DECLARE @numrows INT,
 -- No rows, nothing to do
 SELECT @numrows = @@rowcount;
 IF @numrows = 0
-        RETURN;
+RETURN;
+-- No note rows for deleted items therefore nothing to do, exit
+IF (SELECT COUNT(*)
+    FROM Deleted d
+             INNER JOIN SNPRC_Scheduler.StudyDayNotes n
+                        ON n.StudyDay = d.StudyDay AND n.TimelineObjectId = d.TimelineObjectId) = 0
+RETURN;
+
+
 
 DECLARE @beforeCnt INT,
 		@afterCnt INT
