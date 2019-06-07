@@ -100,11 +100,11 @@ public class SNPRC_schedulerController extends SpringActionController
      @RequiresPermission(SNPRC_schedulerReadersPermission.class)
      public class getScheduledTimelinesForSpecies extends MutatingApiAction<SimpleApiJsonForm>
      {
+
          @Override
          public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
          {
              Map<String, Object> props = new HashMap<>();
-             Map<String, Object> Timelines = null;
              PropertyValues pv = getPropertyValues();
              String species = null;
              try
@@ -114,8 +114,8 @@ public class SNPRC_schedulerController extends SpringActionController
 
                      try
                      {
-                         species = pv.getPropertyValue("Species").getValue().toString();
-                         String dateString = pv.getPropertyValue("Date").getValue().toString();
+                         species = pv.getPropertyValue("species").getValue().toString().toUpperCase();
+                         //String dateString = pv.getPropertyValue("Date").getValue().toString();
                      }
                      catch (Exception e)
                      {
@@ -123,17 +123,12 @@ public class SNPRC_schedulerController extends SpringActionController
                          props.put("message", e.getMessage());
                      }
 
+                     List<JSONObject> timelines = SNPRC_schedulerService.get().getScheduledTimelinesForSpecies(getContainer(), getUser(),
+                             species, new BatchValidationException());
 
-                        // ToDo: SNPRC_schedulerServiceImpl code to get scheduled timeline data
-//                     UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_scheduler");
-//                     TableInfo timelines = schema.getTable("timeline");
-//                     SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("species"), species, CompareType.EQUAL);
-//                     if (startingDate != null)
-//                     {
-//                         filter.addCondition(FieldKey.fromParts("startDate"), startingDate, CompareType.DATE_GTE);
-//                     }
-//                     TableSelector ts = new TableSelector(timelines, filter, null);
-//                     Timelines = ts.getMap();
+                     props.put("success", true);
+                     props.put("rows", timelines);
+
                  }
              }
              catch (Exception e)
@@ -259,11 +254,12 @@ public class SNPRC_schedulerController extends SpringActionController
                 return;
             }
 
-            if (json.has("TimelineId"))
+            // make sure timelineId is an integer or is null
+            if (json.has("TimelineId") && !json.isNull(Timeline.TIMELINE_ID) )
             {
                 try
                 {
-                    json.getInt("TimelineId"); // make sure timelineId is an integer
+                   json.getInt("TimelineId");
                 }
                 catch (Exception e)
                 {

@@ -23,6 +23,7 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.util.GUID;
+import org.labkey.snprc_scheduler.domains.StudyDayNotes;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
 import org.labkey.snprc_scheduler.domains.TimelineItem;
@@ -123,6 +124,28 @@ public class SNPRC_schedulerManager
 
         return timelineItems;
     }
+
+    // TODO: fb_snprc_edit
+    public List<StudyDayNotes> getStudyDayNotes(String timelineObjectId) throws ApiUsageException
+    {
+
+        List<StudyDayNotes> studyDayNotes;
+        try
+        {
+            TableInfo studyDayTable = SNPRC_schedulerSchema.getInstance().getTableInfoStudyDayNotes();
+
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(StudyDayNotes.STUDYDAY_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
+            studyDayNotes = new TableSelector(studyDayTable, filter, null).getArrayList(StudyDayNotes.class);
+
+        }
+        catch (Exception e)
+        {
+            throw new ApiUsageException(e);
+        }
+
+        return studyDayNotes;
+    }
+
 
     public List<TimelineAnimalJunction> getTimelineAnimalItems(Container c, User u, String timelineObjectId) throws ApiUsageException
     {
@@ -507,6 +530,79 @@ public class SNPRC_schedulerManager
             errors.addRowError(new ValidationException(e.getMessage()));
         }
     }
+    /**
+     * Update the TimelineItem table (called by SNPRC_schedulerServiceImpl.saveTimelineData()
+     *
+     * @param c             = Container object
+     * @param u             = User object
+     * @param studyDayNotes = List of TimelineItem objects
+     * @param errors = exception object
+     */
+    public void updateStudyDayNotes(Container c, User u, List<StudyDayNotes> studyDayNotes, BatchValidationException errors)
+    {
+        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+
+        TableInfo studyDayNotesTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_STUDY_DAY_NOTES, schema.getDefaultContainerFilter());
+        QueryUpdateService qus = studyDayNotesTable.getUpdateService();
+
+        try
+        {
+            List<StudyDayNotes> toRemove = new ArrayList<>(); // list of timelineItems that were deleted
+
+            for (StudyDayNotes studyDayNote : studyDayNotes)
+            {
+                List<Map<String, Object>> studyDayNoteRows = new ArrayList<>();
+
+                // insert new row
+                if (studyDayNote.getObjectId() == null)
+                {
+                    studyDayNote.setObjectId(new GUID().toString());
+
+                    studyDayNoteRows.add(studyDayNote.toMap(c));
+                    List<Map<String, Object>> insertedRow = qus.insertRows(u, c, studyDayNoteRows, errors, null, null);
+
+                    // add updated values returned from db call
+                    if (insertedRow != null)
+                    {
+                        studyDayNote.setObjectId((String) insertedRow.get(0).get(StudyDayNotes.STUDYDAY_OBJECT_ID));
+                    }
+                }
+                // delete existing row
+                else if (studyDayNote.getDeleted())
+                {
+                    Map<String, Object> pkMap = new HashMap<>();
+                    List<Map<String, Object>> pkList = new ArrayList<>();
+
+                    pkMap.put(StudyDayNotes.STUDYDAY_TIMELINE_OBJECT_ID, studyDayNote.getTimelineObjectId());
+                    pkMap.put(StudyDayNotes.STUDYDAY_STUDY_DAY, studyDayNote.getStudyDay());
+                    pkList.add(pkMap);
+                    qus.deleteRows(u, c, pkList, null, null);
+
+                    toRemove.add(studyDayNote); // save the studydaynote for removal
+                }
+                // update existing row
+                else if (studyDayNote.getDirty())
+                {
+                    studyDayNoteRows.add(studyDayNote.toMap(c));
+                    Map<String, Object> pkMap = new HashMap<>();
+                    List<Map<String, Object>> pkList = new ArrayList<>();
+
+                    pkMap.put(StudyDayNotes.STUDYDAY_TIMELINE_OBJECT_ID, studyDayNote.getTimelineObjectId());
+                    pkMap.put(StudyDayNotes.STUDYDAY_STUDY_DAY, studyDayNote.getStudyDay());
+                    pkList.add(pkMap);
+
+                    List<Map<String, Object>> updatedRow = qus.updateRows(u, c, studyDayNoteRows, pkList, null, null);
+                    // ToDo: what should we do with the updated row map?
+                }
+            }
+            // remove timelineItems that were deleted
+            studyDayNotes.removeAll(toRemove);
+        }
+        catch (QueryUpdateServiceException | BatchValidationException | SQLException | DuplicateKeyException | InvalidKeyException e)
+        {
+            errors.addRowError(new ValidationException(e.getMessage()));
+        }
+    }
 
     /**
      * Update the TimelineProjectItem table (called by SNPRC_schedulerServiceImpl.saveTimelineData()
@@ -520,7 +616,7 @@ public class SNPRC_schedulerManager
     {
         UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
-        TableInfo timelineProjectItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_PROJECT_ITEM);
+        TableInfo timelineProjectItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_PROJECT_ITEM, schema.getDefaultContainerFilter());
         QueryUpdateService qus = timelineProjectItemTable.getUpdateService();
 
 

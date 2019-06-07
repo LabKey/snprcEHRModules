@@ -69,6 +69,14 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
                     {
                         return new TimelineItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem(), cf).init();
                     }
+                },
+        StudyDayNotes
+                {
+                    @Override
+                    public TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf)
+                    {
+                        return new TimelineProjectItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoStudyDayNotes(), cf).init();
+                    }
                 };
 
         public abstract TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf);

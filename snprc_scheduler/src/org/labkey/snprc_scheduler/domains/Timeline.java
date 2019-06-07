@@ -51,9 +51,11 @@ public class Timeline //extends Entity
     private String _species;
     private Integer _chargeId;
     private String _protocol;
+    private String _animalAccount;
     private List<TimelineItem> _timelineItems = new ArrayList<>(); // list of TimelineItem objects associated with the timeline
     private List<TimelineProjectItem> _timelineProjectItems = new ArrayList<>(); // list of TimelineProjectItem objects associated with the timeline
     private List<TimelineAnimalJunction> _timelineAnimalItems = new ArrayList<>(); // list of animals assigned to timeline
+    private List<StudyDayNotes> _studyDayNotes = new ArrayList<>(); // Notes for each study day
 
     public static final String TIMELINE_ID = "TimelineId";
     public static final String TIMELINE_REVISION_NUM = "RevisionNum";
@@ -78,6 +80,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_TIMELINE_PROJECT_ITEMS = "TimelineProjectItems";
     public static final String TIMELINE_PROJECT_OBJECT_ID = "ProjectObjectId";
     public static final String TIMELINE_ANIMAL_ITEMS = "TimelineAnimalItems";
+    public static final String TIMELINE_STUDY_DAY_NOTES = "StudyDayNotes";
     public static final String TIMELINE_IS_DELETED = "IsDeleted";
     public static final String TIMELINE_IS_DIRTY = "IsDirty";
     public static final String TIMELINE_IS_IN_USE = "IsInUse";
@@ -87,6 +90,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_SPECIES = "Species";
     public static final String TIMELINE_CHARGE_ID = "ChargeId";
     public static final String TIMELINE_PROTOCOL = "Protocol";
+    public static final String TIMELINE_ANIMAL_ACCOUNT = "AnimalAccount";
 
     public static final String TIMELINE_DATE_FORMAT = "yyyy-MM-dd";  //
     public static final String TIMELINE_DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
@@ -103,40 +107,41 @@ public class Timeline //extends Entity
     {
         try
         {
-            this.setTimelineId(json.has(Timeline.TIMELINE_ID) ? json.getInt(Timeline.TIMELINE_ID) : null);
-            this.setRevisionNum(json.has(Timeline.TIMELINE_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_REVISION_NUM) : null);
-            this.setLeadTech(json.has(Timeline.TIMELINE_LEAD_TECHS) ? json.getString(Timeline.TIMELINE_LEAD_TECHS) : null);
-            this.setNotes(json.has(Timeline.TIMELINE_NOTES) ? json.getString(Timeline.TIMELINE_NOTES) : null);
-            this.setSchedulerNotes(json.has(Timeline.TIMELINE_SCHEDULER_NOTES) ? json.getString(Timeline.TIMELINE_SCHEDULER_NOTES) : null);
-            this.setObjectId(json.has(Timeline.TIMELINE_OBJECTID) ? json.getString(Timeline.TIMELINE_OBJECTID) : null);
-            this.setCreatedBy(c, u, json.has(Timeline.TIMELINE_CREATED_BY) ? json.getInt(Timeline.TIMELINE_CREATED_BY): null);
-            this.setModifiedBy(c, u, json.has(Timeline.TIMELINE_MODIFIED_BY) ? json.getInt(Timeline.TIMELINE_MODIFIED_BY): null);
-            this.setCreatedByName(json.has(Timeline.TIMELINE_CREATED_BY_NAME) ?json.getString(Timeline.TIMELINE_CREATED_BY_NAME): null);
-            this.setModifiedByName(json.has(Timeline.TIMELINE_MODIFIED_BY_NAME) ?json.getString(Timeline.TIMELINE_MODIFIED_BY_NAME): null);
-            this.setDescription(json.has(Timeline.TIMELINE_DESCRIPTION) ? json.getString(Timeline.TIMELINE_DESCRIPTION) : null);
-            this.setQcState(json.has(Timeline.TIMELINE_QCSTATE) ? json.getInt(Timeline.TIMELINE_QCSTATE) : null);
-            this.setProjectObjectId(json.has(Timeline.TIMELINE_PROJECT_OBJECT_ID) ? json.getString(Timeline.TIMELINE_PROJECT_OBJECT_ID) : null);
-            this.setProjectId(json.has(Timeline.TIMELINE_PROJECT_ID) ? json.getInt(Timeline.TIMELINE_PROJECT_ID) : null);
-            this.setProjectRevisionNum(json.has(Timeline.TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(Timeline.TIMELINE_PROJECT_REVISION_NUM) : null);
-            this.setDeleted(json.has(Timeline.TIMELINE_IS_DELETED) && json.getBoolean(Timeline.TIMELINE_IS_DELETED));
-            this.setDirty(json.has(Timeline.TIMELINE_IS_DIRTY) && json.getBoolean(Timeline.TIMELINE_IS_DIRTY));
-            this.setInUse(json.has(Timeline.TIMELINE_IS_IN_USE) && json.getBoolean(Timeline.TIMELINE_IS_IN_USE));
-            this.setRc(json.has(Timeline.TIMELINE_RC) ? json.getString(Timeline.TIMELINE_RC) : null);
-            this.setSpecies(json.has(Timeline.TIMELINE_SPECIES) ? json.getString(Timeline.TIMELINE_SPECIES) : null);
-            this.setProtocol(json.has(Timeline.TIMELINE_PROTOCOL) ? json.getString(Timeline.TIMELINE_PROTOCOL) : null);
-            this.setChargeId(json.has(Timeline.TIMELINE_CHARGE_ID) ? json.getInt(Timeline.TIMELINE_CHARGE_ID) : null);
+            this.setTimelineId(json.has(TIMELINE_ID) && !json.isNull(TIMELINE_ID) ? json.getInt(TIMELINE_ID) : null);
+            this.setRevisionNum(json.has(TIMELINE_REVISION_NUM) && !json.isNull(TIMELINE_REVISION_NUM) ? json.getInt(TIMELINE_REVISION_NUM) : null);
+            this.setLeadTech(json.has(TIMELINE_LEAD_TECHS) && !json.isNull(TIMELINE_LEAD_TECHS) ? json.getString(TIMELINE_LEAD_TECHS) : null);
+            this.setNotes(json.has(TIMELINE_NOTES) && !json.isNull(TIMELINE_NOTES) ? json.getString(TIMELINE_NOTES) : null);
+            this.setSchedulerNotes(json.has(TIMELINE_SCHEDULER_NOTES) && !json.isNull(TIMELINE_SCHEDULER_NOTES) ? json.getString(TIMELINE_SCHEDULER_NOTES) : null);
+            this.setObjectId(json.has(TIMELINE_OBJECTID) && !json.isNull(TIMELINE_OBJECTID) ? json.getString(TIMELINE_OBJECTID) : null);
+            this.setCreatedBy(c, u, json.has(TIMELINE_CREATED_BY) && !json.isNull(TIMELINE_CREATED_BY) ? json.getInt(TIMELINE_CREATED_BY): null);
+            this.setModifiedBy(c, u, json.has(TIMELINE_MODIFIED_BY) && !json.isNull(TIMELINE_MODIFIED_BY) ? json.getInt(TIMELINE_MODIFIED_BY): null);
+            this.setCreatedByName(json.has(TIMELINE_CREATED_BY_NAME) && !json.isNull(TIMELINE_CREATED_BY_NAME) ? json.getString(TIMELINE_CREATED_BY_NAME): null);
+            this.setModifiedByName(json.has(TIMELINE_MODIFIED_BY_NAME) && !json.isNull(TIMELINE_MODIFIED_BY_NAME) ? json.getString(TIMELINE_MODIFIED_BY_NAME): null);
+            this.setDescription(json.has(TIMELINE_DESCRIPTION) && !json.isNull(TIMELINE_DESCRIPTION) ? json.getString(TIMELINE_DESCRIPTION) : null);
+            this.setQcState(json.has(TIMELINE_QCSTATE) && !json.isNull(TIMELINE_QCSTATE) ? json.getInt(TIMELINE_QCSTATE) : null);
+            this.setProjectObjectId(json.has(TIMELINE_PROJECT_OBJECT_ID) && !json.isNull(TIMELINE_PROJECT_OBJECT_ID) ? json.getString(TIMELINE_PROJECT_OBJECT_ID) : null);
+            this.setProjectId(json.has(TIMELINE_PROJECT_ID) && !json.isNull(TIMELINE_PROJECT_ID) ? json.getInt(TIMELINE_PROJECT_ID) : null);
+            this.setProjectRevisionNum(json.has(TIMELINE_PROJECT_REVISION_NUM) && !json.isNull(TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(TIMELINE_PROJECT_REVISION_NUM) : null);
+            this.setDeleted(json.has(TIMELINE_IS_DELETED) && !json.isNull(TIMELINE_IS_DELETED) && json.getBoolean(TIMELINE_IS_DELETED));
+            this.setDirty(json.has(TIMELINE_IS_DIRTY) && !json.isNull(TIMELINE_IS_DIRTY) && json.getBoolean(TIMELINE_IS_DIRTY));
+            this.setInUse(json.has(TIMELINE_IS_IN_USE) && !json.isNull(TIMELINE_IS_IN_USE) && json.getBoolean(TIMELINE_IS_IN_USE));
+            this.setRc(json.has(TIMELINE_RC) && !json.isNull(TIMELINE_RC) ? json.getString(TIMELINE_RC) : null);
+            this.setSpecies(json.has(TIMELINE_SPECIES) && !json.isNull(TIMELINE_SPECIES) ? json.getString(TIMELINE_SPECIES) : null);
+            this.setProtocol(json.has(TIMELINE_PROTOCOL) && !json.isNull(TIMELINE_PROTOCOL) ? json.getString(TIMELINE_PROTOCOL) : null);
+            this.setChargeId(json.has(TIMELINE_CHARGE_ID) && !json.isNull(TIMELINE_CHARGE_ID) ? json.getInt(TIMELINE_CHARGE_ID) : null);
+            this.setProtocol(json.has(TIMELINE_ANIMAL_ACCOUNT) && !json.isNull(TIMELINE_ANIMAL_ACCOUNT) ? json.getString(TIMELINE_ANIMAL_ACCOUNT) : null);
 
-            String startDateString = json.has(Timeline.TIMELINE_STARTDATE) ? json.getString(Timeline.TIMELINE_STARTDATE) : null;
-            String endDateString = json.has(Timeline.TIMELINE_ENDDATE) ? json.getString(Timeline.TIMELINE_ENDDATE) : null;
-            String createdDateString = json.has(Timeline.TIMELINE_DATE_CREATED) ? json.getString(Timeline.TIMELINE_DATE_CREATED) : null;
-            String modifiedDateString = json.has(Timeline.TIMELINE_DATE_MODIFIED) ? json.getString(Timeline.TIMELINE_DATE_MODIFIED) : null;
+            String startDateString = json.has(TIMELINE_STARTDATE) && !json.isNull(TIMELINE_STARTDATE) ? json.getString(TIMELINE_STARTDATE) : null;
+            String endDateString = json.has(TIMELINE_ENDDATE) && !json.isNull(TIMELINE_ENDDATE) ? json.getString(TIMELINE_ENDDATE) : null;
+            String createdDateString = json.has(TIMELINE_DATE_CREATED) && !json.isNull(TIMELINE_DATE_CREATED) ? json.getString(TIMELINE_DATE_CREATED) : null;
+            String modifiedDateString = json.has(TIMELINE_DATE_MODIFIED) && !json.isNull(TIMELINE_DATE_MODIFIED) ? json.getString(TIMELINE_DATE_MODIFIED) : null;
 
             try
             {
-                this.setStartDate(startDateString == null ? new Date() : DateUtil.parseDateTime(startDateString, Timeline.TIMELINE_DATE_FORMAT));
-                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
-                this.setCreated(createdDateString == null ? new Date() : DateUtil.parseDateTime(createdDateString, Timeline.TIMELINE_DATE_FORMAT));
-                this.setModified(modifiedDateString == null ? new Date() : DateUtil.parseDateTime(modifiedDateString, Timeline.TIMELINE_DATE_FORMAT));
+                this.setStartDate(startDateString == null ? new Date() : DateUtil.parseDateTime(startDateString, TIMELINE_DATE_FORMAT));
+                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, TIMELINE_DATE_FORMAT));
+                this.setCreated(createdDateString == null ? new Date() : DateUtil.parseDateTime(createdDateString, TIMELINE_DATE_FORMAT));
+                this.setModified(modifiedDateString == null ? new Date() : DateUtil.parseDateTime(modifiedDateString, TIMELINE_DATE_FORMAT));
             }
             catch (ParseException e)
             {
@@ -492,6 +497,26 @@ public class Timeline //extends Entity
         _protocol = protocol;
     }
 
+    public String getAnimalAccount()
+    {
+        return _animalAccount;
+    }
+
+    public void setAnimalAccount(String animalAccount)
+    {
+        _animalAccount = animalAccount;
+    }
+
+    public List<StudyDayNotes> getStudyDayNotes()
+    {
+        return _studyDayNotes;
+    }
+
+    public void setStudyDayNotes(List<StudyDayNotes> studyDayNotes)
+    {
+        _studyDayNotes = studyDayNotes;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c, User u)
     {
@@ -523,6 +548,7 @@ public class Timeline //extends Entity
         values.put(TIMELINE_SPECIES, getSpecies());
         values.put(TIMELINE_CHARGE_ID, getChargeId());
         values.put(TIMELINE_PROTOCOL, getProtocol());
+        values.put(TIMELINE_ANIMAL_ACCOUNT, getAnimalAccount());
 
         if (getTimelineItems().size() > 0)
         {
@@ -550,6 +576,15 @@ public class Timeline //extends Entity
                 listTimelineAnimalItems.add(timelineAnimalItem.toMap(c));
             }
             values.put(TIMELINE_ANIMAL_ITEMS, listTimelineAnimalItems);
+        }
+        if (getStudyDayNotes().size() > 0)
+        {
+            List<Map<String, Object>> listStudyDayNotes = new ArrayList<>();
+            for (StudyDayNotes studyDayNote : getStudyDayNotes())
+            {
+                listStudyDayNotes.add(studyDayNote.toMap(c));
+            }
+            values.put(TIMELINE_STUDY_DAY_NOTES, listStudyDayNotes);
         }
 
         return values;
@@ -621,6 +656,15 @@ public class Timeline //extends Entity
             }
             json.put(TIMELINE_ANIMAL_ITEMS, jsonTimelineAnimalItems);
         }
+        if (getStudyDayNotes().size() > 0)
+        {
+            JSONArray jsonStudyDayNotes = new JSONArray();
+            for (StudyDayNotes studyDayNote : getStudyDayNotes())
+            {
+                jsonStudyDayNotes.put(studyDayNote.toJSON(c));
+            }
+            json.put(TIMELINE_ANIMAL_ITEMS, jsonStudyDayNotes);
+        }
         return json;
     }
 
@@ -654,7 +698,7 @@ public class Timeline //extends Entity
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (!(o instanceof Timeline)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Timeline timeline = (Timeline) o;
         return Objects.equals(_timelineId, timeline._timelineId) &&
                 Objects.equals(_revisionNum, timeline._revisionNum) &&
@@ -682,14 +726,16 @@ public class Timeline //extends Entity
                 Objects.equals(_species, timeline._species) &&
                 Objects.equals(_chargeId, timeline._chargeId) &&
                 Objects.equals(_protocol, timeline._protocol) &&
+                Objects.equals(_animalAccount, timeline._animalAccount) &&
                 Objects.equals(_timelineItems, timeline._timelineItems) &&
                 Objects.equals(_timelineProjectItems, timeline._timelineProjectItems) &&
-                Objects.equals(_timelineAnimalItems, timeline._timelineAnimalItems);
+                Objects.equals(_timelineAnimalItems, timeline._timelineAnimalItems) &&
+                Objects.equals(_studyDayNotes, timeline._studyDayNotes);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _isInUse, _species, _chargeId, _protocol, _timelineItems, _timelineProjectItems, _timelineAnimalItems);
+        return Objects.hash(_timelineId, _revisionNum, _description, _startDate, _endDate, _leadTech, _notes, _schedulerNotes, _objectId, _projectId, _projectRevisionNum, _projectObjectId, _rc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _qcState, _isDeleted, _isDirty, _isInUse, _species, _chargeId, _protocol, _animalAccount, _timelineItems, _timelineProjectItems, _timelineAnimalItems, _studyDayNotes);
     }
 }
