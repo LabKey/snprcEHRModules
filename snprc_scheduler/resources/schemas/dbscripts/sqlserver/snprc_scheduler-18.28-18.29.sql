@@ -92,57 +92,80 @@ DROP TRIGGER snprc_scheduler.td_TimelineItem;
 GO
 
 
-
-/*
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-*/
-
-
-/*	For referential integrity only.
-	Sole purpose is to prevent orphaning a StudyDayNote entry if all applicable TimeLineItems are deleted
-	For DELETE
-   srr 05.28.19
- */
-CREATE TRIGGER snprc_scheduler.td_TimelineItem
-    ON snprc_scheduler.TimelineItem
+CREATE TRIGGER [SNPRC_Scheduler].[td_TimelineItem]
+    ON [SNPRC_Scheduler].[TimelineItem]
     FOR DELETE
             AS
 BEGIN
+/*****************************************************
+ StudyDayNotes was an late addition to model.
+Each study day note requires one or more rows in the TimelineItem table.
+This trigger used two table variables:
+@Table_Notes holds rows that re required to have a matching row in the parent table.
+@resultant uses EXCEPT operator to generate what the result of the delete will look like.
+srr 06.07.19
+ ****************************************************/
 DECLARE @numrows INT,
             @numnull INT,
             @errno INT,
             @errmsg VARCHAR(255);
 
+-- No rows, nothing to do
 SELECT @numrows = @@rowcount;
 IF @numrows = 0
         RETURN;
 
-IF
-(
-    SELECT COUNT(*) -- TimelineItem rows for StudyDay-TimelineObjectID
-    FROM snprc_scheduler.StudyDayNotes sdn
-             INNER JOIN Deleted d
-                        ON d.StudyDay = sdn.StudyDay
-                            AND d.TimelineObjectId = sdn.TimelineObjectId
-) > 0
--- Code to check for orphan StudyDayNote rows
+DECLARE @beforeCnt INT,
+		@afterCnt INT
+-- table var to hold join columns
+DECLARE @tbl_Notes TABLE(
+		StudyDay INT,
+		TimelineObjecId UNIQUEIDENTIFIER
+		)
+-- table var to hold resultant table
+DECLARE @resultant TABLE(
+		StudyDay INT,
+		TimelineObjecId UNIQUEIDENTIFIER,
+		ProjectitemId int
+		)
+
+	-- these must exist in the post delete TimelineItem table
+INSERT INTO @tbl_Notes(StudyDay, TimelineObjecId)
+SELECT DISTINCT StudyDay, TimelineObjectId
+FROM Deleted
+    -- EXCEPT  used to generate the resultant table
+    INSERT INTO @resultant
+   (
+    StudyDay,
+    TimelineObjecId,
+    ProjectitemId
+    )
+SELECT r.StudyDay, r.TimelineObjectId, r.ProjectitemId
+FROM (-- new resultant table
+         SELECT b.TimelineItemId, b.ProjectitemId, b.TimelineObjectId, b.StudyDay
+         FROM SNPRC_Scheduler.TimelineItem b
+                  INNER JOIN @tbl_Notes n
+         ON n.StudyDay = b.StudyDay AND n.TimelineObjecId = b.TimelineObjectId
+             EXCEPT
+         SELECT d.TimelineItemId, d.ProjectitemId, d.TimelineObjectId, d.StudyDay
+         FROM Deleted d
+             INNER JOIN @tbl_Notes n
+         ON n.StudyDay = d.StudyDay AND n.TimelineObjecId = d.TimelineObjectId
+     ) r
+
+
+    IF(	SELECT COUNT(*)
+                  --SELECT n.StudyDay, n.TimelineObjecId, r.StudyDay, r.TimelineObjecId
+           FROM @tbl_Notes n
+               LEFT OUTER JOIN @resultant r
+           ON r.StudyDay = n.StudyDay AND r.TimelineObjecId = n.TimelineObjecId
+           WHERE r.StudyDay IS NULL OR r.TimelineObjecId IS null) > 0
 BEGIN
-DECLARE @bla VARCHAR(200);
-SELECT @errno = 0;
-SET @bla = 'Must have something between BEGIN and END';
+SELECT @errno = 50001,
+       @errmsg
+           = ' Timeline Item Trigger - TimelineItem has a StudyDayNote and only item on Study day.  Note must be deleted first.  Data not modified.';
+GOTO ERROR;
 
-/*
--- if error:
-
-   SELECT @errno = 50001,
-           @errmsg
-               = ' Timeline Item Trigger - TimelineItem has a StudyDayNote.  Note must be deleted first.  Data not modified.';
-    GOTO ERROR;
-*/
 END;
 
 
@@ -155,7 +178,6 @@ error:
 -- LK will handle ROLLBACK  TRANSACTION
 END;
 GO
-
 ALTER TABLE snprc_scheduler.TimelineItem ENABLE TRIGGER td_TimelineItem;
 
 /******************************************/
