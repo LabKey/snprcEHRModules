@@ -18,14 +18,12 @@ import {
     sortProjects,
     createAction,
     PROJECT_SELECTED,
-    selectTimeline, TAB_TIMELINES, TAB_PROJECTS
+    selectTimeline, TAB_TIMELINES, TAB_PROJECTS, setForceRerender
 } from '../actions/dataActions';
 import connect from "react-redux/es/connect/connect";
 import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 
 const verboseOutput = true;
-
-class EmptyProjectRowsView extends React.Component { render() {return (<div> Loading active projects...</div>);} }
 
 class ProjectList extends React.Component {
     
@@ -67,13 +65,6 @@ class ProjectList extends React.Component {
         return false;
     }
 
-    onProjectRowsDeselected = (rows) => {
-        let rowIndexes = rows.map(r => r.rowIdx);
-        this.setState({ selectedProjects: this.state.selectedProjects.filter(i => rowIndexes.indexOf(i) === -1) });       
-    }
-
-    projectRowGetter = (index) => this.state.projects[index];   
-    
     handleProjectSearchChange = (event) => this.props.store.dispatch(filterProjects(event.target.value));
 
     handleStoreUpdate = () => {
@@ -82,23 +73,6 @@ class ProjectList extends React.Component {
         // manage project list in local state for rendering
         this.setState({ projects: projects, projectCount: projects.length });
     }
-
-    handleGridSort = (sortColumn, sortDirection) => {
-        // de-select any currently selected projects
-        this.setState({ selectedProjects: [], selectedProject: null });
-        // dispatch our filter request
-        this.props.store.dispatch(sortProjects(sortColumn, sortDirection));
-    };
-
-    getSelectedProjecId = () => {
-        return this.refs["project-table"].state.selectedRowKeys[0];
-    };
-
-    setSelectedProjectId = (id) => {
-        this.refs["project-table"].setState({
-            selectedRowKeys: [id]
-        });
-    };
 
     options = {
         noDataText: 'No projects available',
@@ -115,11 +89,18 @@ class ProjectList extends React.Component {
         }
     };
 
+    componentDidUpdate() {
+        const { forceRerender, setForceRerender } = this.props;
+        if( forceRerender ) {
+            setForceRerender(false);
+        }
+    }
+
     render = () => {
         const { selectedProject } = this.props;
 
         return (<div>
-            <div className="input-group bottom-padding-8">
+            <div className="input-group top-bottom-padding-8">
                 <span className="input-group-addon input-group-addon-buffer"><Glyphicon glyph="search"/></span>
                 <input
                         id="projectSearch"
@@ -129,7 +110,7 @@ class ProjectList extends React.Component {
                         name="projectSearch"
                         placeholder="Search projects"/>
             </div>
-            <div className="bottom-padding-8 scheduler-project-list">
+            <div className="top-bottom-padding-8 scheduler-project-list">
                 <BootstrapTable
                         ref='project-table'
                         className='project-table'
@@ -154,10 +135,12 @@ ProjectList.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    selectedProject: state.project.selectedProject
+    selectedProject: state.project.selectedProject,
+    forceRerender: state.root.forceRerender  // Bit of a hack to get a re-render
 })
 
 const mapDispatchToProps = dispatch => ({
+    setForceRerender: render => dispatch(setForceRerender(render)),
     onSelectProject: selectedProject => dispatch(selectProject(selectedProject)),
     onSelectTimeline: timeline => dispatch(selectTimeline(timeline))
 })

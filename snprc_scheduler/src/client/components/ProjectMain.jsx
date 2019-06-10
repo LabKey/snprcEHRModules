@@ -5,24 +5,13 @@ import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 
 class ProjectMain extends React.Component {
 
-    selectedOptions = {
-        noDataText: 'No selected project data'
-    };
-
     options = {
         noDataText: 'No project data'
     };
 
     render() {
 
-        let selectedProjects = [];
-        if (this.props.selectedProject && this.props.selectedProject.projectId) {
-            selectedProjects = [this.props.selectedProject];
-        } else {
-            selectedProjects = [];
-        }
-
-        return <div className='col-sm-12 scheduler-projects'>
+        return <div className='col-sm-12 scheduler-main-table'>
 
             <h4>All Active Projects</h4>
             <BootstrapTable
@@ -31,6 +20,7 @@ class ProjectMain extends React.Component {
                     data={this.props.projects}
                     options={this.options}
                     height={438}
+                    striped
             >
                 <TableHeaderColumn dataField='projectId' isKey={true}>Project ID</TableHeaderColumn>
                 <TableHeaderColumn dataField='revisionNum'>Revision</TableHeaderColumn>

@@ -18,7 +18,13 @@ import {
     DELETE_NEW_TIMELINES,
     SET_TIMELINE_DAY_0,
     TIMELINE_CLEAN,
-    addDaysToDate, formatDateString, getNextRowId, getDay0Date
+    addDaysToDate,
+    formatDateString,
+    getNextRowId,
+    getDay0Date,
+    ADD_TIMELINE_ANIMAL_ITEM,
+    DELETE_TIMELINE_ANIMAL_ITEM,
+    UPDATE_TIMELINE_ANIMAL_ITEM
 } from "../actions/dataActions";
 import {verboseOutput} from "./projectReducer";
 
@@ -55,6 +61,11 @@ const cloneTimeline = (source, revision) => {
         IsDirty: true
     }});
 
+    newTimeline.TimelineProjectItems = newTimeline.TimelineProjectItems.map( item => {return {
+        ...item,
+        IsDirty: true
+    }});
+
 
     return newTimeline;
 };
@@ -86,6 +97,8 @@ export default (state = { }, action) => {
             // Add rowid, timelineitems, timelineprojectitems and timelineanimalitems for UI
             for (const tl of nextState.timelines) {
                 tl.RowId = tl.TimelineId;
+                tl.savedDraft = (tl.QcState === 4);
+
 
                 if (!tl.TimelineItems) {
                     tl.TimelineItems = [];
@@ -186,6 +199,7 @@ export default (state = { }, action) => {
             // Set rowid for UI display
             action.payload.RowId = action.payload.TimelineId;
             action.payload.IsDirty = false;
+            action.payload.savedDraft = (action.payload.QcState === 4);
 
             // Update list of timelines
             let timelines = nextState.timelines.map((timeline) => {
@@ -201,6 +215,40 @@ export default (state = { }, action) => {
             // Set Study Day 0 if necessary
             setStudyDay0(nextState.selectedTimeline);
 
+            break;
+        case ADD_TIMELINE_ANIMAL_ITEM:
+            // action payload is the animal item
+            if (nextState.selectedTimeline && nextState.selectedTimeline.TimelineAnimalItems) {
+                nextState.selectedTimeline.TimelineAnimalItems.push(action.payload);
+            }
+
+            nextState.selectedTimeline.IsDirty = true;
+            break;
+        case UPDATE_TIMELINE_ANIMAL_ITEM:
+            // action payload is the animal item
+            if (nextState.selectedTimeline && nextState.selectedTimeline.TimelineAnimalItems) {
+                nextState.selectedTimeline.TimelineAnimalItems = nextState.selectedTimeline.TimelineAnimalItems.map( item => {
+                    if (item.AnimalId === action.payload.AnimalId) {
+                        return {...action.payload};
+                    }
+                    return item;
+                });
+            }
+
+            nextState.selectedTimeline.IsDirty = true;
+            break;
+        case DELETE_TIMELINE_ANIMAL_ITEM:
+            // action payload is the animal id
+            if (nextState.selectedTimeline && nextState.selectedTimeline.TimelineAnimalItems) {
+                nextState.selectedTimeline.TimelineAnimalItems = nextState.selectedTimeline.TimelineAnimalItems.map(item => {
+                    if (item.AnimalId === action.payload) {
+                        return {...item, IsDeleted: true, IsDirty: true};
+                    }
+                    return item;
+                })
+            }
+
+            nextState.selectedTimeline.IsDirty = true;
             break;
         case ADD_TIMELINE_ITEM:
             // action payload is the timeline item

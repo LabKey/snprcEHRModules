@@ -10,7 +10,7 @@
 */
 
 import {
-    EXPAND_ACCORDION_TAB, FORCE_PROJECT_RENDER, HAS_PERMISSION,
+    EXPAND_ACCORDION_TAB, FORCE_PROJECT_RENDER, FORCE_RERENDER, HAS_PERMISSION,
     HIDE_ALERT_BANNER,
     HIDE_ALERT_MODAL,
     HIDE_CONFIRM,
@@ -75,8 +75,8 @@ export default (state = {}, action) => {
                 nextState.alertBanner.show = false;
             }
             break;
-        case FORCE_PROJECT_RENDER:
-            nextState.projectRender = action.payload;
+        case FORCE_RERENDER:
+            nextState.forceRerender = action.payload;
             break;
         default: return { ...state, payload: { }} ;
     };

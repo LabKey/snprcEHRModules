@@ -1,22 +1,10 @@
 import React from 'react';
 import {
-    addDaysToDate,
-    formatDateString,
     setTimelineDayZero,
     updateSelectedTimeline
 } from "../actions/dataActions";
 import connect from "react-redux/es/connect/connect";
-import {ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
-
-function FieldGroup({ id, label, help, ...props }) {
-    return (
-            <FormGroup controlId={id}>
-                <ControlLabel>{label}</ControlLabel>
-                <FormControl {...props} />
-                {help && <HelpBlock>{help}</HelpBlock>}
-            </FormGroup>
-    );
-}
+import {ControlLabel, FormControl} from "react-bootstrap";
 
 class TimelineDetails extends React.Component {
 
@@ -175,10 +163,6 @@ class TimelineDetails extends React.Component {
                         </div>
                     </div>
             )
-        // } else {
-        //     return <div>Please select a timeline to view it's details</div>
-        // }
-
     }
 }
 

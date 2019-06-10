@@ -28,8 +28,10 @@ import {
     PROJECT_LIST_SORTED
 } from "../actions/dataActions";
 
-const hasValue = (source, value) => {
-    if (source == null) source = '';
+export const hasValue = (source, value) => {
+    if (source == null) {
+        source = '';
+    }
     source = source.value ? source.value : source;
     source = (source + '').toUpperCase();
     return source.indexOf(value) > -1;
@@ -46,21 +48,11 @@ export default (state = { }, action) => {
             nextState.allProjects = action.payload;
             nextState.projects = action.payload;
             break;
-        case ANIMAL_LIST_RECEIVED:
-            // action payload is the animal array
-            nextState.allAnimals = action.payload;
-            nextState.animals = action.payload;
-            break;
+
         case PROJECT_LIST_REQUEST_FAILED:
             // action payload is the exception
             nextState.allProjects = [];
             nextState.projects = [];
-            nextState.errors.push(action.payload);
-            break;
-        case ANIMAL_LIST_REQUEST_FAILED:
-            // action payload is the exception
-            nextState.allAnimals = [];
-            nextState.animals = [];
             nextState.errors.push(action.payload);
             break;
         case PROJECT_SELECTED:
@@ -100,18 +92,7 @@ export default (state = { }, action) => {
                 });               
             } else nextState.projects = nextState.allProjects;
             break;
-        case ANIMAL_LIST_FILTERED:
-            // action payload is the filter value
-            value = (action.payload + '').toUpperCase();
-            if (value != '') {
-                nextState.animals = [];
-                nextState.allAnimals.forEach((a) => {
-                    if (hasValue(a.Id, value) || hasValue(a.Age, value) || 
-                        hasValue(a.Gender, value) || hasValue(a.Weight, value))
-                    { nextState.animals.push(a); }
-                })
-            } else nextState.animals = nextState.allAnimals;
-            break;
+
         case PROJECT_LIST_SORTED:
             // action payload is an object containing the sort parameters { field: ?, direction: ? }
             if (action.payload.direction == "NONE") nextState.projects = nextState.allProjects;

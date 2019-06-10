@@ -9,12 +9,10 @@
     ==================================================================================
 */
 import React from 'react';
-import ReactDataGrid from 'react-data-grid';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {
     selectTimeline,
     duplicateTimeline,
-    selectProject,
     newTimeline,
     updateSelectedTimeline,
     cloneTimeline,
@@ -27,7 +25,6 @@ import {
     showAlertModal,
     hideAlertModal,
     TAB_TIMELINES,
-    TAB_PROJECTS,
     saveTimeline,
     hideAlertBanner,
     showAlertBanner, fetchTimelinesByProject
@@ -57,17 +54,11 @@ class TimelineList extends React.Component {
             timelineCols: [
                 { key: 'Description', name: 'Description', editable: true, width: 400 }
             ],
-            // selectedTimelines: [],
             selectedTimeline: (this.props.selectedTimeline || null),
             revTableCount: 0,
             expanding: [],
             confirmed: false
         };
-    }
-
-    timelineRowGetter = (index) =>  {
-        if (index > -1)
-         return this.props.timelines[index];
     }
 
     getTooltip = (label) => {
@@ -109,7 +100,7 @@ class TimelineList extends React.Component {
     };
 
     newTimelineConfirm = () => {
-        const { selectedTimeline, hideConfirm, showConfirm, cleanTimeline, deleteNewTimelines } = this.props;
+        const { selectedTimeline, hideConfirm, showConfirm, deleteNewTimelines } = this.props;
 
         if (selectedTimeline && selectedTimeline.IsDirty) {
             showConfirm({
@@ -149,7 +140,7 @@ class TimelineList extends React.Component {
     };
 
     cloneTimelineConfirm = () => {
-        const { selectedTimeline, hideConfirm, showConfirm, cleanTimeline, deleteNewTimelines } = this.props;
+        const { selectedTimeline, hideConfirm, showConfirm, deleteNewTimelines } = this.props;
 
         if (selectedTimeline && selectedTimeline.IsDirty) {
             showConfirm({
@@ -179,7 +170,7 @@ class TimelineList extends React.Component {
     };
 
     reviseTimelineConfirm = () => {
-        const { selectedTimeline, hideConfirm, showConfirm, showAlert, hideAlert, cleanTimeline, deleteNewTimelines } = this.props;
+        const { selectedTimeline, hideConfirm, showConfirm, showAlert, hideAlert, deleteNewTimelines } = this.props;
 
         if (!selectedTimeline.ObjectId) {
             showAlert({
@@ -442,22 +433,6 @@ class TimelineList extends React.Component {
 
     };
 
-    onRowSelect = (row, isSelected, e) => {
-        return ((() => {
-            if (isSelected) {
-                console.log('selected: ' + row)
-                this.state = {
-
-                };
-            }
-        }).apply(this))
-    }
-
-    selectRowProp = {
-        mode: 'checkbox',
-        clickToExpand: true
-    };
-
     getExpandedTimelineIds = () => {
         return this.refs["timeline-table"].state.expanding;
     };
@@ -466,24 +441,6 @@ class TimelineList extends React.Component {
         this.refs["timeline-table"].setState({
             expanding: [id]
         });
-    };
-
-    clearExpandedTimelines = () => {
-        this.refs["timeline-table"].setState({
-            expanding: []
-        });
-    };
-
-    setSelectedRevision = (timelineId, revNum) => {
-        const timelineTable = this.refs['timeline-table'];
-        if (timelineTable) {
-            const revTable = timelineTable.body.refs['rev-table-' + timelineId];
-            if (revTable) {
-                revTable.setState({
-                    selectedRowKeys: [revNum]
-                })
-            }
-        }
     };
 
     getCellEditProps = () => {
@@ -589,7 +546,7 @@ class TimelineList extends React.Component {
 
         // let projectCount = this.props.timelines ? this.props.timelines.length : 0;
         return <div>
-        <div className="input-group bottom-padding-8">
+        <div className="input-group top-bottom-padding-8">
             <OverlayTrigger placement="top" overlay={this.getTooltip("New timeline")}>
                 <Button
                         className='scheduler-timeline-list-btn'
@@ -621,17 +578,14 @@ class TimelineList extends React.Component {
                     className='timeline-table'
                     data={this.getTimelineRows()}
                     options={options}
-                    // selectRow={this.selectRowProp}
                     height={243}
                     expandableRow={this.isExpandableRow}
                     expandComponent={this.expandComponent}
-                    // expandComponent={this.expandComponentConfirm}
                     expandColumnOptions={{
                         expandColumnVisible: true,
                         expandColumnComponent: this.expandColumnComponent,
                         columnWidth: 25
                     }}
-                    // cellEdit={ this.cellEditProp }
             >
                 <TableHeaderColumn dataField='RowId' isKey={true} hidden />
                 <TableHeaderColumn
@@ -656,7 +610,6 @@ const mapStateToProps = state => ({
     timelines: state.timeline.timelines  || null,
     lastRowId: state.timeline.lastRowId,
     accordion: state.root.accordion,
-    projectRender: state.root.projectRender  // Bit of a hack to get a re-render
 })
 
 const mapDispatchToProps = dispatch => ({

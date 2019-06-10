@@ -10,7 +10,6 @@ import {
     formatDateString,
     getDay0Date,
     hideConfirm,
-    saveTimeline,
     setTimelineDayZero,
     showAlertBanner,
     showConfirm,

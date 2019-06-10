@@ -16,7 +16,10 @@ export const PROJECT_LIST_REQUEST_FAILED = 'PROJECT_LIST_REQUEST_FAILED';
 export const ANIMAL_LIST_REQUESTED = 'ANIMAL_LIST_REQUESTED';
 export const ANIMAL_LIST_RECEIVED = 'ANIMAL_LIST_RECEIVED';
 export const ANIMAL_LIST_REQUEST_FAILED = 'ANIMAL_LIST_REQUEST_FAILED';
-export const ANIMAL_LIST_FILTERED = 'ANIMAL_LIST_FILTERED';
+export const ANIMAL_ASSIGNED = 'ANIMAL_ASSIGNED';
+export const UPDATE_ASSIGNED_ANIMALS = 'UPDATE_ASSIGNED_ANIMALS';
+export const AVAILABLE_ANIMAL_LIST_FILTERED = 'AVAILABLE_ANIMAL_LIST_FILTERED';
+export const ASSIGNED_ANIMAL_LIST_FILTERED = 'ASSIGNED_ANIMAL_LIST_FILTERED';
 export const PROJECT_SELECTED = 'PROJECT_SELECTED';
 export const PROJECT_LIST_FILTERED = 'PROJECT_LIST_FILTERED';
 export const TIMELINE_LIST_REQUESTED = 'TIMELINE_LIST_REQUESTED';
@@ -26,6 +29,9 @@ export const TIMELINE_CREATED = 'TIMELINE_CREATED';
 export const TIMELINE_SELECTED = 'TIMELINE_SELECTED';
 export const TIMELINE_SAVE_SUCCESS = 'TIMELINE_SAVE_SUCCESS';
 export const UPDATE_SELECTED_TIMELINE = 'UPDATE_SELECTED_TIMELINE';
+export const ADD_TIMELINE_ANIMAL_ITEM = 'ADD_TIMELINE_ANIMAL_ITEM';
+export const DELETE_TIMELINE_ANIMAL_ITEM = 'DELETE_TIMELINE_ANIMAL_ITEM';
+export const UPDATE_TIMELINE_ANIMAL_ITEM = 'UPDATE_TIMELINE_ANIMAL_ITEM';
 export const TIMELINE_REMOVED = 'TIMELINE_REMOVED';
 export const TIMELINE_CLONE = 'TIMELINE_CLONE';
 export const TIMELINE_REVISION = 'TIMELINE_REVISION';
@@ -54,7 +60,7 @@ export const HIDE_ALERT_MODAL = 'HIDE_ALERT_MODAL';
 export const SHOW_ALERT_BANNER = 'SHOW_ALERT_BANNER';
 export const HIDE_ALERT_BANNER = 'HIDE_ALERT_BANNER';
 export const HAS_PERMISSION = 'HAS_PERMISSION';
-export const FORCE_PROJECT_RENDER = 'FORCE_PROJECT_RENDER';
+export const FORCE_RERENDER = 'FORCE_RERENDER';
 export const NO_OP = 'NO_OP';
 
 export const TAB_PROJECTS = 0x0;
@@ -77,9 +83,12 @@ export function createAction(type, payload) {
         case ANIMAL_LIST_REQUESTED: return { type: type };
         case ANIMAL_LIST_RECEIVED: return { type: type, payload: payload };
         case ANIMAL_LIST_REQUEST_FAILED: return { type: type, payload: payload, error: true };
+        case ANIMAL_ASSIGNED: return { type: type, payload: payload };
+        case UPDATE_ASSIGNED_ANIMALS: return { type: type, payload: payload };
         case PROJECT_SELECTED: return { type: type, payload: payload };
         case PROJECT_LIST_FILTERED: return { type: type, payload: payload };
-        case ANIMAL_LIST_FILTERED: return { type: type, payload: payload };
+        case AVAILABLE_ANIMAL_LIST_FILTERED: return { type: type, payload: payload };
+        case ASSIGNED_ANIMAL_LIST_FILTERED: return { type: type, payload: payload };
         case TIMELINE_LIST_REQUESTED: return { type: type };
         case TIMELINE_LIST_RECEIVED: return { type: type, payload: payload };
         case TIMELINE_LIST_REQUEST_FAILED: return { type: type, payload: payload, error: true };
@@ -94,6 +103,9 @@ export function createAction(type, payload) {
         case ADD_TIMELINE_ITEM: return { type: type, payload: payload };
         case UPDATE_TIMELINE_ROW: return { type: type, payload: payload };
         case UPDATE_TIMELINE_ITEM: return { type: type, payload: payload };
+        case ADD_TIMELINE_ANIMAL_ITEM: return { type: type, payload: payload };
+        case DELETE_TIMELINE_ANIMAL_ITEM: return { type: type, payload: payload };
+        case UPDATE_TIMELINE_ANIMAL_ITEM: return { type: type, payload: payload };
         case UPDATE_TIMELINE_PROJECT_ITEM: return { type: type, payload: payload };
         case ASSIGN_TIMELINE_PROCEDURE: return { type: type, payload: payload };
         case DELETE_TIMELINE_ITEM: return { type: type, payload: payload };
@@ -111,7 +123,7 @@ export function createAction(type, payload) {
         case SHOW_ALERT_BANNER: return { type: type, payload: payload };
         case HIDE_ALERT_BANNER: return { type: type, payload: payload };
         case HAS_PERMISSION: return { type: type, payload: payload };
-        case FORCE_PROJECT_RENDER: return { type: type, payload: payload };
+        case FORCE_RERENDER: return { type: type, payload: payload };
         default: return { type: type }
     }    
 }
@@ -336,12 +348,52 @@ export function selectTimeline(timeline) {
     if (verboseOutput) console.log('selectTimeline(' + timeline.TimelineId + ',' + timeline.RevisionNum + ')');
     return (dispatch) => {
         dispatch(createAction(TIMELINE_SELECTED, timeline));
+        dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, timeline?timeline.TimelineAnimalItems:[]));
         if (timeline && timeline.IsInUse && timeline.Description) {
             dispatch(showAlertBanner({show: true, variant: 'warning', msg: timeline.Description + ', Revision ' + timeline.RevisionNum + ' is in use.'}))
         } else {
             dispatch(hideAlertBanner());
         }
     }    
+}
+
+export function addTimelineAnimalItem(item, timeline) {
+    if (verboseOutput) console.log('addTimelineItem(timelineId: ' + timeline.TimelineId + ', animalId: ' + id + ')');
+    return (dispatch) => {
+        dispatch(createAction(ADD_TIMELINE_ANIMAL_ITEM, item));
+        dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, timeline.TimelineAnimalItems));
+        if (timeline && timeline.IsInUse && timeline.Description) {
+            dispatch(showAlertBanner({show: true, variant: 'warning', msg: timeline.Description + ', Revision ' + timeline.RevisionNum + ' is in use.'}))
+        } else {
+            dispatch(hideAlertBanner());
+        }
+    }
+}
+
+export function deleteTimelineAnimalItem(id, timeline) {
+    if (verboseOutput) console.log('deleteTimelineItem(timelineId: ' + timeline.TimelineId + ', animalId: ' + id + ')');
+    return (dispatch) => {
+        dispatch(createAction(DELETE_TIMELINE_ANIMAL_ITEM, id));
+        dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, timeline.TimelineAnimalItems));
+        if (timeline && timeline.IsInUse && timeline.Description) {
+            dispatch(showAlertBanner({show: true, variant: 'warning', msg: timeline.Description + ', Revision ' + timeline.RevisionNum + ' is in use.'}))
+        } else {
+            dispatch(hideAlertBanner());
+        }
+    }
+}
+
+export function updateTimelineAnimalItem(item, timeline) {
+    if (verboseOutput) console.log('enddateTimelineAnimalItem(timelineId: ' + timeline.TimelineId + ', animalId: ' + item.AnimalId + ')');
+    return (dispatch) => {
+        dispatch(createAction(UPDATE_TIMELINE_ANIMAL_ITEM, item));
+        dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, timeline.TimelineAnimalItems));
+        if (timeline && timeline.IsInUse && timeline.Description) {
+            dispatch(showAlertBanner({show: true, variant: 'warning', msg: timeline.Description + ', Revision ' + timeline.RevisionNum + ' is in use.'}))
+        } else {
+            dispatch(hideAlertBanner());
+        }
+    }
 }
 
 export function sortTimelines(timelines) {
@@ -481,10 +533,31 @@ export function setPermission(permission) {
     }
 }
 
-export function setProjectRender(render) {
-    if (verboseOutput) console.log('FORCE_PROJECT_RENDER');
+export function setForceRerender(render) {
+    if (verboseOutput) console.log('FORCE_RERENDER');
     return (dispatch) => {
-        dispatch(createAction(FORCE_PROJECT_RENDER, render));
+        dispatch(createAction(FORCE_RERENDER, render));
+    }
+}
+
+export function setAvailableAnimalFilter(filter) {
+    if (verboseOutput) console.log('AVAILABLE_ANIMAL_LIST_FILTERED');
+    return (dispatch) => {
+        dispatch(createAction(AVAILABLE_ANIMAL_LIST_FILTERED, filter));
+    }
+}
+
+export function setAssignedAnimalFilter(filter) {
+    if (verboseOutput) console.log('ASSIGNED_ANIMAL_LIST_FILTERED');
+    return (dispatch) => {
+        dispatch(createAction(ASSIGNED_ANIMAL_LIST_FILTERED, filter));
+    }
+}
+
+export function assignAnimal(id) {
+    if (verboseOutput) console.log('ANIMAL_ASSIGNED');
+    return (dispatch) => {
+        dispatch(createAction(ANIMAL_ASSIGNED, id));
     }
 }
 

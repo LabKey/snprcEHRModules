@@ -34,9 +34,13 @@
     margin-left: 20px;
 }
 
-.bottom-padding-8 {
+.top-bottom-padding-8 {
     padding-bottom: 8px;
     padding-top: 8px;
+}
+
+.bottom-padding-8 {
+    padding-bottom: 8px;
 }
 
 .scheduler-view {
@@ -53,6 +57,11 @@
     padding-bottom: 5px;
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.scheduler-main-table {
+    padding-left: 0px;
+    padding-right: 30px;
 }
 
 /* React data grid styles */

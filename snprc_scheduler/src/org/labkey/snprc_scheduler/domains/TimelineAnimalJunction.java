@@ -1,6 +1,7 @@
 package org.labkey.snprc_scheduler.domains;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.labkey.api.collections.ArrayListMap;
@@ -64,17 +65,17 @@ public class TimelineAnimalJunction
             this.setDeleted(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED) && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED));
             this.setDirty(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY) && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY));
 
-//            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
+            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
 
-//            try
-//            {
-//                this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
-//
-//            }
-//            catch (ParseException e)
-//            {
-//                throw new RuntimeException(e.getMessage());
-//            }
+            try
+            {
+                this.setEndDate(StringUtils.isBlank(endDateString) ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));
+
+            }
+            catch (ParseException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
 
         }
         catch (Exception e)

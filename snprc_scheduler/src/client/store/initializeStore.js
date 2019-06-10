@@ -21,6 +21,7 @@ import ReduxThunk from 'redux-thunk';
 import rootReducer from '../reducers/rootReducer';
 import projectReducer from '../reducers/projectReducer';
 import timelineReducer from "../reducers/timelineReducer";
+import animalReducer from "../reducers/animalReducer";
 
 // enable redux developer tools  
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -31,6 +32,7 @@ export default () => {
         combineReducers({
             project: projectReducer,
             timeline: timelineReducer,
+            animal: animalReducer,
             root: rootReducer
         }),
         composeEnhancers(applyMiddleware(ReduxThunk))
