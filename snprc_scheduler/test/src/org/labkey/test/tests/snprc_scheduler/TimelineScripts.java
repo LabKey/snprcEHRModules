@@ -11,7 +11,9 @@ public class TimelineScripts
     public static final Integer TIMELINE_ID = 101;
     public static final Integer REVISION_NUM = 0;
 
-    public String saveTimelineScript(String testTimelineObjectId, String testProjectObjectId, ArrayList<Map<String, Object>> projectItems, ArrayList<Map<String, Object>> timelineItems)
+    public String saveTimelineScript(String testTimelineObjectId, String testProjectObjectId,
+                                     ArrayList<Map<String, Object>> projectItems, ArrayList<Map<String, Object>> timelineItems,
+                                     ArrayList<Map<String, Object>> studyDayNotes)
     {
         Integer projectItemId1 = 0;
         Integer projectItemId2 = 0;
@@ -160,7 +162,8 @@ public class TimelineScripts
         // updating the timeline add the projectItem objectId
         if (testTimelineObjectId != null)
         {
-            timelineScript = timelineScript + "'ObjectId' : '" + projectItems.get(0).get("ObjectId") + "',\n";
+            timelineScript = timelineScript +
+                "           'ObjectId' : '" + projectItems.get(0).get("ObjectId") + "',\n";
         }
         timelineScript = timelineScript +
                 "           'ProjectItemId'  : " + projectItemId1 + ",\n" +
@@ -196,7 +199,8 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {   //update
             timelineScript = timelineScript +
-                    "           'TimeLineObjectId' : '" + timelineItems.get(0).get("ObjectId") + "'";
+                    "           'TimeLineObjectId' : '" + timelineItems.get(0).get("ObjectId") + "',\n" +
+                    "           'ObjectId' : '" + studyDayNotes.get(0).get("ObjectId") + "',\n";
         }
         else
         {   //insert
@@ -213,7 +217,8 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {   //update
             timelineScript = timelineScript +
-                    "           'TimeLineObjectId' : '" + timelineItems.get(0).get("ObjectId") + "'";
+                    "           'TimeLineObjectId' : '" + timelineItems.get(0).get("ObjectId") + "',\n" +
+                    "           'ObjectId' : '" + studyDayNotes.get(1).get("ObjectId") + "',\n";
         }
         else
         {   //insert
