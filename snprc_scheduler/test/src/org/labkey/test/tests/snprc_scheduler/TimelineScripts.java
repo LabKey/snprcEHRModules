@@ -3,8 +3,6 @@ package org.labkey.test.tests.snprc_scheduler;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static org.labkey.test.util.TestLogger.log;
-
 public class TimelineScripts
 {
 
@@ -68,9 +66,11 @@ public class TimelineScripts
                 "        'EndDate' : '2018-12-30',\n" +
                 "        'Created' : '2018-09-20',\n" +
                 "        'StartDate' : '2018-02-01',\n" +
-                "        'LeadTechs' : 'Henry Ford, Nicoli Tesla',\n" +
+                "        'LeadTech' : 'Henry Ford, Nicoli Tesla',\n" +
                 "        'RC' : 'Mouse, Mikey',\n" +
                 "        'Notes' : 'Dont take any wooden nickels.',\n" +
+                "        'AnimalAccount' : '4815162342',\n" +
+                "        'QcState' : 4,\n" +                        // In-Progress
         /*
                 Add TimelineItems
          */
@@ -199,13 +199,11 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {   //update
             timelineScript = timelineScript +
-                    "           'TimeLineObjectId' : '" + timelineItems.get(0).get("ObjectId") + "',\n" +
                     "           'ObjectId' : '" + studyDayNotes.get(0).get("ObjectId") + "',\n";
         }
         else
         {   //insert
-            timelineScript = timelineScript +
-                    "           'TimelineObjectId' : null";
+//            missing ObjectId should be okay
         }
         timelineScript = timelineScript +
                 "       },\n" +
@@ -217,13 +215,12 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {   //update
             timelineScript = timelineScript +
-                    "           'TimeLineObjectId' : '" + timelineItems.get(0).get("ObjectId") + "',\n" +
-                    "           'ObjectId' : '" + studyDayNotes.get(1).get("ObjectId") + "',\n";
+                "           'ObjectId' : '" + studyDayNotes.get(1).get("ObjectId") + "',\n";
         }
         else
         {   //insert
             timelineScript = timelineScript +
-                    "           'TimelineObjectId' : null";
+                "           'ObjectId' : null";
         }
         timelineScript = timelineScript +
                 "       }],\n" +
@@ -259,7 +256,7 @@ public class TimelineScripts
                 "          'Age' : '12.6 years'}\n" +
                 "       ]}\n" +
                 " })\n";
-        log(timelineScript);
+        //log(timelineScript);
 
         return timelineScript;
     }

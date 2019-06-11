@@ -129,7 +129,7 @@ public class Timeline //extends Entity
             this.setSpecies(json.has(TIMELINE_SPECIES) && !json.isNull(TIMELINE_SPECIES) ? json.getString(TIMELINE_SPECIES) : null);
             this.setProtocol(json.has(TIMELINE_PROTOCOL) && !json.isNull(TIMELINE_PROTOCOL) ? json.getString(TIMELINE_PROTOCOL) : null);
             this.setChargeId(json.has(TIMELINE_CHARGE_ID) && !json.isNull(TIMELINE_CHARGE_ID) ? json.getInt(TIMELINE_CHARGE_ID) : null);
-            this.setProtocol(json.has(TIMELINE_ANIMAL_ACCOUNT) && !json.isNull(TIMELINE_ANIMAL_ACCOUNT) ? json.getString(TIMELINE_ANIMAL_ACCOUNT) : null);
+            this.setAnimalAccount(json.has(TIMELINE_ANIMAL_ACCOUNT) && !json.isNull(TIMELINE_ANIMAL_ACCOUNT) ? json.getString(TIMELINE_ANIMAL_ACCOUNT) : null);
 
             String startDateString = json.has(TIMELINE_STARTDATE) && !json.isNull(TIMELINE_STARTDATE) ? json.getString(TIMELINE_STARTDATE) : null;
             String endDateString = json.has(TIMELINE_ENDDATE) && !json.isNull(TIMELINE_ENDDATE) ? json.getString(TIMELINE_ENDDATE) : null;
@@ -628,6 +628,7 @@ public class Timeline //extends Entity
         json.put(TIMELINE_SPECIES, getSpecies());
         json.put(TIMELINE_CHARGE_ID, getChargeId());
         json.put(TIMELINE_PROTOCOL, getProtocol());
+        json.put(TIMELINE_ANIMAL_ACCOUNT, getAnimalAccount());
 
         if (getTimelineItems().size() > 0)
         {
