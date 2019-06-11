@@ -16,6 +16,8 @@
 
 package org.labkey.snd;
 
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
@@ -27,9 +29,11 @@ import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
-import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.gwt.client.DefaultValueType;
+import org.labkey.api.gwt.client.model.GWTConditionalFormat;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
+import org.labkey.api.gwt.client.model.GWTPropertyValidator;
+import org.labkey.api.gwt.client.model.PropertyValidatorType;
 import org.labkey.api.module.Module;
 import org.labkey.api.security.RequiresLogin;
 import org.labkey.api.security.RequiresPermission;
@@ -48,6 +52,7 @@ import org.labkey.api.snd.SNDSequencer;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snd.SuperPackage;
 import org.labkey.api.util.DateUtil;
+import org.labkey.api.util.JsonUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
@@ -58,6 +63,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,14 +86,86 @@ public class SNDController extends SpringActionController
         setActionResolver(_actionResolver);
     }
 
-    private Map<GWTPropertyDescriptor, Object> getExtraFields(JSONArray jsonExtras)
+    private GWTPropertyValidator jsonToPropertyValidator(JSONObject obj) throws IOException
+    {
+        GWTPropertyValidator validator =  createPropertyObjectMapper()
+                .readerFor(GWTPropertyValidator.class)
+                .readValue(obj.toString());
+
+        validator.setType(PropertyValidatorType.getType(obj.getString("type")));
+        return validator;
+    }
+
+    private GWTConditionalFormat jsonToConditionalFormatter(JSONObject obj) throws IOException
+    {
+        return createPropertyObjectMapper()
+                .readerFor(GWTConditionalFormat.class)
+                .readValue(obj.toString());
+    }
+
+    private GWTPropertyDescriptor jsonToPropertyDescriptor(JSONObject obj) throws IOException
+    {
+        GWTPropertyDescriptor prop = createPropertyObjectMapper()
+                .readerFor(GWTPropertyDescriptor.class)
+                .readValue(obj.toString());
+
+        // property validators
+        JSONArray jsonValidators = obj.optJSONArray("validators");
+        if(null != jsonValidators)
+        {
+            List<GWTPropertyValidator> validators = new ArrayList<>();
+            for (int i = 0; i < jsonValidators.length(); i++)
+            {
+                JSONObject jsonValidator = jsonValidators.getJSONObject(i);
+                if (null != jsonValidator)
+                {
+                    validators.add(jsonToPropertyValidator(jsonValidator));
+                }
+            }
+            prop.setPropertyValidators(validators);
+        }
+
+        //conditional formats
+        JSONArray conditionalFormats = obj.optJSONArray("conditionalFormats");
+        if (null != conditionalFormats)
+        {
+            List<GWTConditionalFormat> conditionalFormatters = new ArrayList<>();
+            for (int j = 0; j < conditionalFormats.length(); j++)
+            {
+                JSONObject conditionalFormatter = conditionalFormats.getJSONObject(j);
+                if (null != conditionalFormatter)
+                {
+                    conditionalFormatters.add(jsonToConditionalFormatter(conditionalFormatter));
+                }
+            }
+            prop.setConditionalFormats(conditionalFormatters);
+        }
+
+        return prop;
+    }
+
+    static void configureObjectMapper(ObjectMapper om)
+    {
+        om.addMixIn(GWTPropertyDescriptor.class, PropertyDescriptorMixin.class);
+        om.addMixIn(GWTPropertyValidator.class, PropertyValidatorMixin.class);
+        om.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+    }
+
+    protected ObjectMapper createPropertyObjectMapper()
+    {
+        ObjectMapper mapper = JsonUtil.DEFAULT_MAPPER.copy();
+        configureObjectMapper(mapper);
+        return mapper;
+    }
+
+    private Map<GWTPropertyDescriptor, Object> getExtraFields(JSONArray jsonExtras) throws IOException
     {
         Map<GWTPropertyDescriptor, Object> extras = new HashMap<>();
         JSONObject extra;
         for (int e = 0; e < jsonExtras.length(); e++)
         {
             extra = jsonExtras.getJSONObject(e);
-            extras.put(ExperimentService.get().convertJsonToPropertyDescriptor(extra), extra.get("value"));
+            extras.put(jsonToPropertyDescriptor(extra), extra.get("value"));
         }
 
         return extras;
@@ -106,7 +184,7 @@ public class SNDController extends SpringActionController
     @RequiresPermission(AdminPermission.class)
     public class SavePackageAction extends MutatingApiAction<SimpleApiJsonForm>
     {
-        private GWTPropertyDescriptor convertJsonToPropertyDescriptor(JSONObject json, BindException errors)
+        private GWTPropertyDescriptor convertJsonToPropertyDescriptor(JSONObject json, BindException errors) throws IOException
         {
             String rangeUri = json.getString("rangeURI");
             String format = json.getString("format");
@@ -144,7 +222,7 @@ public class SNDController extends SpringActionController
             String defaultValue = (String) json.get("defaultValue");
             json.put("defaultValue", defaultValue);
 
-            return ExperimentService.get().convertJsonToPropertyDescriptor(json);
+            return jsonToPropertyDescriptor(json);
         }
 
         @Override
@@ -166,7 +244,14 @@ public class SNDController extends SpringActionController
             JSONArray jsonExtras = json.optJSONArray("extraFields");
             if (null != jsonExtras)
             {
-                pkg.setExtraFields(getExtraFields(jsonExtras));
+                try
+                {
+                    pkg.setExtraFields(getExtraFields(jsonExtras));
+                }
+                catch (IOException e)
+                {
+                    errors.reject(ERROR_MSG, "Extra fields could not be parsed: " + e.getMessage());
+                }
             }
 
             // Get categories
@@ -197,7 +282,14 @@ public class SNDController extends SpringActionController
                         break;
                     }
                     attNames.add(name);
-                    pds.add(convertJsonToPropertyDescriptor(attribs.getJSONObject(i), errors));
+                    try
+                    {
+                        pds.add(convertJsonToPropertyDescriptor(attribs.getJSONObject(i), errors));
+                    }
+                    catch (IOException e)
+                    {
+                        errors.reject("Unable to parse attribute property: " + e.getMessage());
+                    }
                 }
                 pkg.setAttributes(pds);
             }
@@ -987,7 +1079,16 @@ public class SNDController extends SpringActionController
                 List<EventData> eventData = null;
                 JSONArray eventDataJson = json.has("eventData") ? json.getJSONArray("eventData") : null;
                 if (eventDataJson != null)
-                    eventData = parseEventData(eventDataJson);
+                {
+                    try
+                    {
+                        eventData = parseEventData(eventDataJson);
+                    }
+                    catch (IOException e)
+                    {
+                        errors.reject(ERROR_MSG, "Event JSON data could not be parsed: " + e.getMessage());
+                    }
+                }
 
                 Event event = new Event(eventId, subjectId, date, projectIdrev, note, eventData, getContainer());
                 event.setQcState(qcState);
@@ -996,7 +1097,14 @@ public class SNDController extends SpringActionController
                 JSONArray jsonExtras = json.optJSONArray("extraFields");
                 if (null != jsonExtras)
                 {
-                    event.setExtraFields(getExtraFields(jsonExtras));
+                    try
+                    {
+                        event.setExtraFields(getExtraFields(jsonExtras));
+                    }
+                    catch (IOException e)
+                    {
+                        errors.reject(ERROR_MSG, "Unable to parse extra fields: " + e.getMessage());
+                    }
                 }
 
                 Event savedEvent = SNDService.get().saveEvent(getContainer(), getUser(), event, validateOnly);
@@ -1014,7 +1122,7 @@ public class SNDController extends SpringActionController
             return response;
         }
 
-        private List<EventData> parseEventData(JSONArray eventDataJson)
+        private List<EventData> parseEventData(JSONArray eventDataJson) throws IOException
         {
             List<EventData> eventDataList = new ArrayList<>();
 
