@@ -93,54 +93,53 @@ public class SNPRC_schedulerController extends SpringActionController
             return new ApiSimpleResponse(props);
         }
     }
-// Todo: Add API action for Active Timelines
 
-//     @SuppressWarnings("Duplicates")
-//     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-//     public class getTimelinesAction extends MutatingApiAction<SimpleApiJsonForm>
-//     {
-//         @Override
-//         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
-//         {
-//             Map<String, Object> props = new HashMap<>();
-//             Map<String, Object> Timelines = null;
-//             List<JSONObject> jsonProjects = new ArrayList<>();
-//             PropertyValues pv = getPropertyValues();
-//             String species = null;
-//             Date startingDate = null;
-//
-//             if (!pv.isEmpty())
-//             {
-//                 species = pv.getPropertyValue("RevisionNum").getValue().toString();
-//                 try
-//                 {
-//                     String dateString = pv.getPropertyValue("RevisionNum").getValue().toString();
-//                     startingDate = SNPRC_schedulerServiceValidator.StartTimefromISOLocalDate(dateString);
-//                 }
-//                 catch (Exception e)
-//                 {
-//                     ValidationException err = new ValidationException("Error parsing timeline date: " + e.getMessage());
-//                     throw err;
-//                 }
-//                 UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_scheduler");
-//                 TableInfo timelines = schema.getTable("timeline");
-//                 SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("species"), species, CompareType.EQUAL);
-//                 if (startingDate != null)
-//                 {
-//                     filter.addCondition(FieldKey.fromParts("startDate"), startingDate, CompareType.DATE_GTE);
-//                 }
-//                 TableSelector ts = new TableSelector(timelines, filter, null);
-//                 Timelines = ts.getMap();
-//             }
-//             catch (Exception e)
-//             {
-//                 props.put("success", false);
-//                 props.put("message", e.getMessage());
-//             }
-//             return new ApiSimpleResponse(props));
-//         }
-//
-//     }
+    // Get Timelines, timelineItems, and animal data for a given species with procedures scheduled
+    // on the specified date.
+
+     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
+     public class getScheduledTimelinesForSpecies extends MutatingApiAction<SimpleApiJsonForm>
+     {
+
+         @Override
+         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
+         {
+             Map<String, Object> props = new HashMap<>();
+             PropertyValues pv = getPropertyValues();
+             String species = null;
+             try
+             {
+                 if (!pv.isEmpty())
+                 {
+
+                     try
+                     {
+                         species = pv.getPropertyValue("species").getValue().toString().toUpperCase();
+                         //String dateString = pv.getPropertyValue("Date").getValue().toString();
+                     }
+                     catch (Exception e)
+                     {
+                         props.put("success", false);
+                         props.put("message", e.getMessage());
+                     }
+
+                     List<JSONObject> timelines = SNPRC_schedulerService.get().getScheduledTimelinesForSpecies(getContainer(), getUser(),
+                             species, new BatchValidationException());
+
+                     props.put("success", true);
+                     props.put("rows", timelines);
+
+                 }
+             }
+             catch (Exception e)
+             {
+                 props.put("success", false);
+                 props.put("message", e.getMessage());
+             }
+             return new ApiSimpleResponse(props);
+         }
+
+     }
 
     /**
      * getActiveProjectsAction
@@ -255,11 +254,12 @@ public class SNPRC_schedulerController extends SpringActionController
                 return;
             }
 
-            if (json.has("TimelineId"))
+            // make sure timelineId is an integer or is null
+            if (json.has("TimelineId") && !json.isNull(Timeline.TIMELINE_ID) )
             {
                 try
                 {
-                    json.getInt("TimelineId"); // make sure timelineId is an integer
+                   json.getInt("TimelineId");
                 }
                 catch (Exception e)
                 {

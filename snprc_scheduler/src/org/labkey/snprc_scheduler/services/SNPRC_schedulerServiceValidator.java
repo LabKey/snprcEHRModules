@@ -12,6 +12,8 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
+import org.labkey.snprc_scheduler.SNPRC_schedulerSchema;
+import org.labkey.snprc_scheduler.domains.StudyDayNotes;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
 import org.labkey.snprc_scheduler.domains.TimelineItem;
@@ -105,12 +107,13 @@ public class SNPRC_schedulerServiceValidator
         {
             // All New Timeline, check json draft state (and other such checks here)
             //
-            if (timeline.getQcState() != null && ! timeline.getQcState().equals(QCStateEnum.IN_PROGRESS.getValue()))
+            if (timeline.getQcState() != null && !timeline.getQcState().equals(QCStateEnum.IN_PROGRESS.getValue()))
             {
                 errors.addRowError(new ValidationException("Timeline must be created in editable Draft state")); //tested
                 throw errors;
             }
         }
+        // check to see if we have a timeline objectId without a timeline id
         else if (timeline.getTimelineId() == null && StringUtils.isNotBlank(timeline.getObjectId()))  //tested
         {
             errors.addRowError(new ValidationException("TimelineId was not provided for update"));
@@ -121,7 +124,7 @@ public class SNPRC_schedulerServiceValidator
             try
             {
                 UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_scheduler");
-                TableInfo ti = schema.getTable("Timeline");
+                TableInfo ti = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE);
                 SimpleFilter filter;
                 if (StringUtils.isNotBlank(timeline.getObjectId()))
                 // ObjectId present so we are Updating within the current revision
@@ -239,4 +242,11 @@ public class SNPRC_schedulerServiceValidator
         {
             //TODO: Validate TimelineAnimalJunction items
         }
+
+        public static void validateNewStudyDayNotes (List <StudyDayNotes> newItems, StudyDayNotes
+                studyDayNotes, Container c, User u, BatchValidationException errors) throws BatchValidationException
+        {
+            //TODO: Validate StudyDayNotes
+        }
+
     } // End of SNPRC_schedulerServiceValidator Class

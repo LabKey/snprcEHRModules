@@ -1,33 +1,29 @@
 package org.labkey.snprc_scheduler.query;
 
-import org.jetbrains.annotations.NotNull;
-import org.labkey.api.data.Container;
-import org.labkey.api.data.ContainerFilter;
-import org.labkey.api.data.TableInfo;
-import org.labkey.api.query.InvalidKeyException;
-import org.labkey.api.query.QueryUpdateService;
-import org.labkey.api.query.QueryUpdateServiceException;
-import org.labkey.api.query.SimpleQueryUpdateService;
-import org.labkey.api.query.SimpleUserSchema;
-import org.labkey.api.query.UserSchema;
-import org.labkey.api.security.User;
-import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
+        import org.jetbrains.annotations.NotNull;
+        import org.labkey.api.data.Container;
+        import org.labkey.api.data.ContainerFilter;
+        import org.labkey.api.data.TableInfo;
+        import org.labkey.api.query.InvalidKeyException;
+        import org.labkey.api.query.QueryUpdateService;
+        import org.labkey.api.query.QueryUpdateServiceException;
+        import org.labkey.api.query.SimpleQueryUpdateService;
+        import org.labkey.api.query.SimpleUserSchema;
+        import org.labkey.api.query.UserSchema;
+        import org.labkey.api.security.User;
+        import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
 
-import java.sql.SQLException;
-import java.util.Map;
+        import java.sql.SQLException;
+        import java.util.Map;
 
-public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerUserSchema>
+public class StudyDayNotesTable extends SimpleUserSchema.SimpleTable<SNPRC_schedulerUserSchema>
 {
 
     /**
-     *
-     * Created by thawkins on 9/17/2018.
-     * Create the simple table.
-     * @param schema
-     * @param table
+     * Created by thawkins on 11/8/2018.
      */
 
-    public TimelineItemTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)
+    public StudyDayNotesTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)
     {
         super(schema, table, cf);
     }
@@ -41,13 +37,11 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
 
         return this;
     }
-
     @Override
     public QueryUpdateService getUpdateService()
     {
-        return new TimelineItemTable.UpdateService(this);
+        return new StudyDayNotesTable.UpdateService(this);
     }
-
     protected class UpdateService extends SimpleQueryUpdateService
     {
         public UpdateService(SimpleUserSchema.SimpleTable ti)
@@ -59,9 +53,6 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
         @Override
         protected Map<String, Object> deleteRow(User user, Container container, Map<String, Object> oldRowMap) throws QueryUpdateServiceException, SQLException, InvalidKeyException
         {
-
-            //we will need the timelineItemId if we want to do something with the row before deleting it
-            //int timelineItemId = (Integer) oldRowMap.get(TimelineItem.TIMELINEITEM_TIMELINE_ID);
 
             return super.deleteRow(user, container, oldRowMap);
         }
