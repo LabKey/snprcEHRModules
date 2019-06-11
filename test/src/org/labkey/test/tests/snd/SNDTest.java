@@ -35,6 +35,7 @@ import org.labkey.remoteapi.query.UpdateRowsCommand;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
+import org.labkey.test.TestProperties;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.Git;
@@ -855,6 +856,13 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
             deleteCmd.addRow(map);
             deleteCmd.execute(cn, path);
         }
+    }
+
+    @Override
+    public void checkLinks()
+    {
+        if ( TestProperties.isLinkCheckEnabled() )
+            log("Permissions on related modules prevent effectively crawling links. Skipping crawl.");
     }
 
     @BeforeClass

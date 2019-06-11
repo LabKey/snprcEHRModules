@@ -193,12 +193,12 @@ export const queries = handleActions({
         const { editableModel } = action;
         const stateModel = state.editableModels[editableModel.id];
 
-        const initialIds = Object.keys(stateModel.data).map((id) => id).sort();
+        const initialIds = Object.keys(stateModel.data).map((id) => parseInt(id)).sort(function(a, b){return a - b});
         let dataIds = [].concat(stateModel.dataIds);
 
         // in case a row has been removed, ensure we are adding a fake rowId that does not and did not exist
-        const initialLargest = initialIds.length ? parseInt(initialIds.slice(-1)[0]) : 0;
-        const dataLargest = dataIds.length ? dataIds.sort().slice(-1)[0] : 0;
+        const initialLargest = initialIds.length ? initialIds.slice(-1)[0] : 0;
+        const dataLargest = dataIds.length ? dataIds.sort(function(a, b){return a - b}).slice(-1)[0] : 0;
 
         const largest = dataLargest <= initialLargest ? initialLargest : dataLargest;
         dataIds.push(largest + 1);
