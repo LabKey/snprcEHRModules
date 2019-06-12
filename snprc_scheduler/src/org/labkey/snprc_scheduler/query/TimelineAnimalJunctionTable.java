@@ -58,9 +58,9 @@ public class TimelineAnimalJunctionTable extends SimpleUserSchema.SimpleTable<SN
             return super.deleteRow(user, container, oldRowMap);
         }
 
-        private TableInfo getTableInfo(@NotNull UserSchema schema, @NotNull String table)
+        private TableInfo getTableInfo(@NotNull UserSchema schema, @NotNull String table, ContainerFilter cf)
         {
-            TableInfo tableInfo = schema.getTable(table);
+            TableInfo tableInfo = schema.getTable(table, cf);
             if (tableInfo == null)
                 throw new IllegalStateException("TableInfo not found for: " + table);
 
