@@ -15,6 +15,7 @@
  */
 package org.labkey.api.snd;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;

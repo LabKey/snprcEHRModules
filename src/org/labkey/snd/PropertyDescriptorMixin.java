@@ -11,6 +11,14 @@ import org.labkey.api.gwt.client.util.StringProperty;
  * necessary.
  */
 @JsonIgnoreProperties({
+        "setMeasure",
+        "setDimension",
+        "setExcludeFromShifting",
+        "lookupDescription",
+        "fileType",
+        "updatedField",
+        "newField",
+        "renderUpdate",
         "max",
         "min",
         "validators",  // Must handle separately

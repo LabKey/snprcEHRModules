@@ -15,6 +15,9 @@
  */
 package org.labkey.snd;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -32,7 +35,10 @@ import org.labkey.api.dataiterator.DataIteratorUtil;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.exp.property.Domain;
 import org.labkey.api.exp.property.PropertyService;
+import org.labkey.api.gwt.client.model.GWTConditionalFormat;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
+import org.labkey.api.gwt.client.model.GWTPropertyValidator;
+import org.labkey.api.gwt.client.model.PropertyValidatorType;
 import org.labkey.api.module.Module;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.QueryService;
@@ -49,6 +55,7 @@ import org.labkey.api.snd.QCStateEnum;
 import org.labkey.api.snd.SNDSequencer;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snd.SuperPackage;
+import org.labkey.api.util.JsonUtil;
 import org.labkey.snd.security.SNDSecurityManager;
 import org.labkey.snd.trigger.SNDTriggerManager;
 
@@ -74,6 +81,114 @@ public class SNDServiceImpl implements SNDService
 
     private SNDServiceImpl()
     {
+    }
+
+    private static void configureObjectMapper(ObjectMapper om)
+    {
+        om.addMixIn(GWTPropertyDescriptor.class, PropertyDescriptorMixin.class);
+        om.addMixIn(GWTPropertyValidator.class, PropertyValidatorMixin.class);
+        om.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+    }
+
+    private static ObjectMapper createPropertyObjectMapper()
+    {
+        ObjectMapper mapper = JsonUtil.DEFAULT_MAPPER.copy();
+        configureObjectMapper(mapper);
+        return mapper;
+    }
+
+    public static GWTPropertyValidator jsonToPropertyValidator(JSONObject obj) throws IOException
+    {
+        GWTPropertyValidator validator =  createPropertyObjectMapper()
+                .readerFor(GWTPropertyValidator.class)
+                .readValue(obj.toString());
+
+        validator.setType(PropertyValidatorType.getType(obj.getString("type")));
+        return validator;
+    }
+
+    public static GWTConditionalFormat jsonToConditionalFormatter(JSONObject obj) throws IOException
+    {
+        return createPropertyObjectMapper()
+                .readerFor(GWTConditionalFormat.class)
+                .readValue(obj.toString());
+    }
+
+    public static GWTPropertyDescriptor jsonToPropertyDescriptor(JSONObject obj) throws IOException
+    {
+        GWTPropertyDescriptor prop = createPropertyObjectMapper()
+                .readerFor(GWTPropertyDescriptor.class)
+                .readValue(obj.toString());
+
+        // property validators
+        JSONArray jsonValidators = obj.optJSONArray("validators");
+        if(null != jsonValidators)
+        {
+            List<GWTPropertyValidator> validators = new ArrayList<>();
+            for (int i = 0; i < jsonValidators.length(); i++)
+            {
+                JSONObject jsonValidator = jsonValidators.getJSONObject(i);
+                if (null != jsonValidator)
+                {
+                    validators.add(jsonToPropertyValidator(jsonValidator));
+                }
+            }
+            prop.setPropertyValidators(validators);
+        }
+
+        //conditional formats
+        JSONArray conditionalFormats = obj.optJSONArray("conditionalFormats");
+        if (null != conditionalFormats)
+        {
+            List<GWTConditionalFormat> conditionalFormatters = new ArrayList<>();
+            for (int j = 0; j < conditionalFormats.length(); j++)
+            {
+                JSONObject conditionalFormatter = conditionalFormats.getJSONObject(j);
+                if (null != conditionalFormatter)
+                {
+                    conditionalFormatters.add(jsonToConditionalFormatter(conditionalFormatter));
+                }
+            }
+            prop.setConditionalFormats(conditionalFormatters);
+        }
+
+        return prop;
+    }
+
+    private static JSONArray convertPropertyValidatorsToJson(GWTPropertyDescriptor pd) throws JsonProcessingException
+    {
+        JSONArray json = new JSONArray();
+        String jsonString;
+        for (GWTPropertyValidator pv : pd.getPropertyValidators())
+        {
+            jsonString = createPropertyObjectMapper()
+                    .writerFor(GWTPropertyValidator.class)
+                    .writeValueAsString(pv);
+
+            if (jsonString != null && !jsonString.isEmpty())
+            {
+                JSONObject jsonPd = new JSONObject(jsonString);
+                json.put(jsonPd);
+            }
+        }
+
+        return json;
+    }
+
+    private static JSONObject convertPropertyDescriptorToJson(GWTPropertyDescriptor pd) throws JsonProcessingException
+    {
+        String json = createPropertyObjectMapper()
+                .writerFor(GWTPropertyDescriptor.class)
+                .writeValueAsString(pd);
+
+        JSONObject jsonPd = new JSONObject();
+        if (json != null && !json.isEmpty())
+        {
+            jsonPd = new JSONObject(json);
+            jsonPd.put("validators", convertPropertyValidatorsToJson(pd));
+        }
+
+        return jsonPd;
     }
 
     @Override
@@ -256,7 +371,15 @@ public class SNDServiceImpl implements SNDService
 
     public JSONObject convertPropertyDescriptorToJson(Container c, User u, GWTPropertyDescriptor pd, boolean resolveLookupValues)
     {
-        JSONObject json = ExperimentService.get().convertPropertyDescriptorToJson(pd);
+        JSONObject json;
+        try
+        {
+            json = convertPropertyDescriptorToJson(pd);
+        }
+        catch (JsonProcessingException e)
+        {
+            throw new ApiUsageException(e);
+        }
 
         if (pd.getLookupSchema() != null && pd.getLookupQuery() != null && pd.getDefaultValue() != null)
         {

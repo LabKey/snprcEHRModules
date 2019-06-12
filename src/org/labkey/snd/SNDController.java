@@ -86,77 +86,7 @@ public class SNDController extends SpringActionController
         setActionResolver(_actionResolver);
     }
 
-    private GWTPropertyValidator jsonToPropertyValidator(JSONObject obj) throws IOException
-    {
-        GWTPropertyValidator validator =  createPropertyObjectMapper()
-                .readerFor(GWTPropertyValidator.class)
-                .readValue(obj.toString());
 
-        validator.setType(PropertyValidatorType.getType(obj.getString("type")));
-        return validator;
-    }
-
-    private GWTConditionalFormat jsonToConditionalFormatter(JSONObject obj) throws IOException
-    {
-        return createPropertyObjectMapper()
-                .readerFor(GWTConditionalFormat.class)
-                .readValue(obj.toString());
-    }
-
-    private GWTPropertyDescriptor jsonToPropertyDescriptor(JSONObject obj) throws IOException
-    {
-        GWTPropertyDescriptor prop = createPropertyObjectMapper()
-                .readerFor(GWTPropertyDescriptor.class)
-                .readValue(obj.toString());
-
-        // property validators
-        JSONArray jsonValidators = obj.optJSONArray("validators");
-        if(null != jsonValidators)
-        {
-            List<GWTPropertyValidator> validators = new ArrayList<>();
-            for (int i = 0; i < jsonValidators.length(); i++)
-            {
-                JSONObject jsonValidator = jsonValidators.getJSONObject(i);
-                if (null != jsonValidator)
-                {
-                    validators.add(jsonToPropertyValidator(jsonValidator));
-                }
-            }
-            prop.setPropertyValidators(validators);
-        }
-
-        //conditional formats
-        JSONArray conditionalFormats = obj.optJSONArray("conditionalFormats");
-        if (null != conditionalFormats)
-        {
-            List<GWTConditionalFormat> conditionalFormatters = new ArrayList<>();
-            for (int j = 0; j < conditionalFormats.length(); j++)
-            {
-                JSONObject conditionalFormatter = conditionalFormats.getJSONObject(j);
-                if (null != conditionalFormatter)
-                {
-                    conditionalFormatters.add(jsonToConditionalFormatter(conditionalFormatter));
-                }
-            }
-            prop.setConditionalFormats(conditionalFormatters);
-        }
-
-        return prop;
-    }
-
-    static void configureObjectMapper(ObjectMapper om)
-    {
-        om.addMixIn(GWTPropertyDescriptor.class, PropertyDescriptorMixin.class);
-        om.addMixIn(GWTPropertyValidator.class, PropertyValidatorMixin.class);
-        om.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-    }
-
-    protected ObjectMapper createPropertyObjectMapper()
-    {
-        ObjectMapper mapper = JsonUtil.DEFAULT_MAPPER.copy();
-        configureObjectMapper(mapper);
-        return mapper;
-    }
 
     private Map<GWTPropertyDescriptor, Object> getExtraFields(JSONArray jsonExtras) throws IOException
     {
@@ -165,7 +95,7 @@ public class SNDController extends SpringActionController
         for (int e = 0; e < jsonExtras.length(); e++)
         {
             extra = jsonExtras.getJSONObject(e);
-            extras.put(jsonToPropertyDescriptor(extra), extra.get("value"));
+            extras.put(SNDServiceImpl.jsonToPropertyDescriptor(extra), extra.get("value"));
         }
 
         return extras;
@@ -222,7 +152,7 @@ public class SNDController extends SpringActionController
             String defaultValue = (String) json.get("defaultValue");
             json.put("defaultValue", defaultValue);
 
-            return jsonToPropertyDescriptor(json);
+            return SNDServiceImpl.jsonToPropertyDescriptor(json);
         }
 
         @Override
