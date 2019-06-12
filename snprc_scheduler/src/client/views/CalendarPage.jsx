@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarView from './CalendarView';
 //import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
-import 'fullcalendar/dist/fullcalendar.css';
+// import 'fullcalendar/dist/fullcalendar.css';
 
 let calendar_style = {
     width: '80%',
