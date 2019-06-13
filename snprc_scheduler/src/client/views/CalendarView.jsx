@@ -3,7 +3,7 @@ import React from 'react';
 //import FullCalendar from 'fullcalendar';
 //import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 //import 'fullcalendar/dist/fullcalendar.css';
-import $ from 'jquery'; 
+// import $ from 'jquery';
 
 class CalendarView extends React.Component {
         constructor(props) {
@@ -54,20 +54,20 @@ class CalendarView extends React.Component {
     
     render() { return <div id="calendar"></div>; }
     
-    componentDidMount() {
-        $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            editable: true,
-            droppable: true,
-            events: this.state.events,
-            drop: function() { },
-            eventClick: function(item) { console.log(item); }
-        });
-    }
+    // componentDidMount() {
+    //     $('#calendar').fullCalendar({
+    //         header: {
+    //             left: 'prev,next today',
+    //             center: 'title',
+    //             right: 'month,agendaWeek,agendaDay'
+    //         },
+    //         editable: true,
+    //         droppable: true,
+    //         events: this.state.events,
+    //         drop: function() { },
+    //         eventClick: function(item) { console.log(item); }
+    //     });
+    // }
   }
 
   export default CalendarView;
