@@ -247,7 +247,7 @@ class ProjectsView extends React.Component {
 
     render() {
 
-        const { selectedProject, selectedTimeline, confirm, alertModal, alertBanner, accordion, hasPermission } = this.props;
+        const { selectedProject, selectedTimeline, confirm, alertModal, alertBanner, accordion, hasPermission, showLoading } = this.props;
 
         let detailView = this.getDetailComponent(accordion ? accordion.tab : null);
         let mainView = this.getMainComponent(accordion ? accordion.tab : null);
@@ -296,7 +296,7 @@ class ProjectsView extends React.Component {
                     // onHide={this.close}
                     style={this.modalStyle()}
                     aria-labelledby="modal-label"
-                    show={this.state.showSaving}
+                    show={this.state.showSaving || showLoading}
                     renderBackdrop={this.renderBackdrop}
                     className={'timeline-saving-modal'}
             >
@@ -356,6 +356,7 @@ const mapStateToProps = state => ({
     alertModal: state.root.alertModal,
     alertBanner: state.root.alertBanner,
     accordion: state.root.accordion,
+    showLoading: state.root.showLoading,
     hasPermission: state.root.hasPermission
 })
 

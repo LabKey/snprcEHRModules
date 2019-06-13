@@ -27,8 +27,8 @@ class ProjectMain extends React.Component {
                 <TableHeaderColumn dataField='description' width='200px'>Description</TableHeaderColumn>
                 <TableHeaderColumn dataField='Iacuc'>IACUC</TableHeaderColumn>
                 <TableHeaderColumn dataField='CostAccount'>Cost Account</TableHeaderColumn>
-                <TableHeaderColumn dataField='Veterinarian1'>Veterinarian 1</TableHeaderColumn>
-                <TableHeaderColumn dataField='Veterinarian2'>Veterinarian 2</TableHeaderColumn>
+                <TableHeaderColumn dataField='Veterinarian1'>Vet 1</TableHeaderColumn>
+                <TableHeaderColumn dataField='Veterinarian2'>Vet 2</TableHeaderColumn>
                 <TableHeaderColumn dataField='VsNumber'>VsNumber</TableHeaderColumn>
                 <TableHeaderColumn dataField='referenceId'>Reference ID</TableHeaderColumn>
                 <TableHeaderColumn dataField='FeeScheduler'>Fee Schedule</TableHeaderColumn>

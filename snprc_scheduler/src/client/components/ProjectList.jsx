@@ -23,28 +23,11 @@ import {
 import connect from "react-redux/es/connect/connect";
 import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 
-const verboseOutput = true;
-
 class ProjectList extends React.Component {
     
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            projectCols: [
-                { key: 'Iacuc', name: 'IACUC', width: 75, sortable: true },
-                { key: 'description', name: 'Description', width: 255, sortable: true },
-                { key: 'revisionNum', name: 'Rev', width: 42, sortable: true }
-            ],
-            selectedProjects: [],
-            sortColumn: null, 
-            sortDirection: null,
-            filters: {}
-        };
-        // wire into redux store updates
-        this.disconnect = this.props.store.subscribe(this.handleStoreUpdate);
     }
-
-    componentWillUnmount = () => this.disconnect();
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const { accordion } = this.props;
@@ -65,20 +48,7 @@ class ProjectList extends React.Component {
         return false;
     }
 
-    handleProjectSearchChange = (event) => this.props.store.dispatch(filterProjects(event.target.value));
-
-    handleStoreUpdate = () => {
-        // get all projects from redux
-        let projects = this.props.store.getState().project.projects || [];
-        // manage project list in local state for rendering
-        this.setState({ projects: projects, projectCount: projects.length });
-    }
-
-    options = {
-        noDataText: 'No projects available',
-        defaultSortName: 'description',
-        defaultSortOrder: 'asc',
-    };
+    handleProjectSearchChange = (event) => this.props.filterProjects(event.target.value);
 
     getInnerRowProps = (project) => {
         return {
@@ -96,8 +66,14 @@ class ProjectList extends React.Component {
         }
     }
 
+    options = {
+        noDataText: 'No projects available',
+        defaultSortName: 'description',
+        defaultSortOrder: 'asc',
+    };
+
     render = () => {
-        const { selectedProject } = this.props;
+        const { selectedProject, projects } = this.props;
 
         return (<div>
             <div className="input-group top-bottom-padding-8">
@@ -114,7 +90,7 @@ class ProjectList extends React.Component {
                 <BootstrapTable
                         ref='project-table'
                         className='project-table'
-                        data={this.state.projects}
+                        data={projects}
                         options={this.options}
                         selectRow={this.getInnerRowProps(selectedProject ? selectedProject.projectId : -1)}
                         height={224}
@@ -135,6 +111,7 @@ ProjectList.propTypes = {
 }
 
 const mapStateToProps = state => ({
+    projects: state.project.projects,
     selectedProject: state.project.selectedProject,
     forceRerender: state.root.forceRerender  // Bit of a hack to get a re-render
 })
@@ -142,7 +119,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     setForceRerender: render => dispatch(setForceRerender(render)),
     onSelectProject: selectedProject => dispatch(selectProject(selectedProject)),
-    onSelectTimeline: timeline => dispatch(selectTimeline(timeline))
+    onSelectTimeline: timeline => dispatch(selectTimeline(timeline)),
+    filterProjects: search => dispatch(filterProjects(search))
 })
 
 export default connect(

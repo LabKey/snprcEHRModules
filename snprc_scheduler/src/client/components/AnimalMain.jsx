@@ -19,7 +19,7 @@ import {Button} from "react-bootstrap";
 library.add(faPlus);
 
 const tableOptions = {
-    noDataText: 'No animals available'
+    noDataText: 'No unassigned animals available'
 };
 
 class AnimalMain extends React.Component {

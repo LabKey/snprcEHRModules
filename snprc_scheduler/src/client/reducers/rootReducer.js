@@ -13,10 +13,10 @@ import {
     EXPAND_ACCORDION_TAB, FORCE_PROJECT_RENDER, FORCE_RERENDER, HAS_PERMISSION,
     HIDE_ALERT_BANNER,
     HIDE_ALERT_MODAL,
-    HIDE_CONFIRM,
+    HIDE_CONFIRM, HIDE_LOADING,
     SHOW_ALERT_BANNER,
     SHOW_ALERT_MODAL,
-    SHOW_CONFIRM
+    SHOW_CONFIRM, SHOW_LOADING
 } from "../actions/dataActions";
 
 const verboseOutput = false;
@@ -59,6 +59,12 @@ export default (state = {}, action) => {
             nextState.alertBanner.show = true;
             nextState.alertBanner.variant = action.payload.variant;
             nextState.alertBanner.msg = action.payload.msg;
+            break;
+        case HIDE_LOADING:
+            nextState.showLoading = false;
+            break;
+        case SHOW_LOADING:
+            nextState.showLoading = true;
             break;
         case HIDE_ALERT_BANNER:
             nextState.alertBanner = {};

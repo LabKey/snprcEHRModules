@@ -64,8 +64,8 @@ class TimelineDetails extends React.Component {
                             </div>
                             <div className='row input-row'>
                                 <div className='col-sm-4 zero-side-padding'><ControlLabel>Animal Account</ControlLabel></div>
-                                <div className='col-sm-7'><FormControl type='text' className='input-wide' id='Account'
-                                                                       value={timeline.Account ? timeline.Account : ''}
+                                <div className='col-sm-7'><FormControl type='text' className='input-wide' id='AnimalAccount'
+                                                                       value={timeline.AnimalAccount ? timeline.AnimalAccount : ''}
                                                                        onChange={this.handleChange}
                                                                        disabled={!timeline.RowId || timeline.IsInUse}
                                 /></div>

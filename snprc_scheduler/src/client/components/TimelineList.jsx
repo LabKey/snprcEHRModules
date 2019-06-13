@@ -142,24 +142,26 @@ class TimelineList extends React.Component {
     cloneTimelineConfirm = () => {
         const { selectedTimeline, hideConfirm, showConfirm, deleteNewTimelines } = this.props;
 
-        if (selectedTimeline && selectedTimeline.IsDirty) {
-            showConfirm({
-                title: 'Unsaved Data',
-                msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline itself ' +
-                        'if it is not saved. Proceed without saving?',
-                onConfirm: () => {
-                    deleteNewTimelines();
-                    this.cloneTimeline();
-                    hideConfirm();
-                },
-                onCancel: () => {
-                    hideConfirm();
-                    this.setExpandedTimelineId(selectedTimeline.RowId);
-                }
-            })
-        }
-        else {
-            this.cloneTimeline();
+        if (selectedTimeline) {
+            if (selectedTimeline.IsDirty) {
+                showConfirm({
+                    title: 'Unsaved Data',
+                    msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline itself ' +
+                            'if it is not saved. Proceed without saving?',
+                    onConfirm: () => {
+                        deleteNewTimelines();
+                        this.cloneTimeline();
+                        hideConfirm();
+                    },
+                    onCancel: () => {
+                        hideConfirm();
+                        this.setExpandedTimelineId(selectedTimeline.RowId);
+                    }
+                })
+            }
+            else {
+                this.cloneTimeline();
+            }
         }
     };
 
@@ -172,33 +174,35 @@ class TimelineList extends React.Component {
     reviseTimelineConfirm = () => {
         const { selectedTimeline, hideConfirm, showConfirm, showAlert, hideAlert, deleteNewTimelines } = this.props;
 
-        if (!selectedTimeline.ObjectId) {
-            showAlert({
-                title: 'Revision Error',
-                msg: 'Cannot create a new revision from an unsaved timeline revision. Save current timeline revision first.',
-                onDismiss: () => {
-                    hideAlert();
-                }
-            })
-        }
-        else if (selectedTimeline && selectedTimeline.IsDirty) {
-            showConfirm({
-                title: 'Unsaved Data',
-                msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline itself ' +
-                        'if it is not saved. Proceed without saving?',
-                onConfirm: () => {
-                    deleteNewTimelines();
-                    this.reviseTimeline();
-                    hideConfirm()
-                },
-                onCancel: () => {
-                    hideConfirm();
-                    this.setExpandedTimelineId(selectedTimeline.RowId);
-                }
-            })
-        }
-        else {
-            this.reviseTimeline();
+        if (selectedTimeline) {
+            if (!selectedTimeline.ObjectId) {
+                showAlert({
+                    title: 'Revision Error',
+                    msg: 'Cannot create a new revision from an unsaved timeline revision. Save current timeline revision first.',
+                    onDismiss: () => {
+                        hideAlert();
+                    }
+                })
+            }
+            else if (selectedTimeline && selectedTimeline.IsDirty) {
+                showConfirm({
+                    title: 'Unsaved Data',
+                    msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline itself ' +
+                            'if it is not saved. Proceed without saving?',
+                    onConfirm: () => {
+                        deleteNewTimelines();
+                        this.reviseTimeline();
+                        hideConfirm()
+                    },
+                    onCancel: () => {
+                        hideConfirm();
+                        this.setExpandedTimelineId(selectedTimeline.RowId);
+                    }
+                })
+            }
+            else {
+                this.reviseTimeline();
+            }
         }
     };
 
@@ -229,48 +233,52 @@ class TimelineList extends React.Component {
     deleteTimelineValidate = () => {
         const { showConfirm, hideConfirm, selectedTimeline, timelines, showAlert, hideAlert } = this.props;
 
-        if (selectedTimeline.IsInUse) {
-            showAlert({
-                title: 'Delete Error',
-                msg: 'Cannot delete ' + selectedTimeline.Description + ', ' +  selectedTimeline.RevisionNum + ', it is in use.',
-                onDismiss: () => {
-                    hideAlert();
-                }
-            })
-        }
-        else if (!selectedTimeline.IsDraft) {
-            showAlert({
-                title: 'Delete Error',
-                msg: 'Cannot delete ' + selectedTimeline.Description + ', ' +  selectedTimeline.RevisionNum + ', it is not in draft state. ' +
-                        'Only timelines saved as draft can be deleted.',
-                onDismiss: () => {
-                    hideAlert();
-                }
-            })
-        }
-        else {
-            const laterTls = timelines.filter(tl => { return (tl.TimelineId === selectedTimeline.TimelineId && tl.RevisionNum > selectedTimeline.RevisionNum) });
-            if (laterTls.length > 0) {
+        if (selectedTimeline) {
+            if (selectedTimeline.IsInUse) {
                 showAlert({
                     title: 'Delete Error',
-                    msg: 'Cannot delete ' + selectedTimeline.Description + ', ' +  selectedTimeline.RevisionNum + ', it has a later timeline revision.',
+                    msg: 'Cannot delete ' + selectedTimeline.Description + ', ' + selectedTimeline.RevisionNum + ', it is in use.',
+                    onDismiss: () => {
+                        hideAlert();
+                    }
+                })
+            }
+            else if (!selectedTimeline.IsDraft) {
+                showAlert({
+                    title: 'Delete Error',
+                    msg: 'Cannot delete ' + selectedTimeline.Description + ', ' + selectedTimeline.RevisionNum + ', it is not in draft state. ' +
+                            'Only timelines saved as draft can be deleted.',
                     onDismiss: () => {
                         hideAlert();
                     }
                 })
             }
             else {
-                showConfirm({
-                    title: 'Delete timeline',
-                    msg: 'Permanently delete timeline?',
-                    onConfirm: () => {
-                        this.deleteSelectedTimeline();
-                        hideConfirm()
-                    },
-                    onCancel: () => {
-                        hideConfirm();
-                    }
-                })
+                const laterTls = timelines.filter(tl => {
+                    return (tl.TimelineId === selectedTimeline.TimelineId && tl.RevisionNum > selectedTimeline.RevisionNum)
+                });
+                if (laterTls.length > 0) {
+                    showAlert({
+                        title: 'Delete Error',
+                        msg: 'Cannot delete ' + selectedTimeline.Description + ', ' + selectedTimeline.RevisionNum + ', it has a later timeline revision.',
+                        onDismiss: () => {
+                            hideAlert();
+                        }
+                    })
+                }
+                else {
+                    showConfirm({
+                        title: 'Delete timeline',
+                        msg: 'Permanently delete timeline?',
+                        onConfirm: () => {
+                            this.deleteSelectedTimeline();
+                            hideConfirm()
+                        },
+                        onCancel: () => {
+                            hideConfirm();
+                        }
+                    })
+                }
             }
         }
     };
@@ -534,6 +542,8 @@ class TimelineList extends React.Component {
     };
 
     render = () => {
+        const { selectedTimeline } = this.props;
+
         this.state.revTableCount = 0;
         const options = {
             expandRowBgColor: 'rgb(249, 249, 209)',
@@ -557,18 +567,21 @@ class TimelineList extends React.Component {
                 <Button
                         className='scheduler-timeline-list-btn'
                         onClick={this.reviseTimelineConfirm}
+                        disabled={!selectedTimeline || !selectedTimeline.ObjectId} // Must be a saved timeline selected
                 ><FontAwesomeIcon icon={["fa", "copy"]}/></Button>
             </OverlayTrigger>
             <OverlayTrigger placement="top" overlay={this.getTooltip("Timeline clone")}>
                 <Button
                         className='scheduler-timeline-list-btn'
                         onClick={this.cloneTimelineConfirm}
+                        disabled={!selectedTimeline}
                 ><FontAwesomeIcon icon={["fa", "clone"]}/></Button>
             </OverlayTrigger>
             <OverlayTrigger placement="top" overlay={this.getTooltip("Delete timeline")}>
                 <Button
                         className='scheduler-timeline-list-btn'
                         onClick={this.deleteTimelineValidate}
+                        disabled={!selectedTimeline || !selectedTimeline.ObjectId} // Must be a saved timeline selected
                 ><FontAwesomeIcon icon={["fa", "trash"]}/></Button>
             </OverlayTrigger>
         </div>

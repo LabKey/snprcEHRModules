@@ -59,6 +59,8 @@ export const SHOW_ALERT_MODAL = 'SHOW_ALERT_MODAL';
 export const HIDE_ALERT_MODAL = 'HIDE_ALERT_MODAL';
 export const SHOW_ALERT_BANNER = 'SHOW_ALERT_BANNER';
 export const HIDE_ALERT_BANNER = 'HIDE_ALERT_BANNER';
+export const SHOW_LOADING = 'SHOW_LOADING';
+export const HIDE_LOADING = 'HIDE_LOADING';
 export const HAS_PERMISSION = 'HAS_PERMISSION';
 export const FORCE_RERENDER = 'FORCE_RERENDER';
 export const NO_OP = 'NO_OP';
@@ -122,6 +124,8 @@ export function createAction(type, payload) {
         case HIDE_ALERT_MODAL: return { type: type, payload: payload };
         case SHOW_ALERT_BANNER: return { type: type, payload: payload };
         case HIDE_ALERT_BANNER: return { type: type, payload: payload };
+        case SHOW_LOADING: return { type: type };
+        case HIDE_LOADING: return { type: type };
         case HAS_PERMISSION: return { type: type, payload: payload };
         case FORCE_RERENDER: return { type: type, payload: payload };
         default: return { type: type }
@@ -130,6 +134,7 @@ export function createAction(type, payload) {
 
 export function handleErrors(baseMsg, error) {
     return (dispatch) => {
+        dispatch(hideLoading());
         if (error.exception) {
             dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.exception}));
             console.warn('save project error', error.exception);
@@ -176,10 +181,12 @@ function fetchProjects_LABKEY() {
 function fetchProjects_SND() {
     const API_ENDPOINT = LABKEY.ActionURL.getBaseURL() + LABKEY.ActionURL.getContainer() + '/SNPRC_Scheduler-getActiveProjects.view?';
     return (dispatch) => {
+        dispatch(showLoading());
         dispatch(createAction(PROJECT_LIST_REQUESTED));
         fetch(API_ENDPOINT)
                 .then(response => {
                     if (response.status === 403) {
+                        dispatch(hideLoading());
                         dispatch(setPermission(false));
                     }
                     else {
@@ -206,7 +213,9 @@ function fetchProjects_SND() {
                                 })
                     }
                 })
-                .catch((error) => dispatch(handleErrors("Retrieving projects failed", error)));
+                .catch((error) => {
+                    dispatch(handleErrors("Retrieving projects failed", error))
+                });
     }
 }
 
@@ -250,6 +259,7 @@ export function fetchTimelinesByProject(selectedProject) {
                         response.json()
                                 .then(data => {
                                     if (data.success) {
+                                        dispatch(hideLoading()); // last API call in initial loading sequence
                                         dispatch(createAction(TIMELINE_LIST_RECEIVED, {
                                             timelines: data.rows,
                                             selectedProject: selectedProject
@@ -314,6 +324,20 @@ export function hideAlertBanner(alert) {
     }
 }
 
+export function showLoading() {
+    if (verboseOutput) console.log('SHOW_LOADING');
+    return (dispatch) => {
+        dispatch(createAction(SHOW_LOADING));
+    }
+}
+
+export function hideLoading(alert) {
+    if (verboseOutput) console.log('HIDE_LOADING');
+    return (dispatch) => {
+        dispatch(createAction(HIDE_LOADING));
+    }
+}
+
 export function filterProjects(pattern) {
     if (verboseOutput) console.log('filterProjects(' + pattern + ')');
     return (dispatch) => {
@@ -340,7 +364,7 @@ export function selectProject(selectedProject) {
     return (dispatch) => {
         dispatch(createAction(PROJECT_SELECTED, selectedProject.projectId));
         dispatch(fetchAnimalsByProject(selectedProject.projectId, selectedProject.revisionNum));
-        dispatch(fetchTimelinesByProject(selectedProject));
+        dispatch(fetchTimelinesByProject(selectedProject));  // This will hide loading mask on success
     }
 }
 

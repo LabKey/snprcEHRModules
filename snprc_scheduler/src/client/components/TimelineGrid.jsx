@@ -714,7 +714,7 @@ class TimelineGrid extends React.Component {
                                 <Button
                                         className='add-delete-btn'
                                         onClick={this.onAddClick}
-                                        disabled={selectedTimeline.IsInUse}
+                                        disabled={!selectedTimeline || selectedTimeline.IsInUse}
                                 ><FontAwesomeIcon icon={["fa", "plus"]}/></Button>
                             </OverlayTrigger>
                         </div>
