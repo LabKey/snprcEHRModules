@@ -11,7 +11,7 @@ public class SetupScripts
 
     private static final int PROJECT_REF_ID = 100;
     private static final String PROJECT_START_DATE = "2018-01-01";
-    private static final String PROJECT_END_DATE = "2018-12-31";
+    private static final String PROJECT_END_DATE = "2025-12-31";
     private static final String PROJECT_DESC = "Project Test";
 
     public static final int PROJECT_ID = 500;
