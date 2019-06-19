@@ -41,6 +41,7 @@ import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.Package;
 import org.labkey.api.snd.PackageDomainKind;
@@ -147,7 +148,14 @@ public class PackagesTable extends SimpleTable<SNDUserSchema>
                 newDomain.setContainer(container.getId());
                 newDomain.setDescription(description);
 
-                DomainUtil.createDomain(PackageDomainKind.getPackageKindName(), newDomain, null, container, user, null, null);
+                try
+                {
+                    DomainUtil.createDomain(PackageDomainKind.getPackageKindName(), newDomain, null, container, user, null, null);
+                }
+                catch (ValidationException ve)
+                {
+                    throw new QueryUpdateServiceException(ve);
+                }
 
             }
 
