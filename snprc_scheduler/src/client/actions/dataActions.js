@@ -43,6 +43,7 @@ export const TIMELINE_ITEM_REMOVED = 'TIMELINE_ITEM_REMOVED';
 export const ADD_TIMELINE_ITEM = 'ADD_TIMELINE_ITEM';
 export const UPDATE_TIMELINE_ROW = 'UPDATE_TIMELINE_ROW';
 export const UPDATE_TIMELINE_ITEM = 'UPDATE_TIMELINE_ITEM';
+export const UPDATE_STUDY_DAY_NOTE = 'UPDATE_STUDY_DAY_NOTE';
 export const UPDATE_TIMELINE_PROJECT_ITEM = 'UPDATE_TIMELINE_PROJECT_ITEM';
 export const ASSIGN_TIMELINE_PROCEDURE = 'ASSIGN_TIMELINE_PROCEDURE';
 export const DELETE_TIMELINE_ITEM = 'DELETE_TIMELINE_ITEM';
@@ -105,6 +106,7 @@ export function createAction(type, payload) {
         case ADD_TIMELINE_ITEM: return { type: type, payload: payload };
         case UPDATE_TIMELINE_ROW: return { type: type, payload: payload };
         case UPDATE_TIMELINE_ITEM: return { type: type, payload: payload };
+        case UPDATE_STUDY_DAY_NOTE: return { type: type, payload: payload };
         case ADD_TIMELINE_ANIMAL_ITEM: return { type: type, payload: payload };
         case DELETE_TIMELINE_ANIMAL_ITEM: return { type: type, payload: payload };
         case UPDATE_TIMELINE_ANIMAL_ITEM: return { type: type, payload: payload };
@@ -238,6 +240,7 @@ export function fetchAnimalsByProject(projectId, revision) {
                 dispatch(createAction(ANIMAL_LIST_RECEIVED, results.rows));
             },
             failure: (error) => {
+                dispatch(createAction(ANIMAL_LIST_RECEIVED, []));
                 dispatch(handleErrors("Retrieving animals failed", error));
             }
         });
@@ -470,6 +473,13 @@ export function updateTimelineItem(item, dirty) {
     if (verboseOutput) console.log('updateTimelineItem - Study Day: ' + item.StudyDay);
     return (dispatch) => {
         dispatch(createAction(UPDATE_TIMELINE_ITEM, {item: item, dirty: dirty}));
+    }
+}
+
+export function updateStudyDayNote(note, dirty) {
+    if (verboseOutput) console.log('UPDATE_STUDY_DAY_NOTE - Study Day: ' + note.StudyDay);
+    return (dispatch) => {
+        dispatch(createAction(UPDATE_STUDY_DAY_NOTE, {note: note, dirty: dirty}));
     }
 }
 

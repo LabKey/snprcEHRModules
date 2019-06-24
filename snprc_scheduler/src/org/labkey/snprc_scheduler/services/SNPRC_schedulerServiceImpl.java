@@ -255,6 +255,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                     timeline.setTimelineItems(timelineItems);
                     timeline.setTimelineProjectItems(timelineProjectItems);
                     timeline.setTimelineAnimalItems(timelineAnimalItems);
+                    timeline.setStudyDayNotes(studyDayNotes);
 
                     responseJson = timeline.toJSON(c, u);
 

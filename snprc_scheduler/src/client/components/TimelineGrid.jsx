@@ -13,7 +13,7 @@ import {
     setTimelineDayZero,
     showAlertBanner,
     showConfirm,
-    updateSelectedTimeline,
+    updateSelectedTimeline, updateStudyDayNote,
     updateTimelineItem,
     updateTimelineProjectItem,
     updateTimelineRow
@@ -77,6 +77,7 @@ class TimelineGrid extends React.Component {
             lastColIdx: 0,
             lastRowIdx: 0,
             sortColumn: 'StudyDay',
+            sortMinorColumn: 'RowIdx',
             sortDirection: 'ASC',
             showProcNote: false,
             procNoteName: "",
@@ -137,11 +138,12 @@ class TimelineGrid extends React.Component {
             if (props.row.RowIdx !== 0) {
                 return (
                         <OverlayTrigger placement="top" overlay={tooltip}>
-                            <div>{props.row.StudyDayNote ? props.row.StudyDayNote : ''}</div>
+                            <div style={{textAlign: 'left'}}>{props.row.StudyDayNote ? props.row.StudyDayNote : ''}</div>
                         </OverlayTrigger>)
             }
             else {
-                return <div/>
+                // return <div style={{padding: '0px -10px', backgroundColor: '#EEEEEE', height: '40px'}}/>
+                return <div />
             }
         })
     };
@@ -157,7 +159,7 @@ class TimelineGrid extends React.Component {
         const { selectedTimeline } = this.props;
 
         // First row and in use timeline not editable
-        if (rowData.RowIdx === 0 || selectedTimeline.IsInUse) {
+        if (rowData.RowIdx === 0 || selectedTimeline.IsInUse || rowData.ExtraRow) {
             return false;
         }
         return true;
@@ -279,10 +281,30 @@ class TimelineGrid extends React.Component {
         }
     };
 
+    loadStudyDayNotes = (rows, dirty) => {
+        const {selectedTimeline, onUpdateStudyDayNote} = this.props;
+
+        if (selectedTimeline.StudyDayNotes != null && Array.isArray(selectedTimeline.StudyDayNotes)) {
+
+            // Timeline rows should already be created just need to populate study day notes
+            let savedRows;
+            selectedTimeline.StudyDayNotes.forEach(note => {
+
+                savedRows = rows.filter(savedRow => savedRow.StudyDay === note.StudyDay);
+                if (savedRows.length > 0) {
+                    savedRows[0].StudyDayNote = note.StudyDayNote;
+                    note.RowIdx = savedRows[0].RowIdx;
+                }
+
+                onUpdateStudyDayNote(note, dirty);
+            })
+        }
+    };
+
     // Loads rows from redux state into local react state
     loadRows = (dirty) => {
         const {selectedTimeline, selectedProject, onUpdateTimelineItem, onUpdateSelectedTimeline} = this.props;
-        const {rows, rowId, revisionNum, sortColumn, sortDirection} = this.state;
+        const {rows, rowId, revisionNum, sortColumn, sortMinorColumn, sortDirection} = this.state;
         let allRows = [];
 
         // If we have already loaded the saved timeline data, don't reload (prevents infinite loop)
@@ -318,7 +340,7 @@ class TimelineGrid extends React.Component {
                     let savedRows;
                     selectedTimeline.TimelineItems.forEach(item => {
 
-                        if (item.ProjectItemId === null || item.IsDeleted === true) {
+                        if (item.IsDeleted === true) {
                             return;
                         }
 
@@ -326,23 +348,27 @@ class TimelineGrid extends React.Component {
                         savedRows = tlRows.filter(savedRow => savedRow.StudyDay === item.StudyDay);
                         if (savedRows.length > 0) {
 
-                            if (!savedRows[0][item.ProjectItemId]) {
+                            if (item.ProjectItemId && !savedRows[0][item.ProjectItemId]) {
                                 savedRows[0][item.ProjectItemId] = true;
                                 item.RowIdx = savedRows[0].RowIdx;
                             }
                             else {
                                 lastRowIdx++;
 
-                                tlRows.push({
+                                let row = {
                                     RowIdx: lastRowIdx,
                                     StudyDay: item.StudyDay,
-                                    StudyDayNote: item.StudyDayNote,
                                     ScheduleDate: item.ScheduleDate,
                                     ObjectId: item.ObjectId,
-                                    TimelineObjectId: item.TimelineObjectId,
-                                    [item.ProjectItemId]: true
-                                });
+                                    ExtraRow: true,
+                                    TimelineObjectId: item.TimelineObjectId
+                                };
 
+                                if (item.ProjectItemId) {
+                                    row[item.ProjectItemId] = true;
+                                }
+
+                                tlRows.push(row);
                                 item.RowIdx = lastRowIdx;
                             }
                         }
@@ -351,26 +377,31 @@ class TimelineGrid extends React.Component {
                             lastRowIdx++;
                             item.RowIdx = lastRowIdx;
 
-                            tlRows.push({
+                            let newRow = {
                                 RowIdx: lastRowIdx,
                                 StudyDay: item.StudyDay,
-                                StudyDayNote: item.StudyDayNote,
                                 ScheduleDate: item.ScheduleDate,
                                 ObjectId: item.ObjectId,
-                                TimelineObjectId: item.TimelineObjectId,
-                                [item.ProjectItemId]: true
-                            });
+                                TimelineObjectId: item.TimelineObjectId
+                            };
+
+                            if (item.ProjectItemId) {
+                                newRow[item.ProjectItemId] = true;
+                            }
+
+                            tlRows.push(newRow);
                         }
 
                         onUpdateTimelineItem(item, dirty);
                     })
                 }
 
+                this.loadStudyDayNotes(tlRows, dirty);
             }
             onUpdateSelectedTimeline({lastRowIdx: lastRowIdx}, dirty);
 
             // Sorts and sets rows in grid state
-            let newState = this.sortRows(row.concat(tlRows), sortColumn, sortDirection, false);
+            let newState = this.sortRows(row.concat(tlRows), sortColumn, sortMinorColumn, sortDirection, false);
             allRows = newState.rows;
 
             newState.columns = sortedCols;
@@ -552,7 +583,7 @@ class TimelineGrid extends React.Component {
             this.props.onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true, true);
         }
 
-        const stateCopy = Object.assign({ }, {rows: rows});
+        const stateCopy = {rows: [...rows]};
         this.setState(stateCopy);
     };
 
@@ -633,7 +664,7 @@ class TimelineGrid extends React.Component {
         this.sortRows(this.state.rows, sortColumn, sortDirection, true);
     };
 
-    sortRows = (initialRows, sortColumn, sortDirection, setState) => {
+    sortRows = (initialRows, sortColumn, sortMinorColumn, sortDirection, setState) => {
         const comparer = (a, b) => {
 
             // Keep procedure note row on top
@@ -653,6 +684,25 @@ class TimelineGrid extends React.Component {
 
             if (isNaN(bVal)) {
                 return -1;
+            }
+
+            if (aVal === bVal) {
+                let aMinor = parseInt(a[sortMinorColumn]);
+                let bMinor = parseInt(b[sortMinorColumn]);
+
+                if (isNaN(aMinor)) {
+                    return 1;
+                }
+
+                if (isNaN(bMinor)) {
+                    return -1;
+                }
+
+                if (sortDirection === "ASC" || sortDirection === "NONE") {
+                    return aMinor > bMinor ? 1 : -1;
+                } else if (sortDirection === "DESC") {
+                    return aMinor < bMinor ? 1 : -1;
+                }
             }
 
             if (sortDirection === "ASC" || sortDirection === "NONE") {
@@ -753,6 +803,7 @@ const mapDispatchToProps = dispatch => ({
     onAddTimelineItem: timelineItem => dispatch(addTimelineItem(timelineItem)),
     onUpdateTimelineRow: timelineItem => dispatch(updateTimelineRow(timelineItem)),
     onUpdateTimelineItem: (timelineItem, dirty) => dispatch(updateTimelineItem(timelineItem, dirty)),
+    onUpdateStudyDayNote: (timelineItem, dirty) => dispatch(updateStudyDayNote(timelineItem, dirty)),
     onUpdateSelectedTimeline: (timeline, dirty) => dispatch(updateSelectedTimeline(timeline, dirty)),
     onAssignTimelineProcedure: item => dispatch(assignTimelineProcedure(item)),
     onUpdateTimelineProjectItem: projectItem => dispatch(updateTimelineProjectItem(projectItem)),

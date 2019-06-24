@@ -72,13 +72,11 @@ export default (state = {}, action) => {
             break;
         case HAS_PERMISSION:
             nextState.hasPermission = action.payload;
-            nextState.alertBanner = {};
             if (!action.payload) {
+                nextState.alertBanner = {};
                 nextState.alertBanner.show = true;
                 nextState.alertBanner.variant = 'danger';
                 nextState.alertBanner.msg = 'You do not have permission to view this page';
-            } else {
-                nextState.alertBanner.show = false;
             }
             break;
         case FORCE_RERENDER:

@@ -24,19 +24,19 @@ import {
     getDay0Date,
     ADD_TIMELINE_ANIMAL_ITEM,
     DELETE_TIMELINE_ANIMAL_ITEM,
-    UPDATE_TIMELINE_ANIMAL_ITEM
+    UPDATE_TIMELINE_ANIMAL_ITEM, UPDATE_STUDY_DAY_NOTE
 } from "../actions/dataActions";
 import {verboseOutput} from "./projectReducer";
 
 // Used for cloning or revising a timeline
 const cloneTimeline = (source, revision) => {
-    let newTimeline = { ...source };
-    newTimeline = {...newTimeline,
+    // let newTimeline = { ...source };
+    let newTimeline = {...source,
         TimelineId: revision ? source.TimelineId : undefined,
         RowId: revision ? source.RowId : 0,
         RevisionNum: revision,
         Description: source.Description + (revision ? '': ' Clone'),
-        IsDraft: true,
+        QcState: 4,
         IsDirty: true,
         ObjectId: undefined,
         CreatedByName: undefined,
@@ -112,6 +112,10 @@ export default (state = { }, action) => {
 
                 if (!tl.TimelineAnimalItems) {
                     tl.TimelineAnimalItems = [];
+                }
+
+                if (!tl.StudyDayNotes) {
+                    tl.StudyDayNotes = [];
                 }
             }
 
@@ -260,16 +264,72 @@ export default (state = { }, action) => {
             break;
         case UPDATE_TIMELINE_ROW:
             // action payload is timeline item
+            const { StudyDayNote, StudyDay, ScheduleDate, RowIdx } = action.payload;
+
             nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
-                if(action.payload.RowIdx === item.RowIdx) {
+                if (RowIdx === item.RowIdx) {
                     item = { ...item };
-                    item.StudyDay = parseInt(action.payload.StudyDay);
-                    item.StudyDayNote = action.payload.StudyDayNote;
-                    item.ScheduleDate = action.payload.ScheduleDate;
+                    item.StudyDay = parseInt(StudyDay);
+                    // item.StudyDayNote = action.payload.StudyDayNote;
+                    item.ScheduleDate = ScheduleDate;
                 }
                 return item;
             });
+
+            // Update study day note
+            let updated = false;
+            if (StudyDayNote) {
+                nextState.selectedTimeline.StudyDayNotes = nextState.selectedTimeline.StudyDayNotes.map(note => {
+                    if (RowIdx === note.RowIdx) {
+                        updated = true;
+                        if (StudyDayNote !== note.StudyDayNote) {
+                            note.StudyDayNote = StudyDayNote;
+                            note.IsDirty = true;
+                        }
+                    }
+
+                    return note;
+                });
+
+                if (!updated) {
+                    nextState.selectedTimeline.StudyDayNotes.push({
+                        IsDirty: true,
+                        StudyDay: StudyDay,
+                        StudyDayNote: StudyDayNote,
+                        RowIdx: RowIdx
+                    })
+                }
+            }
+
             nextState.selectedTimeline.IsDirty = true;
+
+            break;
+        case UPDATE_STUDY_DAY_NOTE:
+            // action payload is study note
+            const { note } = action.payload;
+
+            let updatedNote = false;
+            nextState.selectedTimeline.StudyDayNotes = nextState.selectedTimeline.StudyDayNotes.map(savedNote => {
+                if (note.RowIdx === savedNote.RowIdx) {
+                    updatedNote = true;
+                    if (note.StudyDayNote !== savedNote.StudyDayNote) {
+                        savedNote = {...note};
+                        // savedNote.StudyDayNote = note.StudyDayNote;
+                        savedNote.IsDirty = true;
+                    }
+                }
+
+                return savedNote;
+            });
+
+            if (!updatedNote) {
+                nextState.selectedTimeline.StudyDayNotes.push({
+                    IsDirty: true,
+                    StudyDay: note.StudyDay,
+                    StudyDayNote: note.StudyDayNote,
+                    RowIdx: note.RowIdx
+                })
+            }
 
             break;
         case UPDATE_TIMELINE_ITEM:
@@ -307,7 +367,7 @@ export default (state = { }, action) => {
                 nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.filter(
                         item => (item.ObjectId || (action.payload.ProjectItemId !== item.ProjectItemId)
                                 || (action.payload.RowIdx !== item.RowIdx))
-                )
+                );
 
                 // If persisted set IsDeleted flag
                 nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
@@ -317,7 +377,24 @@ export default (state = { }, action) => {
                     }
 
                     return item;
-                })
+                });
+
+                const otherRowValues = nextState.selectedTimeline.TimelineItems.filter(
+                        item => (item.StudyDay === action.payload.StudyDay && !item.IsDeleted)
+
+                );
+
+                // Add a null timeline item if deleting all items on a study day
+                if (otherRowValues.length === 0) {
+                    nextState.selectedTimeline.TimelineItems.push(
+                            {...action.payload,
+                                ProjectItemId: null,
+                                ObjectId: null,
+                                IsDeleted: false,
+                                IsDirty: true
+                            }
+                    )
+                }
             }
             // Check
             else {
@@ -328,6 +405,7 @@ export default (state = { }, action) => {
                 nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
                     if(!item.ProjectItemId && (action.payload.RowIdx === item.RowIdx)) {
                         item.ProjectItemId = action.payload.ProjectItemId;
+                        item.IsDirty = true;
                         found = true;
                     }
 
@@ -372,6 +450,17 @@ export default (state = { }, action) => {
                 if (item.RowIdx === action.payload.RowIdx) {
                     if (item.ObjectId) {
                         item.IsDeleted = true;
+                        return true;
+                    }
+                    else return false;
+                }
+                return true;
+            });
+
+            nextState.selectedTimeline.StudyDayNotes = nextState.selectedTimeline.StudyDayNotes.filter(note => {
+                if (note.RowIdx === action.payload.RowIdx) {
+                    if (note.ObjectId) {
+                        note.IsDeleted = true;
                         return true;
                     }
                     else return false;
