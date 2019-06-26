@@ -26,9 +26,8 @@ public interface SNPRC_schedulerService
     }
 
     List<JSONObject> getActiveTimelines(Container c, User u, String ProjectObjectId, BatchValidationException errors);
-
+    List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, BatchValidationException errors);
     List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters);
-
     JSONObject saveTimelineData(Container c, User u, JSONObject json, BatchValidationException errors);
 }
 

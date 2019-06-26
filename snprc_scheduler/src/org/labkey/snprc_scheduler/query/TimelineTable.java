@@ -59,7 +59,7 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
         hasItemsSql.append(" ON t.ObjectId = ti.TimelineObjectId ");
         hasItemsSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ObjectId = t.ObjectId )" );
         hasItemsSql.append(" THEN 'true' ELSE 'false' END)");
-        ExprColumn hasItemsCol = new ExprColumn(this, "HasItems", hasItemsSql, JdbcType.BOOLEAN);
+        ExprColumn hasItemsCol = new ExprColumn(this, Timeline.TIMELINE_HAS_ITEMS, hasItemsSql, JdbcType.BOOLEAN);
         addColumn(hasItemsCol);
 
         // isScheduled = true if the timelineItems have been scheduled
@@ -71,19 +71,19 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
         isScheduledSql.append(" ON t.ObjectId = ti.TimelineObjectId and ti.ScheduleDate IS NOT NULL");
         isScheduledSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ObjectId = t.ObjectId )" );
         isScheduledSql.append(" THEN 'true' ELSE 'false' END)");
-        ExprColumn isScheduledCol = new ExprColumn(this, "IsScheduled", isScheduledSql, JdbcType.BOOLEAN);
+        ExprColumn isScheduledCol = new ExprColumn(this, Timeline.TIMELINE_IS_SCHEDULED, isScheduledSql, JdbcType.BOOLEAN);
         addColumn(isScheduledCol);
 
         SQLFragment projectIdSql = new SQLFragment();
         projectIdSql.append("(SELECT pr.ProjectId FROM snd.Projects as pr");
         projectIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
-        ExprColumn projectIdCol = new ExprColumn(this, "ProjectId", projectIdSql, JdbcType.INTEGER);
+        ExprColumn projectIdCol = new ExprColumn(this, Timeline.TIMELINE_PROJECT_ID, projectIdSql, JdbcType.INTEGER);
         addColumn(projectIdCol);
 
         SQLFragment revisionNumSql = new SQLFragment();
         revisionNumSql.append("(SELECT pr.RevisionNum FROM snd.Projects as pr");
         revisionNumSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
-        ExprColumn revisionNumCol = new ExprColumn(this, "ProjectRevisionNum", revisionNumSql, JdbcType.INTEGER);
+        ExprColumn revisionNumCol = new ExprColumn(this, Timeline.TIMELINE_PROJECT_REVISION_NUM, revisionNumSql, JdbcType.INTEGER);
         addColumn(revisionNumCol);
 
         // ToDo: Determine what inUse really means
@@ -91,6 +91,26 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
         isInUseSql.append("(SELECT 'false' as IsInUse)");
         ExprColumn isInUseCol = new ExprColumn(this, "IsInUse", isInUseSql, JdbcType.BOOLEAN);
         addColumn(isInUseCol);
+
+        SQLFragment chargeIdSql = new SQLFragment();
+        chargeIdSql.append("(SELECT pr.ReferenceId as ChargeId FROM snd.Projects as pr");
+        chargeIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        ExprColumn chargeIdCol = new ExprColumn(this, Timeline.TIMELINE_CHARGE_ID, chargeIdSql, JdbcType.INTEGER);
+        addColumn(chargeIdCol);
+
+        SQLFragment protocolSql = new SQLFragment();
+        protocolSql.append("(SELECT coalesce(ps.protocol,'') as Protocol FROM ehr.project as ps");
+        protocolSql.append(" JOIN snd.Projects as pr ON ps.project = pr.ReferenceId ");
+        protocolSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        ExprColumn protocolCol = new ExprColumn(this, Timeline.TIMELINE_PROTOCOL, protocolSql, JdbcType.VARCHAR);
+        addColumn(protocolCol);
+
+        SQLFragment speciesSql = new SQLFragment();
+        speciesSql.append("(SELECT coalesce(right(protocol, 2), 'ZZ') as Species FROM ehr.project as ps");
+        speciesSql.append(" JOIN snd.Projects as pr ON ps.project = pr.ReferenceId ");
+        speciesSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        ExprColumn speciesCol = new ExprColumn(this, Timeline.TIMELINE_SPECIES, speciesSql, JdbcType.VARCHAR);
+        addColumn(speciesCol);
 
         return this;
     }
@@ -138,9 +158,9 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
             return super.deleteRow(user, container, oldRowMap);
         }
 
-        private TableInfo getTableInfo(@NotNull UserSchema schema, @NotNull String table)
+        private TableInfo getTableInfo(@NotNull UserSchema schema, @NotNull String table, ContainerFilter cf)
         {
-            TableInfo tableInfo = schema.getTable(table);
+            TableInfo tableInfo = schema.getTable(table, cf);
             if (tableInfo == null)
                 throw new IllegalStateException("TableInfo not found for: " + table);
 

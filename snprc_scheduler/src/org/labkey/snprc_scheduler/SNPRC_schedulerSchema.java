@@ -14,7 +14,7 @@ public class SNPRC_schedulerSchema
     public static final String TABLE_NAME_TIMELINE_ITEM = "TimelineItem";
     public static final String TABLE_NAME_TIMELINE_PROJECT_ITEM = "TimelineProjectItem";
     public static final String TABLE_NAME_TIMELINE_ANIMAL_JUNCTION = "TimelineAnimalJunction";
-    public static final String TABLE_NAME_SCHEDULE = "Schedule";
+    public static final String TABLE_NAME_STUDY_DAY_NOTES = "StudyDayNotes";
 
     public static SNPRC_schedulerSchema getInstance()
     {
@@ -58,8 +58,8 @@ public class SNPRC_schedulerSchema
         return getSchema().getTable(TABLE_NAME_TIMELINE_ANIMAL_JUNCTION);
     }
 
-    public TableInfo getTableInfoSchedule()
+    public TableInfo getTableInfoStudyDayNotes()
     {
-        return getSchema().getTable(TABLE_NAME_SCHEDULE);
+        return getSchema().getTable(TABLE_NAME_STUDY_DAY_NOTES);
     }
 }
