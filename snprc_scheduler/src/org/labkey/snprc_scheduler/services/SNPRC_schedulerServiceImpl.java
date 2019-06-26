@@ -159,9 +159,26 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
                 SNPRC_schedulerManager.get().updateTimeline(c, u, timeline, errors);
 
+                // get studyDayNotes from JSON - needed for both the timelineItem update and the studyDayNotes update
+                JSONArray studyDayNotesJsonArray = json.has(Timeline.TIMELINE_STUDY_DAY_NOTES) ? json.getJSONArray(Timeline.TIMELINE_STUDY_DAY_NOTES) : null;
+
                 // update the Timelineitem table
                 if (!errors.hasErrors())
                 {
+
+                    // Get study day notes from json
+
+                    if (studyDayNotesJsonArray != null)
+                    {
+                        for (int i = 0, size = studyDayNotesJsonArray.length(); i < size; i++)
+                        {
+                            StudyDayNotes newItem = new StudyDayNotes(studyDayNotesJsonArray.getJSONObject(i));
+                            // add the timelineObjectId before using the object (it may have been created within this transaction)
+                            newItem.setTimelineObjectId(timeline.getObjectId());
+                            studyDayNotes.add(newItem);
+                        }
+                    }
+
                     // Get timeline items from json
                     JSONArray timelineItemsJsonArray = json.has(Timeline.TIMELINE_TIMELINE_ITEMS) ? json.getJSONArray(Timeline.TIMELINE_TIMELINE_ITEMS) : null;
                     if (timelineItemsJsonArray != null)
@@ -179,7 +196,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                     }
                     SNPRC_schedulerServiceValidator.validateNewTimelineItems(timelineItems, timeline, c, u, errors);
 
-                    SNPRC_schedulerManager.get().updateTimelineItems(c, u, timelineItems, errors); //new BatchValidationException());
+                    SNPRC_schedulerManager.get().updateTimelineItems(c, u, timelineItems, studyDayNotes, errors); //new BatchValidationException());
                 }
 
                 // update TimelineProjectItem table
@@ -226,18 +243,18 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                 // update the StudyDayNotes table
                 if (!errors.hasErrors())
                 {
-                    // Get study day notes from json
-                    JSONArray studyDayNotesJsonArray = json.has(Timeline.TIMELINE_STUDY_DAY_NOTES) ? json.getJSONArray(Timeline.TIMELINE_STUDY_DAY_NOTES) : null;
-                    if (studyDayNotesJsonArray != null)
-                    {
-                        for (int i = 0, size = studyDayNotesJsonArray.length(); i < size; i++)
-                        {
-                            StudyDayNotes newItem = new StudyDayNotes(studyDayNotesJsonArray.getJSONObject(i));
-                            // add the timelineObjectId before using the object (it may have been created within this transaction)
-                            newItem.setTimelineObjectId(timeline.getObjectId());
-                            studyDayNotes.add(newItem);
-                        }
-                    }
+//                    // Get study day notes from json
+//                    JSONArray studyDayNotesJsonArray = json.has(Timeline.TIMELINE_STUDY_DAY_NOTES) ? json.getJSONArray(Timeline.TIMELINE_STUDY_DAY_NOTES) : null;
+//                    if (studyDayNotesJsonArray != null)
+//                    {
+//                        for (int i = 0, size = studyDayNotesJsonArray.length(); i < size; i++)
+//                        {
+//                            StudyDayNotes newItem = new StudyDayNotes(studyDayNotesJsonArray.getJSONObject(i));
+//                            // add the timelineObjectId before using the object (it may have been created within this transaction)
+//                            newItem.setTimelineObjectId(timeline.getObjectId());
+//                            studyDayNotes.add(newItem);
+//                        }
+//                    }
                     //ToDo: StudyDayNote valdation
 
                     SNPRC_schedulerManager.get().updateStudyDayNotes(c, u, studyDayNotes, errors); //new BatchValidationException());

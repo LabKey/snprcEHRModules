@@ -199,30 +199,14 @@ public class SNPRC_schedulerServiceValidator
                         errors.addRowError(new ValidationException("Timeline is not in editable Draft state"));  //tested!
                         throw errors;
                     }
+                    else
+                    {
+                        // ToDo: check for Study day 0 in timelineItems
+                    }
                 }
             } //end of checks related to timeline in database
         } // end of checks to Timeline object itself
     } // end of ValidateNewTimeline
-
-    // Earlier code from ValidateNewTimeline above saved for future reference:
-    // DBSchema code in the following section no longer used, as SQLFragment is no longer
-    // needed when just getting Revision 0 rather than "min" revision
-    // We now just use the UserSchema with a SimpleFilter
-    // DbSchema db = SNPRC_schedulerSchema.getInstance().getSchema();
-    // SQLFragment sql = new SQLFragment("SELECT t1.projectObjectId FROM ");
-    // // sql.append(ti, "t1"); Earlier UserSchema version
-    // sql.append("snprc_scheduler.Timeline as t1 ");
-    // sql.append("where t1.TimelineId = ? ");
-    // sql.append("and t1.RevisionNum = 0 ");
-    // sql.add(timeline.getTimelineId());
-    // //Original design imagined rev 0 to be deletable, so we had to look for the minimum rev instead
-    // sql.append ("and revisionNum = 1");
-    // sql.append ("(select min(t2.RevisionNum)");
-    // sql.append ("from Timeline as t2");
-    // sql.append ("where t1.TimelineId = t2.TimelineId)"); */
-    // String tst = sql.toString();
-    // SqlSelector selector = new SqlSelector(db, sql);
-    // pobj = selector.getObject(String.class);
 
 
         public static void validateNewTimelineItems (List < TimelineItem > newItems, Timeline timeline, Container
