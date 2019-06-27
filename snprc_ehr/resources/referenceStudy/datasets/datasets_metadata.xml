@@ -112,6 +112,9 @@
             <column columnName="lastObscanDate">
                 <datatype>datetime</datatype>
             </column>
+            <column columnName="GestationalAge">
+                <datatype>integer</datatype>
+            </column>
             <column columnName="sire">
                 <datatype>varchar</datatype>
             </column>

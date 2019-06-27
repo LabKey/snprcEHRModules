@@ -29,6 +29,7 @@ ALTER VIEW [labkey_etl].[V_pregnancy_confirmation] AS
 --
 -- Changes:
 -- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
+-- 06/26/2019 added calculated value for gestationalAge srr
 -- ==========================================================================================
 
 
@@ -40,6 +41,7 @@ SELECT
   edc.term_code                     AS termCode,
   edc.confirm_date                  AS confirmDate,
   edc.last_obscan_date              AS lastObscanDate,
+  DATEDIFF(DAY,edc.edc,edc.term_date) AS GestationalAge,
   edc.object_id                     AS objectid,
   edc.entry_date_tm                 AS modified,
   dbo.f_map_username(edc.user_name) AS modifiedby,
