@@ -66,6 +66,10 @@ const cloneTimeline = (source, revision) => {
         IsDirty: true
     }});
 
+    newTimeline.StudyDayNotes = newTimeline.StudyDayNotes.map( note => {return {
+        ...note,
+        IsDirty: true
+    }});
 
     return newTimeline;
 };
@@ -119,6 +123,12 @@ export default (state = { }, action) => {
                 }
             }
 
+            if (nextState.timelines && nextState.timelines.length > 0) {
+                nextState.selectedTimeline = nextState.timelines[0];
+            } else {
+                nextState.selectedTimeline = null;
+            }
+
             nextState.lastRowId = getNextRowId(-1, nextState.timelines);
             break;
         case NEW_TIMELINE:
@@ -131,7 +141,8 @@ export default (state = { }, action) => {
                 IsDirty: true,
                 QcState: 4,
                 TimelineAnimalItems: [],
-                TimelineItems: [{RowIdx: 1, StudyDay: 0, ScheduleDate: null, IsDirty: true, IsDeleted: false, StudyDayNote: ''}]
+                StudyDayNotes: [],
+                TimelineItems: [{RowIdx: 1, StudyDay: 0, ScheduleDate: null, IsDirty: true, IsDeleted: false}]
             };
 
             let newTimeline = { ...timelineTemplate, ...action.payload.timeline};
@@ -200,6 +211,10 @@ export default (state = { }, action) => {
                 action.payload.TimelineAnimalItems = [];
             }
 
+            if (!action.payload.StudyDayNotes) {
+                action.payload.StudyDayNotes = [];
+            }
+
             // Set rowid for UI display
             action.payload.RowId = action.payload.TimelineId;
             action.payload.IsDirty = false;
@@ -207,8 +222,13 @@ export default (state = { }, action) => {
 
             // Update list of timelines
             let timelines = nextState.timelines.map((timeline) => {
+                // Updating existing timeline
                 if (timeline.TimelineId && timeline.TimelineId === action.payload.TimelineId && timeline.RevisionNum === action.payload.RevisionNum) {
                     return action.payload;
+                }
+                // Saving new timeline
+                if (!timeline.ObjectId && timeline.Description === action.payload.Description) {
+                    return action.payload
                 }
                 return timeline;
             });
@@ -270,7 +290,6 @@ export default (state = { }, action) => {
                 if (RowIdx === item.RowIdx) {
                     item = { ...item };
                     item.StudyDay = parseInt(StudyDay);
-                    // item.StudyDayNote = action.payload.StudyDayNote;
                     item.ScheduleDate = ScheduleDate;
                 }
                 return item;
@@ -282,8 +301,9 @@ export default (state = { }, action) => {
                 nextState.selectedTimeline.StudyDayNotes = nextState.selectedTimeline.StudyDayNotes.map(note => {
                     if (RowIdx === note.RowIdx) {
                         updated = true;
-                        if (StudyDayNote !== note.StudyDayNote) {
+                        if (StudyDayNote !== note.StudyDayNote || StudyDay !== note.StudyDay) {
                             note.StudyDayNote = StudyDayNote;
+                            note.StudyDay = StudyDay;
                             note.IsDirty = true;
                         }
                     }
@@ -401,11 +421,11 @@ export default (state = { }, action) => {
 
                 let found = false;
 
-                // If empty project item saved
+                // If matching item with IsDeleted = true, than set IsDeleted = false
                 nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
-                    if(!item.ProjectItemId && (action.payload.RowIdx === item.RowIdx)) {
-                        item.ProjectItemId = action.payload.ProjectItemId;
-                        item.IsDirty = true;
+                    if(item.ProjectItemId === action.payload.ProjectItemId && action.payload.StudyDay === item.StudyDay && item.IsDeleted) {
+                        item.IsDeleted = false;
+                        item.IsDirty = false;
                         found = true;
                     }
 
@@ -413,11 +433,24 @@ export default (state = { }, action) => {
                 })
 
                 if (!found) {
+                    // If empty project item saved
+                    nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
+                        if(!item.ProjectItemId && (action.payload.RowIdx === item.RowIdx)) {
+                            item.ProjectItemId = action.payload.ProjectItemId;
+                            item.IsDirty = true;
+                            found = true;
+                        }
+
+                        return item;
+                    })
+                }
+
+                if (!found) {
+                    // New item
                     nextState.selectedTimeline.TimelineItems.push({
                         IsDeleted: false,
                         TimelineObjectId: action.payload.TimelineObjectId,
                         StudyDay: action.payload.StudyDay,
-                        StudyDayNote: action.payload.StudyDayNote,
                         IsDirty: false,
                         ScheduleDate: action.payload.ScheduleDate,
                         ProjectItemId: action.payload.ProjectItemId,

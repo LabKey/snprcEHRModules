@@ -206,7 +206,7 @@ class ProjectsView extends React.Component {
                     }
                 }
                 else {
-                    console.log('save timeline succeeded');
+                    // console.log('save timeline succeeded');
                     showAlertBanner({variant: 'success', msg: selectedTimeline.Description + ", revision " + selectedTimeline.RevisionNum +
                         " saved successfully."});
                     this.props.onSaveSuccess(response.rows);

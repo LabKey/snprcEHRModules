@@ -72,7 +72,12 @@ class TimelineGrid extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = this.getInitState();
+        this.state.columns = this.getColumns(props.selectedProject);
+    }
+
+    getInitState = () => {
+        return{
             rows: [],
             lastColIdx: 0,
             lastRowIdx: 0,
@@ -85,9 +90,7 @@ class TimelineGrid extends React.Component {
             rowId: undefined,
             revisionNum: undefined,
             day0: ""
-        };
-
-        this.state.columns = this.getColumns(props.selectedProject);
+        }
     }
 
     CheckBoxFormatter = (colKey) => {
@@ -262,7 +265,7 @@ class TimelineGrid extends React.Component {
     updateScheduledDate = () => {
         const { selectedTimeline } = this.props;
 
-        if (selectedTimeline.forceReload) {
+        if (selectedTimeline && selectedTimeline.forceReload) {
 
             let newRows = this.state.rows.map(row => {
                 let newRow = Object.assign({}, row);
@@ -314,6 +317,10 @@ class TimelineGrid extends React.Component {
         // Loading first time
         else if (selectedTimeline == null && typeof rowId === "undefined") {
             allRows = rows;
+        }
+        // local state needs to be reset (all timelines for selected project have been deleted)
+        else if (selectedTimeline == null && typeof rowId !== "undefined") {
+            this.setState(this.getInitState());
         }
         else { // Reload from saved data
 

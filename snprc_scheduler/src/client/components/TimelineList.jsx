@@ -243,7 +243,7 @@ class TimelineList extends React.Component {
                     }
                 })
             }
-            else if (!selectedTimeline.IsDraft) {
+            else if (selectedTimeline.QcState !== 4) {
                 showAlert({
                     title: 'Delete Error',
                     msg: 'Cannot delete ' + selectedTimeline.Description + ', ' + selectedTimeline.RevisionNum + ', it is not in draft state. ' +
@@ -308,7 +308,7 @@ class TimelineList extends React.Component {
                 }
             }
             else {
-                console.log('save timeline succeeded');
+                // console.log('save timeline succeeded');
                 showAlertBanner({
                     variant: 'success',
                     msg: selectedTimeline.Description + ", revision " + selectedTimeline.RevisionNum +
