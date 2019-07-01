@@ -54,7 +54,7 @@ class ProjectsView extends React.Component {
 
     handleWindowBeforeUnload = (event) => {
 
-        if (this.props.selectedTimeline.IsDirty && (!this.props.confirm || !this.props.confirm.show)) {
+        if (this.props.selectedTimeline && this.props.selectedTimeline.IsDirty && (!this.props.confirm || !this.props.confirm.show)) {
             event.returnValue = 'Changes you made may not be saved.';
         }
     }

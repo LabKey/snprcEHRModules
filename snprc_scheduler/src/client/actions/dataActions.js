@@ -210,12 +210,14 @@ function fetchProjects_SND() {
                                         })[0]));
                                     }
                                     else {
+                                        console.error("Retrieving projects failed", error.exception);
                                         dispatch(handleErrors("Retrieving projects failed", error.exception));
                                     }
                                 })
                     }
                 })
                 .catch((error) => {
+                    console.error("Retrieving projects failed", error);
                     dispatch(handleErrors("Retrieving projects failed", error))
                 });
     }
