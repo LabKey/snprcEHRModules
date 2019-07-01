@@ -123,6 +123,7 @@
             <column columnName="StudyDayNote">
                 <nullable>false</nullable>
             </column>
+            <column columnName="QcState"/>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
