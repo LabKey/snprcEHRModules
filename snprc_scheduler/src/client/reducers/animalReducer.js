@@ -41,19 +41,21 @@ export default (state = { }, action) => {
             // action payload is the timelineAnimalItems
             nextState.assignedAnimals = [];
             nextState.availableAnimals = [];
-            nextState.allAnimals.forEach(animal => {
-                const assigned = action.payload.find(item => {
-                    return item.AnimalId === animal.Id && !item.IsDeleted;
-                })
+            if (nextState.allAnimals) {
+                nextState.allAnimals.forEach(animal => {
+                    const assigned = action.payload.find(item => {
+                        return item.AnimalId === animal.Id && !item.IsDeleted;
+                    })
 
-                if (assigned) {
-                    nextState.assignedAnimals.push({...animal, EndDate: assigned.EndDate});
-                    animal.assigned = true;
-                }
-                else {
-                    nextState.availableAnimals.push({...animal});
-                }
-            })
+                    if (assigned) {
+                        nextState.assignedAnimals.push({...animal, EndDate: assigned.EndDate});
+                        animal.assigned = true;
+                    }
+                    else {
+                        nextState.availableAnimals.push({...animal});
+                    }
+                })
+            }
             break;
         case AVAILABLE_ANIMAL_LIST_FILTERED:
             // action payload is the filter value

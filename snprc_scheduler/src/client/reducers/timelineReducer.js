@@ -291,6 +291,7 @@ export default (state = { }, action) => {
                     item = { ...item };
                     item.StudyDay = parseInt(StudyDay);
                     item.ScheduleDate = ScheduleDate;
+                    item.IsDirty = true;
                 }
                 return item;
             });
