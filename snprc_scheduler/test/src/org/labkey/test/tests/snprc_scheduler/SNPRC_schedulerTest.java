@@ -27,6 +27,7 @@ import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.util.ApiPermissionsHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,7 @@ import static org.labkey.remoteapi.query.Filter.Operator.EQUAL;
 @Category({SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
 @FixMethodOrder(MethodSorters. NAME_ASCENDING)
-public class SNPRC_schedulerTest extends BaseWebDriverTest
+public class SNPRC_schedulerTest extends BaseWebDriverTest implements JavascriptExecutor
 {
     private final String PROJECTNAME = "SNPRC_schedulerTest Project";
 
@@ -90,7 +91,8 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        _containerHelper.deleteProject(getProjectName(), afterTest);
+        //if (!afterTest)
+            _containerHelper.deleteProject(getProjectName(), afterTest);
     }
 
     private void doSetup()
@@ -134,21 +136,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         {
             e.printStackTrace();
         }
-
-        //defineQCStates();
-//
-//        Connection connection = createDefaultConnection(true);
-//        SetupScripts.setupProjects(connection, getCurrentContainerPath());
     }
-
-
-//    protected void defineQCStates()
-//    {
-//        log("============================================================ \n Define QC states for EHR study\n=================================================================");
-//
-//        beginAt("/ehr/" + getCurrentContainerPath() + "/ensureQCStates.view");
-//        clickButton("OK");
-//    }
 
     @LogMethod
     protected void setEHRModuleProperties()

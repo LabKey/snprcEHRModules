@@ -17,11 +17,6 @@
     cursor: default !important;
 }
 
-/*.scheduler-timeline-list .react-grid-HeaderCell,*/
-/*.scheduler-project-list .react-grid-HeaderCell {*/
-    /*width: 100% !important;*/
-/*}*/
-
 .scheduler-timeline-list,
 scheduler-project-list{
     padding-right: 0px !important;
@@ -65,4 +60,10 @@ scheduler-project-list{
 
 .scheduler-bs-accordion input.form-control {
     width: 100% !important;
+}
+
+.scheduler-bs-accordion-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

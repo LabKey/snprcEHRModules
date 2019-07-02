@@ -61,7 +61,6 @@ public class TimelineItem
             this.setDirty(json.has(TIMELINEITEM_IS_DIRTY) && !json.isNull(TIMELINEITEM_IS_DIRTY) && json.getBoolean(TIMELINEITEM_IS_DIRTY));
 
             String scheduleDateString = json.has(TIMELINEITEM_SCHEDULE_DATE) && !json.isNull(TIMELINEITEM_SCHEDULE_DATE) ? json.getString(TIMELINEITEM_SCHEDULE_DATE) : null;
-            Date scheduleDate = null;
 
             try
             {
