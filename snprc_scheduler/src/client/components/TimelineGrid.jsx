@@ -315,11 +315,11 @@ class TimelineGrid extends React.Component {
             allRows = rows;
         }
         // Loading first time
-        else if (selectedTimeline == null && typeof rowId === "undefined" && !selectedTimeline.forceRowRecalc) {
+        else if (selectedTimeline == null && typeof rowId === "undefined") {
             allRows = rows;
         }
         // local state needs to be reset (all timelines for selected project have been deleted)
-        else if (selectedTimeline == null && typeof rowId !== "undefined" && !selectedTimeline.forceRowRecalc) {
+        else if (selectedTimeline == null && typeof rowId !== "undefined") {
             this.setState(this.getInitState());
         }
         else { // Reload from saved data
