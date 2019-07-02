@@ -1,6 +1,7 @@
 package org.labkey.snprc_scheduler.domains;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.labkey.api.collections.ArrayListMap;

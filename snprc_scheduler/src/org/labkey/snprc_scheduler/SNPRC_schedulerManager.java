@@ -481,18 +481,23 @@ public class SNPRC_schedulerManager
 
     /**
      * Update the TimelineItem table (called by SNPRC_schedulerServiceImpl.saveTimelineData()
+     * NOTE WELL: studyDayNotes will be deleted if the corresponding timelineItem is deleted and a studyDayNote deletion is requested
      *
      * @param c             = Container object
      * @param u             = User object
      * @param timelineItems = List of TimelineItem objects
+     * @param studyDayNotes = List of StudyDayNote objects
      * @param errors = exception object
      */
-    public void updateTimelineItems(Container c, User u, List<TimelineItem> timelineItems, BatchValidationException errors)
+    public void updateTimelineItems(Container c, User u, List<TimelineItem> timelineItems, List<StudyDayNotes> studyDayNotes, BatchValidationException errors)
     {
         UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
         TableInfo timelineItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ITEM, schema.getDefaultContainerFilter());
-        QueryUpdateService qus = timelineItemTable.getUpdateService();
+        QueryUpdateService tiQus = timelineItemTable.getUpdateService();
+
+        TableInfo studyDayNotesTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_STUDY_DAY_NOTES, schema.getDefaultContainerFilter());
+        QueryUpdateService sdnQus = studyDayNotesTable.getUpdateService();
 
         try
         {
@@ -508,7 +513,7 @@ public class SNPRC_schedulerManager
                     timelineItem.setObjectId(new GUID().toString());
 
                     timelineItemRows.add(timelineItem.toMap(c));
-                    List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineItemRows, errors, null, null);
+                    List<Map<String, Object>> insertedRow = tiQus.insertRows(u, c, timelineItemRows, errors, null, null);
 
                     // add updated values returned from db call
                     if (insertedRow != null)
@@ -516,16 +521,50 @@ public class SNPRC_schedulerManager
                         timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
                         timelineItem.setTimelineItemId((Integer) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID));
                     }
+
                 }
                 // delete existing row
                 else if (timelineItem.getDeleted())
                 {
+
+                    // delete studyDayNote before the timelineItem if it is marked for deletion
+                    try
+                    {
+                        List<StudyDayNotes> sdnToRemove = new ArrayList<>();
+
+                        for (StudyDayNotes studyDayNote : studyDayNotes)
+                        {
+                            // StudyDayNote can match multiple timelineItem rows - the objectId is updated so that it won't be inserted again
+                            if (studyDayNote.getStudyDay() == timelineItem.getStudyDay() && studyDayNote.getDeleted() == true)
+                            {
+                                Map<String, Object> sdnPkMap = new HashMap<>();
+                                List<Map<String, Object>> sdnPkList = new ArrayList<>();
+
+                                sdnPkMap.put(StudyDayNotes.STUDYDAY_OBJECT_ID, studyDayNote.getObjectId());
+                                sdnPkList.add(sdnPkMap);
+                                List<Map<String, Object>> deletedRow = sdnQus.deleteRows(u, c, sdnPkList, null, null);
+
+                                // remove studyDayNote that was deleted from the list
+                                if (deletedRow != null)
+                                {
+                                    sdnToRemove.add(studyDayNote); // save the studyDayNote for removal
+                                }
+                            }
+                        }
+                        studyDayNotes.removeAll(sdnToRemove);
+                    }
+                    catch (QueryUpdateServiceException | BatchValidationException | SQLException  e)
+                    {
+                        errors.addRowError(new ValidationException(e.getMessage()));
+                    }
+
+                    // delete the timelineItem row
                     Map<String, Object> pkMap = new HashMap<>();
                     List<Map<String, Object>> pkList = new ArrayList<>();
 
                     pkMap.put(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID, timelineItem.getTimelineItemId());
                     pkList.add(pkMap);
-                    qus.deleteRows(u, c, pkList, null, null);
+                    tiQus.deleteRows(u, c, pkList, null, null);
 
                     toRemove.add(timelineItem); // save the timelineItem for removal
                 }
@@ -539,7 +578,7 @@ public class SNPRC_schedulerManager
                     pkMap.put(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID, timelineItem.getTimelineItemId());
                     pkList.add(pkMap);
 
-                    List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineItemRows, pkList, null, null);
+                    List<Map<String, Object>> updatedRow = tiQus.updateRows(u, c, timelineItemRows, pkList, null, null);
                     // ToDo: what should we do with the updated row map?
                 }
             }
@@ -551,12 +590,13 @@ public class SNPRC_schedulerManager
             errors.addRowError(new ValidationException(e.getMessage()));
         }
     }
+
     /**
      * Update the TimelineItem table (called by SNPRC_schedulerServiceImpl.saveTimelineData()
      *
      * @param c             = Container object
      * @param u             = User object
-     * @param studyDayNotes = List of TimelineItem objects
+     * @param studyDayNotes = List of StudyDayNotes objects
      * @param errors = exception object
      */
     public void updateStudyDayNotes(Container c, User u, List<StudyDayNotes> studyDayNotes, BatchValidationException errors)
@@ -622,6 +662,7 @@ public class SNPRC_schedulerManager
             errors.addRowError(new ValidationException(e.getMessage()));
         }
     }
+
 
     /**
      * Update the TimelineProjectItem table (called by SNPRC_schedulerServiceImpl.saveTimelineData()

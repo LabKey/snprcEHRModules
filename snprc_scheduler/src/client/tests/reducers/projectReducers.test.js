@@ -1,11 +1,7 @@
 import projectReducer from '../../reducers/projectReducer';
 import {projectData} from '../fixtures/projectData';
-import {animalData} from '../fixtures/animalData';
 
 import {
-    ANIMAL_LIST_FILTERED,
-    ANIMAL_LIST_RECEIVED,
-    ANIMAL_LIST_REQUEST_FAILED,
     PROJECT_LIST_FILTERED,
     PROJECT_LIST_RECEIVED,
     PROJECT_LIST_REQUEST_FAILED,
@@ -21,15 +17,6 @@ let projectState = {
     projects: [...projectData]
 };
 
-const animalState = {
-    0: animalData[0],
-    1: animalData[1],
-    2: animalData[2],
-    errors: [],
-    allAnimals: [...animalData],
-    animals: [...animalData]
-};
-
 test('make sure default state gets returns an empty error array.', () => {
     const state = projectReducer(undefined, {type: '@@init'});
     expect(state).toEqual({"errors": []});
@@ -43,22 +30,11 @@ test('Should set project list', () => {
     const state = projectReducer(projectData, action);
     expect(state).toEqual(
             {
-                    ...projectState,
-                    "selectedProject": {}
+                    ...projectState
             });
 });
 
-test('Should set animal list', () => {
-    const action = {
-        type: ANIMAL_LIST_RECEIVED,
-        payload: animalData
-    };
-    const state = projectReducer(animalData, action);
-    expect(state).toEqual(
-            {
-                    ...animalState
-            });
-});
+
 
 test('Should not assign projects when an error occurs', () => {
     const action = {
@@ -72,21 +48,6 @@ test('Should not assign projects when an error occurs', () => {
                 errors: [{}],
                 allProjects: [],
                 projects: []
-            });
-});
-
-test('Should not assign animals when an error occurs', () => {
-    const action = {
-        type: ANIMAL_LIST_REQUEST_FAILED,
-        payload: {}
-    };
-    const state = projectReducer(animalData, action);
-    expect(state).toEqual(
-            {
-                ...animalState,
-                errors: [{}],
-                allAnimals: [],
-                animals: []
             });
 });
 
@@ -114,33 +75,6 @@ test('Should select project using filter', () => {
                ...projectState,
                 projects : [projectData[0]]
             });
-});
-
-test('Should select animal using filter (test id & gender)', () => {
-    // search by id
-    let action = {
-        type: ANIMAL_LIST_FILTERED,
-        payload: animalData[0].Id.value
-    };
-    let state = projectReducer(animalState, action);
-    expect(state).toEqual(
-            {
-                ...animalState,
-                animals: [animalData[0]]
-            });
-
-    // search by gender
-    action = {
-        type: ANIMAL_LIST_FILTERED,
-        payload: 'M'
-    };
-    state = projectReducer(animalState, action);
-    expect(state).toEqual(
-            {
-                ...animalState,
-                animals: [animalData[1], animalData[2]]
-            });
-
 });
 
 test('Should do a descending sort on project data', () => {
