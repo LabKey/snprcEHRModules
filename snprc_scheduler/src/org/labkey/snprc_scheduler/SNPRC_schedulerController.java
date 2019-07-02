@@ -21,6 +21,7 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
+import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.snprc_scheduler.domains.Timeline;
@@ -30,7 +31,9 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,49 +100,65 @@ public class SNPRC_schedulerController extends SpringActionController
     // Get Timelines, timelineItems, and animal data for a given species with procedures scheduled
     // on the specified date.
 
-     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-     public class getScheduledTimelinesForSpecies extends MutatingApiAction<SimpleApiJsonForm>
-     {
+    @RequiresPermission(SNPRC_schedulerReadersPermission.class)
+    public class getScheduledTimelinesForSpeciesAction extends MutatingApiAction<SimpleApiJsonForm>
+    {
 
-         @Override
-         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
-         {
-             Map<String, Object> props = new HashMap<>();
-             PropertyValues pv = getPropertyValues();
-             String species = null;
-             try
-             {
-                 if (!pv.isEmpty())
-                 {
+        @Override
+        public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
+        {
+            Map<String, Object> props = new HashMap<>();
 
-                     try
-                     {
-                         species = pv.getPropertyValue("species").getValue().toString().toUpperCase();
-                         //String dateString = pv.getPropertyValue("Date").getValue().toString();
-                     }
-                     catch (Exception e)
-                     {
-                         props.put("success", false);
-                         props.put("message", e.getMessage());
-                     }
+            String species, dateString;
+            Date date;
+            List<JSONObject> timelines;
 
-                     List<JSONObject> timelines = SNPRC_schedulerService.get().getScheduledTimelinesForSpecies(getContainer(), getUser(),
-                             species, new BatchValidationException());
+            JSONObject json = form.getJsonObject();
 
-                     props.put("success", true);
-                     props.put("rows", timelines);
+            if (json != null)
+            {
+                try
+                {
+                    species = json.has("species") && !json.isNull("species") ? json.getString("species") : null;
+                    dateString = json.has("date") && !json.isNull("date") ? json.getString("date") : null;
 
-                 }
-             }
-             catch (Exception e)
-             {
-                 props.put("success", false);
-                 props.put("message", e.getMessage());
-             }
-             return new ApiSimpleResponse(props);
-         }
+                    // assume current date if date is not passed in
+                    date = (dateString == null ? new Date() : DateUtil.parseDateTime(dateString, Timeline.TIMELINE_DATE_FORMAT));
+                    if (species != null && date != null)
+                    {
+                        timelines = SNPRC_schedulerService.get().getScheduledTimelinesForSpecies(getContainer(), getUser(),
+                                species, date, new BatchValidationException());
 
-     }
+                        props.put("success", true);
+                        props.put("rows", timelines);
+                    }
+                    else
+                    {
+                        props.put("success", false);
+                        props.put("message", "Species and Schedule Date are required.");
+                    }
+                }
+                catch (ParseException e)
+                {
+                    props.put("success", false);
+                    props.put("message", "Bad date format. Required format is " + Timeline.TIMELINE_DATE_FORMAT);
+                }
+                catch (Exception e)
+                {
+                    props.put("success", false);
+                    props.put("message", e.getMessage());
+                }
+            }
+            else
+            {
+                props.put("success", false);
+                props.put("message", "JSON data missing in request.");
+            }
+
+            return new ApiSimpleResponse(props);
+        }
+
+    }
 
     /**
      * getActiveProjectsAction
@@ -204,21 +223,21 @@ public class SNPRC_schedulerController extends SpringActionController
                         // NOTE WELL: only returning Research projects!
 //                        if (project.get("ProjectType") != null && project.get("ProjectType").toString().toLowerCase().equals("research"))
 //                        {
-                            JSONObject jsonProject = new JSONObject(project);
-                            jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
+                        JSONObject jsonProject = new JSONObject(project);
+                        jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
 
-                            SimpleFilter filter = new SimpleFilter();
-                            filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
+                        SimpleFilter filter = new SimpleFilter();
+                        filter.addCondition(FieldKey.fromString("project"), project.get("referenceId"), CompareType.EQUAL);
 
-                            //project (AKA chargeId) is the PK - should only get one row back
-                            Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
+                        //project (AKA chargeId) is the PK - should only get one row back
+                        Map<String, Object> ehrProject = new TableSelector(ti, filter, null).getMap(); //getObject(Map.class);
 
-                            if (ehrProject != null)
-                            {
-                                jsonProject.put("Iacuc", ehrProject.get("protocol"));
-                                jsonProject.put("CostAccount", ehrProject.get("account"));
-                            }
-                            jsonProjects.add(jsonProject);
+                        if (ehrProject != null)
+                        {
+                            jsonProject.put("Iacuc", ehrProject.get("protocol"));
+                            jsonProject.put("CostAccount", ehrProject.get("account"));
+                        }
+                        jsonProjects.add(jsonProject);
 //                        }
                     }
                     props.put("success", true);
@@ -255,11 +274,11 @@ public class SNPRC_schedulerController extends SpringActionController
             }
 
             // make sure timelineId is an integer or is null
-            if (json.has("TimelineId") && !json.isNull(Timeline.TIMELINE_ID) )
+            if (json.has("TimelineId") && !json.isNull(Timeline.TIMELINE_ID))
             {
                 try
                 {
-                   json.getInt("TimelineId");
+                    json.getInt("TimelineId");
                 }
                 catch (Exception e)
                 {

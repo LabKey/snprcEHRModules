@@ -30,6 +30,8 @@ public class StudyDayNotes
 
     public StudyDayNotes()
     {
+        this.setDeleted(false);
+        this.setDirty(false);
     }
 
     public StudyDayNotes(JSONObject json) throws RuntimeException
