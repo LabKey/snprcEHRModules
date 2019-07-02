@@ -14,7 +14,7 @@ import _ from 'lodash';
 export const verboseOutput = false;
 const SEARCH_MODE_LABKEY = 1;
 const SEARCH_MODE_SND = 2;
-var SEARCH_MODE = SEARCH_MODE_SND;
+let SEARCH_MODE = SEARCH_MODE_SND;
 
 
 import {
@@ -28,32 +28,18 @@ import {
     PROJECT_LIST_SORTED
 } from "../actions/dataActions";
 
-function hasValue (source, value)  {
-    if (source == null) source = '';
+export const hasValue = (source, value) => {
+    if (source == null) {
+        source = '';
+    }
     source = source.value ? source.value : source;
     source = (source + '').toUpperCase();
-    if (source.indexOf(value) > -1) return true;
-    return false;
+    return source.indexOf(value) > -1;
+
 };
 
-function cloneTimeline(source) {
-    let nt = Object.assign({ }, source);
-    nt = Object.assign(nt, { TimelineId: -1, revisionNum: -1, IsDraft: true });
-    
-    
-    
-    //console.log('source object:');
-    //console.log(source);
-    //nt.TimelineId = -1;
-    //nt.RevisionNum = -1;
-    //nt.IsDraft = true;
-    console.log('cloned object:');
-    console.log(nt);
-    return nt;
-}
-
 export default (state = { }, action) => {  
-    let nextState = Object.assign({ }, state);
+    let nextState = { ...state };
     let value = '';
     nextState.errors = [];
     switch (action.type) { 
@@ -61,23 +47,12 @@ export default (state = { }, action) => {
             // action payload is the project array
             nextState.allProjects = action.payload;
             nextState.projects = action.payload;
-            nextState.selectedProject = {};
             break;
-        case ANIMAL_LIST_RECEIVED:
-            // action payload is the animal array
-            nextState.allAnimals = action.payload;
-            nextState.animals = action.payload;
-            break;
+
         case PROJECT_LIST_REQUEST_FAILED:
             // action payload is the exception
             nextState.allProjects = [];
             nextState.projects = [];
-            nextState.errors.push(action.payload);
-            break;
-        case ANIMAL_LIST_REQUEST_FAILED:
-            // action payload is the exception
-            nextState.allAnimals = [];
-            nextState.animals = [];
             nextState.errors.push(action.payload);
             break;
         case PROJECT_SELECTED:
@@ -117,18 +92,7 @@ export default (state = { }, action) => {
                 });               
             } else nextState.projects = nextState.allProjects;
             break;
-        case ANIMAL_LIST_FILTERED:
-            // action payload is the filter value
-            value = (action.payload + '').toUpperCase();
-            if (value != '') {
-                nextState.animals = [];
-                nextState.allAnimals.forEach((a) => {
-                    if (hasValue(a.Id, value) || hasValue(a.Age, value) || 
-                        hasValue(a.Gender, value) || hasValue(a.Weight, value))
-                    { nextState.animals.push(a); }
-                })
-            } else nextState.animals = nextState.allAnimals;
-            break;
+
         case PROJECT_LIST_SORTED:
             // action payload is an object containing the sort parameters { field: ?, direction: ? }
             if (action.payload.direction == "NONE") nextState.projects = nextState.allProjects;

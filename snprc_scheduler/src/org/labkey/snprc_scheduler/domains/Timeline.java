@@ -459,6 +459,7 @@ public class Timeline //extends Entity
 
     public Boolean getInUse()
     {
+//        return true;
         return _isInUse;
     }
 
@@ -664,7 +665,7 @@ public class Timeline //extends Entity
             {
                 jsonStudyDayNotes.put(studyDayNote.toJSON(c));
             }
-            json.put(TIMELINE_ANIMAL_ITEMS, jsonStudyDayNotes);
+            json.put(TIMELINE_STUDY_DAY_NOTES, jsonStudyDayNotes);
         }
         return json;
     }
