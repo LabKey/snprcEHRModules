@@ -311,15 +311,15 @@ class TimelineGrid extends React.Component {
         let allRows = [];
 
         // If we have already loaded the saved timeline data, don't reload (prevents infinite loop)
-        if (selectedTimeline != null && selectedTimeline.RowId === rowId && selectedTimeline.RevisionNum === revisionNum) {
+        if (selectedTimeline != null && selectedTimeline.RowId === rowId && selectedTimeline.RevisionNum === revisionNum && !selectedTimeline.forceRowRecalc) {
             allRows = rows;
         }
         // Loading first time
-        else if (selectedTimeline == null && typeof rowId === "undefined") {
+        else if (selectedTimeline == null && typeof rowId === "undefined" && !selectedTimeline.forceRowRecalc) {
             allRows = rows;
         }
         // local state needs to be reset (all timelines for selected project have been deleted)
-        else if (selectedTimeline == null && typeof rowId !== "undefined") {
+        else if (selectedTimeline == null && typeof rowId !== "undefined" && !selectedTimeline.forceRowRecalc) {
             this.setState(this.getInitState());
         }
         else { // Reload from saved data
@@ -405,7 +405,7 @@ class TimelineGrid extends React.Component {
 
                 this.loadStudyDayNotes(tlRows, dirty);
             }
-            onUpdateSelectedTimeline({lastRowIdx: lastRowIdx}, dirty);
+            onUpdateSelectedTimeline({lastRowIdx: lastRowIdx, forceRowRecalc: false}, dirty);
 
             // Sorts and sets rows in grid state
             let newState = this.sortRows(row.concat(tlRows), sortColumn, sortMinorColumn, sortDirection, false);

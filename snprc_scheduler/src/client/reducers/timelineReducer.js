@@ -235,6 +235,7 @@ export default (state = { }, action) => {
 
             nextState.timelines = timelines;
             nextState.selectedTimeline = action.payload;
+            nextState.selectedTimeline.forceRowRecalc = true;
 
             // Set Study Day 0 if necessary
             setStudyDay0(nextState.selectedTimeline);
