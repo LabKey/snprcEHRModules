@@ -51,7 +51,7 @@ public class SNPRC_schedulerManager
         // prevent external construction with a private default constructor
     }
 
-    public static UserSchema getSNPRC_schedulerUserSchema(Container c, User u)
+    public static SNPRC_schedulerUserSchema getSNPRC_schedulerUserSchema(Container c, User u)
     {
         return new SNPRC_schedulerUserSchema(u, c);
     }
@@ -102,13 +102,15 @@ public class SNPRC_schedulerManager
         return userName;
     }
     // TODO: fb_snprc_edit
-    public List<TimelineItem> getTimelineItems(String timelineObjectId,@Nullable Date scheduleDate) throws ApiUsageException
+    public List<TimelineItem> getTimelineItems(Container c, User u, String timelineObjectId, @Nullable Date scheduleDate) throws ApiUsageException
     {
 
         List<TimelineItem> timelineItems;
         try
         {
-            TableInfo timelineItemTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem();
+            SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ITEM, schema.getDefaultContainerFilter(), false, false);
+            //TableInfo timelineItemTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem();
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
             if (scheduleDate != null)
@@ -127,13 +129,15 @@ public class SNPRC_schedulerManager
     }
 
     // TODO: fb_snprc_edit
-    public List<StudyDayNotes> getStudyDayNotes(String timelineObjectId) throws ApiUsageException
+    public List<StudyDayNotes> getStudyDayNotes(Container c, User u, String timelineObjectId) throws ApiUsageException
     {
 
         List<StudyDayNotes> studyDayNotes;
         try
         {
-            TableInfo studyDayTable = SNPRC_schedulerSchema.getInstance().getTableInfoStudyDayNotes();
+            SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+            TableInfo studyDayTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_STUDY_DAY_NOTES, schema.getDefaultContainerFilter(), false, false);
+            //TableInfo studyDayTable = SNPRC_schedulerSchema.getInstance().getTableInfoStudyDayNotes();
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(StudyDayNotes.STUDYDAY_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
             studyDayNotes = new TableSelector(studyDayTable, filter, null).getArrayList(StudyDayNotes.class);
@@ -154,8 +158,9 @@ public class SNPRC_schedulerManager
         List<TimelineAnimalJunction> timelineAnimalItems;
         try
         {
-            //UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
-            TableInfo timelineAnimalJunctionTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction();
+            SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineAnimalJunctionTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ANIMAL_JUNCTION, schema.getDefaultContainerFilter(), false, false);
+            //TableInfo timelineAnimalJunctionTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction();
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
 
@@ -192,16 +197,25 @@ public class SNPRC_schedulerManager
         return timelineAnimalItems;
     }
 
-    public List<TimelineProjectItem> getTimelineProjectItems(String timelineObjectId) throws ApiUsageException
+    public List<TimelineProjectItem> getTimelineProjectItems(Container c, User u, String timelineObjectId, @Nullable List<TimelineItem> timelineItems) throws ApiUsageException
     {
 
         List<TimelineProjectItem> timelineProjectItems;
         try
         {
-            //UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
-            TableInfo timelineProjectItemTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineProjectItem();
+            SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+            TableInfo timelineProjectItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_PROJECT_ITEM, schema.getDefaultContainerFilter(), false, false);
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
+
+            // add timelineItem filter if needed
+            if (timelineItems != null)
+            {
+                List<Integer> projectItemIds = new ArrayList<>();
+                timelineItems.forEach(row -> projectItemIds.add( row.getProjectItemId()));
+                filter.addInClause(FieldKey.fromParts(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID), projectItemIds );
+
+            }
 
             timelineProjectItems = new TableSelector(timelineProjectItemTable, filter, null).getArrayList(TimelineProjectItem.class);
         }
@@ -232,7 +246,7 @@ public class SNPRC_schedulerManager
         if (timelineId == null || revisionNum == null || timelineObjectId == null)
             errors.addRowError(new ValidationException("TimelineObjectId, TimelineId and RevisionNum are required - cannot deleted record."));
 
-        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
         TimelineTable timelineTable = (TimelineTable) schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter());
 
         // Does timeline exist?
@@ -274,7 +288,7 @@ public class SNPRC_schedulerManager
         validateBeforeDelete(c, u, timeline, errors);
         if (!errors.hasErrors())
         {
-            UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+            SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
             TimelineTable timelineTable = (TimelineTable) schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter());
             DbScope scope = schema.getDbSchema().getScope();
             QueryUpdateService qus;
@@ -415,7 +429,7 @@ public class SNPRC_schedulerManager
      */
     public void updateTimeline(Container c, User u, Timeline timeline, BatchValidationException errors)
     {
-        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
         TableInfo timelineTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter());
         QueryUpdateService qus = timelineTable.getUpdateService();
@@ -446,6 +460,7 @@ public class SNPRC_schedulerManager
                     timeline.setCreatedBy(c, u, (Integer) insertedRow.get(0).get("CreatedBy"));
                     timeline.setModified((Date) insertedRow.get(0).get("Modified"));
                     timeline.setModifiedBy(c, u, (Integer) insertedRow.get(0).get("ModifiedBy"));
+                    timeline.setDirty(false);
                 }
 
                 if (errors.hasErrors())
@@ -466,9 +481,12 @@ public class SNPRC_schedulerManager
                 pkList.add(pkMap);
                 List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineRows, pkList, null, null);
                 // add updated values returned from db call
-                timeline.setModified((Date) updatedRow.get(0).get("Modified"));
-                timeline.setModifiedBy(c, u, (Integer) updatedRow.get(0).get("ModifiedBy"));
-
+                if (updatedRow != null)
+                {
+                    timeline.setModified((Date) updatedRow.get(0).get("Modified"));
+                    timeline.setModifiedBy(c, u, (Integer) updatedRow.get(0).get("ModifiedBy"));
+                    timeline.setDirty(false);
+                }
             }
         }
         catch (QueryUpdateServiceException | BatchValidationException | SQLException | DuplicateKeyException | InvalidKeyException e)
@@ -491,7 +509,7 @@ public class SNPRC_schedulerManager
      */
     public void updateTimelineItems(Container c, User u, List<TimelineItem> timelineItems, List<StudyDayNotes> studyDayNotes, BatchValidationException errors)
     {
-        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
         TableInfo timelineItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ITEM, schema.getDefaultContainerFilter());
         QueryUpdateService tiQus = timelineItemTable.getUpdateService();
@@ -520,6 +538,7 @@ public class SNPRC_schedulerManager
                     {
                         timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
                         timelineItem.setTimelineItemId((Integer) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID));
+                        timelineItem.setDirty(false);
                     }
 
                 }
@@ -579,7 +598,10 @@ public class SNPRC_schedulerManager
                     pkList.add(pkMap);
 
                     List<Map<String, Object>> updatedRow = tiQus.updateRows(u, c, timelineItemRows, pkList, null, null);
-                    // ToDo: what should we do with the updated row map?
+                    if (updatedRow != null)
+                    {
+                        timelineItem.setDirty(false);
+                    }
                 }
             }
             // remove timelineItems that were deleted
@@ -601,7 +623,7 @@ public class SNPRC_schedulerManager
      */
     public void updateStudyDayNotes(Container c, User u, List<StudyDayNotes> studyDayNotes, BatchValidationException errors)
     {
-        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
         TableInfo studyDayNotesTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_STUDY_DAY_NOTES, schema.getDefaultContainerFilter());
         QueryUpdateService qus = studyDayNotesTable.getUpdateService();
@@ -626,6 +648,7 @@ public class SNPRC_schedulerManager
                     if (insertedRow != null)
                     {
                         studyDayNote.setObjectId((String) insertedRow.get(0).get(StudyDayNotes.STUDYDAY_OBJECT_ID));
+                        studyDayNote.setDirty(false);
                     }
                 }
                 // delete existing row
@@ -651,7 +674,10 @@ public class SNPRC_schedulerManager
                     pkList.add(pkMap);
 
                     List<Map<String, Object>> updatedRow = qus.updateRows(u, c, studyDayNoteRows, pkList, null, null);
-                    // ToDo: what should we do with the updated row map?
+                    if (updatedRow != null)
+                    {
+                        studyDayNote.setDirty(false);
+                    }
                 }
             }
             // remove timelineItems that were deleted
@@ -674,7 +700,7 @@ public class SNPRC_schedulerManager
      */
     public void updateTimelineProjectItems(Container c, User u, List<TimelineProjectItem> timelineProjectItems, BatchValidationException errors)
     {
-        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
         TableInfo timelineProjectItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_PROJECT_ITEM, schema.getDefaultContainerFilter());
         QueryUpdateService qus = timelineProjectItemTable.getUpdateService();
@@ -701,6 +727,7 @@ public class SNPRC_schedulerManager
                     {
                         timelineProjectItem.setObjectId((String) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
                         timelineProjectItem.setProjectItemId((Integer) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID));
+                        timelineProjectItem.setDirty(false);
                     }
                 }
                 // delete existing row
@@ -732,7 +759,8 @@ public class SNPRC_schedulerManager
 
                     if (updatedRow != null)
                     {
-                        timelineProjectItem.setObjectId((String) updatedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
+                        //timelineProjectItem.setObjectId((String) updatedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
+                        timelineProjectItem.setDirty(false);
                     }
                 }
             }
@@ -755,7 +783,7 @@ public class SNPRC_schedulerManager
      */
     public void updateTimelineAnimalItems(@NotNull Container c, @NotNull User u, @NotNull List<TimelineAnimalJunction> timelineAnimalItems, @NotNull BatchValidationException errors)
     {
-        UserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
 
         TableInfo timelineAnimalJunctionTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ANIMAL_JUNCTION, schema.getDefaultContainerFilter());
 
@@ -787,6 +815,7 @@ public class SNPRC_schedulerManager
                         {
                             timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
                             timelineAnimalItem.setRowId((Integer) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID));
+                            timelineAnimalItem.setDirty(false);
                         }
                     }
                 }
@@ -816,7 +845,8 @@ public class SNPRC_schedulerManager
                     List<Map<String, Object>> updatedRow = qus.updateRows(u, c, timelineAnimalItemRows, pkList, null, null);
                     if (updatedRow != null)
                     {
-                        timelineAnimalItem.setObjectId((String) updatedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                        //timelineAnimalItem.setObjectId((String) updatedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                        timelineAnimalItem.setDirty(false);
                     }
                 }
             }

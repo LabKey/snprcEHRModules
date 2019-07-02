@@ -6,18 +6,20 @@ import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbScope;
+import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
+import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.FieldKey;
-import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
 import org.labkey.snprc_scheduler.SNPRC_schedulerSchema;
+import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
 import org.labkey.snprc_scheduler.domains.StudyDayNotes;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
@@ -25,6 +27,7 @@ import org.labkey.snprc_scheduler.domains.TimelineItem;
 import org.labkey.snprc_scheduler.domains.TimelineProjectItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +58,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         List<JSONObject> timelinesJson = new ArrayList<>();
         try
         {
-            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+            SNPRC_schedulerUserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
             TableInfo timelineTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter(), false, false);
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("ProjectObjectId"), projectObjectId, CompareType.EQUAL);
 
@@ -63,10 +66,10 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
             for (Timeline timeline : timelines)
             {
-                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(timeline.getObjectId(), null));
+                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId(), null));
                 timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
-                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(timeline.getObjectId()));
-                timeline.setStudyDayNotes(SNPRC_schedulerManager.get().getStudyDayNotes(timeline.getObjectId()));
+                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId(), null));
+                timeline.setStudyDayNotes(SNPRC_schedulerManager.get().getStudyDayNotes(c, u, timeline.getObjectId()));
                 timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
                 timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
 
@@ -83,23 +86,40 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
 
     //TODO: need to add scheduleDate criteria
-    public List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, BatchValidationException errors) throws ApiUsageException
+    public List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, Date date, BatchValidationException errors) throws ApiUsageException
     {
         List<JSONObject> timelinesJson = new ArrayList<>();
         try
         {
-            UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+            SNPRC_schedulerUserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
             TableInfo timelineTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter(), false, false);
 
-            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Species"), species, CompareType.EQUAL);
+            // only return timelines with procedures scheduled on specified date
+            SQLFragment sql = new SQLFragment();
+            sql.append("SELECT DISTINCT t." + Timeline.TIMELINE_OBJECTID);
+            sql.append(" FROM ");
+            sql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimeline(), "t");
+            sql.append(" JOIN ");
+            sql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem(), "ti");
+            sql.append(" ON t." + Timeline.TIMELINE_OBJECTID + " = ti." + TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID);
+            sql.append(" WHERE " + "ti." + TimelineItem.TIMELINEITEM_SCHEDULE_DATE  + " = ?" ).add(date);
+
+            SqlSelector selector = new SqlSelector(SNPRC_schedulerSchema.getInstance().getSchema(), sql);
+
+            List<String> objectIds = new ArrayList<>();
+            selector.forEachMap(row -> objectIds.add( (String) row.get(Timeline.TIMELINE_OBJECTID)));
+
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_SPECIES), species, CompareType.EQUAL);
+            filter.addInClause(FieldKey.fromParts(Timeline.TIMELINE_OBJECTID), objectIds );
 
             List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
 
             for (Timeline timeline : timelines)
             {
-                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(timeline.getObjectId(), null));
+                timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId(), date));
                 timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
-                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(timeline.getObjectId()));
+                timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId(), timeline.getTimelineItems()));
+
                 timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
                 timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
 
@@ -114,10 +134,6 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         return timelinesJson;
     }
 
-
-
-
-
     /**
      * Save Timeline and associated datasets (called by SNPRC_schedulerServiceImpl.SNPRC_schedulerController.updateTimelineAction())
      *
@@ -126,7 +142,6 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
      * @param json = JSONObject from submitted form
      * @return errors = exception object
      */
-    // TODO: Create automated test cases
     public JSONObject saveTimelineData(Container c, User u, JSONObject json, BatchValidationException errors)
     {
 
@@ -138,7 +153,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         List<TimelineAnimalJunction> timelineAnimalItems = new ArrayList<>();
         List<StudyDayNotes> studyDayNotes = new ArrayList<>();
 
-        UserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
+        SNPRC_schedulerUserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
         //UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
         DbScope scope = schema.getDbSchema().getScope();
 
@@ -146,9 +161,10 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         if (timeline.getDeleted())
         {
             SNPRC_schedulerManager.get().deleteTimeline(c, u, timeline, errors);
-
-            // TODO: need to add response json
-
+            if (!errors.hasErrors())
+            {
+                responseJson = new JSONObject();
+            }
         }
         else
         {
