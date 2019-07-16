@@ -196,7 +196,7 @@ public class SNPRC_schedulerServiceValidator
                     // only admins and reviewers can change QCState
                     if (!c.hasPermission(u, SNPRC_schedulerReviewersPermission.class) && !c.hasPermission(u, SNPRC_schedulerAdminPermission.class))
                     {
-                        errors.addRowError(new ValidationException("Timeline is not in editable Draft state"));  //tested!
+                        errors.addRowError(new ValidationException("Admin or Review permission required to edit timelines in non-draft state."));  //tested!
                         throw errors;
                     }
                     else
