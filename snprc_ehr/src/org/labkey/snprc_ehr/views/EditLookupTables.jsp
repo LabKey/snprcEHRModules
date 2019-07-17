@@ -95,6 +95,8 @@
                     {queryName: 'drug_categories', schemaName: 'ehr_lookups', title: 'Drug Categories'},
                     {queryName: 'conc_units', schemaName: 'ehr_lookups', title: 'Drug Concentration Units'},
                     {queryName: 'dosage_units', schemaName: 'ehr_lookups', title: 'Drug Dosage Units'},
+                    {queryName: 'ValidDSGroup', schemaName: 'ehr_lookups', title: 'Diagnosis Groups'},
+                    {queryName: 'ValidDXList', schemaName: 'ehr_lookups', title: 'Diagnosis Lists'},
                     {queryName: 'volume_units', schemaName: 'ehr_lookups', title: 'Drug Volume Units'},
                     //{queryName: 'drug_defaults', schemaName: 'ehr_lookups', title: 'Drug Default Values'},
                     {queryName: 'routes', schemaName: 'ehr_lookups', title: 'Drug Routes'},
