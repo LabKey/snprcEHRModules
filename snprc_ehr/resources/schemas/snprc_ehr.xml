@@ -1412,6 +1412,102 @@
             </column>
         </columns>
         <tableTitle>Valid Diets</tableTitle>
+
+    </table>
+    <table tableName="ValidDXGroup" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
+        <pkColumnName>DXGroup</pkColumnName>
+        <columns>
+            <column columnName="DXGroup"/>
+            <column columnName="ObjectId">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>Valid Diagnosis Groups</tableTitle>
+    </table>
+    <table tableName="ValidDXList" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
+        <pkColumnName>DXGroup, DX</pkColumnName>
+        <columns>
+            <column columnName="DXGroup"/>
+            <column columnName="DX"/>
+            <column columnName="ObjectId">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>Valid Diagnosis list</tableTitle>
     </table>
 </tables>
 

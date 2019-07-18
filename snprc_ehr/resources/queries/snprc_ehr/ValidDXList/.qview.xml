@@ -1,0 +1,11 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="DXGroup"/>
+        <column name="DX"/>
+        <column name="DXStatus"/>
+    </columns>
+    <sorts>
+        <sort column="DXGroup"/>
+        <sort column="DX"/>
+    </sorts>
+</customView>
