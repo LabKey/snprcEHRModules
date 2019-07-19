@@ -27,6 +27,7 @@ import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.util.ApiPermissionsHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,7 @@ import static org.labkey.remoteapi.query.Filter.Operator.EQUAL;
 @Category({SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
 @FixMethodOrder(MethodSorters. NAME_ASCENDING)
-public class SNPRC_schedulerTest extends BaseWebDriverTest
+public class SNPRC_schedulerTest extends BaseWebDriverTest implements JavascriptExecutor
 {
     private final String PROJECTNAME = "SNPRC_schedulerTest Project";
 
@@ -90,7 +91,8 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        _containerHelper.deleteProject(getProjectName(), afterTest);
+        //if (!afterTest)
+            _containerHelper.deleteProject(getProjectName(), afterTest);
     }
 
     private void doSetup()
@@ -134,21 +136,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         {
             e.printStackTrace();
         }
-
-        //defineQCStates();
-//
-//        Connection connection = createDefaultConnection(true);
-//        SetupScripts.setupProjects(connection, getCurrentContainerPath());
     }
-
-
-//    protected void defineQCStates()
-//    {
-//        log("============================================================ \n Define QC states for EHR study\n=================================================================");
-//
-//        beginAt("/ehr/" + getCurrentContainerPath() + "/ensureQCStates.view");
-//        clickButton("OK");
-//    }
 
     @LogMethod
     protected void setEHRModuleProperties()
@@ -267,14 +255,14 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         {
             goToProjectHome();
             //BeginPage page = BeginPage.beginAt(this, getProjectName());
-            runScriptExpectedFail(ts.saveTimelineScript(null, testProjectObjectId, projectItems));
+            runScriptExpectedFail(ts.saveTimelineScript(null, testProjectObjectId, projectItems, null, null));
             stopImpersonating();
         }
         // Verify EDITOR_ROLE can insert timeline data
         impersonate(EDITOR_USER.getEmail());
         {
             goToProjectHome();
-            runScript(ts.saveTimelineScript(null, testProjectObjectId, projectItems));
+            runScript(ts.saveTimelineScript(null, testProjectObjectId, projectItems, null, null));
             stopImpersonating();
         }
     }
@@ -284,13 +272,17 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
         TimelineScripts ts = new TimelineScripts();
 
         String testProjectObjectId = getTestProjectObjectId();
+        String timelineObjectId = getTestTimelineObjectId();
         ArrayList<Map<String, Object>> projectItems = getProjectItems(testProjectObjectId);
+        ArrayList<Map<String, Object>> timelineItems = getTimelineItems(timelineObjectId);
+        ArrayList<Map<String, Object>> studyDayNotes = getStudyDayNotes(timelineObjectId);
 
         // Verify EDITOR_ROLE can update timeline data
         impersonate(EDITOR_USER.getEmail());
         {
             goToProjectHome();
-            runScript(ts.saveTimelineScript(getTestTimelineObjectId(), testProjectObjectId, projectItems));
+
+            runScript(ts.saveTimelineScript(timelineObjectId, testProjectObjectId, projectItems, timelineItems, studyDayNotes));
             stopImpersonating();
         }
     }
@@ -403,6 +395,76 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest
 
     }
 
+    private ArrayList<Map<String, Object>> getTimelineItems(String timelineObjectId)
+    {
+        ArrayList<Map<String, Object>> timelineItems = new ArrayList<>();
+
+        Connection cn = createDefaultConnection(false);
+        SelectRowsCommand selectCmd = new SelectRowsCommand("snprc_scheduler", "TimelineItem");
+        Filter f = new Filter("timelineObjectId", timelineObjectId, EQUAL);
+        selectCmd.addSort("TimelineItemId", Sort.Direction.ASCENDING);
+
+        selectCmd.addFilter(f);
+
+        try
+        {
+            SelectRowsResponse response = selectCmd.execute(cn, getCurrentContainerPath());
+
+            Rowset rows = response.getRowset();
+            Map<String, Object> rowMap = null;
+
+            for (Row row : rows)
+            {
+                rowMap = new HashMap<>();
+                rowMap.put("timelineItemId", Integer.parseInt(row.getValue("timelineItemId").toString()));
+                rowMap.put("ObjectId", row.getValue("ObjectId"));
+                rowMap.put("TimelineItemId", row.getValue("TimelineItemId"));
+                timelineItems.add(rowMap);
+            }
+
+        }
+        catch (IOException | CommandException e)
+        {
+            // ignore
+        }
+
+        return timelineItems;
+
+    }
+    private ArrayList<Map<String, Object>> getStudyDayNotes(String timelineObjectId)
+    {
+        ArrayList<Map<String, Object>> studyDayNotes = new ArrayList<>();
+
+        Connection cn = createDefaultConnection(false);
+        SelectRowsCommand selectCmd = new SelectRowsCommand("snprc_scheduler", "StudyDayNotes");
+        Filter f = new Filter("TimelineObjectId", timelineObjectId, EQUAL);
+        selectCmd.addSort("StudyDay", Sort.Direction.ASCENDING);
+
+        selectCmd.addFilter(f);
+
+        try
+        {
+            SelectRowsResponse response = selectCmd.execute(cn, getCurrentContainerPath());
+
+            Rowset rows = response.getRowset();
+            Map<String, Object> rowMap = null;
+
+            for (Row row : rows)
+            {
+                rowMap = new HashMap<>();
+                rowMap.put("ObjectId", row.getValue("ObjectId"));
+                studyDayNotes.add(rowMap);
+            }
+
+        }
+        catch (IOException | CommandException e)
+        {
+            // ignore
+        }
+
+        return studyDayNotes;
+
+    }
     private String getTestTimelineObjectId()
     {
         Map<String, Integer> projectItems = new HashMap<>();

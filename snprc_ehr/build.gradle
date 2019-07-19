@@ -6,7 +6,7 @@ repositories
         }
 dependencies
         {
-            BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:customModules:ehr", depProjectConfig: "apiCompile")
+            BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiCompile")
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:optionalModules:snd", depProjectConfig: "apiCompile")
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":externalModules:labModules:LDK", depProjectConfig: "apiCompile")
             compile project( BuildUtils.getPlatformModuleProjectPath(project.gradle, "query"))

@@ -16,8 +16,10 @@ import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
+import org.labkey.snprc_scheduler.security.SNPRC_schedulerAdminRole;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerEditorsRole;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerReadersRole;
+import org.labkey.snprc_scheduler.security.SNPRC_schedulerReviewersRole;
 import org.labkey.snprc_scheduler.services.SNPRC_schedulerServiceImpl;
 import org.labkey.snprc_scheduler.view.SchedulerWebPart;
 
@@ -39,7 +41,7 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 18.27;
+        return 18.30;
     }
 
     @Override
@@ -76,6 +78,8 @@ public class SNPRC_schedulerModule extends DefaultModule
         // Security Roles
         RoleManager.registerRole(new SNPRC_schedulerReadersRole(), false);
         RoleManager.registerRole(new SNPRC_schedulerEditorsRole(), false);
+        RoleManager.registerRole(new SNPRC_schedulerReviewersRole(), false);
+        RoleManager.registerRole(new SNPRC_schedulerAdminRole(), false);
     }
 
     @Override

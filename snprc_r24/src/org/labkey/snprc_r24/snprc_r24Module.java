@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 LabKey Corporation
+ * Copyright (c) 2016-2019 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class snprc_r24Module extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 19.10;
+        return 19.20;
     }
 
     @Override

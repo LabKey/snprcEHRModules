@@ -4,6 +4,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.WebDriverWrapper;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.pages.LabKeyPage;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
@@ -22,6 +23,20 @@ public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
     public static BeginPage beginAt(WebDriverWrapper driver, String containerPath)
     {
         driver.beginAt(WebTestHelper.buildURL("snprc_scheduler", containerPath, "begin"));
+        //driver.waitForElement(Locator.byClass("modal-open"));
+
+        JavascriptExecutor js;
+        js = (JavascriptExecutor) driver;
+        try
+        {
+            //sleep(3000);
+            //re-enable buttons
+            js.executeScript("document.getElementsByClassName('modal-backdrop')[0].style.display=\"none\";");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         return new BeginPage(driver);
     }
 
@@ -39,6 +54,7 @@ public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
 
     public void beginPage_Tests()
     {
+
         final String expectedTitle = "Procedure scheduling";
         assertTextPresent(expectedTitle);
 
@@ -46,6 +62,5 @@ public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
         assertTextPresent("Projects");
         assertTextPresent("Timelines");
         assertTextPresent("Animals");
-        assertTextPresent("Calendar");
     }
 }

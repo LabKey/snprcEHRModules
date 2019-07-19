@@ -1,6 +1,6 @@
 <%
 /*
- * Copyright (c) 2017-2018 LabKey Corporation
+ * Copyright (c) 2017-2019 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 %>
-<%@ page import="org.labkey.api.data.Container" %>
-<%--<%@ page import="org.labkey.api.security.permissions.AdminPermission" %>--%>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.api.view.template.ClientDependencies" %>
@@ -34,16 +32,11 @@
 <%
     JspView<FeeScheduleImportForm> me = (JspView<FeeScheduleImportForm>) HttpView.currentView();
     FeeScheduleImportForm bean = me.getModelBean();
-
-    Container c = getViewContext().getContainerNoTab();
-    Container project = c.getProject();
-//    boolean isProjectAdmin = project != null && project.hasPermission(getUser(), AdminPermission.class);
     String importFormId = "FeeScheduleImportForm";
-
 %>
 
 <labkey:errors/>
-<labkey:form id="<%= h(importFormId) %>"
+<labkey:form id="<%=importFormId%>"
              action="<%= h(buildURL(FeeScheduleController.FeeScheduleImportAction.class)) %>" method="post">
 
 
