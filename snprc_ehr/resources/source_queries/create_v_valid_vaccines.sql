@@ -21,6 +21,5 @@ FROM dbo.valid_vaccines AS vv
          LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = vv.object_id
     GO
 
-
 GRANT SELECT ON labkey_etl.v_valid_vaccines TO z_labkey
     GO

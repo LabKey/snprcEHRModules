@@ -9,10 +9,8 @@ CREATE VIEW [labkey_etl].[v_delete_valid_vaccines] AS
 --
 -- ==========================================================================================
 
-
 SELECT avv.object_id,
        avv.audit_date_tm
-
 
 FROM audit.audit_valid_vaccines AS avv
 
