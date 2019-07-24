@@ -5,6 +5,7 @@
                 <columns>
                     <column columnName="Vaccine">
                         <columnTitle>Vaccine</columnTitle>
+                        <nullable>false</nullable>
                     </column>
                 </columns>
             </table>
