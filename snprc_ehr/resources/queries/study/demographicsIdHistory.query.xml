@@ -13,6 +13,7 @@
                             query.Id~eq=${Id}
                         </url>
                     </column>
+                    <column columnName="name"/>
                 </columns>
             </table>
         </tables>
