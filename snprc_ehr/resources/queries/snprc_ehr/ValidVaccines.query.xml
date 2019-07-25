@@ -6,6 +6,7 @@
                     <column columnName="Vaccine">
                         <columnTitle>Vaccine</columnTitle>
                         <nullable>false</nullable>
+                        <isKeyField>true</isKeyField>
                     </column>
                 </columns>
             </table>
