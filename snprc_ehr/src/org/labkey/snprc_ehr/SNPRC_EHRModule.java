@@ -94,9 +94,11 @@ import org.labkey.snprc_ehr.snd.SNPRCEventTriggerFactory;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
 import org.labkey.snprc_ehr.views.AnimalsHierarchyWebPart;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 //import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
@@ -208,6 +210,12 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Due/Overdue TB Report", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=overdueTb"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Search Apath History", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=apathHistoryReport"), "Pathololgy");
 
+        // Add the current date to the chimp observation report
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+        String date = format.format( new Date());
+        String reportString = "/query/executeQuery.view?schemaName=study&query.queryName=DailyObs&query.viewName=DailyChimpObs&query.date~dateeq=" + date;
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Chimp Observation Report", this,
+                DetailsURL.fromString( reportString), "Clinical");
 
         // Add ehr clinical history data sources
         EHRService.get().registerHistoryDataSource(new AccountDataSource(this));
