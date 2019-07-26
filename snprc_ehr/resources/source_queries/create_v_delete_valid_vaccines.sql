@@ -5,7 +5,6 @@ CREATE VIEW [labkey_etl].[v_delete_valid_vaccines] AS
 -- Description:	Selects the valid_vaccines for LabKey snprc_ehr.valid_vaccine dataset for deletions
 -- Note:
 --
--- Changes:
 --
 -- ==========================================================================================
 
@@ -21,4 +20,3 @@ WHERE avv.audit_action = 'D'
 
 GRANT SELECT on labkey_etl.v_delete_valid_vaccines to z_labkey
 GRANT SELECT ON audit.audit_valid_vaccines TO z_labkey
-    go
