@@ -1,8 +1,0 @@
-<customView xmlns="http://labkey.org/data/xml/queryCustomView">
-    <columns>
-        <column name="Vaccine"/>
-    </columns>
-    <sorts>
-        <sort column="Vaccine"/>
-    </sorts>
-</customView>

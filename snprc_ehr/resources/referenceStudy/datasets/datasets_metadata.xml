@@ -2597,6 +2597,7 @@
                     <fkColumnName>value</fkColumnName>
                     <fkDisplayColumnName>Description</fkDisplayColumnName>
                 </fk>
+
             </column>
         </columns>
     </table>
@@ -2670,12 +2671,6 @@
             <column columnName="Vaccine">
                 <datatype>varchar</datatype>
                 <scale>128</scale>
-                <fk>
-                    <fkDbSchema>ehr_lookups</fkDbSchema>
-                    <fkTable>validVaccines</fkTable>
-                    <fkColumnName>Vaccine</fkColumnName>
-                    <fkDisplayColumnName>Vaccine</fkDisplayColumnName>
-                </fk>
             </column>
             <column columnName="PkgId">
                 <datatype>integer</datatype>
