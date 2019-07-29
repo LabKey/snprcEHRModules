@@ -15,12 +15,14 @@
  */
 SELECT
   i1.Id,
-  group_concat(DISTINCT i1.id_value) as idHistoryList
+  group_concat(DISTINCT i1.id_value) as idHistoryList,
+  group_concat(DISTINCT  i1.id_name) as name
 
 FROM (
 SELECT
   i.Id,
-  concat(concat( i.value, '/') ,i.id_type.description) as id_value
+  concat(concat( i.value, '/') ,i.id_type.description) as id_value,
+  case when i.id_type.description = 'Name' THEN i.value ELSE NULL END as id_name
 
 FROM study.idHistory i
 where i.id_type.value not in ( 1, 30)
