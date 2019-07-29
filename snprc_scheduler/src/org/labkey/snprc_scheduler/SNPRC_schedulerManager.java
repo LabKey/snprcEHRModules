@@ -171,23 +171,38 @@ public class SNPRC_schedulerManager
             TableInfo ti = sndSchema.getTable("AnimalsByProject", sndSchema.getDefaultContainerFilter());
             SimpleFilter demFilter;
 
-            // add demographics data
+            // Remove duplicates and add demographics data
+            Set<String> ids = new HashSet<>();
+            List<TimelineAnimalJunction> toRemove = new ArrayList<>();
+
             for (TimelineAnimalJunction timelineAnimalItem : timelineAnimalItems)
             {
-
-                demFilter = new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL);
-
-                Map result = new TableSelector(ti, demFilter, null).getMap();
-
-                if (result != null)
+                // check for duplicate IDs
+                if (!ids.add(timelineAnimalItem.getAnimalId())) // HashSets don't allow dups
                 {
-                    timelineAnimalItem.setGender((String) result.get("Gender"));
-                    timelineAnimalItem.setAge((String) result.get("Age"));
-                    timelineAnimalItem.setWeight((Double) result.get("Weight"));
-                    timelineAnimalItem.setAssignmentStatus((String) result.get("AssignmentStatus"));
+                    // remove duplicate animal records - shouldn't happen but the UI goes crazy if it does
+                    toRemove.add(timelineAnimalItem); // save the timelineAnimalItem for removal
+                }
+                else
+                {
+                    demFilter = new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL);
+
+                    Map result = new TableSelector(ti, demFilter, null).getMap();
+
+                    if (result != null)
+                    {
+                        timelineAnimalItem.setGender((String) result.get("Gender"));
+                        timelineAnimalItem.setAge((String) result.get("Age"));
+                        timelineAnimalItem.setWeight((Double) result.get("Weight"));
+                        timelineAnimalItem.setAssignmentStatus((String) result.get("AssignmentStatus"));
+                    }
                 }
             }
-
+            // remove duplicate animal records from the result set
+            if (toRemove != null)
+            {
+                timelineAnimalItems.removeAll(toRemove);
+            }
         }
         catch (Exception e)
         {
