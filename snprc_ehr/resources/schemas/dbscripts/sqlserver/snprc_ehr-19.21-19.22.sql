@@ -3,6 +3,7 @@ EXEC core.fn_dropifexists 'ValidVaccines','snprc_ehr', 'TABLE';
 
 --srr 07.17.19
 
+
 CREATE TABLE snprc_ehr.ValidVaccines
 (
     Vaccine      VARCHAR(128)      NOT NULL,

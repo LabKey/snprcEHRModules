@@ -117,6 +117,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         return 19.22;
     }
 
+
     @Override
     public boolean hasScripts()
     {

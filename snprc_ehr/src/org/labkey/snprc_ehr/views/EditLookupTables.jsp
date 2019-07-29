@@ -98,7 +98,7 @@
                     {queryName: 'ValidDSGroup', schemaName: 'ehr_lookups', title: 'Diagnosis Groups'},
                     {queryName: 'ValidDXList', schemaName: 'ehr_lookups', title: 'Diagnosis Lists'},
                     {queryName: 'volume_units', schemaName: 'ehr_lookups', title: 'Drug Volume Units'},
-                    //{queryName: 'drug_defaults', schemaName: 'ehr_lookups', title: 'Drug Default Values'},
+                    //{queryName: 'drug_defaults', schemaName: 'ehr_lookups', title: 'Drug Default Values'} ,
                     {queryName: 'routes', schemaName: 'ehr_lookups', title: 'Drug Routes'},
                     {queryName: 'treatment_codes', schemaName: 'ehr_lookups', title: 'Common Treatments (Not used)'},
                     {queryName: 'treatment_frequency', schemaName: 'ehr_lookups', title: 'Treatment Frequencies'},
