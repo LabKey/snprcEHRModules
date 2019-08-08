@@ -1412,7 +1412,6 @@
             </column>
         </columns>
         <tableTitle>Valid Diets</tableTitle>
-
     </table>
     <table tableName="ValidDXGroup" tableDbType="TABLE">
         <auditLogging>DETAILED</auditLogging>
@@ -1508,6 +1507,61 @@
             </column>
         </columns>
         <tableTitle>Valid Diagnosis list</tableTitle>
+    </table>
+    <table tableName="ValidVaccines" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
+        <pkColumnName>Vaccine</pkColumnName>
+        <columns>
+            <column columnName="Vaccine">
+                <nullable>false</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="ObjectId">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+                <isReadOnly>true</isReadOnly>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>Valid Vaccines</tableTitle>
     </table>
 </tables>
 

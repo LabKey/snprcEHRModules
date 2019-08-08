@@ -102,6 +102,7 @@
                     {queryName: 'routes', schemaName: 'ehr_lookups', title: 'Drug Routes'},
                     {queryName: 'treatment_codes', schemaName: 'ehr_lookups', title: 'Common Treatments (Not used)'},
                     {queryName: 'treatment_frequency', schemaName: 'ehr_lookups', title: 'Treatment Frequencies'},
+                    {queryName: 'ValidVaccines', schemaName: 'snprc_ehr', title: 'Vaccines'}
 
                 ]
             },{
