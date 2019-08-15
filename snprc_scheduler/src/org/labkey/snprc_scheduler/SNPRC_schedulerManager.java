@@ -191,10 +191,12 @@ public class SNPRC_schedulerManager
 
                     if (result != null)
                     {
-                        timelineAnimalItem.setGender((String) result.get("Gender"));
-                        timelineAnimalItem.setAge((String) result.get("Age"));
-                        timelineAnimalItem.setWeight((Double) result.get("Weight"));
-                        timelineAnimalItem.setAssignmentStatus((String) result.get("AssignmentStatus"));
+                        timelineAnimalItem.setGender((String) result.get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_GENDER));
+                        timelineAnimalItem.setAge((String) result.get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE));
+                        timelineAnimalItem.setWeight((Double) result.get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT));
+                        timelineAnimalItem.setAssignmentStatus((String) result.get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS));
+                        timelineAnimalItem.setLocation((String) result.get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_LOCATION));
+                        timelineAnimalItem.setCage((String) result.get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_CAGE));
                     }
                 }
             }

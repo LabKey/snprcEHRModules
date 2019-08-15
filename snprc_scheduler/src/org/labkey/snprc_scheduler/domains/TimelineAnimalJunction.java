@@ -1,7 +1,6 @@
 package org.labkey.snprc_scheduler.domains;
 
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.labkey.api.collections.ArrayListMap;
@@ -27,6 +26,8 @@ public class TimelineAnimalJunction
     private String _gender;
     private Double _weight;
     private String _age;
+    private String _location;
+    private String _cage;
     private String _objectId;
     private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineAnimalJunction record.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
@@ -39,6 +40,8 @@ public class TimelineAnimalJunction
     public static final String TIMELINE_ANIMAL_JUNCTION_GENDER = "Gender";
     public static final String TIMELINE_ANIMAL_JUNCTION_WEIGHT = "Weight";
     public static final String TIMELINE_ANIMAL_JUNCTION_AGE = "Age";
+    public static final String TIMELINE_ANIMAL_JUNCTION_LOCATION = "Location";
+    public static final String TIMELINE_ANIMAL_JUNCTION_CAGE = "Cage";
     public static final String TIMELINE_ANIMAL_JUNCTION_OBJECT_ID = "ObjectId";
     public static final String TIMELINE_ANIMAL_JUNCTION_IS_DELETED = "IsDeleted";
     public static final String TIMELINE_ANIMAL_JUNCTION_IS_DIRTY = "IsDirty";
@@ -60,6 +63,8 @@ public class TimelineAnimalJunction
             this.setAssignmentStatus(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS) : null);
             this.setGender(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_GENDER) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_GENDER)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_GENDER) : null);
             this.setAge(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_AGE)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE) : null);
+            this.setLocation(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_LOCATION) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_LOCATION)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_LOCATION) : null);
+            this.setCage(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_CAGE) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_CAGE)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_CAGE) : null);
             this.setWeight(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_WEIGHT)  ? json.getDouble(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) : null);
             this.setObjectId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_OBJECT_ID)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID) : null);
             this.setDeleted(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_IS_DELETED)  && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED));
@@ -172,6 +177,26 @@ public class TimelineAnimalJunction
         _age = age;
     }
 
+    public String getLocation()
+    {
+        return _location;
+    }
+
+    public void setLocation(String location)
+    {
+        _location = location;
+    }
+
+    public String getCage()
+    {
+        return _cage;
+    }
+
+    public void setCage(String cage)
+    {
+        _cage = cage;
+    }
+
     public Boolean getDeleted()
     {
         return _isDeleted;
@@ -204,6 +229,8 @@ public class TimelineAnimalJunction
         values.put(TIMELINE_ANIMAL_JUNCTION_GENDER, getGender());
         values.put(TIMELINE_ANIMAL_JUNCTION_WEIGHT, getWeight());
         values.put(TIMELINE_ANIMAL_JUNCTION_AGE, getAge());
+        values.put(TIMELINE_ANIMAL_JUNCTION_LOCATION, getLocation());
+        values.put(TIMELINE_ANIMAL_JUNCTION_CAGE, getCage());
         values.put(TIMELINE_ANIMAL_JUNCTION_OBJECT_ID, getObjectId());
         values.put(TIMELINE_ANIMAL_JUNCTION_IS_DELETED, getDeleted());
         values.put(TIMELINE_ANIMAL_JUNCTION_IS_DIRTY, getDirty());
@@ -223,6 +250,8 @@ public class TimelineAnimalJunction
         json.put(TIMELINE_ANIMAL_JUNCTION_GENDER, getGender());
         json.put(TIMELINE_ANIMAL_JUNCTION_WEIGHT, getWeight());
         json.put(TIMELINE_ANIMAL_JUNCTION_AGE, getAge());
+        json.put(TIMELINE_ANIMAL_JUNCTION_LOCATION, getLocation());
+        json.put(TIMELINE_ANIMAL_JUNCTION_CAGE, getCage());
         json.put(TIMELINE_ANIMAL_JUNCTION_OBJECT_ID, getObjectId());
         json.put(TIMELINE_ANIMAL_JUNCTION_IS_DELETED, getDeleted());
         json.put(TIMELINE_ANIMAL_JUNCTION_IS_DIRTY, getDirty());
@@ -244,6 +273,8 @@ public class TimelineAnimalJunction
                 Objects.equals(_gender, that._gender) &&
                 Objects.equals(_weight, that._weight) &&
                 Objects.equals(_age, that._age) &&
+                Objects.equals(_location, that._location) &&
+                Objects.equals(_cage, that._cage) &&
                 Objects.equals(_objectId, that._objectId) &&
                 Objects.equals(_isDeleted, that._isDeleted) &&
                 Objects.equals(_isDirty, that._isDirty);
@@ -252,6 +283,6 @@ public class TimelineAnimalJunction
     @Override
     public int hashCode()
     {
-        return Objects.hash(_rowId, _timelineObjectId, _animalId, _endDate, _assignmentStatus, _gender, _weight, _age, _objectId, _isDeleted, _isDirty);
+        return Objects.hash(_rowId, _timelineObjectId, _animalId, _endDate, _assignmentStatus, _gender, _weight, _age, _location, _cage, _objectId, _isDeleted, _isDirty);
     }
 }
