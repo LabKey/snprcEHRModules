@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 
 public class SNPRC_schedulerController extends SpringActionController
 {
@@ -101,28 +103,32 @@ public class SNPRC_schedulerController extends SpringActionController
     // on the specified date.
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-    public class getScheduledTimelinesForSpeciesAction extends MutatingApiAction<SimpleApiJsonForm>
+    public class getScheduledTimelinesForSpeciesAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
 
         @Override
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
         {
-            Map<String, Object> props = new HashMap<>();
-
             String species, dateString;
             Date date;
+
+            ActionURL url = getViewContext().getActionURL();
+
+
+
+
+            Map<String, Object> props = new HashMap<>();
+
+
             List<JSONObject> timelines;
-
-            JSONObject json = form.getJsonObject();
-
-            if (json != null)
+            if (isNotBlank(url.getParameter("species")) && isNotBlank(url.getParameter("date")) )
             {
                 try
                 {
-                    species = json.has("species") && !json.isNull("species") ? json.getString("species") : null;
-                    dateString = json.has("date") && !json.isNull("date") ? json.getString("date") : null;
+                    species = url.getParameter("species");
+                    dateString = url.getParameter("date");
 
-                    // assume current date if date is not passed in
+                     // assume current date if date is not passed in
                     date = (dateString == null ? new Date() : DateUtil.parseDateTime(dateString, Timeline.TIMELINE_DATE_FORMAT));
                     if (species != null && date != null)
                     {
@@ -152,7 +158,7 @@ public class SNPRC_schedulerController extends SpringActionController
             else
             {
                 props.put("success", false);
-                props.put("message", "JSON data missing in request.");
+                props.put("message", "Species and Schedule Date are required.");
             }
 
             return new ApiSimpleResponse(props);

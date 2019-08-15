@@ -23,6 +23,8 @@ SELECT a.Id,
        a.Id.Demographics.Gender as Gender,
        ep.project as ChargeId,
        ep.protocol as Iacuc,
+       a.id.curLocation.room as location,
+       a.id.curLocation.cage as cage,
        a.assignmentStatus as AssignmentStatus
 from snd.Projects as p
        INNER JOIN ehr.project as ep on p.ReferenceId = ep.project
