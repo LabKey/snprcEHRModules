@@ -24,17 +24,18 @@ from study.colonyUsageQuery
   UNION
 
 select
-'TOTALS',
-  NULL,
-  'pc',
-  sum(M),
-  sum(F),
-  sum(U),
-  sum(Infant),
-  sum(Juvenile),
-  sum(Adult),
-  sum(Senior),
-  sum(SPF),
-  sum(Conventional),
-  sum(total)
+    'TOTALS',
+    NULL,
+    species_code,
+    sum(M),
+    sum(F),
+    sum(U),
+    sum(Infant),
+    sum(Juvenile),
+    sum(Adult),
+    sum(Senior),
+    sum(SPF),
+    sum(Conventional),
+    sum(total)
 from study.colonyUsageQuery
+GROUP BY species_code
