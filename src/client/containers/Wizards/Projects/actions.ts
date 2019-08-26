@@ -192,11 +192,12 @@ export function projectWarning(model: ProjectWizardModel, warning?: string) {
     }
 }
 
-export function toggleSubpackageActive(subpackage: AssignedPackageModel, model: any) {
+export function toggleSubpackageActive(subpackage: AssignedPackageModel, model: any, view: VIEW_TYPES) {
     return {
         type: PROJECT_WIZARD_TYPES.PROJECTS_TOGGLE_SUPERPKG_ACTIVE,
         subpackage,
-        model
+        model,
+        view
     };
 }
 

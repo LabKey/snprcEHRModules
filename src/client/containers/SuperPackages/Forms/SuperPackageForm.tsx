@@ -83,9 +83,9 @@ export class SuperPackageFormImpl extends React.Component<SuperPackageFormProps,
     }
 
     handleToggleActiveAction(subpackage: AssignedPackageModel) {
-        const { dispatch, model } = this.props;
+        const { dispatch, model, view } = this.props;
 
-        dispatch(toggleSubpackageActive(subpackage, model));
+        dispatch(toggleSubpackageActive(subpackage, model, view));
     }
 
     render()
