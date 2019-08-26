@@ -18,7 +18,7 @@
 import {fetchPackage} from "../Packages/actions";
 import {PackageModel, PackageQueryResponse, PackageWizardModel} from "../Packages/model";
 import {AssignedPackageModel} from "../../SuperPackages/model";
-import {ProjectWizardModel} from "../Projects/model";
+import {ProjectAssignedPackageModel, ProjectWizardModel} from "../Projects/model";
 import {SubPackageSubmissionModel} from "./model";
 
 
@@ -34,18 +34,18 @@ export function queryPackageFullNarrative(id: number, model: PackageWizardModel 
     return (dispatch) => {
         return fetchPackage(id, false, false).then((response: PackageQueryResponse) => {
             const packageModel = getPackageModelFromResponse(response);
-            const narrativePkg = new AssignedPackageModel(
-                packageModel.pkgId,
-                packageModel.description,
-                packageModel.narrative,
-                packageModel.repeatable,
-                undefined,
-                true,
-                true,
-                false,
-                undefined,
-                packageModel.subPackages
-            );
+            const narrativePkg = new AssignedPackageModel({
+                pkgId: packageModel.pkgId,
+                description: packageModel.description,
+                narrative: packageModel.narrative,
+                repeatable: packageModel.repeatable,
+                superPkgId: undefined,
+                active: true,
+                showActive: true,
+                required: false,
+                sortOrder: undefined,
+                subPackages: packageModel.subPackages
+            });
 
             dispatch({
                 type: dispatchType,
@@ -66,6 +66,23 @@ export function formatSubPackages(subPackages: Array<AssignedPackageModel>): Arr
             return new SubPackageSubmissionModel({
                 sortOrder: i,
                 active: s.active,
+                required: s.required,
+                superPkgId: s.superPkgId
+            });
+        });
+    }
+
+    return [];
+}
+
+export function formatProjectSubPackages(subPackages: Array<ProjectAssignedPackageModel>): Array<SubPackageSubmissionModel> {
+
+    if (subPackages.length) {
+        return subPackages.map((s: ProjectAssignedPackageModel, i: number) => {
+            return new SubPackageSubmissionModel({
+                sortOrder: i,
+                active: s.active,
+                projectItemId: s.projectItemId,
                 required: s.required,
                 superPkgId: s.superPkgId
             });

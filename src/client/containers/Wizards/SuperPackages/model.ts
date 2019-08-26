@@ -17,6 +17,7 @@
 
 interface SubPackageSubmissionModelProps {
     active: boolean;
+    projectItemId?: number;
     superPkgId: number;
     sortOrder: number;
     required: boolean;
@@ -24,6 +25,7 @@ interface SubPackageSubmissionModelProps {
 
 export class SubPackageSubmissionModel implements SubPackageSubmissionModelProps {
     active: boolean = undefined;
+    projectItemId?: number = undefined;
     superPkgId: number = undefined;
     sortOrder: number = undefined;
     required: boolean = undefined;

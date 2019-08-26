@@ -82,6 +82,19 @@ export class ProjectQueryResponse {
     }
 }
 
+interface IProjectAssignedPackageModel {
+    projectItemId?: number
+}
+
+export class ProjectAssignedPackageModel extends AssignedPackageModel implements IProjectAssignedPackageModel {
+    projectItemId: number = undefined;
+
+    constructor(props?: Partial<ProjectAssignedPackageModel>) {
+        super(props);
+        this.projectItemId = props.projectItemId;
+    }
+}
+
 interface ProjectModelProps {
     active?: boolean
     container?: string
@@ -97,7 +110,7 @@ interface ProjectModelProps {
     referenceId?: number
     copyRevisedPkgs?: boolean
     qcState?: any
-    subPackages?: Array<AssignedPackageModel>
+    subPackages?: Array<ProjectAssignedPackageModel>
 }
 
 export class ProjectModel implements ProjectModelProps {
@@ -115,7 +128,7 @@ export class ProjectModel implements ProjectModelProps {
     referenceId: number = undefined;
     copyRevisedPkgs: boolean = false;
     qcState: any = null; // todo: find out qcState type
-    subPackages: Array<AssignedPackageModel> = [];
+    subPackages: Array<ProjectAssignedPackageModel> = [];
 
     constructor(props?: Partial<ProjectModel>) {
         if (props) {

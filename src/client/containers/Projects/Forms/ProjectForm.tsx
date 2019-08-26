@@ -20,7 +20,7 @@ import { Button, ControlLabel } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux'
 
-import { ProjectModel } from '../../Wizards/Projects/model'
+import {ProjectAssignedPackageModel, ProjectModel} from '../../Wizards/Projects/model'
 import { IdInput } from '../../../components/Form/IdInput'
 import { TextArea } from '../../../components/Form/TextArea'
 import { ExtraFields} from '../../../components/Form/ExtraFields'
@@ -155,8 +155,8 @@ export class ProjectFormImpl extends React.Component<ProjectFormProps, ProjectFo
         }
 
         // create a new AssignedPackageModel object as the SuperPkgId needs to be undefined as it will be set on save/submit
-        let newAssignedSuperPackage = new AssignedPackageModel(pkgId, description, narrative, repeatable, superPkgId, true, true, false,
-            model.subPackages.length);
+        let newAssignedSuperPackage = new ProjectAssignedPackageModel({
+                pkgId, description, narrative, repeatable, superPkgId, active: true, showActive: true, required: false, sortOrder: model.subPackages.length});
         newAssignedSuperPackage.loadingSubpackages = true;
 
         handleFieldChange('subPackages', model.subPackages.concat([newAssignedSuperPackage]));

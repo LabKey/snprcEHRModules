@@ -162,7 +162,17 @@ export class PackageFormImpl extends React.Component<PackageFormProps, PackageFo
         }
 
         // create a new AssignedPackageModel object as the SuperPkgId needs to be undefined as it will be set on save/submit
-        let newAssignedPackage = new AssignedPackageModel(pkgId, description, narrative, repeatable, superPkgId, false, false, false, model.subPackages.length);
+        let newAssignedPackage = new AssignedPackageModel({
+            pkgId,
+            description,
+            narrative,
+            repeatable,
+            superPkgId,
+            active: false,
+            showActive: false,
+            required: false,
+            sortOrder: model.subPackages.length
+        });
         newAssignedPackage.loadingSubpackages = true;
 
         handleFieldChange('subPackages', model.subPackages.concat([newAssignedPackage]));
@@ -200,9 +210,18 @@ export class PackageFormImpl extends React.Component<PackageFormProps, PackageFo
         let updatedSubpackages = [];
 
         model.subPackages.map((subPackage) => {
-            let newSubPackage = new AssignedPackageModel(subPackage.pkgId, subPackage.description, subPackage.narrative,
-                subPackage.repeatable, subPackage.superPkgId, subPackage.active, subPackage.showActive, subPackage.required,
-                subPackage.sortOrder, subPackage.subPackages);
+            let newSubPackage = new AssignedPackageModel({
+                pkgId: subPackage.pkgId,
+                description: subPackage.description,
+                narrative: subPackage.narrative,
+                repeatable: subPackage.repeatable,
+                superPkgId: subPackage.superPkgId,
+                active: subPackage.active,
+                showActive: subPackage.showActive,
+                required: subPackage.required,
+                sortOrder: subPackage.sortOrder,
+                subPackages: subPackage.subPackages
+            });
             if (subPackage.superPkgId === assignedPackage.superPkgId) {
                 newSubPackage.required = !newSubPackage.required;
             }

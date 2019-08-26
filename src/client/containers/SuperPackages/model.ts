@@ -36,11 +36,11 @@ export class AssignedPackageModel implements AssignedPackageModelProps {
     pkgId: number = undefined;
     repeatable: boolean = undefined;
     sortOrder: number = undefined;
-    required: boolean;
+    required: boolean = undefined;
     subPackages: Array<AssignedPackageModel> = [];
     superPkgId: number = undefined;
-    active: boolean;
-    showActive: boolean;
+    active: boolean = undefined;
+    showActive: boolean = undefined;
 
     // set the altId as a way to uniquely remove this assigned package or to handle assigned package click
     altId: number = LABKEY.Utils.id();
@@ -48,20 +48,15 @@ export class AssignedPackageModel implements AssignedPackageModelProps {
     // set to true to indicate that a package is in the process of loading the full hierarchy
     loadingSubpackages: boolean = undefined;
 
-    constructor(pkgId: number, description: string, narrative: string, repeatable: boolean, superPkgId: number,
-                active: boolean, showActive: boolean, required: boolean, sortOrder?: number, subPackages?: Array<AssignedPackageModel>)
-    {
-        this.pkgId = pkgId;
-        this.description = description;
-        this.narrative = narrative;
-        this.repeatable = repeatable;
-        this.sortOrder = sortOrder;
-        this.superPkgId = superPkgId;
-        this.active = active;
-        this.showActive = showActive;
-        this.required = required;
-        if (Array.isArray(subPackages))
-            this.subPackages = subPackages;
+    constructor(props?: Partial<AssignedPackageModel>) {
+        if (props) {
+            for (let k in props) {
+                if (this.hasOwnProperty(k) && props.hasOwnProperty(k)) {
+                    if (k !== 'subPackages' || Array.isArray(props[k]))
+                        this[k] = props[k];
+                }
+            }
+        }
     }
 }
 

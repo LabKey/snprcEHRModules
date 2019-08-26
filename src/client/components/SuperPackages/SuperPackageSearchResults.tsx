@@ -65,16 +65,16 @@ export class SuperPackageSearchResults extends React.Component<SuperPackageSearc
                         dataIds.filter((d) => {
                             return !primitivesOnly || data[d].IsPrimitive.value === 'true';
                         }).map((d, i) => {
-                            let assignedPackage = new AssignedPackageModel(
-                                data[d].PkgId.value,
-                                data[d].PkgId.displayValue,
-                                data[d].Narrative.value,
-                                data[d].Repeatable.value,
-                                data[d].SuperPkgId.value,
-                                true,
-                                true,
-                                false
-                            );
+                            let assignedPackage = new AssignedPackageModel({
+                                pkgId: data[d].PkgId.value,
+                                description: data[d].PkgId.displayValue,
+                                narrative: data[d].Narrative.value,
+                                repeatable: data[d].Repeatable.value,
+                                superPkgId: data[d].SuperPkgId.value,
+                                active: true,
+                                showActive: true,
+                                required: false
+                            });
 
                             return (
                                 <div key={'data-search__row' + i}>
@@ -97,4 +97,4 @@ export class SuperPackageSearchResults extends React.Component<SuperPackageSearc
 
         return null;
     }
-}
+};

@@ -23,7 +23,7 @@ import { projectsInvalidate } from '../../Projects/actions';
 import { PROJECT_SQL } from '../../Projects/constants'
 import {push} from "react-router-redux";
 import {setAppError} from "../../App/actions";
-import {formatSubPackages} from "../SuperPackages/actions";
+import {formatProjectSubPackages, formatSubPackages} from "../SuperPackages/actions";
 import {fetchPackage, getPackageModelFromResponse} from "../Packages/actions";
 import {PackageModel, PackageQueryResponse} from "../Packages/model";
 import {VIEW_TYPES} from "../../App/constants";
@@ -272,7 +272,7 @@ export function formatProjectValues(model: ProjectWizardModel, active: boolean):
         rev = revisionNum;
     }
 
-    let subPackages = formatSubPackages(model.data.subPackages);
+    let subPackages = formatProjectSubPackages(model.data.subPackages);
 
     return new ProjectSubmissionModel({
         projectId: id,

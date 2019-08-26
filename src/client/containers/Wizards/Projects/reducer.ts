@@ -15,7 +15,7 @@
  */
 
 
-import {ProjectModel, ProjectWizardContainer, ProjectWizardModel} from "./model";
+import {ProjectAssignedPackageModel, ProjectModel, ProjectWizardContainer, ProjectWizardModel} from "./model";
 import {PROJECT_WIZARD_TYPES} from "./constants";
 import {handleActions} from "redux-actions";
 import {PropertyDescriptor} from "../model";
@@ -133,9 +133,18 @@ export const projects = handleActions({
 
         if (json.projectItems && Array.isArray(json.projectItems)) {
             subPackages = json.projectItems.map(function (item) {
-                return new AssignedPackageModel(item.superPkg.pkgId, item.superPkg.description, item.superPkg.narrative,
-                    item.superPkg.repeatable, item.superPkg.superPkgId, item.active, true, false, item.superPkg.sortOrder,
-                    item.superPkg.subPackages);
+                return new ProjectAssignedPackageModel({
+                    pkgId: item.superPkg.pkgId,
+                    projectItemId: item.projectItemId,
+                    description: item.superPkg.description,
+                    narrative: item.superPkg.narrative,
+                    repeatable: item.superPkg.repeatable,
+                    superPkgId: item.superPkg.superPkgId,
+                    active: item.active,
+                    showActive: true,
+                    required:false,
+                    sortOrder: item.superPkg.sortOrder,
+                    subPackages: item.superPkg.subPackages});
             });
         }
 
@@ -270,8 +279,19 @@ export const projects = handleActions({
 
         const subPackages = projectWizardModel.data.subPackages.map(function(subPkg) {
             if (subpackage.superPkgId === subPkg.superPkgId) {
-                return new AssignedPackageModel(subPkg.pkgId, subPkg.description, subPkg.narrative, subPkg.repeatable,
-                    subPkg.superPkgId, !subpackage.active, subPkg.showActive, false, subPkg.sortOrder, subPkg.subPackages);
+                return new ProjectAssignedPackageModel({
+                    pkgId: subPkg.pkgId,
+                    projectItemId: subPkg.projectItemId,
+                    description: subPkg.description,
+                    narrative: subPkg.narrative,
+                    repeatable: subPkg.repeatable,
+                    superPkgId: subPkg.superPkgId,
+                    active: !subpackage.active,
+                    showActive: subPkg.showActive,
+                    required: false,
+                    sortOrder: subPkg.sortOrder,
+                    subPackages: subPkg.subPackages
+                });
             }
             else {
                 return subPkg;
