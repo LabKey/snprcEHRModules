@@ -16,8 +16,6 @@
 
 package org.labkey.snd;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
@@ -30,10 +28,7 @@ import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.gwt.client.DefaultValueType;
-import org.labkey.api.gwt.client.model.GWTConditionalFormat;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
-import org.labkey.api.gwt.client.model.GWTPropertyValidator;
-import org.labkey.api.gwt.client.model.PropertyValidatorType;
 import org.labkey.api.module.Module;
 import org.labkey.api.security.RequiresLogin;
 import org.labkey.api.security.RequiresPermission;
@@ -52,12 +47,13 @@ import org.labkey.api.snd.SNDSequencer;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snd.SuperPackage;
 import org.labkey.api.util.DateUtil;
-import org.labkey.api.util.JsonUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.snd.security.SNDSecurityManager;
+import org.labkey.snd.security.permissions.SNDPackageEditorPermission;
+import org.labkey.snd.security.permissions.SNDPackageViewerPermission;
 import org.labkey.snd.trigger.test.SNDTestEventTriggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -111,7 +107,7 @@ public class SNDController extends SpringActionController
         }
     }
 
-    @RequiresPermission(AdminPermission.class)
+    @RequiresPermission(SNDPackageEditorPermission.class)
     public class SavePackageAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         private GWTPropertyDescriptor convertJsonToPropertyDescriptor(JSONObject json, BindException errors) throws IOException
@@ -462,7 +458,7 @@ public class SNDController extends SpringActionController
         }
     }
 
-    @RequiresPermission(AdminPermission.class)
+    @RequiresPermission(SNDPackageViewerPermission.class)
     public class GetPackagesAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override

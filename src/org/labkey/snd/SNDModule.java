@@ -21,7 +21,6 @@ import org.labkey.api.audit.AuditLogService;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.exp.api.ExperimentService;
-import org.labkey.api.exp.list.ListService;
 import org.labkey.api.exp.property.PropertyService;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.Module;
@@ -30,7 +29,6 @@ import org.labkey.api.module.SpringModule;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.security.permissions.AdminPermission;
-import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.services.ServiceRegistry;
 import org.labkey.api.snd.PackageDomainKind;
@@ -43,6 +41,8 @@ import org.labkey.snd.pipeline.SNDDataHandler;
 import org.labkey.snd.security.roles.SNDBasicSubmitterRole;
 import org.labkey.snd.security.roles.SNDDataAdminRole;
 import org.labkey.snd.security.roles.SNDDataReviewerRole;
+import org.labkey.snd.security.roles.SNDPackageEditorRole;
+import org.labkey.snd.security.roles.SNDPackageViewerRole;
 import org.labkey.snd.security.roles.SNDReaderRole;
 
 import java.util.Collection;
@@ -90,6 +90,9 @@ public class SNDModule extends SpringModule
         RoleManager.registerRole(new SNDDataAdminRole(), false);
         RoleManager.registerRole(new SNDDataReviewerRole(), false);
         RoleManager.registerRole(new SNDReaderRole(), false);
+        RoleManager.registerRole(new SNDPackageViewerRole(), true);
+        RoleManager.registerRole(new SNDPackageEditorRole(), true);
+
     }
 
     @Override
