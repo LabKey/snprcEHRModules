@@ -223,7 +223,8 @@ public class SNPRC_schedulerManager
             SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
             TableInfo timelineProjectItemTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_PROJECT_ITEM, schema.getDefaultContainerFilter(), false, false);
 
-            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL).
+                    addCondition(FieldKey.fromString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE), true, CompareType.EQUAL);
 
             // add timelineItem filter if needed
             if (timelineItems != null)
@@ -234,7 +235,7 @@ public class SNPRC_schedulerManager
 
             }
 
-            timelineProjectItems = new TableSelector(timelineProjectItemTable, filter, null).getArrayList(TimelineProjectItem.class);
+             timelineProjectItems = new TableSelector(timelineProjectItemTable, filter, null).getArrayList(TimelineProjectItem.class);
         }
         catch (Exception e)
         {

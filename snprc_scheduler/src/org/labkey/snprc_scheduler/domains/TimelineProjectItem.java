@@ -22,6 +22,7 @@ public class TimelineProjectItem
     private String _objectId;
     private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineProojectItem record.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
+    private Boolean _active;  // virtual field - populated from Active column in snd.ProjectItems
 
     public static final String TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID = "TimelineObjectId";
     public static final String TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID = "ProjectItemId";
@@ -30,12 +31,14 @@ public class TimelineProjectItem
     public static final String TIMELINE_PROJECT_ITEM_OBJECTID = "ObjectId";
     public static final String TIMELINE_PROJECT_ITEM_IS_DELETED = "IsDeleted";
     public static final String TIMELINE_PROJECT_ITEM_IS_DIRTY = "IsDirty";
+    public static final String TIMELINE_PROJECT_ITEM_IS_ACTIVE = "Active";
 
 
     public TimelineProjectItem()
     {
         this.setDeleted(false);
         this.setDirty(false);
+        this.setActive(true);
     }
 
     public TimelineProjectItem(JSONObject json) throws RuntimeException
@@ -49,6 +52,7 @@ public class TimelineProjectItem
             this.setTimelineFootNotes(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES) : null);
             this.setDeleted(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DELETED) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DELETED) );
             this.setDirty(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DIRTY) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DIRTY) );
+            this.setActive(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE) );
 
         }
         catch (Exception e)
@@ -126,6 +130,16 @@ public class TimelineProjectItem
         _isDirty = dirty;
     }
 
+    public Boolean getActive()
+    {
+        return _active;
+    }
+
+    public void setActive(Boolean active)
+    {
+        _active = active;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c)
     {
@@ -137,6 +151,7 @@ public class TimelineProjectItem
         values.put(TIMELINE_PROJECT_ITEM_OBJECTID, getObjectId());
         values.put(TIMELINE_PROJECT_ITEM_IS_DELETED, getDeleted());
         values.put(TIMELINE_PROJECT_ITEM_IS_DIRTY, getDirty());
+        values.put(TIMELINE_PROJECT_ITEM_IS_ACTIVE, getActive());
 
         return values;
     }
@@ -151,6 +166,7 @@ public class TimelineProjectItem
         json.put(TIMELINE_PROJECT_ITEM_OBJECTID, getObjectId());
         json.put(TIMELINE_PROJECT_ITEM_IS_DELETED, getDeleted());
         json.put(TIMELINE_PROJECT_ITEM_IS_DIRTY, getDirty());
+        json.put(TIMELINE_PROJECT_ITEM_IS_ACTIVE, getActive());
 
         return json;
     }
@@ -167,12 +183,13 @@ public class TimelineProjectItem
                 Objects.equals(_sortOrder, that._sortOrder) &&
                 Objects.equals(_objectId, that._objectId) &&
                 Objects.equals(_isDeleted, that._isDeleted) &&
-                Objects.equals(_isDirty, that._isDirty);
+                Objects.equals(_isDirty, that._isDirty) &&
+                Objects.equals(_active, that._active);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineObjectId, _projectItemId, _timelineFootNotes, _sortOrder, _objectId, _isDeleted, _isDirty);
+        return Objects.hash(_timelineObjectId, _projectItemId, _timelineFootNotes, _sortOrder, _objectId, _isDeleted, _isDirty, _active);
     }
 }

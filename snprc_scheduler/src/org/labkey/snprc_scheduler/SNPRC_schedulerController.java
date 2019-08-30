@@ -216,7 +216,7 @@ public class SNPRC_schedulerController extends SpringActionController
                     filters.add(new SimpleFilter(FieldKey.fromParts("RevisionNum"), revisionNum, CompareType.EQUAL));
                 }
 
-                List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters);
+                List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters, true);
 
                 if (projects.size() > 0)
                 {
