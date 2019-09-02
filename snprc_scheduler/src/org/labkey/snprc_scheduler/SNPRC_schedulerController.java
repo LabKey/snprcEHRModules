@@ -6,8 +6,8 @@ import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ReadOnlyApiAction;
-import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
+import org.labkey.api.action.SimpleRedirectAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.SimpleFilter;
@@ -54,15 +54,12 @@ public class SNPRC_schedulerController extends SpringActionController
     //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     //@RequiresPermission(ReadPermission.class)
-    public class BeginAction extends RedirectAction
+    public class BeginAction extends SimpleRedirectAction
     {
-
         @Override
-        public URLHelper getURL(Object o, Errors errors)
+        public URLHelper getRedirectURL(Object o)
         {
-
             return new ActionURL(NAME, "app", getContainer());
-
         }
     }
 

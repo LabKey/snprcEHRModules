@@ -54,9 +54,10 @@ public class SNPRC_schedulerModule extends DefaultModule
     @NotNull
     protected Collection<WebPartFactory> createWebPartFactories()
     {
-        Collection<WebPartFactory> webPartFactories = new ArrayList<WebPartFactory>();
+        Collection<WebPartFactory> webPartFactories = new ArrayList<>();
         webPartFactories.add(new BaseWebPartFactory("SNPRC Scheduler", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
         {
+            @Override
             public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
                 return new SchedulerWebPart();
@@ -90,6 +91,7 @@ public class SNPRC_schedulerModule extends DefaultModule
 
         DefaultSchema.registerProvider(SNPRC_schedulerSchema.NAME, new DefaultSchema.SchemaProvider(this)
         {
+            @Override
             public QuerySchema createSchema(final DefaultSchema schema, Module module)
             {
                 return new SNPRC_schedulerUserSchema(SNPRC_schedulerSchema.NAME, null, schema.getUser(), schema.getContainer(), SNPRC_schedulerSchema.getInstance().getSchema());
