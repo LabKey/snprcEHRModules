@@ -36,7 +36,6 @@ import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.resource.Resource;
-import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.security.roles.RoleManager;
@@ -244,15 +243,10 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         NotificationService.get().registerNotification(new SampleSSRSNotification());
 
-        AdminLinkManager.getInstance().addListener(new AdminLinkManager.Listener()
-        {
-            @Override
-            public void addAdminLinks(NavTree adminNavTree, Container container, User user)
+        AdminLinkManager.getInstance().addListener((adminNavTree, container, user) -> {
+            if (container.hasPermission(user, AdminPermission.class) && container.getActiveModules().contains(SNPRC_EHRModule.this))
             {
-                if (container.hasPermission(user, AdminPermission.class) && container.getActiveModules().contains(SNPRC_EHRModule.this))
-                {
-                    adminNavTree.addChild(new NavTree("EHR Admin Page", new ActionURL("snprc_ehr", "ehrAdmin", container)));
-                }
+                adminNavTree.addChild(new NavTree("EHR Admin Page", new ActionURL("snprc_ehr", "ehrAdmin", container)));
             }
         });
         // Register pipeline provider to import FeeSchedule
@@ -339,6 +333,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
             final DbSchema dbschema = DbSchema.get(schemaName);
             DefaultSchema.registerProvider(schemaName, new DefaultSchema.SchemaProvider(this)
             {
+                @Override
                 public QuerySchema createSchema(final DefaultSchema schema, Module module)
                 {
                     if (schemaName.equalsIgnoreCase(SNPRC_EHRSchema.NAME)){
@@ -351,11 +346,14 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         }
     }
 
+    @Override
+    @NotNull
     protected Collection<WebPartFactory> createWebPartFactories()
     {
-        Collection<WebPartFactory> webPartFactories = new ArrayList<WebPartFactory>();
+        Collection<WebPartFactory> webPartFactories = new ArrayList<>();
         webPartFactories.add(new BaseWebPartFactory("SNPRC Animals Treeview", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
         {
+            @Override
             public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
                 return new AnimalsHierarchyWebPart();
@@ -371,6 +369,4 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         return webPartFactories;
     }
-
-
 }

@@ -62,5 +62,4 @@ public class SNPRC_GeneticsModule extends CodeOnlyModule
     {
         return Collections.emptyList();
     }
-
 }

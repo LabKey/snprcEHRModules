@@ -37,7 +37,7 @@
 
 <labkey:errors/>
 <labkey:form id="<%=importFormId%>"
-             action="<%= h(buildURL(FeeScheduleController.FeeScheduleImportAction.class)) %>" method="post">
+             action="<%= buildURL(FeeScheduleController.FeeScheduleImportAction.class) %>" method="post">
 
 
     <div class="content">
