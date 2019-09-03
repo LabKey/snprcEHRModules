@@ -23,8 +23,8 @@ import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.FormHandlerAction;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ReadOnlyApiAction;
-import org.labkey.api.action.RedirectAction;
 import org.labkey.api.action.SimpleApiJsonForm;
+import org.labkey.api.action.SimpleRedirectAction;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.gwt.client.DefaultValueType;
@@ -98,10 +98,10 @@ public class SNDController extends SpringActionController
     }
 
     @RequiresLogin
-    public class BeginAction extends RedirectAction
+    public class BeginAction extends SimpleRedirectAction
     {
         @Override
-        public URLHelper getURL(Object o, Errors errors)
+        public URLHelper getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "app", getContainer());
         }

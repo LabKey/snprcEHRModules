@@ -92,7 +92,6 @@ public class SNDModule extends SpringModule
         RoleManager.registerRole(new SNDReaderRole(), false);
         RoleManager.registerRole(new SNDPackageViewerRole(), true);
         RoleManager.registerRole(new SNDPackageEditorRole(), true);
-
     }
 
     @Override
@@ -103,6 +102,7 @@ public class SNDModule extends SpringModule
 
         DefaultSchema.registerProvider(SNDSchema.NAME, new DefaultSchema.SchemaProvider(this)
         {
+            @Override
             public QuerySchema createSchema(final DefaultSchema schema, Module module)
             {
                 return new SNDUserSchema(SNDSchema.NAME, null, schema.getUser(), schema.getContainer(), SNDSchema.getInstance().getSchema());
@@ -118,7 +118,6 @@ public class SNDModule extends SpringModule
             if (container.getActiveModules().contains(SNDModule.this) && container.hasPermission(user, AdminPermission.class))
                 adminNavTree.addChild(new NavTree("SND Admin", new ActionURL(SNDController.AdminAction.class, container)));
         });
-
     }
 
     @Override

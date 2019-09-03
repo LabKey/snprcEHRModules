@@ -178,7 +178,7 @@
 </script>
 <labkey:panel title="Category Security">
 
-    <labkey:form id="categorySecurityForm" action="<%=h(buildURL(SNDController.CategorySecurityAction.class))%>" method="POST">
+    <labkey:form id="categorySecurityForm" action="<%=buildURL(SNDController.CategorySecurityAction.class)%>" method="POST">
 
         <table class="table table-striped table-bordered table-hover roles-table" id="category-security">
             <thead id="groups-hdr">
