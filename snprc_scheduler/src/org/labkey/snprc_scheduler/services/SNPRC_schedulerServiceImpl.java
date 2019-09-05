@@ -42,10 +42,10 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     {
     }
 
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters)
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItems)
     {
 
-        return SNDService.get().getActiveProjects(c, u, filters);
+        return SNDService.get().getActiveProjects(c, u, filters, activeProjectItems);
 
     }
 

@@ -68,7 +68,8 @@
                 <fk>
                     <fkDbSchema>snd</fkDbSchema>
                     <fkTable>ProjectItems</fkTable>
-                    <fkColumnName>ProjectItemID</fkColumnName>
+                    <fkColumnName>ProjectItemId</fkColumnName>
+                    <fkDisplayColumnName>ProjectItemId</fkDisplayColumnName>
                 </fk>
             </column>
             <column columnName="TimelineObjectId">

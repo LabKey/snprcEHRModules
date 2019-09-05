@@ -7,6 +7,7 @@ import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
+import org.labkey.snprc_scheduler.query.StudyDayNotesTable;
 import org.labkey.snprc_scheduler.query.TimelineAnimalJunctionTable;
 import org.labkey.snprc_scheduler.query.TimelineItemTable;
 import org.labkey.snprc_scheduler.query.TimelineProjectItemTable;
@@ -75,7 +76,7 @@ public class SNPRC_schedulerUserSchema extends SimpleUserSchema
                     @Override
                     public TableInfo createTable(SNPRC_schedulerUserSchema schema, ContainerFilter cf)
                     {
-                        return new TimelineProjectItemTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoStudyDayNotes(), cf).init();
+                        return new StudyDayNotesTable(schema, SNPRC_schedulerSchema.getInstance().getTableInfoStudyDayNotes(), cf).init();
                     }
                 };
 
