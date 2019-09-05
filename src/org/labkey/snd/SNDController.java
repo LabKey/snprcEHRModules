@@ -705,6 +705,7 @@ public class SNDController extends SpringActionController
                     projectItem = new ProjectItem();
                     projectItem.setActive(jsonItem.getBoolean("active"));
                     superPkgId = jsonItem.get("superPkgId");
+
                     if (superPkgId == null)
                     {
                         errors.reject(ERROR_MSG, "Project item missing super package id.");
@@ -713,6 +714,10 @@ public class SNDController extends SpringActionController
                     {
                         projectItem.setSuperPkgId((Integer) superPkgId);
                         projectItem.setParentObjectId(project.getObjectId());
+                        projectItem.setProjectItemId(jsonItem.has(ProjectItem.PROJECTITEM_ID) && !jsonItem.isNull(ProjectItem.PROJECTITEM_ID)
+                                ? jsonItem.getInt(ProjectItem.PROJECTITEM_ID) : -1);
+                        projectItem.setContainer(getViewContext().getContainer().getId());
+                        //projectItem.setProjectItemId(jsonItem.getInt(ProjectItem.PROJECTITEM_ID));
                         projectItems.add(projectItem);
                     }
                 }

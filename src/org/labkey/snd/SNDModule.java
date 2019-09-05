@@ -92,6 +92,7 @@ public class SNDModule extends SpringModule
         RoleManager.registerRole(new SNDReaderRole(), false);
         RoleManager.registerRole(new SNDPackageViewerRole(), true);
         RoleManager.registerRole(new SNDPackageEditorRole(), true);
+
     }
 
     @Override

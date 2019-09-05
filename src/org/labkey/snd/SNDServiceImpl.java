@@ -32,7 +32,6 @@ import org.labkey.api.dataiterator.DataIterator;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
 import org.labkey.api.dataiterator.DataIteratorUtil;
-import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.exp.property.Domain;
 import org.labkey.api.exp.property.PropertyService;
 import org.labkey.api.gwt.client.model.GWTConditionalFormat;
@@ -546,7 +545,11 @@ public class SNDServiceImpl implements SNDService
     }
 
     @Override
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly) {
+        return SNDManager.get().getActiveProjects(c, u, filters, activeProjectItemsOnly);
+    }
+    @Override
     public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters) {
-        return SNDManager.get().getActiveProjects(c, u, filters);
+        return SNDManager.get().getActiveProjects(c, u, filters, true);
     }
 }

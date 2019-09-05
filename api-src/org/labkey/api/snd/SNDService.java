@@ -15,7 +15,6 @@
  */
 package org.labkey.api.snd;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
@@ -70,5 +69,6 @@ public interface SNDService
     Map<Integer, Category> getAllCategories(Container c, User u);
     Integer getQCStateId(Container c, User u, QCStateEnum qcState);
     QCStateEnum getQCState(Container c, User u, int qcStateId);
+    List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly);
     List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters);
 }

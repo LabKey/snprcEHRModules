@@ -23,6 +23,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.security.User;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by marty on 8/4/2017.
@@ -130,5 +131,24 @@ public class ProjectItem
         json.put(PROJECTITEM_SUPERPKG, getSuperPackage().toJSON(c, u));
 
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjectItem that = (ProjectItem) o;
+        return _active == that._active &&
+                _projectItemId == that._projectItemId &&
+                _superPkgId == that._superPkgId &&
+                Objects.equals(_parentObjectId, that._parentObjectId) &&
+                Objects.equals(_container, that._container);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(_active, _projectItemId, _superPkgId, _parentObjectId, _container);
     }
 }
