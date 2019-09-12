@@ -54,6 +54,8 @@ import org.labkey.api.view.NavTree;
 import org.labkey.snd.security.SNDSecurityManager;
 import org.labkey.snd.security.permissions.SNDPackageEditorPermission;
 import org.labkey.snd.security.permissions.SNDPackageViewerPermission;
+import org.labkey.snd.security.permissions.SNDProjectEditorPermission;
+import org.labkey.snd.security.permissions.SNDProjectViewerPermission;
 import org.labkey.snd.trigger.test.SNDTestEventTriggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -544,7 +546,7 @@ public class SNDController extends SpringActionController
         }
     }
 
-    @RequiresPermission(AdminPermission.class)
+    @RequiresPermission(SNDProjectEditorPermission.class)
     public class SaveProjectAction extends MutatingApiAction<SimpleApiJsonForm>
     {
 
@@ -731,7 +733,7 @@ public class SNDController extends SpringActionController
         }
     }
 
-    @RequiresPermission(AdminPermission.class)
+    @RequiresPermission(SNDProjectViewerPermission.class)
     public class GetProjectAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
