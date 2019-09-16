@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>HasSNP</name>
+    <description>Has SNP data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="study" queryName="GenHasSNP" />
+            <destination schemaName="study" queryName="GenFlagSNP" bulkLoad="true" targetOption="truncate">
+
+            </destination>
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>

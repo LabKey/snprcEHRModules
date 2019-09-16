@@ -1,0 +1,1 @@
+select distinct g.subjectId, 1 as HasGeneExpr from Project."Core Facilities/Genetics".assay.general."Gene Expression".data g
