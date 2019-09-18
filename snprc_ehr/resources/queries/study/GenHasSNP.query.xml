@@ -1,0 +1,25 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="GenHasSNP" tableDbType="TABLE">
+                <tableTitle>Has SNP Data</tableTitle>
+                <columns>
+                    <column columnName="subjectId">
+                        <columnTitle>Id</columnTitle>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                        <columnIndex></columnIndex>
+                    </column>
+                </columns>
+                <indices>
+                    <index type="non-unique">
+                        <column>subjectId</column>
+                    </index>
+                </indices>
+            </table>
+        </tables>
+    </metadata>
+</query>

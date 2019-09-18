@@ -2866,4 +2866,88 @@
         </columns>
         <tableTitle>ObScan</tableTitle>
     </table>
+    <table tableName="GenFlagSNP" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <scale>6</scale>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="HasSNPData">
+                <datatype>boolean</datatype>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="objectId">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
+        </columns>
+    </table>
+    <table tableName="GenFlagMicrosatellites" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <scale>6</scale>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="HasMicrosatellitesData">
+                <datatype>boolean</datatype>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="objectId">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
+        </columns>
+    </table>
+    <table tableName="GenFlagGeneExpression" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <scale>6</scale>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="HasGeneExpressionData">
+                <datatype>boolean</datatype>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="objectId">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
+        </columns>
+    </table>
+    <table tableName="GenFlagPhenotype" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <scale>6</scale>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="HasPhenotypesData">
+                <datatype>boolean</datatype>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+            </column>
+            <column columnName="objectId">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>false</isKeyField>
+            </column>
+        </columns>
+    </table>
 </tables>

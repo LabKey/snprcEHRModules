@@ -56,3 +56,5 @@ UNION
 select 'study' as schema, 'ClinPath' as CategoryId,'Parasitology O&P' as Label, 'ParasitologyPivotOP' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Location Temperature' as Label, 'LocationTemperature' as Name,  true as ShowByDefault, false as isAnimal
+UNION
+select 'study' as schema, 'Misc' as CategoryId,'Animals with Genetic data' as Label, 'GenDemohasData' as Name,  true as ShowByDefault, true as isAnimal

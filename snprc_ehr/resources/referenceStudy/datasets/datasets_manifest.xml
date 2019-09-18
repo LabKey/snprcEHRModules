@@ -182,5 +182,17 @@
         <dataset name="ObScan" id="5048" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="GenFlagSNP" id="5049" demographicData="true" category="Colony Management"  type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="GenFlagMicrosatellites" id="5050" demographicData="true" category="Colony Management"  type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="GenFlagGeneExpression" id="5051" demographicData="true" category="Colony Management"  type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
+        <dataset name="GenFlagPhenotype" id="5052" demographicData="true" category="Colony Management"  type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>
