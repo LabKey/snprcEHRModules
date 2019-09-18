@@ -6,10 +6,14 @@
                 <property name="columnTitle" value="Biopsy/Death Date"/>
             </properties>
         </column>
-        <!--<column name="Id/Demographics/dam"/> -->
-        <column name="age">
+        <column name="ageAtTime">
             <properties>
-                <property name="columnTitle" value="Age at Time"/>
+                <property name="columnTitle" value="Age at Time (Years)"/>
+            </properties>
+        </column>
+        <column name="ageClass">
+            <properties>
+                <property name="columnTitle" value="Age Class at Time"/>
             </properties>
         </column>
         <column name="gender"/>
