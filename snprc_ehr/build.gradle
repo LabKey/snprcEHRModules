@@ -2,13 +2,13 @@ import org.labkey.gradle.util.BuildUtils
 
 repositories
         {
-           flatDir dirs: project(":server:modules:LabDevKitModules:LDK").file("lib")
+           flatDir dirs: project(":externalModules:labModules:LDK").file("lib")
         }
 dependencies
         {
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiCompile")
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:optionalModules:snd", depProjectConfig: "apiCompile")
-            BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiCompile")
+            BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":externalModules:labModules:LDK", depProjectConfig: "apiCompile")
             compile project( BuildUtils.getPlatformModuleProjectPath(project.gradle, "query"))
             BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:optionalModules:dataintegration", depProjectConfig: "apiCompile")
 
