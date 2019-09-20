@@ -62,3 +62,4 @@ ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	Parasitol
 ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes
 Flags	Colony Management	query	Animal Attributes (flags)	true		study	flags			StartDate	false	false		qcstate/publicdata	Animal attribute flags
+FileRepository	General	js	File Repository	true		study	FileRepository				false	false		qcstate/publicdata	File Repository for uploading and viewing animal related files
