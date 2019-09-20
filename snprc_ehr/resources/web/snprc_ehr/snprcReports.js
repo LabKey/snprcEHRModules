@@ -396,7 +396,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                             else {
                                 panel.add({
                                     xtype: 'ldk-webpartpanel',
-                                    title: 'Animal Portal for ' + animalIds,
+                                    title: 'File Repository for ' + animalIds,
                                     items: [
                                         {
                                             xtype: 'label',
@@ -418,7 +418,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                             }
                             panel.add({
                                 xtype: 'ldk-webpartpanel',
-                                title: 'Animal Portal for ' + animalIds,
+                                title: 'File Repository for ' + animalIds,
                                 items: [
                                     {
                                         xtype: 'label',
