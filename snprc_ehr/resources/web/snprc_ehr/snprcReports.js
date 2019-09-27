@@ -285,3 +285,248 @@ EHR.reports.currentBlood = function(panel, tab){
         }, this);
     }
 };
+
+// Shared with SNPRC by WNPRC
+// https://github.com/WNPRC-EHR-Services/wnprc-modules/blob/10350e7a0b594dc681e97df676142145bc38913b/WNPRC_EHR/resources/web/wnprc_ehr/animalPortal.js)
+EHR.reports.FileRepository =  function(panel,tab) {
+    if (tab.filters.subjects){
+        var animalIds = tab.filters.subjects[0];
+        renderFiles(animalIds,tab);
+    }
+
+    function renderFiles(subjects, tab)
+    {
+        if (!subjects.length){
+            tab.add({
+                html:'No animals were found',
+                border : false
+            });
+
+            return;
+        }
+        var toAdd = [];
+
+        if (subjects.length >1)
+        {
+            var containerPath = LABKEY.container.path+'/FileRepository';
+            var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath});
+            var location = {id: animalIds};
+            //animalFolder.listFiles({success:function(){console.log("success",arguments)},failure:function(){console.log("failed",arguments)},forceReload:true,path:"/@files/animalPortal/"});
+            console.log("Id of animal  " + animalIds);
+
+
+            var panel = tab.add({id: 'filesDiv', style: 'margin-bottom:20px'});
+            //toAdd.push({id: 'filesDiv', style: 'margin-bottom:20px'});
+
+            var handler = function (location)
+            {
+                var webPart = new LABKEY.WebPart({
+                    title: 'File Repository for ' + animalIds,
+                    partName: 'Files',
+                    renderTo: 'filesDiv-body',
+                    containerPath: containerPath,
+                    partConfig: {path:  location},
+                    success: function ()
+                    {
+                        panel.setHeight(450);
+                    }
+                });
+                webPart.render();
+                // toAdd.push(panel);
+
+            };
+
+            animalFolder.listFiles({
+                success: function ()
+                {
+                    console.log("success", arguments);
+                    handler(location.id);
+                },
+                path: "/@files/" + animalIds + "/",
+                failure: function (error, response)
+                {
+                    LABKEY.Security.getUserPermissions({
+                        containerPath: containerPath,
+                        success: function(userPermsInfo) {
+                            var hasInsert = false;
+                            for (var i = 0; i < userPermsInfo.container.effectivePermissions.length; i++) {
+                                if (userPermsInfo.container.effectivePermissions[i] == 'org.labkey.api.security.permissions.InsertPermission') {
+                                    hasInsert = true;
+                                }
+                            }
+                            if (hasInsert)
+                            {
+                                panel.add({
+                                    xtype: 'ldk-webpartpanel',
+                                    title: 'File Reposotory for ' + animalIds,
+                                    //text:  'No directory found for this animal',
+                                    items: [
+                                        {
+                                            xtype: 'label',
+                                            text: 'No directory found for this animal. To upload files, create a directory by clicking on the button below.'
+                                        },
+                                        {
+                                            xtype: 'label',
+                                            html: '<br/><br/>'
+
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: 'Create folder',
+                                            handler: function ()
+                                            {
+                                                animalFolder.createDirectory({
+                                                    path: "/@files/" + animalIds + "/",
+                                                    success: function ()
+                                                    {
+                                                        //create surgery folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/Surgery Sheets",
+                                                            success: function () {
+                                                                console.log("created surgery folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to created surgery folder" + error.status)
+                                                            }
+                                                        }),
+                                                         // create radiology report folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/Radiology Reports",
+                                                            success: function () {
+                                                                console.log("created radiology folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to create radiology folder " + error.status)
+                                                            }
+                                                        }),
+                                                        // create misc docs folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/Misc Docs",
+                                                            success: function () {
+                                                                console.log("created misc folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to created misc folder" + error.status)
+                                                            }
+                                                        }),
+                                                        // create images folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/Images",
+                                                            success: function () {
+                                                                console.log("created images folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to created images folder" + error.status)
+                                                            }
+                                                        }),
+                                                        // create pathology folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/Pathology Reports",
+                                                            success: function () {
+                                                                console.log("created pathology folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to created pathology folder" + error.status)
+                                                            }
+                                                        }),
+                                                        // create lab results folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/Lab Reports",
+                                                            success: function () {
+                                                                console.log("created lab folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to created lab folder" + error.status)
+                                                            }
+                                                        }),
+                                                        // create CITES folder
+                                                        animalFolder.createDirectory({
+                                                            path: "/@files/" + animalIds + "/CITES Docs",
+                                                            success: function () {
+                                                                console.log("created CITES folder for " + animalIds);
+                                                                handler(location.id);
+                                                            },
+                                                            failure: function (error) {
+                                                                console.log("failed to created CITES folder" + error.status)
+                                                            }
+                                                        }),
+
+                                                        console.log("folder created for " + animalIds);
+                                                        handler(location.id);
+                                                    },
+                                                    failure: function (error)
+                                                    {
+                                                        console.log("failed to created folder" + error.status)
+                                                    }
+                                                })
+
+                                            }
+
+                                        }]
+                                });
+                            }
+                            else {
+                                panel.add({
+                                    xtype: 'ldk-webpartpanel',
+                                    title: 'File Repository for ' + animalIds,
+                                    items: [
+                                        {
+                                            xtype: 'label',
+                                            text: 'The current animal does not have any files, and you do not have permission to upload new files.'
+                                        }]
+                                });
+                            }
+                        },
+                        failure: function(error, response) {
+                            var message;
+                            if (response.status == 404) {
+                                message = 'The folder ' + containerPath + ' does not exist, so no files can be shown or uploaded. Contact EHR services to correct the configuration.';
+                            }
+                            else if (response.status == 401 || response.status == 403) {
+                                message = 'You do not have permission to upload or view files. Contact EHR services to get permission.';
+                            }
+                            else {
+                                message = 'There was an error attempting to load the file data: ' + response.status;
+                            }
+                            panel.add({
+                                xtype: 'ldk-webpartpanel',
+                                title: 'File Repository for ' + animalIds,
+                                items: [
+                                    {
+                                        xtype: 'label',
+                                        text: message
+                                    }]
+                            });
+                        }
+                    });
+                },
+
+                forceReload: true
+            });
+
+
+            if (File && File.panel && File.panel.Browser && File.panel.Browser._pipelineConfigurationCache)
+            {
+                File.panel.Browser._pipelineConfigurationCache = {};
+            }
+
+        }
+        if (toAdd.length){
+            panel = tab.add(toAdd);
+
+            //webPart.render();
+        }
+
+
+
+    }
+
+
+
+};
