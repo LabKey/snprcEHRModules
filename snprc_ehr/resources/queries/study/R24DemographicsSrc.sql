@@ -32,7 +32,8 @@ SELECT
   'SNPRC' as currentColony,
   d.gender.code as gender,
   d.dam,
-  d.sire
+  d.sire,
+  d.modified
 FROM study.demographics d
 
 -- is participant from NEPRC?
