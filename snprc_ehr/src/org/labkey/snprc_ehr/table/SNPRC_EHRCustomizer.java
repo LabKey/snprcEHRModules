@@ -476,6 +476,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
             ds.addColumn(col);
         }
+        // Because of performance, changed to study based dataset ETLed from genetics folder 10/14/19 srr
         if (genetics != null)
         {
             if (ds.getColumn("GenDemoCustomizer") == null)
