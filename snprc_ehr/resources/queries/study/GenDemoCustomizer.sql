@@ -1,5 +1,6 @@
 /*************************************************
-Demographics has gen data query for customizer
+GenDemoCustomizer.sql
+  Demographics has gen data query for customizer
   Sourced from GenDemoHasData.sql
 srr 10.14.19
 *************************************************/

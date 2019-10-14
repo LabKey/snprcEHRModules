@@ -478,9 +478,9 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (genetics != null)
         {
-            if (ds.getColumn("GenDemoHasData") == null)
+            if (ds.getColumn("GenDemoCustomizer") == null)
             {
-                BaseColumnInfo col = getWrappedCol(us, ds, "GenDemoHasData", "GenDemoHasData", "Id", "Id");
+                BaseColumnInfo col = getWrappedCol(us, ds, "GenDemoCustomizer", "GenDemoCustomizer", "Id", "Id");
                 col.setLabel("Genetic Assays");
                 col.setDescription("Show if genetic assays exist for ID");
                 ds.addColumn(col);
