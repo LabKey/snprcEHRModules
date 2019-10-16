@@ -166,11 +166,14 @@ public class SNPRC_schedulerController extends SpringActionController
     /**
      * getActiveProjectsAction
      * <p>
-     * call without parameters returns the entire list of active projects from the SND module
+     * call without parameters returns the entire list of active research projects from the SND module
      * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?
      * <p>
      * call with the projectId & revisionNum to return a single project
      * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?ProjectId=18&RevisionNum=0
+     * call with 2-character species code & one of the following project types: Clinical, Maintenance, Behavior, returns
+     *  the corresponding project
+     *  e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?Species=PC&ProjectType=Clinical
      */
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
@@ -182,35 +185,51 @@ public class SNPRC_schedulerController extends SpringActionController
             Map<String, Object> props = new HashMap<>();
             List<JSONObject> jsonProjects = new ArrayList<>();
             PropertyValues pv = getPropertyValues();
-            Integer projectId = null;
-            Integer revisionNum = null;
+            String projectId = null;
+            String revisionNum = null;
+            String projectType = null;
+            String species = null;  // two-character species code (referenceId.species.species.code)
 
             try
             {
+                ArrayList<SimpleFilter> filters = new ArrayList<>();
+
                 // see if a specific project is requested
                 if (!pv.isEmpty())
                 {
-                    try
-                    {
-                        projectId = Integer.parseInt(pv.getPropertyValue("ProjectId").getValue().toString());
-                        revisionNum = Integer.parseInt(pv.getPropertyValue("RevisionNum").getValue().toString());
-                    }
-                    catch (NumberFormatException | NullPointerException e)
-                    {
-                        throw new ValidationException("ProjectId and RevisionNum must be numeric");
-                    }
-                }
+                    projectType = pv.contains("ProjectType") ? pv.getPropertyValue("ProjectType").getValue().toString(): null;
+                    species = pv.contains("Species") ? pv.getPropertyValue("Species").getValue().toString() : null;
+                    projectId = pv.contains("ProjectId") ? pv.getPropertyValue("ProjectId").getValue().toString() : null;
+                    revisionNum = pv.contains("RevisionNum") ?pv.getPropertyValue("RevisionNum").getValue().toString() : null;
 
-                // add filters to remove colony maintenance, behavior, clinical, and legacy projects
-                ArrayList<SimpleFilter> filters = new ArrayList<>();
-                filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId"), 4000, CompareType.LT));
-                filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId"), 0, CompareType.GT));
+                    if (projectType != null && "Maintenance Behavior Clinical".contains(projectType) && species != null)
+                    {
+                        // project is non-research
+                        filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), projectType, CompareType.EQUAL));
+                        filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId","species"), species, CompareType.EQUAL));
+                    }
+                    else if (pv.getPropertyValue("ProjectId") != null && pv.getPropertyValue("RevisionNum") != null)
+                    {
+                        // specific project requested
+                        try
+                        {
+                            // if a specific project is requested, add it to the filters ArrayList
+                            //filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), "Research", CompareType.EQUAL));
+                            filters.add(new SimpleFilter(FieldKey.fromParts("ProjectId"), Integer.parseInt(projectId), CompareType.EQUAL));
+                            filters.add(new SimpleFilter(FieldKey.fromParts("RevisionNum"), Integer.parseInt(revisionNum), CompareType.EQUAL));
 
-                // if a specific project is requested, add it to the filters ArrayList
-                if (projectId != null && revisionNum != null)
-                {
-                    filters.add(new SimpleFilter(FieldKey.fromParts("ProjectId"), projectId, CompareType.EQUAL));
-                    filters.add(new SimpleFilter(FieldKey.fromParts("RevisionNum"), revisionNum, CompareType.EQUAL));
+                        }
+                        catch (NumberFormatException | NullPointerException e)
+                        {
+                            throw new ValidationException("ProjectId and RevisionNum must be numeric");
+                        }
+                    }
+                    else
+                    {
+                        //
+                        // add filters to return all research projects
+                        filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), "Research", CompareType.EQUAL));
+                    }
                 }
 
                 List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters, true);
@@ -223,9 +242,6 @@ public class SNPRC_schedulerController extends SpringActionController
 
                     for (Map<String, Object> project : projects)
                     {
-                        // NOTE WELL: only returning Research projects!
-//                        if (project.get("ProjectType") != null && project.get("ProjectType").toString().toLowerCase().equals("research"))
-//                        {
                         JSONObject jsonProject = new JSONObject(project);
                         jsonProject.put("ProjectObjectId", jsonProject.getString("objectId"));
 

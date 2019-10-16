@@ -13,5 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-select project, protocol, coalesce(right(protocol, 2), 'ZZ') as species
-from ehr.project
+select p.project,
+       p.protocol,
+       coalesce(right(p.protocol, 2), vcs.Species) as species
+from ehr.project as p
+left join snprc_ehr.ValidChargeBySpecies as vcs on p.project = vcs.Project

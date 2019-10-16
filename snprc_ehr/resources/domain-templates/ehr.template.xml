@@ -12,4 +12,13 @@
             </dat:columns>
         </table>
     </template>
+    <template xsi:type="EHRTemplateType">
+        <table tableName="project" tableDbType="NOT_IN_DB">
+            <dat:columns>
+                <dat:column columnName="species">
+                    <dat:rangeURI>string</dat:rangeURI>
+                </dat:column>
+            </dat:columns>
+        </table>
+    </template>
 </templates>

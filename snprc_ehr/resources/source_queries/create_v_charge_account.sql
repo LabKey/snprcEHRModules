@@ -42,6 +42,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
 	CASE WHEN vcs.charge_id IS NULL THEN 'True' ELSE 'False' END AS research,
     ca.cost_account                  AS account,
     ca.working_iacuc                 AS protocol,
+	coalesce(right(ca.working_iacuc, 2), vcs.arc_species_code) as species,
     ca.start_date                    AS startdate,
     ca.stop_date                     AS enddate,
     ca.short_description             AS shortName,
@@ -54,10 +55,10 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
     ca.timestamp                     AS timestamp
   FROM dbo.charge_account AS ca
     LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ca.object_id
-	LEFT OUTER JOIN (SELECT DISTINCT charge_id FROM dbo.valid_charge_by_species) AS vcs ON ca.charge_id = vcs.charge_id
+	LEFT OUTER JOIN dbo.valid_charge_by_species AS vcs ON ca.charge_id = vcs.charge_id
 
 
 GO
 GRANT SELECT ON [labkey_etl].[v_charge_account] TO z_labkey
 
-GO
+--GO
