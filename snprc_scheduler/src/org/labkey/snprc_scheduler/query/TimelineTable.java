@@ -9,9 +9,12 @@ import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
+import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.InvalidKeyException;
+import org.labkey.api.query.QueryForeignKey;
+import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
@@ -49,6 +52,7 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
     {
         super.init();
 
+
         // initialize virtual columns here
         // HasItems = true if the timeline has timeline items assigned
         SQLFragment hasItemsSql = new SQLFragment();
@@ -76,13 +80,13 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
 
         SQLFragment projectIdSql = new SQLFragment();
         projectIdSql.append("(SELECT pr.ProjectId FROM snd.Projects as pr");
-        projectIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        projectIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ProjectObjectId = pr.ObjectId )");
         ExprColumn projectIdCol = new ExprColumn(this, Timeline.TIMELINE_PROJECT_ID, projectIdSql, JdbcType.INTEGER);
         addColumn(projectIdCol);
 
         SQLFragment revisionNumSql = new SQLFragment();
         revisionNumSql.append("(SELECT pr.RevisionNum FROM snd.Projects as pr");
-        revisionNumSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        revisionNumSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ProjectObjectId = pr.ObjectId )");
         ExprColumn revisionNumCol = new ExprColumn(this, Timeline.TIMELINE_PROJECT_REVISION_NUM, revisionNumSql, JdbcType.INTEGER);
         addColumn(revisionNumCol);
 
@@ -94,26 +98,60 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
 
         SQLFragment chargeIdSql = new SQLFragment();
         chargeIdSql.append("(SELECT pr.ReferenceId as ChargeId FROM snd.Projects as pr");
-        chargeIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        chargeIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ProjectObjectId = pr.ObjectId )");
         ExprColumn chargeIdCol = new ExprColumn(this, Timeline.TIMELINE_CHARGE_ID, chargeIdSql, JdbcType.INTEGER);
         addColumn(chargeIdCol);
 
         SQLFragment protocolSql = new SQLFragment();
         protocolSql.append("(SELECT coalesce(ps.protocol,'') as Protocol FROM ehr.project as ps");
         protocolSql.append(" JOIN snd.Projects as pr ON ps.project = pr.ReferenceId ");
-        protocolSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
+        protocolSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ProjectObjectId = pr.ObjectId )");
         ExprColumn protocolCol = new ExprColumn(this, Timeline.TIMELINE_PROTOCOL, protocolSql, JdbcType.VARCHAR);
         addColumn(protocolCol);
 
-        SQLFragment speciesSql = new SQLFragment();
-        speciesSql.append("(SELECT coalesce(right(protocol, 2), 'ZZ') as Species FROM ehr.project as ps");
-        speciesSql.append(" JOIN snd.Projects as pr ON ps.project = pr.ReferenceId ");
-        speciesSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + " .ProjectObjectId = pr.ObjectId )");
-        ExprColumn speciesCol = new ExprColumn(this, Timeline.TIMELINE_SPECIES, speciesSql, JdbcType.VARCHAR);
-        addColumn(speciesCol);
+//        SQLFragment speciesSql = new SQLFragment();
+//        //speciesSql.append("(SELECT coalesce(right(protocol, 2), 'ZZ') as Species FROM ehr.project as ps");
+//        speciesSql.append("(SELECT ps.species as Species FROM ehr.project as ps");
+//        speciesSql.append(" JOIN snd.Projects as pr ON ps.project = pr.ReferenceId ");
+//        speciesSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ProjectObjectId = pr.ObjectId )");
+//        ExprColumn speciesCol = new ExprColumn(this, Timeline.TIMELINE_SPECIES, speciesSql, JdbcType.VARCHAR);
+//        addColumn(speciesCol);
+//
+//      SQLFragment replaced with customizeTimelineTable()
+        customizeTimelineTable();
 
         return this;
     }
+
+// Expression columns query the underlying table; therefore they can't query extensible columns. To query the extensible
+// column (species in ehr.projects) a WrappedColumn is used here instead, and the species column is added in Timeline/.qview.xml
+    private void customizeTimelineTable()
+    {
+        String sndProject = "sndProject";
+        UserSchema us =  getUserSchema();
+        Container c = us.getContainer();
+        User u = us.getUser();
+        UserSchema sndSchema = QueryService.get().getUserSchema(u, c, "snd");
+
+        if (getColumn(sndProject) == null)
+        {
+
+            if (sndSchema != null)
+            {
+                WrappedColumn wrapped = new WrappedColumn(getColumn("projectObjectId"), sndProject);
+                wrapped.setLabel("sndProject");
+                wrapped.setIsUnselectable(true);
+                wrapped.setUserEditable(false);
+                wrapped.setFk(new QueryForeignKey(QueryForeignKey.from(sndSchema, getContainerFilter())
+                        .table("Projects")
+                        .key("ObjectId")
+                        .display("referenceId")));
+                addColumn(wrapped);
+            }
+        }
+
+    }
+
 
     public boolean isTimelineInUse(Integer timelineId, Integer revisionNum)
     {
@@ -176,4 +214,5 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
             return qus;
         }
     }
+
 }

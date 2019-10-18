@@ -91,8 +91,9 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
+        //ToDo: The line below is needed so that the project is NOT deleted after the test run - uncomment only for debugging
         //if (!afterTest)
-            _containerHelper.deleteProject(getProjectName(), afterTest);
+          _containerHelper.deleteProject(getProjectName(), afterTest);
     }
 
     private void doSetup()
@@ -128,6 +129,10 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         importStudy();
         setup_sndData();
         setEHRModuleProperties();
+
+        // add ehr extensible columns
+        runScript(SetupScripts.CREATE_EHR_DOMAINS);
+
         try
         {
             populateEHRTables();
@@ -213,7 +218,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
     {
         // Verify React page renders for EDITOR_ROLE
         impersonate(EDITOR_USER.getEmail());
-        ;
+
 
         BeginPage page = BeginPage.beginAt(this, getProjectName());
         int responseCode = getResponseCode();
@@ -242,7 +247,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
     }
 
 
-    @Test
+   @Test
     public void test3_addTimelineData()
     {
         TimelineScripts ts = new TimelineScripts();

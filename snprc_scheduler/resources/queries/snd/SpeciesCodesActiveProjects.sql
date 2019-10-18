@@ -3,7 +3,7 @@
 
 select distinct s.arc_species_code,  ps.species.common_name
 from snprc_ehr.species s
-         inner join ehr.projectSpecies ps
+         inner join ehr.project ps
                 on  ps.species = s.arc_species_code
          inner join snd.Projects p
                  on p.referenceID = ps.project

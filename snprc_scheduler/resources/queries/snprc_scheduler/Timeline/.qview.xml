@@ -1,0 +1,33 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="TimelineId"/>
+        <column name="RevisionNum"/>
+        <column name="StartDate"/>
+        <column name="EndDate"/>
+        <column name="Description"/>
+        <column name="LeadTech"/>
+        <column name="Notes"/>
+        <column name="SchedulerNotes"/>
+        <column name="RC"/>
+        <column name="AnimalAccount"/>
+        <column name="sndProject/ReferenceId/Species"/>
+        <column name="ProjectObjectId"/>
+        <column name="QcState"/>
+        <column name="Created"/>
+        <column name="CreatedBy"/>
+        <column name="Modified"/>
+        <column name="ModifiedBy"/>
+        <column name="ObjectId"/>
+        <column name="HasItems"/>
+        <column name="IsScheduled"/>
+        <column name="ProjectId"/>
+        <column name="ProjectRevisionNum"/>
+        <column name="IsInUse"/>
+        <column name="referenceId"/>
+        <column name="Protocol"/>
+    </columns>
+    <sorts>
+        <sort column="TimelineId"/>
+        <sort column="RevisionNum"/>
+    </sorts>
+</customView>

@@ -1,10 +1,13 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="projectSpecies" tableDbType="NOT_IN_DB">
+            <table tableName="project" tableDbType="TABLE">
+                <tableUrl>/EHR/projectDetails.view?project=${project}</tableUrl>
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
                 <columns>
-                    <column columnName="project" />
-                    <column columnName="protocol" />
                     <column columnName="species">
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>

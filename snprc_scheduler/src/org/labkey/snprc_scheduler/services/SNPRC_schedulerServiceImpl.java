@@ -109,7 +109,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             List<String> objectIds = new ArrayList<>();
             selector.forEachMap(row -> objectIds.add( (String) row.get(Timeline.TIMELINE_OBJECTID)));
 
-            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_SPECIES), species, CompareType.EQUAL);
+            //SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_SPECIES, "referenceId", "species"), species, CompareType.EQUAL);
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("sndProject", "referenceId", "species"), species, CompareType.EQUAL);
             filter.addInClause(FieldKey.fromParts(Timeline.TIMELINE_OBJECTID), objectIds );
 
             List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
