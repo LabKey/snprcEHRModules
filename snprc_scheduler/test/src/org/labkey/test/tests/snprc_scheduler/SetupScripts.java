@@ -104,6 +104,23 @@ public class SetupScripts
             "       }\n" +
             "});\n";
 
+    public static final String CREATE_EHR_DOMAINS ="LABKEY.Domain.create({\n" +
+            "   domainGroup: 'test',        \n" +
+            "   domainKind: 'EHR',          \n" +
+            "   module: 'snprc_scheduler',  \n" +
+            "   importData: false,          \n" +
+            "   success: onSuccess,         \n" +
+            "   failure: onFailure          \n" +
+            "});                            \n" +
+            "function onFailure(e)          \n" +
+            "{                              \n" +
+            "   callback(e.exception);      \n" +
+            "}                              \n" +
+            "                               \n" +
+            "function onSuccess()           \n" +
+            "{                              \n" +
+            "   callback('Success!');       \n" +
+            "}                              \n";
     public SetupScripts()
     {
     }

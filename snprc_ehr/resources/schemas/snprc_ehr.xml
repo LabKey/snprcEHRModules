@@ -1175,7 +1175,7 @@
     </table>
     <table tableName="ValidChargeBySpecies" tableDbType="TABLE">
         <auditLogging>DETAILED</auditLogging>
-        <pkColumnName>RowId</pkColumnName>
+        <pkColumnName>Project, Species</pkColumnName>
         <columns>
             <column columnName="Project">
                 <fk>

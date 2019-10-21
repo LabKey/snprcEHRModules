@@ -179,9 +179,9 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             customizeHousingTable((AbstractTableInfo) ti);
         }
-        if (matches(ti, "ehr", "project")) {
-            customizeProjectTable((AbstractTableInfo) ti);
-        }
+//        if (matches(ti, "ehr", "project")) {
+//            customizeProjectTable((AbstractTableInfo) ti);
+//        }
 
         if (matches(ti, "ehr_lookups", "areas"))
         {
@@ -252,28 +252,30 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     {
         ti.getMutableColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
     }
-    private void customizeProjectTable(AbstractTableInfo ti)
-    {
 
-        if (ti.getColumn("species") == null)
-        {
-            UserSchema us = getUserSchema(ti, "ehr");
-
-            if (us != null)
-            {
-                ColumnInfo project = ti.getColumn("project");
-                BaseColumnInfo col = ti.addColumn(new WrappedColumn(project, "species"));
-                col.setLabel("Species");
-                col.setUserEditable(false);
-                col.setIsUnselectable(false);
-                col.setFk(new QueryForeignKey(QueryForeignKey.from(us, ti.getContainerFilter())
-                        .table("projectSpecies")
-                        .key("project")
-                        .display("species")));
-            }
-        }
-
-    }
+//    species column moved to extensible column (in ehr.template.xml) - keep this code example. tjh
+//    private void customizeProjectTable(AbstractTableInfo ti)
+//    {
+//
+//        if (ti.getColumn("species") == null)
+//        {
+//            UserSchema us = getUserSchema(ti, "ehr");
+//
+//            if (us != null)
+//            {
+//                ColumnInfo project = ti.getColumn("project");
+//                BaseColumnInfo col = ti.addColumn(new WrappedColumn(project, "species"));
+//                col.setLabel("Species");
+//                col.setUserEditable(false);
+//                col.setIsUnselectable(false);
+//                col.setFk(new QueryForeignKey(QueryForeignKey.from(us, ti.getContainerFilter())
+//                        .table("projectSpecies")
+//                        .key("project")
+//                        .display("species")));
+//            }
+//        }
+//
+//    }
     private void customizeHousingTable(AbstractTableInfo ti)
     {
 // ToDo: uncomment for paired caging. tjh

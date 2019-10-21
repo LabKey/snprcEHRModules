@@ -1,0 +1,22 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="Timeline" tableDbType="TABLE">
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="sndProject">
+                        <columnTitle>Species</columnTitle>
+                        <fk>
+                            <fkDbSchema>snd</fkDbSchema>
+                            <fkTable>Projects</fkTable>
+                            <fkColumnName>ObjectId</fkColumnName>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

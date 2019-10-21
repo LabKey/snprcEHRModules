@@ -10,6 +10,7 @@
                             <fkDbSchema>ehr</fkDbSchema>
                             <fkTable>project</fkTable>
                             <fkColumnName>project</fkColumnName>
+                            <fkDisplayColumnName>projectId</fkDisplayColumnName>
                         </fk>
                     </column>
                 </columns>

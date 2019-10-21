@@ -35,7 +35,7 @@ AS
 
 SELECT  v.charge_id AS Project ,
         v.arc_species_code AS Species ,
-        v.purpose AS Purpose ,
+        case when v.charge_id between 6000 and 6999 then 'B' else v.purpose end AS Purpose ,
         v.object_id AS ObjectId ,
         v.entry_date_tm AS modified ,
         dbo.f_map_username(v.user_name) AS modifiedby ,
