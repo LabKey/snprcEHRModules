@@ -16,7 +16,7 @@
 USE [animal]
 GO
 
-/****** Object:  View [labkey_etl].[v_delete_charge_account]    Script Date: 6/26/2015 10:51:28 AM ******/
+/****** Object:  View [labkey_etl].[v_charge_account]    Script Date: 6/26/2015 10:51:28 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -33,6 +33,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
   --
   -- Changes:
   -- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
+  -- 10/22/2019  removed distinct clause from valid_charge_by_species join tjh
   --
   -- ==========================================================================================
 

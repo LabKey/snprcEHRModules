@@ -22,6 +22,7 @@ ALTER VIEW [labkey_etl].[v_snd_Projects] AS
 --
 -- Changes:
 --
+-- 10/22/2019  added logic to transform behavioral projectTypes
 -- ==========================================================================================
 
 
@@ -31,7 +32,7 @@ SELECT
   b.charge_id AS referenceId,
   b.start_date_tm AS StartDate,
   b.end_date_tm AS EndDate,
-  case when b.charge_id in (6100,6101,6102,6103,6105) then 'B' else  b.BUDGET_TYPE end AS ProjectType,
+  case when b.charge_id BETWEEN 6000 AND 6999 then 'B' else  b.BUDGET_TYPE end AS ProjectType,
   CASE WHEN b.VS_NUM = 0 THEN NULL ELSE b.VS_NUM END AS VsNumber,
   b.description as Description,
   b.object_id                     AS objectid,
