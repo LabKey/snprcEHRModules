@@ -22,7 +22,7 @@ GO
 SET QUOTED_IDENTIFIER ON;
 GO
 
-CREATE VIEW [labkey_etl].[v_valid_charge_by_species]
+ALTER VIEW [labkey_etl].[v_valid_charge_by_species]
 AS
     -- ==========================================================================================
 -- Author:		Terry Hawkins
@@ -30,7 +30,7 @@ AS
 -- Description:	View provides the data for snprc_ehr.ValidChargeBySpecies table
 -- Changes:
 --
---
+-- 10/22/2019  Added logic to transform behavioral project purpose
 -- ==========================================================================================
 
 SELECT  v.charge_id AS Project ,
