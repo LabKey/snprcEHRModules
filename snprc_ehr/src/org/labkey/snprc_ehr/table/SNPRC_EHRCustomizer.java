@@ -478,11 +478,12 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
             ds.addColumn(col);
         }
+        // Because of performance, changed to study based dataset ETLed from genetics folder 10/14/19 srr
         if (genetics != null)
         {
-            if (ds.getColumn("geneticAssays") == null)
+            if (ds.getColumn("GenDemoCustomizer") == null)
             {
-                BaseColumnInfo col = getWrappedCol(genetics, ds, "geneticAssays", "total_assays", "Id", "Id");
+                BaseColumnInfo col = getWrappedCol(us, ds, "GenDemoCustomizer", "GenDemoCustomizer", "Id", "Id");
                 col.setLabel("Genetic Assays");
                 col.setDescription("Show if genetic assays exist for ID");
                 ds.addColumn(col);
