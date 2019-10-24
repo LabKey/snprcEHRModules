@@ -15,7 +15,7 @@
  */
 SELECT
          fs.ActivityId,
-         cast(fs.ActivityId as VARCHAR(5)) + ' - ' + fs.Description
+         cast(fs.ActivityId as VARCHAR(5)) + ' - ' + fs.Description as description
 
 FROM snprc_ehr.FeeSchedule AS fs
 WHERE  fs.StartingYear = YEAR(NOW())
