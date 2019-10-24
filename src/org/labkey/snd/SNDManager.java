@@ -297,28 +297,31 @@ public class SNDManager
             errors.addRowError(new ValidationException(e.getMessage()));
         }
 
-        // If package is in use (either assigned to an event or project) then do not update the domain
-        if (!errors.hasErrors() && !((PackagesTable) pkgsTable).isPackageInUse(pkg.getPkgId()))
+        if (!errors.hasErrors())
         {
-            String domainURI = PackageDomainKind.getDomainURI(PackageDomainKind.getPackageSchemaName(), getPackageName(pkg.getPkgId()), c, u);
+            // If package is in use (either assigned to an event or project) then do not update the domain
+            if (!((PackagesTable) pkgsTable).isPackageInUse(pkg.getPkgId()))
+            {
+                String domainURI = PackageDomainKind.getDomainURI(PackageDomainKind.getPackageSchemaName(), getPackageName(pkg.getPkgId()), c, u);
 
-            GWTDomain<GWTPropertyDescriptor> updateDomain = new GWTDomain<>();
-            updateDomain.setName(getPackageName(pkg.getPkgId()));
-            updateDomain.setFields(pkg.getAttributes());
-            updateDomain.setDomainURI(domainURI);
+                GWTDomain<GWTPropertyDescriptor> updateDomain = new GWTDomain<>();
+                updateDomain.setName(getPackageName(pkg.getPkgId()));
+                updateDomain.setFields(pkg.getAttributes());
+                updateDomain.setDomainURI(domainURI);
 
-            PackageDomainKind kind = new PackageDomainKind();
-            kind.updateDomain(c, u, updateDomain);
-        }
+                PackageDomainKind kind = new PackageDomainKind();
+                kind.updateDomain(c, u, updateDomain);
+            }
 
-        // Super packages null when importing xml
-        if (superPkg != null)
-        {
-            superPkg.setChildPackages(pkg.getSubpackages());
+            // Super packages null when importing xml
+            if (superPkg != null)
+            {
+                superPkg.setChildPackages(pkg.getSubpackages());
 
-            List<SuperPackage> saves = new ArrayList<>();
-            saves.add(superPkg);
-            saveSuperPackages(u, c, saves, errors);
+                List<SuperPackage> saves = new ArrayList<>();
+                saves.add(superPkg);
+                saveSuperPackages(u, c, saves, errors);
+            }
         }
     }
 

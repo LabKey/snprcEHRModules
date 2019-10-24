@@ -459,7 +459,9 @@ function isFormValid(data: PackageModel, initialData: PackageModel, view: VIEW_T
                     }
                     return false;
                 }) !== -1;
-            })
+            }) ||
+            data.extraFields.map(ef => ef.name + ef.value).sort().join('') !==
+            initialData.extraFields.map(ef => ef.name + ef.value).sort().join('')
         )
     }
 

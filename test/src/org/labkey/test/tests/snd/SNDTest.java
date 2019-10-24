@@ -1740,9 +1740,6 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         runScriptExpectedFail(reviseProjectApi(TEST_PROJECT_ID, 2, "2018-02-15", null, "description", TEST_REV_PROJECT_DESC));
         runScript(editProjectApi(TEST_PROJECT_ID + 1, 0, "projectItems", null));
 
-        // Expected QUS delete row errors
-        checkExpectedErrors(6);
-
         goToSchemaBrowser();
         dataRegionTable = viewQueryData("snd", "Projects");
         expected = Arrays.asList("50", "2", "100", "2018-02-01", "2018-02-09", TEST_EDIT_PROJECT_DESC, "false");
@@ -2077,8 +2074,6 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
 
         log("Verifying no test failed");
         assertTextPresent("Complete","Failed tests: 0");
-
-        checkExpectedErrors(3);  // expected delete failures
     }
 
     private String getPerimissionTableValue(int row, int col)
