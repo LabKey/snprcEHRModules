@@ -363,7 +363,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                     items: [
                                         {
                                             xtype: 'label',
-                                            text: 'No directory found for this animal. To upload files, create a directory by clicking on the button below.'
+                                            text: 'No directory found for this animal. To upload files, you must create the folders first.  '
                                         },
                                         {
                                             xtype: 'label',
@@ -372,91 +372,39 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                         },
                                         {
                                             xtype: 'button',
-                                            text: 'Create folder',
+                                            style: 'margin-left: 10px;',
+                                            border: true,
+                                            text: 'Create Folders',
                                             handler: function ()
                                             {
                                                 animalFolder.createDirectory({
                                                     path: "/@files/" + animalIds + "/",
                                                     success: function ()
                                                     {
-                                                        //create surgery folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/Surgery Sheets",
-                                                            success: function () {
-                                                                console.log("created surgery folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to created surgery folder" + error.status)
-                                                            }
+                                                        const folders = [
+                                                            "Surgery Sheets",
+                                                            "Radiology Reports",
+                                                            "Misc Docs",
+                                                            "Images",
+                                                            "Pathology Reports",
+                                                            "Lab Reports",
+                                                            "Procurement Docs",
+                                                            "Dental Records",
+                                                            "Cardiology Docs",
+                                                            "Anesthesia Reports"
+                                                        ];
+                                                        folders.forEach(function (folder) {
+                                                            animalFolder.createDirectory({
+                                                                path: "/@files/" + animalIds + "/" + folder,
+                                                                success: function () {
+                                                                    console.log("created " + folder + " folder for " + animalIds);
+                                                                    handler(location.id);
+                                                                },
+                                                                failure: function (error) {
+                                                                    console.log("failed to create " + folder + " folder" + error.status)
+                                                                }
+                                                            })
                                                         }),
-                                                         // create radiology report folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/Radiology Reports",
-                                                            success: function () {
-                                                                console.log("created radiology folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to create radiology folder " + error.status)
-                                                            }
-                                                        }),
-                                                        // create misc docs folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/Misc Docs",
-                                                            success: function () {
-                                                                console.log("created misc folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to created misc folder" + error.status)
-                                                            }
-                                                        }),
-                                                        // create images folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/Images",
-                                                            success: function () {
-                                                                console.log("created images folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to created images folder" + error.status)
-                                                            }
-                                                        }),
-                                                        // create pathology folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/Pathology Reports",
-                                                            success: function () {
-                                                                console.log("created pathology folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to created pathology folder" + error.status)
-                                                            }
-                                                        }),
-                                                        // create lab results folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/Lab Reports",
-                                                            success: function () {
-                                                                console.log("created lab folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to created lab folder" + error.status)
-                                                            }
-                                                        }),
-                                                        // create CITES folder
-                                                        animalFolder.createDirectory({
-                                                            path: "/@files/" + animalIds + "/CITES Docs",
-                                                            success: function () {
-                                                                console.log("created CITES folder for " + animalIds);
-                                                                handler(location.id);
-                                                            },
-                                                            failure: function (error) {
-                                                                console.log("failed to created CITES folder" + error.status)
-                                                            }
-                                                        }),
-
                                                         console.log("folder created for " + animalIds);
                                                         handler(location.id);
                                                     },
