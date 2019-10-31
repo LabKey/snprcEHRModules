@@ -38,7 +38,7 @@ SELECT lt.LOOKUP_ID as [LookupId],
   tc.createdby AS [createdby],
   lt.TIMESTAMP
 
-FROM [animal].[dbo].[LOOKUP_TABLE] lt
+FROM [dbo].[LOOKUP_TABLE] lt
 LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = lt.object_id
 
 go

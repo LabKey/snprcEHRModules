@@ -46,7 +46,7 @@ AS
             tc.createdby                      AS createdby,
             vl.timestamp
     FROM
-            animal.dbo.valid_locations vl
+            dbo.valid_locations vl
         INNER JOIN
             dbo.TAC_COLUMNS            AS tc
                 ON tc.object_id = vl.object_id
