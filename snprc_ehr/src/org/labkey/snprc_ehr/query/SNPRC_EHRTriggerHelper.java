@@ -92,7 +92,7 @@ public class SNPRC_EHRTriggerHelper
     {
         //Given Animal Id and Departure Date, Lookup Arrivals that occurred after the departure date; if any, return false; return true otherwise
         UserSchema schema = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
-        TableInfo table = schema.getTable("Arrival");
+        TableInfo table = schema.getTable("Arrival", null, true, false );
 
         SimpleFilter filter = new SimpleFilter();
         filter.addCondition(FieldKey.fromString("id"), Id, CompareType.EQUAL);
@@ -227,7 +227,7 @@ public class SNPRC_EHRTriggerHelper
 
         Integer caseId = sqlSelector.getObject(Integer.class);
 
-        // if table has been truncated - reseed the idType at 1
+        // if table has been truncated - reseed the caseid at 1
         return (caseId == null) ? 1 : caseId + 1;
     }
 
