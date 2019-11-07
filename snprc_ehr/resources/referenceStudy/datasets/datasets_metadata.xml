@@ -354,7 +354,7 @@
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
             </column>
             <column columnName="caseid">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
                 <propertyURI>urn:ehr.labkey.org/#CaseId</propertyURI>
             </column>
             <column columnName="reviewdate">
