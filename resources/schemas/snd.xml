@@ -19,6 +19,7 @@
 <tables xsi:schemaLocation="http://labkey.org/data/xml ../../../../modules/platform/api/schemas/tableInfo.xsd"
         xmlns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <table tableName="Pkgs" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/packages/new</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/packages/edit/{PkgId}-->
         <importUrl></importUrl>
@@ -51,6 +52,7 @@
         </columns>
     </table>
     <table tableName="SuperPkgs" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/packages/new</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/packages/edit/{PkgId}-->
         <importUrl></importUrl>
@@ -82,6 +84,7 @@
         </columns>
     </table>
     <table tableName="PkgCategories" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/categories</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/categories-->
         <importUrl></importUrl>
@@ -113,6 +116,7 @@
         </columns>
     </table>
     <table tableName="PkgCategoryJunction" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/categories</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/categories-->
         <importUrl></importUrl>
@@ -141,6 +145,7 @@
         </columns>
     </table>
     <table tableName="Projects" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/projects/new</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/projects-->
         <importUrl></importUrl>
@@ -175,6 +180,7 @@
         </columns>
     </table>
     <table tableName="ProjectItems" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/projects/new</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/projects-->
         <importUrl></importUrl>
@@ -286,6 +292,7 @@
         </columns>
     </table>
     <table tableName="LookupSets" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <columns>
             <column columnName="LookupSetId"/>
             <column columnName="SetName"/>
@@ -312,6 +319,7 @@
         </columns>
     </table>
     <table tableName="Lookups" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <columns>
             <column columnName="LookupId"/>
             <column columnName="LookupSetId"/>

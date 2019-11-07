@@ -139,6 +139,8 @@ public class SNDManager
     /**
      * Deletes category package associations in junction table for a given package
      */
+
+    //TODO: use QUS to delete packageCategory
     public void deletePackageCategories(Container c, User u, int pkgId)
     {
         SQLFragment sql = new SQLFragment("DELETE FROM " + SNDSchema.getInstance().getTableInfoPkgCategoryJunction());
@@ -1325,6 +1327,8 @@ public class SNDManager
     /**
      * Used in reviseProject to update a project
      */
+
+    //TODO: Use QUS to update columns - pass Project.objectId
     private void updateProjectField(Container c, User u, int id, int rev, String field, String value)
     {
         UserSchema schema = getSndUserSchema(c, u);
