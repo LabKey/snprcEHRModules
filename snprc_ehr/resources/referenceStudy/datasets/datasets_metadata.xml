@@ -354,8 +354,7 @@
                 <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
             </column>
             <column columnName="caseid">
-                <datatype>varchar</datatype>
-                <propertyURI>urn:ehr.labkey.org/#CaseId</propertyURI>
+                <datatype>integer</datatype>
             </column>
             <column columnName="reviewdate">
                 <datatype>timestamp</datatype>
@@ -668,7 +667,7 @@
                 <propertyURI>urn:ehr.labkey.org/#VetReviewDate</propertyURI>
             </column>
             <column columnName="caseid">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
@@ -729,7 +728,7 @@
                 <datatype>varchar</datatype>
             </column>
             <column columnName="caseid">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="enddate">
                 <datatype>timestamp</datatype>
@@ -814,7 +813,7 @@
                 <propertyURI>urn:ehr.labkey.org/#VetReviewDate</propertyURI>
             </column>
             <column columnName="caseid">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="treatmentid">
                 <datatype>varchar</datatype>
@@ -859,7 +858,7 @@
                 <datatype>varchar</datatype>
             </column>
             <column columnName="caseid">
-                <datatype>varchar</datatype>
+                <datatype>integer</datatype>
             </column>
             <column columnName="category">
                 <datatype>varchar</datatype>

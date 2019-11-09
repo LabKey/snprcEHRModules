@@ -17,6 +17,14 @@
                     <column columnName="observation">
                         <columnTitle>Observation/Score</columnTitle>
                     </column>
+                    <column columnName="caseid">
+                        <columnTitle>Admit Id</columnTitle>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>cases</fkTable>
+                            <fkColumnName>caseid</fkColumnName>
+                        </fk>
+                    </column>
                     <column columnName="parentid">
                         <fk>
                             <fkDbSchema>study</fkDbSchema>

@@ -92,7 +92,7 @@ public class SNPRC_EHRTriggerHelper
     {
         //Given Animal Id and Departure Date, Lookup Arrivals that occurred after the departure date; if any, return false; return true otherwise
         UserSchema schema = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
-        TableInfo table = schema.getTable("Arrival");
+        TableInfo table = schema.getTable("Arrival", null, true, false );
 
         SimpleFilter filter = new SimpleFilter();
         filter.addCondition(FieldKey.fromString("id"), Id, CompareType.EQUAL);
@@ -213,6 +213,23 @@ public class SNPRC_EHRTriggerHelper
         return (dietCode == null) ? 1 : dietCode + 1;
     }
 
+    /**
+     * Auto-generate the next Case ID
+     *
+     * @return integer
+     */
+    public Integer getNextCaseId()
+    {
+        DbSchema dbStudySchema = SNPRC_EHRSchema.getInstance().getStudySchema();
+        SQLFragment sql = new SQLFragment("SELECT MAX(c.caseid) AS MAX_CODE FROM ");
+        sql.append(getTableInfo("study", "cases"), "c");
+        SqlSelector sqlSelector = new SqlSelector(dbStudySchema, sql);
+
+        Integer caseId = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the caseid at 1
+        return (caseId == null) ? 1 : caseId + 1;
+    }
 
     public Map<String, Object> getExtraContext()
     {

@@ -29,9 +29,13 @@ exports.init = function (EHR) {
 
         });
 
-        // remove clinpathRuns trigger event handlers (defined in ehr/Clinpath Runs.js)
+        // remove clinpathRuns trigger event handlers (defined in ehr/clinpathRuns.js)
          EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'clinpathRuns', EHR.Server.TriggerManager.Events.BEFORE_UPSERT);
-    });
 
+        // remove cases trigger event handlers (defined in ehr module)
+        EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'cases', EHR.Server.TriggerManager.Events.BEFORE_UPSERT);
+        EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'cases', EHR.Server.TriggerManager.Events.AFTER_DELETE);
+        EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'cases', EHR.Server.TriggerManager.Events.AFTER_UPSERT);
+    });
 
 };

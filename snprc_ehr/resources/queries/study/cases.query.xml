@@ -2,11 +2,6 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="cases" tableDbType="TABLE">
-                <tableUrl></tableUrl>
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
                 <columns>
                     <column columnName="date">
                         <columnTitle>Admit Date</columnTitle>
@@ -14,7 +9,9 @@
                     </column>
                     <column columnName="caseid">
                         <columnTitle>Admit Id</columnTitle>
+                        <datatype>integer</datatype>
                         <isHidden>false</isHidden>
+                        <isUserEditable>false</isUserEditable>
                     </column>
                     <column columnName="enddate">
                         <columnTitle>Release Date</columnTitle>
