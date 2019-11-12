@@ -3227,7 +3227,7 @@ public class SNDManager
     {
         UserSchema schema = getSndUserSchema(c, u);
 
-        SQLFragment sql = new SQLFragment("SELECT pi.ProjectItemId, pi.superPkgId, p.pkgId, p.description FROM ");
+        SQLFragment sql = new SQLFragment("SELECT pi.ProjectItemId, pi.superPkgId, p.pkgId, p.description, p.modified FROM ");
         sql.append(schema.getTable(SNDSchema.PROJECTITEMS_TABLE_NAME, null, true, false), "pi");
         sql.append(" JOIN ");
         sql.append(schema.getTable(SNDSchema.PROJECTS_TABLE_NAME, null, true, false), "pr");
