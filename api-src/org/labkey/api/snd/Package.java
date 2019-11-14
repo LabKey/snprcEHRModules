@@ -26,6 +26,7 @@ import org.labkey.api.security.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class Package
     private boolean _active;
     private boolean _hasEvent;
     private boolean _hasProject;
+    private Date _modified; // column will be used as a timestamp
     private Map<Integer, String> _categories = new HashMap<>();
     private List<GWTPropertyDescriptor> _attributes = new ArrayList<>();
     private List<SuperPackage> _subpackages = new ArrayList<>();
@@ -69,6 +71,7 @@ public class Package
     public static final String PKG_CATEGORIES = "categories";
     public static final String PKG_ATTRIBUTES = "attributes";
     public static final String PKG_SUBPACKAGES = "subPackages";
+    public static final String PKG_MODIFIED = "modified";
 
     @Nullable
     public Integer getPkgId()
@@ -209,6 +212,16 @@ public class Package
         _qcState = qcState;
     }
 
+    public Date getModified()
+    {
+        return _modified;
+    }
+
+    public void setModified(Date modified)
+    {
+        _modified = modified;
+    }
+
     @Nullable
     public Integer getTopLevelSuperPkgId()
     {
@@ -231,6 +244,7 @@ public class Package
         pkgValues.put(PKG_REPEATABLE, isRepeatable());
         pkgValues.put(PKG_QCSTATE, getQcState());
         pkgValues.put(PKG_CONTAINER, c);
+        pkgValues.put(PKG_MODIFIED, getModified());
 
         Map<GWTPropertyDescriptor, Object> extras = getExtraFields();
         for (GWTPropertyDescriptor gpd : extras.keySet())
@@ -288,6 +302,7 @@ public class Package
         json.put(PKG_QCSTATE, getQcState());
         json.put(PKG_TOPLEVEL_SUPERPKG, getTopLevelSuperPkgId());
         json.put(PKG_CONTAINER, c.getId());
+        json.put(PKG_MODIFIED, getModified());
 
         JSONArray categories = new JSONArray();
 

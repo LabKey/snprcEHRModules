@@ -945,6 +945,7 @@ public class SNDManager
             pkg.setQcState((Integer) row.get(Package.PKG_QCSTATE));
             pkg.setHasEvent((boolean) row.get(Package.PKG_HASEVENT));
             pkg.setHasProject((boolean) row.get(Package.PKG_HASPROJECT));
+            pkg.setModified((Date) row.get(Package.PKG_MODIFIED));
             pkg.setCategories(getPackageCategories(c, u, pkg.getPkgId(), errors));
             pkg.setAttributes(getPackageAttributes(c, u, pkg.getPkgId()));
 
