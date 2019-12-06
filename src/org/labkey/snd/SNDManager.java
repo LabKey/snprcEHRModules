@@ -2497,7 +2497,6 @@ public class SNDManager
                                 UserSchema schema = getSndUserSchema(c, u);
                                 TableInfo eventTable = getTableInfo(schema, SNDSchema.EVENTS_TABLE_NAME);
                                 QueryUpdateService eventQus = getQueryUpdateService(eventTable);
-                                QueryUpdateService eventNotesQus = getNewQueryUpdateService(schema, SNDSchema.EVENTNOTES_TABLE_NAME);
                                 QueryUpdateService eventsCacheQus = getNewQueryUpdateService(schema, SNDSchema.EVENTSCACHE_TABLE_NAME);
 
                                 String htmlEventNarrative = generateEventNarrative(c, u, event, topLevelEventDataPkgs, true, false);
@@ -2505,10 +2504,20 @@ public class SNDManager
                                 String textEventNarrative = PlainTextNarrativeDisplayColumn.removeHtmlTagsFromNarrative(htmlEventNarrative);
                                 BatchValidationException errors = new BatchValidationException();
 
+                                QueryUpdateService eventNotesQus = null;
+                                // make sure there is an event note to insert - event notes are optional
+                                if (event.getEventNotesRow(c).get("note") != null) {
+                                    eventNotesQus = getNewQueryUpdateService(schema, SNDSchema.EVENTNOTES_TABLE_NAME);
+                                }
                                 try (DbScope.Transaction tx = eventTable.getSchema().getScope().ensureTransaction())
                                 {
                                     eventQus.insertRows(u, c, Collections.singletonList(event.getEventRow(c)), errors, null, null);
-                                    eventNotesQus.insertRows(u, c, Collections.singletonList(event.getEventNotesRow(c)), errors, null, null);
+                                    // insert event note if it exists
+                                    if (eventNotesQus != null)
+                                    {
+                                        eventNotesQus.insertRows(u, c, Collections.singletonList(event.getEventNotesRow(c)), errors, null, null);
+                                    }
+
                                     insertEventDatas(c, u, event, errors);
                                     eventsCacheQus.insertRows(u, c, Collections.singletonList(eventsCacheRow), errors, null, null);
                                     generateEventNarrative(c, u, event, topLevelEventDataPkgs, true, false);
