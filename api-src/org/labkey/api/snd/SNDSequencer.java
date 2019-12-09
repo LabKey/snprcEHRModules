@@ -27,7 +27,7 @@ public enum SNDSequencer
     PROJECTID ("org.labkey.snd.api.Project", 1000),
     PROJECTITEMID ("org.labkey.snd.api.ProjectItem", 30000),
     EVENTID ("org.labkey.snd.api.Event", 2000000),
-    EVENTDATAID ("org.labkey.snd.api.EventData", 2000000);
+    EVENTDATAID ("org.labkey.snd.api.EventData", 3000000);
 
     private String sequenceName;
     private int minId;
