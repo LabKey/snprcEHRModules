@@ -133,7 +133,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         _containerHelper.createProject(getProjectName(), type);
         _containerHelper.createSubfolder(getProjectName(), getProjectName(), COREFACILITIES, "Collaboration", null);
-        _containerHelper.createSubfolder(getProjectName(), COREFACILITIES, GENETICSFOLDER, "Laboratory Folder", new String[]{"SequenceAnalysis", "SNPRC_Genetics"});
+        _containerHelper.createSubfolder(getProjectName(), COREFACILITIES, GENETICSFOLDER, "Laboratory Folder", new String[]{"SNPRC_Genetics"});
     }
 
     @Override
