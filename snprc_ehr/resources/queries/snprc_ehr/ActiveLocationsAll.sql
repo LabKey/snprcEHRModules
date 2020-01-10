@@ -13,7 +13,7 @@ Restricting this query to where species is NOT NULL will
   srr 12.10.2019
 
   Added column for maxCages from rooms table, will return 99 if null
-  srr 01.01.2020
+  srr 01.08.2020
 ***************************************/
 
 
@@ -30,5 +30,5 @@ FROM ehr_lookups.rooms r
 ) h
                          ON r.room = h.room
 where r.dateDisabled is null
-  and cast(r.room as FLOAT) < 800
+  and cast(r.room as FLOAT) < 800  -- 800 and above are off-campus and excluded here.
 order by cast(r.room as FLOAT)
