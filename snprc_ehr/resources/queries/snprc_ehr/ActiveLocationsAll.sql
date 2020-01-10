@@ -11,10 +11,13 @@ outer join to derived table (activelocations.sql)
 Restricting this query to where species is NOT NULL will
   yield the same result set as ActiveLocations.sql
   srr 12.10.2019
+
+  Added column for maxCages from rooms table, will return 99 if null
+  srr 01.01.2020
 ***************************************/
 
 
-SELECT  h.species AS species, r.room AS room--, cast(r.room as FLOAT) fRoom
+SELECT  h.species AS species, r.room AS room, coalesce(r.maxCages,99) AS maxCages--, cast(r.room as FLOAT) fRoom
 FROM ehr_lookups.rooms r
          LEFT OUTER JOIN (
     -- derived table (ActiveLocation.SQL from July 2019)
