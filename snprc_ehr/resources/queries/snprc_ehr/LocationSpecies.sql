@@ -10,7 +10,7 @@ Returns room and Species (char2) if occupied
   Changed to an outer join.
     srr 04.19.2019
 ***************************************/
-SELECT DISTINCT r.room AS room, d.id.Demographics.species.arc_species_code as species
+SELECT DISTINCT r.room AS room, d.id.Demographics.species.arc_species_code as species, d.room_sortValue
 
 FROM ehr_lookups.rooms r
          LEFT OUTER JOIN study.demographicsCurLocation d
