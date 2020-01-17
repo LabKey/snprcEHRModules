@@ -14,10 +14,13 @@ Restricting this query to where species is NOT NULL will
 
   Added column for maxCages from rooms table, will return 99 if null
   srr 01.08.2020
+  srr 01.16.2020 reverted to returning maxCages value
+  srr 01.17.2020 trying again
 ***************************************/
 
-
-SELECT  h.species AS species, r.room AS room, coalesce(r.maxCages,99) AS maxCages--, cast(r.room as FLOAT) fRoom
+SELECT h.species  AS species,
+       r.room     AS room,
+       r.maxCages AS maxCages--, cast(r.room as FLOAT) fRoom
 FROM ehr_lookups.rooms r
          LEFT OUTER JOIN (
     -- derived table (ActiveLocation.SQL from July 2019)
