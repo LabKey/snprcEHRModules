@@ -21,7 +21,7 @@ SELECT  h.species AS species, r.room AS room, coalesce(r.maxCages,99) AS maxCage
 FROM ehr_lookups.rooms r
          LEFT OUTER JOIN (
     -- derived table (ActiveLocation.SQL from July 2019)
-    SELECT distinct d.species.arc_species_code as species,d2.room AS room
+    SELECT distinct d.species.arc_species_code as species, d2.room AS room
     FROM study.housing d2
              inner join study.demographics d
                         on d2.id = d.id
@@ -30,5 +30,5 @@ FROM ehr_lookups.rooms r
 ) h
                          ON r.room = h.room
 where r.dateDisabled is null
-  and cast(r.room as FLOAT) < 800  -- 800 and above are off-campus and excluded here.
+  and cast(r.room as FLOAT) < 800 -- 800 and above are off-campus and excluded here.
 order by cast(r.room as FLOAT)
