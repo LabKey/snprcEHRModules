@@ -1018,6 +1018,7 @@
                 <isHidden>true</isHidden>
                 <fk>
                     <fkDbSchema>core</fkDbSchema>
+                    <fkDbSchema>core</fkDbSchema>
                     <fkTable>Users</fkTable>
                     <fkColumnName>UserId</fkColumnName>
                 </fk>
@@ -1029,7 +1030,6 @@
             </column>
         </columns>
     </table>
-
     <table tableName="animal_groups" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>SNPRC Animal Groups</tableTitle>
         <auditLogging>DETAILED</auditLogging>
@@ -1562,6 +1562,74 @@
             </column>
         </columns>
         <tableTitle>Valid Vaccines</tableTitle>
+    </table>
+    <table tableName="NewAnimalData" tableDbType="TABLE">
+        <pkColumnName>Id</pkColumnName>
+        <columns>
+    <column columnName="Id">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="BirthDate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="AcquisitionType">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="AcqDate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="Species">
+            </column>
+            <column columnName="OwnerInstitution">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="ResponsibleInstitution">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="objectid">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>NewAnimalData</tableTitle>
     </table>
 </tables>
 

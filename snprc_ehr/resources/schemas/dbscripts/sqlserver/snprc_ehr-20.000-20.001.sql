@@ -8,7 +8,6 @@ srr 01.28.2020
   I defaulted to nvarchar(400) if unsure of datatype.
   May need to change databypes to match those in lookup tables.
 
- :TODO rename to current LK convention after next sync
 *******************************************************/
 
 EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
@@ -16,16 +15,17 @@ EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
 CREATE TABLE snprc_ehr.NewAnimalData
 (
     Id NVARCHAR(32) NOT NULL,
-    Birth DATETIME NULL,
-    AcqCode INT NULL,
-    AcqDatetm DATETIME NULL,  -- Will use for all start dates in this dataset
-    Sex NVARCHAR(10) NULL,         --gender nvarchar(4000)
+    BirthDate DATETIME NULL,
+    AcquisitionType INT NULL,
+    AcqDate DATETIME NULL,  -- Will use for all start dates in this dataset
+    Gender NVARCHAR(10) NULL,         --gender nvarchar(4000)
     Sire NVARCHAR(32) NULL,
     Dam NVARCHAR(32) NULL,
-    SpeciesChar3 NVARCHAR(3) NULL, -- species, nvarchar(4000)
+    Species NVARCHAR(3) NULL, -- species, nvarchar(4000)
     Colony NVARCHAR(400) NULL,
     AnimalAccount NVARCHAR(400) NULL,
-    Institution_id INT NULL,       -- lookup snprc_ehr.validInstitutions
+    OwnerInstitution INT NULL,       -- lookup snprc_ehr.validInstitutions
+    ResponsibleInstitution INT NULL,       -- likely same as owner
     Location NVARCHAR(400) NULL,
     Diet NVARCHAR(400) NULL,
     Pedigree NVARCHAR(400) NULL,
