@@ -31,12 +31,19 @@ sourceSets {
 }
 
 dependencies {
-    transformCompile "org.apache.poi:poi:${poiVersion}"
-    transformCompile "org.apache.poi:poi-ooxml:${poiVersion}"
-    transformCompile "org.apache.poi:poi-ooxml-schemas:${poiVersion}"
-    transformCompile "org.apache.pdfbox:pdfbox:${pdfboxVersion}"
-    transformCompile "com.google.guava:guava:${guavaVersion}"
-    transformCompile "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+    transformImplementation "org.apache.poi:poi:${poiVersion}"
+    transformImplementation "org.apache.poi:poi-ooxml:${poiVersion}"
+    transformImplementation "org.apache.poi:poi-ooxml-schemas:${poiVersion}"
+    transformImplementation "org.apache.pdfbox:pdfbox:${pdfboxVersion}"
+    transformImplementation "com.google.guava:guava:${guavaVersion}"
+    transformImplementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+}
+
+configurations {
+    transformJars {
+        canBeResolved = true
+        extendsFrom(transformImplementation)
+    }
 }
 
 project.task("transformJar",
@@ -45,9 +52,10 @@ project.task("transformJar",
         description: "Create the transform jar file",
         {Jar jar ->
             jar.from project.sourceSets.transform.output
-            jar.from { configurations.transformCompile.collect { it.isDirectory() ? it : zipTree(it) }}
+            jar.from { configurations.transformJars.collect { it.isDirectory() ? it : zipTree(it) }}
             jar.archiveBaseName.set("MicrobiomeTransform")
             jar.archiveClassifier.set("transform")
+            jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
             jar.destinationDirectory = new File(project.buildDir, "artifacts/snprc")
             jar.manifest {
                 attributes "Main-Class": "MicrobiomeTransform"

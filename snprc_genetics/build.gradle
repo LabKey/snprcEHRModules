@@ -19,13 +19,21 @@ dependencies {
     transformImplementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
 }
 
+configurations {
+    transformJars {
+        canBeResolved = true
+        extendsFrom(transformImplementation)
+    }
+}
+
 project.task("transformJar",
     group: GroupNames.BUILD,
     type: Jar,
     description: "Create the genetics transform jar file",
     {Jar jar ->
         jar.from project.sourceSets.transform.output
-        jar.from { configurations.transformCompile.collect { it.isDirectory() ? it : zipTree(it) }}
+        jar.from { configurations.transformJars.collect { it.isDirectory() ? it : zipTree(it) }}
+        jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
         jar.archiveBaseName.set("GeneticsTransform")
         jar.destinationDirectory = new File(project.buildDir, "artifacts/snprc")
     }
