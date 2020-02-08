@@ -1,6 +1,7 @@
 package org.labkey.snprc_scheduler;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.module.DefaultModule;
@@ -39,7 +40,7 @@ public class SNPRC_schedulerModule extends DefaultModule
     }
 
     @Override
-    public double getVersion()
+    public @Nullable Double getSchemaVersion()
     {
         return 18.30;
     }
