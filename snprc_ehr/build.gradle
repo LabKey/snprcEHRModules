@@ -4,7 +4,7 @@ dependencies
         {
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiCompile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:optionalModules:snd", depProjectConfig: "apiCompile")
-            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "api")
+            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiCompile")
             implementation "com.sun.mail:jakarta.mail:${javaMailVersion}"
             implementation "commons-lang:commons-lang:${commonsLangVersion}"
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:optionalModules:dataintegration", depProjectConfig: "apiCompile")
