@@ -1578,12 +1578,40 @@
             <column columnName="AcqDate">
                 <datatype>datetime</datatype>
             </column>
+            <column columnName="Gender">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="Sire">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="Dam">
+                <datatype>varchar</datatype>
+            </column>
             <column columnName="Species">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="Colony">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="AnimalAccount">
+                <datatype>varchar</datatype>
             </column>
             <column columnName="OwnerInstitution">
                 <datatype>integer</datatype>
             </column>
             <column columnName="ResponsibleInstitution">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="Location">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="Diet">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="Pedigree">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="IACUC">
                 <datatype>integer</datatype>
             </column>
             <column columnName="objectid">
