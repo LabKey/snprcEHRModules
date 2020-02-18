@@ -1,9 +1,9 @@
 import org.labkey.gradle.util.BuildUtils
 
 dependencies {
-    BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:optionalModules:snd", depProjectConfig: "apiCompile")
-    BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiCompile")
-    BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiCompile")
-    compile project( BuildUtils.getPlatformModuleProjectPath(project.gradle, "query"))
+    implementation "commons-lang:commons-lang:${commonsLangVersion}"
+    BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:optionalModules:snd", depProjectConfig: "apiJarFile")
+    BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiJarFile")
+    BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiJarFile")
 }
 

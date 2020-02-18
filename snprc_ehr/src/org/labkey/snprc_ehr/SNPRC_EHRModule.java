@@ -17,6 +17,7 @@
 package org.labkey.snprc_ehr;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.ObjectFactory;
@@ -113,7 +114,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     }
 
     @Override
-    public Double getSchemaVersion()
+    public @Nullable Double getSchemaVersion()
     {
         return 20.002;
     }
