@@ -13,17 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
-/****** Object:  View [labkey_etl].[v_charge_account]    Script Date: 6/26/2015 10:51:28 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
 ALTER VIEW [labkey_etl].[v_charge_account] AS
   -- ==========================================================================================
   -- Author:		Terry Hawkins
@@ -34,7 +23,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
   -- Changes:
   -- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
   -- 10/22/2019  removed distinct clause from valid_charge_by_species join tjh
-  --
+  -- 02/15/2020  Added fallback for missing created & createdBy columns tjh
   -- ==========================================================================================
 
 
@@ -51,8 +40,8 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
     ca.object_id                     AS objectid,
     ca.entry_date_tm                 AS modified,
     dbo.f_map_username(ca.user_name) AS modifiedby,
-    tc.created                       AS created,
-    tc.createdby                     AS createdby,
+	COALESCE(tc.created, ca.entry_date_tm) AS created ,
+    COALESCE(tc.createdby, dbo.f_map_username(ca.user_name)) AS createdby,
     ca.timestamp                     AS timestamp
   FROM dbo.charge_account AS ca
     LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ca.object_id

@@ -1191,6 +1191,12 @@
                     <fkColumnName>code</fkColumnName>
                 </fk>
             </column>
+            <column columnName="startDate">
+                <datatype>datetime</datatype>
+            </column>
+            <column columnName="stopDate">
+                <datatype>datetime</datatype>
+            </column>
             <column columnName="Purpose"/>
             <column columnName="objectid">
                 <isHidden>true</isHidden>
