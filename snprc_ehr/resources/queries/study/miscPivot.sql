@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 SELECT
-  b.Id,
-  b.date,
-  b.runId,
-  b.panelName,
-  b.TestName,
-  MAX(b.result) as results
+    b.Id,
+    b.date,
+    b.runId,
+    b.panelName,
+    b.TestName,
+    MAX(b.result) as results,
+    (select group_concat(a.remark) from study.labworkResults as a where a.runId = b.runId) as remark
 
 FROM miscPivotInner b
 
