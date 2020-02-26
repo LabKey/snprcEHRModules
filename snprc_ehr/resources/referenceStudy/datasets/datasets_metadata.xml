@@ -1650,6 +1650,11 @@
                 <isKeyField>false</isKeyField>
             </column>
         </columns>
+        <indices>
+            <index type="non-unique">
+                <column>species</column>
+            </index>
+        </indices>
         <tableTitle>Demographics</tableTitle>
     </table>
     <table tableName="departure" tableDbType="TABLE">
