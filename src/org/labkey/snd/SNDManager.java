@@ -312,7 +312,7 @@ public class SNDManager
                 updateDomain.setDomainURI(domainURI);
 
                 PackageDomainKind kind = new PackageDomainKind();
-                kind.updateDomain(c, u, updateDomain);
+                kind.updateDomain(c, u, updateDomain, null);
             }
 
             // Super packages null when importing xml
@@ -364,7 +364,7 @@ public class SNDManager
 
             domain.setFields(pkg.getAttributes());
             PackageDomainKind kind = new PackageDomainKind();
-            kind.updateDomain(c, u, domain);
+            kind.updateDomain(c, u, domain, null);
 
             // Super packages null when importing xml
             if (superPkg != null)
