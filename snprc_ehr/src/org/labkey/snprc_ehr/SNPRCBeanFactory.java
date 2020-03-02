@@ -103,7 +103,7 @@ public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
         if (!(m instanceof CaseInsensitiveHashMap))
             m = new CaseInsensitiveHashMap<>(m);
 
-        for (String prop : _writeableProperties)
+        for (String prop : _writeableProperties.keySet())
         {
             Object value = null;
             try
@@ -145,7 +145,7 @@ public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
         ResultSetMetaData md = rs.getMetaData();
         int count = md.getColumnCount();
         CaseInsensitiveHashMap<String> propMap = new CaseInsensitiveHashMap<>(count * 2);
-        for (String prop : _writeableProperties)
+        for (String prop : _writeableProperties.keySet())
             propMap.put(prop, prop);
 
         String[] properties = new String[count + 1];
