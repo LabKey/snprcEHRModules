@@ -308,7 +308,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
 
         if (subjects.length >1)
         {
-            var containerPath = LABKEY.container.path+'/FileRepository';
+            var containerPath = LABKEY.container.path +'/FileRepository';
             var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath});
             var location = {id: animalIds};
             //animalFolder.listFiles({success:function(){console.log("success",arguments)},failure:function(){console.log("failed",arguments)},forceReload:true,path:"/@files/animalPortal/"});
@@ -332,7 +332,6 @@ EHR.reports.FileRepository =  function(panel,tab) {
                     }
                 });
                 webPart.render();
-                // toAdd.push(panel);
 
             };
 
@@ -343,7 +342,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                     handler(location.id);
                 },
                 path: "/@files/" + animalIds + "/",
-                failure: function (error, response)
+                failure: function ()
                 {
                     LABKEY.Security.getUserPermissions({
                         containerPath: containerPath,
@@ -393,12 +392,18 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                             "Cardiology Docs",
                                                             "Anesthesia Reports"
                                                         ];
+
+                                                        var createdCount = 0;
+
                                                         folders.forEach(function (folder) {
                                                             animalFolder.createDirectory({
                                                                 path: "/@files/" + animalIds + "/" + folder,
                                                                 success: function () {
                                                                     console.log("created " + folder + " folder for " + animalIds);
-                                                                    handler(location.id);
+                                                                    createdCount++;
+                                                                    if (createdCount === folders.length) {
+                                                                        handler(location.id);
+                                                                    }
                                                                 },
                                                                 failure: function (error) {
                                                                     console.log("failed to create " + folder + " folder" + error.status)
@@ -406,7 +411,6 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                             })
                                                         }),
                                                         console.log("folder created for " + animalIds);
-                                                        handler(location.id);
                                                     },
                                                     failure: function (error)
                                                     {
