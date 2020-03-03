@@ -13,7 +13,8 @@ srr 01.28.2020
   Changed column from location to room.
   Added cage position.
 
-srr 02.25.2020
+srr 03.03.2020
+
 
 *******************************************************/
 
@@ -29,15 +30,15 @@ CREATE TABLE snprc_ehr.NewAnimalData
     Sire NVARCHAR(32) NULL,
     Dam NVARCHAR(32) NULL,
     Species NVARCHAR(3) NULL, -- species, nvarchar(4000)
-    Colony NVARCHAR(400) NULL,
-    AnimalAccount NVARCHAR(400) NULL,
-    OwnerInstitution INT NULL,       -- lookup snprc_ehr.validInstitutions
-    ResponsibleInstitution INT NULL,       -- likely same as owner
-    Room NVARCHAR(400) NULL,
-    Cage NVARCHAR(100) NULL,
-    Diet NVARCHAR(400) NULL,
-    Pedigree NVARCHAR(400) NULL,
-    IACUC NVARCHAR(400) NULL,
+    Colony integer NULL,
+    AnimalAccount integer NULL,
+    OwnerInstitution integer NULL,       -- lookup snprc_ehr.validInstitutions
+    ResponsibleInstitution integer NULL,       -- likely same as owner
+    Room integer NULL,
+    Cage integer NULL,
+    Diet integer NULL,
+    Pedigree integer NULL,
+    IACUC integer NULL,
     Created DATETIME NULL,
     CreatedBy dbo.USERID NULL,
     Modified DATETIME NULL,
