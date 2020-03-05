@@ -567,6 +567,10 @@
             <column columnName="datefinalized">
                 <datatype>timestamp</datatype>
             </column>
+            <column columnName="remark">
+                <datatype>varchar</datatype>
+                <scale>-1</scale>
+            </column>
         </columns>
         <tableTitle>Animal Events</tableTitle>
     </table>

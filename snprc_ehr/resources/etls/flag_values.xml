@@ -6,7 +6,7 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_flag_values" />
-            <destination schemaName="ehr_lookups" queryName="flag_values" bulkLoad="true" targetOption="append">
+            <destination schemaName="ehr_lookups" queryName="flag_values" bulkLoad="true" targetOption="truncate">
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>
@@ -18,6 +18,6 @@
         </transform>
     </transforms>
     <schedule>
-        <poll interval="365d" />
+        <poll interval="60m" />
     </schedule>
 </etl>
