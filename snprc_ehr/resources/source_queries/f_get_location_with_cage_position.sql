@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
+
 /****** Object:  UserDefinedFunction [labkey_etl].[f_get_location_with_cage_position]    Script Date: 3/15/2018 4:24:50 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 ALTER FUNCTION [labkey_etl].[f_get_location_with_cage_position] ()
 -- =============================================
 -- Author:		Terry Hawkins
@@ -28,6 +24,7 @@ ALTER FUNCTION [labkey_etl].[f_get_location_with_cage_position] ()
 -- changes:
 -- 2/27/2018 - fixed issue with date range (added 1 day to account for casting) tjh
 -- 3/16/2018 - fixed edge case where animal is moved to a new cage the same day it is moved to an outside location
+-- 3/11/2020 - fixed objectid bug (was using cage_pos objectid instead of location objectid in several subqueries) 
 -- =============================================
 
 RETURNS @moveTable TABLE
@@ -123,7 +120,7 @@ AS
                             l.location       AS room,
                             cp.cage_position AS cage,
                             vl.group_housing_flag,
-                            cp.object_id     AS objectId,
+                            l.object_id     AS objectId,
                             cp.entry_date_tm AS entry_date_tm,
                             cp.user_name     AS user_name,
                             (SELECT MAX(v) FROM (VALUES (l.timestamp), (cp.timestamp)) AS VALUE ( v )) AS timestamp
@@ -162,7 +159,7 @@ AS
                             l.location       AS room,
                             cp.cage_position AS cage,
                             vl.group_housing_flag,
-                            cp.object_id      AS objectId,
+                            l.object_id      AS objectId,
                             l.entry_date_tm  AS entry_date_tm,
                             l.user_name      AS user_name,
 							cp.timestamp AS timestamp
