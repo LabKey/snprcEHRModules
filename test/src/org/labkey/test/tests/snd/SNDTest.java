@@ -1306,6 +1306,21 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         assertEquals("7", verifyEarthRow.getMax());
         assertEquals("mL", verifyEarthRow.getDefaultLookup());
         assertEquals("and rocks", verifyEarthRow.getRedactedText());
+
+        listPage = editPage.clickCancel();
+        listPage.setSearchFilter("Vitals");
+        packageViewerResult = listPage.getPackage("Vitals");
+        editPage = packageViewerResult.clickEdit();
+
+        grid = editPage.getAttributesGrid();
+        grid.waitForRows(2);
+
+        AttributeGridRow vitalRow = grid.getRow("vital3");
+        assertEquals("Decimal", vitalRow.getDataType());
+        assertEquals("Vital 3", vitalRow.getLabel());
+        assertEquals("0", vitalRow.getMin());
+        assertEquals("10", vitalRow.getMax());
+        assertEquals("5.25", vitalRow.getDefault());
     }
 
     @Test

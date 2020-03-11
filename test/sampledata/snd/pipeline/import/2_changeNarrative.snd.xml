@@ -30,6 +30,21 @@
                         </dat:validator>
                     </dat:validators>
                 </attribute>
+                <attribute columnName="vital3">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>true</dat:nullable>
+                    <dat:columnTitle>Vital 3</dat:columnTitle>
+                    <dat:precision>2</dat:precision>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:defaultValue>5.25</dat:defaultValue>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=10&amp;~gte=0</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
             </attributes>
         </package>
     </packages>

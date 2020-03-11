@@ -232,6 +232,9 @@ public class SNDDataHandler extends AbstractExperimentDataHandler
                 gwtpd.setLookupQuery(fk.getFkTable());
                 gwtpd.setLookupSchema(fk.getFkDbSchema());
             }
+            else {
+                gwtpd.setDefaultValue(ct.getDefaultValue());
+            }
 
             //scale
             gwtpd.setScale(ct.getScale());
