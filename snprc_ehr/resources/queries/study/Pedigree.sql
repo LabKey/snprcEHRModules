@@ -21,7 +21,7 @@ CASE (d.id.demographics.calculated_status)
 END
 AS status,
 d.id.demographics.calculated_status as status_code,
-d.id.demographics.species,
+d.id.demographics.species.arc_species_code as species,
 '' as Display,
 'Demographics' as source
 
