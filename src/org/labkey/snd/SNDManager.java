@@ -22,8 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.cache.Cache;
 import org.labkey.api.cache.CacheManager;
-import org.labkey.api.cache.StringKeyCache;
 import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
@@ -105,7 +105,7 @@ public class SNDManager
 {
     private static final SNDManager _instance = new SNDManager();
 
-    private final StringKeyCache<Map<String, Map<String, Object>>> _cache;
+    private final Cache<String, Map<String, Map<String, Object>>> _cache;
 
     private List<TableInfo> _attributeLookups = new ArrayList<>();
 
@@ -121,7 +121,7 @@ public class SNDManager
         return _instance;
     }
 
-    public StringKeyCache<Map<String, Map<String, Object>>> getCache()
+    public Cache<String, Map<String, Map<String, Object>>> getCache()
     {
         return _cache;
     }
