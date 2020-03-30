@@ -45,7 +45,9 @@ public class ArrivalFormType extends SNPRCTaskForm
                 new TaskFormSection(),
                 new DocumentArchiveFormSection(),
                 new AnimalDetailsFormSection(),
-                new NewAnimalFormSection("study", "arrival", "Arrivals", false),
+                //new NewAnimalFormSection("study", "arrival", "Arrivals", false),
+                // set allowSetSpecies to true 03.10.20 srr
+                new NewAnimalFormSection("snprc_ehr", "NewAnimalData", "ArrivalsSNPRC", true),
                 new WeightFormSection()
         ));
 

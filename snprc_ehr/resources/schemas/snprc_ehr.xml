@@ -1366,6 +1366,11 @@
             </column>
             <column columnName="DietCode">
                 <isReadOnly>true</isReadOnly>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>ValidDiet</fkTable>
+                    <fkColumnName>DietCode</fkColumnName>
+                </fk>
             </column>
             <column columnName="StopDate">
                 <datatype>timestamp</datatype>
@@ -1595,20 +1600,40 @@
             </column>
             <column columnName="Species">
                 <datatype>varchar</datatype>
+                <fk>
+                    <fkDbSchema>ehr_lookups</fkDbSchema>
+                    <fkTable>species_codes</fkTable>
+                    <fkColumnName>code</fkColumnName>
+                </fk>
             </column>
             <column columnName="Colony">
-                <datatype>varchar</datatype>
+                <datatype>int</datatype>
             </column>
             <column columnName="AnimalAccount">
-                <datatype>varchar</datatype>
+                <datatype>int</datatype>
             </column>
             <column columnName="OwnerInstitution">
                 <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>validInstitutions</fkTable>
+                    <fkColumnName>institution_id</fkColumnName>
+                    <fkDisplayColumnName>short_name</fkDisplayColumnName>
+                </fk>
             </column>
             <column columnName="ResponsibleInstitution">
                 <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>validInstitutions</fkTable>
+                    <fkColumnName>institution_id</fkColumnName>
+                    <fkDisplayColumnName>short_name</fkDisplayColumnName>
+                </fk>
             </column>
-            <column columnName="Location">
+            <column columnName="Room">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="Cage">
                 <datatype>integer</datatype>
             </column>
             <column columnName="Diet">
@@ -1620,46 +1645,16 @@
             <column columnName="IACUC">
                 <datatype>integer</datatype>
             </column>
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
             <column columnName="objectid">
                 <isHidden>true</isHidden>
                 <isUserEditable>false</isUserEditable>
             </column>
             <column columnName="container">
                 <nullable>false</nullable>
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="Created"/>
-            <column columnName="CreatedBy"/>
-            <column columnName="Modified"/>
-            <column columnName="ModifiedBy"/>
-            <column columnName="diCreatedby">
-                <isUserEditable>false</isUserEditable>
-                <nullable>true</nullable>
-                <isHidden>true</isHidden>
-                <fk>
-                    <fkDbSchema>core</fkDbSchema>
-                    <fkTable>Users</fkTable>
-                    <fkColumnName>UserId</fkColumnName>
-                </fk>
-            </column>
-            <column columnName="diCreated">
-                <isUserEditable>false</isUserEditable>
-                <nullable>true</nullable>
-                <isHidden>true</isHidden>
-            </column>
-            <column columnName="diModifiedby">
-                <isUserEditable>false</isUserEditable>
-                <nullable>true</nullable>
-                <isHidden>true</isHidden>
-                <fk>
-                    <fkDbSchema>core</fkDbSchema>
-                    <fkTable>Users</fkTable>
-                    <fkColumnName>UserId</fkColumnName>
-                </fk>
-            </column>
-            <column columnName="diModified">
-                <isUserEditable>false</isUserEditable>
-                <nullable>true</nullable>
                 <isHidden>true</isHidden>
             </column>
         </columns>
