@@ -1638,6 +1638,11 @@
             </column>
             <column columnName="Diet">
                 <datatype>integer</datatype>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>ValidDiet</fkTable>
+                    <fkColumnName>DietCode</fkColumnName>
+                </fk>
             </column>
             <column columnName="Pedigree">
                 <datatype>integer</datatype>
