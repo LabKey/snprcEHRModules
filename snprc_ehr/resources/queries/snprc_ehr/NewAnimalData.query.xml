@@ -44,6 +44,29 @@
                         </fk>
                         <url>/ehr/participantView.view?participantId=${sire}</url>
                     </column>
+                    <column columnName="AcquisitionType">
+                        <columnTitle>AcquisitionType</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>AcquisitionType</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="Diet">
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>dropDownDiets</fkTable>
+                            <fkColumnName>DietCode</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="Colony">
+                        <columnTitle>Colony</columnTitle>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>dropDownColony</fkTable>
+                            <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
                     <column columnName="origin">
                         <columnTitle>Origin</columnTitle>
                         <isHidden>true</isHidden>
