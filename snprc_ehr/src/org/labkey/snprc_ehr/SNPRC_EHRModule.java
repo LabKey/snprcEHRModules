@@ -49,7 +49,6 @@ import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
-import org.labkey.clientLibrary.xml.ModeTypeEnum;
 import org.labkey.snprc_ehr.buttons.SnprcUserEditButton;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
