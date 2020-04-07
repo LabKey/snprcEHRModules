@@ -6,22 +6,23 @@ ALTER VIEW labkey_etl.v_exp_assay_history AS
 -- Note:
 --
 -- Changes:
+-- 4/7/2020 Fixed camel casing and correct date column. tjh
 --
 -- ==========================================================================================
 
 SELECT ah.id,
-       ah.assay_date as date,
-       ah.bleed_date as bleed_date,
+       ah.bleed_date as date,
        CASE WHEN ah.bleed_date_estimator = 'Y' THEN 'true'
             WHEN ah.bleed_date_estimator = 'N' THEN 'false'
-            ELSE NULL END  AS isBleedDateEstimate,
+            ELSE NULL END  AS isDateEstimate,
+       ah.assay_date as assayDate,
        val.description AS lab,
        vak.description AS kit,
        vst.assay_type AS assay_type,
-       vst.summary_class AS summary_class,
-       vst.summary_specific AS summary_specific,
-       vst.isis_test_type AS isis_test_type,
-       ah.out_of_range_indicator AS out_of_range_indicator,
+       vst.summary_class AS summaryClass,
+       vst.summary_specific AS summarySpecific,
+       vst.isis_test_type AS isisTestType,
+       ah.out_of_range_indicator AS outOfRangeIndicator,
        ah.value AS value,
        CASE WHEN ah.result = '+' THEN 'Positive'
             WHEN ah.result = '-' THEN 'Negative'
