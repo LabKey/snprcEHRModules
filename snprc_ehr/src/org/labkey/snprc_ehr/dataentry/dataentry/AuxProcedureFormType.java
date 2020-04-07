@@ -43,7 +43,7 @@ public class AuxProcedureFormType extends TaskForm
     {
         super(ctx, owner, NAME, NAME, "Research", Arrays.<FormSection>asList(
                 //Added 2-24-2016  Blasa
-            new NonStoreFormSection("Apply Form Template", "Apply Form Template", "snprc-applyformtemplatepanel", Arrays.asList(ClientDependency.fromPath("/snprc_ehr/panel/ApplyFormTemplatePanel.js"))),
+            new NonStoreFormSection("Apply Form Template", "Apply Form Template", "snprc-applyformtemplatepanel", Arrays.asList(ClientDependency.supplierFromPath("/snprc_ehr/panel/ApplyFormTemplatePanel.js"))),
 
 
             new TaskFormSection(),
@@ -61,8 +61,8 @@ public class AuxProcedureFormType extends TaskForm
             s.addConfigSource("ResearchProcedures");
         }
 
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ResearchProcedures.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/BulkBloodDrawWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ResearchProcedures.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/window/BulkBloodDrawWindow.js"));
         setDisplayReviewRequired(true);
     }
     //Added 2-24-2016  Blasa

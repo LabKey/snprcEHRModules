@@ -51,10 +51,10 @@ public class LabworkRequestFormType extends RequestForm
 
         }
             //Added 2-8-2016 Blasa
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/model/sources/labworkPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/model/sources/labworkPanel.js"));
 
-        addClientDependency(ClientDependency.fromModuleName("MergeSync"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/panel/LabworkRequestDataEntryPanel.js"));
+        addClientDependency(ClientDependency.supplierFromModuleName("MergeSync"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/LabworkRequestDataEntryPanel.js"));
         setJavascriptClass("SNPRC_EHR.panel.LabworkRequestDataEntryPanel");
     }
 

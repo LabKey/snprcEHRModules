@@ -43,7 +43,7 @@ public class MedSignoffFormType extends TaskForm
         super(ctx, owner, NAME, LABEL, "Clinical", Arrays.<FormSection>asList(
             new TaskFormSection(),
                  //Added 2-19-2016  Blasa
-            new NonStoreFormSection("Treatment Template Helper", "Treatment Template Helper", "snprc_AddScheduledTreatmentPanel", Arrays.asList(ClientDependency.fromPath("/snprc_ehr/panel/AddScheduledTreatmentPanel.js"))),
+            new NonStoreFormSection("Treatment Template Helper", "Treatment Template Helper", "snprc_AddScheduledTreatmentPanel", Arrays.asList(ClientDependency.supplierFromPath("/snprc_ehr/panel/AddScheduledTreatmentPanel.js"))),
 
             new AnimalDetailsFormSection(),
             new DrugAdministrationFormSection(true)

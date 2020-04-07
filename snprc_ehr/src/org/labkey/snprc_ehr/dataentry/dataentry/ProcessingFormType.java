@@ -50,8 +50,8 @@ public class ProcessingFormType extends TaskForm
                 new WeightFormSection()
         ));
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/data/sources/Processing.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalDefaults.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/data/sources/Processing.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ClinicalDefaults.js"));
 
         for (FormSection s: this.getFormSections())
         {

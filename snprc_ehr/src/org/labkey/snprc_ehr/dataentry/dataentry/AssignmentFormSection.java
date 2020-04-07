@@ -29,10 +29,10 @@ public class AssignmentFormSection extends SimpleGridPanel
     {
         super("study", "assignment", "Assignments");
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/AssignmentDefaultsWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/window/AssignmentDefaultsWindow.js"));
 
         setClientStoreClass("EHR.data.AssignmentClientStore");
-        addClientDependency(ClientDependency.fromPath("ehr/data/AssignmentClientStore.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/data/AssignmentClientStore.js"));
     }
 
     @Override

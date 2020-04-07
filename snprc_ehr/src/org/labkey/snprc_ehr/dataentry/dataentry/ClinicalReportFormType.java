@@ -50,7 +50,7 @@ public class ClinicalReportFormType extends TaskForm
     public ClinicalReportFormType(DataEntryFormContext ctx, Module owner)
     {
         super(ctx, owner, NAME, LABEL, "Clinical", Arrays.asList(
-                new NonStoreFormSection("Instructions", "Instructions", "ehr-examinstructionspanel", Arrays.asList(ClientDependency.fromPath("ehr/panel/ExamInstructionsPanel.js"))),
+                new NonStoreFormSection("Instructions", "Instructions", "ehr-examinstructionspanel", Arrays.asList(ClientDependency.supplierFromPath("ehr/panel/ExamInstructionsPanel.js"))),
                 new TaskFormSection(),
                 new ExtendedAnimalDetailsFormSection(),
                 new SimpleFormPanelSection("study", "Clinical Remarks", "SOAP", false, EHRService.FORM_SECTION_LOCATION.Tabs),
@@ -92,15 +92,15 @@ public class ClinicalReportFormType extends TaskForm
         }
 
         setStoreCollectionClass("EHR.data.ClinicalReportStoreCollection");
-        addClientDependency(ClientDependency.fromPath("ehr/data/ClinicalReportStoreCollection.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalDefaults.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalReport.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/panel/ExamDataEntryPanel.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalReportChild.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/data/ClinicalReportStoreCollection.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ClinicalDefaults.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ClinicalReport.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/panel/ExamDataEntryPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ClinicalReportChild.js"));
         setJavascriptClass("EHR.panel.ExamDataEntryPanel");
 
         //Added 4-3-2015 Blasa
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/panel/HousingDataEntryPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/HousingDataEntryPanel.js"));
         setJavascriptClass("SNPRC_EHR.panel.HousingDataEntryPanel");
 
         //Removed temporarily  7-2-2015   Blasa
