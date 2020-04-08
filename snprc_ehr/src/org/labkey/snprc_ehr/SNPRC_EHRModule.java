@@ -163,13 +163,13 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
                     "study", "flags");
 
         // register client dependencies
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/ColonyUsage.js"), this);
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/panel/EnterDataPanel.js"), this);
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcReports.js"), this);
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/snprcOverrides.js"), this);
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("snprc_ehr/demographicsRecord.js"), this);
-        EHRService.get().registerClientDependency(ClientDependency.fromPath("ehr/reports.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/ColonyUsage.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/EnterDataPanel.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/snprcReports.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/snprcOverrides.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/demographicsRecord.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("ehr/reports.js"), this);
 
         // register action overrides
         EHRService.get().registerActionOverride("colonyOverview", this, "views/colonyOverview.html");

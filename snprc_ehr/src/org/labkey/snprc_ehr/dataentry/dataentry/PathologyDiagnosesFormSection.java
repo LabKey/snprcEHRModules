@@ -32,9 +32,9 @@ public class PathologyDiagnosesFormSection extends PathologyFormSection
         super(schemaName, queryName, label);
 
         setClientStoreClass("EHR.data.PathologyDiagnosesStore");
-        addClientDependency(ClientDependency.fromPath("ehr/data/PathologyDiagnosesStore.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/grid/DragDropGridPanel.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/buttons/pathologyButtons.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/data/PathologyDiagnosesStore.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/grid/DragDropGridPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/buttons/pathologyButtons.js"));
         setXtype("snprc_ehr-dragdropgridpanel");
     }
 

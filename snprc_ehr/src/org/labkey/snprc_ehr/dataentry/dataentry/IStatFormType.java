@@ -47,7 +47,7 @@ public class IStatFormType extends TaskForm
             s.addConfigSource("iStat");
         }
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/model/sources/iStat.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/IStatImportWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/model/sources/iStat.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/window/IStatImportWindow.js"));
     }
 }

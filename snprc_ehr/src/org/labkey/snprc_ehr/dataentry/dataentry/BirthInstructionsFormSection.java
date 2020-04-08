@@ -34,7 +34,7 @@ public class BirthInstructionsFormSection extends AbstractFormSection
     {
         super("BirthInstructions", "Instructions", "snprc-birthinstructionspanel");
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/panel/BirthInstructionsPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/BirthInstructionsPanel.js"));
     }
 
     @Override

@@ -33,8 +33,8 @@ public class TissueDistFormSection extends SimpleGridPanel
         super("study", "tissueDistributions", "Tissue Distributions");
         setLocation(EHRService.FORM_SECTION_LOCATION.Tabs);
         setXtype("snprc_ehr-dragdropgridpanel");
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/CopyTissuesWindow.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/grid/DragDropGridPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/window/CopyTissuesWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/grid/DragDropGridPanel.js"));
     }
 
     @Override

@@ -30,7 +30,7 @@ public class SNPRCTaskForm extends TaskForm
     {
         super(ctx, owner, name, label, category, sections);
         setDisplayReviewRequired(true);  // Shows submit for review button
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/buttons/customDataEntryButtons.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/buttons/customDataEntryButtons.js"));
     }
 
     @Override

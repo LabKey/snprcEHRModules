@@ -66,8 +66,8 @@ public class ClinicalRoundsFormType extends TaskForm
             s.setTemplateMode(AbstractFormSection.TEMPLATE_MODE.NONE);
         }
 
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalDefaults.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/ClinicalRounds.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ClinicalDefaults.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/ClinicalRounds.js"));
     }
 
     @Override

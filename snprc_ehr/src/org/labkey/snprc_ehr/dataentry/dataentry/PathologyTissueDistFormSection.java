@@ -30,7 +30,7 @@ public class PathologyTissueDistFormSection extends EncounterChildFormSection
     {
         super("study", "tissueDistributions", "Tissue Distributions", false);
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/CopyTissuesWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/window/CopyTissuesWindow.js"));
     }
 
     @Override

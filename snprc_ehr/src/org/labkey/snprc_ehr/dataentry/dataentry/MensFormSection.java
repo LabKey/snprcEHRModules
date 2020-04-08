@@ -29,7 +29,7 @@ public class MensFormSection extends ClinicalObservationsFormSection
     {
         super();
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/window/AddFemaleAnimalsWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/window/AddFemaleAnimalsWindow.js"));
     }
 
     @Override

@@ -28,7 +28,7 @@ public class EncounterObservationsFormSection extends EncounterChildFormSection
     {
         super("study", "Clinical Observations", "Observations", false);
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/data/ClinicalObservationsClientStore.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/data/ClinicalObservationsClientStore.js"));
         setClientStoreClass("SNPRC_EHR.data.ClinicalObservationsClientStore");
         _allowRowEditing = false; //species behavior for value field does not work in forms
     }

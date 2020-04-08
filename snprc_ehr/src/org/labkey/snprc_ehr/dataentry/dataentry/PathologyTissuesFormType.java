@@ -64,13 +64,13 @@ public class PathologyTissuesFormType extends TaskForm
             s.addConfigSource("Necropsy");
         }
 
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/Pathology.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/model/sources/Necropsy.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/form/field/PathologyCaseNoField.js"));
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/buttons/pathologyButtons.js"));
-        addClientDependency(ClientDependency.fromPath("ehr/window/CopyFromCaseWindow.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/Pathology.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/model/sources/Necropsy.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/form/field/PathologyCaseNoField.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/buttons/pathologyButtons.js"));
+        addClientDependency(ClientDependency.supplierFromPath("ehr/window/CopyFromCaseWindow.js"));
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/grid/DragDropGridPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/grid/DragDropGridPanel.js"));
     }
 
     @Override

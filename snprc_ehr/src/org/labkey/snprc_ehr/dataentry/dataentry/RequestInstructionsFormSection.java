@@ -34,7 +34,7 @@ public class RequestInstructionsFormSection extends AbstractFormSection
     {
         super("RequestInstructions", "Instructions", "snprc-requestinstructionspanel");
 
-        addClientDependency(ClientDependency.fromPath("snprc_ehr/panel/RequestInstructionsPanel.js"));
+        addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/RequestInstructionsPanel.js"));
     }
 
     @Override
