@@ -2958,4 +2958,279 @@
             </column>
         </columns>
     </table>
+    <table tableName="ExpAssayHistory" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <columnTitle>ID</columnTitle>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+                <columnTitle>Bleed Date</columnTitle>
+            </column>
+            <column columnName="IsDateEstimate">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="AssayDate">
+                <datatype>timestamp</datatype>
+                <columnTitle>Assay Date</columnTitle>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Lab">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Kit">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="AssayType">
+                <columnTitle>Assay Type</columnTitle>
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="SummaryClass">
+                <columnTitle>Summary Class</columnTitle>
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="SummarySpecific">
+                <columnTitle>Summary Specific</columnTitle>
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="IsisTestType">
+                <columnTitle>Isis Test Type</columnTitle>
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="OutOfRangeIndicator">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Value">
+                <datatype>double</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Result">
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="SampleId">
+                <columnTitle>Sample ID</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <nullable>true</nullable>
+            </column>
+        </columns>
+    </table>
+    <table tableName="ExpBloodProducts" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <columnTitle>ID</columnTitle>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+                <columnTitle>Bleed Date</columnTitle>
+            </column>
+            <column columnName="IsDateEstimate">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="ProductCategory">
+                <columnTitle>Product Category</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="ProductType">
+                <columnTitle>Product Type</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="Description">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <nullable>true</nullable>
+            </column>
+        </columns>
+    </table>
+    <table tableName="ExpExposureHistory" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <columnTitle>ID</columnTitle>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+                <columnTitle>Bleed Date</columnTitle>
+            </column>
+            <column columnName="IsDateEstimate">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="VirusCategory">
+                <columnTitle>Virus Category</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="VirusName">
+                <columnTitle>Virus Name</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="Inoculum">
+                <columnTitle>Product Type</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="Description">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Route">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <nullable>true</nullable>
+            </column>
+        </columns>
+    </table>
+    <table tableName="ExpProcedureHistory" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <columnTitle>ID</columnTitle>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+                <columnTitle>Bleed Date</columnTitle>
+            </column>
+            <column columnName="IsDateEstimate">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="ProcedureType">
+                <columnTitle>Procedure Type</columnTitle>
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="Comment">
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>255</scale>
+            </column>
+        </columns>
+    </table>
+    <table tableName="ExpResearchTreatments" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <columnTitle>ID</columnTitle>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+                <columnTitle>Bleed Date</columnTitle>
+            </column>
+            <column columnName="IsDateEstimate">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="TreatmentCategory">
+                <columnTitle>Treatment Category</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="TreatmentName">
+                <columnTitle>Treatment Name</columnTitle>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="Description">
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>255</scale>
+            </column>
+        </columns>
+    </table>
+    <table tableName="ExpVaccines" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <columnTitle>ID</columnTitle>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+                <columnTitle>Bleed Date</columnTitle>
+            </column>
+            <column columnName="IsDateEstimate">
+                <datatype>boolean</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="Agent">
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="ImmunizationType">
+                <columnTitle>Immunization Type</columnTitle>
+                <nullable>true</nullable>
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="Protection">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+            </column>
+            <column columnName="NumDoses">
+                <nullable>true</nullable>
+                <datatype>integer</datatype>
+            </column>
+        </columns>
+    </table>
 </tables>

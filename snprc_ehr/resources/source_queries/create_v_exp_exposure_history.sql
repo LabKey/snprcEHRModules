@@ -6,25 +6,25 @@ ALTER VIEW labkey_etl.v_exp_exposure_history AS
 -- Note:
 --
 -- Changes:
---
+-- 4/9/2020 changed camel casing to title casing. tjh
 -- ==========================================================================================
 
-SELECT eh.id AS id,
-       eh.doi AS date,
+SELECT eh.id AS Id,
+       eh.doi AS Date,
        CASE WHEN eh.doi_estimator = 'Y' THEN 'true'
             WHEN eh.doi_estimator = 'N' THEN 'false'
-            ELSE NULL END  AS isDateEstimate,
-       vc.description AS virusCategory,
-       vv.description AS virusName,
-       vei.description AS inoculum,
-       eh.description AS description,
-       ver.route AS route,
-       eh.object_id AS objectid,
-       eh.entry_date_tm AS modified,
-       dbo.f_map_username(eh.user_name) AS modifiedby,
-       COALESCE(tc.created, eh.entry_date_tm) AS created ,
-       COALESCE(tc.createdby, dbo.f_map_username(eh.user_name)) AS createdby,
-       eh.timestamp AS timestamp
+            ELSE NULL END  AS IsDateEstimate,
+       vc.description AS VirusCategory,
+       vv.description AS VirusName,
+       vei.description AS Inoculum,
+       eh.description AS Description,
+       ver.route AS Route,
+       eh.object_id AS ObjectId,
+       eh.entry_date_tm AS Modified,
+       dbo.f_map_username(eh.user_name) AS ModifiedBy,
+       COALESCE(tc.created, eh.entry_date_tm) AS Created ,
+       COALESCE(tc.createdby, dbo.f_map_username(eh.user_name)) AS CreatedBy,
+       eh.timestamp AS Timestamp
 FROM exposure.dbo.exposure_history AS eh
          LEFT JOIN exposure.dbo.valid_exposure_inoculums AS vei ON vei.inoculum_id = eh.inoculum_id
          LEFT JOIN exposure.dbo.valid_viruses AS vv ON vv.virus_id = eh.virus_id
