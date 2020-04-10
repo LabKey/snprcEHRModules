@@ -1,15 +1,21 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
         <column name="Id"/>
-        <column name="Date"/>
+        <column name="Date">
+        <properties>
+            <property name="columnTitle" value="Bleed Date"/>
+        </properties>
+        </column>
         <column name="IsDateEstimate"/>
         <column name="AssayDate"/>
+        <column name="Lab" />
+        <column name="Kit" />
+        <column name="Value" />
+        <column name="Result" />
+        <column name="SampleId"/>
         <column name="SummaryClass" />
         <column name="SummarySpecific"/>
         <column name="IsisTestType"/>
-        <column name="Vaule" />
-        <column name="Result" />
-        <column name="SampleId"/>
         <column name="modifiedBy" />
         <column name="modified" />
         <column name="createdBy" />

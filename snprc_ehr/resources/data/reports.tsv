@@ -63,3 +63,9 @@ ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPiv
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes
 Flags	Colony Management	query	Animal Attributes (flags)	true		study	flags			StartDate	false	false		qcstate/publicdata	Animal attribute flags
 FileRepository	General	js	File Repository	true		study	FileRepository				false	false		qcstate/publicdata	File Repository for uploading and viewing animal related files
+Assay History	Exposures	query	Assay History	true		study	ExpAssayHistory			Date	false	false		qcstate/publicdata	Exposure assays performed data
+Blood Products	Exposures	query	Blood Products	true		study	ExpBloodProducts			Date	false	false		qcstate/publicdata	Exposure blood products data
+Exposure History	Exposures	query	Exposure History	true		study	ExpExposureHistory			Date	false	false		qcstate/publicdata	Exposures agents data
+Procedure History	Exposures	query	Procedure History	true		study	ExpProcedureHistory			Date	false	false		qcstate/publicdata	Exposure procedures data
+Research Treatments	Exposures	query	Research Treatments	true		study	ExpResearchTreatments			Date	false	false		qcstate/publicdata	Research Treatments data
+Vaccines	Exposures	query	Vaccines	true		study	ExpVaccines			Date	false	false		qcstate/publicdata	Exposure vaccines data
