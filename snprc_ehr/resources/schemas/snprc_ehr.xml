@@ -1643,5 +1643,38 @@
         </columns>
         <tableTitle>NewAnimalData</tableTitle>
     </table>
+    <table tableName="BehaviorNotificationComment" tableDbType="TABLE">
+    <pkColumnName>NotificationNumber</pkColumnName>
+    <columns>
+    <column columnName="NotificationNumber">
+        <datatype>INT</datatype>
+    </column>
+        <column columnName="BehaviorId">
+            <datatype>INT</datatype>
+        </column>
+        <column columnName="NotificationStatus">
+            <datatype>INT</datatype>
+        </column>
+        <column columnName="CaseNumber">
+            <datatype>INT</datatype>
+        </column>
+        <column columnName="NotificationDateTm">
+        <datatype>datetime</datatype>
+    </column>
+        <column columnName="Created"/>
+        <column columnName="CreatedBy"/>
+        <column columnName="Modified"/>
+        <column columnName="ModifiedBy"/>
+        <column columnName="objectid">
+            <isHidden>true</isHidden>
+            <isUserEditable>false</isUserEditable>
+        </column>
+        <column columnName="container">
+            <nullable>false</nullable>
+            <isHidden>true</isHidden>
+        </column>
+    </columns>
+        <tableTitle>Behavior Notification Comment</tableTitle>
+    </table>
 </tables>
 
