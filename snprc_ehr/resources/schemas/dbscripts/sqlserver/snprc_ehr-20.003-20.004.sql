@@ -1,5 +1,5 @@
 -- generated w/o issue from SSMS srr 04.10.20
-
+-- schemas/dbscripts/sqlserver/snprc_ehr-20.003-20.004.sql
 EXEC core.fn_dropifexists 'BehaviorNotificationComment','snprc_ehr', 'TABLE';
 
 
@@ -19,14 +19,15 @@ CREATE TABLE snprc_ehr.BehaviorNotificationComment
     BehaviorDescription  VARCHAR(200)     NOT NULL,
     BehaviorCategory     VARCHAR(40)      NULL,
     BehaviorComments     VARCHAR(200)     NULL,
+    Container            ENTITYID         NOT NULL,
     Created              DATETIME         NULL,
     CreatedBy            USERID           NULL,
-    Modified             DATETIME         NULL,
     ModifiedBy           USERID           NULL,
-    user_name            VARCHAR(128)     NULL,
-    entry_date_tm        DATETIME         NULL,
-    Container            ENTITYID         NOT NULL,
-    objectid             UNIQUEIDENTIFIER NULL,
-    TIMESTAMP            TIMESTAMP        NULL,
+    Modified             DATETIME         NULL,
+    DiCreatedBy          USERID           NULL,
+    DiCreated            DATETIME         NULL,
+    DiModifiedBy         USERID           NULL,
+    DiModified           DATETIME         NULL,
+    ObjectId             UNIQUEIDENTIFIER NULL,
     CONSTRAINT PK_BehaviorNotiComment PRIMARY KEY (NotificationNumber)
 );
