@@ -355,6 +355,7 @@
             </column>
             <column columnName="caseid">
                 <datatype>integer</datatype>
+                <nullable>false</nullable>
             </column>
             <column columnName="reviewdate">
                 <datatype>timestamp</datatype>
