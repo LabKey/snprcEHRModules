@@ -6,22 +6,22 @@ ALTER VIEW labkey_etl.v_exp_procedure_history AS
 -- Note:
 --
 -- Changes:
---
+-- 4/9/2020 changed camel casing to title casing. tjh
 -- ==========================================================================================
 
-SELECT ph.id,
-       ph.proc_date as date,
+SELECT ph.id as Id,
+       ph.proc_date as Date,
        CASE WHEN ph.proc_date_estimator = 'Y' THEN 'true'
             WHEN ph.proc_date_estimator = 'N' THEN 'false'
-            ELSE NULL END  AS isDateEstimate,
-       vpt.description AS procedureType,
-       ph.comment AS comment,
-       ph.object_id AS objectid,
-       ph.entry_date_tm AS modified,
-       dbo.f_map_username(ph.user_name) AS modifiedby,
-       COALESCE(tc.created, ph.entry_date_tm) AS created ,
-       COALESCE(tc.createdby, dbo.f_map_username(ph.user_name)) AS createdby,
-       ph.timestamp AS timestamp
+            ELSE NULL END  AS IsDateEstimate,
+       vpt.description AS ProcedureType,
+       ph.comment AS Comment,
+       ph.object_id AS ObjectId,
+       ph.entry_date_tm AS Modified,
+       dbo.f_map_username(ph.user_name) AS ModifiedBy,
+       COALESCE(tc.created, ph.entry_date_tm) AS Created ,
+       COALESCE(tc.createdby, dbo.f_map_username(ph.user_name)) AS CreatedBy,
+       ph.timestamp AS Timestamp
 
 FROM exposure.dbo.procedure_history AS ph
 --INNER JOIN animal.dbo.current_data AS m ON m.id = p.id --AND m.arc_species_code = 'PT'

@@ -194,5 +194,23 @@
         <dataset name="GenFlagPhenotype" id="5052" demographicData="true" category="Colony Management"  type="Standard" showByDefault="false">
             <tags/>
         </dataset>
+        <dataset name="ExpAssayHistory" id="5053" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
+        <dataset name="ExpBloodProducts" id="5054" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
+        <dataset name="ExpExposureHistory" id="5055" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
+        <dataset name="ExpProcedureHistory" id="5056" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
+        <dataset name="ExpResearchTreatments" id="5057" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
+        <dataset name="ExpVaccines" id="5058" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

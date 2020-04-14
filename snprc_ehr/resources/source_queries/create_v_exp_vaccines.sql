@@ -6,26 +6,26 @@ ALTER VIEW labkey_etl.v_exp_vaccines AS
 -- Note:
 --
 -- Changes:
---
+-- 4/9/2020 changed camel casing to title casing. tjh
 -- ==========================================================================================
-SELECT v.id AS id,
-       v.start_date AS date,
+SELECT v.id AS Id,
+       v.start_date AS Date,
        CASE WHEN v.start_date_estimator = 'Y' THEN 'true'
             WHEN v.start_date_estimator = 'N' THEN 'false'
-            ELSE NULL END  AS isDateEstimate,
-       va.description AS agent,
-       vi.description AS immunizationType,
+            ELSE NULL END  AS IsDateEstimate,
+       va.description AS Agent,
+       vi.description AS ImmunizationType,
        CASE WHEN v.protection = 'U' THEN 'Unknown'
             WHEN v.protection = 'N' THEN 'No'
             WHEN v.protection = 'Y' THEN 'Yes'
-            ELSE 'N/A' END AS protection,
-       v.num_doses AS numDoses,
-       v.object_id AS objectid,
-       v.entry_date_tm AS modified,
-       dbo.f_map_username(v.user_name) AS modifiedby,
-       COALESCE(tc.created, v.entry_date_tm) AS created ,
-       COALESCE(tc.createdby, dbo.f_map_username(v.user_name)) AS createdby,
-       v.timestamp AS timestamp
+            ELSE 'N/A' END AS Protection,
+       v.num_doses AS NumDoses,
+       v.object_id AS ObjectId,
+       v.entry_date_tm AS Modified,
+       dbo.f_map_username(v.user_name) AS ModifiedBy,
+       COALESCE(tc.created, v.entry_date_tm) AS Created ,
+       COALESCE(tc.createdby, dbo.f_map_username(v.user_name)) AS CreatedBy,
+       v.timestamp AS Timestamp
 FROM exposure.dbo.vaccines AS v
          INNER JOIN exposure.dbo.valid_vaccine_agents AS va ON v.agent_id = va.agent_id
          INNER JOIN exposure.dbo.valid_immunization_types AS vi ON v.immunization_type_id = vi.immunization_type_id
