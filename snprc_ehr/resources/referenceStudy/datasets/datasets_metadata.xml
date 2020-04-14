@@ -3037,6 +3037,7 @@
                 <nullable>true</nullable>
             </column>
         </columns>
+        <tableTitle>Assay History</tableTitle>
     </table>
     <table tableName="ExpBloodProducts" tableDbType="TABLE">
         <columns>
@@ -3074,6 +3075,7 @@
                 <nullable>true</nullable>
             </column>
         </columns>
+        <tableTitle>Blood Products</tableTitle>
     </table>
     <table tableName="ExpExposureHistory" tableDbType="TABLE">
         <columns>
@@ -3121,6 +3123,7 @@
                 <nullable>true</nullable>
             </column>
         </columns>
+        <tableTitle>Exposure History</tableTitle>
     </table>
     <table tableName="ExpProcedureHistory" tableDbType="TABLE">
         <columns>
@@ -3154,6 +3157,7 @@
                 <scale>255</scale>
             </column>
         </columns>
+        <tableTitle>Procedure History</tableTitle>
     </table>
     <table tableName="ExpResearchTreatments" tableDbType="TABLE">
         <columns>
@@ -3191,6 +3195,7 @@
                 <scale>255</scale>
             </column>
         </columns>
+        <tableTitle>Research Treatments</tableTitle>
     </table>
     <table tableName="ExpVaccines" tableDbType="TABLE">
         <columns>
@@ -3232,5 +3237,6 @@
                 <datatype>integer</datatype>
             </column>
         </columns>
+        <tableTitle>Vaccines</tableTitle>
     </table>
 </tables>
