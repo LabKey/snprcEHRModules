@@ -3038,7 +3038,7 @@
                 <nullable>true</nullable>
             </column>
         </columns>
-        <tableTitle>Assay History</tableTitle>
+        <tableTitle>Exp Assay History</tableTitle>
     </table>
     <table tableName="ExpBloodProducts" tableDbType="TABLE">
         <columns>
@@ -3076,7 +3076,7 @@
                 <nullable>true</nullable>
             </column>
         </columns>
-        <tableTitle>Blood Products</tableTitle>
+        <tableTitle>Exp Blood Products</tableTitle>
     </table>
     <table tableName="ExpExposureHistory" tableDbType="TABLE">
         <columns>
@@ -3124,7 +3124,7 @@
                 <nullable>true</nullable>
             </column>
         </columns>
-        <tableTitle>Exposure History</tableTitle>
+        <tableTitle>Exp Exposure History</tableTitle>
     </table>
     <table tableName="ExpProcedureHistory" tableDbType="TABLE">
         <columns>
@@ -3158,7 +3158,7 @@
                 <scale>255</scale>
             </column>
         </columns>
-        <tableTitle>Procedure History</tableTitle>
+        <tableTitle>Exp Procedure History</tableTitle>
     </table>
     <table tableName="ExpResearchTreatments" tableDbType="TABLE">
         <columns>
@@ -3196,7 +3196,7 @@
                 <scale>255</scale>
             </column>
         </columns>
-        <tableTitle>Research Treatments</tableTitle>
+        <tableTitle>Exp Research Treatments</tableTitle>
     </table>
     <table tableName="ExpVaccines" tableDbType="TABLE">
         <columns>
@@ -3238,6 +3238,6 @@
                 <datatype>integer</datatype>
             </column>
         </columns>
-        <tableTitle>Vaccines</tableTitle>
+        <tableTitle>Exp Vaccines</tableTitle>
     </table>
 </tables>
