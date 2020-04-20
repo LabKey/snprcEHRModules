@@ -1672,7 +1672,7 @@
                 <datatype>INT</datatype>
             </column>
             <column columnName="BehaviorId">
-                <datatype>INt</datatype>
+                <datatype>INT</datatype>
             </column>
             <column columnName="NotificationStatus">
                 <datatype>INT</datatype>
