@@ -1672,8 +1672,7 @@
                 <datatype>INT</datatype>
             </column>
             <column columnName="BehaviorId">
-                <datatype>varchar</datatype>
-                <scale>30</scale>
+                <datatype>INt</datatype>
             </column>
             <column columnName="NotificationStatus">
                 <datatype>INT</datatype>
@@ -1685,19 +1684,23 @@
                 <datatype>datetime</datatype>
             </column>
             <column columnName="NotificationComments">
-                <datatype>INT</datatype>
+                <datatype>varchar</datatype>
+                <scale>255</scale>
             </column>
             <column columnName="SuspiciousBehavior">
-                <datatype>INT</datatype>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
             </column>
             <column columnName="Sib">
-                <datatype>INT</datatype>
+                <datatype>varchar</datatype>
+                <scale>1</scale>
             </column>
             <column columnName="HousingType">
                 <datatype>INT</datatype>
             </column>
             <column columnName="Behavior">
-                <datatype>INT</datatype>
+                <datatype>varchar</datatype>
+                <scale>30</scale>
             </column>
             <column columnName="AbnormalFlag">
                 <datatype>varchar</datatype>
