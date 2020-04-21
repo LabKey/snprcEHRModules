@@ -1768,19 +1768,5 @@
         </columns>
         <tableTitle>Behavior Notification Comment</tableTitle>
     </table>
-    <table tableName="ValidClinicalResolution" tableDbType="table">
-    <columns>
-        <column columnName="Resolution">
-            <datatype>Varchar</datatype>
-        </column>
-        <column columnName="Status">
-            <datatype>Varchar</datatype>
-        </column>
-        <column columnName="Mask">
-            <datatype>Varchar</datatype>
-        </column>
-    </columns>
-    <tableTitle>Valid Clinical Resolutions</tableTitle>
-    </table>
 </tables>
 
