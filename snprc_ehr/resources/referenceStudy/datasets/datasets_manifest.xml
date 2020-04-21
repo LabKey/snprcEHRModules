@@ -212,5 +212,8 @@
         <dataset name="ExpVaccines" id="5058" demographicData="false" category="Exposures"  type="Standard" showByDefault="true">
             <tags/>
         </dataset>
+        <dataset name="BehaviorNotification" id="5059" demographicData="false" category="Behavior"  type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

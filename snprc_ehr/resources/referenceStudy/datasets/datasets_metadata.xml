@@ -1914,7 +1914,7 @@
         <tableTitle>Histology</tableTitle>
     </table>
     <table tableName="tissueDistributions" tableDbType="TABLE">
-        <columns>
+          <columns>
             <column columnName="Id">
                 <datatype>varchar</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
@@ -3239,5 +3239,33 @@
             </column>
         </columns>
         <tableTitle>Exp Vaccines</tableTitle>
+    </table>
+    <table tableName="BehaviorNotification" tableDbType="TABLE">
+        <columns>
+            <column columnName="NotificationNumber">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Reporter">
+                <datatype>varchar</datatype>
+                <scale>10</scale>
+            </column>
+            <column columnName="Location">
+                <datatype>double</datatype>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <columnTitle>Open Date Time</columnTitle>
+            </column>
+            <column columnName="CloseDateTm">
+                <datatype>timestamp</datatype>
+            </column>
+        </columns>
     </table>
 </tables>
