@@ -34,15 +34,14 @@ SELECT bcn.notification_number                                                  
        bcn.sib                                                                    AS Sib,
        bcn.housing_type                                                           AS HousingType,
        vb.behavior                                                                AS Behavior,
-
        vb.abnormal_flag                                                           AS AbnormalFlag,
        vb.description                                                             AS BehaviorDescription,
        vb.category                                                                AS BehaviorCategory,
        vb.comments                                                                AS BehaviorComments,
        dbo.f_map_username(bcn.user_name)                                          AS modifiedby,
        bcn.entry_date_tm                                                          AS modified,
-       COALESCE(tc.created, bn.entry_date_tm)                                     AS created,
-       COALESCE(tc.createdby, dbo.f_map_username(bn.user_name))                   AS createdBy,
+       COALESCE(tc.created, bcn.entry_date_tm)                                     AS created,
+       COALESCE(tc.createdby, dbo.f_map_username(bcn.user_name))                   AS createdBy,
        bcn.object_id                                                              as ObjectId,
        --bcn.timestamp AS timestamp
        (SELECT MAX(v) FROM (VALUES (vb.timestamp), (bcn.timestamp)) AS VALUE (v)) AS timestamp
