@@ -18,7 +18,9 @@ CREATE VIEW [labkey_etl
 						Does NOT INCLUDE animal IDs
 				Will use b_c_notification (bcn) object_id, usernames and timestamps
 -- Changes:
---
+    Updated created and createdby
+        COALESCE(tc.created, bn.entry_date_tm) AS created ,
+        COALESCE(tc.createdby, dbo.f_map_username(bn.user_name)) AS createdBy
 --
 ***********************************************************************************************/
 
@@ -39,8 +41,8 @@ SELECT bcn.notification_number                                                  
        vb.comments                                                                AS BehaviorComments,
        dbo.f_map_username(bcn.user_name)                                          AS modifiedby,
        bcn.entry_date_tm                                                          AS modified,
-       tc.created                                                                 AS created,
-       tc.createdby                                                               AS createdby,
+       COALESCE(tc.created, bn.entry_date_tm)                                     AS created,
+       COALESCE(tc.createdby, dbo.f_map_username(bn.user_name))                   AS createdBy,
        bcn.object_id                                                              as ObjectId,
        --bcn.timestamp AS timestamp
        (SELECT MAX(v) FROM (VALUES (vb.timestamp), (bcn.timestamp)) AS VALUE (v)) AS timestamp
