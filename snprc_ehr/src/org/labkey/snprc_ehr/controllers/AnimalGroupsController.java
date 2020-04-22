@@ -134,7 +134,7 @@ public class AnimalGroupsController extends SpringActionController
             filter.addCondition(FieldKey.fromString("category_code"), 11, CompareType.GTE);
 
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-            ArrayList<AnimalGroupCategory> rows = new TableSelector(us.getTable("animal_group_categories"), filter, sort).getArrayList(AnimalGroupCategory.class);
+            ArrayList<AnimalGroupCategory> rows = new TableSelector(us.getTable("animal_group_categories", null, true, false), filter, sort).getArrayList(AnimalGroupCategory.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
             for (AnimalGroupCategory form : rows)
@@ -162,7 +162,7 @@ public class AnimalGroupsController extends SpringActionController
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
             ObjectFactory factory = ObjectFactory.Registry.getFactory(AnimalGroupCategory.class);
 
-            TableInfo table = us.getTable("animal_group_categories");
+            TableInfo table = us.getTable("animal_group_categories", null, true, false);
             QueryUpdateService qus = table.getUpdateService();
             BatchValidationException batchErrors = new BatchValidationException();
 
@@ -217,7 +217,7 @@ public class AnimalGroupsController extends SpringActionController
         private Integer getNextCategoryId()
         {
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-            TableInfo table = us.getTable("animal_group_categories");
+            TableInfo table = us.getTable("animal_group_categories", null, true, false);
 
             SQLFragment sql = new SQLFragment("SELECT MAX(agc.category_code) AS MAX_CODE FROM ");
             sql.append(table, "agc");
@@ -237,7 +237,7 @@ public class AnimalGroupsController extends SpringActionController
             try
             {
                 UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-                TableInfo table = us.getTable("animal_groups");
+                TableInfo table = us.getTable("animal_groups", null, true, false);
 
                 SimpleFilter filter = new SimpleFilter();
                 filter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
@@ -246,7 +246,7 @@ public class AnimalGroupsController extends SpringActionController
                 if (groups == null || groups.isEmpty())
                 {
                     UserSchema cs = new SNPRC_EHRUserSchema(getUser(), getContainer());
-                    TableInfo categoriesTable = cs.getTable("animal_group_categories");
+                    TableInfo categoriesTable = cs.getTable("animal_group_categories", null, true, false);
 
                     SimpleFilter categoriesFilter = new SimpleFilter();
                     categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
@@ -305,9 +305,9 @@ public class AnimalGroupsController extends SpringActionController
                 SQLFragment sql = new SQLFragment("SELECT sc.code AS arcSpeciesCode,\n" +
                         "       sc.common_name AS common,\n" +
                         "       sc.scientific_name AS scientificName\n FROM ");
-                sql.append(QueryService.get().getUserSchema(getUser(), getContainer(), "ehr_lookups").getTable("species_codes"), "sc");
+                sql.append(QueryService.get().getUserSchema(getUser(), getContainer(), "ehr_lookups").getTable("species_codes", null, true, false), "sc");
                 sql.append("\n   JOIN (SELECT DISTINCT arc_species_code, primate\n FROM ");
-                sql.append(QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_ehr").getTable("species"), "s");
+                sql.append(QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_ehr").getTable("species", null, true, false), "s");
                 sql.append("\n         WHERE s.dateDisabled IS NULL AND s.primate = 'Y' ) AS s on s.arc_species_code = sc.code");
 
                 SqlSelector sqlSelector = new SqlSelector(SNPRC_EHRSchema.getInstance().getSchema(), sql);
@@ -345,7 +345,7 @@ public class AnimalGroupsController extends SpringActionController
             Map<String, Object> props = new HashMap<String, Object>();
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
 
-            ArrayList<AnimalGroup> rows = new TableSelector(us.getTable("animal_groups"),
+            ArrayList<AnimalGroup> rows = new TableSelector(us.getTable("animal_groups", null, true, false),
                     new SimpleFilter().addCondition(FieldKey.fromString("category_code"), animalGroup.getCategoryCode(), CompareType.EQUAL), null).getArrayList(AnimalGroup.class);
 
             List<JSONObject> jsonRows = new ArrayList<>();
@@ -368,7 +368,7 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
-            TableInfo table = schema.getTable("animal_group_members");
+            TableInfo table = schema.getTable("animal_group_members", null, true, false);
             SimpleFilter filter = new SimpleFilter();
             filter.addCondition(FieldKey.fromString("groupid"), groupMember.getGroupid(), CompareType.EQUAL);
             if (groupMember.isActiveOnly())
@@ -405,7 +405,7 @@ public class AnimalGroupsController extends SpringActionController
         public ApiResponse execute(GroupMember groupMember, BindException errors)
         {
             UserSchema us = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
-            TableInfo table = us.getTable("Animal");
+            TableInfo table = us.getTable("Animal", null, true, false);
 
             SimpleFilter filter = new SimpleFilter();
             filter.addCondition(FieldKey.fromString("Id"), groupMember.getId(), CompareType.STARTS_WITH);
@@ -448,7 +448,7 @@ public class AnimalGroupsController extends SpringActionController
                 rows.put(0, (JSONObject) json.get("rows"));
             }
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_ehr");
-            TableInfo table = schema.getTable("animal_groups");
+            TableInfo table = schema.getTable("animal_groups", null, true, false);
             DbScope scope = schema.getDbSchema().getScope();
             QueryUpdateService qus = table.getUpdateService();
             BatchValidationException batchErrors = new BatchValidationException();
@@ -533,7 +533,7 @@ public class AnimalGroupsController extends SpringActionController
         private Integer getNextGroupCode(int categoryCode)
         {
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-            TableInfo table = us.getTable("animal_groups");
+            TableInfo table = us.getTable("animal_groups", null, true, false);
 
             SQLFragment sql = new SQLFragment("SELECT MAX(ag.category_code), MAX(ag.code) AS MAX_CODE FROM ");
             sql.append(table, "ag");
@@ -555,7 +555,7 @@ public class AnimalGroupsController extends SpringActionController
         private Integer getNextGroupCode()
         {
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-            TableInfo table = us.getTable("animal_groups");
+            TableInfo table = us.getTable("animal_groups", null, true, false);
 
             SQLFragment sql = new SQLFragment("SELECT MAX(ag.code) AS MAX_CODE FROM ");
             sql.append(table, "ag");
@@ -590,10 +590,10 @@ public class AnimalGroupsController extends SpringActionController
             }
 
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-            TableInfo groupsTable = us.getTable("animal_groups");
+            TableInfo groupsTable = us.getTable("animal_groups", null, true, false);
 
             UserSchema ss = QueryService.get().getUserSchema(this.getUser(), this.getContainer(), "study");
-            TableInfo studyTable = ss.getTable("animal_group_members");
+            TableInfo studyTable = ss.getTable("animal_group_members", null, true, false);
 
             SimpleFilter filter = new SimpleFilter();
             filter.addCondition(FieldKey.fromString("groupid"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
@@ -697,7 +697,7 @@ public class AnimalGroupsController extends SpringActionController
         {
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "study");
-            TableInfo table = schema.getTable("animal_group_members");
+            TableInfo table = schema.getTable("animal_group_members", null, true, false);
 
             /**
              * SELECT GROUP MEMBER FIRST -- We need objectId to be able to use QueryUpdateService
