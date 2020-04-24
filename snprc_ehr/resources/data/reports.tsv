@@ -68,4 +68,5 @@ Blood Products	Exposures	query	Blood Products	true		study	ExpBloodProducts			Dat
 Exposure History	Exposures	query	Exposure History	true		study	ExpExposureHistory			Date	false	false		qcstate/publicdata	Exposures agents data
 Procedure History	Exposures	query	Procedure History	true		study	ExpProcedureHistory			Date	false	false		qcstate/publicdata	Exposure procedures data
 Research Treatments	Exposures	query	Research Treatments	true		study	ExpResearchTreatments			Date	false	false		qcstate/publicdata	Research Treatments data
+Abnormal Behavior	Behavior	query	Abnormal Behavior	true		study	BehaviorAbnormalSummary			Date	false	false		qcstate/publicdata	Abnormal behavoir summary data
 Vaccines	Exposures	query	Vaccines	true		study	ExpVaccines			Date	false	false		qcstate/publicdata	Exposure vaccines data

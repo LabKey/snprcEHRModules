@@ -18,7 +18,7 @@ select 'study' as Schema,
     Label as Label,
     Name as name,
     ShowByDefault as ShowByDefault,
-    true as isAnimal
+true as isAnimal
 from study.datasets
 UNION
   select 'study' as schema, 'ClinPath' as CategoryId,'Clinpath Runs' as Label, 'clinpathRunsAll' as Name,  true as ShowByDefault, true as isAnimal
@@ -58,3 +58,5 @@ UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Location Temperature' as Label, 'LocationTemperature' as Name,  true as ShowByDefault, false as isAnimal
 UNION
 select 'study' as schema, 'Misc' as CategoryId,'Animals with Genetic data' as Label, 'GenDemohasData' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Behavior' as CategoryId,'Abnormal Behavior' as Label, 'BehaviorAbnormalAll' as Name,  true as ShowByDefault, true as isAnimal
