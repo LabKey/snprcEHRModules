@@ -1,0 +1,35 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="BehaviorAbnormalSummaryAll" tableDbType="TABLE">
+                <tableTitle>Abnormal Behavior Summary</tableTitle>
+                <columns>
+                    <column columnName="Id">
+                    </column>
+                    <column columnName="NotificationNumber">
+                        <columnTitle>Notification Number</columnTitle>
+                    </column>
+                    <column columnName="NotificationDateTm">
+                        <columnTitle>Notification Date</columnTitle>
+                        <formatString>DateTime</formatString>
+                    </column>
+                    <column columnName="ReportDate">
+                        <columnTitle>Report Date</columnTitle>
+                        <formatString>Date</formatString>
+                    </column>
+                    <column columnName="CloseDateTm">
+                        <columnTitle>Close Date</columnTitle>
+                    </column>
+                    <column columnName="Room"></column>
+                    <column columnName="BehaviorId"></column>
+                    <column columnName="Behavior">
+                        <columnTitle>Behavior</columnTitle>
+                    </column>
+                    <column columnName="BehaviorDescription">
+                        <columnTitle>Behavior Description</columnTitle>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
