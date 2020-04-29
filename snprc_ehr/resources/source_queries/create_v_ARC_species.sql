@@ -6,12 +6,14 @@ CREATE VIEW labkey_etl.v_ARC_Species as
 -- Object: v_valid_ARC_Species
 -- Author:		Scott Rouse
 -- Create date: 04/28/2020
+-- 04/29/20
+-- corrected typo
 -- Note:
 --
--- ==========================================================================================
+-- ========================================================================== ================
 
 SELECT a.arc_species_code                                      AS code,
-       a.common_name                                           AS CommonName,
+       a.common_name                                           AS common_name,
        a.scientific_name                                       AS scientific_name,
        a.primate                                               AS PrimateFlag,
        a.entry_date_tm                                         AS modified,
