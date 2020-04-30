@@ -1,0 +1,10 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="code"/>
+        <column name="scientific_name"/>
+        <column name="common_name"/>
+    </columns>
+    <sorts>
+        <sort column="sort_order" />
+    </sorts>
+</customView>

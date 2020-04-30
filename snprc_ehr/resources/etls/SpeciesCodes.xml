@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>SpeciesCodes</name>
+    <description>Two-character species codes</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_ARC_Species" />
+            <destination schemaName="ehr_lookups" queryName="species_codes" bulkLoad="true" targetOption="truncate" />
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>

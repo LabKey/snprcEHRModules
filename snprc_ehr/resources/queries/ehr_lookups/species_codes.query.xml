@@ -5,6 +5,9 @@
                 <tableTitle>Two-character Species Codes</tableTitle>
                 <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <columns>
+                    <column columnName="scientific_name">
+                        <columnTitle>Scientific Name</columnTitle>
+                    </column>
                     <column columnName="common_name">
                         <columnTitle>Common Name</columnTitle>
                         <displayWidth>200</displayWidth>
