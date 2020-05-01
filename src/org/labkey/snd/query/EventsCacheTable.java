@@ -74,7 +74,7 @@ public class EventsCacheTable extends SimpleUserSchema.SimpleTable<SNDUserSchema
     {
         super.init();
 
-        BaseColumnInfo plainTextNarrativeColumn = addColumn(wrapColumn("Plain Text Narrative", getRealTable().getColumn("HtmlNarrative")));
+        var plainTextNarrativeColumn = addColumn(wrapColumn("Plain Text Narrative", getRealTable().getColumn("HtmlNarrative")));
         plainTextNarrativeColumn.setDisplayColumnFactory(PlainTextNarrativeDisplayColumn::new);
 
         return this;
