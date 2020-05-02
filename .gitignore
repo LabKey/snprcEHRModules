@@ -11,3 +11,4 @@ app
 /snprc_scheduler/resources/web/snprc_scheduler/app
 snprc_scheduler/resources/web/snprc_scheduler/app/app.js
 *.iml
+/snprc_ehr/resources/web/gen
