@@ -17,20 +17,39 @@
 package org.labkey.snprc_ehr;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+import org.labkey.api.action.ApiResponse;
+import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.FormViewAction;
+import org.labkey.api.action.MutatingApiAction;
+import org.labkey.api.action.ReadOnlyApiAction;
+import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.data.CompareType;
+import org.labkey.api.data.DbScope;
+import org.labkey.api.data.ObjectFactory;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.data.TableSelector;
+import org.labkey.api.ehr.security.EHRDataEntryPermission;
+import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.DetailsURL;
+import org.labkey.api.query.FieldKey;
+import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryAction;
 import org.labkey.api.query.QueryException;
 import org.labkey.api.query.QueryForm;
 import org.labkey.api.query.QueryParseException;
+import org.labkey.api.query.QueryUpdateService;
+import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.QueryView;
 import org.labkey.api.query.QueryWebPart;
+import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.UpdatePermission;
+import org.labkey.api.util.GUID;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
@@ -39,6 +58,9 @@ import org.labkey.api.view.NotFoundException;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
+import org.labkey.snprc_ehr.domain.AnimalGroup;
+import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
+import org.labkey.snprc_ehr.domain.NewAnimalData;
 import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.springframework.validation.BindException;
@@ -47,7 +69,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SNPRC_EHRController extends SpringActionController
 {
@@ -269,6 +295,259 @@ public class SNPRC_EHRController extends SpringActionController
                 // exists with errors
                 return true;
             }
+        }
+    }
+    // http://localhost:8080/labkey/snprc_ehr/snprc/getNextAnimalId
+    @RequiresPermission(EHRDataEntryPermission.class)
+    public class getNextAnimalIdAction extends MutatingApiAction<SimpleApiJsonForm>
+    {
+        @Override
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
+        {
+            Map<String, Object> props = new HashMap<>();
+            JSONObject json = new JSONObject();
+            List<JSONObject> data = new ArrayList<>();
+
+            try
+            {
+                List<Map<String, Object>> dataList = new ArrayList<>();
+                int newAnimalId = SNPRC_EHRSequencer.ANIMALID.getNext(getContainer());
+                if (newAnimalId > 0)
+                {
+                    json.put("Id", newAnimalId);
+
+                    data.add(json);
+                    props.put("success", true);
+                    props.put("rows", data);
+                }
+                else
+                {
+                    props.put("success", false);
+                    props.put("message", "Id Sequencer error");
+                }
+            }
+            catch (Exception e)
+            {
+                props.put("success", false);
+                props.put("message", e.getMessage());
+            }
+            return new ApiSimpleResponse(props);
+        }
+    }
+    // http://localhost:8080/labkey/snprc_ehr/snprc/previewNextAnimalId
+    @RequiresPermission(EHRDataEntryPermission.class)
+    public class previewNextAnimalIdAction extends ReadOnlyApiAction<SimpleApiJsonForm>
+    {
+        @Override
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
+        {
+            Map<String, Object> props = new HashMap<>();
+            JSONObject json = new JSONObject();
+            List<JSONObject> data = new ArrayList<>();
+
+            try
+            {
+                int nextAnimalId = SNPRC_EHRSequencer.ANIMALID.previewNext(getContainer());
+                if (nextAnimalId > 0)
+                {
+                    json.put("Id", nextAnimalId);
+                    data.add(json);
+                    props.put("success", true);
+                    props.put("rows", data);
+                }
+                else
+                {
+                    props.put("success", false);
+                    props.put("message", "Id Sequencer error");
+                }
+            }
+            catch (Exception e)
+            {
+                props.put("success", false);
+                props.put("message", e.getMessage());
+            }
+            return new ApiSimpleResponse(props);
+        }
+    }
+
+//    // NewAnimalDataAction return a view powered by ExtJs4
+//    @RequiresPermission(EHRDataEntryPermission.class)
+//    public class NewAnimalDataAction extends SimpleViewAction<AnimalGroupCategory>
+//    {
+//
+//        @Override
+//        public NavTree appendNavTrail(NavTree root)
+//        {
+//            root.addChild("New Animal Data", new ActionURL(NewAnimalDataAction.class, getContainer()));
+//            return root;
+//        }
+//
+//
+//        @Override
+//        public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors)
+//        {
+//            return new JspView<>("/org/labkey/snprc_ehr/views/NewAnimalData.jsp");
+//        }
+//    }
+
+
+    /**
+     * Get all New Animals
+     */
+    @RequiresPermission(EHRDataEntryPermission.class)
+    public class GetNewAnimalDataAction extends ReadOnlyApiAction<NewAnimalData>
+    {
+        @Override
+        public ApiResponse execute(NewAnimalData o, BindException errors)
+        {
+
+            Map<String, Object> props = new HashMap<String, Object>();
+
+
+            SimpleFilter filter = new SimpleFilter();
+            filter.addCondition(FieldKey.fromString("Id"), 1, CompareType.GTE);
+
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            TableInfo ti = us.getTable("NewAnimalData", null, true, false);
+            ArrayList<NewAnimalData> rows = new TableSelector(ti, filter, null).getArrayList(NewAnimalData.class);
+
+            List<JSONObject> jsonRows = new ArrayList<>();
+            for (NewAnimalData form : rows)
+            {
+                jsonRows.add(form.toJSON(getContainer(), getUser()));
+            }
+
+            props.put("rows", jsonRows);
+
+            return new ApiSimpleResponse(props);
+        }
+    }
+
+    /**
+     * Update/Add new animal
+     */
+    @RequiresPermission(EHRDataEntryPermission.class)
+    public class UpdateAnimalDataAction extends MutatingApiAction<NewAnimalData>
+    {
+        @Override
+        public ApiResponse execute(NewAnimalData o, BindException errors)
+        {
+
+            Map<String, Object> props = new HashMap<>();
+            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+            ObjectFactory factory = ObjectFactory.Registry.getFactory(NewAnimalData.class);
+
+            TableInfo table = us.getTable("NewAnimalData", null, false, true);
+            QueryUpdateService qus = table.getUpdateService();
+            BatchValidationException batchErrors = new BatchValidationException();
+
+            Map primaryKey = new HashMap();
+            List pk = new ArrayList();
+            List<Map<String, Object>> rowsList = new ArrayList<>();
+
+            try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
+            {
+                if (o.getId() != "")
+                {
+                    Map dataAsMap = factory.toMap(o, null);
+
+                    dataAsMap.put(NewAnimalData.NEWANIMAL_CONTAINER, this.getContainer().getId());
+                    primaryKey.put(NewAnimalData.NEWANIMAL_ID, o.getId());
+
+                    pk.add(primaryKey);
+                    rowsList.add(dataAsMap);
+
+                    qus.updateRows(this.getUser(), getContainer(), rowsList, pk, null, null);
+
+                }
+                else
+                {
+                    o.setId(SNPRC_EHRSequencer.ANIMALID.getNext(getContainer()).toString());
+                    Map dataAsMap = factory.toMap(o, null);
+
+                    dataAsMap.put(NewAnimalData.NEWANIMAL_OBJECTID, GUID.makeGUID());
+                    dataAsMap.put(NewAnimalData.NEWANIMAL_CONTAINER, this.getContainer().getId());
+
+                    rowsList.add(dataAsMap);
+
+                    qus.insertRows(getUser(), getContainer(), rowsList, batchErrors, null, null);
+                    if (batchErrors.hasErrors()) throw batchErrors;
+
+                    props.put(NewAnimalData.NEWANIMAL_ID, o.getId());
+                }
+
+                props.put("success", true);
+                transaction.commit();
+            }
+            catch (Exception e)
+            {
+                props.put("success", false);
+                //errors.reject(ERROR_MSG, e.getMessage());
+                props.put("message", e.getMessage());
+            }
+
+            return new ApiSimpleResponse(props);
+        }
+    }
+
+    @RequiresPermission(EHRDataEntryPermission.class)
+    public class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
+    {
+        @Override
+        public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors)
+        {
+            Map<String, Object> props = new HashMap<String, Object>();
+            try
+            {
+                UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+                TableInfo table = us.getTable("animal_groups");
+
+                SimpleFilter filter = new SimpleFilter();
+                filter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
+
+                List<AnimalGroup> groups = new TableSelector(table, filter, null).getArrayList(AnimalGroup.class);
+                if (groups == null || groups.isEmpty())
+                {
+                    UserSchema cs = new SNPRC_EHRUserSchema(getUser(), getContainer());
+                    TableInfo categoriesTable = cs.getTable("animal_group_categories");
+
+                    SimpleFilter categoriesFilter = new SimpleFilter();
+                    categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
+                    Map<String, Object> animalGroupsCategory = new TableSelector(categoriesTable, categoriesFilter, null).getObject(Map.class);
+
+                    List<Map<String, Object>> keys = new ArrayList<Map<String, Object>>();
+
+                    Map<String, Object> idMap = new HashMap<>();
+                    idMap.put("category_code", animalGroupsCategory.get("category_code"));
+                    keys.add(idMap);
+
+                    QueryUpdateService qus = categoriesTable.getUpdateService();
+                    try
+                    {
+                        qus.deleteRows(getUser(), getContainer(), keys, null, null);
+                        props.put("success", true);
+                        return new ApiSimpleResponse(props);
+                    }
+                    catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e)
+                    {
+                        props.put("success", false);
+                        props.put("message", e.getMessage());
+                        return new ApiSimpleResponse(props);
+                    }
+                }
+                else
+                {
+
+                    props.put("success", false);
+                    props.put("message", "Unable to delete this category, Please delete this category groups first");
+                }
+            }
+            catch (Exception e)
+            {
+                props.put("success", false);
+                props.put("message", e.getMessage());
+            }
+            return new ApiSimpleResponse(props);
         }
     }
 

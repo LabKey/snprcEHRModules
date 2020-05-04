@@ -255,9 +255,16 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         // Register pipeline provider to import FeeSchedule
         PipelineService.get().registerPipelineProvider(new FeeSchedulePipelineProvider(this));
 
+        // SNPRC Data Entry Forms
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
+        //EHRService.get().registerFormType(new DefaultDataEntryFormFactory(NewAnimalDataFormType.class, this));
+        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(EditLookupTablesFormType.class, this));
 
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(WeightFormType.class, this));
-        //EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AnesthesiaFormType.class, this));
+//        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AnesthesiaFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DCMNotesFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ClinicalRoundsFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(SurgicalRoundsFormType.class, this));
@@ -281,22 +288,12 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MensFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AssignmentFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupAssignmentFormType.class, this));
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DepartureFormType.class, this));
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
-
-
         //this becomes a marker - EHR will display a link referencing this entry form
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
-
-
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(EditLookupTablesFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(MatingFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(PregnancyConfirmationFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ParentageFormType.class, this));
-
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BloodDrawFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AuxProcedureFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ASBRequestFormType.class, this));
@@ -304,13 +301,10 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        // Requires mergesync
           // EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingRequestFormType.class, this));
-
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BloodRequestBulkEditFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(DrugRequestBulkEditFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkRequestBulkEditFormType.class, this));
-
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(RecordAmendmentFormType.class, this));
-
     }
 
     @Override
