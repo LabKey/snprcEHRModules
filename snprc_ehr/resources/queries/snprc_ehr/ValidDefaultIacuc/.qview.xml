@@ -1,0 +1,11 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="WorkingIACUC"/>
+        <column name="ArcNumSeq"/>
+        <column name="ArcNumGenus"/>
+        <column name="Mandatory"/>
+    </columns>
+    <sorts>
+        <sort column="WorkingIACUC"/>
+    </sorts>
+</customView>
