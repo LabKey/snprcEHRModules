@@ -14,4 +14,4 @@ This repository contains all the modules required for the Southwest National Pri
 1. Edit your project settings.gradle file to build the externalModules/snprcEHRModules directory.
 1. Build the module with either gradle command 
     * gradlew deployapp 
-    * gradlew :externalModules:snprcEHRModules deployModule
+    * gradlew :server:modules:snprcEHRModules deployModule
