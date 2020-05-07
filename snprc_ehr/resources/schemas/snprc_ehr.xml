@@ -1018,7 +1018,6 @@
                 <isHidden>true</isHidden>
                 <fk>
                     <fkDbSchema>core</fkDbSchema>
-                    <fkDbSchema>core</fkDbSchema>
                     <fkTable>Users</fkTable>
                     <fkColumnName>UserId</fkColumnName>
                 </fk>
@@ -1665,6 +1664,7 @@
         </columns>
         <tableTitle>NewAnimalData</tableTitle>
     </table>
+
     <table tableName="BehaviorNotificationComment" tableDbType="TABLE">
         <pkColumnName>NotificationNumber</pkColumnName>
         <columns>
@@ -1767,6 +1767,83 @@
             </column>
         </columns>
         <tableTitle>Behavior Notification Comment</tableTitle>
+    </table>
+    <table tableName="validDefaultIACUC" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>Valid Default IACUC</tableTitle>
+        <auditLogging>DETAILED</auditLogging>
+        <pkColumnName>WorkingIACUC</pkColumnName>
+        <columns>
+            <column columnName="WorkingIACUC">
+                <datatype>varchar</datatype>
+                <scale>7</scale>
+                <isKeyField>true</isKeyField>
+                <isReadOnly>true</isReadOnly>
+            </column>
+            <column columnName="ArcNumSeq">
+                <datatype>INT</datatype>
+            </column>
+            <column columnName="ArcNumGenus">
+                <datatype>varchar</datatype>
+                <scale>2</scale>
+            </column>
+            <column columnName="Mandatory">
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="DefaultIacuc">
+                <datatype>varchar</datatype>
+                <scale>1</scale>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+            </column>
+            <column columnName="objectid">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="Created">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="CreatedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="Modified">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="ModifiedBy">
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
     </table>
 </tables>
 
