@@ -17,14 +17,14 @@ module.exports = {
     loaders: {
         STYLE_LOADERS: [
             {
-                test: /\.css$/,
+                test: /\.tcss$/,
                 use: [
                     devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             },
             {
-                test: /\.scss$/,
+                test: /\.s?css$/,
                 use: [
                     devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {

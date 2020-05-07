@@ -18,5 +18,12 @@ module.exports = {
         path: './src/client/HelloApp',
         scriptType: 'jsx'
     }
+    ,{
+        name: 'NewAnimalPage',
+        title: 'New Animal Page',
+        permission: 'read',
+        path: './src/client/NewAnimalPage',
+        scriptType: 'jsx'
+    }
     ]
 };
