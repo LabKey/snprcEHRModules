@@ -1,7 +1,8 @@
 import React from 'react';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
+import Radio from 'react-bootstrap/lib/Radio';
 import Select from 'react-select';
 
 
@@ -12,15 +13,13 @@ export default class SpeciesPanel extends React.Component {
             selectedOption: "option1",
             isDropup: false
         };
-
-
     }
 
-    handleAcquisitionChange = (e) => {
+    handleAcquisitionOptionChange = (e) => {
         //e.preventDefault();
         const option = e.target.value;
-        this.setState({ selectedOption: option })
-        this.props.handleAcquisitionChange(option);
+        this.setState({selectedOption: option})
+        this.props.handleAcquisitionOptionChange(option);
 
         console.log(option);
     }
@@ -34,36 +33,32 @@ export default class SpeciesPanel extends React.Component {
 
     render() {
         return (
-            <span className="species-panel-wrapper">
-                <Row>
+            <span >
+                <Row >
                     <Col className="col-md-4">
-                        <InputGroup size="lg">
-                            <InputGroup.Prepend >
-                                <InputGroup.Text > Birth </InputGroup.Text>
-                                <InputGroup.Radio value='Birth'
+                        <FormGroup>
+                            <Radio inline className='species-radio' name='acqType' value='Birth'
                                     checked={this.state.selectedOption === 'Birth'}
-                                    onChange={this.handleAcquisitionChange}
-                                />
-                                <InputGroup.Text > Other Acquisition </InputGroup.Text>
-                                <InputGroup.Radio value='Other'
+                                    onChange={this.handleAcquisitionOptionChange}>
+                                Birth
+                            </Radio>
+                            <Radio inline className='species-radio' name='acqType' value='Other'
                                     checked={this.state.selectedOption === 'Other'}
-                                    onChange={this.handleAcquisitionChange}
-                                />
-                            </InputGroup.Prepend>
-                        </InputGroup>
+                                    onChange={this.handleAcquisitionOptionChange}>
+                                Other Acquisition
+                            </Radio>
+                        </FormGroup>
                     </Col>
                     <Col className="col-md-8">
                         <Select
-                            className="species-dropdown"
-                            options={this.props.speciesMap}
-                            onChange={this.handleSpeciesChange}
-                            placeholder="Select Species"
-                            isDisabled={false}
+                                className="species-dropdown"
+                                options={this.props.speciesList}
+                                onChange={this.handleSpeciesChange}
+                                placeholder="Select Species"
+                                isDisabled={false}
                         />
                     </Col>
                 </Row>
-
-
             </span>
         )
     }

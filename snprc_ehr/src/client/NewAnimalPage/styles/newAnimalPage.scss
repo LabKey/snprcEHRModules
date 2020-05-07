@@ -21,9 +21,7 @@
     background-color: $off-white;
 }
 
-.page-wrapper {
-    text-align: left;
-}
+
 .species-wrapper {
     background-color: $dark-blue;
     text-align: left;
@@ -34,63 +32,27 @@
 }
 
 .species-radio-wrapper {
-    padding-left: 3px;
+    padding-left: 1rem;
     cursor: hand;
     background-color: $dark-blue;
     border-color: $dark-blue;
     border-width: 5px;
+    background-color: $dark-gray;
+}
+.species-radio {
+  padding-top: 1rem;
+  background-color: $dark-blue;
+  color: $off-white;
+  font-size: 1.6rem;
+  padding-left: 3rem;
 }
 .species-dropdown {
-    position: absolute;
-    right: 30px;
-    cursor: hand;
-    color: $dark-blue;
     border-color: $dark-blue;
     border-width: 2px;
     font-size: 1.6rem;
-    width: 60rem;
+    width: 50rem;
     height: 2.0rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
 }
-
-
-
-.app-container {
-    padding: 0px 20px;
-    text-align: center;
-    font-family: sans-serif;
-  }
-  
-  .select-container {
-    display: flex;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 500px;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-flex: 1;
-    margin-bottom: 10px;
-  }
-  
-  .app-container {
-    padding: 0px 20px;
-    text-align: center;
-    font-family: sans-serif;
-  }
-  
-  .select-container {
-    display: flex;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 500px;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-flex: 1;
-    margin-bottom: 10px;
-  }
   
