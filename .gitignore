@@ -19,3 +19,5 @@ snprc_ehr/cmd-here.exe
 snprc_ehr/resources/referenceStudy/*.xlsx
 snprc_ehr/resources/web/snprc_ehr/snprcReports.js.gz
 snprc_ehr/resources/web/snprc_ehr/gen/*
+snprc_mobile
+

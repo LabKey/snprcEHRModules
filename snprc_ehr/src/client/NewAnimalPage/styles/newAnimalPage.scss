@@ -1,4 +1,3 @@
-
 @import '../../styles/style.scss';
 
 .header_title {
@@ -21,9 +20,7 @@
     background-color: $off-white;
 }
 
-.page-wrapper {
-    text-align: left;
-}
+
 .species-wrapper {
     background-color: $dark-blue;
     text-align: left;
@@ -34,63 +31,52 @@
 }
 
 .species-radio-wrapper {
-    padding-left: 3px;
+    padding-left: 1rem;
     cursor: hand;
     background-color: $dark-blue;
     border-color: $dark-blue;
     border-width: 5px;
+    background-color: $dark-gray;
+}
+.species-radio {
+  padding-top: 1rem;
+  background-color: $dark-blue;
+  color: $off-white;
+  font-size: 1.6rem;
+  padding-left: 3rem;
 }
 .species-dropdown {
-    position: absolute;
-    right: 30px;
-    cursor: hand;
-    color: $dark-blue;
     border-color: $dark-blue;
     border-width: 2px;
     font-size: 1.6rem;
-    width: 60rem;
+    width: 50rem;
     height: 2.0rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
 }
+  
+//======== Date Picker ===========
 
-
-
-.app-container {
-    padding: 0px 20px;
-    text-align: center;
-    font-family: sans-serif;
-  }
-  
-  .select-container {
-    display: flex;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 500px;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-flex: 1;
-    margin-bottom: 10px;
-  }
-  
-  .app-container {
-    padding: 0px 20px;
-    text-align: center;
-    font-family: sans-serif;
-  }
-  
-  .select-container {
-    display: flex;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 500px;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-flex: 1;
-    margin-bottom: 10px;
-  }
-  
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+    display: block;
+    width: 20rem;
+    height: 3rem;
+    border-radius: 5px;
+}
+.datepicker-label {
+  margin-top: 1rem;
+  border: 3px solid $dark-blue ;
+  border-radius: 5px;
+  position: relative;
+  width: 25rem;
+}
+.datepicker-icon {
+  position: relative;
+  float: right;
+  padding-right: 6px;
+  margin-top: 2px;
+  z-index: 2;
+  margin-bottom: px;
+}
