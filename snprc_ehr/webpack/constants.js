@@ -17,6 +17,13 @@ module.exports = {
     loaders: {
         STYLE_LOADERS: [
             {
+                test: /\.tcss$/,
+                use: [
+                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            },
+            {
                 test: /\.s?css$/,
                 use: [
                     devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
