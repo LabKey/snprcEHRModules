@@ -2,13 +2,10 @@
 -- TODO: Do we want to limit selection to animals that were co-located with dam?
 SELECT d.id as Sire,
        d.species as Species,
-       d.species.arc_species_code as arc_species,
+       d.species.arc_species_code as ArcSpeciesCode,
        d.gender,
        d.birth,
-       x.minAdultAge adultAge,
-       ROUND(CONVERT(age_in_months(d.birth, timestampadd('SQL_TSI_DAY', -y.gestation, curdate()) ), DOUBLE) / 12.0, 1)  as ageAtTime,
-       y.species as g_species,
-       timestampadd('SQL_TSI_DAY', -y.gestation, curdate()) as conceptionDate
+       d.id.age.ageInYears as Age
 
 FROM study.demographics AS d
          INNER JOIN (

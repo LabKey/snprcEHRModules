@@ -1,0 +1,42 @@
+// ======= Acquisition Panel ========
+.acquisition-panel {
+
+    background-color: $dark-blue;
+    text-align: left;
+    //color: $off-white;
+    padding-bottom: 1rem;
+    font-family: helvetica, Arial, sans-serif;
+    font-size: $font-size-small;
+  }
+
+  .acquisition-dropdown {
+    border-color: $dark-blue;
+    border-width: 2px;
+    border-left: $s-size;
+    color: $dark-blue;
+    font-size: $font-size-small;
+    width: 40rem;
+    //padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+.acquisition-select__control {
+  height: 35px;
+}
+// .acquisition-date {
+//     border-color: $dark-blue;
+//     border-width: 2px;
+//     border-left: $s-size;
+//     font-size: $font-size-small;
+//     //padding-top: 1rem;
+//     max-width: 100%;
+//     height: auto;
+//     padding-left: $s-size;
+// }
+
+.acquisition-date {
+  border-color: $dark-blue;
+  border-width: 1px;
+  border-left: $s-size;
+  font-size: $font-size-small;
+}

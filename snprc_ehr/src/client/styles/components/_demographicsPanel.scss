@@ -1,0 +1,49 @@
+// ======= demographics Panel ========
+.demographics-panel {
+    display: flex;
+    justify-content: space-between;
+    background-color: $dark-blue;
+    text-align: left;
+    //color: $off-white;
+    padding-bottom: 1rem;
+    font-family: helvetica, Arial, sans-serif;
+    font-size: $font-size-small;
+  }
+ 
+.birthdate {
+    border-color: $dark-blue;
+    border-width: 1px;
+    border-left: $s-size;
+    font-size: $font-size-small;
+}
+
+  .demographics-dropdown {
+    border-color: $dark-blue;
+    border-width: 2px;
+    border-left: $s-size;
+    color: $dark-blue;
+    font-size: $font-size-small;
+    width: 40rem;
+    padding-left: 1rem;
+}
+
+.demographics-select__control {
+    height: 26px !important;
+}
+
+.demographics-select__placeholder {
+      line-height: 50px;
+    }
+.demographics-select__value {
+      line-height: 26px !important;
+}
+.demographics-select__value-label {
+        line-height: 26px;
+      }
+.demographics-select__input {
+      height: 26px;
+    }
+//.demographics-select__menu { max-height: 50px;}
+.demographics-select-is-open { position: relative; z-index: 1000; }
+
+

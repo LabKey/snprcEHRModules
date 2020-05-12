@@ -1,12 +1,15 @@
 import React from 'react';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
 import './styles/newAnimalPage.scss';
 import { LoadingSpinner } from "@labkey/components";
 import fetchSpecies from './actions/fetchSpecies';
 import fetchAcquisitionTypes from './actions/fetchAcquisitionTypes';
+import fetchPotentialDams from './actions/fetchPotentialDams';
+import fetchPotentialSires from './actions/fetchPotentialSires';
+import fetchLocations from './actions/fetchLocations';
 import SpeciesPanel from './components/SpeciesPanel';
 import AcquisitionPanel from './components/AcquisitionPanel';
+import DemographicsPanel from './components/DemographicsPanel';
+import LocationPanel from './components/LocationPanel';
 
 export default class NewAnimalPage extends React.Component {
 
@@ -35,6 +38,9 @@ export default class NewAnimalPage extends React.Component {
         },
         speciesList: [],
         acquisitionTypeList: [],
+        potentialpotentialDamList: [],
+        potentialpotentialSireList: [],
+        locationList: [],
         isLoaded: false
 
     };
@@ -82,6 +88,35 @@ export default class NewAnimalPage extends React.Component {
                 }
             }
         ));
+
+        fetchPotentialDams(selectedSpecies.arcSpeciesCode).then(
+            (response) => this.setState(() => (
+                {
+                    ...this.state,
+                    isLoaded: true,
+                    potentialDamList: response
+                }
+            )
+            ));
+            fetchPotentialSires(selectedSpecies.arcSpeciesCode).then(
+                (response) => this.setState(() => (
+                    {
+                        ...this.state,
+                        isLoaded: true,
+                        potentialSireList: response
+                    }
+                )
+                ));
+                fetchLocations(selectedSpecies.arcSpeciesCode).then(
+                    (response) => this.setState(() => (
+                        {
+                            ...this.state,
+                            isLoaded: true,
+                            LocationList: response
+                        }
+                    )
+                    ));
+            
     }
     handleAcquisitionChange = ({value}) => {
         this.setState((prevState) => (
@@ -100,11 +135,79 @@ export default class NewAnimalPage extends React.Component {
                 newAnimalData:
                 {
                     ...prevState.newAnimalData,
-                    acquisitionType: date
+                    acqDate: date
                 }
             }
         ));
     }
+    handleBirthDateChange = (date) => {
+        this.setState((prevState) => (
+            {
+                newAnimalData:
+                {
+                    ...prevState.newAnimalData,
+                    birthDate: date
+                }
+            }
+        ));
+    }
+    handleGenderChange = ({value} ) => {
+        this.setState((prevState) => (
+            {
+                newAnimalData:
+                {
+                    ...prevState.newAnimalData,
+                    gender: value
+                }
+            }
+        ));
+    }
+    handlePotentialDamChange = ({value}) => {
+        this.setState((prevState) => (
+            {
+                newAnimalData:
+                {
+                    ...prevState.newAnimalData,
+                    dam: value
+                }
+            }
+        ));
+    }
+    handlePotentialSireChange = ({value}) => {
+        this.setState((prevState) => (
+            {
+                newAnimalData:
+                {
+                    ...prevState.newAnimalData,
+                    sire: value
+                }
+            }
+        ));
+    }
+
+    handleRoomChange = ({value} ) => {
+        this.setState((prevState) => (
+            {
+                newAnimalData:
+                {
+                    ...prevState.newAnimalData,
+                    room: value
+                }
+            }
+        ));
+    }
+    handleCageChange = (value) => {
+        this.setState((prevState) => (
+            {
+                newAnimalData:
+                {
+                    ...prevState.newAnimalData,
+                    cage: value
+                }
+            }
+        ));
+    }
+
     render() {
         let { isLoaded } = this.state;
 
@@ -115,43 +218,84 @@ export default class NewAnimalPage extends React.Component {
         }
         else {
             return (
-                <div className="container-fluid page-wrapper">
-                
-                    <div className='species-wrapper' >
+                <div>
+                    <div className="container-fluid page-wrapper">
+                        <div className='species-panel' >
+                            <SpeciesPanel
+                                handleAcquisitionOptionChange={this.handleAcquisitionOptionChange}
+                                handleSpeciesChange={this.handleSpeciesChange}
+                                speciesList={this.state.speciesList}
+                                handleLoadAcuisitionTypes={this.handleLoadAcuisitionTypes}
+                            />
+                        </div>
 
-                                <SpeciesPanel
-                                    handleAcquisitionOptionChange={this.handleAcquisitionOptionChange}
-                                    handleSpeciesChange={this.handleSpeciesChange}
-                                    speciesList={this.state.speciesList}
-                                    handleLoadAcuisitionTypes={this.handleLoadAcuisitionTypes}
+                        <div className="panel-divider"></div>
+
+                        {this.state.currentStep == 1 && 
+                            <div>
+                                <div className="wizard-label">
+                                    <p>Acquisition</p>
+                                </div>
+                                <div className='acquisition-panel'>
+                                    <AcquisitionPanel
+                                        handleAcquisitionChange={this.handleAcquisitionChange}
+                                        handleAcquisitionDateChange={this.handleAcquisitionDateChange}
+                                        acquisitionTypeList={this.state.acquisitionTypeList}
+                                        selectedOption={this.state.selectedOption}
+                                        acquisitionDate={this.state.newAnimalData.acqDate}
+                                    />
+                                </div>
+                            </div>
+                        }
+
+                    {this.state.currentStep == 1 && 
+                        <div>
+                            <div className="panel-divider"></div>
+                            <div className="wizard-label">
+                                <p>Demographics</p>
+                            </div>
+                            <div className='demographics-panel'>
+                                <DemographicsPanel
+                                    handleGenderChange={this.handleGenderChange}
+                                    handleBirthDateChange={this.handleBirthDateChange}
+                                    handlePotentialDamChange={this.handlePotentialDamChange}
+                                    potentialDamList={this.state.potentialDamList}
+                                    handlePotentialSireChange={this.handlePotentialSireChange}
+                                    potentialSireList={this.state.potentialSireList}
+                                    selectedOption={this.state.selectedOption}
+                                    birthdate={this.state.newAnimalData.birthDate}
                                 />
-                    </div>
-                    <div className='container-fluid wizard-panels'>
-                        <Row>
-                            
-                                    {this.state.currentStep == 1 && 
-                                        <div className='acquisition-panel'>
-                                            <label>Acquisition</label>
-                                            <AcquisitionPanel
-                                                handleAcquisitionChange={this.handleAcquisitionChange}
-                                                handleAcquisitionDateChange={this.handleAcquisitionDateChange}
-                                                acquisitionTypeList={this.state.acquisitionTypeList}
-                                                selectedOption={this.state.selectedOption}
-                                                AcquisitionDate={this.state.newAnimalData.acqDate}
-                                            />
-                                        </div>
-                                    }
-                                    {this.state.currentStep == 2 && <div className='demographics-panel'><label>Demographics</label></div>}
-                                    {this.state.currentStep == 3 && <div className='location-panel'><label>Location</label></div>}
-                                    {this.state.currentStep == 4 && <div className='account-panel'><label>Account, Colony, and Ownership</label></div>}
-                                    {this.state.currentStep == 5 && <div className='diet-panel'><label>Diet</label></div>}
-                                
-                            
-                        </Row>
-                    </div>
+                            </div>
+                        </div>
+                    }
 
+                        {this.state.currentStep == 1 && 
+                            <div>
+                            <div className="panel-divider"></div>
+                                <div className="wizard-label">
+                                    <p>Location</p>
+                                </div>
+                                <div className='location-panel'>
+                                    <LocationPanel
+                                        acquisitionDate={this.state.newAnimalData.acqDate}
+                                        locationList={this.state.LocationList}
+                                        room={this.state.newAnimalData.room}
+                                        cage={this.state.newAnimalData.cage}
+                                        handleRoomChange={this.handleRoomChange}
+                                        handleCageChange={this.handleCageChange}
+                                    />
+                                </div>
+                            </div>
+                        }
+                                        
+                    {this.state.currentStep == 1 && 
+                    <div className='account-panel'><label>Account, Colony, and Ownership</label></div>}
+                    
+                    {this.state.currentStep == 1 && 
+                    <div className='diet-panel'><label>Diet</label></div>}
+               
+                </div>  
             </div>
-
             )
         }
     }

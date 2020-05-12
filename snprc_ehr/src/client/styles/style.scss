@@ -1,2 +1,9 @@
 @import "./settings";
+@import "./base/base";
+@import "./components/speciesPanel";
+@import "./components/acquisitionPanel";
+@import "./components/wizard";
+@import "./components/datePicker";
+@import "./components/demographicsPanel";
+@import "./components/locationPanel";
 @import "~react-datepicker/dist/react-datepicker.css";

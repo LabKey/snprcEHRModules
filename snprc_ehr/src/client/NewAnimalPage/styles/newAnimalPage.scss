@@ -20,63 +20,16 @@
     background-color: $off-white;
 }
 
-
-.species-wrapper {
-    background-color: $dark-blue;
-    text-align: left;
-    padding-bottom: 10rem;
-    color: $dark-blue;
-    font-family: helvetica, Arial, sans-serif;
-    font-size: 1.6rem;
-}
-
-.species-radio-wrapper {
-    padding-left: 1rem;
-    cursor: hand;
-    background-color: $dark-blue;
-    border-color: $dark-blue;
-    border-width: 5px;
-    background-color: $dark-gray;
-}
-.species-radio {
-  padding-top: 1rem;
-  background-color: $dark-blue;
-  color: $off-white;
+.panel-divider {
+  background-color: $dark-gray;
+  text-align: left;
+  padding-bottom: 1rem;
+  font-family: helvetica, Arial, sans-serif;
   font-size: 1.6rem;
-  padding-left: 3rem;
+  margin-bottom: 10px solid lighten($dark-blue, 20%)
 }
-.species-dropdown {
-    border-color: $dark-blue;
-    border-width: 2px;
-    font-size: 1.6rem;
-    width: 50rem;
-    height: 2.0rem;
-    padding-top: 1rem;
-    padding-right: 1rem;
-}
-  
-//======== Date Picker ===========
 
-.react-datepicker-wrapper,
-.react-datepicker__input-container,
-.react-datepicker__input-container input {
-    display: block;
-    width: 20rem;
-    height: 3rem;
-    border-radius: 5px;
-}
-.datepicker-label {
-  margin-top: 1rem;
-  border: 3px solid $dark-blue ;
-  border-radius: 5px;
-  position: relative;
-  width: 25rem;
-}
-.datepicker-icon {
-  position: relative;
-  float: right;
-  padding-right: 6px;
-  margin-top: 2px;
-  z-index: 2;
-  margin-bottom: px;
+.label {
+  margin-left: $s-size;
+  font-size: $font-size-xsmall;
 }

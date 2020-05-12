@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import Radio from 'react-bootstrap/lib/Radio';
 import Select from 'react-select';
+import Label from 'react-bootstrap/lib/Label';
 
 
 export default class SpeciesPanel extends React.Component {
@@ -16,7 +17,6 @@ export default class SpeciesPanel extends React.Component {
     }
 
     handleAcquisitionOptionChange = (e) => {
-        //e.preventDefault();
         const option = e.target.value;
         this.setState({selectedOption: option})
         this.props.handleAcquisitionOptionChange(option);
@@ -41,9 +41,9 @@ export default class SpeciesPanel extends React.Component {
     }
     render() {
         return (
-            <span >
                 <Row >
-                    <Col className="col-md-4">
+                    <Col md={4}>
+                        <Label  className="label" >Acauisition Type</Label>
                         <FormGroup>
                             <Radio inline className='species-radio' name='acqType' value='Birth'
                                     checked={this.state.selectedOption === 'Birth'}
@@ -57,7 +57,8 @@ export default class SpeciesPanel extends React.Component {
                             </Radio>
                         </FormGroup>
                     </Col>
-                    <Col className="col-md-8">
+                    <Col mdOffset={1} md={6}>
+                        <Label  className="label" >Species</Label>
                         <Select
                                 className="species-dropdown"
                                 options={this.props.speciesList}
@@ -67,7 +68,6 @@ export default class SpeciesPanel extends React.Component {
                         />
                     </Col>
                 </Row>
-            </span>
         )
     }
 }

@@ -1,0 +1,51 @@
+// ======= location Panel ========
+.location-panel {
+  background-color: $dark-blue;
+  text-align: left;
+  padding-bottom: 1rem;
+  font-family: helvetica, Arial, sans-serif;
+  font-size: $font-size-small;
+}
+.location-panel p {
+  color: $off-white;
+}
+
+.location-dropdown {
+  border-color: $dark-blue;
+  border-width: 2px;
+  border-left: $s-size;
+  color: $dark-blue;
+  font-size: $font-size-small;
+  width: 40rem;
+  padding-left: 1rem;
+}
+
+.location-date {
+  border-color: $dark-blue;
+  border-width: 1px;
+  border-left: $s-size;
+  font-size: $font-size-small;
+}
+
+.location-datepicker > div > div.react-datepicker__input-container input {
+    display: block;
+    width: 25rem;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid $disabled-gray;
+    //background-color: $disabled-gray;
+    opacity: .5;
+}
+
+.cage-input  {
+  border-radius: 5px;
+  //background: rgb(15, 20, 85);
+  margin-top: $s-size;
+  margin-left: $s-size;
+  padding: $m-size; 
+  width: 10rem;
+  height: $m-size;
+}
+.cage-input:disabled {
+     opacity: .5;
+}
