@@ -3,11 +3,11 @@ import org.labkey.gradle.util.BuildUtils
 dependencies
         {
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiJarFile")
-            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:optionalModules:snd", depProjectConfig: "apiJarFile")
+            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:snd", depProjectConfig: "apiJarFile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiJarFile")
             implementation "com.sun.mail:jakarta.mail:${javaMailVersion}"
             implementation "commons-lang:commons-lang:${commonsLangVersion}"
-            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:optionalModules:dataintegration", depProjectConfig: "apiJarFile")
+            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:dataintegration", depProjectConfig: "apiJarFile")
 
         }
 

@@ -10,8 +10,8 @@ This repository contains all the modules required for the Southwest National Pri
 
 <a name="setUp"></a>
 ## Developer Set Up
-1. Clone this repository into the externalModules directory of your LabKey project.  
-1. Edit your project settings.gradle file to build the externalModules/snprcEHRModules directory.
-1. Build the module with either gradle command 
-    * gradlew deployapp 
-    * gradlew :externalModules:snprcEHRModules deployModule
+1. Clone this repository into the `server/modules` directory of your LabKey project.  
+1. Edit your project settings.gradle file to include the `server/modules/snprcEHRModules` directory.
+1. Build and deploy
+    * For all modules: `./gradlew deployApp`
+    * For a single module: `./gradlew :server:modules:snprcEHRModules:<moduleName>:deployModule`
