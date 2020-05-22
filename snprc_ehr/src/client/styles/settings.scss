@@ -1,13 +1,14 @@
 // Colors
 $dark-gray: #333333;
 $gray: #666;
-$disabled-gray: #c7c7c7;
+$disabled-gray: #f0eeee;
 $button-blue: #1c88bf;
 $dark-blue: #364051;
 $off-white: #f7f7f7;
 // Font Size
 $font-size-xlarge: 3.6rem;
 $font-size-large: 1.8rem;
+$font-size-medium: 1.6rem;
 $font-size-small: 1.4rem;
 $font-size-xsmall: 1.0rem;
 // Spacing
@@ -15,4 +16,10 @@ $m-size: 1.6rem;
 $l-size: 3.2rem;
 $xl-size: 4.8rem;
 $s-size: 1.3rem;
+$xs-size: 0.5rem;
 $desktop-breakpoint: 45rem;
+// panel sizes
+$xs-panel: 2rem;
+$s-panel: 20rem;
+$m-panel: 30rem;
+$l-panel: 40rem;

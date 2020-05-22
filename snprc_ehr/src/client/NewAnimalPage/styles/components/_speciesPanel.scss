@@ -1,0 +1,22 @@
+
+.species-panel {
+    display: block;
+    text-align: left;
+    font-size: $font-size-small;
+    padding-bottom: $m-size;
+    padding-top: $m-size;
+    border: 1px solid $dark-gray;
+    border-style: none solid solid solid;
+    border-radius: 1px;
+    margin-bottom: $m-size;
+}
+
+.species-radio {
+  padding-top: $s-size;
+  padding-left: $s-size;
+  font-size: $font-size-small;
+  padding-left: 3rem;
+}
+.shared-dropdown__species_width {
+    width: 50rem;
+}

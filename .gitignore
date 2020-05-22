@@ -20,4 +20,4 @@ snprc_ehr/resources/referenceStudy/*.xlsx
 snprc_ehr/resources/web/snprc_ehr/snprcReports.js.gz
 snprc_ehr/resources/web/snprc_ehr/gen/*
 snprc_mobile
-*.zip
+/snprc_ehr.2020*.zip

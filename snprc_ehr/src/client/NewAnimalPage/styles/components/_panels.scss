@@ -1,0 +1,45 @@
+.panel-divider {
+  background-color: $dark-gray;
+  text-align: left;
+  padding-bottom: 1rem;
+  font-family: helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  margin-bottom: 10px solid lighten($dark-blue, 20%)
+}
+
+.parent-panel {
+  min-width: 600px;
+  padding-bottom: 1px;
+  //border: 1px solid $dark-gray;
+  border-radius: 1px;
+}
+.panel-heading {
+  border: 1px solid $dark-gray;
+  padding: .5rem .5rem .5rem 2rem;
+  border-radius: 1px;
+  
+}
+.panel-heading[disabled] {
+  background-color: $disabled-gray;
+}
+.panel-heading p {
+    padding-top: 1rem;
+    font-weight: bold;
+}
+
+.field-label {
+  margin-left: $s-size;
+  font-size: $font-size-small;
+  display: inline-block;
+  width: 15rem;
+}
+.label-align {
+  text-align:left
+}
+.err-panel {
+  text-align: left;
+  font-size: $font-size-medium;
+  padding: 7rem 0 $xs-size $s-size;
+  color: red;
+  height: $xs-panel;
+}

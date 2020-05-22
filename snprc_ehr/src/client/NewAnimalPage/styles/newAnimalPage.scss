@@ -1,35 +1,16 @@
-@import '../../styles/style.scss';
+@import "../../styles/style";
+@import "./components/speciesPanel";
+@import "./components/acquisitionPanel";
+@import "./components/wizard";
+@import "../../utils/components/wrappedDatePicker";
+@import "./components/demographicsPanel";
+@import "./components/locationPanel";
+@import "./components/accountPanel";
+@import "./components/dietPanel";
+@import "./components/panels";
 
-.header_title {
-    color: $button-blue;
-    text-shadow: 2px 2px $dark-gray;
-    font-size: $font-size-xlarge;
-    margin-left: 5rem;
+.button-row {
+    padding-top: 1px;
+//    / display: inline-block;
   }
-   
-  .header_subtitle {
-    color: #333745;
-    font-size: 1.6rem;
-    font-weight: 500;
-    margin-top: 1rem;
-    margin-left: 5rem
-  }
-
-.spinner {
-    color: $dark-blue;
-    background-color: $off-white;
-}
-
-.panel-divider {
-  background-color: $dark-gray;
-  text-align: left;
-  padding-bottom: 1rem;
-  font-family: helvetica, Arial, sans-serif;
-  font-size: 1.6rem;
-  margin-bottom: 10px solid lighten($dark-blue, 20%)
-}
-
-.label {
-  margin-left: $s-size;
-  font-size: $font-size-xsmall;
-}
+  

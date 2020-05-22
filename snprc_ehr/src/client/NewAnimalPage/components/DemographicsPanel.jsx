@@ -1,35 +1,24 @@
 import React from 'react';
 import Select from 'react-select';
-import DatePicker from 'react-datepicker';
-import DatePickerInput from './DatePickerInput'
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
-import Label from 'react-bootstrap/lib/Label';
-
+import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
 
 export default class DemographicsPanel extends React.Component {
     state = {
-        selectedDate: this.props.birthDate || new Date(),
-        selectedDam: undefined,
-        selectedSire: undefined,
-        selectedGender: undefined
-    }
-    
-    handlePotentialDamChange = (value) => {
-        this.props.handlePotentialDamChange(value);
+        selectedDate: this.props.newAnimalData.birthDate || new Date()
     }
 
-    handlePotentialSireChange = (value) => {
-        this.props.handlePotentialSireChange(value);
+    handleDamChange = option => {
+        this.props.handleDataChange('dam', option);
     }
-    handleGenderChange = (value) => {
-        const option = value;
-        this.props.handleGenderChange(value);
-
-        console.log(option);
+    handleSireChange = option => {
+        this.props.handleDataChange('sire', option);
+    }
+    handleGenderChange = option => {
+        this.props.handleDataChange('gender', option);
     }
     handleBirthDateChange = (date) => {
-        this.props.handleBirthDateChange(date);
+        this.handleDateSelect(date);
+        this.props.handleDataChange('birthDate', date);
     }
 
     handleDateSelect = date => {
@@ -38,73 +27,79 @@ export default class DemographicsPanel extends React.Component {
         });
     };
 
-    
+
     render() {
-        const resultLimit = 10
-        let i = 0
+        let {gender, dam, sire} = this.props.newAnimalData;
         return (
-            <div>
-                <Row >
-                
-                    <Col md={5} className="birthdate">
-                        <Label  className="label" >Birthdate</Label>
-                            <DatePicker
-                                todayButton="Today"
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={30}
-                                dateFormat="MM/dd/yy hh:mm"
-                                maxDate={new Date()}
-                                customInput={<DatePickerInput />}
-                                selected={this.state.selectedDate}
-                                onSelect={this.handleDateSelect}
-                                onChange={this.handleBirthDateChange}
-                            />
-                    </Col>
-                </Row>
-                <Row >
-                    <Col md={8} >
-                        <Label>Gender </Label>
+            <div className="wizard-panel__rows">
+                <div className="wizard-panel__row" >
+                    <div className="wizard-panel__col">
+                        <WrappedDatePicker
+                            label="Birthdate"
+                            todayButton="Today"
+                            showTimeSelect
+                            timeFormat="p"
+                            timeIntervals={30}
+                            dateFormat="Pp"
+                            maxDate={new Date()}
+                            selected={this.state.selectedDate} 
+                            onSelect={this.handleDateSelect}
+                            onChange={this.handleBirthDateChange}
+                            disabled={this.props.disabled}
+                        />
+                    </div>
+                </div>
+                <div className="wizard-panel__row" >
+                    <div className="wizard-panel__col">
+                        <label className="field-label" >Gender</label>
                         <Select
-                                className="demographics-dropdown"
-                                classNamePrefix="demographics-select"
-                                options={[{value: "F", label: "Female"}, 
-                                    {value: "M", label: "Male"}, 
-                                    {value: "U", label: "Unknown"}]}
-                                onChange={this.handleGenderChange}
-                                placeholder="Select Gender"
-                                isDisabled={false}
+                            defaultValue={gender}
+                            className="shared-dropdown"
+                            classNamePrefix="shared-select"
+                            options={[{ value: "F", label: "Female" },
+                            { value: "M", label: "Male" },
+                            { value: "U", label: "Unknown" }]}
+                            onChange={this.handleGenderChange}
+                            placeholder="Select Gender"
+                            isDisabled={this.props.disabled}
+                            id="gender-select"
                         />
-                    </Col>
-                </Row>
-                <Row >
-                    <Col md={4} >
-                        <Label>Dam </Label>
-                        <Select 
-                                className="demographics-dropdown"
-                                options={this.props.potentialDamList}
-                                onChange={this.handlePotentialDamChange}
-                                placeholder="Select Dam"
-                                isDisabled={false}
-                                filterOption={( {label}, query) => label.indexOf(query) >= 0 && i++ < resultLimit}
-                                onInputChange={() => { i = 0 }}
+                    </div>
+                </div>
+
+                <div className="wizard-panel__row" >
+                    <div className="wizard-panel__col">
+                        <label className="field-label" >Dam</label>
+                        <Select
+                            defaultValue={dam}
+                            className="shared-dropdown"
+                            classNamePrefix="shared-select"
+                            options={this.props.potentialDamList}
+                            onChange={this.handleDamChange}
+                            placeholder="Select Dam"
+                            isDisabled={this.props.disabled}
+                            id="dam-select"
                         />
-                    </Col>
-                </Row>
-                <Row >
-                    <Col md={4} >
-                        <Label>Sire </Label>
-                        <Select 
-                                className="demographics-dropdown"
-                                options={this.props.potentialSireList}
-                                onChange={this.handlePotentialSireChange}
-                                placeholder="Select Sire"
-                                isDisabled={false}
+                    </div>
+                </div>
+
+                <div className="wizard-panel__row" >
+                    <div className="wizard-panel__col">
+                        <label className="field-label" >Owner</label>
+                        <Select
+                            defaultValue={sire}
+                            className="shared-dropdown"
+                            classNamePrefix="shared-select"
+                            options={this.props.potentialSireList}
+                            onChange={this.handleSireChange}
+                            placeholder="Select Sire"
+                            isDisabled={this.props.disabled}
+                            id="sire-select"
                         />
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
-            
+
         )
     }
 }

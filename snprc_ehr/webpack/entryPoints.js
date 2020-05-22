@@ -20,7 +20,7 @@ module.exports = {
     }
     ,{
         name: 'NewAnimalPage',
-        title: 'New Animal Page',
+        title: 'New Animal Wizard',
         permission: 'read',
         path: './src/client/NewAnimalPage',
         scriptType: 'jsx'

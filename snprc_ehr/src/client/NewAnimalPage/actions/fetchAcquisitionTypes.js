@@ -1,8 +1,7 @@
 import { request } from '../../utils/actions';
 
-const parse = (rawTypes) => {
-    return rawTypes.map((object, key) => {
-        const { data } = object
+const parse = rows => {
+    return rows.map(( { data }, key) => {
         return { id: key, value: data.AcqCode.value, label: data.DisplayValue.value, 
                  Category: data.Category.value, SortOrder: data.SortOrder.value }
     })

@@ -1,98 +1,128 @@
 import React from 'react';
 import Select from 'react-select';
-import DatePicker from 'react-datepicker';
-import DatePickerInput from './DatePickerInput'
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
-import Label from 'react-bootstrap/lib/Label';
-
+import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
 
 export default class LocationPanel extends React.Component {
-    state = {
-        selectedDate: this.props.acquisitionDate || new Date()
-    }
-    
-    handleCageChange = (e) => {
-        const option = e.target.value;
-        this.props.handleCageChange(option);
 
-        console.log(option);
+    state =  {
+        cageError: undefined,
+        roomError: undefined
+    };
+
+    handleCageChange = e => {
+        const option = e.target.value;
+        this.validateDataItem('cage', option);
+        this.props.handleDataChange('cage', option);
     } 
-    handleRoomChange = (room) => {
-        const option = room;
+    handleRoomChange = room => {
         const el = document.getElementById("cage-input");
         if (room.maxCages) {
             el.disabled = false
             el.value = null;
             el.max = room.maxCages;
-            this.props.handleCageChange(null);
+            this.props.handleDataChange('cage', null);
         }
         else {
             el.disabled = true;
             el.value = null
-            this.props.handleCageChange(null);
+            this.props.handleDataChange('cage', null);
         }
 
-        this.props.handleRoomChange(room);
-
-        console.log(option);
+        this.props.handleDataChange('room', room);
     }
+
+    validateDataItem = (property, value) => {
+        if (!property || !value) return (undefined);
+        switch (property) {
+            case 'cage':
+                const error = (value > this.props.newAnimalData.room.maxCages) ?
+                    `The maximum number of cages allowed in ${this.props.newAnimalData.room.value} is ${this.props.newAnimalData.room.maxCages}` :
+                    undefined;
+
+                this.setState( (prevState) => (
+                    {   
+                        ...prevState,
+                        cageError: error
+                    }
+                ));
+                this.props.handleError(this.state.cageError===undefined);
+                break;
+            case 'room':
+                if ( true ) {  // TODO: what constitutes a room error?
+                    const error = 'Room error occured';
+                    this.setState( (prevState) => (
+                        {   
+                            ...prevState,
+                            roomError: error
+                        }
+                    ));
+                }
+                break;
+        }
+    }
+
 
     handleDateSelect = date => {
         //do nothing
     };
-    handleDateChangeRaw = (e) => {
+    handleDateChangeRaw = e => {
         e.preventDefault();
       }
     render() {
+        let { room, cage, acqDate } = this.props.newAnimalData;
         return (
-            <div>
-                <Row >
-                    <Col  md={4} className="location-date">
+            <div className="wizard-panel__rows">
+                <div className="wizard-panel__row" >
+                    <div className="wizard-panel__col">
                         <div className="location-datepicker">
-                            <Label  className="label" >Move Date Time</Label>
-                            <DatePicker
+                            <WrappedDatePicker
+                                label="Move Date Time"
                                 todayButton="Today"
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={30}
-                                dateFormat="MM/dd/yy HH:mm"
-                                maxDate={new Date()}
-                                customInput={<DatePickerInput />}
-                                selected={this.props.acquisitionDate}
+                                dateFormat="Pp"
+                                selected={ acqDate }
                                 onSelect={this.handleDateSelect}
                                 onChange={this.handleDateSelect}
                                 onChangeRaw={this.handleDateChangeRaw}
                                 readOnly={true}
                                 disabledKeyboardNavigation={true}
+                                disabled={this.props.disabled}
                             />
                         </div>
-                    </Col>
-                </Row>
-                <Row >
-                <Col md={4}  >
-                    <Label  className="label" >Location</Label>
-                    <Select 
-                            className="location-dropdown"
-                            classNamePrefix="location-select"
-                            options={this.props.locationList}
-                            onChange={this.handleRoomChange}
-                            placeholder="Select Location"
-                            isDisabled={false}
-                    />
-                </Col>
-                <Col md={4} xsOffset={1} mdOffset={1}>
-                    <Label  className="label" >Cage</Label>
-                    <input type="number" id="cage-input"
-                        className="cage-input"
-                        placeholder="Cage #"
-                        min="1"
-                        onChange={this.handleCageChange}
-                        disabled
-                    />
-                </Col>
-            </Row>    
-
+                    </div>
+                </div>
+                <div className="wizard-panel__row" >
+                    <div className="wizard-panel__col">
+                        <label className="field-label" >Location</label>
+                        <Select 
+                                defaultValue= {room}
+                                className="shared-dropdown"
+                                classNamePrefix="shared-select"
+                                options={this.props.locationList}
+                                onChange={this.handleRoomChange}
+                                placeholder="Select Location"
+                                isDisabled={this.props.disabled}
+                                id="location-select"
+                        />
+                    </div>
+                    <div className="wizard-panel__col">
+                        <label className="field-label" >Cage</label>
+                        <input type="number" id="cage-input"
+                            className="cage-input"
+                            placeholder="Cage #"
+                            min="1"
+                            max={room ? room.maxCages : 1}
+                            defaultValue={ cage }
+                            onChange={this.handleCageChange}
+                            disabled={ !cage }
+                        />
+                    </div>
+                </div>
+                <div className="wizard-panel__row" >
+                    <div className="err-panel">
+                        {this.state.cageError && this.state.cageError}
+                        {this.state.roomError && this.state.roomError}
+                    </div>
+                </div>
             </div>
             
         )

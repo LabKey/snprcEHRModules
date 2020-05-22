@@ -1,8 +1,7 @@
 import { request } from '../../utils/actions';
 
-const parse = (rawSpecies) => {
-    return rawSpecies.map((object, key) => {
-        const { data } = object
+const parse = rows => {
+    return rows.map(({ data }, key) => {
         return { id: key, value: data.room.value, label: data.room.value, arcSpeciesCode: data.species.value, maxCages: data.maxCages.value }
     })
 }

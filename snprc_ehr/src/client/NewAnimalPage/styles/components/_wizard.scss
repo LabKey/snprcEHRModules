@@ -1,0 +1,34 @@
+// ======= wizard wrapper ========
+.wizard-panel {
+  text-align: left;
+  //padding-bottom: $m-size;
+  padding-top: $m-size;
+  // font-family: helvetica, Arial, sans-serif;
+  // font-size: $font-size-small;
+  height: $m-panel;    
+  border: 1px solid $dark-gray;
+  border-style: none solid solid solid;
+  border-radius: 1px;
+  margin-bottom: $xs-size;
+}
+.wizard-panel[disabled] {
+  //opacity: .5;
+  background-color: $disabled-gray;
+}
+
+  .wizard-panel__rows {
+    display:inline-block;
+  }
+  .wizard-panel__row {
+    margin-bottom: $xs-size;
+    text-align: left;
+    font-family: helvetica, Arial, sans-serif;
+    font-size: $font-size-small;
+    height: 2rem;
+    padding-bottom: 4rem;
+    
+  }
+  .wizard-panel__col {
+    padding: 0 1rem 0 1rem;
+
+  }
