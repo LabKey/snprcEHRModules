@@ -27,10 +27,10 @@ export default class NewAnimalPage extends React.Component {
         selectedOption: undefined,
         newAnimalData: {
             id: undefined,
-            birthDate: new Date(),
+            birthDate: { date: new Date(), hasError: false },
             acquisitionType: undefined,
-            acqDate: new Date(),
-            gender: 'U',
+            acqDate: { date: new Date()},
+            gender: undefined,
             sire: undefined,
             dam: undefined,
             species: undefined,
@@ -40,7 +40,7 @@ export default class NewAnimalPage extends React.Component {
             ownerInstitution: undefined,
             responsibleInstitution: undefined,
             room: undefined,
-            cage: undefined,
+            cage: {value: undefined, hasError: false},
             diet: undefined,
             pedigree: undefined,
             iacuc: undefined
@@ -56,7 +56,8 @@ export default class NewAnimalPage extends React.Component {
         iacucList: [],
         pedigreeList: [],
         isLoaded: false,
-        hasError: false
+        hasError: false,
+        preventNext: true
 
     };
 
@@ -156,7 +157,6 @@ export default class NewAnimalPage extends React.Component {
         this.setState(prevState => (
             {
                 ...prevState,
-                errorMessage: undefined,
                 newAnimalData:
                 {
                     ...prevState.newAnimalData,
@@ -189,6 +189,16 @@ export default class NewAnimalPage extends React.Component {
             }
         ))  
     }
+    preventNext = value => {
+        this.setState (prevState => (
+            {
+                ...prevState,
+                preventNext: value
+            }
+            
+        ))
+    }
+
     render() {
         let { isLoaded } = this.state;
 
@@ -227,6 +237,7 @@ export default class NewAnimalPage extends React.Component {
                                         acquisitionTypeList={this.state.acquisitionTypeList}
                                         newAnimalData={this.state.newAnimalData}
                                         disabled={this.disableFirstPanel()}
+                                        preventNext={this.preventNext}
                                     />
                                 </div>
                             </div>
@@ -243,6 +254,7 @@ export default class NewAnimalPage extends React.Component {
                                         potentialDamList={this.state.potentialDamList}
                                         potentialSireList={this.state.potentialSireList}
                                         newAnimalData={this.state.newAnimalData}
+                                        preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
                                     />
                                 </div>
@@ -260,6 +272,7 @@ export default class NewAnimalPage extends React.Component {
                                         handleDataChange={this.handleDataChange}
                                         newAnimalData={this.state.newAnimalData}
                                         handleError={this.handleError}
+                                        preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
                                     />
                                 </div>
@@ -313,7 +326,7 @@ export default class NewAnimalPage extends React.Component {
                         </Pager.Item>
                             <Pager.Item
                                 onClick={this.handleNext}
-                                disabled={(this.state.currentPanel >= 5) || this.state.hasError}
+                                disabled={(this.state.currentPanel >= 5) || this.state.hasError || this.state.preventNext}
                                 next={true}
                             >
                                 Next Page &rarr;

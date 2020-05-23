@@ -5,24 +5,35 @@ import Select from 'react-select';
 export default class AccountPanel extends React.Component {
 
     handleAccountChange = option => {
-        this.props.handleDataChange('animalAccount', option);
+        const validatedOption = this.validate(option);
+        this.props.handleDataChange('animalAccount', validatedOption);
     }
     handleColonyChange = option => {
-        this.props.handleDataChange('colony', option);
+        const validatedOption = this.validate(option);
+        this.props.handleDataChange('colony', validatedOption);
     }
     handleOwnerInstitutionChange = option => {
-        this.props.handleDataChange('ownerInstitution', option);
+        const validatedOption = this.validate(option);
+        this.props.handleDataChange('ownerInstitution', validatedOption);
     }
     handleIacucChange = option => {
-        this.props.handleDataChange('iacuc', option);
+        const validatedOption = this.validate(option);
+        this.props.handleDataChange('iacuc', validatedOption);
     }
     handlePedigreeChange = option => {
-        this.props.handleDataChange('pedigree', option);
+        const validatedOption = this.validate(option);
+        this.props.handleDataChange('pedigree', validatedOption);
     }    
     handleResponsibleInstitutionChange = option => {
-        this.props.handleDataChange('responsibleInstitution', option);
+        const validatedOption = this.validate(option);
+        this.props.handleDataChange('responsibleInstitution', validatedOption);
     }
-    
+    validate = option => {
+        return ( {
+            ...option,
+            hasError: false
+        })
+    }
     render() {
         let {animalAccount, colony, pedigree, iacuc, responsibleInstitution, ownerInstitution } = this.props.newAnimalData;
         return (

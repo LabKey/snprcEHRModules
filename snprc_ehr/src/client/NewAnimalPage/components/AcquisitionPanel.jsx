@@ -4,19 +4,24 @@ import WrappedDatePicker from '../../utils/components/WrappedDatePicker'
 
 export default class AcquisitionPanel extends React.Component {
 
+    componentDidMount = () => {
+        this.props.preventNext(!this.props.newAnimalData.acquisitionType); //prevent/Allow Next button
+    }
+    
     handleAcquisitionChange = option => {
         this.props.handleDataChange('acquisitionType', option);
+        this.props.preventNext(false); //allow Next button
     }
     handleAcquisitionDateChange = date => {
-        this.props.handleDataChange('acqDate', date);
-
+        this.props.handleDataChange('acqDate', { date });
     }
-   
+ 
     render() {
         let { acquisitionType, acqDate } = this.props.newAnimalData;
+        
         return (
             <>
-                <div className="wizard-panel__rows">
+                <div className="wizard-panel__rows" >
                     <div className="wizard-panel__row" >
                         <div className="wizard-panel__col">
                             <WrappedDatePicker
@@ -27,7 +32,7 @@ export default class AcquisitionPanel extends React.Component {
                                 timeIntervals={30}
                                 dateFormat="Pp"
                                 maxDate={new Date()}
-                                selected={acqDate}
+                                selected={acqDate.date}
                                 onSelect={this.handleAcquisitionDateChange}
                                 onChange={this.handleAcquisitionDateChange}
                                 disabled={this.props.disabled}
@@ -48,6 +53,11 @@ export default class AcquisitionPanel extends React.Component {
                                 isDisabled={this.props.disabled}
                                 id="acquisition-select"
                             />
+                        </div>
+                    </div>
+                    <div className="wizard-panel__row" >
+                        <div className="err-panel">
+                            {!acquisitionType && 'You must select an Acquisition code.'}
                         </div>
                     </div>
                 </div>

@@ -3,9 +3,12 @@ import Select from 'react-select';
 import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
 
 export default class DemographicsPanel extends React.Component {
-    state = {
-        selectedDate: this.props.newAnimalData.birthDate || new Date()
+
+    componentDidMount = () => { 
+        const {gender} = this.props.newAnimalData;
+        this.props.preventNext(!gender); //prevent/Allow Next button
     }
+    
 
     handleDamChange = option => {
         this.props.handleDataChange('dam', option);
@@ -15,21 +18,15 @@ export default class DemographicsPanel extends React.Component {
     }
     handleGenderChange = option => {
         this.props.handleDataChange('gender', option);
+        this.props.preventNext(false); //allow Next button
     }
     handleBirthDateChange = (date) => {
-        this.handleDateSelect(date);
-        this.props.handleDataChange('birthDate', date);
+        this.props.handleDataChange('birthDate', { date });
     }
-
-    handleDateSelect = date => {
-        this.setState({
-            selectedDate: date
-        });
-    };
 
 
     render() {
-        let {gender, dam, sire} = this.props.newAnimalData;
+        let {gender, dam, sire, birthDate} = this.props.newAnimalData;
         return (
             <div className="wizard-panel__rows">
                 <div className="wizard-panel__row" >
@@ -42,8 +39,8 @@ export default class DemographicsPanel extends React.Component {
                             timeIntervals={30}
                             dateFormat="Pp"
                             maxDate={new Date()}
-                            selected={this.state.selectedDate} 
-                            onSelect={this.handleDateSelect}
+                            selected={ birthDate.date } 
+                            onSelect={this.handleBirthDateChange}
                             onChange={this.handleBirthDateChange}
                             disabled={this.props.disabled}
                         />
@@ -85,7 +82,7 @@ export default class DemographicsPanel extends React.Component {
 
                 <div className="wizard-panel__row" >
                     <div className="wizard-panel__col">
-                        <label className="field-label" >Owner</label>
+                        <label className="field-label" >Sire</label>
                         <Select
                             defaultValue={sire}
                             className="shared-dropdown"
@@ -98,6 +95,11 @@ export default class DemographicsPanel extends React.Component {
                         />
                     </div>
                 </div>
+                <div className="wizard-panel__row" >
+                        <div className="err-panel">
+                            {!gender && 'You must select a Gender.'}
+                        </div>
+                    </div>                
             </div>
 
         )

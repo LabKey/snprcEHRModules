@@ -4,70 +4,89 @@ import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
 
 export default class LocationPanel extends React.Component {
 
-    state =  {
-        cageError: undefined,
-        roomError: undefined
+    state = {
+        errorMessage: undefined
     };
 
+    componentDidMount = () => {
+        this.props.preventNext(!this.props.newAnimalData.room); //prevent/Allow Next button
+    }
     handleCageChange = e => {
-        const option = e.target.value;
-        this.validateDataItem('cage', option);
-        this.props.handleDataChange('cage', option);
-    } 
+        const value = e.target.value;
+        const validatedOption = this.validate('cage', { value });
+        if (!validatedOption.hasError) {
+            this.props.handleDataChange('cage', validatedOption);
+        }
+        
+    }
+
     handleRoomChange = room => {
         const el = document.getElementById("cage-input");
         if (room.maxCages) {
             el.disabled = false
             el.value = null;
             el.max = room.maxCages;
-            this.props.handleDataChange('cage', null);
         }
         else {
             el.disabled = true;
             el.value = null
-            this.props.handleDataChange('cage', null);
         }
-
-        this.props.handleDataChange('room', room);
+        this.props.handleDataChange('room', this.validate('room', room));
+        this.props.handleDataChange('cage', {value: null, hasError: false} );
+        this.props.preventNext(false); //prevent/Allow Next button
     }
 
-    validateDataItem = (property, value) => {
-        if (!property || !value) return (undefined);
+    validate = (property, option) => {
         switch (property) {
             case 'cage':
-                const error = (value > this.props.newAnimalData.room.maxCages) ?
-                    `The maximum number of cages allowed in ${this.props.newAnimalData.room.value} is ${this.props.newAnimalData.room.maxCages}` :
-                    undefined;
+                const { room } = this.props.newAnimalData;
+                let hasError = false;
+                if (room && room.maxCages) {
+                   
+                    hasError = option.value !== ""  && (option.value > room.maxCages || option.value < 1);
 
-                this.setState( (prevState) => (
-                    {   
-                        ...prevState,
-                        cageError: error
-                    }
-                ));
-                this.props.handleError(this.state.cageError===undefined);
-                break;
-            case 'room':
-                if ( true ) {  // TODO: what constitutes a room error?
-                    const error = 'Room error occured';
-                    this.setState( (prevState) => (
-                        {   
+                    const errorMessage = hasError ? `Cage # must be between 1 and ${room.maxCages} in ${room.value}` : undefined;
+
+                    this.setState((prevState) => (
+                        {
                             ...prevState,
-                            roomError: error
+                            errorMessage: errorMessage
                         }
                     ));
                 }
-                break;
+
+                this.props.handleError(hasError);
+                return ({
+                    ...option,
+                    hasError
+                })
+                
+
+            case 'room':
+                // TODO: what constitutes a room error?
+                return ({
+                    ...option,
+                    hasError: false
+                })
         }
     }
-
-
     handleDateSelect = date => {
         //do nothing
     };
     handleDateChangeRaw = e => {
         e.preventDefault();
-      }
+    }
+    isInteger = e => {
+        const i = e.key    //which ? e.which : e.keyCode;
+        console.log(i);
+        const isInteger =  (i >= 0 && i <= 9);
+        if (!isInteger) {
+            e.preventDefault();
+        }
+
+        return isInteger;
+    }  
+
     render() {
         let { room, cage, acqDate } = this.props.newAnimalData;
         return (
@@ -79,7 +98,7 @@ export default class LocationPanel extends React.Component {
                                 label="Move Date Time"
                                 todayButton="Today"
                                 dateFormat="Pp"
-                                selected={ acqDate }
+                                selected={acqDate.date}
                                 onSelect={this.handleDateSelect}
                                 onChange={this.handleDateSelect}
                                 onChangeRaw={this.handleDateChangeRaw}
@@ -93,38 +112,41 @@ export default class LocationPanel extends React.Component {
                 <div className="wizard-panel__row" >
                     <div className="wizard-panel__col">
                         <label className="field-label" >Location</label>
-                        <Select 
-                                defaultValue= {room}
-                                className="shared-dropdown"
-                                classNamePrefix="shared-select"
-                                options={this.props.locationList}
-                                onChange={this.handleRoomChange}
-                                placeholder="Select Location"
-                                isDisabled={this.props.disabled}
-                                id="location-select"
+                        <Select
+                            defaultValue={room}
+                            className="shared-dropdown"
+                            classNamePrefix="shared-select"
+                            options={this.props.locationList}
+                            onChange={this.handleRoomChange}
+                            placeholder="Select Location"
+                            isDisabled={this.props.disabled}
+                            id="location-select"
                         />
                     </div>
                     <div className="wizard-panel__col">
                         <label className="field-label" >Cage</label>
-                        <input type="number" id="cage-input"
+                        <input type="number" 
+                            onKeyPress={this.isInteger}
+                            id="cage-input"
                             className="cage-input"
                             placeholder="Cage #"
                             min="1"
                             max={room ? room.maxCages : 1}
-                            defaultValue={ cage }
+                            defaultValue={cage.value}
                             onChange={this.handleCageChange}
-                            disabled={ !cage }
+                            disabled={!(room && room.maxCages)}
+
                         />
                     </div>
                 </div>
                 <div className="wizard-panel__row" >
                     <div className="err-panel">
-                        {this.state.cageError && this.state.cageError}
-                        {this.state.roomError && this.state.roomError}
+                        {!room && 'You must select a location.'}
+                        {this.state.errorMessage && this.state.errorMessage}
                     </div>
                 </div>
             </div>
-            
+
         )
     }
 }

@@ -11,7 +11,14 @@ export default class DietPanel extends React.Component {
         e.preventDefault();
     }
     handleDataChange = option => {
-        this.props.handleDataChange('diet', option);
+        const validatedOption = this.validate('diet', option);
+        this.props.handleDataChange('diet', validatedOption);
+    }
+    validate = (property, option) => {
+        return ( {
+            ...option,
+            hasError: false
+        })
     }
 
     render() {
@@ -25,7 +32,7 @@ export default class DietPanel extends React.Component {
                                 label="Diet Date"
                                 todayButton="Today"
                                 dateFormat="Pp"
-                                selected={acqDate}
+                                selected={acqDate.date}
                                 onSelect={this.handleDateSelect}
                                 onChange={this.handleDateSelect}
                                 onChangeRaw={this.handleDateChangeRaw}
