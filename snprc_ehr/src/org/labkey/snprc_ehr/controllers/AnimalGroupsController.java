@@ -97,14 +97,11 @@ public class AnimalGroupsController extends SpringActionController
     @RequiresPermission(EHRDataEntryPermission.class)
     public class GroupCategoriesAction extends SimpleViewAction<AnimalGroupCategory>
     {
-
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
             root.addChild("Animal Group Categories", new ActionURL(GroupCategoriesAction.class, getContainer()));
-            return root;
         }
-
 
         @Override
         public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors)

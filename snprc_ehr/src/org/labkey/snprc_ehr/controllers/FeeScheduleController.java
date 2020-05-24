@@ -183,11 +183,9 @@ public class FeeScheduleController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild(_navTrail);
+            root.addChild(_navTrail);
         }
-
     }
-
 }

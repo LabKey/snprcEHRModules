@@ -43,9 +43,8 @@ public class snprc_r24Controller extends SpringActionController
             return new JspView("/org/labkey/snprc_r24/view/hello.jsp");
         }
 
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root;
         }
     }
 }

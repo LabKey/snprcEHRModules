@@ -99,9 +99,9 @@ public class AnimalsHierarchyController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild("View Animals");
+            root.addChild("View Animals");
         }
     }
 
