@@ -54,6 +54,7 @@ export default class DietPanel extends React.Component {
                             onChange={this.handleDataChange}
                             placeholder="Select diet"
                             isDisabled={this.props.disabled}
+                            isLoading={this.props.dietList.length === 0}
                         />
                     </div>
                 </div>

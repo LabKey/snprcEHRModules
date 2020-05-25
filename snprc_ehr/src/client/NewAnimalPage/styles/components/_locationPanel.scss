@@ -12,10 +12,12 @@
 .cage-input  {
   border-radius: 5px;
   border: 1px solid $gray;
-  margin: $s-size 0 0 $s-size;
-  padding: $m-size; 
+  margin: 0 0 0 11px;
+  padding: $s-size $s-size $s-size $xs-size; 
   width: 10rem;
-  height: $m-size;
+  height: 20px;
+  font-family: helvetica, Arial, sans-serif;
+  font-size: $font-size-small;
 }
 .cage-input:disabled {
      opacity: .5;
