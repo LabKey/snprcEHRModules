@@ -29,7 +29,7 @@ export default class NewAnimalPage extends React.Component {
             id: undefined,
             birthDate: { date: new Date(), hasError: false },
             acquisitionType: undefined,
-            acqDate: { date: new Date()},
+            acqDate: { date: new Date() },
             gender: undefined,
             sire: undefined,
             dam: undefined,
@@ -40,7 +40,7 @@ export default class NewAnimalPage extends React.Component {
             ownerInstitution: undefined,
             responsibleInstitution: undefined,
             room: undefined,
-            cage: {value: undefined, hasError: false},
+            cage: { value: undefined, hasError: false },
             diet: undefined,
             pedigree: undefined,
             iacuc: undefined
@@ -55,44 +55,44 @@ export default class NewAnimalPage extends React.Component {
         institutionList: [],
         iacucList: [],
         pedigreeList: [],
-        isLoaded: false,
+        isLoading: true,
         hasError: false,
-        preventNext: true
+        preventNext: true,
+        saveOk: true
 
     };
+    debug = true;
 
     componentDidMount = () => {
         console.log("Loading...");
         const lists = {};
 
-        async function loadListsAs(lists) {
+        async function loadListsAW(lists) {
             lists.speciesList = await fetchSpecies();
             lists.accountList = await fetchAccounts();
             lists.institutionList = await fetchInstitutions();
             lists.dietList = await fetchDiets();
         }
 
-        loadListsAs(lists).then(() => {
+        loadListsAW(lists).then(() => {
+
             this.setState(prevState => (
                 {
                     ...prevState,
+                    isLoading: false,
                     speciesList: lists.speciesList,
                     accountList: lists.accountList,
                     institutionList: lists.institutionList,
                     dietList: lists.dietList
                 }
-            )
-            )
-        }).then(this.setState(prevState => ({ ...prevState, isLoaded: true }))
-        ).catch(error => { console.log(error) })
+            ))
+        }).catch(error => { console.log(error) })
     }
     disablePanels = () => (
-        !this.state.isLoaded ||
         !this.state.selectedOption ||
         !this.state.newAnimalData.species
     )
     disableFirstPanel = () => (
-        !this.state.isLoaded ||
         !this.state.selectedOption
     )
     handleLoadAcuisitionTypes = type => {
@@ -131,7 +131,6 @@ export default class NewAnimalPage extends React.Component {
             this.setState(prevState => (
                 {
                     ...prevState,
-                    isLoaded: true,
                     potentialDamList: lists.potentialDamList,
                     potentialSireList: lists.potentialSireList,
                     locationList: lists.locationList,
@@ -187,22 +186,25 @@ export default class NewAnimalPage extends React.Component {
                 ...prevState,
                 hasError: value
             }
-        ))  
+        ))
     }
     preventNext = value => {
-        this.setState (prevState => (
+        this.setState(prevState => (
             {
                 ...prevState,
                 preventNext: value
             }
-            
+
         ))
     }
-
+    handleSave = () => {
+        console.log('Saving...');
+    }
+    
     render() {
-        let { isLoaded } = this.state;
+        let { isLoading } = this.state;
 
-        if (!isLoaded) {
+        if (isLoading) {
             return (
                 <LoadingSpinner />
             )
@@ -238,6 +240,7 @@ export default class NewAnimalPage extends React.Component {
                                         newAnimalData={this.state.newAnimalData}
                                         disabled={this.disableFirstPanel()}
                                         preventNext={this.preventNext}
+                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
@@ -256,6 +259,7 @@ export default class NewAnimalPage extends React.Component {
                                         newAnimalData={this.state.newAnimalData}
                                         preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
+                                        debug={this.debug}
                                     />
                                 </div>
 
@@ -274,6 +278,7 @@ export default class NewAnimalPage extends React.Component {
                                         handleError={this.handleError}
                                         preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
+                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
@@ -294,6 +299,7 @@ export default class NewAnimalPage extends React.Component {
                                         handleDataChange={this.handleDataChange}
                                         newAnimalData={this.state.newAnimalData}
                                         disabled={this.disablePanels()}
+                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
@@ -309,13 +315,14 @@ export default class NewAnimalPage extends React.Component {
                                         handleDataChange={this.handleDataChange}
                                         newAnimalData={this.state.newAnimalData}
                                         disabled={this.disablePanels()}
+                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
                         }
                     </div>
 
-                    <div className="wizard-panel__row button-row" >
+                    <div className="button-row" >
                         <Pager >
                             <Pager.Item
                                 onClick={this.handlePrevious}
@@ -324,13 +331,24 @@ export default class NewAnimalPage extends React.Component {
                             >
                                 &larr; Previous Page
                         </Pager.Item>
+                        {this.state.currentPanel !== 5 &&
                             <Pager.Item
                                 onClick={this.handleNext}
                                 disabled={(this.state.currentPanel >= 5) || this.state.hasError || this.state.preventNext}
                                 next={true}
                             >
                                 Next Page &rarr;
+                            </Pager.Item>
+                        }
+                        {this.state.currentPanel == 5 &&
+                            <Pager.Item
+                                onClick={this.handleSave}
+                                disabled={(this.state.currentPanel !== 5) || this.state.hasError || !this.state.saveOk}
+                                next={true}
+                            >
+                                Save
                         </Pager.Item>
+        }
                         </Pager>
                     </div>
                 </div>

@@ -1,34 +1,39 @@
 // ======= wizard wrapper ========
 .wizard-panel {
   text-align: left;
-  //padding-bottom: $m-size;
   padding-top: $m-size;
-  // font-family: helvetica, Arial, sans-serif;
-  // font-size: $font-size-small;
-  height: $m-panel;    
+  min-height: $m-panel;    
   border: 1px solid $dark-gray;
   border-style: none solid solid solid;
   border-radius: 1px;
   margin-bottom: $xs-size;
+  position: relative;
 }
 .wizard-panel[disabled] {
-  //opacity: .5;
   background-color: $disabled-gray;
 }
 
-  .wizard-panel__rows {
-    display:inline-block;
-  }
-  .wizard-panel__row {
-    margin-bottom: $xs-size;
-    text-align: left;
-    font-family: helvetica, Arial, sans-serif;
-    font-size: $font-size-small;
-    height: 2rem;
-    padding-bottom: 4rem;
-    
-  }
-  .wizard-panel__col {
-    padding: 0 1rem 0 1rem;
+.wizard-panel__rows {
+  display:table;
+}
+.wizard-panel__row {
+  display: table-row;
+}
+.wizard-panel__col {
+  display: table-cell;
+  padding: 5px 1rem 0 1rem;
+  margin: 0 auto;
+  
+  vertical-align: middle;
+}
 
-  }
+.error-panel {
+  text-align: left;
+  font-size: $font-size-medium;
+  padding: 0 0 0 $s-size;
+  color: red;
+  height: $xs-panel;
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+}

@@ -23,25 +23,26 @@ export default class AccountPanel extends React.Component {
     handlePedigreeChange = option => {
         const validatedOption = this.validate(option);
         this.props.handleDataChange('pedigree', validatedOption);
-    }    
+    }
     handleResponsibleInstitutionChange = option => {
         const validatedOption = this.validate(option);
         this.props.handleDataChange('responsibleInstitution', validatedOption);
     }
     validate = option => {
-        return ( {
+        return ({
             ...option,
             hasError: false
         })
     }
     render() {
-        let {animalAccount, colony, pedigree, iacuc, responsibleInstitution, ownerInstitution } = this.props.newAnimalData;
+        let { animalAccount, colony, pedigree, iacuc, responsibleInstitution, ownerInstitution } = this.props.newAnimalData;
         return (
-            <div className="wizard-panel__rows">
-                <div className='wizard-panel__row' >
-                    <div className='wizard-panel__col'>
-                        <label className="field-label" >Account</label>
-                        <Select
+            <>
+                <div className="wizard-panel__rows">
+                    <div className='wizard-panel__row' >
+                        <div className='wizard-panel__col'>
+                            <label className="field-label" >Account</label>
+                            <Select
                                 defaultValue={animalAccount}
                                 className="shared-dropdown"
                                 classNamePrefix="shared-select"
@@ -49,29 +50,33 @@ export default class AccountPanel extends React.Component {
                                 onChange={this.handleAccountChange}
                                 placeholder="Select Account"
                                 isDisabled={this.props.disabled}
+                                isLoading={this.props.accountList.length === 0}
                                 id="account-select"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className='wizard-panel__row' >
-                    <div className='wizard-panel__col'>
-                        <label className="field-label" >Colony</label>
-                        <Select 
-                                defaultValue={colony}
-                                className="shared-dropdown"
-                                classNamePrefix="shared-select"
-                                options={this.props.colonyList}
-                                onChange={this.handleColonyChange}
-                                placeholder="Select Colony"
-                                isDisabled={this.props.disabled}
-                                id="colony-select"
-                        />
-                    </div>
-                </div>
-                <div className='wizard-panel__row' >
-                    <div className='wizard-panel__col'>
-                        <label className="field-label" >IACUC</label>
-                        <Select 
+                    { this.props.colonyList &&
+                        <div className='wizard-panel__row' >
+                            <div className='wizard-panel__col'>
+                                <label className="field-label" >Colony</label>
+                                <Select
+                                    defaultValue={colony}
+                                    className="shared-dropdown"
+                                    classNamePrefix="shared-select"
+                                    options={this.props.colonyList}
+                                    onChange={this.handleColonyChange}
+                                    placeholder="Select Colony"
+                                    isDisabled={this.props.disabled}
+                                    isLoading={this.props.colonyList.length === 0}
+                                    id="colony-select"
+                                />
+                            </div>
+                        </div>
+                    }
+                    <div className='wizard-panel__row' >
+                        <div className='wizard-panel__col'>
+                            <label className="field-label" >IACUC</label>
+                            <Select
                                 defaultValue={iacuc}
                                 className="shared-dropdown"
                                 classNamePrefix="shared-select"
@@ -79,14 +84,15 @@ export default class AccountPanel extends React.Component {
                                 onChange={this.handleIacucChange}
                                 placeholder="Select IACUC"
                                 isDisabled={this.props.disabled}
+                                isLoading={this.props.iacucList.length === 0}
                                 id="iacuc-select"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className='wizard-panel__row' >
-                    <div className='wizard-panel__col'>
-                        <label className="field-label" >Pedigree</label>
-                        <Select 
+                    <div className='wizard-panel__row' >
+                        <div className='wizard-panel__col'>
+                            <label className="field-label" >Pedigree</label>
+                            <Select
                                 defaultValue={pedigree}
                                 className="shared-dropdown"
                                 classNamePrefix="shared-select"
@@ -94,14 +100,15 @@ export default class AccountPanel extends React.Component {
                                 onChange={this.handlePedigreeChange}
                                 placeholder="Select Pedigree"
                                 isDisabled={this.props.disabled}
+                                isLoading={this.props.pedigreeList.length === 0}
                                 id="pedigree-select"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className='wizard-panel__row' >
-                    <div className='wizard-panel__col'>
-                        <label className="field-label" >Owner</label>
-                        <Select 
+                    <div className='wizard-panel__row' >
+                        <div className='wizard-panel__col'>
+                            <label className="field-label" >Owner</label>
+                            <Select
                                 defaultValue={ownerInstitution}
                                 className="shared-dropdown"
                                 classNamePrefix="shared-select"
@@ -109,14 +116,15 @@ export default class AccountPanel extends React.Component {
                                 onChange={this.handleOwnerInstitutionChange}
                                 placeholder="Select Owner"
                                 isDisabled={this.props.disabled}
+                                isLoading={this.props.institutionList.length === 0}
                                 id="owner-select"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className='wizard-panel__row' >
-                    <div className='wizard-panel__col'>
-                        <label className="field-label" >Responsible Institution</label>
-                        <Select 
+                    <div className='wizard-panel__row' >
+                        <div className='wizard-panel__col'>
+                            <label className="field-label" >Responsible Institution</label>
+                            <Select
                                 defaultValue={responsibleInstitution}
                                 className="shared-dropdown"
                                 classNamePrefix="shared-select"
@@ -124,11 +132,16 @@ export default class AccountPanel extends React.Component {
                                 onChange={this.handleResponsibleInstitutionChange}
                                 placeholder="Select Responsible Institution"
                                 isDisabled={this.props.disabled}
+                                isLoading={this.props.institutionList.length === 0}
                                 id="responsible-institution-select"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>                
-            </div> 
+                </div>
+                <div className="error-panel">
+                    {!colony && 'You must select a location.'}
+                </div>
+            </>
         )
     }
 }
