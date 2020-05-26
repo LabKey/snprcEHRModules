@@ -193,6 +193,7 @@ public class SNPRC_EHRController extends SpringActionController
     {
         private QueryForm _form;
 
+        @Override
         public ModelAndView getView(QueryForm form, BindException errors) throws Exception
         {
             ensureQueryExists(form);
@@ -242,6 +243,7 @@ public class SNPRC_EHRController extends SpringActionController
             return qwp;
         }
 
+        @Override
         public void addNavTrail(NavTree root)
         {
             TableInfo ti = null;

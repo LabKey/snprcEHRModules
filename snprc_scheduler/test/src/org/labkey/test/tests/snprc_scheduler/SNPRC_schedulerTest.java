@@ -74,6 +74,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
 
     }
 
+    @Override
     public List<Map<String, Object>> loadTsv(File tsv)
     {
         TabLoader loader = new TabLoader(tsv, true);

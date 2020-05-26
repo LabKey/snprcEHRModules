@@ -45,6 +45,7 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
         super(SNPRC_EHRSchema.NAME, null, user, container, SNPRC_EHRSchema.getInstance().getSchema());
     }
 
+    @Override
     protected TableInfo createWrappedTable(String name, @NotNull TableInfo schemaTable, ContainerFilter cf)
     {
         String nameLowercased = name.toLowerCase();

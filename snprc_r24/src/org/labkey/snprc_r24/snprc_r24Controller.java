@@ -38,11 +38,13 @@ public class snprc_r24Controller extends SpringActionController
     @RequiresPermission(ReadPermission.class)
     public class BeginAction extends SimpleViewAction
     {
+        @Override
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
             return new JspView("/org/labkey/snprc_r24/view/hello.jsp");
         }
 
+        @Override
         public void addNavTrail(NavTree root)
         {
         }
