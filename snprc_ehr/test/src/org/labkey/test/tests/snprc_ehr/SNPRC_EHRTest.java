@@ -234,9 +234,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
+    public String getModulePath() {
+        return "/server/modules/" + getModuleDirectory();
+    }
+
+    @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), getExternalModulePath() + "/resources/referenceStudy");
+        File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "resources/referenceStudy");
         setPipelineRoot(path.getPath());
 
         beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");

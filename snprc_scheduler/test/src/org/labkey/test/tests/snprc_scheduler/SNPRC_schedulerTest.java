@@ -53,7 +53,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
     protected static TestUser BAD_USER = new TestUser("bad_user@foo.bar", SecurityGroup.NO_ACCESS, SecurityRole.NO_ACCESS);
     protected ApiPermissionsHelper _permissionsHelper = new ApiPermissionsHelper(this);
 
-    final static String SNPRC_EHR_PATH  = "externalModules/snprcEHRModules/snprc_ehr";
+    final static String SNPRC_EHR_PATH  = "modules/snprcEHRModules/snprc_ehr";
     private static Integer _pipelineJobCount = 0;
 
     private static final File PROTOCOL_TSV = TestFileUtils.getSampleData("ehr/protocol.tsv");
