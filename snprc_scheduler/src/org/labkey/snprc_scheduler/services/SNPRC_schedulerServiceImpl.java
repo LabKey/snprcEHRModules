@@ -42,6 +42,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     {
     }
 
+    @Override
     public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItems)
     {
 
@@ -53,6 +54,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
      * returns a list of active timelines for a projectId/RevisionNum (via projectObjectId)
      */
 
+    @Override
     public List<JSONObject> getActiveTimelines(Container c, User u, String projectObjectId, BatchValidationException errors) throws ApiUsageException
     {
         List<JSONObject> timelinesJson = new ArrayList<>();
@@ -86,6 +88,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
 
     //TODO: need to add scheduleDate criteria
+    @Override
     public List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, Date date, BatchValidationException errors) throws ApiUsageException
     {
         List<JSONObject> timelinesJson = new ArrayList<>();
@@ -143,6 +146,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
      * @param json = JSONObject from submitted form
      * @return errors = exception object
      */
+    @Override
     public JSONObject saveTimelineData(Container c, User u, JSONObject json, BatchValidationException errors)
     {
 

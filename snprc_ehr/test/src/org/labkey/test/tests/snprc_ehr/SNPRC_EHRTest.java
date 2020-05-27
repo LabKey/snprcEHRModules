@@ -105,6 +105,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private boolean _hasCreatedBirthRecords = false;
 
+    @Override
     public String getModuleDirectory()
     {
         return "snprcEHRModules/snprc_ehr";
@@ -365,6 +366,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         command.execute(connection, getProjectName());
     }
 
+    @Override
     @LogMethod
     protected void populateRoomRecords() throws Exception
     {
@@ -390,6 +392,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         command.execute(connection, getProjectName());
     }
 
+    @Override
     @LogMethod
     protected  void deleteRoomRecords() throws CommandException, IOException
     {

@@ -65,6 +65,7 @@ public class FeeScheduleController extends SpringActionController
     {
         // handles the request from the Pipeline's "Process And Import Data" page and
         // redirects to the FeeScheduleImportAction
+        @Override
         public ActionURL getRedirectURL(PipelinePathForm form) throws Exception
         {
             Container c = getContainer();
@@ -183,11 +184,9 @@ public class FeeScheduleController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild(_navTrail);
+            root.addChild(_navTrail);
         }
-
     }
-
 }

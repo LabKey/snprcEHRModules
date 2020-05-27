@@ -52,6 +52,7 @@ abstract public class UnsaveableTask extends TaskForm
         return defaultButtons;
     }
 
+    @Override
     protected List<String> getMoreActionButtonConfigs()
     {
         List<String> defaultButtons = new ArrayList<String>();

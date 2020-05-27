@@ -37,6 +37,7 @@ public class CurrentPedigreeDemographicsProvider extends AbstractListDemographic
         _supportsQCState = false;
     }
 
+    @Override
     protected Set<FieldKey> getFieldKeys()
     {
         Set<FieldKey> keys = new HashSet<>();
@@ -56,6 +57,7 @@ public class CurrentPedigreeDemographicsProvider extends AbstractListDemographic
     }
 
     // Required to ensure cache stays in sync
+    @Override
     public boolean requiresRecalc(String schema, String query)
     {
         return schema.equalsIgnoreCase("study") && query.equalsIgnoreCase("animal_group_members");

@@ -99,9 +99,9 @@ public class AnimalsHierarchyController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild("View Animals");
+            root.addChild("View Animals");
         }
     }
 
@@ -331,6 +331,7 @@ public class AnimalsHierarchyController extends SpringActionController
     @RequiresPermission(ReadPermission.class)
     public class GetReportsAction extends ReadOnlyApiAction<Object>
     {
+        @Override
         public Object execute(Object o, BindException errors)
         {
 

@@ -52,6 +52,7 @@ public class CurrentAccountsDemographicsProvider extends AbstractListDemographic
         _supportsQCState = false;
     }
 
+    @Override
     protected Set<FieldKey> getFieldKeys()
     {
         Set<FieldKey> keys = new HashSet<>();
