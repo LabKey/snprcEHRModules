@@ -250,6 +250,7 @@ public class EditProjectPage extends LabKeyPage<EditProjectPage.ElementCache>
         return plp;
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

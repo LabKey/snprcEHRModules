@@ -70,6 +70,7 @@ public class AttributesGrid extends WebDriverComponent<AttributesGrid.ElementCac
         return elementCache().getRow(key);
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

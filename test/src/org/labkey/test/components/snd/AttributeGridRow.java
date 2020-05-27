@@ -169,6 +169,7 @@ public class AttributeGridRow extends WebDriverComponent<AttributeGridRow.Elemen
         return elementCache().redactedTextInput.get();
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

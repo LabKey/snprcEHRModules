@@ -68,6 +68,7 @@ public class PackageViewerResult extends WebDriverComponent<PackageViewerResult.
         return new EditPackagePage(getDriver());
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

@@ -1222,14 +1222,13 @@ public class SNDController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
             ActionURL url = new ActionURL(true);
             url.setPath("snd-admin.view");
             url.setContainer(getContainer());
             root.addChild("Admin Settings", url);
             root.addChild("Security");
-            return root;
         }
     }
 
@@ -1269,14 +1268,13 @@ public class SNDController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
             ActionURL url = new ActionURL(true);
             url.setPath("snd-app.view");
             url.setContainer(getContainer());
             root.addChild("SND Home Page", url);
             root.addChild("SND Admin Settings and Controls");
-            return root;
         }
     }
 

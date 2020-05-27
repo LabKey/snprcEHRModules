@@ -191,6 +191,7 @@ public class EditPackagePage extends LabKeyPage<EditPackagePage.ElementCache>
         return new PackageListPage(getDriver());
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

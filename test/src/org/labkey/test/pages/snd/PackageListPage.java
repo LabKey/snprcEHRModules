@@ -87,6 +87,7 @@ public class PackageListPage extends LabKeyPage<PackageListPage.ElementCache>
                 .timeout(4000).findWhenNeeded(elementCache().container);
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

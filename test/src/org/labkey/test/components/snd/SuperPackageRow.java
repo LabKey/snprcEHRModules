@@ -95,6 +95,7 @@ public class SuperPackageRow extends WebDriverComponent<SuperPackageRow.ElementC
        return this;
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

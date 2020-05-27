@@ -78,6 +78,7 @@ public class ProjectViewerResult extends WebDriverComponent<ProjectViewerResult.
         return page;
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

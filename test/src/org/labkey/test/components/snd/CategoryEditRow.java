@@ -84,6 +84,7 @@ public class CategoryEditRow extends WebDriverComponent<CategoryEditRow.ElementC
         elementCache().deleteLI.click();
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

@@ -42,6 +42,7 @@ public class PackageDomainKind extends ExtendedTableDomainKind
         return container.hasPermission("PackageDomainKind.canCreateDefinition", user, AdminPermission.class);
     }
 
+    @Override
     public String generateDomainURI(String schemaName, String tableName, Container c, User u)
     {
         return getDomainURI(schemaName, tableName, c, u);

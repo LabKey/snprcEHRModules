@@ -121,6 +121,7 @@ public class FilterSelect extends WebDriverComponent<FilterSelect.ElementCache>
         return Arrays.asList(selectionsContainer.getText().split(","));
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

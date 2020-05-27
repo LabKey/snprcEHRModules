@@ -91,6 +91,7 @@ public class EditCategoriesPage extends LabKeyPage<EditCategoriesPage.ElementCac
         return new PackageListPage(getDriver());
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();

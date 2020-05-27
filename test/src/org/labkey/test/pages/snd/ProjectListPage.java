@@ -114,6 +114,7 @@ public class ProjectListPage extends LabKeyPage<ProjectListPage.ElementCache>
                 .timeout(4000).findOrNull(elementCache().container);
     }
 
+    @Override
     protected ElementCache newElementCache()
     {
         return new ElementCache();
