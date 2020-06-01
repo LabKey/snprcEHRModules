@@ -15,6 +15,6 @@ SELECT year(b.ReportDate)                         AS ReportYear,
        b.id.curLocation.room                      AS CurrentRoom
 FROM study.study.BehaviorAbnormalAll b
 -- restrict for testing
-WHERE b.ReportDate > '1/1/2015'
+--WHERE b.ReportDate > '1/1/2015'
 --  AND b.id = '4X0039'
 ORDER BY b.ReportDate desc
