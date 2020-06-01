@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="BehaviorAbnormalSummary" tableDbType="TABLE">
-                <tableTitle>Abnormal Behavior Summary</tableTitle>
+                <tableTitle>Abnormal Behavior Detail</tableTitle>
                 <columns>
                     <column columnName="Id">
                     </column>
