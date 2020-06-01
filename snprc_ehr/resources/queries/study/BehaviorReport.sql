@@ -9,8 +9,7 @@ SELECT year(b.ReportDate)                         AS ReportYear,
        b.id.demographics.Gender                     AS Sex,
        b.id.demographics.Species.Arc_species_code   As SpeciesCode,
        b.id.demographics.Dam                        AS Dam,
-       b.id.demographics.rearing_type               AS RearingType, -- int
-       --b.id.demographics.rearing_type.description AS RearingDescription,
+       b.id.demographics.rearing_type               AS RearingType,
        b.id.demographics.species.arc_species_code.common_name AS Species,
        b.id.curLocation.room                      AS CurrentRoom
 FROM study.study.BehaviorAbnormalAll b
