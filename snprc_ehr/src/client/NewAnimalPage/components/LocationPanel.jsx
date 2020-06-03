@@ -1,82 +1,58 @@
 import React from 'react';
 import Select from 'react-select';
 import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
+import InfoPanel from './InfoPanel';
+import { validateCage } from '../services/validation';
 
 export default class LocationPanel extends React.Component {
 
     state = {
         errorMessage: undefined
-    };
+    }
 
     componentDidMount = () => {
-        this.props.debug ? this.props.preventNext(false) :
-            this.props.preventNext(!this.props.newAnimalData.room); //prevent/Allow Next button
+        this.props.preventNext(); //prevent/Allow Next button
     }
-    handleCageChange = e => {
-        const value = e.target.value;
-        const validatedOption = this.validate('cage', { value });
-        if (!validatedOption.hasError) {
-            this.props.handleDataChange('cage', validatedOption);
-        }
 
+    handleCageChange = e => {
+        const cage = e.target.value;
+        const { room } = this.props.newAnimalData;
+
+        const errorMessage = validateCage(room, cage);
+        if (errorMessage === undefined) {
+            this.props.handleDataChange('cage', { value: cage });
+        }
+        
+        this.setState((prevState) => (
+            {
+                ...prevState,
+                errorMessage: errorMessage
+            }
+        ));
     }
 
     handleRoomChange = room => {
         const el = document.getElementById("cage-input");
         if (room.maxCages) {
-            el.disabled = false
+            el.disabled = false;
             el.value = null;
             el.max = room.maxCages;
         }
         else {
             el.disabled = true;
-            el.value = null
+            el.value = null;
         }
-        this.props.handleDataChange('room', this.validate('room', room));
-        this.props.handleDataChange('cage', { value: null, hasError: false });
-        this.props.preventNext(false); //prevent/Allow Next button
+        this.props.handleDataChange('room',room);
+        this.props.handleDataChange('cage', { value: undefined });
     }
 
-    validate = (property, option) => {
-        switch (property) {
-            case 'cage':
-                const { room } = this.props.newAnimalData;
-                let hasError = false;
-                if (room && room.maxCages) {
-
-                    hasError = option.value !== "" && (option.value > room.maxCages || option.value < 1);
-
-                    const errorMessage = hasError ? `Cage # must be between 1 and ${room.maxCages} in ${room.value}` : undefined;
-
-                    this.setState((prevState) => (
-                        {
-                            ...prevState,
-                            errorMessage: errorMessage
-                        }
-                    ));
-                }
-
-                this.props.handleError(hasError);
-                return ({
-                    ...option,
-                    hasError
-                })
-
-
-            case 'room':
-                // TODO: what constitutes a room error?
-                return ({
-                    ...option,
-                    hasError: false
-                })
-        }
-    }
     handleDateSelect = date => {
         //do nothing
-    };
+    }
     handleDateChangeRaw = e => {
         e.preventDefault();
     }
+
     isInteger = e => {
         const i = e.key    //which ? e.which : e.keyCode;
         console.log(i);
@@ -86,6 +62,10 @@ export default class LocationPanel extends React.Component {
         }
 
         return isInteger;
+    }
+
+    handlePaste = e => {
+        e.preventDefault();
     }
 
     render() {
@@ -100,7 +80,7 @@ export default class LocationPanel extends React.Component {
                                     label="Move Date Time"
                                     todayButton="Today"
                                     dateFormat="Pp"
-                                    selected={acqDate.date}
+                                    selected={acqDate.date.toDate()}
                                     onSelect={this.handleDateSelect}
                                     onChange={this.handleDateSelect}
                                     onChangeRaw={this.handleDateChangeRaw}
@@ -124,6 +104,7 @@ export default class LocationPanel extends React.Component {
                                 isDisabled={this.props.disabled}
                                 isLoading={this.props.locationList.length === 0}
                                 id="location-select"
+                                autoFocus
                             />
                         </div>
                     </div>
@@ -140,15 +121,21 @@ export default class LocationPanel extends React.Component {
                                 defaultValue={cage.value}
                                 onChange={this.handleCageChange}
                                 disabled={!(room && room.maxCages)}
+                                onPasteCapture={this.handlePaste}
 
                             />
                         </div>
                     </div>
                 </div>
-                <div className="error-panel">
-                    {!room && 'You must select a location.'}
-                    {this.state.errorMessage && this.state.errorMessage}
-                </div>
+                <InfoPanel
+                    messages={
+                        [{ propTest: !room, colName: "Location" }]
+                    }
+                    errorMessages={
+                        [{ propTest: this.state.errorMessage, colName: this.state.errorMessage }]
+                    }
+
+                />
             </>
         )
     }

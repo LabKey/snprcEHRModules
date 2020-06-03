@@ -13,7 +13,7 @@
 }
 
 .react-datepicker-wrapper {
-    padding-left: $s-size;
+    padding-left: 1rem;
 }
 .react-datepicker__input-container,
 .react-datepicker__input-container input {
@@ -30,6 +30,7 @@
     border-radius: 5px;
     opacity: .7;
     background-color: $disabled-gray;
+    //cursor: not-allowed;
 }
 .react-datepicker__time-container--with-today-button {
     display: inline;

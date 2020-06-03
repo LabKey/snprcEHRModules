@@ -1,22 +1,43 @@
 
 .species-panel {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     text-align: left;
     font-size: $font-size-small;
-    padding-bottom: $m-size;
-    padding-top: $m-size;
+    padding: $m-size 0;
     border: 1px solid $dark-gray;
     border-style: none solid solid solid;
     border-radius: 1px;
     margin-bottom: $m-size;
+    background-color: white;
+}
+.species-panel[disabled] {
+  background-color: $disabled-gray;
 }
 
 .species-radio {
-  padding-top: 2px;
-  padding-left: $s-size;
   font-size: $font-size-small;
   padding-left: 3rem;
+  cursor: default !important;
+}
+.species-radio[disabled] {
+ background-color: $disabled-gray;
+ cursor: default !important;
+}
+.species-radio input[type="radio"] {
+  cursor: default !important;
 }
 .shared-dropdown__species_width {
-    width: 50rem;
+    width: 45rem;
+}
+.radio-div {
+  padding: .88rem 0 0 0 !important;
+  width: 35rem;
+}
+
+.species-panel__col {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
 }

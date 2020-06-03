@@ -1,4 +1,4 @@
-import { request } from '../../utils/actions';
+import { request } from '../../utils/actions/api';
 
 const parse = rows => {
     return rows.map(( { data}, key) => {
@@ -13,7 +13,7 @@ const fetchPotentialDams = (species) => {
             schemaName: 'study',
             queryName: 'PotentialDams',
             columns: ['Dam', 'ArcSpeciesCode', 'Age'],
-            sort: "SortOrder",
+            sort: "Dam",
             filterArray: [
                 LABKEY.Filter.create('ArcSpeciesCode', species, LABKEY.Filter.Types.EQUAL)
               ]

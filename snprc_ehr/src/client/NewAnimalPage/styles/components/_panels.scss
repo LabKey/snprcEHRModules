@@ -1,22 +1,17 @@
-.panel-divider {
-  background-color: $dark-gray;
-  text-align: left;
-  padding-bottom: 1rem;
-  font-family: helvetica, Arial, sans-serif;
-  font-size: 1.6rem;
-  margin-bottom: 10px solid lighten($dark-blue, 20%)
-}
-
 .parent-panel {
-  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: $desktop-breakpoint;
   padding-bottom: 1px;
-  //border: 1px solid $dark-gray;
   border-radius: 1px;
 }
 .panel-heading {
+  min-width: 100px;
   border: 1px solid $dark-gray;
   padding: .4rem .4rem .1rem 2rem;
   border-radius: 1px;
+  background-color: white;
 }
 .panel-heading[disabled] {
   background-color: $disabled-gray;
@@ -36,19 +31,43 @@
 
 .field-label-align-top {
   text-align:left;
-  margin: 0 $s-size;
+  margin: 0 .5rem 0 $s-size !important;
   font-size: $font-size-small;
   padding: 0 0 2px 0 !important;
 }
 .field-label-align-close {
+  display:flex;
+  flex-direction: row;
   text-align:left;
-  margin: 0 0 0 $s-size;
+  //color: $info-red;
+  margin: .5rem .5rem 0 $s-size;
   font-size: $font-size-small;
-  display: inline-block;
+  vertical-align: center;
 }
 .top-spacing {
-  padding-top: 13px;
+  margin-top: 13px;
 }
 .hidden {
   display: none;
+}
+.pager-container {
+  max-width: $desktop-breakpoint;
+}
+
+// panel effects
+.fade-in {
+  animation: fadeIn ease-in 300ms;
+}
+@keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+// pager button div
+.button-row {
+  padding-top: 1px;
 }

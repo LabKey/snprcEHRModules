@@ -1,22 +1,22 @@
 import React from 'react';
 import Select from 'react-select';
 import WrappedDatePicker from '../../utils/components/WrappedDatePicker'
+import InfoPanel from './InfoPanel';
+import moment from 'moment';
 
 export default class AcquisitionPanel extends React.Component {
 
     isLoading = true;
 
     componentDidMount = () => {
-        this.props.debug ? this.props.preventNext(false) :
-        this.props.preventNext(!this.props.newAnimalData.acquisitionType); //prevent/Allow Next button
+        this.props.preventNext(); //prevent/Allow Next button
     }
 
     handleAcquisitionChange = option => {
         this.props.handleDataChange('acquisitionType', option);
-        this.props.preventNext(false); //allow Next button
     }
     handleAcquisitionDateChange = date => {
-        this.props.handleDataChange('acqDate', { date });
+        this.props.handleDataChange('acqDate', { date: moment(date) });
     }
 
     render() {
@@ -28,20 +28,20 @@ export default class AcquisitionPanel extends React.Component {
                     <div className="wizard-panel__row" >
                         <div className="wizard-panel__col">
                             <WrappedDatePicker
-                                label="Acquisition Dates"
+                                label="Acquisition Date"
                                 todayButton="Today"
                                 showTimeSelect
                                 timeFormat="p"
                                 timeIntervals={30}
                                 dateFormat="Pp"
                                 maxDate={new Date()}
-                                selected={acqDate.date}
+                                selected={acqDate.date.toDate()}
                                 onSelect={this.handleAcquisitionDateChange}
                                 onChange={this.handleAcquisitionDateChange}
                                 disabled={this.props.disabled}
                                 id="acquisition-datepicker"
                             />
-                            </div>
+                        </div>
                     </div>
                     <div className='wizard-panel__row' >
                         <div className="wizard-panel__col">
@@ -55,17 +55,20 @@ export default class AcquisitionPanel extends React.Component {
                                 onChange={this.handleAcquisitionChange}
                                 placeholder="Select Acquisition Type"
                                 isDisabled={this.props.disabled}
+                                isClearable={true}
                                 id="acquisition-select"
+                                autoFocus
                             />
-                            </div>
+                        </div>
                     </div>
 
                 </div>
-                {/* <div className="wizard-panel__row" > */}
-                <div className="error-panel">
-                    {!acquisitionType && 'Please select an Acquisition code.'}
-                </div>
-                {/* </div> */}
+                <InfoPanel 
+                    messages={ 
+                        [ {propTest: !acquisitionType, colName: "Acquisition Code"} ]
+                    }
+                        
+                    />
             </>
         )
     }

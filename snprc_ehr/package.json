@@ -36,7 +36,7 @@
     "@types/react-dom": "16.8.4",
     "babel-jest": "^25.5.1",
     "immutable": "3.8.2",
-    "moment": "^2.25.3",
+    "moment": "^2.26.0",
     "react": "16.8.6",
     "react-bootstrap-table": "^4.3.1",
     "react-data-grid": "^7.0.0-canary.16",

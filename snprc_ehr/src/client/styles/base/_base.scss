@@ -1,17 +1,17 @@
 // rem (replace px - better support for accessibility)
 // 62.5% puts us on base 10 system - 16*.625 = 10
+// i.e. 1rem = 10px
 html {
     font-size: 62.5%;
 }
 
 body {
-    //background: $dark-blue;
     font-family: helvetica, Arial, sans-serif;
     font-size: $font-size-small;
 }
 
 button {
-    cursor: pointer;
+    cursor: default;
 }
 
 button:disabled {

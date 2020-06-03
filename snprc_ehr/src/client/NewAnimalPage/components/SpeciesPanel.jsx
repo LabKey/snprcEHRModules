@@ -1,6 +1,5 @@
 import React from 'react';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import { Col, Row, Radio, Pager, Label } from 'react-bootstrap';
+import { Radio, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 export default class SpeciesPanel extends React.Component {
@@ -12,47 +11,55 @@ export default class SpeciesPanel extends React.Component {
         this.props.handleLoadAcuisitionTypes(option);
     }
     handleSpeciesChange = value => {
-        this.props.handleSpeciesChange(value);
+        this.props.handleSpeciesChange( value);
     }
     render() {
+        
+        const {species} = this.props.newAnimalData;
         return (
             <div className="wizard-panel__rows">
                 <div className='wizard-panel__row' >
-
-                    <div className='wizard-panel__col'>
-                        {/* </div><Col md={4}> */}
-
+                    <div className='wizard-panel__col radio-div'>
                         <label className="field-label-align-top" >Acquisition Type</label>
-                        <FormGroup id="acquisition-radio-group">
-                            <Radio inline className='species-radio' name='acqType' value='Birth'
+                        <FormGroup id="acquisition-radio-group" disabled={this.props.disabled}>
+                            <Radio 
+                                inline 
+                                className='species-radio' 
+                                name='acqType' 
+                                value='Birth'
                                 checked={this.props.selectedOption === 'Birth'}
-                                onChange={this.handleAcquisitionOptionChange}>
+                                onChange={this.handleAcquisitionOptionChange}
+                                disabled={this.props.disabled}
+                            >
                                 Birth
                             </Radio>
-                            <Radio inline className='species-radio' name='acqType' value='Acquisition'
+                            <Radio 
+                                inline 
+                                className='species-radio' 
+                                name='acqType' 
+                                value='Acquisition'
                                 checked={this.props.selectedOption === 'Acquisition'}
-                                onChange={this.handleAcquisitionOptionChange}>
+                                onChange={this.handleAcquisitionOptionChange}
+                                disabled={this.props.disabled}
+                            >
                                 Other Acquisition
                             </Radio>
                         </FormGroup>
-                        {/* </Col> */}
                     </div>
-
                     <div className='wizard-panel__col'>
-                        <div className='top-spacing'></div>
-                        {/* <Col md={6} mdOffset={1}> */}
-                            <label className="field-label-align-close" >Species</label>
+                            <label className="field-label-align-close">Species</label>
                             <Select
+                                value={species}
                                 className="shared-dropdown shared-dropdown__species_width"
                                 classNamePrefix="shared-select"
                                 options={this.props.speciesList}
                                 onChange={this.handleSpeciesChange}
                                 placeholder="Select Species"
-                                isDisabled={false}
+                                isDisabled={this.props.disabled}
                                 isLoading={!this.props.speciesList}
+                                isClearable={true}
                                 id="species-select"
                             />
-                        {/* </Col> */}
                     </div>
                 </div>
 

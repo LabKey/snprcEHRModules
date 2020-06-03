@@ -1,0 +1,49 @@
+
+  .shared-dropdown {
+    width: 40rem;
+    padding-left: 1rem;
+    display: inline-block;
+}
+
+.shared-select__control {
+  min-height: 28px !important;
+  height: 28px;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.shared-select__input {
+  margin: 0;
+}
+
+.shared-select__indicator {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.shared-select__loading-indicator {
+  padding: 0 2px !important;
+  margin: 0 2px !important;
+}
+
+.shared-select__indicator-separator {
+  margin: 0 !important;
+}
+
+.shared-select__value-container {
+  height: 28px;
+  padding-bottom: 0px !important;
+  margin: 0, 10px;
+}
+.shared-select__single-value {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  color: $dark-gray !important;
+}
+.shared-select__placeholder {
+  height: 30px;
+  line-height: 30px;
+}
+.shared-select__option {
+  padding: .4rem !important;
+}

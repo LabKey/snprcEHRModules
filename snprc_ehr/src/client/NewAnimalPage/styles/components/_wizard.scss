@@ -1,5 +1,7 @@
 // ======= wizard wrapper ========
 .wizard-panel {
+  display: flex;
+  flex-flow: column wrap;
   text-align: left;
   padding-top: $m-size;
   min-height: $m-panel;    
@@ -7,33 +9,24 @@
   border-style: none solid solid solid;
   border-radius: 1px;
   margin-bottom: $xs-size;
-  position: relative;
+  background-color: white;
 }
 .wizard-panel[disabled] {
   background-color: $disabled-gray;
 }
 
 .wizard-panel__rows {
-  display:table;
+  display:flex;
+  flex-direction: column;
 }
 .wizard-panel__row {
-  display: table-row;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .wizard-panel__col {
-  display: table-cell;
+  display: flex;
+  flex-direction: row;
   padding: 5px 1rem 0 1rem;
-  margin: 0 auto;
-  
   vertical-align: middle;
-}
-
-.error-panel {
-  text-align: left;
-  font-size: $font-size-medium;
-  padding: 0 0 0 $s-size;
-  color: red;
-  height: $xs-panel;
-  position: absolute;
-  bottom: 1rem;
-  left: 0;
 }
