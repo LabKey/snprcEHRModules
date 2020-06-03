@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the DemographicsPanel 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <WrappedDatePicker
+          dateFormat="Pp"
+          disabled={false}
+          label="Birthdate"
+          maxDate={1970-01-01T00:00:00.000Z}
+          onChange={[Function]}
+          onSelect={[Function]}
+          selected={1970-01-01T00:00:00.000Z}
+          showTimeSelect={true}
+          timeFormat="p"
+          timeIntervals={30}
+          todayButton="Today"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Gender
+        </label>
+        <StateManager
+          autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="gender-select"
+          isClearable={true}
+          isDisabled={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Female",
+                "value": "F",
+              },
+              Object {
+                "label": "Male",
+                "value": "M",
+              },
+              Object {
+                "label": "Unknown",
+                "value": "U",
+              },
+            ]
+          }
+          placeholder="Select Gender"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Dam
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="dam-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "Age": 24.7,
+                "ArcSpeciesCode": "PC",
+                "id": 0,
+                "label": "12924",
+                "value": "12924",
+              },
+              Object {
+                "Age": 21.8,
+                "ArcSpeciesCode": "PC",
+                "id": 1,
+                "label": "12925",
+                "value": "12925",
+              },
+            ]
+          }
+          placeholder="Select Dam"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Sire
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="sire-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "Age": 22.8,
+                "ArcSpeciesCode": "PC",
+                "id": 0,
+                "label": "14022",
+                "value": "14022",
+              },
+              Object {
+                "Age": 19.8,
+                "ArcSpeciesCode": "PC",
+                "id": 1,
+                "label": "14023",
+                "value": "14023",
+              },
+            ]
+          }
+          placeholder="Select Sire"
+        />
+      </div>
+    </div>
+  </div>
+  <InfoPanel
+    messages={
+      Array [
+        Object {
+          "colName": "Gender",
+          "propTest": true,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;

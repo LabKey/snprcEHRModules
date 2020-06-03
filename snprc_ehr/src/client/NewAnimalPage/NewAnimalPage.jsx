@@ -20,15 +20,15 @@ import fetchInstitutions from './actions/fetchInstitutions';
 import fetchPedigrees from './actions/fetchPedigrees';
 import fetchDiets from './actions/fetchDiets';
 import { isBirthdateValid } from './services/validation';
-import NewAnimalState from './services/NewAnimalState';
+import NewAnimalState from './constants/NewAnimalState';
 import { SaveModal, CancelChangeModal } from './components/Modals';
+import constants from './constants/index';
 
 export default class NewAnimalPage extends React.Component {
 
     state = new NewAnimalState();
-
-    debug = true;
-    numPanels = 5;
+    debug = constants.debug;
+    numPanels = constants.numPanels; 
 
     componentDidMount = () => {
         console.log("Loading...");
@@ -309,7 +309,6 @@ export default class NewAnimalPage extends React.Component {
                                         newAnimalData={this.state.newAnimalData}
                                         disabled={this.disableFirstPanel()}
                                         preventNext={this.preventNext}
-                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
@@ -328,7 +327,6 @@ export default class NewAnimalPage extends React.Component {
                                         newAnimalData={this.state.newAnimalData}
                                         preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
-                                        debug={this.debug}
                                     />
                                 </div>
 
@@ -347,7 +345,6 @@ export default class NewAnimalPage extends React.Component {
                                         handleError={this.handleError}
                                         preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
-                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
@@ -369,7 +366,6 @@ export default class NewAnimalPage extends React.Component {
                                         preventNext={this.preventNext}
                                         newAnimalData={this.state.newAnimalData}
                                         disabled={this.disablePanels()}
-                                        debug={this.debug}
                                     />
                                 </div>
                             </div>
@@ -386,7 +382,6 @@ export default class NewAnimalPage extends React.Component {
                                         newAnimalData={this.state.newAnimalData}
                                         preventNext={this.preventNext}
                                         disabled={this.disablePanels()}
-                                        debug={this.debug}
                                     />
                                 </div>
                             </div>

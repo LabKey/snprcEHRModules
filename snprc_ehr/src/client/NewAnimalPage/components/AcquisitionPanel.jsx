@@ -34,7 +34,7 @@ export default class AcquisitionPanel extends React.Component {
                                 timeFormat="p"
                                 timeIntervals={30}
                                 dateFormat="Pp"
-                                maxDate={new Date()}
+                                maxDate={moment().toDate()}
                                 selected={acqDate.date.toDate()}
                                 onSelect={this.handleAcquisitionDateChange}
                                 onChange={this.handleAcquisitionDateChange}

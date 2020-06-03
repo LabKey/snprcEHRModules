@@ -55,7 +55,7 @@ export default class DemographicsPanel extends React.Component {
                                 timeFormat="p"
                                 timeIntervals={30}
                                 dateFormat="Pp"
-                                maxDate={new Date()}
+                                maxDate={moment().toDate()}
                                 selected={birthDate.date.toDate()}
                                 onSelect={this.handleBirthDateSelect}
                                 onChange={this.handleBirthDateChange}
