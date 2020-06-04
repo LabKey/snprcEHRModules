@@ -1,6 +1,6 @@
 -- BehaviorAbnormalSummary
 SELECT bn.Id            as Id,
-       bnc.BehaviorId   as BehaviorId,
+    --   bnc.BehaviorId   as BehaviorId,
        min(bn."date")   as FirstReported,
        max(bn."date")   as LastReported,
        bnc.Behavior     as Behavior,
