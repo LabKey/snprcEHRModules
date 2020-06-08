@@ -35,6 +35,7 @@ public class MhcSummaryDemographicsProvider extends AbstractListDemographicsProv
         super(module, "study", "mhcSummary", "mhcSummary");
     }
 
+    @Override
     protected Set<FieldKey> getFieldKeys()
     {
         Set<FieldKey> keys = new HashSet<>();

@@ -105,6 +105,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private boolean _hasCreatedBirthRecords = false;
 
+    @Override
     public String getModuleDirectory()
     {
         return "snprcEHRModules/snprc_ehr";
@@ -234,9 +235,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
+    public String getModulePath() {
+        return "/server/modules/" + getModuleDirectory();
+    }
+
+    @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), getExternalModulePath() + "/resources/referenceStudy");
+        File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
         setPipelineRoot(path.getPath());
 
         beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");
@@ -365,6 +371,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         command.execute(connection, getProjectName());
     }
 
+    @Override
     @LogMethod
     protected void populateRoomRecords() throws Exception
     {
@@ -390,6 +397,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         command.execute(connection, getProjectName());
     }
 
+    @Override
     @LogMethod
     protected  void deleteRoomRecords() throws CommandException, IOException
     {

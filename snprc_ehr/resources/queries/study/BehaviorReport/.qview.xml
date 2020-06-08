@@ -1,0 +1,20 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="ReportYear"/>
+        <column name=""/>
+
+        <column name="Id"/>
+        <column name="ReportDate"/>
+        <column name="Behavior"/>
+        <column name="BehaviorLocation"/>
+        <column name="Sex"/>
+        <column name="RearingType"/>
+        <column name="Species"/>
+        <column name="CurrentRoom"/>
+    </columns>
+    <sorts>
+        <sort column="ReportDate" descending="true" />
+        <sort column="Id" descending="false"/>
+
+    </sorts>
+</customView>

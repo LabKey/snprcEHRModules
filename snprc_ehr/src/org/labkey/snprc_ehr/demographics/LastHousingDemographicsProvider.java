@@ -27,6 +27,7 @@ public class LastHousingDemographicsProvider extends AbstractListDemographicsPro
         return "Last Housing";
     }
 
+    @Override
     protected Collection<FieldKey> getFieldKeys()
     {
         Set<FieldKey> keys = new HashSet<>();

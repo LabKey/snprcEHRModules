@@ -51,6 +51,7 @@ public class ActiveFlagsDemographicsProvider extends AbstractListDemographicsPro
         super(module, "study", "flags", "activeFlags");
     }
 
+    @Override
     protected Set<FieldKey> getFieldKeys()
     {
         Set<FieldKey> keys = new HashSet<FieldKey>();

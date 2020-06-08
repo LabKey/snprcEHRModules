@@ -21,7 +21,7 @@
                 <property name="columnTitle" value="Species (2 char)"/>
             </properties>
         </column>
-        <column name="gender" />
+        <column name="gender"/>
         <column name="calculated_status">
             <properties>
                 <property name="columnTitle" value="Status"/>

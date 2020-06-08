@@ -1,0 +1,45 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="BehaviorAbnormalSummaryAll" tableDbType="TABLE">
+                <tableTitle>Abnormal Behavior Report</tableTitle>
+                <columns>
+                    <column columnName="Report Year">
+                        <displayWidth>20</displayWidth>
+                    </column>
+                    <column columnName="Id">
+                        <isKeyField>true</isKeyField>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="ReportDate">
+                        <columnTitle>Report Date</columnTitle>
+                        <formatString>Date</formatString>
+                    </column>
+                   <column columnName="Behavior">
+                        <columnTitle>Behavior</columnTitle>
+                    </column>
+                    <column columnName="BehaviorLocation">
+                        <columnTitle>Behavior Location</columnTitle>
+                    </column>
+                    <column columnName="Sex">
+                        <columnTitle>Sex</columnTitle>
+                    </column>
+                    <column columnName="RearingType">
+                    </column>
+                    <column columnName="Species">
+                        <columnTitle>Species</columnTitle>
+                        <displayWidth>20</displayWidth>
+                    </column>
+                    <column columnName="CurrentRoom">
+                        <columnTitle>Current Locations</columnTitle>
+                        <displayWidth>50</displayWidth>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

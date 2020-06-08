@@ -164,9 +164,9 @@ public class SNPRC_EHRController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild("SSRS Configuration");
+            root.addChild("SSRS Configuration");
         }
     }
 
@@ -175,19 +175,16 @@ public class SNPRC_EHRController extends SpringActionController
     {
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
             root.addChild("Lookup Table Admin", new ActionURL(true));
-            return root;
         }
-
 
         @Override
         public ModelAndView getView(Object o, BindException errors)
         {
             return new JspView<>("/org/labkey/snprc_ehr/views/EditLookupTables.jsp");
         }
-
     }
 
 
@@ -196,6 +193,7 @@ public class SNPRC_EHRController extends SpringActionController
     {
         private QueryForm _form;
 
+        @Override
         public ModelAndView getView(QueryForm form, BindException errors) throws Exception
         {
             ensureQueryExists(form);
@@ -245,7 +243,8 @@ public class SNPRC_EHRController extends SpringActionController
             return qwp;
         }
 
-        public NavTree appendNavTrail(NavTree root)
+        @Override
+        public void addNavTrail(NavTree root)
         {
             TableInfo ti = null;
             try
@@ -258,7 +257,6 @@ public class SNPRC_EHRController extends SpringActionController
             }
 
             root.addChild(ti == null ? _form.getQueryName() : ti.getTitle(), _form.urlFor(QueryAction.executeQuery));
-            return root;
         }
 
         protected void ensureQueryExists(QueryForm form)
@@ -376,7 +374,7 @@ public class SNPRC_EHRController extends SpringActionController
 //    {
 //
 //        @Override
-//        public NavTree appendNavTrail(NavTree root)
+//        public void addNavTrail(NavTree root)
 //        {
 //            root.addChild("New Animal Data", new ActionURL(NewAnimalDataAction.class, getContainer()));
 //            return root;

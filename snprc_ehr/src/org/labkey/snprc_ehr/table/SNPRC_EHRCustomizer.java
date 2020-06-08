@@ -54,6 +54,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     }
 
+    @Override
     public void customize(TableInfo table)
     {
         if (table instanceof AbstractTableInfo)
@@ -210,6 +211,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
      * A helper that will do a case-insensitive, name-vs-label-aware match to determine if the
      * TableInfo corresponds to schemaName/queryName provided.
      */
+    @Override
     protected boolean matches(TableInfo ti, String schema, String query)
     {
         if (ti instanceof DatasetTable)

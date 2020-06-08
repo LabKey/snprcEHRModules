@@ -211,6 +211,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         //EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Due/Overdue TB Report", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=overdueTb"), "Colony Management");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Search Apath History", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=apathHistoryReport"), "Pathololgy");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Overall Behavior Report", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=BehaviorReport"), "Behavior");
+
 
         // Add the current date to the chimp observation report
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");

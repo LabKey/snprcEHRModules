@@ -65,10 +65,9 @@ public class GroupsCategoriesFormType extends AbstractDataEntryForm
     }
 
     @Override
-    public NavTree appendNavTrail(NavTree root, String title)
+    public void addNavTrail(NavTree root, String title)
     {
         root.addChild("Group Members", DetailsURL.fromString("/animalgroups/GroupCategories.view", getCtx().getContainer()).getActionURL());
         root.addChild(title == null ? "Group Members" : title);
-        return root;
     }
 }

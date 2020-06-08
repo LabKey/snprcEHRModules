@@ -2,9 +2,15 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="BehaviorAbnormalSummaryAll" tableDbType="TABLE">
-                <tableTitle>Abnormal Behavior Summary</tableTitle>
+                <tableTitle>Abnormal Behavior Detail</tableTitle>
                 <columns>
                     <column columnName="Id">
+                        <isKeyField>true</isKeyField>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
                     </column>
                     <column columnName="NotificationNumber">
                         <columnTitle>Notification Number</columnTitle>
