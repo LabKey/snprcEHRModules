@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT ag.*
+SELECT ag.category_code as Category,
+       ag.code as Code,
+       ag.name as Name,
+       ag.enddate as enddate,
+       agc.Species as Species
 FROM snprc_ehr.animal_groups AS ag
   INNER JOIN snprc_ehr.animal_group_categories AS agc ON ag.category_code = agc.category_code
 WHERE agc.description LIKE '%colonies%'

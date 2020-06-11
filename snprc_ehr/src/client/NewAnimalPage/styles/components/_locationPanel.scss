@@ -1,0 +1,30 @@
+// ======= location Panel ========
+.location-datepicker > div > div.react-datepicker__input-container input {
+    display: block;
+    width: 18rem;
+    height: 35px;
+    border: 1px solid darken($disabled-gray, 30%);
+    border-radius: 5px;
+    opacity: .7;
+    background-color: $disabled-gray;
+}
+
+.cage-input  {
+  border-radius: 5px;
+  border: 1px solid $gray;
+  margin: 0 0 0 11px;
+  padding: $s-size $s-size $s-size $xs-size; 
+  width: 10rem;
+  height: 20px;
+  font-family: helvetica, Arial, sans-serif;
+  font-size: $font-size-small;
+}
+.cage-input:disabled {
+     opacity: .5;
+     background-color: $disabled-gray;
+     border: 1px solid darken($disabled-gray, 30%);
+}
+
+.cage-input:invalid {
+  border: 1px solid red;
+}

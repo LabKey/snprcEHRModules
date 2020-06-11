@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the InfoPanel 1`] = `
+<Fragment>
+  <div
+    className="info-panel"
+  >
+    <span>
+      Enter values for the following fields to continue: 
+      <span
+        key="Location"
+      >
+         
+        <span
+          className="info-span"
+        >
+            
+          Location
+            
+        </span>
+           
+      </span>
+      <div
+        className="info-err-div"
+      >
+        <span
+          key="Test error message."
+        >
+           
+          <span
+            className="info-err-span"
+          >
+              
+            Test error message.
+              
+          </span>
+             
+        </span>
+      </div>
+      <span
+        className="info-div"
+      >
+        <div
+          className="info-text-span"
+          key="1"
+        >
+          Please review data before saving.
+        </div>
+        <div
+          className="info-text-span"
+          key="2"
+        >
+          Hover cursor over fields for full text.
+        </div>
+      </span>
+    </span>
+  </div>
+</Fragment>
+`;

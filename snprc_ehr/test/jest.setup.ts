@@ -23,3 +23,6 @@ global['navigator'] = {
     userAgent: 'node.js',
 };
 copyProps(window, global);
+module.exports = {
+    automock: true,
+  };

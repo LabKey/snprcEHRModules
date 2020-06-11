@@ -11,4 +11,13 @@ app
 /snprc_scheduler/resources/web/snprc_scheduler/app
 snprc_scheduler/resources/web/snprc_scheduler/app/app.js
 *.iml
-/snprc_ehr/resources/web/gen
+*packageExport*.snd.xml
+snprc_ehr/resources/views/HelloApp*.*
+snprc_ehr/resources/views/helloWorld*.*
+snprc_ehr/resources/views/NewAnimalPage*.*
+snprc_ehr/cmd-here.exe
+snprc_ehr/resources/referenceStudy/*.xlsx
+snprc_ehr/resources/web/snprc_ehr/snprcReports.js.gz
+snprc_ehr/resources/web/snprc_ehr/gen/*
+snprc_mobile
+/snprc_ehr.2020*.zip
