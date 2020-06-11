@@ -1,4 +1,5 @@
 import { request } from '../../utils/actions/api';
+import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -14,8 +15,8 @@ const fetchLocations = (species) => {
             columns: ['species', 'room', 'maxCages'],
             sort: "-species, room",
             filterArray: [
-                LABKEY.Filter.create('species', species, LABKEY.Filter.Types.EQUAL)
-                //LABKEY.Filter.create('species', `${species}; ''`, LABKEY.Filter.Types.IN)
+                //Filter.create('species', species, Filter.Types.EQUAL)
+                Filter.create('species', `${species}; null`, Filter.Types.IN)
             ]
         }).then(({ rows }) => {
             resolve(parse(rows));

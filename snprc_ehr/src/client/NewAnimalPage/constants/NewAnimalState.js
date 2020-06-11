@@ -31,6 +31,7 @@ const NewAnimalState = () => {
         locationList: [],
         accountList: [],
         colonyList: [],
+        dietList: [],
         institutionList: [],
         iacucList: [],
         pedigreeList: [],

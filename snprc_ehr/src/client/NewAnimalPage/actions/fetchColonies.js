@@ -1,4 +1,5 @@
 import { request } from '../../utils/actions/api';
+import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(( { data }, key) => {
@@ -13,8 +14,8 @@ const fetchColonies = (species) => {
             queryName: 'colonyGroups',
             columns: ['Code', 'Name', 'Species', 'Category'],
             filterArray: [
-                LABKEY.Filter.create('Species', species, LABKEY.Filter.Types.EQUAL),
-                LABKEY.Filter.create('enddate', null, LABKEY.Filter.Types.MISSING)
+                Filter.create('Species', species, Filter.Types.EQUAL),
+                Filter.create('enddate', null, Filter.Types.MISSING)
             ],
             sort: "Name"
         }).then(({ rows }) => {

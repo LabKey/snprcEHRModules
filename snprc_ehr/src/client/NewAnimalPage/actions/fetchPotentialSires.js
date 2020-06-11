@@ -1,4 +1,5 @@
 import { request } from '../../utils/actions/api';
+import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -15,7 +16,7 @@ const fetchPotentialSires = (species) => {
             columns: ['Sire', 'ArcSpeciesCode', 'Age'],
             sort: "Sire",
             filterArray: [
-                LABKEY.Filter.create('ArcSpeciesCode', species, LABKEY.Filter.Types.EQUAL)
+                Filter.create('ArcSpeciesCode', species, Filter.Types.EQUAL)
               ]
         }).then(({ rows }) => {
             resolve(parse(rows));

@@ -8,7 +8,6 @@ export default class SpeciesPanel extends React.Component {
     handleAcquisitionOptionChange = e => {
         const option = e.target.value;
         this.props.handleAcquisitionOptionChange(option);
-        this.props.handleLoadAcuisitionTypes(option);
     }
     handleSpeciesChange = value => {
         this.props.handleSpeciesChange( value);

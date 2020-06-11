@@ -28,37 +28,32 @@ export default class NewAnimalPage extends React.Component {
 
     state = new NewAnimalState();
     debug = constants.debug;
-    numPanels = constants.numPanels; 
-
-    componentDidMount = () => {
-        console.log("Loading...");
-        this.loadLists();
+    numPanels = constants.numPanels;
+    
+    async componentDidMount (){
+        try {
+            const lists = {};
+            console.log("Loading lists...");
+    
+            
+                lists.dietList = await fetchDiets();
+                lists.speciesList = await fetchSpecies();
+                lists.accountList = await fetchAccounts();
+                lists.institutionList = await fetchInstitutions();
+            
+                this.setState( prevState => (
+                    {
+                        ...prevState,
+                        isLoading: false,
+                        speciesList: lists.speciesList,
+                        accountList: lists.accountList,
+                        institutionList: lists.institutionList,
+                        dietList: lists.dietList
+                    }
+                ))
+            } catch(error) { console.log(error) };
     }
 
-    loadLists() {
-        const lists = {};
-
-        async function loadListsAW(lists) {
-            lists.speciesList = await fetchSpecies();
-            lists.accountList = await fetchAccounts();
-            lists.institutionList = await fetchInstitutions();
-            lists.dietList = await fetchDiets();
-        }
-
-        loadListsAW(lists).then(() => {
-
-            this.setState(prevState => (
-                {
-                    ...prevState,
-                    isLoading: false,
-                    speciesList: lists.speciesList,
-                    accountList: lists.accountList,
-                    institutionList: lists.institutionList,
-                    dietList: lists.dietList
-                }
-            ))
-        }).catch(error => { console.log(error) })
-    }
     disablePanels = () => (
         !(this.state.locationList && this.state.locationList.length > 0)
     )
@@ -66,23 +61,17 @@ export default class NewAnimalPage extends React.Component {
         !this.state.selectedOption ||
         !this.state.newAnimalData.species
     )
-    handleLoadAcuisitionTypes = type => {
-        fetchAcquisitionTypes(type).then(response =>
+    handleAcquisitionOptionChange = type => {
+        fetchAcquisitionTypes(type).then(response => 
             this.setState(prevState => (
                 {
                     ...prevState,
-                    acquisitionTypeList: response
+                    acquisitionTypeList: response,
+                    selectedOption: type
                 })
-            ));
-    }
-
-    handleAcquisitionOptionChange = option => {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                selectedOption: option
-            }
-        ));
+            )
+        ).catch( (error) => {console.log(error)});
+        
     }
 
     handleSpeciesChange = selectedSpecies => {
@@ -116,7 +105,7 @@ export default class NewAnimalPage extends React.Component {
             lists.iacucList = await fetchProtocols(species);
             lists.pedigreeList = await fetchPedigrees(species);
         }
-        
+
 
         loadListsAW(selectedSpecies.arcSpeciesCode, lists).then(() => {
             this.setState(prevState => (
@@ -130,8 +119,6 @@ export default class NewAnimalPage extends React.Component {
                     pedigreeList: lists.pedigreeList,
                 }
             ))
-            console.log("Species loaded");
-
         }).catch((error) => {
             console.log(error);
         })
@@ -289,7 +276,6 @@ export default class NewAnimalPage extends React.Component {
                             <SpeciesPanel
                                 handleAcquisitionOptionChange={this.handleAcquisitionOptionChange}
                                 handleSpeciesChange={this.handleSpeciesChange}
-                                handleLoadAcuisitionTypes={this.handleLoadAcuisitionTypes}
                                 speciesList={this.state.speciesList}
                                 selectedOption={this.state.selectedOption}
                                 disabled={this.state.currentPanel !== 1}
@@ -426,28 +412,28 @@ export default class NewAnimalPage extends React.Component {
                     </div>
                     <div >
                         {/* Save Modal */}
-                        < SaveModal 
+                        < SaveModal
                             show={this.state.showSaveModal}
                             onCloseClick={this.onCloseClick}
                             onSaveClick={this.onSaveClick}
                             newAnimalData={this.state.newAnimalData}
                         />
                         {/* Cancel Modal */}
-                        < CancelChangeModal 
+                        < CancelChangeModal
                             show={this.state.showCancelModal}
                             yesClick={this.onCancelClick}
                             noClick={this.onCloseClick}
                             title={'Cancel changes?'}
-                            message={ 'If you cancel now, you will lose all your changes. Are you sure you want to cancel?'}
+                            message={'If you cancel now, you will lose all your changes. Are you sure you want to cancel?'}
                         />
                         {/* Species Change Modal */}
-                        < CancelChangeModal 
+                        < CancelChangeModal
                             show={this.state.showSpeciesChangeModal}
                             yesClick={this.onCancelClick}
                             noClick={this.onCloseClick}
                             title={'Changes Species?'}
-                            message={ 'If you change species now, you will lose all your changes. Are you sure you want to change species?'}
-                        />                        
+                            message={'If you change species now, you will lose all your changes. Are you sure you want to change species?'}
+                        />
                     </div>
                 </div>
             )

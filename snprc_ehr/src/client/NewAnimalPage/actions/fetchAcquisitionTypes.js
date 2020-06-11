@@ -1,4 +1,5 @@
 import { request } from '../../utils/actions/api';
+import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(( { data }, key) => {
@@ -15,7 +16,7 @@ const fetchAcquisitionTypes = (type) => {
             columns: ['AcqCode', 'DisplayValue', 'Category','SortOrder'],
             sort: "SortOrder",
             filterArray: [
-                LABKEY.Filter.create('Category', type, LABKEY.Filter.Types.EQUAL)
+                Filter.create('Category', type, Filter.Types.EQUAL)
               ]
         }).then(({ rows }) => {
             resolve(parse(rows));

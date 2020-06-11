@@ -1,4 +1,5 @@
 import { request } from '../../utils/actions/api';
+import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(( { data }, key) => {
@@ -13,8 +14,8 @@ const fetchDiets = () => {
             queryName: 'ValidDiet',
             columns: ['SnomedCode', 'Diet', 'ARCSpeciesCode'],
             filterArray: [
-                //LABKEY.Filter.create('ARCSpeciesCode', species, LABKEY.Filter.Types.EQUAL),
-                LABKEY.Filter.create('StopDate', null, LABKEY.Filter.Types.MISSING)
+                //Filter.create('ARCSpeciesCode', species, Filter.Types.EQUAL),
+                Filter.create('StopDate', null, Filter.Types.MISSING)
             ],
             sort: "Diet"
         }).then(({ rows }) => {
