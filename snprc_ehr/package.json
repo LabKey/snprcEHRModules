@@ -9,7 +9,8 @@
     "build-prod": "npm run build",
     "clean": "better-npm-run clean",
     "test": "cross-env NODE_ENV=test jest",
-    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest --runInBand "
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest --runInBand",
+    "teamcity": "better-npm-run build:jest-teamcity"
   },
   "test:debug-notes": "See https://jestjs.io/docs/en/asynchronous before running test:debug - in chrome navigate to chrome://inspect",
   "betterScripts": {
@@ -27,6 +28,12 @@
     },
     "clean": {
       "command": "rimraf resources/web/snprc_ehr/gen"
+    },
+    "build:jest-teamcity": {
+      "command": "jest --testResultsProcessor=jest-teamcity-reporter",
+      "env": {
+        "NODE_ENV": "test"
+      }
     }
   },
   "dependencies": {
