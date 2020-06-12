@@ -1,4 +1,4 @@
 export default {
-    debug: true,
+    debug: false,
     numPanels: 5
 }

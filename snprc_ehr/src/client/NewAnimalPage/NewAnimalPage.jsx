@@ -258,6 +258,10 @@ export default class NewAnimalPage extends React.Component {
         ));
     }
     render() {
+        
+        // allow debug mode to be triggered for running test suite
+        this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug;
+        
         let { isLoading } = this.state;
 
         if (isLoading) {

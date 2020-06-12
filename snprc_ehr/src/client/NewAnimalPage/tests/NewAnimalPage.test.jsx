@@ -15,8 +15,7 @@ beforeAll(() => {
 let wrapper;
 
 beforeEach(() => {
-    wrapper = shallow(<NewAnimalPage />); 
-
+    wrapper = shallow(<NewAnimalPage debug={true} />);
 });
 
 afterEach(() => {
