@@ -1585,6 +1585,11 @@
             <column columnName="BirthCode">
                 <datatype>integer</datatype>
                 <defaultValue>1</defaultValue>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>valid_db_status</fkTable>
+                    <fkColumnName>value</fkColumnName>
+                </fk>
             </column>
             <column columnName="AcquisitionType">
                 <datatype>integer</datatype>
