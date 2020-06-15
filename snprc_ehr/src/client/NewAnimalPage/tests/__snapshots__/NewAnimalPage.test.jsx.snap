@@ -1,0 +1,1349 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewAnimalPage tests Should render Species/Acquisition page after lists are loaded. 1`] = `
+<div>
+  <div
+    className="parent-panel"
+  >
+    <div
+      className="panel-heading"
+      disabled={false}
+    >
+      <p>
+        Species and Acquisition Type
+      </p>
+    </div>
+    <div
+      className="species-panel"
+      disabled={false}
+    >
+      <SpeciesPanel
+        disabled={false}
+        handleAcquisitionOptionChange={[Function]}
+        handleSpeciesChange={[Function]}
+        newAnimalData={
+          Object {
+            "acqDate": Object {
+              "date": "1970-01-01T00:00:00.000Z",
+            },
+            "acquisitionType": undefined,
+            "animalAccount": undefined,
+            "birthDate": Object {
+              "date": "1970-01-01T00:00:00.000Z",
+            },
+            "cage": Object {
+              "value": undefined,
+            },
+            "colony": undefined,
+            "dam": undefined,
+            "diet": undefined,
+            "gender": undefined,
+            "iacuc": undefined,
+            "id": undefined,
+            "ownerInstitution": undefined,
+            "pedigree": undefined,
+            "responsibleInstitution": undefined,
+            "room": undefined,
+            "sire": undefined,
+            "species": undefined,
+          }
+        }
+        speciesList={
+          Array [
+            Object {
+              "arcSpeciesCode": "CJ",
+              "id": 0,
+              "label": "CTJ (CJ) - Callithrix spp./Marmoset",
+              "value": "CTJ",
+            },
+            Object {
+              "arcSpeciesCode": "MM",
+              "id": 1,
+              "label": "MML (MM) - Macaca mulatta/Rhesus",
+              "value": "MML",
+            },
+            Object {
+              "arcSpeciesCode": "PC",
+              "id": 2,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="fade-in"
+    >
+      <div
+        className="panel-heading"
+        disabled={true}
+      >
+        <p>
+          Acquisition
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+        disabled={true}
+      >
+        <AcquisitionPanel
+          acquisitionTypeList={Array []}
+          disabled={true}
+          handleDataChange={[Function]}
+          newAnimalData={
+            Object {
+              "acqDate": Object {
+                "date": "1970-01-01T00:00:00.000Z",
+              },
+              "acquisitionType": undefined,
+              "animalAccount": undefined,
+              "birthDate": Object {
+                "date": "1970-01-01T00:00:00.000Z",
+              },
+              "cage": Object {
+                "value": undefined,
+              },
+              "colony": undefined,
+              "dam": undefined,
+              "diet": undefined,
+              "gender": undefined,
+              "iacuc": undefined,
+              "id": undefined,
+              "ownerInstitution": undefined,
+              "pedigree": undefined,
+              "responsibleInstitution": undefined,
+              "room": undefined,
+              "sire": undefined,
+              "species": undefined,
+            }
+          }
+          preventNext={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+  <div>
+    <Pager
+      bsClass="pager"
+      className="pager-container"
+    >
+      <PagerItem
+        disabled={true}
+        next={false}
+        onClick={[Function]}
+        previous={true}
+      >
+        ← Previous Page
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={true}
+        onClick={[Function]}
+        previous={false}
+      >
+        Next Page →
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={false}
+      >
+        Cancel
+      </PagerItem>
+    </Pager>
+  </div>
+  <div>
+    <SaveModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": undefined,
+        }
+      }
+      onCloseClick={[Function]}
+      onSaveClick={[Function]}
+      show={false}
+    />
+    <CancelChangeModal
+      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      noClick={[Function]}
+      show={false}
+      title="Cancel changes?"
+      yesClick={[Function]}
+    />
+    <CancelChangeModal
+      message="If you change species now, you will lose all your changes. Are you sure you want to change species?"
+      noClick={[Function]}
+      show={false}
+      title="Changes Species?"
+      yesClick={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`NewAnimalPage tests Should render a loading span before api calls. 1`] = `
+<LoadingSpinner_LoadingSpinner
+  msg="Loading lookup tables..."
+  wrapperClassName=""
+/>
+`;
+
+exports[`NewAnimalPage tests Should render demographics page 1`] = `
+<div>
+  <div
+    className="parent-panel"
+  >
+    <div
+      className="panel-heading"
+      disabled={true}
+    >
+      <p>
+        Species and Acquisition Type
+      </p>
+    </div>
+    <div
+      className="species-panel"
+      disabled={true}
+    >
+      <SpeciesPanel
+        disabled={true}
+        handleAcquisitionOptionChange={[Function]}
+        handleSpeciesChange={[Function]}
+        newAnimalData={
+          Object {
+            "acqDate": Object {
+              "date": "2020-06-09T20:00:00.000Z",
+            },
+            "acquisitionType": undefined,
+            "animalAccount": undefined,
+            "birthDate": Object {
+              "date": "1970-01-01T00:00:00.000Z",
+            },
+            "cage": Object {
+              "value": undefined,
+            },
+            "colony": undefined,
+            "dam": Object {
+              "Age": 24.7,
+              "ArcSpeciesCode": "PC",
+              "id": 0,
+              "label": "12924",
+              "value": "12924",
+            },
+            "diet": undefined,
+            "gender": Object {
+              "label": "Female",
+              "value": "F",
+            },
+            "iacuc": undefined,
+            "id": undefined,
+            "ownerInstitution": undefined,
+            "pedigree": undefined,
+            "responsibleInstitution": undefined,
+            "room": undefined,
+            "sire": Object {
+              "Age": 22.8,
+              "ArcSpeciesCode": "PC",
+              "id": 0,
+              "label": "14022",
+              "value": "14022",
+            },
+            "species": Object {
+              "arcSpeciesCode": "PC",
+              "id": 10,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          }
+        }
+        selectedOption="Birth"
+        speciesList={
+          Array [
+            Object {
+              "arcSpeciesCode": "CJ",
+              "id": 0,
+              "label": "CTJ (CJ) - Callithrix spp./Marmoset",
+              "value": "CTJ",
+            },
+            Object {
+              "arcSpeciesCode": "MM",
+              "id": 1,
+              "label": "MML (MM) - Macaca mulatta/Rhesus",
+              "value": "MML",
+            },
+            Object {
+              "arcSpeciesCode": "PC",
+              "id": 2,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="fade-in"
+    >
+      <div
+        className="panel-heading"
+        disabled={false}
+      >
+        <p>
+          Demographics
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+        disabled={false}
+      >
+        <DemographicsPanel
+          disabled={false}
+          handleDataChange={[Function]}
+          newAnimalData={
+            Object {
+              "acqDate": Object {
+                "date": "2020-06-09T20:00:00.000Z",
+              },
+              "acquisitionType": undefined,
+              "animalAccount": undefined,
+              "birthDate": Object {
+                "date": "1970-01-01T00:00:00.000Z",
+              },
+              "cage": Object {
+                "value": undefined,
+              },
+              "colony": undefined,
+              "dam": Object {
+                "Age": 24.7,
+                "ArcSpeciesCode": "PC",
+                "id": 0,
+                "label": "12924",
+                "value": "12924",
+              },
+              "diet": undefined,
+              "gender": Object {
+                "label": "Female",
+                "value": "F",
+              },
+              "iacuc": undefined,
+              "id": undefined,
+              "ownerInstitution": undefined,
+              "pedigree": undefined,
+              "responsibleInstitution": undefined,
+              "room": undefined,
+              "sire": Object {
+                "Age": 22.8,
+                "ArcSpeciesCode": "PC",
+                "id": 0,
+                "label": "14022",
+                "value": "14022",
+              },
+              "species": Object {
+                "arcSpeciesCode": "PC",
+                "id": 10,
+                "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+                "value": "PCA",
+              },
+            }
+          }
+          potentialDamList={
+            Array [
+              Object {
+                "Age": 24.7,
+                "ArcSpeciesCode": "PC",
+                "id": 0,
+                "label": "12924",
+                "value": "12924",
+              },
+              Object {
+                "Age": 20.3,
+                "ArcSpeciesCode": "PC",
+                "id": 1,
+                "label": "16006",
+                "value": "16006",
+              },
+              Object {
+                "Age": 19.8,
+                "ArcSpeciesCode": "PC",
+                "id": 2,
+                "label": "16243",
+                "value": "16243",
+              },
+            ]
+          }
+          potentialSireList={
+            Array [
+              Object {
+                "Age": 22.8,
+                "ArcSpeciesCode": "PC",
+                "id": 0,
+                "label": "14022",
+                "value": "14022",
+              },
+              Object {
+                "Age": 21.5,
+                "ArcSpeciesCode": "PC",
+                "id": 1,
+                "label": "15009",
+                "value": "15009",
+              },
+              Object {
+                "Age": 20.4,
+                "ArcSpeciesCode": "PC",
+                "id": 2,
+                "label": "15945",
+                "value": "15945",
+              },
+            ]
+          }
+          preventNext={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+  <div>
+    <Pager
+      bsClass="pager"
+      className="pager-container"
+    >
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={true}
+      >
+        ← Previous Page
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={true}
+        onClick={[Function]}
+        previous={false}
+      >
+        Next Page →
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={false}
+      >
+        Cancel
+      </PagerItem>
+    </Pager>
+  </div>
+  <div>
+    <SaveModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": Object {
+            "Age": 24.7,
+            "ArcSpeciesCode": "PC",
+            "id": 0,
+            "label": "12924",
+            "value": "12924",
+          },
+          "diet": undefined,
+          "gender": Object {
+            "label": "Female",
+            "value": "F",
+          },
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": Object {
+            "Age": 22.8,
+            "ArcSpeciesCode": "PC",
+            "id": 0,
+            "label": "14022",
+            "value": "14022",
+          },
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      onCloseClick={[Function]}
+      onSaveClick={[Function]}
+      show={false}
+    />
+    <CancelChangeModal
+      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      noClick={[Function]}
+      show={false}
+      title="Cancel changes?"
+      yesClick={[Function]}
+    />
+    <CancelChangeModal
+      message="If you change species now, you will lose all your changes. Are you sure you want to change species?"
+      noClick={[Function]}
+      show={false}
+      title="Changes Species?"
+      yesClick={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`Should render Account page 1`] = `
+<div>
+  <div
+    className="parent-panel"
+  >
+    <div
+      className="panel-heading"
+      disabled={true}
+    >
+      <p>
+        Species and Acquisition Type
+      </p>
+    </div>
+    <div
+      className="species-panel"
+      disabled={true}
+    >
+      <SpeciesPanel
+        disabled={true}
+        handleAcquisitionOptionChange={[Function]}
+        handleSpeciesChange={[Function]}
+        newAnimalData={
+          Object {
+            "acqDate": Object {
+              "date": "2020-06-09T20:00:00.000Z",
+            },
+            "acquisitionType": undefined,
+            "animalAccount": undefined,
+            "birthDate": Object {
+              "date": "1970-01-01T00:00:00.000Z",
+            },
+            "cage": Object {
+              "value": undefined,
+            },
+            "colony": undefined,
+            "dam": undefined,
+            "diet": undefined,
+            "gender": undefined,
+            "iacuc": undefined,
+            "id": undefined,
+            "ownerInstitution": undefined,
+            "pedigree": undefined,
+            "responsibleInstitution": undefined,
+            "room": undefined,
+            "sire": undefined,
+            "species": Object {
+              "arcSpeciesCode": "PC",
+              "id": 10,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          }
+        }
+        selectedOption="Birth"
+        speciesList={
+          Array [
+            Object {
+              "arcSpeciesCode": "CJ",
+              "id": 0,
+              "label": "CTJ (CJ) - Callithrix spp./Marmoset",
+              "value": "CTJ",
+            },
+            Object {
+              "arcSpeciesCode": "MM",
+              "id": 1,
+              "label": "MML (MM) - Macaca mulatta/Rhesus",
+              "value": "MML",
+            },
+            Object {
+              "arcSpeciesCode": "PC",
+              "id": 2,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="fade-in"
+    >
+      <div
+        className="panel-heading"
+        disabled={false}
+      >
+        <p>
+          Account, Colony, and Ownership
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+        disabled={false}
+      >
+        <AccountPanel
+          accountList={
+            Array [
+              Object {
+                "id": 0,
+                "label": "0060-014-00 - Giavedoni 1497PC, Natural resistance of baboon cells to SIV infection",
+                "value": "0060-014-00",
+              },
+              Object {
+                "id": 1,
+                "label": "0063-010-50 - Lanford 1295PT, Combination therapy for HCV",
+                "value": "0063-010-50",
+              },
+              Object {
+                "id": 2,
+                "label": "0063-010-51 - Tardif 1243SM, Tamarin Breeding and Production Colony, Lanford animals",
+                "value": "0063-010-51",
+              },
+            ]
+          }
+          colonyList={
+            Array [
+              Object {
+                "Category": 7,
+                "id": 0,
+                "label": "pc_Conv",
+                "species": "PC",
+                "value": 214,
+              },
+              Object {
+                "Category": 7,
+                "id": 1,
+                "label": "pc_SPF",
+                "species": "PC",
+                "value": 213,
+              },
+              Object {
+                "Category": 42,
+                "id": 2,
+                "label": "pc_Whatever",
+                "species": "PC",
+                "value": 215,
+              },
+            ]
+          }
+          disabled={false}
+          handleDataChange={[Function]}
+          iacucList={
+            Array [
+              Object {
+                "id": 0,
+                "label": "1134PC - Nathanielsz, P. -Maternal Nutrient Restriction:  Placental and Fetal Brain and Kidney Outcomes",
+                "maxAnimals": 0,
+                "species": "PC",
+                "value": "1134PC",
+              },
+              Object {
+                "id": 1,
+                "label": "1272PC - Chen, Christopher -Baboon Model of Liver Cancer",
+                "maxAnimals": 8,
+                "species": "PC",
+                "value": "1272PC",
+              },
+              Object {
+                "id": 2,
+                "label": "1497PC - Giavedoni, L. -Natural Resistance of baboon cells to SIV infection",
+                "maxAnimals": 60,
+                "species": "PC",
+                "value": "1497PC",
+              },
+            ]
+          }
+          institutionList={
+            Array [
+              Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
+              Object {
+                "id": 1,
+                "label": "NHLBI - National Heart, Lung, Blood Institute",
+                "value": 2,
+              },
+              Object {
+                "id": 2,
+                "label": "ISIS - International Species Information System",
+                "value": 3,
+              },
+            ]
+          }
+          newAnimalData={
+            Object {
+              "acqDate": Object {
+                "date": "2020-06-09T20:00:00.000Z",
+              },
+              "acquisitionType": undefined,
+              "animalAccount": undefined,
+              "birthDate": Object {
+                "date": "1970-01-01T00:00:00.000Z",
+              },
+              "cage": Object {
+                "value": undefined,
+              },
+              "colony": undefined,
+              "dam": undefined,
+              "diet": undefined,
+              "gender": undefined,
+              "iacuc": undefined,
+              "id": undefined,
+              "ownerInstitution": undefined,
+              "pedigree": undefined,
+              "responsibleInstitution": undefined,
+              "room": undefined,
+              "sire": undefined,
+              "species": Object {
+                "arcSpeciesCode": "PC",
+                "id": 10,
+                "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+                "value": "PCA",
+              },
+            }
+          }
+          pedigreeList={
+            Array [
+              Object {
+                "Category": 2,
+                "id": 0,
+                "label": "baboon1",
+                "species": "PC",
+                "value": 31,
+              },
+              Object {
+                "Category": 2,
+                "id": 1,
+                "label": "baboon2",
+                "species": "PC",
+                "value": 32,
+              },
+              Object {
+                "Category": 2,
+                "id": 2,
+                "label": "baboon3",
+                "species": "PC",
+                "value": 33,
+              },
+            ]
+          }
+          preventNext={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+  <div>
+    <Pager
+      bsClass="pager"
+      className="pager-container"
+    >
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={true}
+      >
+        ← Previous Page
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={true}
+        onClick={[Function]}
+        previous={false}
+      >
+        Next Page →
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={false}
+      >
+        Cancel
+      </PagerItem>
+    </Pager>
+  </div>
+  <div>
+    <SaveModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      onCloseClick={[Function]}
+      onSaveClick={[Function]}
+      show={false}
+    />
+    <CancelChangeModal
+      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      noClick={[Function]}
+      show={false}
+      title="Cancel changes?"
+      yesClick={[Function]}
+    />
+    <CancelChangeModal
+      message="If you change species now, you will lose all your changes. Are you sure you want to change species?"
+      noClick={[Function]}
+      show={false}
+      title="Changes Species?"
+      yesClick={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`Should render Diet page 1`] = `
+<div>
+  <div
+    className="parent-panel"
+  >
+    <div
+      className="panel-heading"
+      disabled={true}
+    >
+      <p>
+        Species and Acquisition Type
+      </p>
+    </div>
+    <div
+      className="species-panel"
+      disabled={true}
+    >
+      <SpeciesPanel
+        disabled={true}
+        handleAcquisitionOptionChange={[Function]}
+        handleSpeciesChange={[Function]}
+        newAnimalData={
+          Object {
+            "acqDate": Object {
+              "date": "2020-06-09T20:00:00.000Z",
+            },
+            "acquisitionType": undefined,
+            "animalAccount": undefined,
+            "birthDate": Object {
+              "date": "1970-01-01T00:00:00.000Z",
+            },
+            "cage": Object {
+              "value": undefined,
+            },
+            "colony": undefined,
+            "dam": undefined,
+            "diet": undefined,
+            "gender": undefined,
+            "iacuc": undefined,
+            "id": undefined,
+            "ownerInstitution": undefined,
+            "pedigree": undefined,
+            "responsibleInstitution": undefined,
+            "room": undefined,
+            "sire": undefined,
+            "species": Object {
+              "arcSpeciesCode": "PC",
+              "id": 10,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          }
+        }
+        selectedOption="Birth"
+        speciesList={
+          Array [
+            Object {
+              "arcSpeciesCode": "CJ",
+              "id": 0,
+              "label": "CTJ (CJ) - Callithrix spp./Marmoset",
+              "value": "CTJ",
+            },
+            Object {
+              "arcSpeciesCode": "MM",
+              "id": 1,
+              "label": "MML (MM) - Macaca mulatta/Rhesus",
+              "value": "MML",
+            },
+            Object {
+              "arcSpeciesCode": "PC",
+              "id": 2,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="fade-in"
+    >
+      <div
+        className="panel-heading"
+        disabled={false}
+      >
+        <p>
+          Diet
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+        disabled={false}
+      >
+        <DietPanel
+          dietList={
+            Array [
+              Object {
+                "id": 0,
+                "label": "AQUA",
+                "species": null,
+                "value": "S-00003",
+              },
+              Object {
+                "id": 1,
+                "label": "AQUA/GREEN",
+                "species": null,
+                "value": "S-00004",
+              },
+              Object {
+                "id": 2,
+                "label": "BLACK",
+                "species": null,
+                "value": "S-00005",
+              },
+            ]
+          }
+          disabled={false}
+          handleDataChange={[Function]}
+          newAnimalData={
+            Object {
+              "acqDate": Object {
+                "date": "2020-06-09T20:00:00.000Z",
+              },
+              "acquisitionType": undefined,
+              "animalAccount": undefined,
+              "birthDate": Object {
+                "date": "1970-01-01T00:00:00.000Z",
+              },
+              "cage": Object {
+                "value": undefined,
+              },
+              "colony": undefined,
+              "dam": undefined,
+              "diet": undefined,
+              "gender": undefined,
+              "iacuc": undefined,
+              "id": undefined,
+              "ownerInstitution": undefined,
+              "pedigree": undefined,
+              "responsibleInstitution": undefined,
+              "room": undefined,
+              "sire": undefined,
+              "species": Object {
+                "arcSpeciesCode": "PC",
+                "id": 10,
+                "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+                "value": "PCA",
+              },
+            }
+          }
+          preventNext={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+  <div>
+    <Pager
+      bsClass="pager"
+      className="pager-container"
+    >
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={true}
+      >
+        ← Previous Page
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={false}
+      >
+        Cancel
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={true}
+        onClick={[Function]}
+        previous={false}
+      >
+        Save
+      </PagerItem>
+    </Pager>
+  </div>
+  <div>
+    <SaveModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      onCloseClick={[Function]}
+      onSaveClick={[Function]}
+      show={false}
+    />
+    <CancelChangeModal
+      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      noClick={[Function]}
+      show={false}
+      title="Cancel changes?"
+      yesClick={[Function]}
+    />
+    <CancelChangeModal
+      message="If you change species now, you will lose all your changes. Are you sure you want to change species?"
+      noClick={[Function]}
+      show={false}
+      title="Changes Species?"
+      yesClick={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`Should render Location page 1`] = `
+<div>
+  <div
+    className="parent-panel"
+  >
+    <div
+      className="panel-heading"
+      disabled={true}
+    >
+      <p>
+        Species and Acquisition Type
+      </p>
+    </div>
+    <div
+      className="species-panel"
+      disabled={true}
+    >
+      <SpeciesPanel
+        disabled={true}
+        handleAcquisitionOptionChange={[Function]}
+        handleSpeciesChange={[Function]}
+        newAnimalData={
+          Object {
+            "acqDate": Object {
+              "date": "2020-06-09T20:00:00.000Z",
+            },
+            "acquisitionType": undefined,
+            "animalAccount": undefined,
+            "birthDate": Object {
+              "date": "1970-01-01T00:00:00.000Z",
+            },
+            "cage": Object {
+              "value": undefined,
+            },
+            "colony": undefined,
+            "dam": undefined,
+            "diet": undefined,
+            "gender": undefined,
+            "iacuc": undefined,
+            "id": undefined,
+            "ownerInstitution": undefined,
+            "pedigree": undefined,
+            "responsibleInstitution": undefined,
+            "room": undefined,
+            "sire": undefined,
+            "species": Object {
+              "arcSpeciesCode": "PC",
+              "id": 10,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          }
+        }
+        selectedOption="Birth"
+        speciesList={
+          Array [
+            Object {
+              "arcSpeciesCode": "CJ",
+              "id": 0,
+              "label": "CTJ (CJ) - Callithrix spp./Marmoset",
+              "value": "CTJ",
+            },
+            Object {
+              "arcSpeciesCode": "MM",
+              "id": 1,
+              "label": "MML (MM) - Macaca mulatta/Rhesus",
+              "value": "MML",
+            },
+            Object {
+              "arcSpeciesCode": "PC",
+              "id": 2,
+              "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+              "value": "PCA",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="fade-in"
+    >
+      <div
+        className="panel-heading"
+        disabled={false}
+      >
+        <p>
+          Location
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+        disabled={false}
+      >
+        <LocationPanel
+          disabled={false}
+          handleDataChange={[Function]}
+          handleError={[Function]}
+          locationList={
+            Array [
+              Object {
+                "arcSpeciesCode": "PC",
+                "id": 0,
+                "label": "1.01",
+                "maxCages": null,
+                "value": "1.01",
+              },
+              Object {
+                "arcSpeciesCode": "PC",
+                "id": 1,
+                "label": "2.00",
+                "maxCages": 12,
+                "value": "2.00",
+              },
+              Object {
+                "arcSpeciesCode": "PC",
+                "id": 2,
+                "label": "6.06",
+                "maxCages": 15,
+                "value": "6.06",
+              },
+            ]
+          }
+          newAnimalData={
+            Object {
+              "acqDate": Object {
+                "date": "2020-06-09T20:00:00.000Z",
+              },
+              "acquisitionType": undefined,
+              "animalAccount": undefined,
+              "birthDate": Object {
+                "date": "1970-01-01T00:00:00.000Z",
+              },
+              "cage": Object {
+                "value": undefined,
+              },
+              "colony": undefined,
+              "dam": undefined,
+              "diet": undefined,
+              "gender": undefined,
+              "iacuc": undefined,
+              "id": undefined,
+              "ownerInstitution": undefined,
+              "pedigree": undefined,
+              "responsibleInstitution": undefined,
+              "room": undefined,
+              "sire": undefined,
+              "species": Object {
+                "arcSpeciesCode": "PC",
+                "id": 10,
+                "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+                "value": "PCA",
+              },
+            }
+          }
+          preventNext={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+  <div>
+    <Pager
+      bsClass="pager"
+      className="pager-container"
+    >
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={true}
+      >
+        ← Previous Page
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={true}
+        onClick={[Function]}
+        previous={false}
+      >
+        Next Page →
+      </PagerItem>
+      <PagerItem
+        disabled={false}
+        next={false}
+        onClick={[Function]}
+        previous={false}
+      >
+        Cancel
+      </PagerItem>
+    </Pager>
+  </div>
+  <div>
+    <SaveModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      onCloseClick={[Function]}
+      onSaveClick={[Function]}
+      show={false}
+    />
+    <CancelChangeModal
+      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      noClick={[Function]}
+      show={false}
+      title="Cancel changes?"
+      yesClick={[Function]}
+    />
+    <CancelChangeModal
+      message="If you change species now, you will lose all your changes. Are you sure you want to change species?"
+      noClick={[Function]}
+      show={false}
+      title="Changes Species?"
+      yesClick={[Function]}
+    />
+  </div>
+</div>
+`;

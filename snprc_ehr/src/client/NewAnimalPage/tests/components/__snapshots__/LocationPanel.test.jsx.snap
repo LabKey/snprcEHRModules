@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the LocationPanel 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div
+          className="location-datepicker"
+        >
+          <WrappedDatePicker
+            dateFormat="Pp"
+            disabled={false}
+            disabledKeyboardNavigation={true}
+            label="Move Date Time"
+            onChange={[Function]}
+            onChangeRaw={[Function]}
+            onSelect={[Function]}
+            readOnly={true}
+            selected={1970-01-01T00:00:00.000Z}
+            todayButton="Today"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Location
+        </label>
+        <StateManager
+          autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="location-select"
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "arcSpeciesCode": "PC",
+                "id": 0,
+                "label": "1.01",
+                "maxCages": 42,
+                "value": "1.01",
+              },
+              Object {
+                "arcSpeciesCode": "PC",
+                "id": 1,
+                "label": "1.02",
+                "maxCages": 43,
+                "value": "1.02",
+              },
+            ]
+          }
+          placeholder="Select Location"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Cage
+        </label>
+        <input
+          className="cage-input"
+          disabled={true}
+          id="cage-input"
+          max={1}
+          min="1"
+          onChange={[Function]}
+          onKeyPress={[Function]}
+          onPasteCapture={[Function]}
+          placeholder="Cage #"
+          type="number"
+        />
+      </div>
+    </div>
+  </div>
+  <InfoPanel
+    errorMessages={
+      Array [
+        Object {
+          "colName": undefined,
+          "propTest": undefined,
+        },
+      ]
+    }
+    messages={
+      Array [
+        Object {
+          "colName": "Location",
+          "propTest": true,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;

@@ -1,0 +1,300 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the AccountPanel 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+    id="account-panel"
+  >
+    <div
+      className="wizard-panel__row"
+      id="account-row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Account
+        </label>
+        <StateManager
+          autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="account-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 1,
+                "label": "0063-010-99 - TEST Blah, Combination therapy for Blah",
+                "value": "0063-010-99",
+              },
+              Object {
+                "id": 0,
+                "label": "0060-014-99 - TEST PC, Natural resistance of baboon cells to Blah infection",
+                "value": "0060-014-00",
+              },
+            ]
+          }
+          placeholder="Select Account"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+      id="colony-row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Colony
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="colony-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "category": 0,
+                "id": 0,
+                "label": "test Colony 1",
+                "species": "PC",
+                "value": 1,
+              },
+              Object {
+                "category": 0,
+                "id": 1,
+                "label": "test Colony 2",
+                "species": "PC",
+                "value": 2,
+              },
+            ]
+          }
+          placeholder="Select Colony"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+      id="iacuc-row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          IACUC
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="iacuc-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "label": "111PC - Test",
+                "maxAnimals": 0,
+                "species": "PC",
+                "value": "111PC",
+              },
+              Object {
+                "id": 1,
+                "label": "222PC - Test",
+                "maxAnimals": 0,
+                "species": "PC",
+                "value": "222PC",
+              },
+            ]
+          }
+          placeholder="Select IACUC"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+      id="pedigree-row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Pedigree
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="pedigree-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "category": 2,
+                "id": 0,
+                "label": "Baboon 1",
+                "species": "PC",
+                "value": 31,
+              },
+              Object {
+                "category": 2,
+                "id": 1,
+                "label": "Baboon 2",
+                "species": "PC",
+                "value": 32,
+              },
+            ]
+          }
+          placeholder="Select Pedigree"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+      id="owner-institution-row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Owner
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="owner-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
+              Object {
+                "id": 1,
+                "label": "Mexico Biomed- Mexico Biomedical Research Institute",
+                "value": 2,
+              },
+            ]
+          }
+          placeholder="Select Owner"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+      id="responsible-institution-row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Responsible Institution
+        </label>
+        <StateManager
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="responsible-institution-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
+              Object {
+                "id": 1,
+                "label": "Mexico Biomed- Mexico Biomedical Research Institute",
+                "value": 2,
+              },
+            ]
+          }
+          placeholder="Select Responsible Institution"
+        />
+      </div>
+    </div>
+  </div>
+  <InfoPanel
+    messages={
+      Array [
+        Object {
+          "colName": "Account",
+          "propTest": true,
+        },
+        Object {
+          "colName": "Colony",
+          "propTest": true,
+        },
+        Object {
+          "colName": "IACUC",
+          "propTest": true,
+        },
+        Object {
+          "colName": "Pedigree",
+          "propTest": true,
+        },
+        Object {
+          "colName": "Owner",
+          "propTest": true,
+        },
+        Object {
+          "colName": "Responsible Institution",
+          "propTest": true,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;

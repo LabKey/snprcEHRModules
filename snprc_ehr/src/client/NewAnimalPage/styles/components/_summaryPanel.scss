@@ -1,0 +1,91 @@
+.summary-panel {
+    display: flex;
+    flex-flow: column wrap;
+    text-align: left;
+    min-height: $m-panel;
+    border: 1px solid $dark-gray;
+    border-style: solid solid solid solid;
+    border-radius: 1px;
+    margin-bottom: $xs-size;
+    background-color: white;
+    font-size: $font-size-xsmall;
+}
+.section-header {
+    display: flex;
+    padding: .2rem 1rem;
+    font-weight: 600;
+    color: $dark-blue;
+}
+
+.summary-panel__rows {
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.summary-panel__row {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 4rem;
+    flex-wrap: nowrap;
+    width: 100%;
+    padding: .2ren 0 .2rem 1rem;
+    border-bottom: 1px solid $light-gray;
+}
+
+.summary-panel__col {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 4rem;
+    justify-content: start;
+    padding: 2px 1rem 0 1rem;
+    width: 25%;
+    flex-basis: auto;
+    align-items: baseline;
+}
+
+.summary-panel__col-wide {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: auto;
+    justify-content: start;
+    padding: 2px 1rem 0 1rem;
+    width: 35%;
+    flex-basis: auto;
+    align-items: baseline;
+}
+
+.summary-text-input  {
+    flex-basis: 5rem;
+    flex-grow: 1;
+    border-radius: 3px;
+    border: 1px solid $gray;
+    margin: 0 0 1.3rem 11px;
+    padding: 1.1rem .5rem .9rem .8rem;
+    width: 15%;
+    height: 15px;
+    text-overflow: ellipsis;
+}
+
+.summary-date-input  {
+    flex-basis: 35rem;
+    flex-shrink: 1;
+    border-radius: 3px;
+    border: 1px solid $light-gray;
+    margin: 0 0 0 1.1rem;
+    padding: 1.1rem .5rem .9rem .8rem;
+    width: 30%;
+    height: 15px;
+    text-overflow: ellipsis;
+}
+  
+.summary-label {
+    display:flex;
+    color: $info-blue;
+    font-weight: 600;
+}
+
+.date-width {
+      width: 23rem !important;
+}

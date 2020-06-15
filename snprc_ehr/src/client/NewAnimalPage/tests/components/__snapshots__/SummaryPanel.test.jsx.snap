@@ -1,0 +1,510 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the SummaryPanel 1`] = `
+<Fragment>
+  <div
+    className="summary-panel__rows"
+  >
+    <div
+      className="section-header"
+    >
+      Acquisition
+    </div>
+    <div
+      className="summary-panel__row"
+    >
+        
+      <div
+        className="summary-panel__col date-width"
+      >
+        <label
+          className="summary-label"
+        >
+          Date
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              message="01/01/1970 12:00 AM"
+              title="Acquisition Date"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-date-input"
+            defaultValue="01/01/1970 12:00 AM"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col "
+      >
+        <label
+          className="summary-label"
+        >
+          Type
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Acquisition Type"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+          />
+        </OverlayTrigger>
+      </div>
+    </div>
+    <div
+      className="section-header"
+    >
+      Demographics
+    </div>
+    <div
+      className="summary-panel__row"
+    >
+       
+      <div
+        className="summary-panel__col date-width"
+      >
+        <label
+          className="summary-label"
+        >
+          Birthdate
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              message="01/01/1970 12:00 AM"
+              title="Birthdate"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-date-input"
+            defaultValue="01/01/1970 12:00 AM"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            style={
+              Object {
+                "width": "15rem",
+              }
+            }
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Gender
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Gender"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+    </div>
+    <div
+      className="section-header"
+    >
+      Location
+    </div>
+    <div
+      className="summary-panel__row"
+    >
+       
+      <div
+        className="summary-panel__col date-width"
+      >
+        <label
+          className="summary-label"
+        >
+          Date
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              message="01/01/1970 12:00 AM"
+              title="Move Date"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-date-input"
+            defaultValue="01/01/1970 12:00 AM"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Location
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Location"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Cage
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Cage"
+            />
+          }
+          placement="left"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            defaultValue="N/A"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+    </div>
+    <div
+      className="section-header"
+    >
+      Account, Colony, and Ownership
+    </div>
+    <div
+      className="summary-panel__row"
+    >
+         
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Account
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Account"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Colony
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Colony"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          IACUC
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="IACUC"
+            />
+          }
+          placement="left"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Owner
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Owner"
+            />
+          }
+          placement="left"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Resp. Inst.
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Responsible Institution"
+            />
+          }
+          placement="left"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+    </div>
+    <div
+      className="section-header"
+    >
+      Diet
+    </div>
+    <div
+      className="summary-panel__row"
+    >
+       
+      <div
+        className="summary-panel__col date-width"
+      >
+        <label
+          className="summary-label"
+        >
+          Date
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              message="01/01/1970 12:00 AM"
+              title="Diet Date"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-date-input "
+            defaultValue="01/01/1970 12:00 AM"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+          />
+        </OverlayTrigger>
+      </div>
+      <div
+        className="summary-panel__col"
+      >
+        <label
+          className="summary-label"
+        >
+          Diet
+        </label>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <SummaryPopover
+              title="Diet"
+            />
+          }
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <input
+            className="summary-text-input"
+            onKeyPress={[Function]}
+            onPasteCapture={[Function]}
+            type="text"
+          />
+        </OverlayTrigger>
+      </div>
+    </div>
+    <InfoPanel
+      infoMessages={
+        Array [
+          Object {
+            "key": 1,
+            "value": "Please review data before saving.",
+          },
+          Object {
+            "key": 2,
+            "value": "Hover cursor over fields for full text.",
+          },
+        ]
+      }
+    />
+  </div>
+</Fragment>
+`;

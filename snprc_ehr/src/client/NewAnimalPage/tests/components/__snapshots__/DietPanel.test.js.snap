@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the DietPanel 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div
+          className="diet-datepicker"
+        >
+          <WrappedDatePicker
+            dateFormat="Pp"
+            disabled={false}
+            disabledKeyboardNavigation={true}
+            label="Diet Date"
+            onChange={[Function]}
+            onChangeRaw={[Function]}
+            onSelect={[Function]}
+            readOnly={true}
+            selected={1970-01-01T00:00:00.000Z}
+            todayButton="Today"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Diet
+        </label>
+        <StateManager
+          autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "label": "Regular chow",
+                "species": null,
+                "value": "S-00001",
+              },
+              Object {
+                "id": 1,
+                "label": "Corn feed",
+                "species": null,
+                "value": "S-00002",
+              },
+            ]
+          }
+          placeholder="Select diet"
+        />
+      </div>
+    </div>
+  </div>
+  <InfoPanel
+    messages={
+      Array [
+        Object {
+          "colName": "Diet",
+          "propTest": true,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;
