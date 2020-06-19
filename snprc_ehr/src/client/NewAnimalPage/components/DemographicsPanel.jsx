@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import moment from 'moment';
-import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
+import WrappedDatePicker from './WrappedDatePicker';
 import InfoPanel from './InfoPanel';
 import { isBirthdateValid} from '../services/validation';
 
@@ -19,7 +19,9 @@ export default class DemographicsPanel extends React.Component {
         ));
         this.props.preventNext();
     }
-
+    handleBdStatusChange = option => {
+        this.props.handleDataChange('bdStatus', option);
+    }
     handleDamChange = option => {
         this.props.handleDataChange('dam', option);
     }
@@ -42,7 +44,7 @@ export default class DemographicsPanel extends React.Component {
     }
 
     render() {
-        let { gender, dam, sire, birthDate } = this.props.newAnimalData;
+        let { gender, dam, sire, birthDate, bdStatus } = this.props.newAnimalData;
         return (
             <>
                 <div className="wizard-panel__rows">
@@ -57,12 +59,30 @@ export default class DemographicsPanel extends React.Component {
                                 dateFormat="Pp"
                                 maxDate={moment().toDate()}
                                 selected={birthDate.date.toDate()}
-                                onSelect={this.handleBirthDateSelect}
+                                onSelect={this.handleBirthDateChange}
                                 onChange={this.handleBirthDateChange}
                                 disabled={this.props.disabled}
                             />
                         </div>
                     </div>
+                    <div className="wizard-panel__row" >
+                            <div className="wizard-panel__col">
+                                <label className="field-label" >Birthdate Status</label>
+                                <Select
+                                    defaultValue={bdStatus}
+                                    className="shared-dropdown"
+                                    classNamePrefix="shared-select"
+                                    isLoading={this.props.bdStatusList.length === 0}
+                                    options={this.props.bdStatusList}
+                                    onChange={this.handleBdStatusChange}
+                                    placeholder="Select Birthdate Status"
+                                    isDisabled={this.props.disabled}
+                                    isClearable={true}
+                                    id="bdStatus-select"
+                                    autoFocus
+                                />
+                            </div>
+                        </div>
                     <div className="wizard-panel__row" >
                         <div className="wizard-panel__col">
                             <label className="field-label" >Gender</label>
@@ -78,7 +98,6 @@ export default class DemographicsPanel extends React.Component {
                                 isDisabled={this.props.disabled}
                                 isClearable={true}
                                 id="gender-select"
-                                autoFocus
                             />
                         </div>
                     </div>
@@ -124,7 +143,9 @@ export default class DemographicsPanel extends React.Component {
                 </div>
                 <InfoPanel 
                     messages={ 
-                        [ {propTest: !gender, colName: "Gender"} ]
+                        [ {propTest: !bdStatus, colName: "Birthdate Status"},
+                          {propTest: !gender, colName: "Gender"}
+                        ]
                     }
                     errorMessages= { this.state.errorMessage &&
                         [ {propTest: true, colName: this.state.errorMessage} ]

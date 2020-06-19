@@ -2,10 +2,11 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import NewAnimalPage from '../NewAnimalPage';
 import Select from 'react-select';
-
-jest.mock('../../utils/actions/api');
-import { request } from '../../utils/actions/api';
 import moment from 'moment';
+jest.mock('../api/api');
+import { request } from '../api/api';
+import data from './fixtures/testData';
+
 
 
 beforeAll(() => {
@@ -28,26 +29,22 @@ function flushPromises() {
 }
 
 const setupInitialPage = async (wrapper) => {
-    wrapper.setState({ isLoading: false });
-    wrapper.update();
+    await flushPromises();
 
     // select acquisition type
-    const value = 'Birth';
     const speciesPanel = wrapper.find('SpeciesPanel');
     speciesPanel.dive().find('Radio').at(0).simulate('change', {
-        target: { value }
+        target: data.selectedOption
     });
 
     // Species Select
-    const species = { id: 10, value: "PCA", label: "PCA (PC) - Papio hamadryas anubis/Baboon", arcSpeciesCode: "PC" };
     const speciesSelect = speciesPanel.dive().find(Select);    
-    speciesSelect.simulate('change', species);
+    speciesSelect.simulate('change', data.species);
 
     // Set Acquisition Date
     const acquisitionPanel = wrapper.find('AcquisitionPanel');
-    const acquisitionDate = '2020-06-09T20:00:00.000Z';
     const acquisitionDatePicker = acquisitionPanel.dive().find('WrappedDatePicker');
-    acquisitionDatePicker.simulate('select', acquisitionDate);
+    acquisitionDatePicker.simulate('select', data.acquisitionDate);
 
     await flushPromises();
 }
@@ -58,16 +55,13 @@ const pageNext = async (wrapper, numPages = 1) => {
     for (let i = 0; i < numPages; i++)
         pagerItem.simulate('click');
 
-    //trigger render()
-    wrapper.setState({ testing: true });
-    wrapper.update();
-
     await flushPromises();
 }
 
 describe('NewAnimalPage tests', () => {
 
-    test("Should render a loading span before api calls.", () => {
+    test("Should render a loading spinner    before api calls.", () => {
+        wrapper = shallow(<NewAnimalPage debug={true} />, { disableLifecycleMethods: true });
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find("LoadingSpinner_LoadingSpinner").exists()).toBeTruthy();
     });
@@ -118,31 +112,27 @@ describe('NewAnimalPage tests', () => {
         expect(wrapper.state('acquisitionTypeList').length).toBe(3);  // three items in the test data
 
         // Species Select
-       
-        const species = { id: 10, value: "PCA", label: "PCA (PC) - Papio hamadryas anubis/Baboon", arcSpeciesCode: "PC" };
         const speciesSelect = speciesPanel.dive().find(Select);
                 
         // Test species change & Select component
-        speciesSelect.simulate('change', species);
+        speciesSelect.simulate('change', data.species);
         await flushPromises();
-        expect(wrapper.state().newAnimalData.species).toEqual(species);
+        expect(wrapper.state().newAnimalData.species).toEqual(data.species);
 
         //// Acquisition Panel
         const acquisitionPanel = wrapper.find('AcquisitionPanel');
 
         //Acquisition Date
-        const acquisitionDate = '2020-06-09T20:00:00.000Z';
         const acquisitionDatePicker = acquisitionPanel.dive().find('WrappedDatePicker');
-        acquisitionDatePicker.simulate('select', acquisitionDate);
+        acquisitionDatePicker.simulate('select', data.acquisitionDate);
         await flushPromises();
-        expect(wrapper.state().newAnimalData.acqDate).toEqual({ date: moment(acquisitionDate) });
+        expect(wrapper.state().newAnimalData.acqDate).toEqual({ date: moment(data.acquisitionDate) });
 
         // Acquisition Select
-        const acquisitionType = {id: 0, value: 1, label: "1 - Colony-born, Vaginal delivery (at TBRI)", Category: "Birth", SortOrder: 1};
         const acquisitionTypeSelect = acquisitionPanel.dive().find(Select);
-        acquisitionTypeSelect.simulate('change', acquisitionType);
+        acquisitionTypeSelect.simulate('change', data.acquisitionType);
         await flushPromises();
-        expect(wrapper.state().newAnimalData.acquisitionType).toEqual(acquisitionType);
+        expect(wrapper.state().newAnimalData.acquisitionType).toEqual(data.acquisitionType);
 
     });
 
@@ -155,50 +145,51 @@ describe('NewAnimalPage tests', () => {
         await pageNext(wrapper, 1).catch( err => {  //select the Demographics page
             console.log(err);
         });
-        
+                
         // spinner should be gone
         expect(wrapper.find("LoadingSpinner_LoadingSpinner").exists()).toBeFalsy();        
         // Demographics InfoPanel should be present
         const DemographicsPanel = wrapper.find('DemographicsPanel');
         expect(DemographicsPanel.dive().find('InfoPanel').exists()).toBeTruthy();
 
-        // Gender Select
-        const gender = { value: "F", label: "Female" };
-        const genderSelect = DemographicsPanel.dive().find(Select).at(0);
-        genderSelect.simulate('change', gender);
+        // bdStatus Select
+        const bdStatusSelect = DemographicsPanel.dive().find(Select).at(0);
+        bdStatusSelect.simulate('change', data.bdStatus);
         await flushPromises();
-        expect(wrapper.state().newAnimalData.gender).toEqual(gender);
+        expect(wrapper.state().newAnimalData.bdStatus).toEqual(data.bdStatus);
+
+        // Gender Select
+        const genderSelect = DemographicsPanel.dive().find(Select).at(1);
+        genderSelect.simulate('change', data.gender);
+        await flushPromises();
+        expect(wrapper.state().newAnimalData.gender).toEqual(data.gender);
 
         // Potential Dam Select
-        const potentialDam = {id: 0, value: "12924", label: "12924", ArcSpeciesCode: "PC", Age: 24.7};
-        const damSelect = DemographicsPanel.dive().find(Select).at(1);
-        damSelect.simulate('change', potentialDam);
+        const damSelect = DemographicsPanel.dive().find(Select).at(2);
+        damSelect.simulate('change', data.potentialDam);
         await flushPromises();
-        expect(wrapper.state().newAnimalData.dam).toEqual(potentialDam);
+        expect(wrapper.state().newAnimalData.dam).toEqual(data.potentialDam);
 
         // Potential Sire Select
-        const potentialSire = {id: 0, value: "14022", label: "14022", ArcSpeciesCode: "PC",Age: 22.8};
-        const sireSelect = DemographicsPanel.dive().find(Select).at(2);
-        sireSelect.simulate('change', potentialSire);
+        const sireSelect = DemographicsPanel.dive().find(Select).at(3);
+        sireSelect.simulate('change', data.potentialSire);
         await flushPromises();
-        expect(wrapper.state().newAnimalData.sire).toEqual(potentialSire);
+        expect(wrapper.state().newAnimalData.sire).toEqual(data.potentialSire);
         
         //snapshot test
         expect(wrapper).toMatchSnapshot();
 
-        // Birthdate state should change
-        const birthdate1 = '2020-06-09T20:00:00.000Z'; // same as acquisition date
+        // Birthdate state should change -- same as acquisition date
         const birthdateDatePicker = DemographicsPanel.dive().find('WrappedDatePicker');
-        birthdateDatePicker.simulate('change', birthdate1);
+        birthdateDatePicker.simulate('change', data.birthdate1);
         await flushPromises();
 
-        expect(wrapper.state().newAnimalData.birthDate).toEqual({ date: moment(birthdate1) });
+        expect(wrapper.state().newAnimalData.birthDate).toEqual({ date: moment(data.birthdate1) });
 
         // TODO: birthdate after acqDate should produce error
-        // const birthdate2 = '2020-06-10T20:00:00.000Z'; // after acquisition date
-        // birthdateDatePicker.simulate('change', birthdate2);
+        // birthdateDatePicker.simulate('change', data.birthdate2);
         // await flushPromises();
-        // expect(wrapper.state().newAnimalData.birthDate).toEqual({ date: moment(birthdate2) });
+        // expect(wrapper.state().newAnimalData.birthDate).toEqual({ date: moment(data.birthdate2) });
 
     })
 

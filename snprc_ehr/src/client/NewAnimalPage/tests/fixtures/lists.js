@@ -20,5 +20,7 @@ export default {
     potentialSireList: [{id: 0, value: "14022", label: "14022", ArcSpeciesCode: "PC", Age: 22.8},
         {id: 1, value: "14023", label: "14023", ArcSpeciesCode: "PC", Age: 19.8}],
     speciesList: [{id: 10, value: "PCA", label: "PCA (PC) - Papio hamadryas anubis/Baboon", arcSpeciesCode: "PC"},
-        {id: 11, value: "MML", label: "MML (MM) - Macaca mulatta/Rhesus", arcSpeciesCode: "MM"}]
+        {id: 11, value: "MML", label: "MML (MM) - Macaca mulatta/Rhesus", arcSpeciesCode: "MM"}],
+    bdStatusList: [{id: 0, value: 0,label: "Day/Month/Year OK" },
+        {id: 1, value: 1, label: "Month/Year OK"}]
 }

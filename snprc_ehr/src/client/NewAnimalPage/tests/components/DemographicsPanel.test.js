@@ -12,6 +12,7 @@ test("Should render the DemographicsPanel", () => {
         handleDataChange={() => { return false; }}
         potentialDamList={lists.potentialDamList}
         potentialSireList={lists.potentialSireList}
+        bdStatusList={lists.bdStatusList}
         newAnimalData={newAnimalData}
         preventNext={() => { return false; }}
         disabled={false}

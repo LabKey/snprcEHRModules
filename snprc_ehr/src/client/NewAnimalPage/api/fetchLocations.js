@@ -1,9 +1,9 @@
-import { request } from '../../utils/actions/api';
+import { request } from './api';
 import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
-        return { id: key, value: data.room.value, label: data.room.value, arcSpeciesCode: data.species.value, maxCages: data.maxCages.value }
+        return { id: key, value: data.room.value, label: data.room.value, arcSpeciesCode: data.species.value, maxCages: data.maxCages.value, rowId: data.rowId.value }
     })
 }
 
@@ -12,7 +12,7 @@ const fetchLocations = (species) => {
         request({
             schemaName: 'snprc_ehr',
             queryName: 'ActiveLocationsAll',
-            columns: ['species', 'room', 'maxCages'],
+            columns: ['species', 'room', 'maxCages', 'rowId'],
             sort: "-species, room",
             filterArray: [
                 //Filter.create('species', species, Filter.Types.EQUAL)

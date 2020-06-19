@@ -1,9 +1,6 @@
 import React from 'react';
 
 export default class InfoPanel extends React.PureComponent {
-
-
-
     render() {
 
         const messages = this.props.messages && this.props.messages;
