@@ -3,10 +3,6 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="NewAnimalData" tableDbType="TABLE" useColumnOrder="true">
                 <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
                 <columns>
                     <column columnName="Id"/>
                     <column columnName="gender">

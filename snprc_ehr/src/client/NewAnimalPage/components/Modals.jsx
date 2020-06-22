@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import SummaryPanel from './SummaryPanel';
+import SuccessPanel from './SuccessPanel';
 
 {/* Species Change Modal */ }
 
@@ -55,6 +56,34 @@ export class CancelChangeModal extends React.PureComponent {
                 <Modal.Footer>
                     <Button onClick={this.props.yesClick} >Yes</Button>
                     <Button bsStyle="primary" onClick={this.props.noClick}>No</Button>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+}
+
+export class SuccessModal extends React.PureComponent {
+
+    render() {
+        return (
+            <Modal
+                show={this.props.show}
+                onHide={this.props.onCloseClick}
+                dialogClassName="custom-modal"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Save Was Successful!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <SuccessPanel
+                        newAnimalData={this.props.newAnimalData}
+                        infoMessages={[{ key: 1, value: 'Click Okay to continue.' }]}
+                    />
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button onClick={this.props.okClick} >Okay</Button>
                 </Modal.Footer>
             </Modal>
         )

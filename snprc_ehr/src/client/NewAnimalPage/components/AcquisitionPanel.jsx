@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import WrappedDatePicker from '../../utils/components/WrappedDatePicker'
+import WrappedDatePicker from './WrappedDatePicker'
 import InfoPanel from './InfoPanel';
 import moment from 'moment';
 

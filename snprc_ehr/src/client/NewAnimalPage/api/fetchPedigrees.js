@@ -1,4 +1,4 @@
-import { request } from '../../utils/actions/api';
+import { request } from './api';
 import { Filter } from '@labkey/api';
 
 const parse = rows => {
@@ -7,11 +7,11 @@ const parse = rows => {
     })
 }
 
-const fetchColonies = (species) => {
+const fetchPedigrees = (species) => {
     return new Promise((resolve, reject) => {
         request({
             schemaName: 'snprc_ehr',
-            queryName: 'colonyGroups',
+            queryName: 'pedigreeGroups',
             columns: ['Code', 'Name', 'Species', 'Category'],
             filterArray: [
                 Filter.create('Species', species, Filter.Types.EQUAL),
@@ -27,4 +27,4 @@ const fetchColonies = (species) => {
         })
     });
 }
-export default fetchColonies;
+export default fetchPedigrees;

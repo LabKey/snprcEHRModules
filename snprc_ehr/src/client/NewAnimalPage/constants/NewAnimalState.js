@@ -8,6 +8,7 @@ const NewAnimalState = () => {
         newAnimalData: {
             id: undefined,
             birthDate: { date: moment() },
+            bdStatus: undefined,
             acquisitionType: undefined,
             acqDate: { date: moment() },
             gender: undefined,
@@ -35,14 +36,15 @@ const NewAnimalState = () => {
         institutionList: [],
         iacucList: [],
         pedigreeList: [],
+        bdStatusList: [],
         isLoading: true,
         hasError: false,
         preventNext: true,
         saveOk: true,
         showSaveModal: false,
         showCancelModal: false,
-        showSpeciesChangeModal: false
-
+        showSpeciesChangeModal: false,
+        errorMessage: undefined
     });
 }
 

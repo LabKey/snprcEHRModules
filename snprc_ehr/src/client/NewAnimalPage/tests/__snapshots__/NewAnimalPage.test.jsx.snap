@@ -28,6 +28,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
             },
             "acquisitionType": undefined,
             "animalAccount": undefined,
+            "bdStatus": undefined,
             "birthDate": Object {
               "date": "1970-01-01T00:00:00.000Z",
             },
@@ -98,6 +99,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
+              "bdStatus": undefined,
               "birthDate": Object {
                 "date": "1970-01-01T00:00:00.000Z",
               },
@@ -122,6 +124,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
         />
       </div>
     </div>
+    <InfoPanel />
   </div>
   <div>
     <Pager
@@ -163,6 +166,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
+          "bdStatus": undefined,
           "birthDate": Object {
             "date": "1970-01-01T00:00:00.000Z",
           },
@@ -201,11 +205,42 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
       title="Changes Species?"
       yesClick={[Function]}
     />
+    <SuccessModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "bdStatus": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": undefined,
+        }
+      }
+      okClick={[Function]}
+    />
   </div>
 </div>
 `;
 
-exports[`NewAnimalPage tests Should render a loading span before api calls. 1`] = `
+exports[`NewAnimalPage tests Should render a loading spinner    before api calls. 1`] = `
 <LoadingSpinner_LoadingSpinner
   msg="Loading lookup tables..."
   wrapperClassName=""
@@ -240,6 +275,11 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             },
             "acquisitionType": undefined,
             "animalAccount": undefined,
+            "bdStatus": Object {
+              "id": 0,
+              "label": "Day/Month/Year OK",
+              "value": 0,
+            },
             "birthDate": Object {
               "date": "1970-01-01T00:00:00.000Z",
             },
@@ -280,7 +320,6 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             },
           }
         }
-        selectedOption="Birth"
         speciesList={
           Array [
             Object {
@@ -321,6 +360,25 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
         disabled={false}
       >
         <DemographicsPanel
+          bdStatusList={
+            Array [
+              Object {
+                "id": 0,
+                "label": "Day/Month/Year OK",
+                "value": 0,
+              },
+              Object {
+                "id": 1,
+                "label": "Month/Year OK",
+                "value": 1,
+              },
+              Object {
+                "id": 2,
+                "label": "Year OK",
+                "value": 2,
+              },
+            ]
+          }
           disabled={false}
           handleDataChange={[Function]}
           newAnimalData={
@@ -330,6 +388,11 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
+              "bdStatus": Object {
+                "id": 0,
+                "label": "Day/Month/Year OK",
+                "value": 0,
+              },
               "birthDate": Object {
                 "date": "1970-01-01T00:00:00.000Z",
               },
@@ -424,6 +487,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
         />
       </div>
     </div>
+    <InfoPanel />
   </div>
   <div>
     <Pager
@@ -465,6 +529,11 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
+          "bdStatus": Object {
+            "id": 0,
+            "label": "Day/Month/Year OK",
+            "value": 0,
+          },
           "birthDate": Object {
             "date": "1970-01-01T00:00:00.000Z",
           },
@@ -523,6 +592,61 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
       title="Changes Species?"
       yesClick={[Function]}
     />
+    <SuccessModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "bdStatus": Object {
+            "id": 0,
+            "label": "Day/Month/Year OK",
+            "value": 0,
+          },
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": Object {
+            "Age": 24.7,
+            "ArcSpeciesCode": "PC",
+            "id": 0,
+            "label": "12924",
+            "value": "12924",
+          },
+          "diet": undefined,
+          "gender": Object {
+            "label": "Female",
+            "value": "F",
+          },
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": Object {
+            "Age": 22.8,
+            "ArcSpeciesCode": "PC",
+            "id": 0,
+            "label": "14022",
+            "value": "14022",
+          },
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      okClick={[Function]}
+    />
   </div>
 </div>
 `;
@@ -555,6 +679,7 @@ exports[`Should render Account page 1`] = `
             },
             "acquisitionType": undefined,
             "animalAccount": undefined,
+            "bdStatus": undefined,
             "birthDate": Object {
               "date": "1970-01-01T00:00:00.000Z",
             },
@@ -580,7 +705,6 @@ exports[`Should render Account page 1`] = `
             },
           }
         }
-        selectedOption="Birth"
         speciesList={
           Array [
             Object {
@@ -718,6 +842,7 @@ exports[`Should render Account page 1`] = `
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
+              "bdStatus": undefined,
               "birthDate": Object {
                 "date": "1970-01-01T00:00:00.000Z",
               },
@@ -772,6 +897,7 @@ exports[`Should render Account page 1`] = `
         />
       </div>
     </div>
+    <InfoPanel />
   </div>
   <div>
     <Pager
@@ -813,6 +939,7 @@ exports[`Should render Account page 1`] = `
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
+          "bdStatus": undefined,
           "birthDate": Object {
             "date": "1970-01-01T00:00:00.000Z",
           },
@@ -856,6 +983,42 @@ exports[`Should render Account page 1`] = `
       title="Changes Species?"
       yesClick={[Function]}
     />
+    <SuccessModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "bdStatus": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      okClick={[Function]}
+    />
   </div>
 </div>
 `;
@@ -888,6 +1051,7 @@ exports[`Should render Diet page 1`] = `
             },
             "acquisitionType": undefined,
             "animalAccount": undefined,
+            "bdStatus": undefined,
             "birthDate": Object {
               "date": "1970-01-01T00:00:00.000Z",
             },
@@ -913,7 +1077,6 @@ exports[`Should render Diet page 1`] = `
             },
           }
         }
-        selectedOption="Birth"
         speciesList={
           Array [
             Object {
@@ -985,6 +1148,7 @@ exports[`Should render Diet page 1`] = `
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
+              "bdStatus": undefined,
               "birthDate": Object {
                 "date": "1970-01-01T00:00:00.000Z",
               },
@@ -1014,6 +1178,7 @@ exports[`Should render Diet page 1`] = `
         />
       </div>
     </div>
+    <InfoPanel />
   </div>
   <div>
     <Pager
@@ -1055,6 +1220,7 @@ exports[`Should render Diet page 1`] = `
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
+          "bdStatus": undefined,
           "birthDate": Object {
             "date": "1970-01-01T00:00:00.000Z",
           },
@@ -1098,6 +1264,42 @@ exports[`Should render Diet page 1`] = `
       title="Changes Species?"
       yesClick={[Function]}
     />
+    <SuccessModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "bdStatus": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      okClick={[Function]}
+    />
   </div>
 </div>
 `;
@@ -1130,6 +1332,7 @@ exports[`Should render Location page 1`] = `
             },
             "acquisitionType": undefined,
             "animalAccount": undefined,
+            "bdStatus": undefined,
             "birthDate": Object {
               "date": "1970-01-01T00:00:00.000Z",
             },
@@ -1155,7 +1358,6 @@ exports[`Should render Location page 1`] = `
             },
           }
         }
-        selectedOption="Birth"
         speciesList={
           Array [
             Object {
@@ -1206,6 +1408,7 @@ exports[`Should render Location page 1`] = `
                 "id": 0,
                 "label": "1.01",
                 "maxCages": null,
+                "rowId": 4201,
                 "value": "1.01",
               },
               Object {
@@ -1213,6 +1416,7 @@ exports[`Should render Location page 1`] = `
                 "id": 1,
                 "label": "2.00",
                 "maxCages": 12,
+                "rowId": 4202,
                 "value": "2.00",
               },
               Object {
@@ -1220,6 +1424,7 @@ exports[`Should render Location page 1`] = `
                 "id": 2,
                 "label": "6.06",
                 "maxCages": 15,
+                "rowId": 4203,
                 "value": "6.06",
               },
             ]
@@ -1231,6 +1436,7 @@ exports[`Should render Location page 1`] = `
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
+              "bdStatus": undefined,
               "birthDate": Object {
                 "date": "1970-01-01T00:00:00.000Z",
               },
@@ -1260,6 +1466,7 @@ exports[`Should render Location page 1`] = `
         />
       </div>
     </div>
+    <InfoPanel />
   </div>
   <div>
     <Pager
@@ -1301,6 +1508,7 @@ exports[`Should render Location page 1`] = `
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
+          "bdStatus": undefined,
           "birthDate": Object {
             "date": "1970-01-01T00:00:00.000Z",
           },
@@ -1343,6 +1551,42 @@ exports[`Should render Location page 1`] = `
       show={false}
       title="Changes Species?"
       yesClick={[Function]}
+    />
+    <SuccessModal
+      newAnimalData={
+        Object {
+          "acqDate": Object {
+            "date": "2020-06-09T20:00:00.000Z",
+          },
+          "acquisitionType": undefined,
+          "animalAccount": undefined,
+          "bdStatus": undefined,
+          "birthDate": Object {
+            "date": "1970-01-01T00:00:00.000Z",
+          },
+          "cage": Object {
+            "value": undefined,
+          },
+          "colony": undefined,
+          "dam": undefined,
+          "diet": undefined,
+          "gender": undefined,
+          "iacuc": undefined,
+          "id": undefined,
+          "ownerInstitution": undefined,
+          "pedigree": undefined,
+          "responsibleInstitution": undefined,
+          "room": undefined,
+          "sire": undefined,
+          "species": Object {
+            "arcSpeciesCode": "PC",
+            "id": 10,
+            "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
+            "value": "PCA",
+          },
+        }
+      }
+      okClick={[Function]}
     />
   </div>
 </div>

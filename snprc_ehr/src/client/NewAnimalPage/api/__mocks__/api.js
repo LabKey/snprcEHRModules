@@ -1,5 +1,6 @@
-import { CurrentSpeciesLookup, AccountLookup, validInstitutions, ValidDiet, AcquisitionTypesLookup,
-         PotentialDams, PotentialSires, ActiveLocationsAll, colonyGroups, ProtocolLookup, pedigreeGroups} from './apiTestData';
+import { CurrentSpeciesLookup, AccountLookup, validInstitutions, ValidDiet, AcquisitionTypesLookup, 
+  valid_bd_status, PotentialDams, PotentialSires, ActiveLocationsAll, colonyGroups, 
+  ProtocolLookup, pedigreeGroups} from '../../tests/fixtures/apiTestData';
 
 export const request = ({ schemaName, queryName, viewName = '',sort = '', columns = [], filterArray = [] }) => {
     //console.log(`loading list: ${queryName}`);
@@ -37,6 +38,9 @@ export const request = ({ schemaName, queryName, viewName = '',sort = '', column
           break;
         case 'pedigreeGroups':
           resolve(pedigreeGroups);
+          break;
+        case 'valid_bd_status':
+          resolve(valid_bd_status);
           break;
       }
     })

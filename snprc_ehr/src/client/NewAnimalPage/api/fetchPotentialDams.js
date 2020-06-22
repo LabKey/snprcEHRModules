@@ -1,20 +1,20 @@
-import { request } from '../../utils/actions/api';
+import { request } from './api';
 import { Filter } from '@labkey/api';
 
 const parse = rows => {
-    return rows.map(({ data }, key) => {
-        return { id: key, value: data.Sire.value, label: data.Sire.value, 
+    return rows.map(( { data}, key) => {
+        return { id: key, value: data.Dam.value, label: data.Dam.value, 
                  ArcSpeciesCode: data.ArcSpeciesCode.value, Age: data.Age.value }
     })
 }
 
-const fetchPotentialSires = (species) => {
+const fetchPotentialDams = (species) => {
     return new Promise((resolve, reject) => {
         request({
             schemaName: 'study',
-            queryName: 'PotentialSires',
-            columns: ['Sire', 'ArcSpeciesCode', 'Age'],
-            sort: "Sire",
+            queryName: 'PotentialDams',
+            columns: ['Dam', 'ArcSpeciesCode', 'Age'],
+            sort: "Dam",
             filterArray: [
                 Filter.create('ArcSpeciesCode', species, Filter.Types.EQUAL)
               ]
@@ -26,4 +26,4 @@ const fetchPotentialSires = (species) => {
         })
     });
 }
-export default fetchPotentialSires;
+export default fetchPotentialDams;

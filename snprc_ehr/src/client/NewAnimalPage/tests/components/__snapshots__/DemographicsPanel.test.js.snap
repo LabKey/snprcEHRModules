@@ -35,10 +35,50 @@ exports[`Should render the DemographicsPanel 1`] = `
         <label
           className="field-label"
         >
-          Gender
+          Birthdate Status
         </label>
         <StateManager
           autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="bdStatus-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "label": "Day/Month/Year OK",
+                "value": 0,
+              },
+              Object {
+                "id": 1,
+                "label": "Month/Year OK",
+                "value": 1,
+              },
+            ]
+          }
+          placeholder="Select Birthdate Status"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Gender
+        </label>
+        <StateManager
           className="shared-dropdown"
           classNamePrefix="shared-select"
           defaultInputValue=""
@@ -160,6 +200,10 @@ exports[`Should render the DemographicsPanel 1`] = `
   <InfoPanel
     messages={
       Array [
+        Object {
+          "colName": "Birthdate Status",
+          "propTest": true,
+        },
         Object {
           "colName": "Gender",
           "propTest": true,

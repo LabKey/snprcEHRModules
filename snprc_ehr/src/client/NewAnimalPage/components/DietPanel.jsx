@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import moment from 'moment';
-import WrappedDatePicker from '../../utils/components/WrappedDatePicker';
+import WrappedDatePicker from './WrappedDatePicker';
 import InfoPanel from './InfoPanel';
 
 export default class DietPanel extends React.Component {
