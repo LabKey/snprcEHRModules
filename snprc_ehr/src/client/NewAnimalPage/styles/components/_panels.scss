@@ -44,6 +44,12 @@
   font-size: $font-size-small;
   vertical-align: center;
 }
+.field-label-align-success {
+  display:flex;
+  color: $info-blue;
+  font-weight: 600;
+  width: 30%;
+}
 .top-spacing {
   margin-top: 13px;
 }

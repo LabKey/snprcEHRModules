@@ -20,7 +20,8 @@ Restricting this query to where species is NOT NULL will
 
 SELECT h.species  AS species,
        r.room     AS room,
-       r.maxCages AS maxCages--, cast(r.room as FLOAT) fRoom
+       r.maxCages AS maxCages,
+       r.rowId AS rowId
 FROM ehr_lookups.rooms r
          LEFT OUTER JOIN (
     -- derived table (ActiveLocation.SQL from July 2019)

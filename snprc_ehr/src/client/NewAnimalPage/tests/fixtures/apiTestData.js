@@ -336,6 +336,9 @@ export const CurrentSpeciesLookup =
         },
         "room" : {
           "value" : "1.01"
+        },
+        "rowId" : {
+          "value" : 4201
         }
       }
     }, {
@@ -349,6 +352,9 @@ export const CurrentSpeciesLookup =
         },
         "room" : {
           "value" : "2.00"
+        },
+        "rowId" : {
+          "value" : 4202
         }
       }
     }, {
@@ -362,6 +368,9 @@ export const CurrentSpeciesLookup =
         },
         "room" : {
           "value" : "6.06"
+        },
+        "rowId" : {
+          "value" : 4203
         }
       }
     }],
@@ -536,6 +545,44 @@ export const CurrentSpeciesLookup =
         },
         "Name" : {
           "value" : "baboon3"
+        }
+      }
+    } ],
+    "rowCount" : 3
+  }
+
+  export const valid_bd_status =
+  {
+    "schemaName" : [ "snprc_ehr" ],
+    "queryName" : "valid_bd_status",
+    "rows" : [ {
+      "data" : {
+        "description" : {
+          "url" : "/labkey/query/SNPRC/detailsQueryRow.view?schemaName=snprc_ehr&query.queryName=valid_bd_status&value=0",
+          "value" : "Day/Month/Year OK"
+        },
+        "value" : {
+          "value" : 0
+        }
+      }
+    }, {
+      "data" : {
+        "description" : {
+          "url" : "/labkey/query/SNPRC/detailsQueryRow.view?schemaName=snprc_ehr&query.queryName=valid_bd_status&value=1",
+          "value" : "Month/Year OK"
+        },
+        "value" : {
+          "value" : 1
+        }
+      }
+    }, {
+      "data" : {
+        "description" : {
+          "url" : "/labkey/query/SNPRC/detailsQueryRow.view?schemaName=snprc_ehr&query.queryName=valid_bd_status&value=2",
+          "value" : "Year OK"
+        },
+        "value" : {
+          "value" : 2
         }
       }
     } ],

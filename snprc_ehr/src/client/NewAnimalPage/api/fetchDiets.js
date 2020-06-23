@@ -1,4 +1,4 @@
-import { request } from '../../utils/actions/api';
+import { request } from './api';
 import { Filter } from '@labkey/api';
 
 const parse = rows => {

@@ -24,6 +24,7 @@ import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
+import org.labkey.api.action.SimpleRedirectAction;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.CompareType;
@@ -63,6 +64,7 @@ import org.labkey.snprc_ehr.domain.AnimalGroupCategory;
 import org.labkey.snprc_ehr.domain.NewAnimalData;
 import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
+import org.labkey.snprc_ehr.security.SNPRCColonyAdminPermission;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -368,31 +370,20 @@ public class SNPRC_EHRController extends SpringActionController
         }
     }
 
-//    // NewAnimalDataAction return a view powered by ExtJs4
-//    @RequiresPermission(EHRDataEntryPermission.class)
-//    public class NewAnimalDataAction extends SimpleViewAction<AnimalGroupCategory>
-//    {
-//
-//        @Override
-//        public void addNavTrail(NavTree root)
-//        {
-//            root.addChild("New Animal Data", new ActionURL(NewAnimalDataAction.class, getContainer()));
-//            return root;
-//        }
-//
-//
-//        @Override
-//        public ModelAndView getView(AnimalGroupCategory animalGroupCategory, BindException errors)
-//        {
-//            return new JspView<>("/org/labkey/snprc_ehr/views/NewAnimalData.jsp");
-//        }
-//    }
-
+    @RequiresPermission(SNPRCColonyAdminPermission.class)
+    public class NewAnimalWizardAction extends SimpleRedirectAction
+    {
+        @Override
+        public URLHelper getRedirectURL(Object o)
+        {
+            return new ActionURL(NAME, "NewAnimalPage", getContainer());
+        }
+    }
 
     /**
      * Get all New Animals
      */
-    @RequiresPermission(EHRDataEntryPermission.class)
+    @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class GetNewAnimalDataAction extends ReadOnlyApiAction<NewAnimalData>
     {
         @Override
@@ -424,7 +415,7 @@ public class SNPRC_EHRController extends SpringActionController
     /**
      * Update/Add new animal
      */
-    @RequiresPermission(EHRDataEntryPermission.class)
+    @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class UpdateAnimalDataAction extends MutatingApiAction<NewAnimalData>
     {
         @Override
@@ -445,7 +436,7 @@ public class SNPRC_EHRController extends SpringActionController
 
             try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
             {
-                if (o.getId() != "")
+                if (o.getId() != null)
                 {
                     Map dataAsMap = factory.toMap(o, null);
 

@@ -138,6 +138,7 @@ exports[`Modal tests Should render the SaveModal 1`] = `
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
+          "bdStatus": undefined,
           "birthDate": Object {
             "date": "1970-01-01T00:00:00.000Z",
           },

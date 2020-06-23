@@ -90,6 +90,7 @@ import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
 import org.labkey.snprc_ehr.security.ManageLookupTablesRole;
+import org.labkey.snprc_ehr.security.SNPRCColonyAdminRole;
 import org.labkey.snprc_ehr.security.SNPRC_EHREditRole;
 import org.labkey.snprc_ehr.snd.SNPRCEventTriggerFactory;
 import org.labkey.snprc_ehr.table.SNPRC_EHRCustomizer;
@@ -139,6 +140,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         RoleManager.registerRole(new ManageGroupMembersRole());
         RoleManager.registerRole(new ManageLookupTablesRole());
         RoleManager.registerRole(new SNPRC_EHREditRole());
+        RoleManager.registerRole(new SNPRCColonyAdminRole());
 
         SNDService.get().registerEventTriggerFactory(this, new SNPRCEventTriggerFactory());
 
