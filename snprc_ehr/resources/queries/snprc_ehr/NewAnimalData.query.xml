@@ -2,13 +2,27 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="NewAnimalData" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
                 <columns>
                     <column columnName="Id"/>
+                    <column columnName="BirthDate">
+                        <datatype>datetime</datatype>
+                    </column>
+                    <column columnName="BirthCode">
+                        <datatype>integer</datatype>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>valid_db_status</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="AcquisitionType">
+                        <datatype>integer</datatype>
+                        <fk>
+                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkTable>AcquisitionType</fkTable>
+                            <fkColumnName>value</fkColumnName>
+                        </fk>
+                    </column>
                     <column columnName="gender">
                         <columnTitle>Gender</columnTitle>
                         <fk>
@@ -24,6 +38,13 @@
                             <fkTable>species</fkTable>
                             <fkColumnName>species_code</fkColumnName>
                             <fkDisplayColumnName useRawValue="true"/>
+                        </fk>
+                    </column>
+                    <column columnName="pedigree">
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>pedigreeGroups</fkTable>
+                            <fkColumnName>code</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="dam">
@@ -44,26 +65,18 @@
                         </fk>
                         <url>/ehr/participantView.view?participantId=${sire}</url>
                     </column>
-                    <column columnName="AcquisitionType">
-                        <columnTitle>AcquisitionType</columnTitle>
-                        <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>AcquisitionType</fkTable>
-                            <fkColumnName>value</fkColumnName>
-                        </fk>
-                    </column>
                     <column columnName="Diet">
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>dropDownDiets</fkTable>
-                            <fkColumnName>DietCode</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>ValidDiet</fkTable>
+                            <fkColumnName>Diet</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="Colony">
                         <columnTitle>Colony</columnTitle>
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>dropDownColony</fkTable>
+                            <fkTable>colonyGroups</fkTable>
                             <fkColumnName>code</fkColumnName>
                         </fk>
                     </column>
