@@ -1,3 +1,12 @@
+.split-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.right-panel {
+  flex: 1;
+  padding-left: 1rem;
+}
 .parent-panel {
   display: flex;
   flex-direction: column;
@@ -20,7 +29,6 @@
     padding-top: .8rem;
     font-weight: bold;
 }
-
 .field-label {
   text-align: left;
   margin: 0 $s-size;
@@ -71,9 +79,4 @@
   100% {
     opacity:1;
   }
-}
-
-// pager button div
-.button-row {
-  padding-top: 1px;
 }

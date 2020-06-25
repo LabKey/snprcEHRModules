@@ -12,7 +12,7 @@
 }
 .section-header {
     display: flex;
-    padding: .2rem 1rem;
+    padding: .4rem 1rem;
     font-weight: 600;
     color: $dark-blue;
 }
@@ -29,10 +29,17 @@
     flex-basis: 4rem;
     flex-wrap: nowrap;
     width: 100%;
-    padding: .2ren 0 .2rem 1rem;
+    padding: 1rem 0 .2rem 1rem;
     border-bottom: 1px solid $light-gray;
 }
-
+.summary-panel__row1 {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 4rem;
+    flex-wrap: nowrap;
+    width: 100%;
+    padding: 1rem 0 .2rem 1rem;
+}
 .summary-panel__col {
     display: flex;
     flex-direction: row;

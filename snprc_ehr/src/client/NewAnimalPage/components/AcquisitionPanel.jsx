@@ -6,8 +6,6 @@ import moment from 'moment';
 
 export default class AcquisitionPanel extends React.Component {
 
-    isLoading = true;
-
     componentDidMount = () => {
         this.props.preventNext(); //prevent/Allow Next button
     }
@@ -47,7 +45,7 @@ export default class AcquisitionPanel extends React.Component {
                         <div className="wizard-panel__col">
                             <label className="field-label" >Acquisition Code</label>
                             <Select
-                                defaultValue={acquisitionType}
+                                value={acquisitionType ? acquisitionType : null}
                                 className="shared-dropdown"
                                 classNamePrefix="shared-select"
                                 isLoading={this.props.acquisitionTypeList.length === 0}

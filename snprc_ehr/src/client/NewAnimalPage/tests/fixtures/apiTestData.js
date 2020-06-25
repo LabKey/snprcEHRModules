@@ -138,8 +138,8 @@ export const CurrentSpeciesLookup =
         "ARCSpeciesCode" : {
           "value" : null
         },
-        "SnomedCode" : {
-          "value" : "S-00003"
+        "DietCode" : {
+          "value" : 3
         }
       }
     }, {
@@ -151,8 +151,8 @@ export const CurrentSpeciesLookup =
         "ARCSpeciesCode" : {
           "value" : null
         },
-        "SnomedCode" : {
-          "value" : "S-00004"
+        "DietCode" : {
+          "value" : 4
         }
       }
     }, {
@@ -164,8 +164,8 @@ export const CurrentSpeciesLookup =
         "ARCSpeciesCode" : {
           "value" : null
         },
-        "SnomedCode" : {
-          "value" : "S-00005"
+        "DietCode" : {
+          "value" : 5
         }
       }
     }],

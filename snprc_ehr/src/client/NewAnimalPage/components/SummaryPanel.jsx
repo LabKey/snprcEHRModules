@@ -142,7 +142,7 @@ export default class SummaryPanel extends React.Component {
                         }
                     </div>
                     <div className="section-header">Account, Colony, and Ownership</div>
-                    <div className='summary-panel__row' >   {/* Account, Colony, and Ownership */}
+                    <div className='summary-panel__row1' >   {/* Account, Colony, and Ownership */}
                         <div className='summary-panel__col'>
                             <label className="summary-label" >Account</label>
                             <OverlayTrigger overlay={<SummaryPopover message={animalAccount && animalAccount.label} title="Account" />} >
@@ -179,6 +179,8 @@ export default class SummaryPanel extends React.Component {
                                 />
                             </OverlayTrigger>
                         </div>
+                        </div>
+                        <div className='summary-panel__row' >   {/* Account, Colony, and Ownership */}
                         {pedigree &&
                             <div className='summary-panel__col'>
                                 <label className="summary-label" >Pedigree</label>

@@ -69,6 +69,7 @@ exports[`Should render the AcquisitionPanel 1`] = `
             ]
           }
           placeholder="Select Acquisition Type"
+          value={null}
         />
       </div>
     </div>
