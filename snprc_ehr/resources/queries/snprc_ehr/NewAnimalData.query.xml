@@ -11,7 +11,7 @@
                         <datatype>integer</datatype>
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>valid_db_status</fkTable>
+                            <fkTable>valid_bd_status</fkTable>
                             <fkColumnName>value</fkColumnName>
                         </fk>
                     </column>
@@ -69,15 +69,23 @@
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>ValidDiet</fkTable>
-                            <fkColumnName>Diet</fkColumnName>
+                            <fkColumnName>DietCode</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="Colony">
                         <columnTitle>Colony</columnTitle>
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>colonyGroups</fkTable>
                             <fkColumnName>code</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="AnimalAccount">
+                        <columnTitle>Account</columnTitle>
+                        <fk>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>ValidAccounts</fkTable>
+                            <fkColumnName>account</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="origin">
