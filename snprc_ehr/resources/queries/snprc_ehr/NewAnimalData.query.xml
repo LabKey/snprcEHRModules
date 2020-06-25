@@ -11,7 +11,7 @@
                         <datatype>integer</datatype>
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
-                            <fkTable>valid_db_status</fkTable>
+                            <fkTable>valid_bd_status</fkTable>
                             <fkColumnName>value</fkColumnName>
                         </fk>
                     </column>
