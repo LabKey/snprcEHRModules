@@ -6,6 +6,7 @@ const NewAnimalState = () => {
         currentPanel: 1,
         selectedOption: undefined,
         newAnimalData: {
+            selectedOption: undefined,
             id: undefined,
             birthDate: { date: moment() },
             bdStatus: undefined,

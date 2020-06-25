@@ -124,7 +124,8 @@ export default class NewAnimalPage extends React.Component {
                     selectedOption: type,
                     newAnimalData: {
                         ...prevState.newAnimalData,
-                        acquisitionType: undefined
+                        acquisitionType: undefined,
+                        selectedOption: type
                     }
                 })
             )

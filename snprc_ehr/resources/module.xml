@@ -1,0 +1,11 @@
+<module xmlns="http://labkey.org/moduleProperties/xml/">
+    <properties>
+        <propertyDescriptor name="SSRSServerURL">
+            <canSetPerContainer>true</canSetPerContainer>
+            <description>The is the baseURL to the server used to run SSRS reports.  It is expected to be something like: 'http://myServer.org/Reports/Pages/ReportViewer.aspx?'</description>
+            <editPermissions>
+                <permission>ADMIN</permission>
+            </editPermissions>
+        </propertyDescriptor>
+    </properties>
+</module>

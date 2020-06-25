@@ -48,6 +48,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               "pedigree": undefined,
               "responsibleInstitution": undefined,
               "room": undefined,
+              "selectedOption": undefined,
               "sire": undefined,
               "species": undefined,
             }
@@ -119,6 +120,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
                 "pedigree": undefined,
                 "responsibleInstitution": undefined,
                 "room": undefined,
+                "selectedOption": undefined,
                 "sire": undefined,
                 "species": undefined,
               }
@@ -207,6 +209,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           "pedigree": undefined,
           "responsibleInstitution": undefined,
           "room": undefined,
+          "selectedOption": undefined,
           "sire": undefined,
           "species": undefined,
         }
@@ -301,6 +304,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               "pedigree": undefined,
               "responsibleInstitution": undefined,
               "room": undefined,
+              "selectedOption": undefined,
               "sire": Object {
                 "Age": 22.8,
                 "ArcSpeciesCode": "PC",
@@ -414,6 +418,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 "pedigree": undefined,
                 "responsibleInstitution": undefined,
                 "room": undefined,
+                "selectedOption": undefined,
                 "sire": Object {
                   "Age": 22.8,
                   "ArcSpeciesCode": "PC",
@@ -576,6 +581,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           "pedigree": undefined,
           "responsibleInstitution": undefined,
           "room": undefined,
+          "selectedOption": undefined,
           "sire": Object {
             "Age": 22.8,
             "ArcSpeciesCode": "PC",
@@ -661,6 +667,7 @@ exports[`Should render Account page 1`] = `
               "pedigree": undefined,
               "responsibleInstitution": undefined,
               "room": undefined,
+              "selectedOption": undefined,
               "sire": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
@@ -824,6 +831,7 @@ exports[`Should render Account page 1`] = `
                 "pedigree": undefined,
                 "responsibleInstitution": undefined,
                 "room": undefined,
+                "selectedOption": undefined,
                 "sire": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
@@ -942,6 +950,7 @@ exports[`Should render Account page 1`] = `
           "pedigree": undefined,
           "responsibleInstitution": undefined,
           "room": undefined,
+          "selectedOption": undefined,
           "sire": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
@@ -1021,6 +1030,7 @@ exports[`Should render Diet page 1`] = `
               "pedigree": undefined,
               "responsibleInstitution": undefined,
               "room": undefined,
+              "selectedOption": undefined,
               "sire": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
@@ -1118,6 +1128,7 @@ exports[`Should render Diet page 1`] = `
                 "pedigree": undefined,
                 "responsibleInstitution": undefined,
                 "room": undefined,
+                "selectedOption": undefined,
                 "sire": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
@@ -1211,6 +1222,7 @@ exports[`Should render Diet page 1`] = `
           "pedigree": undefined,
           "responsibleInstitution": undefined,
           "room": undefined,
+          "selectedOption": undefined,
           "sire": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
@@ -1290,6 +1302,7 @@ exports[`Should render Location page 1`] = `
               "pedigree": undefined,
               "responsibleInstitution": undefined,
               "room": undefined,
+              "selectedOption": undefined,
               "sire": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
@@ -1394,6 +1407,7 @@ exports[`Should render Location page 1`] = `
                 "pedigree": undefined,
                 "responsibleInstitution": undefined,
                 "room": undefined,
+                "selectedOption": undefined,
                 "sire": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
@@ -1487,6 +1501,7 @@ exports[`Should render Location page 1`] = `
           "pedigree": undefined,
           "responsibleInstitution": undefined,
           "room": undefined,
+          "selectedOption": undefined,
           "sire": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
