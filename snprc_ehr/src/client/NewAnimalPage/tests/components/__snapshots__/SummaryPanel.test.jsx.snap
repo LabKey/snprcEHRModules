@@ -263,7 +263,7 @@ exports[`Should render the SummaryPanel 1`] = `
       Account, Colony, and Ownership
     </div>
     <div
-      className="summary-panel__row"
+      className="summary-panel__row1"
     >
          
       <div
@@ -357,6 +357,11 @@ exports[`Should render the SummaryPanel 1`] = `
           />
         </OverlayTrigger>
       </div>
+    </div>
+    <div
+      className="summary-panel__row"
+    >
+         
       <div
         className="summary-panel__col"
       >

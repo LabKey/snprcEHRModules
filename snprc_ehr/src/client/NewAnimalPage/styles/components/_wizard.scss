@@ -11,6 +11,18 @@
   margin-bottom: $xs-size;
   background-color: white;
 }
+.wizard-right {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: left;
+  padding: $xs-size .2rem 0 .2rem;
+  height: 100%;    
+  border: 1px solid $dark-gray;
+  border-style: none solid solid solid;
+  border-radius: 1px;
+  margin-bottom: $xs-size;
+  background-color: white;
+}
 .wizard-panel[disabled] {
   background-color: $disabled-gray;
 }

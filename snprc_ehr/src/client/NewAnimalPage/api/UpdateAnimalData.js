@@ -1,12 +1,12 @@
 import { Ajax, Utils, ActionURL } from '@labkey/api';
 
-export const uploadAnimalData = jsonData => {
+export const uploadAnimalData = newAnimalData => {
   const url = ActionURL.buildURL('snprc_ehr', 'UpdateAnimalData.api');
   return new Promise((resolve, reject) => {
     Ajax.request({
       method: 'POST',
       url: url,
-      jsonData: jsonData,
+      jsonData: convertToJson(newAnimalData),
       success: Utils.getCallbackWrapper((data) => {
         resolve(data);
       }),
@@ -17,10 +17,11 @@ export const uploadAnimalData = jsonData => {
   })
 }
 
-export const formatDataForUpload = newAnimalData => {
+const convertToJson = newAnimalData => {
   
   const jsonData = {
       "birthDate": `${newAnimalData.birthDate.date.toString()}`,
+      "birthCode": `${newAnimalData.bdStatus.value}`,
       "acquisitionType": `${newAnimalData.acquisitionType.value}`,
       "acqDate": `${newAnimalData.acqDate.date.toString()}`,
       "gender": `${newAnimalData.gender.value}`,
@@ -29,7 +30,7 @@ export const formatDataForUpload = newAnimalData => {
       "ownerInstitution": `${newAnimalData.ownerInstitution.value}`,
       "responsibleInstitution": `${newAnimalData.responsibleInstitution.value}`,
       "room": newAnimalData.room.rowId,
-      "diet": `${newAnimalData.diet.id}`,
+      "diet": `${newAnimalData.diet.value}`,
       ...(newAnimalData.cage && { "cage": newAnimalData.cage.value }),
       ...(newAnimalData.pedigree && { "pedigree": newAnimalData.pedigree.value }),
       ...(newAnimalData.iacuc  && { "iacuc":  newAnimalData.iacuc.id }),

@@ -19,6 +19,7 @@ public class NewAnimalData
     // title case used to maintain consistency with table column naming convention
     private String _id;
     private Date _birthDate;
+    private Integer _birthCode;
     private Integer _acquisitionType;
     private Date _acqDate;
     private String _gender;
@@ -49,6 +50,7 @@ public class NewAnimalData
 
     public static final String NEWANIMAL_ID = "Id";
     public static final String NEWANIMAL_BIRTH_DATE ="BirthDate";
+    public static final String NEWANIMAL_BIRTH_CODE ="BirthCode";
     public static final String NEWANIMAL_ACQUISITION_TYPE = "AcquisitionType";
     public static final String NEWANIMAL_ACQ_DATE ="AcqDate";
     public static final String NEWANIMAL_GENDER = "Gender";
@@ -85,6 +87,7 @@ public class NewAnimalData
         try
         {
             this.setId(json.has(NEWANIMAL_ID) && !json.isNull(NEWANIMAL_ID) ? json.getString(NEWANIMAL_ID) : null);
+            this.setBirthCode(json.has(NEWANIMAL_BIRTH_CODE) && !json.isNull(NEWANIMAL_BIRTH_CODE) ? json.getInt(NEWANIMAL_BIRTH_CODE) : null);
             this.setAcquisitionType(json.has(NEWANIMAL_ACQUISITION_TYPE) && !json.isNull(NEWANIMAL_ACQUISITION_TYPE) ? json.getInt(NEWANIMAL_ACQUISITION_TYPE) : null);
             this.setGender(json.has(NEWANIMAL_GENDER) && !json.isNull(NEWANIMAL_GENDER) ? json.getString(NEWANIMAL_GENDER) : null);
             this.setSire(json.has(NEWANIMAL_SIRE) && !json.isNull(NEWANIMAL_SIRE) ? json.getString(NEWANIMAL_SIRE) : null);
@@ -138,6 +141,7 @@ public class NewAnimalData
 
         values.put(NEWANIMAL_ID, getId());
         values.put(NEWANIMAL_BIRTH_DATE, getBirthDate());
+        values.put(NEWANIMAL_BIRTH_CODE, getBirthCode());
         values.put(NEWANIMAL_ACQUISITION_TYPE, getAcquisitionType());
         values.put(NEWANIMAL_ACQ_DATE, getAcqDate());
         values.put(NEWANIMAL_GENDER, getGender());
@@ -174,6 +178,7 @@ public class NewAnimalData
             json.put(NEWANIMAL_ID, getId());
         if (getBirthDate() != null)
             json.put(NEWANIMAL_BIRTH_DATE, getBirthDate());
+        json.put(NEWANIMAL_BIRTH_CODE, getBirthCode());
         json.put(NEWANIMAL_ACQUISITION_TYPE, getAcquisitionType());
         json.put(NEWANIMAL_ACQ_DATE, getAcqDate());
         json.put(NEWANIMAL_GENDER, getGender());
@@ -231,6 +236,10 @@ public class NewAnimalData
     public Date getBirthDate() { return _birthDate;  }
 
     public void setBirthDate(Date birthDate)  { _birthDate = birthDate; }
+
+    public Integer getBirthCode() { return _birthCode; }
+
+    public void setBirthCode(Integer birthCode) { _birthCode = birthCode; }
 
     public Integer getAcquisitionType()  { return _acquisitionType; }
 
@@ -359,6 +368,7 @@ public class NewAnimalData
         NewAnimalData that = (NewAnimalData) o;
         return _id.equals(that._id) &&
                 Objects.equals(_birthDate, that._birthDate) &&
+                Objects.equals(_birthCode, that._birthCode) &&
                 Objects.equals(_acquisitionType, that._acquisitionType) &&
                 Objects.equals(_acqDate, that._acqDate) &&
                 Objects.equals(_gender, that._gender) &&
@@ -386,6 +396,6 @@ public class NewAnimalData
     @Override
     public int hashCode()
     {
-        return Objects.hash(_id, _birthDate, _acquisitionType, _acqDate, _gender, _sire, _dam, _species, _colony, _animalAccount, _ownerInstitution, _responsibleInstitution, _room, _cage, _diet, _pedigree, _iacuc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _objectId);
+        return Objects.hash(_id, _birthDate, _birthCode, _acquisitionType, _acqDate, _gender, _sire, _dam, _species, _colony, _animalAccount, _ownerInstitution, _responsibleInstitution, _room, _cage, _diet, _pedigree, _iacuc, _created, _modified, _createdBy, _modifiedBy, _createdByName, _modifiedByName, _objectId);
     }
 }

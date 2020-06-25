@@ -3,7 +3,7 @@ import { Filter } from '@labkey/api';
 
 const parse = rows => {
     return rows.map(( { data }, key) => {
-        return { id: key, value: data.SnomedCode.value, label: data.Diet.value, species: data.ARCSpeciesCode.value}
+        return { id: key, value: data.DietCode.value, label: data.Diet.value, species: data.ARCSpeciesCode.value}
     })
 }
 
@@ -12,7 +12,7 @@ const fetchDiets = () => {
         request({
             schemaName: 'snprc_ehr',
             queryName: 'ValidDiet',
-            columns: ['SnomedCode', 'Diet', 'ARCSpeciesCode'],
+            columns: ['DietCode', 'Diet', 'ARCSpeciesCode'],
             filterArray: [
                 //Filter.create('ARCSpeciesCode', species, Filter.Types.EQUAL),
                 Filter.create('StopDate', null, Filter.Types.MISSING)

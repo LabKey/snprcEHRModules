@@ -57,13 +57,13 @@ exports[`Should render the DietPanel 1`] = `
                 "id": 0,
                 "label": "Regular chow",
                 "species": null,
-                "value": "S-00001",
+                "value": 1,
               },
               Object {
                 "id": 1,
                 "label": "Corn feed",
                 "species": null,
-                "value": "S-00002",
+                "value": 2,
               },
             ]
           }

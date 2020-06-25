@@ -1,17 +1,36 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import SummaryPanel from './SummaryPanel';
-import SuccessPanel from './SuccessPanel';
-
-{/* Species Change Modal */ }
 
 export class SaveModal extends React.PureComponent {
+    state = {
+        disabled: false
+    }
+    
+    onExit = () => {
+        this.setState( () => (
+            { disabled: false}
+        ));
+    }
+    onSaveClick = () => {
+        this.setState( () => (
+            { disabled: true}
+        ), this.props.onSaveClick());
+    };
+    onCloseClick = () => {
+        this.setState( () => (
+            { disabled: true}
+        ), this.props.onCloseClick());
+    };
 
     render() {
         return (
             <Modal
+                backdrop='static'
+                onExit={this.onExit}
+                onHide={this.onCloseClick}
+                keyboard={true}
                 show={this.props.show}
-                onHide={this.props.onCloseClick}
                 dialogClassName="custom-modal"
             >
                 <Modal.Header closeButton>
@@ -27,8 +46,8 @@ export class SaveModal extends React.PureComponent {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={this.props.onCloseClick} >Close</Button>
-                    <Button bsStyle="primary" onClick={this.props.onSaveClick}>Save changes</Button>
+                    <Button onClick={this.onCloseClick} disabled={this.state.disabled}>Close</Button>
+                    <Button bsStyle="primary" onClick={this.onSaveClick} disabled={this.state.disabled} >Save changes</Button>
                 </Modal.Footer>
             </Modal>
         )
@@ -56,34 +75,6 @@ export class CancelChangeModal extends React.PureComponent {
                 <Modal.Footer>
                     <Button onClick={this.props.yesClick} >Yes</Button>
                     <Button bsStyle="primary" onClick={this.props.noClick}>No</Button>
-                </Modal.Footer>
-            </Modal>
-        )
-    }
-}
-
-export class SuccessModal extends React.PureComponent {
-
-    render() {
-        return (
-            <Modal
-                show={this.props.show}
-                onHide={this.props.onCloseClick}
-                dialogClassName="custom-modal"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Save Was Successful!</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <SuccessPanel
-                        newAnimalData={this.props.newAnimalData}
-                        infoMessages={[{ key: 1, value: 'Click Okay to continue.' }]}
-                    />
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button onClick={this.props.okClick} >Okay</Button>
                 </Modal.Footer>
             </Modal>
         )

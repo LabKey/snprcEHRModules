@@ -25,6 +25,7 @@ const NewAnimalState = () => {
             pedigree: undefined,
             iacuc: undefined
         },
+        summaryData: [],
         speciesList: [],
         acquisitionTypeList: [],
         potentialDamList: [],
@@ -40,7 +41,7 @@ const NewAnimalState = () => {
         isLoading: true,
         hasError: false,
         preventNext: true,
-        saveOk: true,
+        saveOk: false,
         showSaveModal: false,
         showCancelModal: false,
         showSpeciesChangeModal: false,

@@ -79,7 +79,7 @@ exports[`Modal tests Should render the SaveModal 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
-  backdrop={true}
+  backdrop="static"
   bsClass="modal"
   dialogClassName="custom-modal"
   dialogComponentClass={[Function]}
@@ -97,6 +97,7 @@ exports[`Modal tests Should render the SaveModal 1`] = `
       "remove": [Function],
     }
   }
+  onExit={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
