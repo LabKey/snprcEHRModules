@@ -1,7 +1,7 @@
-import { request } from './api';
+import { request } from './api'
 
 const parse = rows => {
-    return rows.map(( { data }, key) => {
+    return rows.map(({ data }, key) => {
         return { id: key, value: data.Account.value, label: data.DisplayValue.value }
     })
 }
@@ -12,14 +12,14 @@ const fetchAccounts = () => {
             schemaName: 'snprc_ehr',
             queryName: 'AccountLookup',
             columns: ['Account', 'DisplayValue'],
-            sort: "Account"
+            sort: 'Account'
         }).then(({ rows }) => {
-                const parsedRows = parse(rows)
-                resolve(parsedRows);
-        }).catch((error) => {
-            console.log('error', error);
-            reject(error);
+            const parsedRows = parse(rows)
+            resolve(parsedRows)
+        }).catch(error => {
+            console.log('error', error)
+            reject(error)
         })
-    });
+    })
 }
-export default fetchAccounts;
+export default fetchAccounts

@@ -1,9 +1,10 @@
-import { request } from './api';
+import { request } from './api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
-        return { id: key, value: data.institution_id.value, 
-            label: (data.short_name.value + ' - ' + data.institution_name.value) }
+        return { id: key,
+            value: data.institution_id.value,
+            label: (`${data.short_name.value} - ${data.institution_name.value}`) }
     })
 }
 
@@ -13,14 +14,14 @@ const fetchInstitutions = () => {
             schemaName: 'snprc_ehr',
             queryName: 'validInstitutions',
             columns: ['institution_id', 'institution_name', 'short_name'],
-            sort: "institution_id"
+            sort: 'institution_id'
         }).then(({ rows }) => {
-                const parsedRows = parse(rows)
-                resolve(parsedRows);
-        }).catch((error) => {
-            console.log('error', error);
-            reject(error);
+            const parsedRows = parse(rows)
+            resolve(parsedRows)
+        }).catch(error => {
+            console.log('error', error)
+            reject(error)
         })
-    });
+    })
 }
-export default fetchInstitutions;
+export default fetchInstitutions

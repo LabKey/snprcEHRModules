@@ -1,9 +1,9 @@
-import { request } from './api';
-import { Filter } from '@labkey/api';
+import { Filter } from '@labkey/api'
+import { request } from './api'
 
 const parse = rows => {
-    return rows.map(( { data }, key) => {
-        return { id: key, value: data.DietCode.value, label: data.Diet.value, species: data.ARCSpeciesCode.value}
+    return rows.map(({ data }, key) => {
+        return { id: key, value: data.DietCode.value, label: data.Diet.value, species: data.ARCSpeciesCode.value }
     })
 }
 
@@ -14,17 +14,17 @@ const fetchDiets = () => {
             queryName: 'ValidDiet',
             columns: ['DietCode', 'Diet', 'ARCSpeciesCode'],
             filterArray: [
-                //Filter.create('ARCSpeciesCode', species, Filter.Types.EQUAL),
+                // Filter.create('ARCSpeciesCode', species, Filter.Types.EQUAL),
                 Filter.create('StopDate', null, Filter.Types.MISSING)
             ],
-            sort: "Diet"
+            sort: 'Diet'
         }).then(({ rows }) => {
-                const parsedRows = parse(rows)
-                resolve(parsedRows);
-        }).catch((error) => {
-            console.log('error', error);
-            reject(error);
+            const parsedRows = parse(rows)
+            resolve(parsedRows)
+        }).catch(error => {
+            console.log('error', error)
+            reject(error)
         })
-    });
+    })
 }
-export default fetchDiets;
+export default fetchDiets
