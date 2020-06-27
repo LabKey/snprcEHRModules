@@ -1,5 +1,5 @@
-import { request } from './api';
-import { Filter } from '@labkey/api';
+import { Filter } from '@labkey/api'
+import { request } from './api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -7,23 +7,23 @@ const parse = rows => {
     })
 }
 
-const fetchLocations = (species) => {
+const fetchLocations = species => {
     return new Promise((resolve, reject) => {
         request({
             schemaName: 'snprc_ehr',
             queryName: 'ActiveLocationsAll',
             columns: ['species', 'room', 'maxCages', 'rowId'],
-            sort: "-species, room",
+            sort: '-species, room',
             filterArray: [
-                //Filter.create('species', species, Filter.Types.EQUAL)
+                // Filter.create('species', species, Filter.Types.EQUAL)
                 Filter.create('species', `${species}; null`, Filter.Types.IN)
             ]
         }).then(({ rows }) => {
-            resolve(parse(rows));
-        }).catch((error) => {
-            reject(error);
-            console.log('error', error);
+            resolve(parse(rows))
+        }).catch(error => {
+            reject(error)
+            console.log('error', error)
         })
-    });
+    })
 }
-export default fetchLocations;
+export default fetchLocations

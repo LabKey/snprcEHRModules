@@ -1,21 +1,20 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import AcquisitionPanel from '../../components/AcquisitionPanel'
+import DietPanel from '../../components/DietPanel'
 import NewAnimalState from '../../constants/NewAnimalState'
 import lists from '../fixtures/lists'
 
-test('Should render the AcquisitionPanel', () => {
+test('Should render the DietPanel', () => {
     const { newAnimalData } = new NewAnimalState()
 
     const wrapper = shallow(
-      <AcquisitionPanel
-        acquisitionTypeList={ lists.acquisitionTypeList }
+      <DietPanel
+        dietList={ lists.dietList }
         disabled={ false }
-        handleDataChange={ () => { } }
+        handleDataChange={ () => { return false } }
         newAnimalData={ newAnimalData }
         preventNext={ () => { return false } }
       />
-
     )
     expect(wrapper).toMatchSnapshot()
 })

@@ -1,52 +1,53 @@
-import React from 'react';
-import DatePicker from 'react-datepicker';
+/* eslint max-classes-per-file: ["error", 2] */
 
-export default class WrappedDatePicker extends React.Component {
+import React from 'react'
+import DatePicker from 'react-datepicker'
+
+export default class WrappedDatePicker extends React.PureComponent {
     render() {
-      return (
-            <>
-                { this.props.label && <label className="field-label" >{this.props.label}</label> }
-                <DatePicker
-                    id="date-picker"
-                    todayButton={this.props.todayButton}
-                    showTimeSelect={this.props.showTimeSelect}
-                    timeFormat={this.props.timeFormat}
-                    timeIntervals={this.props.timeIntervals}
-                    dateFormat={this.props.dateFormat}
-                    maxDate={this.props.maxDate}
-                    customInput={<DatePickerInput/>}
-                    selected={this.props.selected}
-                    onSelect={this.props.onSelect}
-                    onChange={this.props.onChange}
-                    onChangeRaw={this.props.onChangeRaw}
-                    disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
-                    readOnly={this.props.readOnly}
-                    disabled={this.props.disabled}
-                    popperPlacement="bottom"
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                />
-                {/* <div className="wrapped-datepicker-space-after"/> */}
-            </>
-      )
+        return (
+          <>
+            { this.props.label && <label className="field-label">{this.props.label}</label> }
+            <DatePicker
+              customInput={ <DatePickerInput /> }
+              dateFormat={ this.props.dateFormat }
+              disabled={ this.props.disabled }
+              disabledKeyboardNavigation={ this.props.disabledKeyboardNavigation }
+              dropdownMode="select"
+              id="date-picker"
+              maxDate={ this.props.maxDate }
+              onChange={ this.props.onChange }
+              onChangeRaw={ this.props.onChangeRaw }
+              onSelect={ this.props.onSelect }
+              popperPlacement="bottom"
+              readOnly={ this.props.readOnly }
+              selected={ this.props.selected }
+              showMonthDropdown
+              showTimeSelect={ this.props.showTimeSelect }
+              showYearDropdown
+              timeFormat={ this.props.timeFormat }
+              timeIntervals={ this.props.timeIntervals }
+              todayButton={ this.props.todayButton }
+            />
+          </>
+        )
     }
 }
 
-class DatePickerInput extends React.Component {
+class DatePickerInput extends React.PureComponent {
     render() {
-      return (
-        <div className="datepicker-input-wrapper" >
-          <input 
-              onClick={this.props.onClick} 
-              onChange={this.props.onChange}
-              className="datepicker-input" 
-              value={this.props.value} 
-              type="text" 
-              disabled={this.props.disabled}
+        return (
+          <div className="datepicker-input-wrapper">
+            <input
+              className="datepicker-input"
+              disabled={ this.props.disabled }
+              onChange={ this.props.onChange }
+              onClick={ this.props.onClick }
+              type="text"
+              value={ this.props.value }
             />
-          <i onClick={this.props.onClick} aria-hidden="true" className="fa fa-calendar"></i>
-        </div>
-      )
+            <i aria-hidden="true" className="fa fa-calendar" onClick={ this.props.onClick } />
+          </div>
+        )
     }
-  }
+}

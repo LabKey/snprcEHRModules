@@ -1,8 +1,7 @@
-import moment from 'moment';
+import moment from 'moment'
 
 const NewAnimalState = () => {
-
-    return  ({
+    return ({
         currentPanel: 1,
         selectedOption: undefined,
         newAnimalData: {
@@ -47,7 +46,7 @@ const NewAnimalState = () => {
         showCancelModal: false,
         showSpeciesChangeModal: false,
         errorMessage: undefined
-    });
+    })
 }
 
-export default NewAnimalState;
+export default NewAnimalState

@@ -1,5 +1,5 @@
-import { request } from './api';
-import { Filter } from '@labkey/api';
+import { Filter } from '@labkey/api'
+import { request } from './api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -7,7 +7,7 @@ const parse = rows => {
     })
 }
 
-const fetchProtocols = (species) => {
+const fetchProtocols = species => {
     return new Promise((resolve, reject) => {
         request({
             schemaName: 'ehr',
@@ -17,14 +17,14 @@ const fetchProtocols = (species) => {
                 Filter.create('Species', species, Filter.Types.EQUAL),
                 Filter.create('EndDate', null, Filter.Types.MISSING)
             ],
-            sort: "Iacuc"
+            sort: 'Iacuc'
         }).then(({ rows }) => {
-                const parsedRows = parse(rows)
-                resolve(parsedRows);
-        }).catch((error) => {
-            console.log('error', error);
-            reject(error);
+            const parsedRows = parse(rows)
+            resolve(parsedRows)
+        }).catch(error => {
+            console.log('error', error)
+            reject(error)
         })
-    });
+    })
 }
-export default fetchProtocols;
+export default fetchProtocols

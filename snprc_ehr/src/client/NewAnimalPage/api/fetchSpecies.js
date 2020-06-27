@@ -1,4 +1,4 @@
-import { request } from './api';
+import { request } from './api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -13,11 +13,11 @@ const fetchSpecies = () => {
             queryName: 'CurrentSpeciesLookup',
             columns: ['SpeciesCode', 'DisplayColumn', 'arcSpeciesCode']
         }).then(({ rows }) => {
-            resolve(parse(rows));
-        }).catch((error) => {
-            reject(error);
-            console.log('error', error);
+            resolve(parse(rows))
+        }).catch(error => {
+            reject(error)
+            console.log('error', error)
         })
-    });
+    })
 }
-export default fetchSpecies;
+export default fetchSpecies

@@ -1,0 +1,112 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["plugin:react/recommended", "airbnb"],
+  "plugins": [
+    "babel",
+    "react",
+    "html"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },  
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".jsx", ".tsx", ".json"]
+      },
+      "typescript": {}
+    },
+    "import/extensions": [".js", ".ts", ".jsx", ".tsx", ".json"]
+  },
+  "env": {
+    "browser": true,
+    "jest": true,
+    "mocha": true,
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "__DEV__": true,
+    "React$Element": true
+  },
+  "rules": {
+    "arrow-body-style": 0,
+    "arrow-parens": [
+      "warn",
+      "as-needed"
+    ],
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "import/no-named-as-default": 0,
+    "jsx-boolean-value": 0,
+    "no-floating-decimal": 0,
+    "radix": [
+      "error",
+      "as-needed"
+    ],
+    "react/jsx-filename-extension": 0,
+    "react/sort-comp": 0,
+    "global-require": 0,
+    "comma-dangle": [
+      "error",
+      "only-multiline"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "react/require-default-props": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true
+      }
+    ],
+    "react/prop-types": 0,
+    "no-debugger": [
+      "warn"
+    ],
+      "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": 0,
+    "max-len": 0,
+    "indent": "off",
+    "no-console": 0,
+    "no-plusplus": "off",
+    // JSX
+    "react/jsx-boolean-value": "error",
+    "react/jsx-closing-bracket-location": "error",
+    "react/jsx-curly-spacing": [ "error", "always" ],
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-first-prop-new-line": "error",
+    "react/jsx-handler-names": "off",
+    "react/jsx-indent-props": [ "error", 2 ],
+    "react/jsx-indent": [ "error", 2 ],
+    "react/jsx-key": "error",
+    "react/jsx-max-props-per-line": [ "error", { "maximum": 3 }],
+    "react/jsx-no-bind": "error",
+    "react/jsx-no-literals": "off",
+    "react/jsx-no-target-blank": "error",
+    "react/jsx-pascal-case": "error",
+    "react/jsx-sort-props": "error",
+    "react/state-in-constructor": "off",    
+    "react/destructuring-assignment": "off",
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/client/**/*.test.js"
+      ],
+      "rules": {
+        "no-console": 0
+      }
+    }
+  ]
+}

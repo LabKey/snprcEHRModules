@@ -1,73 +1,72 @@
-import React from 'react';
-import Select from 'react-select';
+import React from 'react'
+import Select from 'react-select'
+import moment from 'moment'
 import WrappedDatePicker from './WrappedDatePicker'
-import InfoPanel from './InfoPanel';
-import moment from 'moment';
+import InfoPanel from './InfoPanel'
 
 export default class AcquisitionPanel extends React.Component {
-
     componentDidMount = () => {
-        this.props.preventNext(); //prevent/Allow Next button
+        this.props.preventNext() // prevent/Allow Next button
     }
 
     handleAcquisitionChange = option => {
-        this.props.handleDataChange('acquisitionType', option);
+        this.props.handleDataChange('acquisitionType', option)
     }
+
     handleAcquisitionDateChange = date => {
-        this.props.handleDataChange('acqDate', { date: moment(date) });
+        this.props.handleDataChange('acqDate', { date: moment(date) })
     }
 
     render() {
-        let { acquisitionType, acqDate } = this.props.newAnimalData;
+        const { acquisitionType, acqDate } = this.props.newAnimalData
 
         return (
-            <>
-                <div className="wizard-panel__rows" >
-                    <div className="wizard-panel__row" >
-                        <div className="wizard-panel__col">
-                            <WrappedDatePicker
-                                label="Acquisition Date"
-                                todayButton="Today"
-                                showTimeSelect
-                                timeFormat="p"
-                                timeIntervals={30}
-                                dateFormat="Pp"
-                                maxDate={moment().toDate()}
-                                selected={acqDate.date.toDate()}
-                                onSelect={this.handleAcquisitionDateChange}
-                                onChange={this.handleAcquisitionDateChange}
-                                disabled={this.props.disabled}
-                                id="acquisition-datepicker"
-                            />
-                        </div>
-                    </div>
-                    <div className='wizard-panel__row' >
-                        <div className="wizard-panel__col">
-                            <label className="field-label" >Acquisition Code</label>
-                            <Select
-                                value={acquisitionType ? acquisitionType : null}
-                                className="shared-dropdown"
-                                classNamePrefix="shared-select"
-                                isLoading={this.props.acquisitionTypeList.length === 0}
-                                options={this.props.acquisitionTypeList}
-                                onChange={this.handleAcquisitionChange}
-                                placeholder="Select Acquisition Type"
-                                isDisabled={this.props.disabled}
-                                isClearable={true}
-                                id="acquisition-select"
-                                autoFocus
-                            />
-                        </div>
-                    </div>
-
+          <>
+            <div className="wizard-panel__rows">
+              <div className="wizard-panel__row">
+                <div className="wizard-panel__col">
+                  <WrappedDatePicker
+                    dateFormat="Pp"
+                    disabled={ this.props.disabled }
+                    id="acquisition-datepicker"
+                    label="Acquisition Date"
+                    maxDate={ moment().toDate() }
+                    onChange={ this.handleAcquisitionDateChange }
+                    onSelect={ this.handleAcquisitionDateChange }
+                    selected={ acqDate.date.toDate() }
+                    showTimeSelect
+                    timeFormat="p"
+                    timeIntervals={ 30 }
+                    todayButton="Today"
+                  />
                 </div>
-                <InfoPanel 
-                    messages={ 
-                        [ {propTest: !acquisitionType, colName: "Acquisition Code"} ]
+              </div>
+              <div className="wizard-panel__row">
+                <div className="wizard-panel__col">
+                  <label className="field-label">Acquisition Code</label>
+                  <Select
+                    autoFocus
+                    className="shared-dropdown"
+                    classNamePrefix="shared-select"
+                    id="acquisition-select"
+                    isClearable
+                    isDisabled={ this.props.disabled }
+                    isLoading={ this.props.acquisitionTypeList.length === 0 }
+                    onChange={ this.handleAcquisitionChange }
+                    options={ this.props.acquisitionTypeList }
+                    placeholder="Select Acquisition Type"
+                    value={ acquisitionType || null }
+                  />
+                </div>
+              </div>
+
+            </div>
+            <InfoPanel
+              messages={
+                        [{ propTest: !acquisitionType, colName: 'Acquisition Code' }]
                     }
-                        
-                    />
-            </>
+            />
+          </>
         )
     }
 }
