@@ -7,5 +7,12 @@
                 <permission>ADMIN</permission>
             </editPermissions>
         </propertyDescriptor>
+        <propertyDescriptor name="SSRSReportFolder">
+            <canSetPerContainer>true</canSetPerContainer>
+            <description>This is the subfolder within SSRS that holds the SSRS reports</description>
+            <editPermissions>
+                <permission>ADMIN</permission>
+            </editPermissions>
+        </propertyDescriptor>
     </properties>
 </module>

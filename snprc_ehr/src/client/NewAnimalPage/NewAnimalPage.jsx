@@ -30,7 +30,8 @@ import SummaryGridPanel from './components/SummaryGridPanel'
 import CancelChangeModal from './components/CancelChangeModal'
 import SaveModal from './components/SaveModal'
 import { isBirthdateValid } from './services/validation'
-import { uploadAnimalData } from './api/UpdateAnimalData'
+import { uploadAnimalData } from './api/updateAnimalData'
+import { getReportPath } from './services/printToPDF'
 
 export default class NewAnimalPage extends React.Component {
     state = new NewAnimalState();
@@ -403,8 +404,13 @@ export default class NewAnimalPage extends React.Component {
     }
 
     print = id => {
-        const newAnimalData = this.state.summaryData.find(o => o.id === id)
-        alert(`Animal: ${id} was born on ${moment(newAnimalData.birthDate.date).format('MM/DD/YYYY h:mm A')}.`)
+        // const newAnimalData = this.state.summaryData.find(o => o.id === id)
+        // alert(`Animal: ${id} was born on ${moment(newAnimalData.birthDate.date).format('MM/DD/YYYY h:mm A')}.`)
+        const reportPath = getReportPath('BirthCertificate')
+        const fullPath = `${reportPath}&rc:Parameters=Collapsed&Target=${id}` // &rs:Format=PDF // uncomment to print to PDF
+        // console.log(`fullPath = ${fullPath}`)
+
+        window.open(fullPath)
     }
 
     render() {

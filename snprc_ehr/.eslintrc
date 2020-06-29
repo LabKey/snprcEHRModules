@@ -29,7 +29,8 @@
   },
   "globals": {
     "__DEV__": true,
-    "React$Element": true
+    "React$Element": true,
+    "LABKEY": "readonly"
   },
   "rules": {
     "arrow-body-style": 0,
