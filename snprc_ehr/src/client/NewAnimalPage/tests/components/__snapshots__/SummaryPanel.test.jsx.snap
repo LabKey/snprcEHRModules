@@ -374,6 +374,7 @@ exports[`Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
+              message="TxBiomed - Texas Biomedical Research Institute"
               title="Owner"
             />
           }
@@ -387,6 +388,7 @@ exports[`Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-text-input"
+            defaultValue="TxBiomed - Texas Biomedical Research Institute"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -405,6 +407,7 @@ exports[`Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
+              message="TxBiomed - Texas Biomedical Research Institute"
               title="Responsible Institution"
             />
           }
@@ -418,6 +421,7 @@ exports[`Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-text-input"
+            defaultValue="TxBiomed - Texas Biomedical Research Institute"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"

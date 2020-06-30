@@ -221,6 +221,13 @@ exports[`Should render the AccountPanel 1`] = `
             ]
           }
           placeholder="Select Owner"
+          value={
+            Object {
+              "id": 0,
+              "label": "TxBiomed - Texas Biomedical Research Institute",
+              "value": 1,
+            }
+          }
         />
       </div>
     </div>
@@ -262,6 +269,13 @@ exports[`Should render the AccountPanel 1`] = `
             ]
           }
           placeholder="Select Responsible Institution"
+          value={
+            Object {
+              "id": 0,
+              "label": "TxBiomed - Texas Biomedical Research Institute",
+              "value": 1,
+            }
+          }
         />
       </div>
     </div>
@@ -287,11 +301,11 @@ exports[`Should render the AccountPanel 1`] = `
         },
         Object {
           "colName": "Owner",
-          "propTest": true,
+          "propTest": false,
         },
         Object {
           "colName": "Responsible Institution",
-          "propTest": true,
+          "propTest": false,
         },
       ]
     }

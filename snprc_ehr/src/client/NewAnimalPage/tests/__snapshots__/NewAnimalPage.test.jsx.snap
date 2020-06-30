@@ -44,9 +44,17 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
-              "ownerInstitution": undefined,
+              "ownerInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "pedigree": undefined,
-              "responsibleInstitution": undefined,
+              "responsibleInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
@@ -116,9 +124,17 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
-                "ownerInstitution": undefined,
+                "ownerInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "pedigree": undefined,
-                "responsibleInstitution": undefined,
+                "responsibleInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
@@ -169,7 +185,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           className="panel-heading"
         >
           <p>
-            New Animals
+            New Animals (Saved)
           </p>
         </div>
         <div
@@ -205,9 +221,17 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
-          "ownerInstitution": undefined,
+          "ownerInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "pedigree": undefined,
-          "responsibleInstitution": undefined,
+          "responsibleInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
@@ -219,7 +243,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
       show={false}
     />
     <CancelChangeModal
-      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
       noClick={[Function]}
       show={false}
       title="Cancel changes?"
@@ -300,9 +324,17 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               },
               "iacuc": undefined,
               "id": undefined,
-              "ownerInstitution": undefined,
+              "ownerInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "pedigree": undefined,
-              "responsibleInstitution": undefined,
+              "responsibleInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "room": undefined,
               "selectedOption": undefined,
               "sire": Object {
@@ -414,9 +446,17 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 },
                 "iacuc": undefined,
                 "id": undefined,
-                "ownerInstitution": undefined,
+                "ownerInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "pedigree": undefined,
-                "responsibleInstitution": undefined,
+                "responsibleInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": Object {
@@ -528,7 +568,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           className="panel-heading"
         >
           <p>
-            New Animals
+            New Animals (Saved)
           </p>
         </div>
         <div
@@ -577,9 +617,17 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           },
           "iacuc": undefined,
           "id": undefined,
-          "ownerInstitution": undefined,
+          "ownerInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "pedigree": undefined,
-          "responsibleInstitution": undefined,
+          "responsibleInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "room": undefined,
           "selectedOption": undefined,
           "sire": Object {
@@ -602,7 +650,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
       show={false}
     />
     <CancelChangeModal
-      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
       noClick={[Function]}
       show={false}
       title="Cancel changes?"
@@ -663,9 +711,17 @@ exports[`Should render Account page 1`] = `
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
-              "ownerInstitution": undefined,
+              "ownerInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "pedigree": undefined,
-              "responsibleInstitution": undefined,
+              "responsibleInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
@@ -827,9 +883,17 @@ exports[`Should render Account page 1`] = `
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
-                "ownerInstitution": undefined,
+                "ownerInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "pedigree": undefined,
-                "responsibleInstitution": undefined,
+                "responsibleInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
@@ -910,7 +974,7 @@ exports[`Should render Account page 1`] = `
           className="panel-heading"
         >
           <p>
-            New Animals
+            New Animals (Saved)
           </p>
         </div>
         <div
@@ -946,9 +1010,17 @@ exports[`Should render Account page 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
-          "ownerInstitution": undefined,
+          "ownerInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "pedigree": undefined,
-          "responsibleInstitution": undefined,
+          "responsibleInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
@@ -965,7 +1037,7 @@ exports[`Should render Account page 1`] = `
       show={false}
     />
     <CancelChangeModal
-      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
       noClick={[Function]}
       show={false}
       title="Cancel changes?"
@@ -1026,9 +1098,17 @@ exports[`Should render Diet page 1`] = `
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
-              "ownerInstitution": undefined,
+              "ownerInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "pedigree": undefined,
-              "responsibleInstitution": undefined,
+              "responsibleInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
@@ -1124,9 +1204,17 @@ exports[`Should render Diet page 1`] = `
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
-                "ownerInstitution": undefined,
+                "ownerInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "pedigree": undefined,
-                "responsibleInstitution": undefined,
+                "responsibleInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
@@ -1182,7 +1270,7 @@ exports[`Should render Diet page 1`] = `
           className="panel-heading"
         >
           <p>
-            New Animals
+            New Animals (Saved)
           </p>
         </div>
         <div
@@ -1218,9 +1306,17 @@ exports[`Should render Diet page 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
-          "ownerInstitution": undefined,
+          "ownerInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "pedigree": undefined,
-          "responsibleInstitution": undefined,
+          "responsibleInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
@@ -1237,7 +1333,7 @@ exports[`Should render Diet page 1`] = `
       show={false}
     />
     <CancelChangeModal
-      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
       noClick={[Function]}
       show={false}
       title="Cancel changes?"
@@ -1298,9 +1394,17 @@ exports[`Should render Location page 1`] = `
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
-              "ownerInstitution": undefined,
+              "ownerInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "pedigree": undefined,
-              "responsibleInstitution": undefined,
+              "responsibleInstitution": Object {
+                "id": 0,
+                "label": "TxBiomed - Texas Biomedical Research Institute",
+                "value": 1,
+              },
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
@@ -1403,9 +1507,17 @@ exports[`Should render Location page 1`] = `
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
-                "ownerInstitution": undefined,
+                "ownerInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "pedigree": undefined,
-                "responsibleInstitution": undefined,
+                "responsibleInstitution": Object {
+                  "id": 0,
+                  "label": "TxBiomed - Texas Biomedical Research Institute",
+                  "value": 1,
+                },
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
@@ -1461,7 +1573,7 @@ exports[`Should render Location page 1`] = `
           className="panel-heading"
         >
           <p>
-            New Animals
+            New Animals (Saved)
           </p>
         </div>
         <div
@@ -1497,9 +1609,17 @@ exports[`Should render Location page 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
-          "ownerInstitution": undefined,
+          "ownerInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "pedigree": undefined,
-          "responsibleInstitution": undefined,
+          "responsibleInstitution": Object {
+            "id": 0,
+            "label": "TxBiomed - Texas Biomedical Research Institute",
+            "value": 1,
+          },
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
@@ -1516,7 +1636,7 @@ exports[`Should render Location page 1`] = `
       show={false}
     />
     <CancelChangeModal
-      message="If you cancel now, you will lose all your changes. Are you sure you want to cancel?"
+      message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
       noClick={[Function]}
       show={false}
       title="Cancel changes?"
