@@ -1,9 +1,13 @@
 import moment from 'moment'
+import defaults from './index'
 
 const NewAnimalState = () => {
+    const { defaultInstitution } = defaults
+
     return ({
         currentPanel: 1,
         selectedOption: undefined,
+        isDirty: false,
         newAnimalData: {
             selectedOption: undefined,
             id: undefined,
@@ -17,8 +21,8 @@ const NewAnimalState = () => {
             species: undefined,
             colony: undefined,
             animalAccount: undefined,
-            ownerInstitution: undefined,
-            responsibleInstitution: undefined,
+            ownerInstitution: defaultInstitution,
+            responsibleInstitution: defaultInstitution,
             room: undefined,
             cage: { value: undefined },
             diet: undefined,
@@ -41,7 +45,6 @@ const NewAnimalState = () => {
         isLoading: true,
         hasError: false,
         preventNext: true,
-        saveOk: false,
         showSaveModal: false,
         showCancelModal: false,
         showSpeciesChangeModal: false,
