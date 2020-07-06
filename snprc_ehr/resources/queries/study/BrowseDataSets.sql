@@ -60,3 +60,5 @@ UNION
 select 'study' as schema, 'Misc' as CategoryId,'Animals with Genetic data' as Label, 'GenDemohasData' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'study' as schema, 'Behavior' as CategoryId,'Abnormal Behavior' as Label, 'BehaviorAbnormalAll' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'Clinical' as CategoryId,'Body Condition Scores' as Label, 'BodyConditionScores' as Name,  true as ShowByDefault, true as isAnimal

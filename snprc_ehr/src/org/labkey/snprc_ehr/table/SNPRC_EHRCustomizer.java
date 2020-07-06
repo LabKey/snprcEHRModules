@@ -460,6 +460,13 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setDescription("Queries the most recent TB date for the animal.");
             ds.addColumn(col);
         }
+        if (ds.getColumn("LastBCS") == null)
+        {
+            var col = getWrappedCol(us, ds, "LastBCS", "demographicsLastBCS", "Id", "Id");
+            col.setLabel("Most Recent BCS");
+            col.setDescription("Queries the most recent BCS value for the animal.");
+            ds.addColumn(col);
+        }
 
         // Change label and description 8/31/2017 tjh
         if (ds.getColumn("MostRecentArrival") != null)
@@ -480,6 +487,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
             ds.addColumn(col);
         }
+
         // Because of performance, changed to study based dataset ETLed from genetics folder 10/14/19 srr
         if (genetics != null)
         {
