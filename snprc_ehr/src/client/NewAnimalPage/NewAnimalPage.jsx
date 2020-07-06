@@ -409,8 +409,8 @@ export default class NewAnimalPage extends React.Component {
 
     print = id => {
         // const newAnimalData = this.state.summaryData.find(o => o.id === id)
-        const reportPath = getReportPath('BirthCertificate')
-        const fullPath = `${reportPath}&rc:Parameters=Collapsed&Target=${id}` // &rs:Format=PDF // uncomment to print to PDF
+        const reportPath = getReportPath('BirthRecord')
+        const fullPath = `${reportPath}&rc:Parameters=Collapsed&TargetID=${id}` // &rs:Format=PDF // uncomment to print to PDF
 
         window.open(fullPath)
     }
@@ -423,216 +423,216 @@ export default class NewAnimalPage extends React.Component {
 
         if (isLoading) {
             return (
-              <LoadingSpinner msg="Loading lookup tables..." />
+                <LoadingSpinner msg="Loading lookup tables..." />
             )
         }
 
         return (
-          <div>
-            <div className="split-panel">
-              <div className="parent-panel">
-                <div className="panel-heading" disabled={ this.state.currentPanel !== 1 }>
-                  <p>Species and Acquisition Type</p>
-                </div>
-                <div className="species-panel" disabled={ this.state.currentPanel !== 1 }>
-                  <SpeciesPanel
-                    disabled={ this.state.currentPanel !== 1 }
-                    handleAcquisitionOptionChange={ this.handleAcquisitionOptionChange }
-                    handleSpeciesChange={ this.handleSpeciesChange }
-                    newAnimalData={ this.state.newAnimalData }
-                    selectedOption={ this.state.selectedOption }
-                    speciesList={ this.state.speciesList }
-                  />
-                </div>
+            <div>
+                <div className="split-panel">
+                    <div className="parent-panel">
+                        <div className="panel-heading" disabled={this.state.currentPanel !== 1}>
+                            <p>Species and Acquisition Type</p>
+                        </div>
+                        <div className="species-panel" disabled={this.state.currentPanel !== 1}>
+                            <SpeciesPanel
+                                disabled={this.state.currentPanel !== 1}
+                                handleAcquisitionOptionChange={this.handleAcquisitionOptionChange}
+                                handleSpeciesChange={this.handleSpeciesChange}
+                                newAnimalData={this.state.newAnimalData}
+                                selectedOption={this.state.selectedOption}
+                                speciesList={this.state.speciesList}
+                            />
+                        </div>
 
-                {this.state.currentPanel === 1
+                        {this.state.currentPanel === 1
                             && (
-                            <div className="fade-in">
-                              <div className="panel-heading" disabled={ this.disableFirstPanel() }>
-                                <p>Acquisition</p>
-                              </div>
-                              <div className="wizard-panel" disabled={ this.disableFirstPanel() }>
-                                <AcquisitionPanel
-                                  acquisitionTypeList={ this.state.acquisitionTypeList }
-                                  disabled={ this.disableFirstPanel() }
-                                  handleDataChange={ this.handleDataChange }
-                                  newAnimalData={ this.state.newAnimalData }
-                                  preventNext={ this.preventNext }
-                                />
-                              </div>
-                            </div>
+                                <div className="fade-in">
+                                    <div className="panel-heading" disabled={this.disableFirstPanel()}>
+                                        <p>Acquisition</p>
+                                    </div>
+                                    <div className="wizard-panel" disabled={this.disableFirstPanel()}>
+                                        <AcquisitionPanel
+                                            acquisitionTypeList={this.state.acquisitionTypeList}
+                                            disabled={this.disableFirstPanel()}
+                                            handleDataChange={this.handleDataChange}
+                                            newAnimalData={this.state.newAnimalData}
+                                            preventNext={this.preventNext}
+                                        />
+                                    </div>
+                                </div>
                             )}
 
-                {this.state.currentPanel === 2
+                        {this.state.currentPanel === 2
                             && (
-                            <div className="fade-in">
-                              <div className="panel-heading" disabled={ this.disablePanels() }>
-                                <p>Demographics</p>
-                              </div>
-                              <div className="wizard-panel" disabled={ this.disablePanels() }>
-                                <DemographicsPanel
-                                  bdStatusList={ this.state.bdStatusList }
-                                  disabled={ this.disablePanels() }
-                                  handleDataChange={ this.handleDataChange }
-                                  newAnimalData={ this.state.newAnimalData }
-                                  potentialDamList={ this.state.potentialDamList }
-                                  potentialSireList={ this.state.potentialSireList }
-                                  preventNext={ this.preventNext }
-                                />
-                              </div>
+                                <div className="fade-in">
+                                    <div className="panel-heading" disabled={this.disablePanels()}>
+                                        <p>Demographics</p>
+                                    </div>
+                                    <div className="wizard-panel" disabled={this.disablePanels()}>
+                                        <DemographicsPanel
+                                            bdStatusList={this.state.bdStatusList}
+                                            disabled={this.disablePanels()}
+                                            handleDataChange={this.handleDataChange}
+                                            newAnimalData={this.state.newAnimalData}
+                                            potentialDamList={this.state.potentialDamList}
+                                            potentialSireList={this.state.potentialSireList}
+                                            preventNext={this.preventNext}
+                                        />
+                                    </div>
 
-                            </div>
+                                </div>
                             )}
 
-                {this.state.currentPanel === 3
+                        {this.state.currentPanel === 3
                             && (
-                            <div className="fade-in">
-                              <div className="panel-heading" disabled={ this.disablePanels() }>
-                                <p>Location</p>
-                              </div>
-                              <div className="wizard-panel" disabled={ this.disablePanels() }>
-                                <LocationPanel
-                                  disabled={ this.disablePanels() }
-                                  handleDataChange={ this.handleDataChange }
-                                  handleError={ this.handleError }
-                                  locationList={ this.state.locationList }
-                                  newAnimalData={ this.state.newAnimalData }
-                                  preventNext={ this.preventNext }
-                                />
-                              </div>
-                            </div>
+                                <div className="fade-in">
+                                    <div className="panel-heading" disabled={this.disablePanels()}>
+                                        <p>Location</p>
+                                    </div>
+                                    <div className="wizard-panel" disabled={this.disablePanels()}>
+                                        <LocationPanel
+                                            disabled={this.disablePanels()}
+                                            handleDataChange={this.handleDataChange}
+                                            handleError={this.handleError}
+                                            locationList={this.state.locationList}
+                                            newAnimalData={this.state.newAnimalData}
+                                            preventNext={this.preventNext}
+                                        />
+                                    </div>
+                                </div>
                             )}
 
-                {this.state.currentPanel === 4
+                        {this.state.currentPanel === 4
                             && (
-                            <div className="fade-in">
-                              <div className="panel-heading" disabled={ this.disablePanels() }>
-                                <p>Account, Colony, and Ownership</p>
-                              </div>
-                              <div className="wizard-panel" disabled={ this.disablePanels() }>
-                                <AccountPanel
-                                  accountList={ this.state.accountList }
-                                  colonyList={ this.state.colonyList }
-                                  disabled={ this.disablePanels() }
-                                  handleDataChange={ this.handleDataChange }
-                                  iacucList={ this.state.iacucList }
-                                  institutionList={ this.state.institutionList }
-                                  newAnimalData={ this.state.newAnimalData }
-                                  pedigreeList={ this.state.pedigreeList }
-                                  preventNext={ this.preventNext }
-                                />
-                              </div>
-                            </div>
+                                <div className="fade-in">
+                                    <div className="panel-heading" disabled={this.disablePanels()}>
+                                        <p>Account, Colony, and Ownership</p>
+                                    </div>
+                                    <div className="wizard-panel" disabled={this.disablePanels()}>
+                                        <AccountPanel
+                                            accountList={this.state.accountList}
+                                            colonyList={this.state.colonyList}
+                                            disabled={this.disablePanels()}
+                                            handleDataChange={this.handleDataChange}
+                                            iacucList={this.state.iacucList}
+                                            institutionList={this.state.institutionList}
+                                            newAnimalData={this.state.newAnimalData}
+                                            pedigreeList={this.state.pedigreeList}
+                                            preventNext={this.preventNext}
+                                        />
+                                    </div>
+                                </div>
                             )}
 
-                {this.state.currentPanel === 5
+                        {this.state.currentPanel === 5
                             && (
-                            <div className="fade-in">
-                              <div className="panel-heading" disabled={ this.disablePanels() }>
-                                <p>Diet</p>
-                              </div>
-                              <div className="wizard-panel" disabled={ this.disablePanels() }>
-                                <DietPanel
-                                  dietList={ this.state.dietList }
-                                  disabled={ this.disablePanels() }
-                                  handleDataChange={ this.handleDataChange }
-                                  newAnimalData={ this.state.newAnimalData }
-                                  preventNext={ this.preventNext }
-                                />
-                              </div>
-                            </div>
+                                <div className="fade-in">
+                                    <div className="panel-heading" disabled={this.disablePanels()}>
+                                        <p>Diet</p>
+                                    </div>
+                                    <div className="wizard-panel" disabled={this.disablePanels()}>
+                                        <DietPanel
+                                            dietList={this.state.dietList}
+                                            disabled={this.disablePanels()}
+                                            handleDataChange={this.handleDataChange}
+                                            newAnimalData={this.state.newAnimalData}
+                                            preventNext={this.preventNext}
+                                        />
+                                    </div>
+                                </div>
                             )}
 
-                {this.state.errorMessage && (
-                <InfoPanel
-                  errorMessages={ this.state.errorMessage && [{
+                        {this.state.errorMessage && (
+                            <InfoPanel
+                                errorMessages={this.state.errorMessage && [{
                                     propTest: true,
                                     colName: this.state.errorMessage
-                                }] }
-                />
+                                }]}
+                            />
                         )}
 
-                <div>
-                  <Pager className="pager-container">
-                    <Pager.Item
-                      disabled={ (this.state.currentPanel <= 1) || this.state.hasError }
-                      onClick={ this.handlePrevious }
-                      previous
-                    >
-                      &larr; Previous Page
+                        <div>
+                            <Pager className="pager-container">
+                                <Pager.Item
+                                    disabled={(this.state.currentPanel <= 1) || this.state.hasError}
+                                    onClick={this.handlePrevious}
+                                    previous
+                                >
+                                    &larr; Previous Page
                     </Pager.Item>
-                    {this.state.currentPanel !== this.numPanels
+                                {this.state.currentPanel !== this.numPanels
                                     && (
-                                    <Pager.Item
-                                      disabled={ (this.state.currentPanel >= this.numPanels) || this.state.hasError || this.state.preventNext }
-                                      next
-                                      onClick={ this.handleNext }
-                                    >
-                                      Next Page &rarr;
-                                    </Pager.Item>
+                                        <Pager.Item
+                                            disabled={(this.state.currentPanel >= this.numPanels) || this.state.hasError || this.state.preventNext}
+                                            next
+                                            onClick={this.handleNext}
+                                        >
+                                            Next Page &rarr;
+                                        </Pager.Item>
                                     )}
-                    <Pager.Item
-                      disabled={ false }
-                      next={ false }
-                      onClick={ this.handleCancel }
-                    >
-                      Cancel
+                                <Pager.Item
+                                    disabled={false}
+                                    next={false}
+                                    onClick={this.handleCancel}
+                                >
+                                    Cancel
                     </Pager.Item>
-                    {this.state.currentPanel === this.numPanels
+                                {this.state.currentPanel === this.numPanels
                                     && (
-                                    <Pager.Item
-                                      disabled={ (this.state.currentPanel !== this.numPanels) || this.state.hasError || this.state.preventNext }
-                                      next
-                                      onClick={ this.handleSave }
-                                    >
-                                      Save
-                                    </Pager.Item>
+                                        <Pager.Item
+                                            disabled={(this.state.currentPanel !== this.numPanels) || this.state.hasError || this.state.preventNext}
+                                            next
+                                            onClick={this.handleSave}
+                                        >
+                                            Save
+                                        </Pager.Item>
                                     )}
-                  </Pager>
-                </div>
-              </div>
+                            </Pager>
+                        </div>
+                    </div>
 
-              <div className="right-panel">
+                    <div className="right-panel">
+                        <div>
+                            <div className="panel-heading">
+                                <p>New Animals (Saved)</p>
+                            </div>
+                            <div className="wizard-right">
+                                <SummaryGridPanel
+                                    print={this.print}
+                                    summaryData={this.state.summaryData}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
-                  <div className="panel-heading">
-                    <p>New Animals (Saved)</p>
-                  </div>
-                  <div className="wizard-right">
-                    <SummaryGridPanel
-                      print={ this.print }
-                      summaryData={ this.state.summaryData }
+                    {/* Save Modal */}
+                    <SaveModal
+                        newAnimalData={this.state.newAnimalData}
+                        onCloseClick={this.onCloseClick}
+                        onSaveClick={this.onSaveClick}
+                        show={this.state.showSaveModal}
                     />
-                  </div>
+                    {/* Cancel Modal */}
+                    <CancelChangeModal
+                        message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
+                        noClick={this.onCloseClick}
+                        show={this.state.showCancelModal}
+                        title="Cancel changes?"
+                        yesClick={this.onCancelClick}
+                    />
+                    {/* Species Change Modal */}
+                    <CancelChangeModal
+                        message="If you change species now, you will lose your current changes. Are you sure you want to change species?"
+                        noClick={this.onCloseClick}
+                        show={this.state.showSpeciesChangeModal}
+                        title="Changes Species?"
+                        yesClick={this.onSpeciesChangeClick}
+                    />
                 </div>
-              </div>
             </div>
-
-            <div>
-              {/* Save Modal */}
-              <SaveModal
-                newAnimalData={ this.state.newAnimalData }
-                onCloseClick={ this.onCloseClick }
-                onSaveClick={ this.onSaveClick }
-                show={ this.state.showSaveModal }
-              />
-              {/* Cancel Modal */}
-              <CancelChangeModal
-                message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
-                noClick={ this.onCloseClick }
-                show={ this.state.showCancelModal }
-                title="Cancel changes?"
-                yesClick={ this.onCancelClick }
-              />
-              {/* Species Change Modal */}
-              <CancelChangeModal
-                message="If you change species now, you will lose your current changes. Are you sure you want to change species?"
-                noClick={ this.onCloseClick }
-                show={ this.state.showSpeciesChangeModal }
-                title="Changes Species?"
-                yesClick={ this.onSpeciesChangeClick }
-              />
-            </div>
-          </div>
         )
     }
 }
