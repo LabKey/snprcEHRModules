@@ -201,6 +201,10 @@ EHR.DemographicsRecord = function(data){
 
         getSourceRecord: function(){
             return data.source;
-        }
+        },
+
+        getLastBcs: function() {
+            return data['LastBCS'];
+        },
     }
 }

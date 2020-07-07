@@ -110,6 +110,27 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['idHistories'] = text.length ? '<table>' + text.join('') + '</table>' : null;
     },
 
+    appendLastBcs: function (toSet, results) {
+        var text = [];
+        if (results) {
+            var rows = [];
+            Ext4.each(results, function (row) {
+                var d = LDK.ConvertUtils.parseDate(row['BcsDate'], LABKEY.extDefaultDateFormat);
+                var newRow = {
+                    BcsDate: d.format(LABKEY.extDefaultDateFormat),
+                    LastBCS: row['LastBCS']
+                };
+                rows.push(newRow);
+            }, this);
+
+            Ext4.each(rows, function (r) {
+                text.push('<tr><td nowrap>' + r.BcsDate + ':' + '</td><td style="padding-left: 5px;" nowrap>' + r.LastBCS + '</td></tr>');
+            }, this);
+        }
+
+        toSet['LastBCS'] = text.length ? '<table>' + text.join('') + '</table>' : null;
+    },
+
 
     appendCurrentAccountsResults: function (toSet, results) {
         var text = [];
@@ -337,7 +358,11 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         fieldLabel: 'Id History',
                         name: 'idHistories'
-                    }]
+                    },{
+                        xtype: 'displayfield',
+                        fieldLabel: 'Last BCS',
+                        name: 'LastBCS'
+                    },]
                 }]
             }]
         }];
@@ -499,6 +524,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendFlags(toSet, results.getActiveFlags());
         this.appendTBResults(toSet, results.getTBRecord());
+        this.appendLastBcs(toSet, results.getLastBcs());
 
         if (this.showExtendedInformation) {
             this.appendBirthResults(toSet, results.getBirthInfo(), results.getBirth());
