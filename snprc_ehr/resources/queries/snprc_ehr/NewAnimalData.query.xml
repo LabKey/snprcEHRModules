@@ -88,17 +88,7 @@
                             <fkColumnName>account</fkColumnName>
                         </fk>
                     </column>
-                    <column columnName="origin">
-                        <columnTitle>Origin</columnTitle>
-                        <isHidden>true</isHidden>
-                        <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>source</fkTable>
-                            <fkColumnName>code</fkColumnName>
-                        </fk>
-                    </column>
                     <column columnName="room">
-                        <isHidden>true</isHidden>
                         <shownInInsertView>false</shownInInsertView>
                         <columnTitle>Room</columnTitle>
                         <url>/ehr/cageDetails.view?
@@ -107,7 +97,7 @@
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>rooms</fkTable>
-                            <fkColumnName>room</fkColumnName>
+                            <fkColumnName>rowId</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="OwnerInstitution">
@@ -126,6 +116,15 @@
                             <fkTable>validInstitutions</fkTable>
                             <fkColumnName>institution_id</fkColumnName>
                             <fkDisplayColumnName>short_name</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="IACUC">
+                        <datatype>varchar</datatype>
+                        <fk>
+                            <fkDbSchema>ehr</fkDbSchema>
+                            <fkTable>protocol</fkTable>
+                            <fkColumnName>protocol</fkColumnName>
+                            <fkDisplayColumnName>protocol</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="objectid">

@@ -409,8 +409,8 @@ export default class NewAnimalPage extends React.Component {
 
     print = id => {
         // const newAnimalData = this.state.summaryData.find(o => o.id === id)
-        const reportPath = getReportPath('BirthCertificate')
-        const fullPath = `${reportPath}&rc:Parameters=Collapsed&Target=${id}` // &rs:Format=PDF // uncomment to print to PDF
+        const reportPath = getReportPath('BirthRecord')
+        const fullPath = `${reportPath}&rc:Parameters=Collapsed&TargetID=${id}` // &rs:Format=PDF // uncomment to print to PDF
 
         window.open(fullPath)
     }
@@ -544,12 +544,12 @@ export default class NewAnimalPage extends React.Component {
                             )}
 
                 {this.state.errorMessage && (
-                <InfoPanel
-                  errorMessages={ this.state.errorMessage && [{
+                  <InfoPanel
+                    errorMessages={ this.state.errorMessage && [{
                                     propTest: true,
                                     colName: this.state.errorMessage
                                 }] }
-                />
+                  />
                         )}
 
                 <div>
