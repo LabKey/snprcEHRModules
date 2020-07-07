@@ -27,14 +27,14 @@ public class NewAnimalData
     private String _dam;
     private String _species;
     private Integer _colony;
-    private Integer _animalAccount;
+    private String _animalAccount;
     private Integer _ownerInstitution;
     private Integer _responsibleInstitution;
     private Integer _room;
     private Integer _cage;
     private Integer _diet;
     private Integer _pedigree;
-    private Integer _iacuc;
+    private String _iacuc;
     private Date _created;
     private Date _modified;
     private Integer _createdBy;
@@ -94,14 +94,14 @@ public class NewAnimalData
             this.setDam(json.has(NEWANIMAL_DAM) && !json.isNull(NEWANIMAL_DAM) ? json.getString(NEWANIMAL_DAM) : null);
             this.setSpecies(json.has(NEWANIMAL_SPECIES) && !json.isNull(NEWANIMAL_SPECIES) ? json.getString(NEWANIMAL_SPECIES) : null);
             this.setColony(json.has(NEWANIMAL_COLONY) && !json.isNull(NEWANIMAL_COLONY) ? json.getInt(NEWANIMAL_COLONY) : null);
-            this.setAnimalAccount(json.has(NEWANIMAL_ANIMAL_ACCOUNT) && !json.isNull(NEWANIMAL_ANIMAL_ACCOUNT) ? json.getInt(NEWANIMAL_ANIMAL_ACCOUNT) : null);
+            this.setAnimalAccount(json.has(NEWANIMAL_ANIMAL_ACCOUNT) && !json.isNull(NEWANIMAL_ANIMAL_ACCOUNT) ? json.getString(NEWANIMAL_ANIMAL_ACCOUNT) : null);
             this.setOwnerInstitution(json.has(NEWANIMAL_OWNER_INSTITUTION) && !json.isNull(NEWANIMAL_OWNER_INSTITUTION) ? json.getInt(NEWANIMAL_OWNER_INSTITUTION) : null);
             this.setOwnerInstitution(json.has(NEWANIMAL_RESPONSIBLE_INSTITUTION) && !json.isNull(NEWANIMAL_RESPONSIBLE_INSTITUTION) ? json.getInt(NEWANIMAL_RESPONSIBLE_INSTITUTION) : null);
             this.setRoom(json.has(NEWANIMAL_ROOM) && !json.isNull(NEWANIMAL_ROOM) ? json.getInt(NEWANIMAL_ROOM) : null);
             this.setCage(json.has(NEWANIMAL_CAGE) && !json.isNull(NEWANIMAL_CAGE) ? json.getInt(NEWANIMAL_CAGE) : null);
             this.setDiet(json.has(NEWANIMAL_DIET) && !json.isNull(NEWANIMAL_DIET) ? json.getInt(NEWANIMAL_DIET) : null);
             this.setPedigree(json.has(NEWANIMAL_PEDIGREE) && !json.isNull(NEWANIMAL_PEDIGREE) ? json.getInt(NEWANIMAL_PEDIGREE) : null);
-            this.setIacuc(json.has(NEWANIMAL_IACUC) && !json.isNull(NEWANIMAL_IACUC) ? json.getInt(NEWANIMAL_IACUC) : null);
+            this.setIacuc(json.has(NEWANIMAL_IACUC) && !json.isNull(NEWANIMAL_IACUC) ? json.getString(NEWANIMAL_IACUC) : null);
             this.setObjectId(json.has(NEWANIMAL_OBJECTID) && !json.isNull(NEWANIMAL_OBJECTID) ? json.getString(NEWANIMAL_OBJECTID) : null);
             this.setCreatedBy(c, u, json.has(NEWANIMAL_CREATED_BY) && !json.isNull(NEWANIMAL_CREATED_BY) ? json.getInt(NEWANIMAL_CREATED_BY): null);
             this.setModifiedBy(c, u, json.has(NEWANIMAL_MODIFIED_BY) && !json.isNull(NEWANIMAL_MODIFIED_BY) ? json.getInt(NEWANIMAL_MODIFIED_BY): null);
@@ -269,9 +269,9 @@ public class NewAnimalData
 
     public void setColony(Integer colony) { _colony = colony; }
 
-    public Integer getAnimalAccount() { return _animalAccount; }
+    public String getAnimalAccount() { return _animalAccount; }
 
-    public void setAnimalAccount(Integer animalAccount) { _animalAccount = animalAccount; }
+    public void setAnimalAccount(String animalAccount) { _animalAccount = animalAccount; }
 
     public Integer getOwnerInstitution() { return _ownerInstitution; }
 
@@ -297,9 +297,9 @@ public class NewAnimalData
 
     public void setPedigree(Integer pedigree) { _pedigree = pedigree; }
 
-    public Integer getIacuc() { return _iacuc; }
+    public String getIacuc() { return _iacuc; }
 
-    public void setIacuc(Integer iacuc) { _iacuc = iacuc; }
+    public void setIacuc(String iacuc) { _iacuc = iacuc; }
 
     public Date getCreated() { return _created; }
 
