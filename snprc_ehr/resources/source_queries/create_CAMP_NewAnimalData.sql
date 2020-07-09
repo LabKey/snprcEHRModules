@@ -52,6 +52,7 @@ CREATE TABLE labkey_etl.NewAnimalData
     Modified DATETIME NULL,
     ModifiedBy Int NULL,
     ModifiedByEmail varchar(128) NULL,
+    ProcessedDate DateTime NULL,
     Container UNIQUEIDENTIFIER NOT NULL,
     objectid UNIQUEIDENTIFIER NOT NULL,
     CONSTRAINT PK_TAC_NEWANIMALDATA

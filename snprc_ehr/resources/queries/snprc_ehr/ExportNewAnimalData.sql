@@ -29,6 +29,7 @@ SELECT
     --n.room, -- not in valid_locations
     n.IACUC,
     n.room.room,
+    n.cage,
     n.OwnerInstitution,
     n.ResponsibleInstitution,
     n.Objectid,
