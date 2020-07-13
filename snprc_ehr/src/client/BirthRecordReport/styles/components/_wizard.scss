@@ -1,0 +1,57 @@
+// ======= wizard wrapper ========
+.wizard-panel {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: left;
+  padding-top: $m-size;
+  min-height: $m-panel;    
+  border: 1px solid $dark-gray;
+  border-style: none solid solid solid;
+  border-radius: 1px;
+  margin-bottom: $xs-size;
+  background-color: white;
+}
+.wizard-right {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: left;
+  padding: $xs-size .2rem 0 .2rem;
+  height: 100%;    
+  border: 1px solid $dark-gray;
+  border-style: none solid solid solid;
+  border-radius: 1px;
+  margin-bottom: $xs-size;
+  background-color: white;
+}
+.wizard-panel[disabled] {
+  background-color: $disabled-gray;
+}
+.wizard-footer {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  text-align: left;
+  padding-top: $s-size;
+  min-height: $xs-panel;    
+  margin-bottom: $xs-size;
+  justify-content: start;
+}
+.wizard-footer > button {
+  margin: 1rem;
+}
+.wizard-panel__rows {
+  display:flex;
+  flex-direction: column;
+}
+.wizard-panel__row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.wizard-panel__col {
+  display: flex;
+  flex-direction: row;
+  padding: 5px 1rem 0 1rem;
+  vertical-align: middle;
+}

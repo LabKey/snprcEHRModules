@@ -371,6 +371,17 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(SNPRCColonyAdminPermission.class)
+    public class BirthReportAction extends SimpleRedirectAction
+    {
+        @Override
+        public URLHelper getRedirectURL(Object o)
+        {
+            return new ActionURL(NAME, "BirthRecordReport", getContainer());
+        }
+    }
+
+
+    @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class NewAnimalWizardAction extends SimpleRedirectAction
     {
         @Override

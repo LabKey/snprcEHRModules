@@ -1,0 +1,36 @@
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: left;
+    font-size: $font-size-small;
+    color: $info-red;
+    margin: auto 0 1rem 1rem;
+    padding: 1rem 1rem 0 1rem;
+  }
+  
+  .info-span {
+    background-color: $disabled-gray;
+    border: 1px solid $info-red;
+    border-radius: 3px;
+    color: $info-red;
+  }
+  
+  .info-text-span {
+    font-weight: 500;;
+  }
+  .info-div {
+   padding: 1rem 0 0 1rem;
+  }
+  
+  .info-err-span {
+    background-color: $disabled-gray;
+    border: 1px solid $info-red;
+    border-radius: 3px;
+    color: $info-red;
+    padding: .2rem;
+  }
+  .info-err-div {
+    padding: 1rem 0 0 0;
+    font-weight: 600;;
+   }
