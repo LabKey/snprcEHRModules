@@ -10,5 +10,12 @@ module.exports = {
         permission: 'read',
         path: './src/client/NewAnimalPage',
         scriptType: 'jsx'
+    },
+    {
+        name: 'BirthRecordReport',
+        title: 'Birth Record Report',
+        permission: 'read',
+        path: './src/client/BirthRecordReport',
+        scriptType: 'jsx'
     }]
 };
