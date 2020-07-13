@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render the AccountPanel 1`] = `
+exports[`Should render the AnimalSelectionPanel 1`] = `
 <Fragment>
   <div
     className="wizard-panel__rows"

@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import AnimalSelectionPanel from '../../components/AnimalSelectionPanel'
 import data from '../fixtures/testData'
 
-test('Should render the AccountPanel', () => {
+test('Should render the AnimalSelectionPanel', () => {
     const { animalList } = data
     const wrapper = shallow(
       <AnimalSelectionPanel
