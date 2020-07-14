@@ -1,6 +1,6 @@
-@import "../../styles/style";
-@import "./components/wizard";
-@import "./components/panels";
-@import "./components/infoPanel";
-@import "./components/shared";
-@import "./components//summaryGridPanel"
+@import "../../Shared/styles/style";
+@import "../../Shared/styles/components/shared";
+@import "../../shared/styles/formatting/wizard";
+@import "../../shared/styles/formatting/panels";
+@import "../../Shared/styles/components/infoPanel";
+@import "../../Shared/styles/components/summaryGridPanel";

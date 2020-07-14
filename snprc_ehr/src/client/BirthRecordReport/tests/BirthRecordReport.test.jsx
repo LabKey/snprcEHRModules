@@ -4,10 +4,10 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Select from 'react-select'
 import BirthRecordReport from '../BirthRecordReport'
-import { request } from '../api/api'
+import { request } from '../../Shared/api/api'
 import data from './fixtures/testData'
 
-jest.mock('../api/api')
+jest.mock('../../Shared/api/api')
 
 let wrapper
 

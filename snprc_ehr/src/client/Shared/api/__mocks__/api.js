@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars, camelcase */
 
+import { NewAnimalData } from '../../../BirthRecordReport/tests/fixtures/apiTestData'
 import { CurrentSpeciesLookup, AccountLookup, validInstitutions, ValidDiet, AcquisitionTypesLookup,
     valid_bd_status, PotentialDams, PotentialSires, ActiveLocationsAll, colonyGroups,
-    ProtocolLookup, pedigreeGroups } from '../../tests/fixtures/apiTestData'
+    ProtocolLookup, pedigreeGroups } from '../../../NewAnimalPage/tests/fixtures/apiTestData'
 
 export const request = ({ schemaName, queryName, viewName = '', sort = '', columns = [], filterArray = [] }) => {
     // console.log(`loading list: ${queryName}`);
@@ -43,6 +44,9 @@ export const request = ({ schemaName, queryName, viewName = '', sort = '', colum
             break
         case 'valid_bd_status':
             resolve(valid_bd_status)
+            break
+        case 'NewAnimalData':
+            resolve(NewAnimalData)
             break
         default:
             break

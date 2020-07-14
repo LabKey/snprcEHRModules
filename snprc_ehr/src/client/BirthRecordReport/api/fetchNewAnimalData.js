@@ -1,6 +1,6 @@
 import { Filter } from '@labkey/api'
 import moment from 'moment'
-import { request } from './api'
+import { request } from '../../Shared/api/api'
 
 const parse = rows => {
     return rows.map(({ data }) => {

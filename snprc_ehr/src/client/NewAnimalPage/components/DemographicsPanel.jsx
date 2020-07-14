@@ -1,8 +1,8 @@
 import React from 'react'
 import Select from 'react-select'
 import moment from 'moment'
-import WrappedDatePicker from './WrappedDatePicker'
-import InfoPanel from './InfoPanel'
+import WrappedDatePicker from '../../Shared/components/WrappedDatePicker'
+import InfoPanel from '../../Shared/components/InfoPanel'
 import { isBirthdateValid } from '../services/validation'
 
 export default class DemographicsPanel extends React.Component {

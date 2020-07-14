@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the WrappedDatePicker 1`] = `
+<Fragment>
+  <label
+    className="field-label"
+  >
+    Acquisition Date
+  </label>
+  <o
+    allowSameDay={false}
+    customInput={<DatePickerInput />}
+    customTimeInput={null}
+    dateFormat="Pp"
+    dateFormatCalendar="LLLL yyyy"
+    disabled={false}
+    disabledKeyboardNavigation={false}
+    dropdownMode="select"
+    enableTabLoop={true}
+    excludeScrollbar={true}
+    id="date-picker"
+    inlineFocusSelectedMonth={false}
+    maxDate={1970-01-01T00:00:00.000Z}
+    monthsShown={1}
+    nextMonthButtonLabel="Next Month"
+    nextYearButtonLabel="Next Year"
+    onBlur={[Function]}
+    onCalendarClose={[Function]}
+    onCalendarOpen={[Function]}
+    onChange={[Function]}
+    onClickOutside={[Function]}
+    onFocus={[Function]}
+    onInputClick={[Function]}
+    onInputError={[Function]}
+    onKeyDown={[Function]}
+    onMonthChange={[Function]}
+    onSelect={[Function]}
+    onYearChange={[Function]}
+    popperPlacement="bottom"
+    preventOpenOnFocus={false}
+    previousMonthButtonLabel="Previous Month"
+    previousYearButtonLabel="Previous Year"
+    readOnly={false}
+    renderDayContents={[Function]}
+    selected={1970-01-01T00:00:00.000Z}
+    shouldCloseOnSelect={true}
+    showFullMonthYearPicker={false}
+    showMonthDropdown={true}
+    showMonthYearPicker={false}
+    showPopperArrow={true}
+    showPreviousMonths={false}
+    showQuarterYearPicker={false}
+    showTimeInput={false}
+    showTimeSelect={true}
+    showYearDropdown={true}
+    showYearPicker={false}
+    strictParsing={false}
+    timeCaption="Time"
+    timeFormat="p"
+    timeInputLabel="Time"
+    timeIntervals={30}
+    todayButton="Today"
+    withPortal={false}
+  />
+</Fragment>
+`;
