@@ -1,4 +1,4 @@
-import { request } from './api'
+import { request } from '../../Shared/api/api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {

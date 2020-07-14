@@ -9,7 +9,7 @@ import AnimalSelectionPanel from './components/AnimalSelectionPanel'
 import fetchNewAnimalData from './api/fetchNewAnimalData'
 import SummaryGridPanel from './components/SummaryGridPanel'
 import { getReportPath } from './services/printToPDF'
-import InfoPanel from './components/InfoPanel'
+import InfoPanel from '../Shared/components/InfoPanel'
 
 export default class BirthRecordReport extends React.Component {
     state = new BirthRecordState();

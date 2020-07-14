@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the SummaryPopover 1`] = `
+<Popover
+  bsClass="popover"
+  className="summary-popover"
+  id="summary-popover"
+  message="Summary popover test"
+  placement="right"
+  title="popover"
+>
+  Summary popover test
+</Popover>
+`;
