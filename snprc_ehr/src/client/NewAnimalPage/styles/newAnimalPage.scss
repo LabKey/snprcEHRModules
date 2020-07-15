@@ -1,6 +1,6 @@
 @import "../../Shared/styles/style";
-@import "../../shared/styles/formatting/wizard";
-@import "../../shared/styles/formatting/panels";
+@import "../../Shared/styles/formatting/wizard";
+@import "../../Shared/styles/formatting/panels";
 @import "../../Shared/styles/components/wrappedDatePicker";
 @import "../../Shared/styles//components/modal";
 @import "../../Shared/styles/components/shared";
@@ -10,3 +10,16 @@
 @import "./components/locationPanel";
 @import "./components/dietPanel";
 @import "./components/summaryPanel";
+
+.right-panel {
+    flex: 1;
+    padding-left: 1rem;
+    flex-direction: column;
+    min-height: $l-panel;
+}
+
+.table-scroll {
+  overflow-y: auto;
+  height:$l-panel;
+  padding: 0, .1rem !important;  
+}

@@ -50,7 +50,6 @@ export default class SpeciesPanel extends React.Component {
                   className="shared-dropdown shared-dropdown__species_width"
                   classNamePrefix="shared-select"
                   id="species-select"
-                  isClearable
                   isDisabled={ this.props.disabled }
                   isLoading={ !this.props.speciesList }
                   onChange={ this.handleSpeciesChange }
