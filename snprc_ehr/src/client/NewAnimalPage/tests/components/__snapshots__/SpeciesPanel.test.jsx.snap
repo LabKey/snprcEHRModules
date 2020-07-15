@@ -63,7 +63,6 @@ exports[`Should render the SpeciesPanel 1`] = `
         defaultMenuIsOpen={false}
         defaultValue={null}
         id="species-select"
-        isClearable={true}
         isDisabled={false}
         isLoading={false}
         onChange={[Function]}

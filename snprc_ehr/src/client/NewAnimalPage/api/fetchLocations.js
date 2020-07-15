@@ -1,5 +1,4 @@
-import { Filter } from '@labkey/api'
-import { request } from '../../Shared/api/api'
+import { executeSql } from '../../Shared/api/api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -8,16 +7,29 @@ const parse = rows => {
 }
 
 const fetchLocations = species => {
+    const sql = `SELECT h.species  AS species,
+                    r.room     AS room,
+                    r.maxCages AS maxCages,
+                    r.rowId AS rowId
+            FROM ehr_lookups.rooms r
+            LEFT OUTER JOIN (
+                SELECT DISTINCT d.species.arc_species_code as species, d2.room AS room
+                FROM study.housing AS d2
+                INNER join study.demographics d on d2.id = d.id
+            WHERE d2.enddate IS NULL
+                 AND d2.qcstate.publicdata = true
+            ) AS h ON r.room = h.room
+            WHERE r.dateDisabled is NULL
+                AND CAST(r.room as FLOAT) BETWEEN 1.00 AND 799.99
+                AND (h.species = '${species}' OR h.species is NULL)`
+
     return new Promise((resolve, reject) => {
-        request({
+        if (!species || species.length !== 2) reject(new Error('Invalid species format detected'))
+
+        executeSql({
             schemaName: 'snprc_ehr',
-            queryName: 'ActiveLocationsAll',
-            columns: ['species', 'room', 'maxCages', 'rowId'],
-            sort: '-species, room',
-            filterArray: [
-                // Filter.create('species', species, Filter.Types.EQUAL)
-                Filter.create('species', `${species}; null`, Filter.Types.IN)
-            ]
+            sql,
+            sort: '-species, room'
         }).then(({ rows }) => {
             resolve(parse(rows))
         }).catch(error => {

@@ -96,6 +96,12 @@ export default class NewAnimalPage extends React.Component {
             ))
         }).catch(error => {
             console.log(`Error in loadLists: ${error}`)
+            this.setState(prevState => (
+                {
+                    ...prevState,
+                    errorMessage: error.message
+                }
+            ))
         })
     }
 
@@ -125,6 +131,12 @@ export default class NewAnimalPage extends React.Component {
             ))
         }).catch(error => {
             console.log(`Error in handleSpeciesChange: ${error}`)
+            this.setState(prevState => (
+                {
+                    ...prevState,
+                    errorMessage: error.message
+                }
+            ))
         })
     }
 
@@ -155,7 +167,8 @@ export default class NewAnimalPage extends React.Component {
     }
 
     handleSpeciesChange = selectedSpecies => {
-        if (this.state.newAnimalData.species !== undefined) {
+        // ignore sub-species change
+        if (this.state.newAnimalData.species !== undefined && this.state.newAnimalData.species.arcSpeciesCode !== selectedSpecies.arcSpeciesCode) {
             this.selectedSpecies = selectedSpecies
             this.setState(prevState => (
                 {
@@ -369,6 +382,7 @@ export default class NewAnimalPage extends React.Component {
             {
                 ...initialState,
                 isLoading: false,
+                selectedOption: prevState.selectedOption,
                 speciesList: [
                     ...prevState.speciesList
                 ],
@@ -389,7 +403,8 @@ export default class NewAnimalPage extends React.Component {
                 ],
                 newAnimalData: {
                     ...initialState.newAnimalData,
-                    species: this.selectedSpecies
+                    species: this.selectedSpecies,
+                    selectedOption: prevState.newAnimalData.selectedOption
                 }
             }
         ), this.loadListsForSpecies(this.selectedSpecies))
