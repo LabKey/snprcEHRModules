@@ -423,11 +423,12 @@ export default class NewAnimalPage extends React.Component {
     }
 
     print = id => {
-        // const newAnimalData = this.state.summaryData.find(o => o.id === id)
         const reportPath = getReportPath('BirthRecord')
         const fullPath = `${reportPath}&rc:Parameters=Collapsed&TargetID=${id}` // &rs:Format=PDF // uncomment to print to PDF
 
-        window.open(fullPath)
+        const left = window.screenX + 20
+
+        window.open(fullPath, '_blank', `location=yes,height=850,width=768,status=yes, left=${left}`)
     }
 
     render() {
