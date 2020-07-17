@@ -9,6 +9,9 @@
                 <dat:column columnName="veterinarian">
                     <dat:rangeURI>string</dat:rangeURI>
                 </dat:column>
+                <dat:column columnName="sequenceNumber">
+                    <dat:rangeURI>int</dat:rangeURI>
+                </dat:column>
             </dat:columns>
         </table>
     </template>
