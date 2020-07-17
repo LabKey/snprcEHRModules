@@ -59,7 +59,6 @@ export default class SpeciesPanel extends React.Component {
                 />
               </div>
             </div>
-
           </div>
         )
     }

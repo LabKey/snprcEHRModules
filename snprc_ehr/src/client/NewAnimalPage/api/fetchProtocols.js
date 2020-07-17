@@ -17,7 +17,7 @@ const fetchProtocols = species => {
                 Filter.create('Species', species, Filter.Types.EQUAL),
                 Filter.create('EndDate', null, Filter.Types.MISSING)
             ],
-            sort: 'Iacuc'
+            sort: 'ProjectType, SequenceNumber'
         }).then(({ rows }) => {
             const parsedRows = parse(rows)
             resolve(parsedRows)

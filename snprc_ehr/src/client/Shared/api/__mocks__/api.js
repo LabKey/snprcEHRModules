@@ -56,7 +56,7 @@ export const request = ({ schemaName, queryName, viewName = '', sort = '', colum
 export const executeSql = ({ schemaName, sql, sort = '' }) => {
     return new Promise(resolve => {
         if (sql.indexOf('FROM ehr_lookups.rooms') > 0) {
-                resolve(ActiveLocationsAll)
+            resolve(ActiveLocationsAll)
         }
     })
 }
