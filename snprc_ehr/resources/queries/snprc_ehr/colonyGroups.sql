@@ -17,7 +17,12 @@ SELECT ag.category_code as Category,
        ag.code as Code,
        ag.name as Name,
        ag.enddate as enddate,
-       agc.Species as Species
+       agc.Species as Species,
+       s.primate as PrimateFlag
 FROM snprc_ehr.animal_groups AS ag
   INNER JOIN snprc_ehr.animal_group_categories AS agc ON ag.category_code = agc.category_code
+  LEFT OUTER JOIN (
+      SELECT DISTINCT primate, arc_species_code
+      FROM snprc_ehr.species
+    ) AS s on agc.Species = s.arc_species_code
 WHERE agc.description LIKE '%colonies%'

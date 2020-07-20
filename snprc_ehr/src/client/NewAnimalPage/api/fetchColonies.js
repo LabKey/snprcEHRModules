@@ -1,5 +1,4 @@
-import { Filter } from '@labkey/api'
-import { request } from '../../Shared/api/api'
+import { executeSql } from '../../Shared/api/api'
 
 const parse = rows => {
     return rows.map(({ data }, key) => {
@@ -8,23 +7,29 @@ const parse = rows => {
 }
 
 const fetchColonies = species => {
+    const sql = `SELECT c.Code,
+                    c.Name,
+                    c.Species,
+                    c.Category
+                FROM snprc_ehr.colonyGroups AS c
+                WHERE c.enddate is NULL
+                AND (c.Species = '${species}' OR c.Species IS NULL)`
+
     return new Promise((resolve, reject) => {
-        request({
+        if (!species || species.length !== 2) reject(new Error('Invalid species format detected'))
+
+        executeSql({
             schemaName: 'snprc_ehr',
-            queryName: 'colonyGroups',
-            columns: ['Code', 'Name', 'Species', 'Category'],
-            filterArray: [
-                Filter.create('Species', species, Filter.Types.EQUAL),
-                Filter.create('enddate', null, Filter.Types.MISSING)
-            ],
-            sort: 'Name'
+            sql,
+            sort: '-Species, Name'
         }).then(({ rows }) => {
-            const parsedRows = parse(rows)
-            resolve(parsedRows)
+            resolve(parse(rows))
         }).catch(error => {
-            console.log('error', error)
             reject(error)
+            console.log('Error', error)
         })
     })
+
 }
+
 export default fetchColonies
