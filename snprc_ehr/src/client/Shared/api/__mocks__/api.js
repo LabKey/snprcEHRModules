@@ -32,9 +32,6 @@ export const request = ({ schemaName, queryName, viewName = '', sort = '', colum
             case 'PotentialSires':
                 resolve(PotentialSires)
                 break
-            case 'colonyGroups':
-                resolve(colonyGroups)
-                break
             case 'ProtocolLookup':
                 resolve(ProtocolLookup)
                 break
@@ -57,6 +54,9 @@ export const executeSql = ({ schemaName, sql, sort = '' }) => {
     return new Promise(resolve => {
         if (sql.indexOf('FROM ehr_lookups.rooms') > 0) {
             resolve(ActiveLocationsAll)
+        }
+        if (sql.indexOf('FROM snprc_ehr.colonyGroups') > 0) {
+            resolve(colonyGroups)
         }
     })
 }
