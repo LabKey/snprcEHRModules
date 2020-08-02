@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
--- Create schema, tables, indexes, and constraints used for snprc_r24 module here
--- All SQL VIEW definitions should be created in snprc_r24-create.sql and dropped in snprc_r24-drop.sql
 CREATE SCHEMA snprc_r24;
 GO
 
@@ -124,4 +122,30 @@ CREATE UNIQUE NONCLUSTERED INDEX [idx_snprc_r24_lookups_setname] ON [snprc_r24].
 GO
 
 ALTER TABLE [snprc_r24].[Lookups] ADD  DEFAULT (NEWID()) FOR [ObjectId]
+GO
+
+/* snprc_r24-18.10-18.20.sql */
+
+ALTER TABLE snprc_r24.SampleInventory ADD SampleWeight NUMERIC(7,2) NULL;
+ALTER TABLE snprc_r24.SampleInventory ADD SampleAmount NUMERIC(7,2) NULL;
+
+CREATE TABLE [snprc_r24].[RowsToDelete](
+[ObjectId] [dbo].[EntityId] NOT NULL,
+[Modified] [DATETIME] NOT NULL
+CONSTRAINT [pk_snprc_r24_RowsToDelete] PRIMARY KEY (	[ObjectId] ASC) );
+
+GO
+
+CREATE TABLE [snprc_r24].[WeightStaging] (
+[AnimalId] [NVARCHAR](32) NOT NULL,
+[Date] [DATETIME] NOT NULL,
+[Weight] [NUMERIC](7,4) NOT NULL,
+[ObjectId] [dbo].EntityId NOT NULL,
+[Created] [DATETIME] NULL,
+[CreatedBy] [dbo].[USERID] NULL,
+[Modified] [DATETIME] NULL,
+[ModifiedBy] [dbo].[USERID] NULL
+
+CONSTRAINT [pk_snprc_r24_weight_staging] PRIMARY KEY (	[ObjectId] ASC) );
+
 GO
