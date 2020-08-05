@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
-import WrappedDatePicker from './WrappedDatePicker'
-import InfoPanel from './InfoPanel'
+import WrappedDatePicker from '../../Shared/components/WrappedDatePicker'
+import InfoPanel from '../../Shared/components/InfoPanel'
 import { validateCage } from '../services/validation'
 
 export default class LocationPanel extends React.Component {

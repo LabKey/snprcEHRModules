@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from 'react-select'
-import InfoPanel from './InfoPanel'
+import InfoPanel from '../../Shared/components/InfoPanel'
 
 export default class AccountPanel extends React.Component {
   componentDidMount = () => {

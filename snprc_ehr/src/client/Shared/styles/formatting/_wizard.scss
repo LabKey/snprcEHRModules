@@ -26,7 +26,20 @@
 .wizard-panel[disabled] {
   background-color: $disabled-gray;
 }
-
+.wizard-footer {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  text-align: left;
+  padding-top: $s-size;
+  min-height: $xs-panel;    
+  margin-bottom: $xs-size;
+  justify-content: start;
+}
+.wizard-footer > button {
+  margin: 1rem;
+}
 .wizard-panel__rows {
   display:flex;
   flex-direction: column;

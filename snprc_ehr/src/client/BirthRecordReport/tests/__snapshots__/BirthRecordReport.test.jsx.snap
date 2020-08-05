@@ -1,0 +1,294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BirthRecordReport tests Should render AnimalSelectionPanel. 1`] = `
+<div>
+  <div
+    className="split-panel"
+  >
+    <div
+      className="parent-panel"
+    >
+      <div
+        className="panel-heading"
+      >
+        <p>
+          Select Animal
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+      >
+        <AnimalSelectionPanel
+          animalList={
+            Array [
+              Object {
+                "AcqDate": "2020-07-08 15:04:40.000",
+                "AcquisitionType": 1,
+                "AnimalAccount": "0060-014-00",
+                "BirthCode": 0,
+                "BirthDate": "2020-07-08 15:04:40.000",
+                "Cage": null,
+                "Colony": 23,
+                "Diet": "1",
+                "IACUC": "1349MM",
+                "Id": "310",
+                "OwnerInstitution": 1,
+                "ResponsibleInstitution": 1,
+                "dam": "16355",
+                "gender": "F",
+                "label": "Id: 310 - Female - Birth Date: 07/08/2020 3:04 PM ",
+                "pedigree": null,
+                "room": 4246,
+                "sire": null,
+                "species": "MML",
+                "value": "310",
+              },
+              Object {
+                "AcqDate": "2020-07-09 09:13:35.000",
+                "AcquisitionType": 1,
+                "AnimalAccount": "0060-014-00",
+                "BirthCode": 0,
+                "BirthDate": "2020-07-09 09:13:35.000",
+                "Cage": null,
+                "Colony": 19,
+                "Diet": "1",
+                "IACUC": "1461CJ",
+                "Id": "311",
+                "OwnerInstitution": 1,
+                "ResponsibleInstitution": 1,
+                "dam": null,
+                "gender": "F",
+                "label": "Id: 311 - Female - Birth Date: 07/09/2020 9:13 AM ",
+                "pedigree": null,
+                "room": 4402,
+                "sire": null,
+                "species": "CTJ",
+                "value": "311",
+              },
+            ]
+          }
+          handleChange={[Function]}
+        />
+        <InfoPanel
+          infoMessages={
+            Array [
+              Object {
+                "key": 1,
+                "value": "Select an animal and press the print button to generate the Birth Record Report.",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="right-panel"
+    >
+      <div
+        className="panel-heading"
+      >
+        <p>
+          Reports Printed
+        </p>
+      </div>
+      <div
+        className="wizard-right"
+      >
+        <SummaryGridPanel
+          summaryData={Array []}
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="wizard-footer"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Print Birth Record 
+      <i
+        aria-hidden="true"
+        className="fa fa-print"
+      />
+    </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Quit
+    </Button>
+  </div>
+</div>
+`;
+
+exports[`BirthRecordReport tests Should render a loading spinner    before api calls. 1`] = `
+<LoadingSpinner_LoadingSpinner
+  msg="Loading app..."
+  wrapperClassName=""
+/>
+`;
+
+exports[`BirthRecordReport tests Should render selected Animal. 1`] = `
+<div>
+  <div
+    className="split-panel"
+  >
+    <div
+      className="parent-panel"
+    >
+      <div
+        className="panel-heading"
+      >
+        <p>
+          Select Animal
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+      >
+        <AnimalSelectionPanel
+          animalList={
+            Array [
+              Object {
+                "AcqDate": "2020-07-08 15:04:40.000",
+                "AcquisitionType": 1,
+                "AnimalAccount": "0060-014-00",
+                "BirthCode": 0,
+                "BirthDate": "2020-07-08 15:04:40.000",
+                "Cage": null,
+                "Colony": 23,
+                "Diet": "1",
+                "IACUC": "1349MM",
+                "Id": "310",
+                "OwnerInstitution": 1,
+                "ResponsibleInstitution": 1,
+                "dam": "16355",
+                "gender": "F",
+                "label": "Id: 310 - Female - Birth Date: 07/08/2020 3:04 PM ",
+                "pedigree": null,
+                "room": 4246,
+                "sire": null,
+                "species": "MML",
+                "value": "310",
+              },
+              Object {
+                "AcqDate": "2020-07-09 09:13:35.000",
+                "AcquisitionType": 1,
+                "AnimalAccount": "0060-014-00",
+                "BirthCode": 0,
+                "BirthDate": "2020-07-09 09:13:35.000",
+                "Cage": null,
+                "Colony": 19,
+                "Diet": "1",
+                "IACUC": "1461CJ",
+                "Id": "311",
+                "OwnerInstitution": 1,
+                "ResponsibleInstitution": 1,
+                "dam": null,
+                "gender": "F",
+                "label": "Id: 311 - Female - Birth Date: 07/09/2020 9:13 AM ",
+                "pedigree": null,
+                "room": 4402,
+                "sire": null,
+                "species": "CTJ",
+                "value": "311",
+              },
+            ]
+          }
+          handleChange={[Function]}
+          selectedAnimal={
+            Object {
+              "AcqDate": "2020-07-08 15:04:40.000",
+              "AcquisitionType": 1,
+              "AnimalAccount": "0060-014-00",
+              "BirthCode": 0,
+              "BirthDate": "2020-07-08 15:04:40.000",
+              "Cage": null,
+              "Colony": 23,
+              "Diet": "1",
+              "IACUC": "1349MM",
+              "Id": "310",
+              "OwnerInstitution": 1,
+              "ResponsibleInstitution": 1,
+              "dam": 16355,
+              "gender": "F",
+              "label": "Id: 310 - Female - Birth Date: 07/08/2020 3:04 PM ",
+              "pedigree": null,
+              "room": 4246,
+              "sire": null,
+              "species": "MML",
+              "value": "310",
+            }
+          }
+        />
+        <InfoPanel
+          infoMessages={
+            Array [
+              Object {
+                "key": 1,
+                "value": "Select an animal and press the print button to generate the Birth Record Report.",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="right-panel"
+    >
+      <div
+        className="panel-heading"
+      >
+        <p>
+          Reports Printed
+        </p>
+      </div>
+      <div
+        className="wizard-right"
+      >
+        <SummaryGridPanel
+          summaryData={Array []}
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="wizard-footer"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Print Birth Record 
+      <i
+        aria-hidden="true"
+        className="fa fa-print"
+      />
+    </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Quit
+    </Button>
+  </div>
+</div>
+`;

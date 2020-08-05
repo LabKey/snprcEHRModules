@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render the AnimalSelectionPanel 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label-align-close"
+        >
+          Animal
+        </label>
+        <StateManager
+          autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="animal-select"
+          isClearable={true}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "AcqDate": "2020-06-11 15:00:00.000",
+                "AcquisitionType": 1,
+                "AnimalAccount": "0",
+                "BirthCode": 0,
+                "BirthDate": "2020-06-11 15:00:00.000",
+                "Cage": 2,
+                "Colony": 214,
+                "Diet": "2",
+                "IACUC": "0",
+                "Id": "278",
+                "OwnerInstitution": 1,
+                "ResponsibleInstitution": 1,
+                "dam": null,
+                "gender": "F",
+                "label": "Id: 278 - Female - Birth Date: 06/11/2020 3:00 PM ",
+                "pedigree": null,
+                "room": 4201,
+                "sire": null,
+                "species": "PCA",
+                "value": "278",
+              },
+            ]
+          }
+          placeholder="Select Animal"
+          value={null}
+        />
+      </div>
+    </div>
+  </div>
+</Fragment>
+`;

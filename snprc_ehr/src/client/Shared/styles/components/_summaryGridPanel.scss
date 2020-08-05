@@ -1,8 +1,7 @@
 .table-scroll {
     overflow-y: auto;
-    height:$l-panel;
-    padding: 0, .1rem !important;
-    
+    min-height:$m-panel;
+    padding: 0, 0.1rem !important;
 }
 
 .table-bordered > thead > tr > th {
