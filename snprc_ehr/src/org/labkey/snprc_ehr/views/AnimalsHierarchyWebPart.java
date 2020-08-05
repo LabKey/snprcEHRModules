@@ -15,12 +15,13 @@
  */
 package org.labkey.snprc_ehr.views;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.labkey.api.view.JspView;
 
 public class AnimalsHierarchyWebPart extends JspView
 {
-    private static final Logger _log = Logger.getLogger(AnimalsHierarchyWebPart.class);
+    private static final Logger _log = LogManager.getLogger(AnimalsHierarchyWebPart.class);
 
     public AnimalsHierarchyWebPart()
     {

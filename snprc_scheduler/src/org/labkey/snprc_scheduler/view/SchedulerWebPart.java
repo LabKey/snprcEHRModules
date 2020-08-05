@@ -1,11 +1,12 @@
 package org.labkey.snprc_scheduler.view;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.labkey.api.view.JspView;
 
 public class SchedulerWebPart extends JspView
 {
-    private static final Logger _log = Logger.getLogger(SchedulerWebPart.class);
+    private static final Logger _log = LogManager.getLogger(SchedulerWebPart.class);
 
     public SchedulerWebPart()
     {
