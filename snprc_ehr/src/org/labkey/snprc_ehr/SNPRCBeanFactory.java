@@ -18,7 +18,8 @@ package org.labkey.snprc_ehr;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
@@ -41,7 +42,7 @@ import java.util.Map;
 public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
 {
 
-    private static Logger _log = Logger.getLogger(BeanObjectFactory.class);
+    private static Logger _log = LogManager.getLogger(BeanObjectFactory.class);
     private Class<K> _class;
 
 
