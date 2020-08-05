@@ -15,7 +15,8 @@
  */
 package org.labkey.snd.query;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
@@ -153,7 +154,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
     {
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();
-        private final Logger _logger = Logger.getLogger(AttributeDataTable.class);
+        private final Logger _logger = LogManager.getLogger(AttributeDataTable.class);
         private final DbSchema _expSchema = OntologyManager.getExpSchema();
 
         private Map<Integer, Object> packageMap = null;

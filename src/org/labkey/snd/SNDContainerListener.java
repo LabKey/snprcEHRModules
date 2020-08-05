@@ -23,10 +23,10 @@ import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.Table;
 import org.labkey.api.security.User;
-import java.util.Collections;
-import java.util.Collection;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Collection;
+import java.util.Collections;
 
 public class SNDContainerListener implements ContainerListener
 {

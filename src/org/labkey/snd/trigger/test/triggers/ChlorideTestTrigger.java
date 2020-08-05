@@ -22,8 +22,8 @@ import org.labkey.api.snd.AttributeData;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.EventData;
 import org.labkey.api.snd.EventTrigger;
-import org.labkey.api.snd.TriggerAction;
 import org.labkey.api.snd.Package;
+import org.labkey.api.snd.TriggerAction;
 
 import java.util.Map;
 

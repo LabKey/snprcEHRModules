@@ -16,8 +16,8 @@
 package org.labkey.snd.security.permissions;
 
 import org.labkey.api.security.permissions.AbstractPermission;
-import org.labkey.snd.SNDModule;
 import org.labkey.api.snd.QCStateEnum;
+import org.labkey.snd.SNDModule;
 
 public class SNDQCStatePermission extends AbstractPermission
 {

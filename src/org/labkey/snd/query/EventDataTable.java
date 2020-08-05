@@ -15,7 +15,8 @@
  */
 package org.labkey.snd.query;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
@@ -84,7 +85,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
     {
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();
-        private final Logger _logger = Logger.getLogger(EventDataTable.class);
+        private final Logger _logger = LogManager.getLogger(EventDataTable.class);
         private final DbSchema _expSchema = OntologyManager.getExpSchema();
 
         public UpdateService(SimpleUserSchema.SimpleTable ti)
