@@ -15,7 +15,8 @@
  */
 package org.labkey.snprc_ehr.table;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
@@ -47,7 +48,7 @@ import java.util.Calendar;
  */
 public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
-    private static final Logger _log = Logger.getLogger(SNPRC_EHRCustomizer.class);
+    private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
 
     public SNPRC_EHRCustomizer()
     {

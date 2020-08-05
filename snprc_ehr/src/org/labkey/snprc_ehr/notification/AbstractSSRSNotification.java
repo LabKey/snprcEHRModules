@@ -24,7 +24,8 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.util.IOUtils;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
@@ -61,7 +62,7 @@ public abstract class AbstractSSRSNotification implements Notification
     private final String _textContent;
     private Format _format;
 
-    private static final Logger LOG = Logger.getLogger(AbstractSSRSNotification.class);
+    private static final Logger LOG = LogManager.getLogger(AbstractSSRSNotification.class);
     private final String _reportId;
 
     public enum Format
