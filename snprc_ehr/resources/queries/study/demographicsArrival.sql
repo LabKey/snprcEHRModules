@@ -9,12 +9,14 @@ SELECT
   T1.date as MostRecentAcq,
   T1.acquisitionType.value as MostRecentAcqType,
   T1.acquisitionType.Description as MostRecentAcqDesc,
+  T1.acquisitionType.category as MostRecentAcqCategory,
 
   T2.date as EarliestAcq,
   T2.acquisitionType.value as EarliestAcqType,
   T2.acquisitionType.Description as EarliestAcqDesc,
+  T2.acquisitionType.category as EarliestAcqCategory,
 
-  coalesce(T2.date, d.birth) as Center_Arrival,
+  coalesce(T2.date, d.birth) as Center_Arrival
 
 FROM study.demographics d
 

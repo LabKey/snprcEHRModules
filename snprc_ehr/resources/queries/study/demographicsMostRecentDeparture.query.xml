@@ -26,6 +26,12 @@
                         query.description~eq=${MostRecentDispDesc}&amp;
                     </url>
                 </column>
+                <column columnName="MostRecentDispCategory">
+                    <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                        query.queryName=dispositionType&amp;
+                        query.description~eq=${MostRecentDispCategory}&amp;
+                    </url>
+                </column>
                 <column columnName="EarliestDisp">
                     <url>/query/executeQuery.view?schemaName=study&amp;
                         query.queryName=departure&amp;
@@ -43,6 +49,12 @@
                     <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
                         query.queryName=dispositionType&amp;
                         query.description~eq=${MostRecentDispDesc}&amp;
+                    </url>
+                </column>
+                <column columnName="EarliestDispCategory">
+                    <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                        query.queryName=dispositionType&amp;
+                        query.description~eq=${EarliestDispCategory}&amp;
                     </url>
                 </column>
             </columns>
