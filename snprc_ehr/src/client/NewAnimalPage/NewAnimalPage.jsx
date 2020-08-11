@@ -186,6 +186,15 @@ export default class NewAnimalPage extends React.Component {
     }
   };
 
+  handleNumAnimalChange = value => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        numAnimals: value
+      })
+    )
+  }
+
   handleDataChange = (property, value) => {
     this.setState(
       prevState => ({
@@ -489,9 +498,11 @@ export default class NewAnimalPage extends React.Component {
                       this.state.acquisitionTypeList
                     }
                     disabled={ this.disableFirstPanel() }
-                    handleDataChange={ this.handleDataChange }
+                    numAnimals= { this.state.numAnimals }
                     newAnimalData={ this.state.newAnimalData }
+                    handleDataChange={ this.handleDataChange }
                     preventNext={ this.preventNext }
+                    numAnimalChange={ this.handleNumAnimalChange }
                   />
                 </div>
               </div>
