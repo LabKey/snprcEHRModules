@@ -9,10 +9,12 @@ SELECT
   T1.date as MostRecentDisp,
   T1.dispositionType.value as MostRecentDispType,
   T1.dispositionType.Description as MostRecentDispDesc,
+  T1.dispositionType.category as MostRecentDispCategory,
 
   T2.date as EarliestDisp,
   T2.dispositionType.value as EarliestDispType,
-  T2.dispositionType.Description as EarliestDispDesc
+  T2.dispositionType.Description as EarliestDispDesc,
+  T2.dispositionType.category as EarliestDispCategory
 
 FROM study.demographics d
 

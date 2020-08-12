@@ -15,7 +15,8 @@
  */
 package org.labkey.snprc_ehr.query;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
@@ -52,7 +53,7 @@ import java.util.Map;
 
 public class SNPRC_EHRTriggerHelper
 {
-    private static final Logger _log = Logger.getLogger(SNPRC_EHRTriggerHelper.class);
+    private static final Logger _log = LogManager.getLogger(SNPRC_EHRTriggerHelper.class);
     private Container _container = null;
     private User _user = null;
     private Map<String, TableInfo> _cachedTables = new HashMap<>();

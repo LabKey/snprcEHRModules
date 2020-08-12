@@ -26,6 +26,12 @@
                             query.description~eq=${MostRecentAcqDesc}&amp;
                         </url>
                     </column>
+                    <column columnName="MostRecentAcqCategory">
+                        <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                            query.queryName=acquisitionType&amp;
+                            query.description~eq=${MostRecentAcqCategory}&amp;
+                        </url>
+                    </column>
                     <column columnName="EarliestAcq">
                         <url>/query/executeQuery.view?schemaName=study&amp;
                             query.queryName=arrival&amp;
@@ -43,6 +49,12 @@
                         <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
                             query.queryName=acquisitionType&amp;
                             query.description~eq=${MostRecentAcqDesc}&amp;
+                        </url>
+                    </column>
+                    <column columnName="EarliestAcqCategory">
+                        <url>/query/executeQuery.view?schemaName=ehr_lookups&amp;
+                            query.queryName=acquisitionType&amp;
+                            query.value~eq=${EarliestAcqCategory}&amp;
                         </url>
                     </column>
                     <column columnName="Center_Arrival">
