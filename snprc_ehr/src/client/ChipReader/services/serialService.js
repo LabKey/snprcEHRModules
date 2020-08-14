@@ -11,7 +11,7 @@ export const setSerialOptions = (serialOptions, property, value) => {
     if (!serialOptions || !property || !value)
         throw new Error('setSerialOptions requires: serialOptions, property, value')
 
-    if (constants.indexOf(property) === -1)
+    if (constants.validSerialOptions.indexOf(property) === -1)
         throw new Error ('Invalid setSerialOptions Property')
 
     const newOptions = {
@@ -71,27 +71,22 @@ export const read = async (connection) => {
 
     let response = ''
     while (true)  {
-        const { value, done } = await connection.reader.read().catch(error => {
-            console.log(`error ${error.message}`)
+        const { value } = await connection.reader.read().catch( error => {
             throw error
         })
-        //console.log('reading')
         if (value) {
             response += value
         }
-        //console.log(`data: ${value}`)
+
         if (value) {
             if (value.indexOf('\r') > -1) {
-                //connection.reader.releaseLock()
                 break
             }
         }
         else
             break
-        // if (done)
-        //     break
      }
-    return response //.slice(0, -1)
+    return response
 
      
 }

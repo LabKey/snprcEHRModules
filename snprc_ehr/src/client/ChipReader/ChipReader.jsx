@@ -9,12 +9,14 @@ import InfoPanel from '../Shared/components/InfoPanel'
 import ChipDataPanel from './components/ChipDataPanel'
 import SummaryGridPanel from './components/SummaryGridPanel'
 import CancelChangeModal from './components/CancelChangeModal'
+import fetchAnimalId from './api/fetchAnimalId'
 
 export default class ChipReader extends React.Component {
     state = new ChipReaderState();
     notSupportedMessage = constants.notSupportedMessage
     debug = constants.debug;
     isSerialSupported = ('serial' in navigator)
+    prevId = undefined
 
 
     componentDidMount() {
@@ -50,59 +52,38 @@ export default class ChipReader extends React.Component {
         ))
     }
 
-    handleDataChange = (value) => {
+    handleDataChange = async (value) => {
+        const data = value ? value : { chipId: undefined, animalId: undefined, temperature: undefined }
+
+        if (!data.chipId || data.chipId === this.prevId)
+            return
+
+        console.log(`chipId = ${data.chipId}`)
+        this.prevId = data.chipId
+
+        if (data.chipId && !data.animalId) {
+            data.animalId = await fetchAnimalId(data.chipId).catch(error => {
+                this.setState((prevState) => (
+                    {
+                        ...prevState,
+                        errorMessage: error.message
+                    }
+                ))
+
+            })
+        }
+
         this.setState( prevState => ({
             ...prevState,
-            chipData: value
-          })
-        )
-      };
-
-    handleError = value => {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                hasError: value
-            }
-        ))
-    }
-
-    // Cancel button callback
-    handleCancel = () => {
-        if (this.state.isDirty) {
-            this.setState(prevState => (
-                {
-                    ...prevState,
-                    showCancelModal: true
-                }
-            ))
-        } else {
-            window.history.back()
-        }
-    }
-
-    // reset app
-    onCancelClick = () => {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                isDirty: false,
-                showCancelModal: false
-            }
-        ))
-        window.history.back()
-    }
-
-    // dismiss modals
-    onCloseClick = () => {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                showCancelModal: false,
-                showSaveModal: false,
-                showSpeciesChangeModal: false
-            }
-        ))
+            chipData: data,
+            ...(data.animalId && { errorMessage: undefined }), // clear error message
+            ...(data.animalId && {
+                summaryData: [
+                    ...prevState.summaryData,
+                    { ...data }
+                ]
+            })
+        }))
     }
 
     render() {
@@ -123,15 +104,15 @@ export default class ChipReader extends React.Component {
                     <div className="split-panel">
                         <div className="parent-panel">
                             <div className="panel-heading" >
-                                <p>Chip id</p>
+                                <p>Current Animal</p>
                             </div>
                             <div className="wizard-panel" >
                                 <ChipDataPanel
-                                    handleSetConnection={this.handleSetConnection}
-                                    handleDataChange= {this.handleDataChange}
-                                    chipData= { this.state.chipData}
-                                    serialOptions= {this.state.serialOptions}
-                                    connection={ this.state.connection}
+                                    handleSetConnection={ this.handleSetConnection }
+                                    handleDataChange={ this.handleDataChange }
+                                    chipData={ this.state.chipData }
+                                    serialOptions={ this.state.serialOptions }
+                                    connection={ this.state.connection }
                                 />
                             </div>
 
@@ -152,20 +133,11 @@ export default class ChipReader extends React.Component {
                     </div>
                 }
                 <InfoPanel
-                    errorMessages={ !this.isSerialSupported
-                        && [{ propTest: true, colName: this.notSupportedMessage }] }
+                    errorMessages={ (!this.isSerialSupported
+                        && [{ propTest: true, colName: this.notSupportedMessage }])
+                        || (this.state.errorMessage && [{ propTest: true, colName: this.state.errorMessage }])
+                    }
                 />
-                <div>
-
-                    {/* Cancel Modal */ }
-                    <CancelChangeModal
-                        message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
-                        noClick={ this.onCloseClick }
-                        show={ this.state.showCancelModal }
-                        title="Quit?"
-                        yesClick={ this.onCancelClick }
-                    />
-                </div>
             </div >
         )
     }

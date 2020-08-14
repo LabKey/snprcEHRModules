@@ -7,7 +7,7 @@ const ChipReaderState = () => {
         port: undefined,
         serialOptions: [],
         connection: undefined,
-        chipData: undefined,
+        chipData: {chipId: undefined, animalId: undefined, temperature: undefined},
         summaryData: [],
         isLoading: true,
         hasError: false,

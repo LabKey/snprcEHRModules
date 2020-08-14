@@ -12,42 +12,35 @@ export default class ChipDataPanel extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log('CurrentAnimalPanel mounted')
-    }
-
-    logger = (args) => {
-        let line = Array.prototype.slice.call(args).map(function (arg) {
-            return typeof arg === 'string' ? arg : JSON.stringify(arg)
-        }).join('')
-
-        document.querySelector('#log').textContent += line + '\n'
+        console.log('ChipDataPanel mounted')
     }
 
     onConnectClick = () => {
-
-        requestPort().then((serialPort) =>
-            connect(serialPort, this.props.serialOptions).then((connection) => {
+        if (!this.state.connection) {
+            requestPort().then((serialPort) =>
+                connect(serialPort, this.props.serialOptions).then((connection) => {
+                    this.setState((prevState) => (
+                        {
+                            ...prevState,
+                            errorMessage: undefined
+                        }
+                    ))
+                    console.log(connection)
+                    this.props.handleSetConnection(connection)
+                })
+            ).catch(error => {
+                console.log(error.message)
                 this.setState((prevState) => (
                     {
                         ...prevState,
-                        errorMessage: undefined
+                        errorMessage: error.message
                     }
                 ))
-                console.log(connection)
-                this.props.handleSetConnection(connection)
+
             })
-        ).catch(error => {
-            console.log(error.message)
-            this.setState((prevState) => (
-                {
-                    ...prevState,
-                    errorMessage: error.message
-                }
-            ))
-
-        })
+        }
     }
-
+    
     yieldLoop = () => {
         return new Promise(resolve =>
             setImmediate(() => {
@@ -83,7 +76,7 @@ export default class ChipDataPanel extends React.Component {
 
                     await this.yieldLoop() // interupt event loop 
 
-                    if (data && data.length > 0) {
+                    if (data && data.chipId.length > 0) {
                         this.props.handleDataChange(data)
                     }
                 }
@@ -110,7 +103,7 @@ export default class ChipDataPanel extends React.Component {
                             errorMessage: error.message
                         }
                     ))
-        
+
                 })
             })
         }
@@ -121,7 +114,7 @@ export default class ChipDataPanel extends React.Component {
     render() {
         this.state.connection = this.props.connection && this.props.connection
 
-        let chipData = this.props.chipData
+        let { chipId, animalId, temperature } = this.props.chipData && this.props.chipData
 
         return (
             <>
@@ -129,14 +122,44 @@ export default class ChipDataPanel extends React.Component {
                     <div className="wizard-panel__row">
                         <div className="wizard-panel__col">
                             <div>
-                                <label className="field-label">Chip info</label>
+                                <label className="field-label">Chip ID</label>
                                 <input
                                     className="cage-input"
-                                    defaultValue={ chipData }
+                                    defaultValue={ chipId }
                                     disabled={ true }
-                                    id="chip-input"
+                                    id="chip-chipId"
                                     onChange={ this.handleChange }
-                                    placeholder="Chip data"
+                                    placeholder="Chip ID"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="wizard-panel__row">
+                        <div className="wizard-panel__col">
+                            <div>
+                                <label className="field-label">Animal ID</label>
+                                <input
+                                    className="cage-input"
+                                    defaultValue={ animalId && animalId.value }
+                                    disabled={ true }
+                                    id="chip-animalId"
+                                    onChange={ this.handleChange }
+                                    placeholder="Animal ID"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="wizard-panel__row">
+                        <div className="wizard-panel__col">
+                            <div>
+                                <label className="field-label">Temperature</label>
+                                <input
+                                    className="cage-input"
+                                    defaultValue={ temperature }
+                                    disabled={ true }
+                                    id="chip-temperature"
+                                    onChange={ this.handleChange }
+                                    placeholder="Temperature"
                                 />
                             </div>
                         </div>
@@ -144,20 +167,21 @@ export default class ChipDataPanel extends React.Component {
                 </div>
 
                 <div className="summary-panel__rows">
-                    <div className="section-header">Serial Port</div>
+
                     <div className="summary-panel__row">
                         <div className="summary-panel__col">
-
-                            <div id="output" >
-                                <div id="content"></div>
-                                <div id="status"></div>
-                                <pre id="log"></pre>
-                            </div>
+                            { // display reader state
+                                (this.state.connection && !this.state.isReading && <div className='chip-info-span'> Reader connected - not reading  </div>)
+                                || (this.state.isReading && <div className='chip-info-span'>  Reader connected - reading </div>)
+                                || <div className='chip-info-span'> Reader not connected  </div>
+                            }
 
                         </div>
-                        <button onClick={ this.onConnectClick }>Connect to Reader</button>
-                        <button onClick={ this.onQuitClick }>Quit</button>
-                        <button onClick={ this.onStartClick }>Start</button>
+                        <div className="button-row">
+                            <button onClick={ this.onConnectClick }>Connect to Reader</button>
+                            <button onClick={ this.onStartClick }>Start</button>
+                            <button onClick={ this.onQuitClick }>Quit</button>
+                        </div>
                     </div>
                 </div>
 

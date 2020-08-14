@@ -7,30 +7,31 @@ export default class SummaryGridItem extends React.PureComponent {
     this.props.print(id)
   }
 
+  onClick = () => {
+   
+        const fullPath =  this.props.row.animalId.url 
+        const left = window.screenX + 20
+
+        window.open(fullPath, '_blank', `location=no,height=1024,width=1500,status=no,scrollbars=no,left=${left}`)
+        
+    }
+
+
   render() {
-    const { id, acqDate, species, selectedOption } = this.props.row
+    const { animalId, chipId, temperature } = this.props.row
     return (
       <tr>
         <td>
-          {id}
-          {selectedOption === 'Birth'
-            && (
-              <button
-                aria-label="Print"
-                className="btn"
-                onClick={ this.onClickHandler }
-                title="Print Birth Certificate"
-                type="button"
-              >
-                <i aria-hidden="true" className="fa fa-print" />
-              </button>
-            )}
+         { <span className="url-span" onClick={ this.onClick}> { animalId.value } </span> }
         </td>
         <td>
-          {moment(acqDate.date).format('MM/DD/YYYY h:mm A')}
+          { chipId }
         </td>
         <td>
-          {species.value}
+          { moment().format('MM/DD/YYYY h:mm:ss A') }
+        </td>
+        <td>
+          { temperature }
         </td>
       </tr>
     )
