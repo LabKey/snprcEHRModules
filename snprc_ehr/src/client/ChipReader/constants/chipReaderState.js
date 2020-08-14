@@ -5,6 +5,9 @@ const ChipReaderState = () => {
     
     return ({
         port: undefined,
+        serialOptions: [],
+        connection: undefined,
+        chipData: undefined,
         summaryData: [],
         isLoading: true,
         hasError: false,

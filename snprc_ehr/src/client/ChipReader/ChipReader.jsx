@@ -24,6 +24,7 @@ export default class ChipReader extends React.Component {
         this.setState(prevState => (
             {
                 ...prevState,
+                serialOptions: constants.defaultSerialOptions,
                 isLoading: false
             }
         ))
@@ -40,15 +41,23 @@ export default class ChipReader extends React.Component {
         }
     }
 
-    handleSetPort = (port) => {
+    handleSetConnection = (connection) => {
         this.setState(prevState => (
             {
                 ...prevState,
-                port
+                connection
             }
         ))
-
     }
+
+    handleDataChange = (value) => {
+        this.setState( prevState => ({
+            ...prevState,
+            chipData: value
+          })
+        )
+      };
+
     handleError = value => {
         this.setState(prevState => (
             {
@@ -118,8 +127,11 @@ export default class ChipReader extends React.Component {
                             </div>
                             <div className="wizard-panel" >
                                 <ChipDataPanel
-                                port={this.state.port}
-                                handleSetPort={this.handleSetPort}
+                                    handleSetConnection={this.handleSetConnection}
+                                    handleDataChange= {this.handleDataChange}
+                                    chipData= { this.state.chipData}
+                                    serialOptions= {this.state.serialOptions}
+                                    connection={ this.state.connection}
                                 />
                             </div>
 
