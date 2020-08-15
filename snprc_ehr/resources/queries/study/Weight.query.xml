@@ -8,6 +8,22 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
+                    <column columnName="Id">
+                        <datatype>varchar</datatype>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>Animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="qcstate">
+                        <datatype>int</datatype>
+                        <fk>
+                            <fkDbSchema>core</fkDbSchema>
+                            <fkTable>QCState</fkTable>
+                            <fkColumnName>RowId</fkColumnName>
+                        </fk>
+                    </column>
                     <column columnName="date"/>
                     <column columnName="percentChange" wrappedColumnName="lsid">
                         <columnTitle>Percent Change</columnTitle>
