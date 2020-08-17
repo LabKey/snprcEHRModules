@@ -1,4 +1,5 @@
-import { read } from './serialService'
+import { readWithTimeout, read } from './serialService'
+import constants from '../constants/index'
 
 export const getChipData = async (connection) => {
 
@@ -6,14 +7,16 @@ export const getChipData = async (connection) => {
     let dataArr = []
     let dataObj
 
-    data = await read(connection).catch(error => {
-        throw error
-    })
+    // read serial port with a 2 second timeout
+    data = await readWithTimeout(2000, read(connection)
+    .catch(error => {
+        throw error 
+    }))
 
 
     if (data) {
         // process chip data
-        if (data.indexOf('XXX') === -1) {  // clean queue
+        if (data.indexOf('XX') === -1) {  // clean queue
 
             data = data === 'XXXXXXXXXX\r' ? '' : data.replace(/\r/g, '')
             dataArr = data.split(",")
@@ -27,5 +30,6 @@ export const getChipData = async (connection) => {
             }
         }
     }
+    
     return dataObj
 }

@@ -1,7 +1,5 @@
 @import "../../shared/styles/style.scss";
 @import "../../Shared/styles/components/infoPanel";
-@import "../../Shared/styles/components/wrappedDatePicker";
-@import "../../Shared/styles/components/modal";
 @import "../../Shared/styles/components/shared";
 @import "../../Shared/styles/components/summaryGridPanel";
 @import "../../Shared/styles/formatting/panels";
@@ -15,7 +13,7 @@
     border: 1px solid $info-green;
     border-radius: 3px;
     font-size: $font-size-large;
-    //color: $info-green;
+    color: $dark-blue;
 }
 
 .url-span { 
@@ -24,5 +22,11 @@
  } 
 
  .button-row {
-     padding: 1rem 
+     padding: 1rem 1rem 2rem 1rem
  }
+
+ .id-table-scroll {
+    overflow-y: auto;
+    min-height: 24.5rem;
+    padding: 0, 0.1rem !important;
+}

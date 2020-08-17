@@ -7,7 +7,6 @@ export const requestPort = async () => {
 }
 
 export const setSerialOptions = (serialOptions, property, value) => {
-
     if (!serialOptions || !property || !value)
         throw new Error('setSerialOptions requires: serialOptions, property, value')
 
@@ -52,7 +51,6 @@ export const connect = async (port, serialOptions) => {
     }
 
     return connection
-
 }
 
 export const write = async (connection, text) => {
@@ -61,11 +59,31 @@ export const write = async (connection, text) => {
 
     await connection.writer.write(text)
     await connection.writer.write('\r')
+}
 
+export const readWithTimeout = function (ms, promise) {
+
+    let timerId = null;
+
+    // Create a promise that rejects in the specified timeout period (ms)
+    let timeout = new Promise((resolve, reject) => {
+        timerId = setTimeout(() => {
+            clearTimeout(timerId)
+            reject(new Error (constants.timeOutErrorMessage))
+        }, ms)
+    })
+
+    // Returns a race between our timeout and the passed in promise
+    return Promise.race([
+        promise.then(value => {
+            clearTimeout(timerId)
+            return value
+        }),
+        timeout
+    ])
 }
 
 export const read = async (connection) => {
-
     if (!connection)
         throw new Error('Read requires a valid connection object')
 
@@ -86,9 +104,7 @@ export const read = async (connection) => {
         else
             break
      }
-    return response
-
-     
+    return response     
 }
 
 export const close = async (connection) => {
@@ -105,7 +121,6 @@ export const close = async (connection) => {
         connection.outputDone = null
     }
 
-    
     await connection.port.close()
     connection.port = null
 }

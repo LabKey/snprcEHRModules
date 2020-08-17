@@ -12,7 +12,8 @@ export default class SummaryGridItem extends React.PureComponent {
         const fullPath =  this.props.row.animalId.url 
         const left = window.screenX + 20
 
-        window.open(fullPath, '_blank', `location=no,height=1024,width=1500,status=no,scrollbars=no,left=${left}`)
+        //window.open(fullPath, '_blank', `location=yes,height=1024,width=1500,status=no,scrollbars=yes,menubar=yes,left=${left}`)
+        window.open(fullPath, '_blank', `height=1024,width=1500,left=${left}`)
         
     }
 
@@ -28,10 +29,13 @@ export default class SummaryGridItem extends React.PureComponent {
           { chipId }
         </td>
         <td>
-          { moment().format('MM/DD/YYYY h:mm:ss A') }
+          { moment(animalId.time).format('MM/DD/YYYY h:mm:ss A') }
         </td>
         <td>
           { temperature }
+        </td>
+        <td>
+          { animalId.location }
         </td>
       </tr>
     )

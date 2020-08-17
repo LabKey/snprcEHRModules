@@ -8,19 +8,17 @@ import constants from './constants/index'
 import InfoPanel from '../Shared/components/InfoPanel'
 import ChipDataPanel from './components/ChipDataPanel'
 import SummaryGridPanel from './components/SummaryGridPanel'
-import CancelChangeModal from './components/CancelChangeModal'
 import fetchAnimalId from './api/fetchAnimalId'
 
 export default class ChipReader extends React.Component {
     state = new ChipReaderState();
     notSupportedMessage = constants.notSupportedMessage
     debug = constants.debug;
-    isSerialSupported = ('serial' in navigator)
-    prevId = undefined
-
+    isSerialSupported = ('serial' in navigator) || this.props.debug
+    previousChipId = undefined
 
     componentDidMount() {
-        // prevent user from navigating away from page
+        
         window.addEventListener('beforeunload', this.beforeunload.bind(this))
 
         this.setState(prevState => (
@@ -37,7 +35,8 @@ export default class ChipReader extends React.Component {
     }
 
     beforeunload(e) {
-        if (this.state.isDirty) {
+        if (this.state.connection) {
+            close(this.state.connection)
             e.preventDefault()
             e.returnValue = true
         }
@@ -55,11 +54,11 @@ export default class ChipReader extends React.Component {
     handleDataChange = async (value) => {
         const data = value ? value : { chipId: undefined, animalId: undefined, temperature: undefined }
 
-        if (!data.chipId || data.chipId === this.prevId)
+        if (!data.chipId || data.chipId === this.previousChipId)
             return
 
-        console.log(`chipId = ${data.chipId}`)
-        this.prevId = data.chipId
+        //console.log(`chipId = ${data.chipId}`)
+        this.previousChipId = data.chipId
 
         if (data.chipId && !data.animalId) {
             data.animalId = await fetchAnimalId(data.chipId).catch(error => {
@@ -86,6 +85,15 @@ export default class ChipReader extends React.Component {
         }))
     }
 
+    handleErrorMessage = error => {
+        this.setState((prevState) => (
+            {
+                ...prevState,
+                errorMessage: error
+            }
+        ))
+    }
+
     render() {
         // allow debug mode to be triggered for running test suite
         this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug
@@ -110,6 +118,8 @@ export default class ChipReader extends React.Component {
                                 <ChipDataPanel
                                     handleSetConnection={ this.handleSetConnection }
                                     handleDataChange={ this.handleDataChange }
+                                    handleErrorMessage= { this.handleErrorMessage }
+                                    errorMessage= { this.state.errorMessage }
                                     chipData={ this.state.chipData }
                                     serialOptions={ this.state.serialOptions }
                                     connection={ this.state.connection }

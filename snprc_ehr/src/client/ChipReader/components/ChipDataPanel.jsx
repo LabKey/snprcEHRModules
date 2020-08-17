@@ -1,12 +1,11 @@
 import React from 'react'
-import InfoPanel from '../../Shared/components/InfoPanel'
-import { requestPort, connect, close, read } from '../services/serialService'
+import { requestPort, connect, close } from '../services/serialService'
 import { getChipData } from '../services/microChipReader'
+import constants from '../constants/index'
 
 export default class ChipDataPanel extends React.Component {
 
     state = {
-        errorMessage: undefined,
         isReading: false,
         connection: undefined
     }
@@ -19,36 +18,18 @@ export default class ChipDataPanel extends React.Component {
         if (!this.state.connection) {
             requestPort().then((serialPort) =>
                 connect(serialPort, this.props.serialOptions).then((connection) => {
-                    this.setState((prevState) => (
-                        {
-                            ...prevState,
-                            errorMessage: undefined
-                        }
-                    ))
+
                     console.log(connection)
+                    this.props.handleErrorMessage(undefined)
                     this.props.handleSetConnection(connection)
                 })
             ).catch(error => {
-                console.log(error.message)
-                this.setState((prevState) => (
-                    {
-                        ...prevState,
-                        errorMessage: error.message
-                    }
-                ))
-
+                this.props.handleErrorMessage(error.message)
             })
         }
     }
-    
-    yieldLoop = () => {
-        return new Promise(resolve =>
-            setImmediate(() => {
-                resolve()
-            })
-        )
-    }
 
+    flushPromises = () =>  { return new Promise(resolve => setImmediate(resolve)) }
 
     onStartClick = async () => {
         if (this.state.connection && !this.state.isReading) {
@@ -65,16 +46,22 @@ export default class ChipDataPanel extends React.Component {
 
                 // serial port read loop
                 while (this.state.isReading) {
-                    data = await getChipData(this.state.connection).catch(error => {
-                        this.setState((prevState) => (
-                            {
-                                ...prevState,
-                                errorMessage: error.message
+                    await getChipData(this.state.connection)
+                        .then(results => {
+                            // clear error message
+                            if ((this.props.errorMessage && results && results.animalId) || 
+                                this.props.errorMessage === constants.timeOutErrorMessage) {
+                                
+                                    this.props.handleErrorMessage(undefined)
                             }
-                        ))
-                    })
+                            data = results
+                        })
 
-                    await this.yieldLoop() // interupt event loop 
+                        .catch(error => {
+                            this.props.handleErrorMessage(error.message)
+                        })
+
+                    await this.flushPromises() // interupt event loop 
 
                     if (data && data.chipId.length > 0) {
                         this.props.handleDataChange(data)
@@ -97,13 +84,7 @@ export default class ChipDataPanel extends React.Component {
                 close(this.state.connection).then(() => {
                     this.props.handleSetConnection(undefined)
                 }).catch(error => {
-                    this.setState((prevState) => (
-                        {
-                            ...prevState,
-                            errorMessage: error.message
-                        }
-                    ))
-
+                    this.props.handleErrorMessage(error.message)
                 })
             })
         }
@@ -169,27 +150,21 @@ export default class ChipDataPanel extends React.Component {
                 <div className="summary-panel__rows">
 
                     <div className="summary-panel__row">
-                        <div className="summary-panel__col">
+
                             { // display reader state
                                 (this.state.connection && !this.state.isReading && <div className='chip-info-span'> Reader connected - not reading  </div>)
                                 || (this.state.isReading && <div className='chip-info-span'>  Reader connected - reading </div>)
-                                || <div className='chip-info-span'> Reader not connected  </div>
+                                || <div className='chip-info-span'> Reader disconnected  </div>
                             }
 
-                        </div>
                         <div className="button-row">
                             <button onClick={ this.onConnectClick }>Connect to Reader</button>
                             <button onClick={ this.onStartClick }>Start</button>
-                            <button onClick={ this.onQuitClick }>Quit</button>
+                            <button onClick={ this.onQuitClick }>Stop</button>
                         </div>
                     </div>
                 </div>
 
-                <InfoPanel
-                    errorMessages={ this.state.errorMessage
-                        && [{ propTest: true, colName: this.state.errorMessage }] }
-
-                />
             </>
         )
     }
