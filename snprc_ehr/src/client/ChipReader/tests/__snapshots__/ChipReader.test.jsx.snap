@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChipReader tests Should render a loading spinner before rendering the landing page. 1`] = `
+<LoadingSpinner_LoadingSpinner
+  msg="Loading app..."
+  wrapperClassName=""
+/>
+`;
+
+exports[`ChipReader tests Should render the landing page with no serial support error. 1`] = `
+<div>
+  <InfoPanel
+    errorMessages={
+      Array [
+        Object {
+          "colName": "Sorry, Serial.API is not supported on this device, make sure you're 
+    running Chrome 78 or later and have enabled the #enable-experimental-web-platform-features flag in
+    chrome://flags",
+          "propTest": true,
+        },
+      ]
+    }
+  />
+</div>
+`;
+
+exports[`ChipReader tests Should render the landing page without error message. 1`] = `
+<div>
+  <div
+    className="split-panel"
+  >
+    <div
+      className="parent-panel"
+    >
+      <div
+        className="panel-heading"
+      >
+        <p>
+          Current Animal
+        </p>
+      </div>
+      <div
+        className="wizard-panel"
+      >
+        <ChipDataPanel
+          chipData={
+            Object {
+              "animalId": undefined,
+              "chipId": undefined,
+              "temperature": undefined,
+              "time": undefined,
+            }
+          }
+          handleDataChange={[Function]}
+          handleErrorMessage={[Function]}
+          handleSetConnection={[Function]}
+          serialOptions={
+            Object {
+              "baudrate": 19200,
+              "buffersize": 255,
+              "databits": 8,
+              "parity": "none",
+              "rctscts": false,
+              "stopbits": 1,
+              "xany": false,
+              "xoff": true,
+              "xon": true,
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="right-panel"
+    >
+      <div>
+        <div
+          className="panel-heading"
+        >
+          <p>
+            Animals Seen
+          </p>
+        </div>
+        <div
+          className="wizard-right"
+        >
+          <SummaryGridPanel
+            summaryData={Array []}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <InfoPanel />
+</div>
+`;

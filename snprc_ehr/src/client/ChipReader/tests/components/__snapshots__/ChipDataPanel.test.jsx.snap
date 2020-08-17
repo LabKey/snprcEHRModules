@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChipDataPanel tests Should render the ChipDataPanel. 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Chip ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-chipId"
+            onChange={[Function]}
+            placeholder="Chip ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Animal ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-animalId"
+            onChange={[Function]}
+            placeholder="Animal ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Temperature
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-temperature"
+            onChange={[Function]}
+            placeholder="Temperature"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="summary-panel__rows"
+  >
+    <div
+      className="summary-panel__row"
+    >
+      <div
+        className="chip-info-span"
+      >
+         Reader disconnected  
+      </div>
+      <div
+        className="button-row"
+      >
+        <button
+          onClick={[Function]}
+        >
+          Connect to Reader
+        </button>
+        <button
+          onClick={[Function]}
+        >
+          Start
+        </button>
+        <button
+          onClick={[Function]}
+        >
+          Stop
+        </button>
+      </div>
+    </div>
+  </div>
+</Fragment>
+`;
