@@ -46,6 +46,7 @@ describe('ChipReader tests', () => {
     })
 
     test('Should render a loading spinner before rendering the landing page.', async () => {
+        wrapper.unmount()
         wrapper = shallow(<ChipReader />, { disableLifecycleMethods: true })
         await flushPromises()
         expect(wrapper).toMatchSnapshot()

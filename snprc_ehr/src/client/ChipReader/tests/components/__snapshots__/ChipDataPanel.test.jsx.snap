@@ -1,5 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ChipDataPanel tests Should connect to reader. 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Chip ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-chipId"
+            onChange={[Function]}
+            placeholder="Chip ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Animal ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-animalId"
+            onChange={[Function]}
+            placeholder="Animal ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Temperature
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-temperature"
+            onChange={[Function]}
+            placeholder="Temperature"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="summary-panel__rows"
+  >
+    <div
+      className="summary-panel__row"
+    >
+      <div
+        className="chip-info-span"
+      >
+         Reader connected - not reading  
+      </div>
+      <div
+        className="button-row"
+      >
+        <button
+          id="connect"
+          onClick={[Function]}
+          type="button"
+        >
+          Connect to Reader
+        </button>
+        <button
+          id="start"
+          onClick={[Function]}
+          type="button"
+        >
+          Start
+        </button>
+        <button
+          id="stop"
+          onClick={[Function]}
+          type="button"
+        >
+          Stop
+        </button>
+      </div>
+    </div>
+  </div>
+</Fragment>
+`;
+
 exports[`ChipDataPanel tests Should render the ChipDataPanel. 1`] = `
 <Fragment>
   <div
@@ -87,18 +200,247 @@ exports[`ChipDataPanel tests Should render the ChipDataPanel. 1`] = `
         className="button-row"
       >
         <button
+          id="connect"
           onClick={[Function]}
           type="button"
         >
           Connect to Reader
         </button>
         <button
+          id="start"
           onClick={[Function]}
           type="button"
         >
           Start
         </button>
         <button
+          id="stop"
+          onClick={[Function]}
+          type="button"
+        >
+          Stop
+        </button>
+      </div>
+    </div>
+  </div>
+</Fragment>
+`;
+
+exports[`ChipDataPanel tests Should start reading. 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Chip ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-chipId"
+            onChange={[Function]}
+            placeholder="Chip ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Animal ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-animalId"
+            onChange={[Function]}
+            placeholder="Animal ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Temperature
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-temperature"
+            onChange={[Function]}
+            placeholder="Temperature"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="summary-panel__rows"
+  >
+    <div
+      className="summary-panel__row"
+    >
+      <div
+        className="chip-info-span"
+      >
+          Reader connected - reading 
+      </div>
+      <div
+        className="button-row"
+      >
+        <button
+          id="connect"
+          onClick={[Function]}
+          type="button"
+        >
+          Connect to Reader
+        </button>
+        <button
+          id="start"
+          onClick={[Function]}
+          type="button"
+        >
+          Start
+        </button>
+        <button
+          id="stop"
+          onClick={[Function]}
+          type="button"
+        >
+          Stop
+        </button>
+      </div>
+    </div>
+  </div>
+</Fragment>
+`;
+
+exports[`ChipDataPanel tests Should stop reading. 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Chip ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-chipId"
+            onChange={[Function]}
+            placeholder="Chip ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Animal ID
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-animalId"
+            onChange={[Function]}
+            placeholder="Animal ID"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <div>
+          <label
+            className="field-label"
+          >
+            Temperature
+          </label>
+          <input
+            className="cage-input"
+            disabled={true}
+            id="chip-temperature"
+            onChange={[Function]}
+            placeholder="Temperature"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="summary-panel__rows"
+  >
+    <div
+      className="summary-panel__row"
+    >
+      <div
+        className="chip-info-span"
+      >
+         Reader disconnected  
+      </div>
+      <div
+        className="button-row"
+      >
+        <button
+          id="connect"
+          onClick={[Function]}
+          type="button"
+        >
+          Connect to Reader
+        </button>
+        <button
+          id="start"
+          onClick={[Function]}
+          type="button"
+        >
+          Start
+        </button>
+        <button
+          id="stop"
           onClick={[Function]}
           type="button"
         >

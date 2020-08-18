@@ -16,7 +16,6 @@ export default class ChipDataPanel extends React.Component {
     onConnectClick = () => {
         if (!this.state.connection) {
             requestPort().then(serialPort => connect(serialPort, this.props.serialOptions).then(connection => {
-                console.log(connection)
                 this.props.handleErrorMessage(undefined)
                 this.props.handleSetConnection(connection)
             })).catch(error => {
@@ -147,9 +146,9 @@ export default class ChipDataPanel extends React.Component {
                         }
 
                 <div className="button-row">
-                  <button onClick={ this.onConnectClick } type="button">Connect to Reader</button>
-                  <button onClick={ this.onStartClick } type="button">Start</button>
-                  <button onClick={ this.onQuitClick } type="button">Stop</button>
+                  <button id="connect" onClick={ this.onConnectClick } type="button">Connect to Reader</button>
+                  <button id="start" onClick={ this.onStartClick } type="button">Start</button>
+                  <button id="stop" onClick={ this.onQuitClick } type="button">Stop</button>
                 </div>
               </div>
             </div>
