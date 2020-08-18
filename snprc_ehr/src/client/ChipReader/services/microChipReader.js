@@ -1,5 +1,4 @@
 import { readWithTimeout, read } from './serialService'
-import constants from '../constants/index'
 
 export const getChipData = async (connection) => {
 

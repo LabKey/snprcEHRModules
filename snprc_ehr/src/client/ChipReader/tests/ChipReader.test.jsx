@@ -16,7 +16,7 @@ beforeAll(() => {
 let wrapper
 
 beforeEach(() => {
-    wrapper = shallow(<ChipReader debug/>)
+    wrapper = shallow(<ChipReader debug />)
 })
 
 afterEach(() => {
@@ -26,7 +26,6 @@ afterEach(() => {
 function flushPromises() {
     return new Promise(resolve => setImmediate(resolve))
 }
-
 
 describe('ChipReader tests', () => {
     test('Should render the landing page with no serial support error.', async () => {
@@ -52,6 +51,4 @@ describe('ChipReader tests', () => {
         expect(wrapper).toMatchSnapshot()
         expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeTruthy()
     })
-
-
 })

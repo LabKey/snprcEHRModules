@@ -49,6 +49,7 @@
       "error",
       "as-needed"
     ],
+    "lines-between-class-members": ["error", "never"],
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,
     "global-require": 0,
