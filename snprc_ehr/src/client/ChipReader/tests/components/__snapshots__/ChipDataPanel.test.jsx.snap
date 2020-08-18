@@ -88,16 +88,19 @@ exports[`ChipDataPanel tests Should render the ChipDataPanel. 1`] = `
       >
         <button
           onClick={[Function]}
+          type="button"
         >
           Connect to Reader
         </button>
         <button
           onClick={[Function]}
+          type="button"
         >
           Start
         </button>
         <button
           onClick={[Function]}
+          type="button"
         >
           Stop
         </button>
