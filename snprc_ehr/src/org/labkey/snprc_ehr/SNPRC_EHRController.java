@@ -49,6 +49,7 @@ import org.labkey.api.query.QueryWebPart;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.util.GUID;
 import org.labkey.api.util.URLHelper;
@@ -380,6 +381,15 @@ public class SNPRC_EHRController extends SpringActionController
         }
     }
 
+    @RequiresPermission(ReadPermission.class)
+    public class IdChipReaderAction extends SimpleRedirectAction
+    {
+        @Override
+        public URLHelper getRedirectURL(Object o)
+        {
+            return new ActionURL(NAME, "ChipReader", getContainer());
+        }
+    }
 
     @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class NewAnimalWizardAction extends SimpleRedirectAction

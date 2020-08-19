@@ -1,0 +1,32 @@
+@import "../../Shared/styles/style.scss";
+@import "../../Shared/styles/components/infoPanel";
+@import "../../Shared/styles/components/shared";
+@import "../../Shared/styles/components/summaryGridPanel";
+@import "../../Shared/styles/formatting/panels";
+@import "../../Shared/styles/formatting/wizard";
+
+
+.chip-info-span {
+    margin: 2rem 1rem 2rem 1rem;
+    padding: 1rem 0 1rem 1rem;
+    background-color: $info-green;
+    border: 1px solid $info-green;
+    border-radius: 3px;
+    font-size: $font-size-large;
+    color: $dark-blue;
+}
+
+.url-span { 
+    color: $button-blue;
+    text-decoration: underline;
+ } 
+
+ .button-row {
+     padding: 1rem 1rem 2rem 1rem
+ }
+
+ .id-table-scroll {
+    overflow-y: auto;
+    min-height: 24.5rem;
+    padding: 0, 0.1rem !important;
+}
