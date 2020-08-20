@@ -303,46 +303,53 @@ export default class NewAnimalPage extends React.Component {
   onSaveClick = () => {
     console.log('Saving...')
 
-    // run async save then dismiss modal
-    uploadAnimalData(this.state.newAnimalData)
-      .then(data => {
-        if (data.success === true) {
-          this.setState(
-            prevState => ({
+    // Multiple animals can be added for hamsters, which are often acquired and assigned in bulk
+    const numAnimals = this.state.numAnimals ? this.state.numAnimals : 1
+
+    for (let i = 0; i < numAnimals; i++) {
+      // run async save then dismiss modal
+      uploadAnimalData(this.state.newAnimalData)
+        .then(data => {
+          if (data.success === true) {
+            this.setState(
+              prevState => ({
+                ...prevState,
+                newAnimalData: {
+                  ...prevState.newAnimalData,
+                  id: data.Id,
+                },
+                showSaveModal: false,
+                summaryData: [
+                  ...prevState.summaryData,
+                  { ...prevState.newAnimalData, id: data.Id },
+                ],
+              }),
+              this.handleSaveReset()
+            )
+          } else {
+            this.setState(prevState => ({
               ...prevState,
-              newAnimalData: {
-                ...prevState.newAnimalData,
-                id: data.Id,
-              },
+              errorMessage: data.message,
               showSaveModal: false,
-              summaryData: [
-                ...prevState.summaryData,
-                { ...prevState.newAnimalData, id: data.Id },
-              ],
-            }),
-            this.handleSaveReset()
-          )
-        } else {
+            }))
+          }
+        })
+        .catch(error => {
           this.setState(prevState => ({
             ...prevState,
-            errorMessage: data.message,
+            errorMessage: error.exception,
             showSaveModal: false,
           }))
-        }
-      })
-      .catch(error => {
-        this.setState(prevState => ({
-          ...prevState,
-          errorMessage: error.exception,
-          showSaveModal: false,
-        }))
-      })
+        })
+    }
+
   };
 
   handleSaveReset = () => {
     this.setState(prevState => ({
       ...prevState,
       currentPanel: 1,
+      numAnimals: undefined,
       newAnimalData: {
         ...prevState.newAnimalData,
         ...(prevState.selectedOption === 'Acquisition' && {
@@ -358,7 +365,7 @@ export default class NewAnimalPage extends React.Component {
           cage: prevState.newAnimalData.cage
 
         })
-        || {
+          || {
           sire: undefined,
           dam: undefined,
           cage: { value: undefined }
@@ -498,11 +505,11 @@ export default class NewAnimalPage extends React.Component {
                       this.state.acquisitionTypeList
                     }
                     disabled={ this.disableFirstPanel() }
-                    numAnimals= { this.state.numAnimals }
+                    numAnimals={ this.state.numAnimals }
                     newAnimalData={ this.state.newAnimalData }
                     handleDataChange={ this.handleDataChange }
                     preventNext={ this.preventNext }
-                    numAnimalChange={ this.handleNumAnimalChange }
+                    handleNumAnimalChange={ this.handleNumAnimalChange }
                   />
                 </div>
               </div>
@@ -696,6 +703,7 @@ export default class NewAnimalPage extends React.Component {
           {/* Save Modal */ }
           <SaveModal
             newAnimalData={ this.state.newAnimalData }
+            numAnimals={ this.state.numAnimals }
             onCloseClick={ this.onCloseClick }
             onSaveClick={ this.onSaveClick }
             show={ this.state.showSaveModal }

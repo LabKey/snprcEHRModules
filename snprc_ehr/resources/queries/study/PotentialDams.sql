@@ -7,7 +7,6 @@ SELECT d.id as Dam,
        d.birth as BirthDate,
        d.id.age.ageInYears as Age
 
-
 FROM study.demographics AS d
          INNER JOIN (
     SELECT "min" AS minAdultAge, species, gender, label
@@ -26,8 +25,10 @@ FROM study.demographics AS d
     UNION ALL
     SELECT 223 as gestation, 'PT' as species
     UNION ALL
+    SELECT 22 as gestation, 'MA' as species
+    UNION ALL
     SELECT 185 as gestation, 'O' as species
-) AS y ON CASE WHEN d.species.arc_species_code IN ('PC', 'CJ', 'MM', 'MF', 'PT') then d.species.arc_species_code ELSE 'O' END = y.species
+) AS y ON CASE WHEN d.species.arc_species_code IN ('PC', 'CJ', 'MM', 'MF', 'PT','MA') then d.species.arc_species_code ELSE 'O' END = y.species
 
          INNER JOIN study.acq_disp as ad on d.id = ad.id
 

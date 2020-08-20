@@ -4,10 +4,12 @@ import moment from 'moment'
 import WrappedDatePicker from '../../Shared/components/WrappedDatePicker'
 import InfoPanel from '../../Shared/components/InfoPanel'
 import { validateNumAnimals } from '../services/validation'
+import constants from '../constants/index'
 
 export default class AcquisitionPanel extends React.Component {
   state = {
-    errorMessage: undefined
+    errorMessage: undefined,
+    infoMessage: undefined
   }
 
   componentDidMount = () => {
@@ -27,7 +29,7 @@ export default class AcquisitionPanel extends React.Component {
 
     const errorMessage = validateNumAnimals(numAnimals)
     if (errorMessage === undefined) {
-      this.props.handleDataChange(numAnimals)
+      this.props.handleNumAnimalChange(numAnimals)
     }
 
     this.setState(prevState => (
@@ -40,7 +42,6 @@ export default class AcquisitionPanel extends React.Component {
 
   isInteger = e => {
     const i = e.key // which ? e.which : e.keyCode;
-    console.log(i)
     const isInteger = (i >= 0 && i <= 9)
     if (!isInteger) {
       e.preventDefault()
@@ -104,6 +105,7 @@ export default class AcquisitionPanel extends React.Component {
                   <input
                     className="cage-input"
                     defaultValue={ numAnimals ? numAnimals : 1 }
+                    disabled={ this.props.disabled }
                     onKeyPress={ this.isInteger }
                     onPasteCapture={ this.handlePaste }
                     type="text"
@@ -124,6 +126,9 @@ export default class AcquisitionPanel extends React.Component {
           messages={
             [{ propTest: !acquisitionType, colName: 'Acquisition Code' }]
           }
+          infoMessages={species && species.arcSpeciesCode === 'MA' && numAnimals && numAnimals != 1 && [
+            {key: 1, value: constants.hamsterWarnings}
+          ]}
         />
       </>
     )

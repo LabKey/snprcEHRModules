@@ -75,6 +75,12 @@
     text-overflow: ellipsis;
 }
 
+.summary-text-input-red  {
+    border: 2px solid $info-red;
+    color: $info-red;
+    font-weight: bold;
+}
+
 .summary-date-input  {
     flex-basis: 35rem;
     flex-shrink: 1;
@@ -93,6 +99,11 @@
     font-weight: 600;
 }
 
+.summary-label-red {
+    display:flex;
+    color: $info-red;
+    font-weight: 600;
+}
 .date-width {
       width: 23rem !important;
 }
