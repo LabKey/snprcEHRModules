@@ -2,11 +2,6 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="idHistory" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
                 <columns>
                     <column columnName="Id">
                         <columnTitle>TxBiomed ID</columnTitle>
