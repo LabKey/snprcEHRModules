@@ -123,11 +123,11 @@ exports[`Modal tests Should render the SaveModal 1`] = `
       infoMessages={
         Array [
           Object {
-            "key": 1,
+            "key": 2,
             "value": "Please review data before saving.",
           },
           Object {
-            "key": 2,
+            "key": 3,
             "value": "Hover cursor over fields for full text.",
           },
         ]

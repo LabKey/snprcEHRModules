@@ -75,6 +75,14 @@ exports[`Should render the AcquisitionPanel 1`] = `
     </div>
   </div>
   <InfoPanel
+    errorMessages={
+      Array [
+        Object {
+          "colName": undefined,
+          "propTest": undefined,
+        },
+      ]
+    }
     messages={
       Array [
         Object {
