@@ -10,6 +10,7 @@
 @import "./components/locationPanel";
 @import "./components/dietPanel";
 @import "./components/summaryPanel";
+@import "./components/acquisitionPanel";
 
 .right-panel {
     flex: 1;
@@ -22,10 +23,4 @@
   overflow-y: auto;
   height:$l-panel;
   padding: 0, .1rem !important;  
-}
-
-.info-text-span {
-  color: $info-red;
-  font-weight: bold !important;
-  font-size: $font-size-medium;
 }

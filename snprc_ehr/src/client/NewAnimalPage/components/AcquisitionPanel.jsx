@@ -103,7 +103,7 @@ export default class AcquisitionPanel extends React.Component {
                 <label className="field-label">Number of Animals</label>
                 
                   <input
-                    className="cage-input"
+                    className="acq-input"
                     defaultValue={ numAnimals ? numAnimals : 1 }
                     disabled={ this.props.disabled }
                     onKeyPress={ this.isInteger }

@@ -17,8 +17,11 @@
 }
 
 .info-text-span {
-    font-weight: 500;
-}
+    padding: 1rem 0 1rem 1rem;
+    background-color: $info-green;
+    border: 1px solid $info-green;
+    border-radius: 3px;
+  }
 
 .info-div {
     padding: 1rem 0 0 1rem;
