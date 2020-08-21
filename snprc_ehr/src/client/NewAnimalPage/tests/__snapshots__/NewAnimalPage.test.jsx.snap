@@ -104,6 +104,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
             acquisitionTypeList={Array []}
             disabled={true}
             handleDataChange={[Function]}
+            handleNumAnimalChange={[Function]}
             newAnimalData={
               Object {
                 "acqDate": Object {

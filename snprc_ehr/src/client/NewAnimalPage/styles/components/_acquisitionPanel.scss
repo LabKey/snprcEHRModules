@@ -1,0 +1,21 @@
+// ======= acquisition Panel ========
+
+.acq-input  {
+  border-radius: 5px;
+  border: 1px solid $light-gray;
+  margin: 0 0 0 11px;
+  padding: $s-size $s-size $s-size $xs-size; 
+  width: 6.5rem;
+  height: 20px;
+  font-family: helvetica, Arial, sans-serif;
+  font-size: $font-size-small;
+}
+.acq-input:disabled {
+     opacity: .5;
+     background-color: $disabled-gray;
+     border: 1px solid darken($disabled-gray, 30%);
+}
+
+.acq-input:invalid {
+  border: 1px solid red;
+}

@@ -41,9 +41,11 @@ export default class SaveModal extends React.PureComponent {
 
             <Modal.Body>
               <SummaryPanel
-                infoMessages={ [{ key: 1, value: 'Please review data before saving.' },
-                            { key: 2, value: 'Hover cursor over fields for full text.' }] }
+                infoMessages={ [...(this.props.numAnimals && this.props.numAnimals != 1 ? [{ key: 1, value: 'Multiple animals are being addeded!' }] : []),
+                            { key: 2, value: 'Please review data before saving.' },
+                            { key: 3, value: 'Hover cursor over fields for full text.' }] }
                 newAnimalData={ this.props.newAnimalData }
+                numAnimals= { this.props.numAnimals }
               />
             </Modal.Body>
 
