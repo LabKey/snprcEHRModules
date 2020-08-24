@@ -100,14 +100,6 @@ exports[`Should render the LocationPanel 1`] = `
     </div>
   </div>
   <InfoPanel
-    errorMessages={
-      Array [
-        Object {
-          "colName": undefined,
-          "propTest": undefined,
-        },
-      ]
-    }
     messages={
       Array [
         Object {

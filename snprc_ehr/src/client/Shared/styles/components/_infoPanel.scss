@@ -28,14 +28,18 @@
 }
 
 .info-err-span {
-    background-color: $disabled-gray;
-    border: 1px solid $info-red;
-    border-radius: 3px;
-    color: $info-red;
+    // background-color: $disabled-gray;
+    // border: 1px solid $info-red;
+    // border-radius: 3px;
+    
+    color: black;
     padding: 0.2rem;
 }
 
 .info-err-div {
-    padding: 1rem 0 0 0;
+    padding: 1rem;
     font-weight: 600;
+    background-color: $info-light-red;
+    border: 1px solid $info-light-red;
+    border-radius: 3px;
 }

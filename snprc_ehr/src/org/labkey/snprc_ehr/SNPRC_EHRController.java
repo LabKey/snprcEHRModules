@@ -66,6 +66,7 @@ import org.labkey.snprc_ehr.domain.NewAnimalData;
 import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.labkey.snprc_ehr.security.SNPRCColonyAdminPermission;
+import org.springframework.beans.PropertyValues;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -312,46 +313,11 @@ public class SNPRC_EHRController extends SpringActionController
             try
             {
                 List<Map<String, Object>> dataList = new ArrayList<>();
-                int newAnimalId = SNPRC_EHRSequencer.ANIMALID.getNext(getContainer());
+                int newAnimalId = SNPRC_EHRSequencer.ANIMALID.getNext(getContainer(), getUser(), false);
                 if (newAnimalId > 0)
                 {
                     json.put("Id", newAnimalId);
 
-                    data.add(json);
-                    props.put("success", true);
-                    props.put("rows", data);
-                }
-                else
-                {
-                    props.put("success", false);
-                    props.put("message", "Id Sequencer error");
-                }
-            }
-            catch (Exception e)
-            {
-                props.put("success", false);
-                props.put("message", e.getMessage());
-            }
-            return new ApiSimpleResponse(props);
-        }
-    }
-    // http://localhost:8080/labkey/snprc_ehr/snprc/previewNextAnimalId
-    @RequiresPermission(EHRDataEntryPermission.class)
-    public class previewNextAnimalIdAction extends ReadOnlyApiAction<SimpleApiJsonForm>
-    {
-        @Override
-        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
-        {
-            Map<String, Object> props = new HashMap<>();
-            JSONObject json = new JSONObject();
-            List<JSONObject> data = new ArrayList<>();
-
-            try
-            {
-                int nextAnimalId = SNPRC_EHRSequencer.ANIMALID.previewNext(getContainer());
-                if (nextAnimalId > 0)
-                {
-                    json.put("Id", nextAnimalId);
                     data.add(json);
                     props.put("success", true);
                     props.put("rows", data);
@@ -440,29 +406,40 @@ public class SNPRC_EHRController extends SpringActionController
     public class UpdateAnimalDataAction extends MutatingApiAction<NewAnimalData>
     {
         @Override
-        public ApiResponse execute(NewAnimalData o, BindException errors)
+        public ApiResponse execute(NewAnimalData newAnimalData, BindException errors)
         {
-
+            boolean isMultipleSequenceRequest = false;
             Map<String, Object> props = new HashMap<>();
-            UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
-            ObjectFactory factory = ObjectFactory.Registry.getFactory(NewAnimalData.class);
 
-            TableInfo table = us.getTable("NewAnimalData", null, false, true);
-            QueryUpdateService qus = table.getUpdateService();
-            BatchValidationException batchErrors = new BatchValidationException();
+            PropertyValues pv = getPropertyValues();
+            if (!pv.isEmpty())
+            {
+                String property = (pv.getPropertyValue("isMultipleSequenceRequest").getValue() != null) ?
+                    pv.getPropertyValue("isMultipleSequenceRequest").getValue().toString() : "";
 
-            Map primaryKey = new HashMap();
-            List pk = new ArrayList();
-            List<Map<String, Object>> rowsList = new ArrayList<>();
+                isMultipleSequenceRequest = Boolean.parseBoolean(property);
+            }
 
             try (DbScope.Transaction transaction = SNPRC_EHRSchema.getInstance().getSchema().getScope().ensureTransaction())
             {
-                if (o.getId() != null)
+                Map<String, Object> primaryKey = new HashMap<>();
+                List<Map<String, Object>> pk = new ArrayList<>();
+                List<Map<String, Object>> rowsList = new ArrayList<>();
+                UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
+                ObjectFactory<NewAnimalData> factory = ObjectFactory.Registry.getFactory(NewAnimalData.class);
+
+                TableInfo table = us.getTable("NewAnimalData", null, false, true);
+                if (table == null) throw new SQLException("SNPRC_EHRController: TableInfo is null");
+                QueryUpdateService qus = table.getUpdateService();
+                if (qus == null) throw new SQLException("SNPRC_EHRController: Query update service is null");
+                BatchValidationException batchErrors = new BatchValidationException();
+
+                if (newAnimalData.getId() != null)
                 {
-                    Map dataAsMap = factory.toMap(o, null);
+                    Map<String, Object> dataAsMap = factory.toMap(newAnimalData, null);
 
                     dataAsMap.put(NewAnimalData.NEWANIMAL_CONTAINER, this.getContainer().getId());
-                    primaryKey.put(NewAnimalData.NEWANIMAL_ID, o.getId());
+                    primaryKey.put(NewAnimalData.NEWANIMAL_ID, newAnimalData.getId());
 
                     pk.add(primaryKey);
                     rowsList.add(dataAsMap);
@@ -472,8 +449,8 @@ public class SNPRC_EHRController extends SpringActionController
                 }
                 else
                 {
-                    o.setId(SNPRC_EHRSequencer.ANIMALID.getNext(getContainer()).toString());
-                    Map dataAsMap = factory.toMap(o, null);
+                    newAnimalData.setId(SNPRC_EHRSequencer.ANIMALID.getNext(getContainer(), getUser(), isMultipleSequenceRequest).toString());
+                    Map<String, Object> dataAsMap = factory.toMap(newAnimalData, null);
 
                     dataAsMap.put(NewAnimalData.NEWANIMAL_OBJECTID, GUID.makeGUID());
                     dataAsMap.put(NewAnimalData.NEWANIMAL_CONTAINER, this.getContainer().getId());
@@ -483,7 +460,7 @@ public class SNPRC_EHRController extends SpringActionController
                     qus.insertRows(getUser(), getContainer(), rowsList, batchErrors, null, null);
                     if (batchErrors.hasErrors()) throw batchErrors;
 
-                    props.put(NewAnimalData.NEWANIMAL_ID, o.getId());
+                    props.put(NewAnimalData.NEWANIMAL_ID, newAnimalData.getId());
                 }
 
                 props.put("success", true);
@@ -492,8 +469,7 @@ public class SNPRC_EHRController extends SpringActionController
             catch (Exception e)
             {
                 props.put("success", false);
-                //errors.reject(ERROR_MSG, e.getMessage());
-                props.put("message", e.getMessage());
+                props.put("message", e.getMessage() != null ? e.getMessage() : "Error saving Data");
             }
 
             return new ApiSimpleResponse(props);
