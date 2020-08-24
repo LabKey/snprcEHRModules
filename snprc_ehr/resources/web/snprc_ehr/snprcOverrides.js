@@ -125,7 +125,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
             Ext4.each(rows, function (r) {
                 var d = LDK.ConvertUtils.parseDate(r.account_date, LABKEY.extDefaultDateFormat);
-                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat) +
+                text.push('<tr><td nowrap>' + Ext4.Date.format(d, LABKEY.extDefaultDateFormat) +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.account + '</td></tr>');
             }, this);
         }
@@ -148,7 +148,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
             Ext4.each(rows, function (r) {
                 var d = LDK.ConvertUtils.parseDate(r.admit_date, LABKEY.extDefaultDateFormat);
-                text.push(d.format(LABKEY.extDefaultDateFormat) + ' ' + r.admit_complaint);
+                text.push(Ext4.Date.format(d, LABKEY.extDefaultDateFormat) + ' ' + r.admit_complaint);
             }, this);
         }
 
@@ -169,7 +169,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
             Ext4.each(rows, function (r) {
                 var d = LDK.ConvertUtils.parseDate(r.pedigree_date, LABKEY.extDefaultDateFormat);
-                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat) +
+                text.push('<tr><td nowrap>' + Ext4.Date.format(d, LABKEY.extDefaultDateFormat) +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.pedigree + '</td></tr>');
             }, this);
         }
@@ -191,7 +191,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
             Ext4.each(rows, function (r) {
                 var d = LDK.ConvertUtils.parseDate(r.diet_date, LABKEY.extDefaultDateFormat);
-                text.push('<tr><td nowrap>' + d.format(LABKEY.extDefaultDateFormat) +
+                text.push('<tr><td nowrap>' + Ext4.Date.format(d, LABKEY.extDefaultDateFormat) +
                         '</td><td style="padding-left: 5px;" nowrap>' + r.diet + '</td></tr>');
             }, this);
         }
