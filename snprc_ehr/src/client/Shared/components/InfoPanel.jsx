@@ -41,7 +41,6 @@ export default class InfoPanel extends React.PureComponent {
                   </div>
                 </div>
               ) }
-
           </span>
         </div>
       </>

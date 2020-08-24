@@ -75,6 +75,145 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel 1`] = `
     </div>
   </div>
   <InfoPanel
+    errorMessages={
+      Array [
+        Object {
+          "colName": undefined,
+          "propTest": undefined,
+        },
+      ]
+    }
+    messages={
+      Array [
+        Object {
+          "colName": "Acquisition Code",
+          "propTest": true,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;
+
+exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple animal acquisition 1`] = `
+<Fragment>
+  <div
+    className="wizard-panel__rows"
+  >
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <WrappedDatePicker
+          dateFormat="Pp"
+          disabled={false}
+          id="acquisition-datepicker"
+          label="Acquisition Date"
+          maxDate={1970-01-01T00:00:00.000Z}
+          onChange={[Function]}
+          onSelect={[Function]}
+          selected={1970-01-01T00:00:00.000Z}
+          showTimeSelect={true}
+          timeFormat="p"
+          timeIntervals={30}
+          todayButton="Today"
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Acquisition Code
+        </label>
+        <StateManager
+          autoFocus={true}
+          className="shared-dropdown"
+          classNamePrefix="shared-select"
+          defaultInputValue=""
+          defaultMenuIsOpen={false}
+          defaultValue={null}
+          id="acquisition-select"
+          isClearable={true}
+          isDisabled={false}
+          isLoading={false}
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "Category": "Birth",
+                "SortOrder": 1,
+                "id": 0,
+                "label": "1 - Colony-born, Vaginal delivery (at TBRI)",
+                "value": "1",
+              },
+              Object {
+                "Category": "Birth",
+                "SortOrder": 2,
+                "id": 1,
+                "label": "2 - Hatched, Colony hatched",
+                "value": "2",
+              },
+            ]
+          }
+          placeholder="Select Acquisition Type"
+          value={null}
+        />
+      </div>
+    </div>
+    <div
+      className="wizard-panel__row"
+    >
+      <div
+        className="wizard-panel__col"
+      >
+        <label
+          className="field-label"
+        >
+          Number of Animals
+        </label>
+        <input
+          className="acq-input"
+          defaultValue={2}
+          disabled={false}
+          max="100"
+          min="1"
+          onChange={[Function]}
+          onKeyPress={[Function]}
+          onPasteCapture={[Function]}
+          type="number"
+        />
+      </div>
+    </div>
+  </div>
+  <InfoPanel
+    errorMessages={
+      Array [
+        Object {
+          "colName": undefined,
+          "propTest": undefined,
+        },
+      ]
+    }
+    infoMessages={
+      Array [
+        Object {
+          "key": 1,
+          "value": "Hamsters can be acquired in bulk; however, when added in bulk you must ensure all animals:
+        1) are the same sex
+        2) have the same birth and acquisition dates
+        3) are in the same location
+        4) are on the same account, colony, and IACUC ",
+        },
+      ]
+    }
     messages={
       Array [
         Object {
