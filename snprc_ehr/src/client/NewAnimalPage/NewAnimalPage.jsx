@@ -337,7 +337,7 @@ export default class NewAnimalPage extends React.Component {
         .catch(error => {
           this.setState(prevState => ({
             ...prevState,
-            errorMessage: error.message,
+            errorMessage: error.exception,
             showSaveModal: false,
           }))
         })
