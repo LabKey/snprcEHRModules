@@ -120,9 +120,9 @@ export default class AcquisitionPanel extends React.Component {
           ) }
         </div>
         <InfoPanel
-          errorMessages={
+          errorMessages={ this.state.errorMessage && (
             [{ propTest: this.state.errorMessage, colName: this.state.errorMessage }]
-          }
+          )}
           messages={
             [{ propTest: !acquisitionType, colName: 'Acquisition Code' }]
           }

@@ -32,16 +32,15 @@ export default class InfoPanel extends React.PureComponent {
               ) }
             { infoMessages
               && (
-                <span className="info-div">
+                <div className="info-div">
                   <div className="info-text-span">
                   { infoMessages.map( (message, index) => {
                     const msg = includeBullets ? `${index + 1} ) ${message.value}` : message.value
                     return <div key={ message.key } >{ msg }</div>
                   }) }
                   </div>
-                </span>
+                </div>
               ) }
-
           </span>
         </div>
       </>

@@ -308,7 +308,7 @@ export default class NewAnimalPage extends React.Component {
 
     for (let i = 0; i < numAnimals; i++) {
       // run async save then dismiss modal
-      uploadAnimalData(this.state.newAnimalData)
+      uploadAnimalData(this.state.newAnimalData, numAnimals)
         .then(data => {
           if (data.success === true) {
             this.setState(
@@ -337,7 +337,7 @@ export default class NewAnimalPage extends React.Component {
         .catch(error => {
           this.setState(prevState => ({
             ...prevState,
-            errorMessage: error.exception,
+            errorMessage: error.message,
             showSaveModal: false,
           }))
         })
@@ -349,6 +349,7 @@ export default class NewAnimalPage extends React.Component {
     this.setState(prevState => ({
       ...prevState,
       currentPanel: 1,
+      errorMessage: undefined,
       numAnimals: undefined,
       newAnimalData: {
         ...prevState.newAnimalData,
@@ -619,7 +620,6 @@ export default class NewAnimalPage extends React.Component {
                 </div>
               </div>
             ) }
-
             { this.state.errorMessage && (
               <InfoPanel
                 errorMessages={
@@ -632,7 +632,6 @@ export default class NewAnimalPage extends React.Component {
                 }
               />
             ) }
-
             <div>
               <Pager className="pager-container">
                 <Pager.Item

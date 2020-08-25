@@ -127,9 +127,9 @@ export default class LocationPanel extends React.Component {
               </div>
             </div>
             <InfoPanel
-              errorMessages={
+              errorMessages={ this.state.errorMessage && (
                         [{ propTest: this.state.errorMessage, colName: this.state.errorMessage }]
-                    }
+              )}
               messages={
                         [{ propTest: !room, colName: 'Location' }]
                     }

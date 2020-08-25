@@ -75,14 +75,6 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel 1`] = `
     </div>
   </div>
   <InfoPanel
-    errorMessages={
-      Array [
-        Object {
-          "colName": undefined,
-          "propTest": undefined,
-        },
-      ]
-    }
     messages={
       Array [
         Object {
@@ -194,14 +186,6 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
     </div>
   </div>
   <InfoPanel
-    errorMessages={
-      Array [
-        Object {
-          "colName": undefined,
-          "propTest": undefined,
-        },
-      ]
-    }
     infoMessages={
       Array [
         Object {

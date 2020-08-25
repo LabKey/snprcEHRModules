@@ -23,15 +23,19 @@ const convertToJson = newAnimalData => {
     return jsonData
 }
 
-export const uploadAnimalData = newAnimalData => {
-    const url = ActionURL.buildURL('snprc_ehr', 'UpdateAnimalData.api')
+export const uploadAnimalData = (newAnimalData, numAnimals) => {
+    const isMultipleSequenceRequest = (numAnimals > 1)
+    const url = `${ActionURL.buildURL('snprc_ehr', 'UpdateAnimalData.api')}?isMultipleSequenceRequest=${isMultipleSequenceRequest}`
     return new Promise((resolve, reject) => {
         Ajax.request({
             method: 'POST',
             url,
             jsonData: convertToJson(newAnimalData),
             success: Utils.getCallbackWrapper(data => {
-                resolve(data)
+                if (data.success === false)
+                    reject(new Error(data.message))
+                else
+                    resolve(data)
             }),
             failure: Utils.getCallbackWrapper(error => {
                 reject(error)
