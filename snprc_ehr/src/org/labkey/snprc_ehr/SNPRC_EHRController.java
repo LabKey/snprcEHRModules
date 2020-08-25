@@ -47,6 +47,7 @@ import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.QueryView;
 import org.labkey.api.query.QueryWebPart;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.ReadPermission;
@@ -66,6 +67,7 @@ import org.labkey.snprc_ehr.domain.NewAnimalData;
 import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.snprc_ehr.security.ManageLookupTablesPermission;
 import org.labkey.snprc_ehr.security.SNPRCColonyAdminPermission;
+import org.labkey.snprc_ehr.services.SNPRC_EHRValidator;
 import org.springframework.beans.PropertyValues;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -405,6 +407,25 @@ public class SNPRC_EHRController extends SpringActionController
     @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class UpdateAnimalDataAction extends MutatingApiAction<NewAnimalData>
     {
+        @Override
+        public void validateForm(NewAnimalData newAnimalData, Errors errors)
+        {
+
+            if (newAnimalData == null)
+            {
+                errors.reject(ERROR_MSG, "Missing json parameter.");
+                return;
+            }
+            try {
+                SNPRC_EHRValidator.validateNewAnimalData(getContainer(), getUser(), newAnimalData);
+            }
+            catch (ValidationException e) {
+                errors.reject(ERROR_MSG, e.getMessage());
+            }
+
+            return;
+        }
+
         @Override
         public ApiResponse execute(NewAnimalData newAnimalData, BindException errors)
         {
