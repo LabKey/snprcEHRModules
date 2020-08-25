@@ -40,7 +40,10 @@ public class SNPRC_EHRValidator
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("SpeciesCode"), newAnimalData.getSpecies(), CompareType.EQUAL);
             TableSelector ts = new TableSelector(ti, filter, null);
             row = ts.getMap();
-            if (row == null || row.size() != 1)
+            //ts.getRowCount();
+            //if (ts.getRowCount() != 1)
+
+            if (row == null || !row.get("speciesCode").toString().equals(newAnimalData.getSpecies()))
                 throw new ValidationException("Invalid Species code entered:" + newAnimalData.getSpecies());
         }
         catch (Exception e)
