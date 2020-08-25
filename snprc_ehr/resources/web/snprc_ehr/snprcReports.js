@@ -304,10 +304,12 @@ EHR.reports.FileRepository =  function(panel,tab) {
 
             return;
         }
-        var toAdd = [];
 
-        if (subjects.length >1)
-        {
+        if (subjects.length === 0)
+            return;
+
+        // WebdavFileSystem depends on ExtJS3 so load it it dynamically
+        LABKEY.requiresExt3ClientAPI(function() {
             var containerPath = LABKEY.container.path +'/FileRepository';
             var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath});
             var location = {id: animalIds};
@@ -468,17 +470,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                 File.panel.Browser._pipelineConfigurationCache = {};
             }
 
-        }
-        if (toAdd.length){
-            panel = tab.add(toAdd);
-
-            //webPart.render();
-        }
-
-
-
+        }, this);
     }
-
-
 
 };
