@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 
  * Copyright (c) 2014-2019 LabKey Corporation
  *
@@ -1568,6 +1568,7 @@
         <tableTitle>Valid Vaccines</tableTitle>
     </table>
     <table tableName="NewAnimalData" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>Id</pkColumnName>
         <columns>
     <column columnName="Id">
@@ -1640,6 +1641,7 @@
         <tableTitle>NewAnimalData</tableTitle>
     </table>
     <table tableName="BehaviorNotificationComment" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
         <pkColumnName>NotificationNumber</pkColumnName>
         <columns>
             <column columnName="NotificationNumber">
@@ -1818,5 +1820,31 @@
             </column>
         </columns>
     </table>
+    <table tableName="Counters" tableDbType="TABLE">
+        <auditLogging>DETAILED</auditLogging>
+        <pkColumnName>RowId</pkColumnName>
+        <columns>
+            <column columnName="RowId">
+                <datatype>integer</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="Name">
+                <datatype>varchar</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="Value">
+                <datatype>integer</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="ObjectId">
+                <isHidden>true</isHidden>
+                <isUserEditable>false</isUserEditable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>Counters Table</tableTitle>
+    </table>
 </tables>
-
