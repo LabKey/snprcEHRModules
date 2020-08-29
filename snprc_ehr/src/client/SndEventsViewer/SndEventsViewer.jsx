@@ -44,6 +44,7 @@ export default class SndEventsViewer extends React.Component {
         ))
     }
 
+
     render() {
         // allow debug mode to be triggered for running test suite
         this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug
@@ -56,8 +57,9 @@ export default class SndEventsViewer extends React.Component {
             )
         }
 
+        const history = createMemoryHistory()
         return (
-            <Router history={createMemoryHistory()}>
+            <Router history={ history }>
                 <div className="parent-panel">
                     <Route path="/" component={ SndEventsPanel } />
                 </div>

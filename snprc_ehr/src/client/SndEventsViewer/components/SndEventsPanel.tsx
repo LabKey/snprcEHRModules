@@ -30,7 +30,7 @@ const SndEventsPanel: React.FunctionComponent<WithRouterProps> = (
 ): React.ReactElement => {
 
     const queryConfigs: QueryConfig = {
-        schemaQuery: SchemaQuery.create("study", "vitals"),
+        schemaQuery: SchemaQuery.create("snd", "Events"),
     };
 
     return (
@@ -44,10 +44,9 @@ const SndEventsPanel: React.FunctionComponent<WithRouterProps> = (
                         ButtonsComponent={SndGridPanelButtons}
                         title="Animal Events"
                         queryConfig={queryConfigs}
-                        asPanel={true}
-                        showOmniBox={true}
+                        asPanel={false}
                         allowSelections={true}
-                        showChartMenu={true}
+                        showChartMenu={false}
                     />
                 </Panel.Body>
             </Panel>
