@@ -357,6 +357,16 @@ public class SNPRC_EHRController extends SpringActionController
         }
     }
 
+    @RequiresPermission(EHRDataEntryPermission.class)
+    public class SndEventViewAction extends SimpleRedirectAction
+    {
+        @Override
+        public URLHelper getRedirectURL(Object o)
+        {
+            return new ActionURL(NAME, "SndEventsViewer", getContainer());
+        }
+    }
+
     @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class NewAnimalWizardAction extends SimpleRedirectAction
     {
