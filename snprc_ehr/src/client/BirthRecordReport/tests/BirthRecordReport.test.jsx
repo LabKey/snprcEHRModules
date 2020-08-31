@@ -27,14 +27,14 @@ describe('BirthRecordReport tests', () => {
     test('Should render a loading spinner    before api calls.', () => {
         wrapper = shallow(<BirthRecordReport />, { disableLifecycleMethods: true })
         expect(wrapper).toMatchSnapshot()
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeTruthy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeTruthy()
     })
 
     test('Should render AnimalSelectionPanel.', async () => {
         await flushPromises()
 
         // spinner should be gone
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
 
         // AnimalSelection panels should be present
         expect(wrapper.find('AnimalSelectionPanel').exists()).toBeTruthy()
