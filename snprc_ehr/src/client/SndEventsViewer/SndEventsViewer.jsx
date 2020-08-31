@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 
 import React from 'react'
-import { LoadingSpinner } from '@labkey/components'
+import { LoadingSpinner } from '../Shared/components/LoadingSpinner'
 import './styles/sndEventsViewer.scss'
 import SndEventState from './constants/sndEventsState'
 import constants from './constants/index'

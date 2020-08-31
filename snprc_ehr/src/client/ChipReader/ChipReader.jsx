@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 
 import React from 'react'
-import { LoadingSpinner } from '@labkey/components'
+import { LoadingSpinner } from '../Shared/components/LoadingSpinner'
 import './styles/chipReader.scss'
 import ChipReaderState from './constants/chipReaderState'
 import constants from './constants/index'

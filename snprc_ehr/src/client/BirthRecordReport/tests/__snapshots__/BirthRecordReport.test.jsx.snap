@@ -132,9 +132,9 @@ exports[`BirthRecordReport tests Should render AnimalSelectionPanel. 1`] = `
 `;
 
 exports[`BirthRecordReport tests Should render a loading spinner    before api calls. 1`] = `
-<LoadingSpinner_LoadingSpinner
+<LoadingSpinner
   msg="Loading app..."
-  wrapperClassName=""
+  wrapperClassName="loading-spinner"
 />
 `;
 

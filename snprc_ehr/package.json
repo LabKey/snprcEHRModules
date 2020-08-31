@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@labkey/api": "0.0.45",
-    "@labkey/components": "^0.90.0",
+    "@labkey/api": "^1.1.0",
+    "@labkey/components": "^0.89.0",
     "immutable": "3.8.2",
     "moment": "^2.26.0",
     "react": "^16.13.1",

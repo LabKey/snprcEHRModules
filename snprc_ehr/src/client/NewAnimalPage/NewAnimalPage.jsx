@@ -3,7 +3,7 @@
 import React from 'react'
 import moment from 'moment'
 import { Pager } from 'react-bootstrap'
-import { LoadingSpinner } from '@labkey/components'
+import { LoadingSpinner } from '../Shared/components/LoadingSpinner'
 import './styles/newAnimalPage.scss'
 import NewAnimalState from './constants/NewAnimalState'
 import constants from './constants/index'

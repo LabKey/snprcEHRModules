@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChipReader tests Should render a loading spinner before rendering the landing page. 1`] = `
-<LoadingSpinner_LoadingSpinner
+<LoadingSpinner
   msg="Loading app..."
-  wrapperClassName=""
+  wrapperClassName="loading-spinner"
 />
 `;
 
