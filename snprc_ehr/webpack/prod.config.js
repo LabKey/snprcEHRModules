@@ -67,25 +67,9 @@ module.exports = {
     },
 
     module: {
-        rules: constants.loaders.TYPESCRIPT_LOADERS.concat(constants.loaders.STYLE_LOADERS).concat(
-                [{
-                    loader: 'babel-loader',
-                    test: /\.jsx?$/,
-                    exclude: /node_modules/,
-                    options: {
-                        babelrc: false,
-                        cacheDirectory: true,
-                        presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react"
-                        ],
-                        plugins: [
-                            "@babel/plugin-proposal-class-properties"
-                        ]
-                    }
-
-                }]
-        )
+        rules: constants.loaders.TYPESCRIPT_LOADERS
+            .concat(constants.loaders.STYLE_LOADERS)
+            .concat(constants.loaders.JSX_LOADERS)
     },
 
     resolve: {
