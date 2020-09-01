@@ -39,7 +39,7 @@ describe('ChipReader tests', () => {
         expect(wrapper).toMatchSnapshot()
 
         // spinner should be gone
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
         // ChipDataPanel and SummaryGridPanel panels should be present
         expect(wrapper.find('ChipDataPanel').exists()).toBeTruthy()
         expect(wrapper.find('SummaryGridPanel').exists()).toBeTruthy()
@@ -50,6 +50,6 @@ describe('ChipReader tests', () => {
         wrapper = shallow(<ChipReader />, { disableLifecycleMethods: true })
         await flushPromises()
         expect(wrapper).toMatchSnapshot()
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeTruthy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeTruthy()
     })
 })
