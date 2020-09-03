@@ -17,9 +17,12 @@ function copyProps(src, target) {
     Object.defineProperties(target, props);
 }
 
-global['window'] = window;
-global['document'] = window.document;
-global['navigator'] = {
+// workaround for typescript assignment error: "TS2322: Type 'DOMWindow' is not assignable"
+const globalAny:any = global;
+
+globalAny.window = window;
+globalAny.document = window.document;
+globalAny.navigator = {
     userAgent: 'node.js',
 };
 copyProps(window, global);

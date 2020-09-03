@@ -5,6 +5,7 @@ export default class InfoPanel extends React.PureComponent {
     const messages = this.props.messages && this.props.messages
     const errorMessages = this.props.errorMessages && this.props.errorMessages
     const infoMessages = this.props.infoMessages && this.props.infoMessages
+    const includeBullets = this.props.includeBullets
 
     return (
       <>
@@ -31,13 +32,15 @@ export default class InfoPanel extends React.PureComponent {
               ) }
             { infoMessages
               && (
-                <span className="info-div">
-                  { infoMessages.map(message => {
-                    return <div key={ message.key } className="info-text-span">{ message.value }</div>
+                <div className="info-div">
+                  <div className="info-text-span">
+                  { infoMessages.map( (message, index) => {
+                    const msg = includeBullets ? `${index + 1} ) ${message.value}` : message.value
+                    return <div key={ message.key } >{ msg }</div>
                   }) }
-                </span>
+                  </div>
+                </div>
               ) }
-
           </span>
         </div>
       </>

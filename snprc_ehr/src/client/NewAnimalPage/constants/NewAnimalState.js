@@ -48,7 +48,8 @@ const NewAnimalState = () => {
         showSaveModal: false,
         showCancelModal: false,
         showSpeciesChangeModal: false,
-        errorMessage: undefined
+        errorMessage: undefined,
+        numAnimals: undefined
     })
 }
 

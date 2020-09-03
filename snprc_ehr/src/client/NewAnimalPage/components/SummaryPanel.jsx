@@ -16,6 +16,7 @@ export default class SummaryPanel extends React.Component {
   render() {
     const { acquisitionType, acqDate, birthDate, gender, dam, sire, animalAccount,
       colony, pedigree, iacuc, ownerInstitution, responsibleInstitution, room, cage, diet } = this.props.newAnimalData
+    const numAnimals = this.props.numAnimals
 
     return (
       <>
@@ -51,6 +52,19 @@ export default class SummaryPanel extends React.Component {
                 />
               </OverlayTrigger>
             </div>
+            { numAnimals && numAnimals != 1 &&
+              <div className="summary-panel__col ">
+                <label className="summary-label summary-label-red">Number of Animals</label>
+                <OverlayTrigger overlay={ <SummaryPopover message={ numAnimals && numAnimals } title="Number of animals" /> }>
+                  <input
+                    className="summary-text-input summary-text-input-red"
+                    defaultValue={ numAnimals }
+                    onKeyPress={ this.handleKeyPress }
+                    onPasteCapture={ this.handlePaste }
+                  />
+                </OverlayTrigger>
+              </div>
+            }
           </div>
           <div className="section-header">Demographics</div>
           <div className="summary-panel__row"> {/* Demographics */}
@@ -270,6 +284,7 @@ export default class SummaryPanel extends React.Component {
           </div>
           <InfoPanel
             infoMessages={ this.props.infoMessages }
+            includeBullets={ true }
           />
         </div>
       </>

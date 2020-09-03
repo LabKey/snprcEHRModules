@@ -104,6 +104,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
             acquisitionTypeList={Array []}
             disabled={true}
             handleDataChange={[Function]}
+            handleNumAnimalChange={[Function]}
             newAnimalData={
               Object {
                 "acqDate": Object {
@@ -261,9 +262,9 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
 `;
 
 exports[`NewAnimalPage tests Should render a loading spinner    before api calls. 1`] = `
-<LoadingSpinner_LoadingSpinner
+<LoadingSpinner
   msg="Loading lookup tables..."
-  wrapperClassName=""
+  wrapperClassName="loading-spinner"
 />
 `;
 

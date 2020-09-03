@@ -3,7 +3,7 @@
 import React from 'react'
 import moment from 'moment'
 import { Pager } from 'react-bootstrap'
-import { LoadingSpinner } from '@labkey/components'
+import { LoadingSpinner } from '../Shared/components/LoadingSpinner'
 import './styles/newAnimalPage.scss'
 import NewAnimalState from './constants/NewAnimalState'
 import constants from './constants/index'
@@ -186,6 +186,15 @@ export default class NewAnimalPage extends React.Component {
     }
   };
 
+  handleNumAnimalChange = value => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        numAnimals: value
+      })
+    )
+  }
+
   handleDataChange = (property, value) => {
     this.setState(
       prevState => ({
@@ -294,46 +303,54 @@ export default class NewAnimalPage extends React.Component {
   onSaveClick = () => {
     console.log('Saving...')
 
-    // run async save then dismiss modal
-    uploadAnimalData(this.state.newAnimalData)
-      .then(data => {
-        if (data.success === true) {
-          this.setState(
-            prevState => ({
+    // Multiple animals can be added for hamsters, which are often acquired and assigned in bulk
+    const numAnimals = this.state.numAnimals ? this.state.numAnimals : 1
+
+    for (let i = 0; i < numAnimals; i++) {
+      // run async save then dismiss modal
+      uploadAnimalData(this.state.newAnimalData, numAnimals)
+        .then(data => {
+          if (data.success === true) {
+            this.setState(
+              prevState => ({
+                ...prevState,
+                newAnimalData: {
+                  ...prevState.newAnimalData,
+                  id: data.Id,
+                },
+                showSaveModal: false,
+                summaryData: [
+                  ...prevState.summaryData,
+                  { ...prevState.newAnimalData, id: data.Id },
+                ],
+              }),
+              this.handleSaveReset()
+            )
+          } else {
+            this.setState(prevState => ({
               ...prevState,
-              newAnimalData: {
-                ...prevState.newAnimalData,
-                id: data.Id,
-              },
+              errorMessage: data.message,
               showSaveModal: false,
-              summaryData: [
-                ...prevState.summaryData,
-                { ...prevState.newAnimalData, id: data.Id },
-              ],
-            }),
-            this.handleSaveReset()
-          )
-        } else {
+            }))
+          }
+        })
+        .catch(error => {
           this.setState(prevState => ({
             ...prevState,
-            errorMessage: data.message,
+            errorMessage: error.exception,
             showSaveModal: false,
           }))
-        }
-      })
-      .catch(error => {
-        this.setState(prevState => ({
-          ...prevState,
-          errorMessage: error.exception,
-          showSaveModal: false,
-        }))
-      })
+        })
+    }
+
   };
 
   handleSaveReset = () => {
     this.setState(prevState => ({
       ...prevState,
       currentPanel: 1,
+      errorMessage: undefined,
+      numAnimals: undefined,
       newAnimalData: {
         ...prevState.newAnimalData,
         ...(prevState.selectedOption === 'Acquisition' && {
@@ -349,7 +366,7 @@ export default class NewAnimalPage extends React.Component {
           cage: prevState.newAnimalData.cage
 
         })
-        || {
+          || {
           sire: undefined,
           dam: undefined,
           cage: { value: undefined }
@@ -489,9 +506,11 @@ export default class NewAnimalPage extends React.Component {
                       this.state.acquisitionTypeList
                     }
                     disabled={ this.disableFirstPanel() }
-                    handleDataChange={ this.handleDataChange }
+                    numAnimals={ this.state.numAnimals }
                     newAnimalData={ this.state.newAnimalData }
+                    handleDataChange={ this.handleDataChange }
                     preventNext={ this.preventNext }
+                    handleNumAnimalChange={ this.handleNumAnimalChange }
                   />
                 </div>
               </div>
@@ -601,7 +620,6 @@ export default class NewAnimalPage extends React.Component {
                 </div>
               </div>
             ) }
-
             { this.state.errorMessage && (
               <InfoPanel
                 errorMessages={
@@ -614,7 +632,6 @@ export default class NewAnimalPage extends React.Component {
                 }
               />
             ) }
-
             <div>
               <Pager className="pager-container">
                 <Pager.Item
@@ -685,6 +702,7 @@ export default class NewAnimalPage extends React.Component {
           {/* Save Modal */ }
           <SaveModal
             newAnimalData={ this.state.newAnimalData }
+            numAnimals={ this.state.numAnimals }
             onCloseClick={ this.onCloseClick }
             onSaveClick={ this.onSaveClick }
             show={ this.state.showSaveModal }

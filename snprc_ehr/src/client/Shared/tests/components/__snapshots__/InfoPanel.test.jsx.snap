@@ -37,22 +37,24 @@ exports[`Should render the InfoPanel 1`] = `
              
         </span>
       </div>
-      <span
+      <div
         className="info-div"
       >
         <div
           className="info-text-span"
-          key="1"
         >
-          Please review data before saving.
+          <div
+            key="1"
+          >
+            Please review data before saving.
+          </div>
+          <div
+            key="2"
+          >
+            Hover cursor over fields for full text.
+          </div>
         </div>
-        <div
-          className="info-text-span"
-          key="2"
-        >
-          Hover cursor over fields for full text.
-        </div>
-      </span>
+      </div>
     </span>
   </div>
 </Fragment>

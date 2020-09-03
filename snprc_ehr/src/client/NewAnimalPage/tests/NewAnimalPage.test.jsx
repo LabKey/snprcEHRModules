@@ -61,14 +61,14 @@ describe('NewAnimalPage tests', () => {
     test('Should render a loading spinner    before api calls.', () => {
         wrapper = shallow(<NewAnimalPage debug />, { disableLifecycleMethods: true })
         expect(wrapper).toMatchSnapshot()
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeTruthy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeTruthy()
     })
 
     test('Should render Species/Acquisition page after lists are loaded.', async () => {
         await flushPromises()
 
         // spinner should be gone
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
 
         // species and acquisition panels should be present
         expect(wrapper.find('SpeciesPanel').exists()).toBeTruthy()
@@ -142,7 +142,7 @@ describe('NewAnimalPage tests', () => {
         })
 
         // spinner should be gone
-        expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+        expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
         // Demographics InfoPanel should be present
         const DemographicsPanel = wrapper.find('DemographicsPanel')
         expect(DemographicsPanel.dive().find('InfoPanel').exists()).toBeTruthy()
@@ -196,7 +196,7 @@ test('Should render Location page', async () => {
         console.log(err)
     })
     // spinner should be gone
-    expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+    expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
     // Location InfoPanel should be present
     expect(wrapper.find('LocationPanel').exists()).toBeTruthy()
     expect(wrapper).toMatchSnapshot()
@@ -210,7 +210,7 @@ test('Should render Account page', async () => {
         console.log(err)
     })
     // spinner should be gone
-    expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+    expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
     // Account InfoPanel should be present
     expect(wrapper.find('AccountPanel').exists()).toBeTruthy()
     expect(wrapper).toMatchSnapshot()
@@ -224,7 +224,7 @@ test('Should render Diet page', async () => {
         console.log(err)
     })
     // spinner should be gone
-    expect(wrapper.find('LoadingSpinner_LoadingSpinner').exists()).toBeFalsy()
+    expect(wrapper.find('LoadingSpinner').exists()).toBeFalsy()
     // Diet InfoPanel should be present
     expect(wrapper.find('DietPanel').exists()).toBeTruthy()
     expect(wrapper).toMatchSnapshot()

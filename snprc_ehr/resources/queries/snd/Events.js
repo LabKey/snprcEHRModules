@@ -1,4 +1,3 @@
-
 require("ehr/triggers").initScript(this);
 
 function onInsert(helper, scriptErrors, row) {
