@@ -33,7 +33,7 @@ export const uploadAnimalData = (newAnimalData, numAnimals) => {
             jsonData: convertToJson(newAnimalData),
             success: Utils.getCallbackWrapper(data => {
                 if (data.success === false)
-                    reject(new Error(data.message))
+                    reject( {exception: data.message} )
                 else
                     resolve(data)
             }),
