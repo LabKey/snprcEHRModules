@@ -15,16 +15,15 @@
  * limitations under the License.
  */
 %>
-
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
 <%@ page import="org.labkey.api.data.Container" %>
+<%@ page import="org.labkey.api.util.HtmlString" %>
 <%@ page import="org.labkey.api.view.template.ClientDependencies" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
-
 <%
-    String contextPath = request.getContextPath();
+    HtmlString contextPath = getContextPath();
     Container c = getContainer();
-    String containerPath = c.getPath();
+    HtmlString containerPath = HtmlString.of(c.getPath());
 %>
 <%!
     @Override
@@ -33,7 +32,6 @@
         dependencies.add("clientapi/ext4");
     }
 %>
-
 
 <div id="ehr-lookuptables"></div>
 

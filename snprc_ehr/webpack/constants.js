@@ -58,6 +58,10 @@ module.exports = {
                         presets: [
                             "@babel/preset-env",
                             "@babel/preset-react"
+                        ],
+                        plugins: [
+                            "@babel/plugin-proposal-class-properties",
+                            "@babel/plugin-transform-runtime"
                         ]
                     }
                 },{
@@ -84,7 +88,8 @@ module.exports = {
                         ],
                         plugins: [
                             "react-hot-loader/babel",
-                            "@babel/plugin-proposal-class-properties"
+                            "@babel/plugin-proposal-class-properties",
+                            "@babel/plugin-transform-runtime"
                         ]
                     }
                 },{
@@ -96,7 +101,43 @@ module.exports = {
                     }
                 }]
             }
-        ]
+        ],
+        JSX_LOADERS: [{
+            loader: 'babel-loader',
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            options: {
+                babelrc: false,
+                cacheDirectory: true,
+                presets: [
+                    "@babel/preset-env",
+                    "@babel/preset-react"
+                ],
+                plugins: [
+                    "@babel/plugin-proposal-class-properties",
+                    "@babel/plugin-transform-runtime"
+                ]
+            }
+
+        }],
+        JSX_LOADERS_DEV: [{
+            loader: 'babel-loader',
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            options: {
+                babelrc: false,
+                cacheDirectory: true,
+                presets: [
+                    "@babel/preset-env",
+                    "@babel/preset-react"
+                ],
+                plugins: [
+                    "react-hot-loader/babel",
+                    "@babel/plugin-proposal-class-properties",
+                    "@babel/plugin-transform-runtime"
+                ]
+            }
+        }]
     },
     outputPath: function(dir) {
         return path.resolve(dir, '../resources/web/snprc_ehr/gen');
