@@ -22,7 +22,7 @@ export const request = ({ schemaName, queryName, viewName = '', sort = '', colum
     })
 }
 
-export const executeSql = ({ schemaName, sql, sort = '' }) => {
+export const executeSql = ({ schemaName, sql, parameters = {}, sort = '' }) => {
     return new Promise((resolve, reject) => {
         const success = response => {
             resolve(response)
@@ -35,6 +35,7 @@ export const executeSql = ({ schemaName, sql, sort = '' }) => {
             schemaName,
             sql,
             sort,
+            parameters,
             success,
             failure
         })
