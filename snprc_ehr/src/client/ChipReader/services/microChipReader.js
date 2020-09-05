@@ -1,5 +1,12 @@
 import { readWithTimeout, read } from './serialService'
 
+// convert temperature to fahrenheit - return -1 if NaN
+const celsiusToFahrenheit = c => {
+    // f = 1.8 * c + 32
+    const f = Number.isNaN(Number.parseFloat(c)) ? -1 : 1.8 * Number.parseFloat(c) + 32
+    return f.toFixed(1)
+}
+
 export const getChipData = async (connection) => {
 
     let data
@@ -8,10 +15,9 @@ export const getChipData = async (connection) => {
 
     // read serial port with a 2 second timeout
     data = await readWithTimeout(2000, read(connection)
-    .catch(error => {
-        throw error 
-    }))
-
+        .catch(error => {
+            throw error
+        }))
 
     if (data) {
         // process chip data
@@ -24,11 +30,11 @@ export const getChipData = async (connection) => {
             dataObj = {
                 chipId: dataArr[0].trim(),
                 ...(len === 1 && { animalId: undefined, temperature: undefined }),
-                ...(len === 2 && { animalId: undefined, temperature: dataArr[1].trim() }),
-                ...(len === 3 && { animalId: dataArr[1].trim(), temperature: dataArr[2].trim() })
+                ...(len === 2 && { animalId: undefined, temperature: celsiusToFahrenheit(dataArr[1].trim()) }),
+                ...(len === 3 && { animalId: dataArr[1].trim(), temperature: celsiusToFahrenheit(dataArr[2].trim()) })
             }
         }
     }
-    
+
     return dataObj
 }
