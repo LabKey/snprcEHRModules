@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 %>
-<%@ page import="org.labkey.snd.SNDController" %>
+<%@ page import="org.labkey.snd.SNDController.SecurityAction" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
@@ -33,7 +33,7 @@
 
 <labkey:panel title="Links">
     <div class="col-xs-12">
-        <a class="labkey-text-link" href="<%=h(buildURL(SNDController.SecurityAction.class))%>">SND Security</a>
+        <a class="labkey-text-link" href="<%=h(urlFor(SecurityAction.class))%>">SND Security</a>
     </div>
 
 </labkey:panel>

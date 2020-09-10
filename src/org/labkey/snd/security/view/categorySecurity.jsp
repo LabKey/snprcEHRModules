@@ -21,7 +21,8 @@
 <%@ page import="org.labkey.api.security.roles.Role" %>
 <%@ page import="org.labkey.api.snd.Category" %>
 <%@ page import="org.labkey.api.snd.SNDService" %>
-<%@ page import="org.labkey.snd.SNDController" %>
+<%@ page import="org.labkey.snd.SNDController.AdminAction" %>
+<%@ page import="org.labkey.snd.SNDController.CategorySecurityAction" %>
 <%@ page import="org.labkey.snd.security.SNDSecurityManager" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
@@ -178,7 +179,7 @@
 </script>
 <labkey:panel title="Category Security">
 
-    <labkey:form id="categorySecurityForm" action="<%=buildURL(SNDController.CategorySecurityAction.class)%>" method="POST">
+    <labkey:form id="categorySecurityForm" action="<%=urlFor(CategorySecurityAction.class)%>" method="POST">
 
         <table class="table table-striped table-bordered table-hover roles-table" id="category-security">
             <thead id="groups-hdr">
@@ -206,11 +207,11 @@
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a onclick="return setAllInGroup(<%=h(g.getUserId())%>, 'None')">None</a>
+                                        <a onclick="return setAllInGroup(<%=g.getUserId()%>, 'None')">None</a>
                                     </li>
                                     <% for (Role role : roles.values()) {
                                     %><li>
-                                        <a onclick="return setAllInGroup(<%=h(g.getUserId())%>, '<%=h(role.getName())%>')"><%=h(role.getName())%></a>
+                                        <a onclick="return setAllInGroup(<%=g.getUserId()%>, '<%=h(role.getName())%>')"><%=h(role.getName())%></a>
                                 </li><%
                                 }
                             %></ul></div></td>
@@ -231,11 +232,11 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a onclick="return setRole(<%=h(group.getUserId())%>, <%=h(category.getCategoryId())%>, 'None')">None</a>
+                                        <a onclick="return setRole(<%=group.getUserId()%>, <%=category.getCategoryId()%>, 'None')">None</a>
                                     </li>
                                 <% for (Role role : roles.values()) {
                                     %><li>
-                                        <a onclick="return setRole(<%=h(group.getUserId())%>, <%=h(category.getCategoryId())%>, '<%=h(role.getName())%>')"><%=h(role.getName())%></a>
+                                        <a onclick="return setRole(<%=group.getUserId()%>, <%=category.getCategoryId()%>, '<%=h(role.getName())%>')"><%=h(role.getName())%></a>
                                     </li><%
                                 }
                                 %></ul></div></td><%
@@ -248,7 +249,7 @@
 
         <%= button("Save").submit(true) %>
         <%= button("Clear All").href("#").onClick("return clearAll();") %>
-        <%= button("Cancel").href(urlFor(SNDController.AdminAction.class)) %>
+        <%= button("Cancel").href(urlFor(AdminAction.class)) %>
 
     </labkey:form>
 
