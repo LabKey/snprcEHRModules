@@ -12,6 +12,7 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.snprc_ehr.domain.NewAnimalData;
 
+import java.util.Date;
 import java.util.Map;
 
 public class SNPRC_EHRValidator
@@ -26,13 +27,11 @@ public class SNPRC_EHRValidator
         if (newAnimalData.getBirthDate().after(newAnimalData.getAcqDate()))
             throw new ValidationException("Birthdate is greater than Acquisition date");
 
-        // species
-
+        // species and pedigree
         try
         {
             if (newAnimalData.getSpecies() == null)
                 throw new ValidationException("Species is required");
-
             // species exists - make sure it is valid
             Map<String, Object> row;
             UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
@@ -40,33 +39,34 @@ public class SNPRC_EHRValidator
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("SpeciesCode"), newAnimalData.getSpecies(), CompareType.EQUAL);
             TableSelector ts = new TableSelector(ti, filter, null);
             row = ts.getMap();
-            //ts.getRowCount();
-            //if (ts.getRowCount() != 1)
-
             if (row == null || !row.get("speciesCode").toString().equals(newAnimalData.getSpecies()))
                 throw new ValidationException("Invalid Species code entered:" + newAnimalData.getSpecies());
+            // Baboons require a pedigreee
+            if (newAnimalData.getPedigree() == null && row.get("arcSpeciesCode").toString().equals("PC"))
+                throw new ValidationException("Pedigree is required for baboons");
         }
         catch (Exception e)
         {
-            throw e;
+            throw new ValidationException(e.getMessage());
+
         }
+
+        if (newAnimalData.getBirthCode() == null)
+            throw new ValidationException("Birthdate status is required");
 
 
         // bdstatus
         if (newAnimalData.getBirthCode() == null)
-            throw new ValidationException("Birthdate status is required");
+            throw new ValidationException("Birth code is required");
         // acquisitionType
         if (newAnimalData.getAcquisitionType() == null)
             throw new ValidationException("Acquisition type is required");
         // gender
         if (newAnimalData.getGender() == null)
             throw new ValidationException("Gender is required");
-        // sire
-
-        // dam
-
         // colony
-
+        if (newAnimalData.getColony() == null)
+            throw new ValidationException("Colony is required");
         // animalAccount
         if (newAnimalData.getAnimalAccount() == null)
             throw new ValidationException("Animal Account is required");
@@ -79,15 +79,20 @@ public class SNPRC_EHRValidator
         // room
         if (newAnimalData.getRoom() == null)
             throw new ValidationException("Room is required");
-        // cage
-
         // diet
         if (newAnimalData.getDiet() == null)
             throw new ValidationException("Diet is required");
-        // pedigree
-
         // IACUC
         if (newAnimalData.getIacuc() == null)
             throw new ValidationException("IACUC is required");
+
+        // NULLABLe fields
+        // sire
+
+        // dam
+
+
+        // cage
+
     }
 }
