@@ -75,7 +75,7 @@ public class SNPRC_EHRValidator
         {
             TableInfo ti = schema.getTable("ValidAccounts", schema.getDefaultContainerFilter());
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("account"), newAnimalData.getAnimalAccount(), CompareType.EQUAL);
-            filter.addCondition(FieldKey.fromParts("date"), newAnimalData.getAcqDate(), CompareType.LTE);
+            filter.addCondition(FieldKey.fromParts("date"), newAnimalData.getAcqDate(), CompareType.DATE_LTE);
             filter.addClause(new SimpleFilter.AndClause(
                     new CompareType.CompareClause(FieldKey.fromParts("enddate"), CompareType.ISBLANK, null)));
 
