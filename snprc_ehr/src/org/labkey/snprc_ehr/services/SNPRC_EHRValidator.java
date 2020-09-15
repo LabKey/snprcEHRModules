@@ -29,6 +29,7 @@ public class SNPRC_EHRValidator
 
         Map<String, Object> row;
         UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
+        UserSchema schemaEHR = QueryService.get().getUserSchema(u, c,"EHR");
 
         // species and pedigree
         try
@@ -73,6 +74,9 @@ public class SNPRC_EHRValidator
         // animalAccount
         try
         {
+            if (newAnimalData.getAnimalAccount() == null)
+                throw new ValidationException("Animal Account is required");
+
             TableInfo ti = schema.getTable("ValidAccounts", schema.getDefaultContainerFilter());
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("account"), newAnimalData.getAnimalAccount(), CompareType.EQUAL);
             filter.addCondition(FieldKey.fromParts("date"), newAnimalData.getAcqDate(), CompareType.DATE_LTE);
@@ -100,8 +104,24 @@ public class SNPRC_EHRValidator
         if (newAnimalData.getDiet() == null)
             throw new ValidationException("Diet is required");
         // IACUC
-        if (newAnimalData.getIacuc() == null)
-            throw new ValidationException("IACUC is required");
+        try
+        {
+            if (newAnimalData.getIacuc() == null)
+                throw new ValidationException("IACUC is required");
+        // Ensure initial IACUC was valid on animals arival date
+            TableInfo ti = schemaEHR.getTable("ProtocolLookup", schema.getDefaultContainerFilter());
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Iacuc"), newAnimalData.getIacuc(), CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromParts("ApprovalDate"), newAnimalData.getAcqDate(), CompareType.DATE_LTE);
+            filter.addClause(new SimpleFilter.AndClause(
+                    new CompareType.CompareClause(FieldKey.fromParts("EndDate"), CompareType.ISBLANK, null)));
+            TableSelector ts = new TableSelector(ti, filter, null);
+            if (ts.getRowCount() != 1 )
+                throw new ValidationException("Valid IACUC is required");
+        }
+        catch (Exception e)
+        {
+            throw new ValidationException(e.getMessage());
+        }
 
         // NULLABLe fields
         // sire
