@@ -98,7 +98,7 @@ Ext4.define('SNPRC_EHR.window.BulkChangeCasesWindow', {
 
             toAdd.push({
                 xtype: 'displayfield',
-                value: LDK.ConvertUtils.parseDate(caseRow.date).format('Y-m-d')
+                value: Ext4.Date.format(LDK.ConvertUtils.parseDate(caseRow.date), 'Y-m-d')
             });
 
             toAdd.push({

@@ -27,14 +27,19 @@ public class SNPRC_EHRValidator
         if (newAnimalData.getBirthDate().after(newAnimalData.getAcqDate()))
             throw new ValidationException("Birthdate is greater than Acquisition date");
 
+        Map<String, Object> row;
+        UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
+        UserSchema schemaEHR = QueryService.get().getUserSchema(u, c,"EHR");
+        UserSchema schemaEHRLU = QueryService.get().getUserSchema(u, c,"ehr_lookups");
         // species and pedigree
+
+
+
         try
         {
             if (newAnimalData.getSpecies() == null)
                 throw new ValidationException("Species is required");
             // species exists - make sure it is valid
-            Map<String, Object> row;
-            UserSchema schema = QueryService.get().getUserSchema(u, c, "snprc_ehr");
             TableInfo ti = schema.getTable("CurrentSpeciesLookup", schema.getDefaultContainerFilter());
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("SpeciesCode"), newAnimalData.getSpecies(), CompareType.EQUAL);
             TableSelector ts = new TableSelector(ti, filter, null);
@@ -51,16 +56,34 @@ public class SNPRC_EHRValidator
 
         }
 
-        if (newAnimalData.getBirthCode() == null)
-            throw new ValidationException("Birthdate status is required");
+            if (newAnimalData.getBirthCode() == null)
+                throw new ValidationException("Birthdate status is required");
 
+        // Acquisition Code-AcquisitionType
+        try
+        {
+            if (newAnimalData.getAcquisitionType() == null)
+                throw  new ValidationException("Valid Acquisition code is required");
+
+            TableInfo ti = schemaEHRLU.getTable("AcquisitionType", schema.getDefaultContainerFilter());
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("value"), newAnimalData.getAcquisitionType().toString(), CompareType.EQUAL);
+            TableSelector ts = new TableSelector(ti, filter, null);
+
+            if (ts.getRowCount() != 1 )
+                throw new ValidationException("Acquisition code is required");
+
+
+        }
+        catch (Exception e)
+        {
+            throw new ValidationException(e.getMessage());
+        }
 
         // bdstatus
         if (newAnimalData.getBirthCode() == null)
             throw new ValidationException("Birth code is required");
-        // acquisitionType
-        if (newAnimalData.getAcquisitionType() == null)
-            throw new ValidationException("Acquisition type is required");
+
+
         // gender
         if (newAnimalData.getGender() == null)
             throw new ValidationException("Gender is required");
@@ -68,14 +91,57 @@ public class SNPRC_EHRValidator
         if (newAnimalData.getColony() == null)
             throw new ValidationException("Colony is required");
         // animalAccount
-        if (newAnimalData.getAnimalAccount() == null)
-            throw new ValidationException("Animal Account is required");
-        // ownerInstitution
-        if (newAnimalData.getOwnerInstitution() == null)
-            throw new ValidationException("Owner Institution is required");
-        //responsibleInstitution
-        if (newAnimalData.getResponsibleInstitution() == null)
-            throw new ValidationException("Responsible Institution is required");
+        try
+        {
+            if (newAnimalData.getAnimalAccount() == null)
+                throw new ValidationException("Animal Account is required");
+
+            TableInfo ti = schema.getTable("ValidAccounts", schema.getDefaultContainerFilter());
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("account"), newAnimalData.getAnimalAccount(), CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromParts("date"), newAnimalData.getAcqDate(), CompareType.DATE_LTE);
+            filter.addClause(new SimpleFilter.AndClause(
+                    new CompareType.CompareClause(FieldKey.fromParts("enddate"), CompareType.ISBLANK, null)));
+
+            TableSelector ts = new TableSelector(ti, filter, null);
+            if (ts.getRowCount() != 1 || (newAnimalData.getAnimalAccount() == null))
+                throw new ValidationException("Valid Animal Account is required");
+        }
+        catch (Exception e)
+        {
+            throw new ValidationException(e.getMessage());
+        }
+
+        // Valid Institutions
+        try
+        {
+            // ownerInstitution
+            if (newAnimalData.getOwnerInstitution() == null)
+                throw new ValidationException("Owner Institution is required");
+            //responsibleInstitution
+            if (newAnimalData.getResponsibleInstitution() == null)
+                throw new ValidationException("Responsible Institution is required");
+
+            TableInfo ti = schema.getTable("validInstitutions", schema.getDefaultContainerFilter());
+            SimpleFilter filterRI = new SimpleFilter(FieldKey.fromParts("institution_id"), newAnimalData.getResponsibleInstitution(), CompareType.EQUAL);
+
+            TableSelector tsRI = new TableSelector(ti, filterRI, null);
+            if (tsRI.getRowCount() != 1 )
+                throw new ValidationException("Responsible Institution is required");
+
+            SimpleFilter filterOI = new SimpleFilter(FieldKey.fromParts("institution_id"), newAnimalData.getOwnerInstitution(), CompareType.EQUAL);
+
+            TableSelector tsOI = new TableSelector(ti, filterOI, null);
+            if (tsOI.getRowCount() != 1 )
+                throw new ValidationException("Responsible Institution is required");
+
+
+
+
+        }
+        catch (Exception e)
+        {
+            throw new ValidationException(e.getMessage());
+        }
         // room
         if (newAnimalData.getRoom() == null)
             throw new ValidationException("Room is required");
@@ -83,8 +149,24 @@ public class SNPRC_EHRValidator
         if (newAnimalData.getDiet() == null)
             throw new ValidationException("Diet is required");
         // IACUC
-        if (newAnimalData.getIacuc() == null)
-            throw new ValidationException("IACUC is required");
+        try
+        {
+            if (newAnimalData.getIacuc() == null)
+                throw new ValidationException("IACUC is required");
+            // Ensure initial IACUC was valid on animals arival date
+            TableInfo ti = schemaEHR.getTable("ProtocolLookup", schema.getDefaultContainerFilter());
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Iacuc"), newAnimalData.getIacuc(), CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromParts("ApprovalDate"), newAnimalData.getAcqDate(), CompareType.DATE_LTE);
+            filter.addClause(new SimpleFilter.AndClause(
+                    new CompareType.CompareClause(FieldKey.fromParts("EndDate"), CompareType.ISBLANK, null)));
+            TableSelector ts = new TableSelector(ti, filter, null);
+            if (ts.getRowCount() != 1 )
+                throw new ValidationException("Valid IACUC is required");
+        }
+        catch (Exception e)
+        {
+            throw new ValidationException(e.getMessage());
+        }
 
         // NULLABLe fields
         // sire
