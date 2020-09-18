@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml" standalone="false">
+    <name>_SND Initial Event Data</name>
+    <description>Initial load of Event Data for SND module</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_snd_eventData" />
+            <destination schemaName="snd" queryName="EventData" bulkLoad="true" batchSize="5000" targetOption="truncate">
+            </destination>
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>
