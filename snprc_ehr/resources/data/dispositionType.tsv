@@ -1,51 +1,51 @@
 ﻿title	value	category	description	sort_order	date_disabled
 	0	Disposition	Alive at TBRI (for historical data before 01/01/2000 only)	0	01/01/2000
-	1	Death	Natural death (other than research)	1	
-	2	Death	Sacrifice for research reasons	2	
-	3	Death	Research related death	3	
-	4	Disposition	Sold (to outside TBRI)	4	
-	5	Disposition	TBRI Loan (to outside TBRI)	5	
-	6	Disposition	Gift (to outside TBRI)	6	
-	7	Disposition	Exchange (to outside TBRI)	7	
-	8	Disposition	Return of outside loan	8	
-	9	Disposition	Release from TBRI from treatment	9	
-	10	Disposition	Release from TBRI from boarding	10	
+	1	Death	Natural death (other than research)	1
+	2	Death	Sacrifice for research reasons	2
+	3	Death	Research related death	3
+	4	Disposition	Sold (to outside TBRI)	4
+	5	Disposition	TBRI Loan (to outside TBRI)	5
+	6	Disposition	Gift (to outside TBRI)	6
+	7	Disposition	Exchange (to outside TBRI)	7
+	8	Disposition	Return of outside loan	8
+	9	Disposition	Release from TBRI from treatment	9
+	10	Disposition	Release from TBRI from boarding	10
 	11	Death	Sacrifice for humane/management reasons (Euthanasia)	11	11/10/2009
-	12	Death	Stillbirth	12	
-	13	Death	Abortion	13	
-	14	Disposition	Return as inadequate model	14	
-	15	Death	Died while on treatment	15	
-	16	Disposition	End NON TxBiomed data acquisition	16	
-	17	Death	Research related death (outside TBRI)	17	
-	18	Death	Surgical Removal of dead fetus	18	
-	19	Death	Euthanized for humane reasons	19	
-	20	Death	Euthanized for management reasons	20	
-	21	Disposition	UTHS - Animal taken to UT Health Sciences Center	21	
-	50	Disposition	Lost to ambiguous id (DBA deletion,  animal not removed from colony)	50	
-	61	Death	AC   -Accidental death	61	
+	12	Death	Stillbirth	12
+	13	Death	Abortion	13
+	14	Disposition	Return as inadequate model	14
+	15	Death	Died while on treatment	15
+	16	Disposition	End NON TxBiomed data acquisition	16
+	17	Death	Research related death (outside TBRI)	17
+	18	Death	Surgical Removal of dead fetus	18
+	19	Death	Euthanized for humane reasons	19
+	20	Death	Euthanized for management reasons	20
+	21	Disposition	UTHS - Animal taken to UT Health Sciences Center	21
+	50	Disposition	Lost to ambiguous id (DBA deletion,  animal not removed from colony)	50
+	61	Death	AC   -Accidental death	61	08/01/2016
 	62	Death	DE   -Dead	62	11/17/2009
-	63	Death	EX   -Experimental related death	63	
-	65	Disposition	SWRI -Animal taken to SWRI	65	
-	66	Disposition	TR   -Animal taken to Trinity University	66	
-	68	Death	ACTR -Accidental death due to trauma	68	
-	69	Death	ACWL -Accidental death (water bottle leaked)	69	
-	70	Death	ACWM -Accidental death (no water bottle)	70	
-	71	Death	ES   -Escaped	71	
-	72	Death	EXBA -Experimental death due to blood collection/anesthesia	72	
-	73	Death	EXEP -Experimental death due to experimental endpoint (tissue collection or necropsy)	73	
-	74	Death	EXSA -Experimental death due to surgery/anesthesia	74	
-	75	Death	EXSH -Experimental death due to shaving/anesthesia	75	
-	76	Death	IC   -Inflamed Cloaca	76	
-	77	Death	KI   -Killed by mate or siblings	77	
-	78	Death	MI   -Missing animal (no book, no animal)	78	
-	79	Death	MO   -Moribund (near death, very ill, euthanized)	79	
-	80	Death	PR   -Prolapse	80	
-	81	Death	SA   -Sacrificed (cull list)	81	
-	82	Disposition	SO   -Sold	82	
-	83	Death	SP   -Spontaneous death	83	
+	63	Death	EX   -Experimental related death	63	08/01/2016
+	65	Disposition	SWRI -Animal taken to SWRI	65
+	66	Disposition	TR   -Animal taken to Trinity University	66
+	68	Death	ACTR -Accidental death due to trauma	68	08/01/2016
+	69	Death	ACWL -Accidental death (water bottle leaked)	69	08/01/2016
+	70	Death	ACWM -Accidental death (no water bottle)	70	08/01/2016
+	71	Death	ES   -Escaped	71	08/01/2016
+	72	Death	EXBA -Experimental death due to blood collection/anesthesia	72	08/01/2016
+	73	Death	EXEP -Experimental death due to experimental endpoint (tissue collection or necropsy)	73	08/01/2016
+	74	Death	EXSA -Experimental death due to surgery/anesthesia	74	08/01/2016
+	75	Death	EXSH -Experimental death due to shaving/anesthesia	75	08/01/2016
+	76	Death	IC   -Inflamed Cloaca	76	08/01/2016
+	77	Death	KI   -Killed by mate or siblings	77	08/01/2016
+	78	Death	MI   -Missing animal (no book, no animal)	78	08/01/2016
+	79	Death	MO   -Moribund (near death, very ill, euthanized)	79	08/01/2016
+	80	Death	PR   -Prolapse	80	08/01/2016
+	81	Death	SA   -Sacrificed (cull list)	81	08/01/2016
+	82	Disposition	SO   -Sold	82
+	83	Death	SP   -Spontaneous death	83	08/01/2016
 	84	Death	SC   -Surgical Complications	84	11/18/2009
-	85	Death	SD   -Spontaneous death, diet related	85	
-	86	Death	PP   -Prolapsed Placenta	86	
-	97	Disposition	Parental data only, animal never at SFBR	97	
-	98	Disposition	Unknown (id only)	98	
-	99	Disposition	Unknown	99	
+	85	Death	SD   -Spontaneous death, diet related	85	08/01/2016
+	86	Death	PP   -Prolapsed Placenta	86	08/01/2016
+	97	Disposition	Parental data only, animal never at SFBR	97
+	98	Disposition	Unknown (id only)	98
+	99	Disposition	Unknown	99
