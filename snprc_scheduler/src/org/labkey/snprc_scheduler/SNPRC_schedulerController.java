@@ -171,9 +171,13 @@ public class SNPRC_schedulerController extends SpringActionController
      * <p>
      * call with the projectId & revisionNum to return a single project
      * e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?ProjectId=18&RevisionNum=0
+     * <p>
      * call with 2-character species code & one of the following project types: Clinical, Maintenance, Behavior, returns
      *  the corresponding project
      *  e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?Species=PC&ProjectType=Clinical
+     * <p>
+     * call with ParentObjectId (object ID of project) to return a single project based on its objectId value
+     *  e.g. - http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveProjects.view?ParentObjectId=D64C462A-33DA-485C-A72D-510EBE5CAC48
      */
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
@@ -185,10 +189,11 @@ public class SNPRC_schedulerController extends SpringActionController
             Map<String, Object> props = new HashMap<>();
             List<JSONObject> jsonProjects = new ArrayList<>();
             PropertyValues pv = getPropertyValues();
-            String projectId = null;
-            String revisionNum = null;
-            String projectType = null;
-            String species = null;  // two-character species code (referenceId.species.species.code)
+            String projectId;
+            String revisionNum;
+            String projectType;
+            String species;  // two-character species code (referenceId.species.species.code)
+            String parentObjectId;
 
             try
             {
@@ -201,6 +206,7 @@ public class SNPRC_schedulerController extends SpringActionController
                     species = pv.contains("Species") ? pv.getPropertyValue("Species").getValue().toString() : null;
                     projectId = pv.contains("ProjectId") ? pv.getPropertyValue("ProjectId").getValue().toString() : null;
                     revisionNum = pv.contains("RevisionNum") ?pv.getPropertyValue("RevisionNum").getValue().toString() : null;
+                    parentObjectId = pv.contains("ParentObjectId") ?pv.getPropertyValue("ParentObjectId").getValue().toString() : null;
 
                     if (projectType != null && "Maintenance Behavior Clinical".contains(projectType) && species != null)
                     {
@@ -208,13 +214,12 @@ public class SNPRC_schedulerController extends SpringActionController
                         filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), projectType, CompareType.EQUAL));
                         filters.add(new SimpleFilter(FieldKey.fromParts("ReferenceId","species"), species, CompareType.EQUAL));
                     }
-                    else if (pv.getPropertyValue("ProjectId") != null && pv.getPropertyValue("RevisionNum") != null)
+                    else if (projectId != null && revisionNum != null)
                     {
                         // specific project requested
                         try
                         {
                             // if a specific project is requested, add it to the filters ArrayList
-                            //filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), "Research", CompareType.EQUAL));
                             filters.add(new SimpleFilter(FieldKey.fromParts("ProjectId"), Integer.parseInt(projectId), CompareType.EQUAL));
                             filters.add(new SimpleFilter(FieldKey.fromParts("RevisionNum"), Integer.parseInt(revisionNum), CompareType.EQUAL));
 
@@ -224,9 +229,13 @@ public class SNPRC_schedulerController extends SpringActionController
                             throw new ValidationException("ProjectId and RevisionNum must be numeric");
                         }
                     }
+                    else if (parentObjectId != null )
+                    {
+                        // specific project requested by ParentObjectId
+                        filters.add(new SimpleFilter(FieldKey.fromParts("ObjectId"), parentObjectId, CompareType.EQUAL));
+                    }
                     else
                     {
-                        //
                         // add filters to return all research projects
                         filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), "Research", CompareType.EQUAL));
                     }
@@ -255,9 +264,10 @@ public class SNPRC_schedulerController extends SpringActionController
                         {
                             jsonProject.put("Iacuc", ehrProject.get("protocol"));
                             jsonProject.put("CostAccount", ehrProject.get("account"));
+                            jsonProject.put("Species", ehrProject.get("species"));
                         }
                         jsonProjects.add(jsonProject);
-//                        }
+
                     }
                     props.put("success", true);
                     props.put("rows", jsonProjects);
