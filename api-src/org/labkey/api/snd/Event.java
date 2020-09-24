@@ -56,6 +56,7 @@ public class Event
     private Map<EventNarrativeOption, String> narratives;
     private Map<GWTPropertyDescriptor, Object> _extraFields = new HashMap<>();
     private Integer _qcState;
+    private String _objectId;
 
     // This will store a count of the different severity of exceptions
     private Map<ValidationException.SEVERITY, Integer> _exceptionCount = new HashMap<>();
@@ -70,6 +71,7 @@ public class Event
     public static final String EVENT_DATA = "eventData";
     public static final String EVENT_PARENT_OBJECTID = "parentObjectId";
     public static final String EVENT_CONTAINER = "Container";
+    public static final String EVENT_OBJECTID = "ObjectId";
 
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
 
@@ -82,7 +84,7 @@ public class Event
     public static final String SND_EXCEPTION_SEVERITY_JSON = "severity";
     public static final String SND_EXCEPTION_JSON = "exception";
 
-    public Event(@Nullable Integer eventId, String subjectId, @Nullable Date date, @NotNull String projectIdRev, @Nullable String note, @Nullable List<EventData> eventData, @NotNull Container c)
+    public Event(@Nullable Integer eventId, String subjectId, @Nullable Date date, @NotNull String projectIdRev, @Nullable String note, @Nullable List<EventData> eventData, @NotNull Container c, @Nullable String objectId)
     {
         _eventId = eventId != null ? eventId : SNDSequencer.EVENTID.ensureId(c, null);
         _subjectId = subjectId;
@@ -91,6 +93,7 @@ public class Event
         _note = note;
         _eventData = eventData;
         _noteId = SNDSequencer.EVENTID.ensureId(c, null);
+        _objectId = objectId;
     }
 
     public Event () {}
@@ -229,6 +232,16 @@ public class Event
         _qcState = SNDService.get().getQCStateId(c, u, qcState);
     }
 
+    public String getObjectId()
+    {
+        return _objectId;
+    }
+
+    public void setObjectId(String objectId)
+    {
+        _objectId = objectId;
+    }
+
     public ValidationException getException()
     {
         return _eventException;
@@ -302,6 +315,7 @@ public class Event
         eventValues.put(EVENT_PARENT_OBJECTID, getParentObjectId());
         eventValues.put(EVENT_QCSTATE, getQcState());
         eventValues.put(EVENT_CONTAINER, c.getId());
+        eventValues.put(EVENT_OBJECTID, getObjectId());
 
         Map<GWTPropertyDescriptor, Object> extras = getExtraFields();
         for (GWTPropertyDescriptor gpd : extras.keySet())
@@ -341,6 +355,10 @@ public class Event
         if (_qcState != null)
         {
             json.put(EVENT_QCSTATE, getQcState(c, u).getName());
+        }
+        if (_objectId != null)
+        {
+            json.put(EVENT_OBJECTID, getObjectId());
         }
 
         JSONArray eventDataJson = new JSONArray();

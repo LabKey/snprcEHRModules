@@ -19,6 +19,7 @@ package org.labkey.snd;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -129,6 +130,19 @@ public class SNDManager
     public static UserSchema getSndUserSchema(Container c, User u)
     {
         return new SNDUserSchema(SNDSchema.NAME, null, u, c, SNDSchema.getInstance().getSchema(), false);
+    }
+
+    public static int MAX_MERGE_ROWS = 100000;
+
+    public static Logger getLogger(Map<Enum, Object> configParameters, Class<?> clazz)
+    {
+        Logger log = null;
+        if (configParameters != null)
+            log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
+        if (log == null)
+            log = LogManager.getLogger(clazz);
+
+        return log;
     }
 
     public static String getPackageName(int id)
@@ -2691,6 +2705,55 @@ public class SNDManager
             }
         }
         return event;
+    }
+
+    // default to isUpdate = true
+    public int updateNarrativeCache(Container container, User user, Set<Integer>cacheData, Logger log)
+    {
+        return updateNarrativeCache(container, user, cacheData, log, true);
+    }
+    /* deletes and updates cached narratives */
+    public int updateNarrativeCache(Container container, User user, Set<Integer>cacheData, @NotNull Logger log, boolean isUpdate)
+    {
+        if (cacheData.size() > 0)
+        {
+            log.info("Deleting affected narrative cache rows.");
+            List<Map<String, Object>> rows = new ArrayList<>();
+            Map<String, Object> row;
+            BatchValidationException errors = new BatchValidationException();
+
+            if (cacheData.size() > MAX_MERGE_ROWS)
+            {
+                log.info("More than " + MAX_MERGE_ROWS + " rows. Truncating narrative cache");
+                clearNarrativeCache(container, user, errors);
+                if (isUpdate)
+                    log.info("Not automatically populating narrative cache. Must refresh manually.");
+            }
+            else
+            {
+                for (Integer cacheDatum : cacheData)
+                {
+                    row = new HashMap<>();
+                    row.put("EventId", cacheDatum);
+                    rows.add(row);
+                }
+
+                log.info("Deleting affected narrative cache rows.");
+                deleteNarrativeCacheRows(container, user, rows, errors);
+                //repopulate
+                if (isUpdate)
+                {
+                    log.info("Repopulate affected rows in narrative cache.");
+                    populateNarrativeCache(container, user, rows, errors, log);
+                }
+            }
+
+            if (errors.hasErrors())
+            {
+                log.info("Error updating narrative cache.", errors.getMessage());
+            }
+        }
+        return cacheData.size();
     }
 
     /**

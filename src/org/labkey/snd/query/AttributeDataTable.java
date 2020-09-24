@@ -15,7 +15,6 @@
  */
 package org.labkey.snd.query;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -154,7 +153,6 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
     {
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();
-        private final Logger _logger = LogManager.getLogger(AttributeDataTable.class);
         private final DbSchema _expSchema = OntologyManager.getExpSchema();
 
         private Map<Integer, Object> packageMap = null;
@@ -211,35 +209,6 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             return null;
         }
 
-        private void updateNarrativeCache(Container container, User user, Set<Integer>cacheData, Logger log)
-        {
-            if (cacheData.size() > 0)
-            {
-                log.info("Deleting affected narrative cache rows.");
-                List<Map<String, Object>> rows = new ArrayList<>();
-                Map<String, Object> row;
-
-                for (Integer cacheDatum : cacheData)
-                {
-                    row = new HashMap<>();
-                    row.put("EventId", cacheDatum);
-                    rows.add(row);
-                }
-
-                _sndService.deleteNarrativeCacheRows(container, user, rows);
-
-                if (cacheData.size() > 10000)
-                {
-                    log.info("Greater than 10,000 rows so not automatically populating narrative cache. Ensure to refresh manually.");
-                }
-                else
-                {
-                    log.info("Repopulate affected rows in narrative cache.");
-                    _sndService.populateNarrativeCache(container, user, rows, log);
-                }
-            }
-        }
-
         private int insertObject(Container c, String uri, List<ObjectProperty> props, Integer pkgId, int inserted, Logger logger)
         {
             try
@@ -273,7 +242,6 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             boolean found = false;
 
             Set<Integer> cacheEventIds = new HashSet<>();
-            int cacheCount = 0;
 
             for(Map<String, Object> row : data)
             {
@@ -288,13 +256,6 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
                 //add to list of cached narrative rows to delete
                 cacheEventIds.add((Integer) row.get("EventId"));
-                if (cacheEventIds.size() >= 100000)
-                {
-                    cacheCount += cacheEventIds.size();
-                    logger.info("Updating " + cacheEventIds.size() + " rows in event narrative cache.");
-                    updateNarrativeCache(container, user, cacheEventIds, logger);
-                    cacheEventIds = new HashSet<>();
-                }
 
                 String objectURI = getObjectURI((Integer) row.get("EventDataId"), container);
                 if (prevUri == null)
@@ -390,10 +351,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             OntologyManager.clearPropertyCache();
             logger.info("End updating exp.ObjectProperty. Inserted/Updated " + inserted + " rows.");
 
-            cacheCount += cacheEventIds.size();
-            logger.info("Updating " + cacheEventIds.size() + " rows in event narrative cache.");
-            updateNarrativeCache(container, user, cacheEventIds, logger);
-            logger.info("Updated a total of " + cacheCount + " rows in event narrative cache.");
+            _sndManager.updateNarrativeCache(container, user, cacheEventIds, logger);
 
             return data;
         }
@@ -402,31 +360,33 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors,
                              @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
         {
+            Logger log = SNDManager.getLogger(configParameters, AttributeDataTable.class);
+
             List<Map<String, Object>> data = getMutableData(rows, getDataIteratorContext(errors, InsertOption.MERGE, configParameters));
-            return updateObjectProperty(user, container, data, false, true, ((Logger)configParameters.get(QueryUpdateService.ConfigParameters.Logger))).size();
+            // Large merge triggers importRows path
+            if (data.size() > SNDManager.MAX_MERGE_ROWS)
+            {
+                data.clear();
+                log.info("More than " + SNDManager.MAX_MERGE_ROWS + " rows. using importRows method.");
+                return importRows(user, container, rows, errors, configParameters, extraScriptContext);
+            }
+            log.info("Merging rows.");
+            return updateObjectProperty(user, container, data, false, true, log).size();
         }
 
         @Override
         public int importRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors,
                               @Nullable Map<Enum,Object> configParameters, Map<String, Object> extraScriptContext)
         {
+            Logger log = SNDManager.getLogger(configParameters, AttributeDataTable.class);
             List<Map<String, Object>> data = getMutableData(rows, getDataIteratorContext(errors, InsertOption.IMPORT, configParameters));
-            return updateObjectProperty(user, container, data, true, false, ((Logger)configParameters.get(QueryUpdateService.ConfigParameters.Logger))).size();
+            return updateObjectProperty(user, container, data, true, false, log).size();
         }
 
         @Override
         public int truncateRows(User user, Container container, @Nullable Map<Enum, Object> configParameters, @Nullable Map<String, Object> extraScriptContext)
         {
-            Logger log = null;
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            if (log == null)
-            {
-                log = _logger;
-            }
+            Logger log = SNDManager.getLogger(configParameters, AttributeDataTable.class);
 
             int numDeletedRows;
             String defaultLsidAuthority = AppProps.getInstance().getDefaultLsidAuthority();
@@ -461,16 +421,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         public List<Map<String, Object>> deleteRows(User user, Container container, List<Map<String, Object>> oldRows,
                                                     @Nullable Map<Enum, Object> configParameters, @Nullable Map<String, Object> extraScriptContext)
         {
-            Logger log = null;
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            if (log == null)
-            {
-                log = _logger;
-            }
+            Logger log = SNDManager.getLogger(configParameters, AttributeDataTable.class);
 
             Set<Integer> cacheData = new HashSet<>();
             try (DbScope.Transaction tx = _expSchema.getScope().ensureTransaction())
@@ -500,7 +451,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                 throw new IllegalStateException(e);
             }
 
-            updateNarrativeCache(container, user, cacheData, log);
+            _sndManager.updateNarrativeCache(container, user, cacheData, log, false);
 
             return oldRows;
         }

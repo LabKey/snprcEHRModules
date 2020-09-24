@@ -47,6 +47,7 @@ import org.labkey.api.snd.SNDSequencer;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snd.SuperPackage;
 import org.labkey.api.util.DateUtil;
+import org.labkey.api.util.GUID;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
@@ -986,7 +987,7 @@ public class SNDController extends SpringActionController
             Boolean validateOnly = (Boolean) json.get("validateOnly");
             String qcStateString = json.getString("qcState");
             int qcState = SNDService.get().getQCStateId(getContainer(), getUser(), QCStateEnum.getByName(qcStateString));
-
+            String objectId = json.has("objectId") ? json.getString("objectId") : GUID.makeGUID();
             ApiSimpleResponse response = new ApiSimpleResponse();
 
             if (validateOnly == null)
@@ -1023,7 +1024,7 @@ public class SNDController extends SpringActionController
                     }
                 }
 
-                Event event = new Event(eventId, subjectId, date, projectIdrev, note, eventData, getContainer());
+                Event event = new Event(eventId, subjectId, date, projectIdrev, note, eventData, getContainer(), objectId);
                 event.setQcState(qcState);
 
                 // Get extra fields

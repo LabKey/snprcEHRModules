@@ -29,6 +29,7 @@ import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleQueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema.SimpleTable;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.SNDService;
@@ -44,8 +45,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EventsTable extends SimpleTable<SNDUserSchema>
 {
@@ -56,6 +59,8 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
      * @param schema
      * @param table
      */
+    private final SNDManager _sndManager = SNDManager.get();
+
     public EventsTable(SNDUserSchema schema, TableInfo table, ContainerFilter cf)
     {
         super(schema, table, cf);
@@ -76,35 +81,10 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
 
         private final SNDService _sndService = SNDService.get();
 
-        private void updateNarrativeCache(Container container, User user, List<Map<String, Object>> cacheData, Logger log)
-        {
-            if (cacheData.size() > 10000)
-            {
-                if (log != null)
-                    log.info("Greater than 10,000 rows so not automatically populating narrative cache. Ensure to refresh manually.");
-            }
-            else if(cacheData.size() > 0)
-            {
-                if (log != null)
-                    log.info("Repopulating affected rows in narrative cache.");
-                _sndService.populateNarrativeCache(container, user, cacheData, log);
-            }
-        }
-
-        private void deleteNarrativeCache(Container container, User user, List<Map<String, Object>> cacheData, Logger log)
-        {
-            if(cacheData.size() > 0)
-            {
-                if (log != null)
-                    log.info("Deleting affected narrative cache rows.");
-                _sndService.deleteNarrativeCacheRows(container, user, cacheData);
-            }
-        }
-
-        private List<Map<String, Object>> handleNarrativeCache(DataIteratorBuilder rows, @Nullable Map<Enum,Object> configParameters, BatchValidationException errors)
+        private Set<Integer> handleNarrativeCache(DataIteratorBuilder rows, @Nullable Map<Enum,Object> configParameters, BatchValidationException errors)
         {
             List<Map<String, Object>> data;
-            List<Map<String, Object>> cacheData = new ArrayList<>();
+            Set<Integer> eventIds = new HashSet<>();
             DataIteratorContext dataIteratorContext = getDataIteratorContext(errors, InsertOption.MERGE, configParameters);
 
             try
@@ -113,29 +93,16 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
             }
             catch (IOException e)
             {
-                return cacheData;
+                errors.addRowError(new ValidationException(e.getMessage()));
+                return eventIds;
             }
 
-            Map<String, Object> cacheKey;
             for(Map<String, Object> map : data)
             {
-                cacheKey = new HashMap<>();
-                cacheKey.put("EventId", map.get("EventId"));
-                cacheData.add(cacheKey);
+                eventIds.add((Integer) map.get("EventId"));
             }
 
-            return cacheData;
-        }
-
-        private Logger getLogger(Map<Enum, Object> configParameters)
-        {
-            Logger log = null;
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            return log;
+            return eventIds;
         }
 
         @Override
@@ -150,20 +117,14 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
         public int importRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors,
                               @Nullable Map<Enum,Object> configParameters, Map<String, Object> extraScriptContext)
         {
-            Logger log = getLogger(configParameters);
-
-            if (log != null)
-                log.info("Finding narrative cache rows.");
-
-            List<Map<String, Object>> cacheData = handleNarrativeCache(rows, configParameters, errors);
-
-            // Delete rows from narrative cache
-            deleteNarrativeCache(container, user, cacheData, log);
+            Logger log = SNDManager.getLogger(configParameters, EventsTable.class);
 
             int result = super.importRows(user, container, rows, errors, configParameters, extraScriptContext);
 
             // update rows in narrative cache
-            updateNarrativeCache(container, user, cacheData, log);
+            Set<Integer> eventIds = handleNarrativeCache(rows, configParameters, errors);
+            _sndManager.updateNarrativeCache(container, user, eventIds, log);
+
             return result;
         }
 
@@ -171,20 +132,25 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
         public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors,
                              @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
         {
-            Logger log = getLogger(configParameters);
+            Logger log = SNDManager.getLogger(configParameters, EventsTable.class);
 
-            if (log != null)
-                log.info("Finding rows to cache.");
+            Set<Integer> eventIds = handleNarrativeCache(rows, configParameters, errors);
 
-            List<Map<String, Object>> cacheData = handleNarrativeCache(rows, configParameters, errors);
-
-            // Delete rows from narrative cache
-            deleteNarrativeCache(container, user, cacheData, log);
-
-            int result = super.mergeRows(user, container, rows, errors, configParameters, extraScriptContext);
-
+            int result = 0;
+            // Large merge triggers importRows path
+            if (eventIds.size() > SNDManager.MAX_MERGE_ROWS)
+            {
+                log.info("More than " + SNDManager.MAX_MERGE_ROWS + " rows. using importRows method.");
+                result = super.importRows(user, container, rows, errors, configParameters, extraScriptContext);
+            }
+            else
+            {
+                log.info("Merging rows.");
+                result = super.mergeRows(user, container, rows, errors, configParameters, extraScriptContext);
+            }
             // update rows in narrative cache
-            updateNarrativeCache(container, user, cacheData, log);
+            _sndManager.updateNarrativeCache(container, user, eventIds, log);
+
             return result;
         }
 
@@ -239,7 +205,7 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
             Map<String, Object> result = super.deleteRow(user, container, oldRowMap);
 
             // delete row from narrative cache
-            deleteNarrativeCache(container, user, cacheData, null);
+            _sndService.deleteNarrativeCacheRows(container, user, cacheData);
 
             return result;
         }

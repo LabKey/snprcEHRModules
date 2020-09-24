@@ -15,7 +15,6 @@
  */
 package org.labkey.snd.query;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,8 +47,6 @@ import org.labkey.snd.SNDUserSchema;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +82,6 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
     {
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();
-        private final Logger _logger = LogManager.getLogger(EventDataTable.class);
         private final DbSchema _expSchema = OntologyManager.getExpSchema();
 
         public UpdateService(SimpleUserSchema.SimpleTable ti)
@@ -98,53 +94,15 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
             return _sndManager.generateLsid(c, String.valueOf(eventDataId));
         }
 
-        private void updateNarrativeCache(Container container, User user, Set<Integer> cacheData, Logger log)
-        {
-            if (cacheData.size() > 0)
-            {
-                log.info("Deleting affected narrative cache rows.");
-                List<Map<String, Object>> rows = new ArrayList<>();
-                Map<String, Object> row;
-
-                for (Integer cacheDatum : cacheData)
-                {
-                    row = new HashMap<>();
-                    row.put("EventId", cacheDatum);
-                    rows.add(row);
-                }
-
-                _sndService.deleteNarrativeCacheRows(container, user, rows);
-
-                if (cacheData.size() > 10000)
-                {
-                    log.info("Greater than 10,000 rows so not automatically populating narrative cache. Ensure to refresh manually.");
-                }
-                else
-                {
-                    log.info("Repopulate affected rows in narrative cache.");
-                    _sndService.populateNarrativeCache(container, user, rows, log);
-                }
-            }
-        }
-
         @Override
         public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors,
                              @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
         {
             List<Map<String, Object>> data;
             DataIteratorContext dataIteratorContext = getDataIteratorContext(errors, InsertOption.MERGE, configParameters);
-            Logger log = null;
             Set<Integer> eventIds = new HashSet<>();
 
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            if (log == null)
-            {
-                log = _logger;
-            }
+            Logger log = SNDManager.getLogger(configParameters, EventDataTable.class);
 
             try
             {
@@ -154,6 +112,14 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
             {
                 return 0;
             }
+            // Large merge triggers importRows path
+            if (data.size() >= SNDManager.MAX_MERGE_ROWS)
+            {
+                log.info("More than " + SNDManager.MAX_MERGE_ROWS + " rows. using importRows method.");
+                return importRows(user, container, rows, errors, configParameters, extraScriptContext);
+            }
+
+            log.info("Merging rows.");
 
             log.info("Begin updating exp.Object table.");
             int count = 0;
@@ -187,7 +153,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
                 rowCount = _importRowsUsingDIB(user, container, rowsWithObjectURI, null, dataIteratorContext, extraScriptContext);
             }
 
-            updateNarrativeCache(container, user, eventIds, log);
+            _sndManager.updateNarrativeCache(container, user, eventIds, log);
 
             return rowCount; //there aren't any rows to merge
         }
@@ -199,16 +165,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
             List<Map<String, Object>> data;
             Set<Integer> cacheData = new HashSet<>();
 
-            Logger log = null;
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            if (log == null)
-            {
-                log = _logger;
-            }
+            Logger log = SNDManager.getLogger(configParameters, EventDataTable.class);
 
             try
             {
@@ -244,7 +201,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
 
             DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.get(0).keySet(), data);
 
-            updateNarrativeCache(container, user, cacheData, log);
+            _sndManager.updateNarrativeCache(container, user, cacheData, log);
 
             //insert into snd.EventData (which includes extensible columns for EventData)
             return super.importRows(user, container, rowsWithObjectURI, errors, configParameters, extraScriptContext);
@@ -255,16 +212,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
                                                     @Nullable Map<Enum, Object> configParameters, @Nullable Map<String, Object> extraScriptContext)
                 throws InvalidKeyException, BatchValidationException, QueryUpdateServiceException, SQLException
         {
-            Logger log = null;
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            if (log == null)
-            {
-                log = _logger;
-            }
+            Logger log = SNDManager.getLogger(configParameters, EventDataTable.class);
 
             deleteFromExpTables(oldRows, container, log);
 
@@ -275,7 +223,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
             }
 
             List<Map<String, Object>> result = super.deleteRows(user, container, oldRows, configParameters, extraScriptContext);
-            updateNarrativeCache(container, user, cacheData, log);
+            _sndManager.updateNarrativeCache(container, user, cacheData, log, false);
 
             return result;
         }
@@ -284,16 +232,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
         public int truncateRows(User user, Container container, @Nullable Map<Enum, Object> configParameters, @Nullable Map<String, Object> extraScriptContext)
                 throws BatchValidationException, QueryUpdateServiceException, SQLException
         {
-            Logger log = null;
-            if (configParameters != null)
-            {
-                log = ((Logger) configParameters.get(QueryUpdateService.ConfigParameters.Logger));
-            }
-
-            if (log == null)
-            {
-                log = _logger;
-            }
+            Logger log = SNDManager.getLogger(configParameters, EventDataTable.class);
 
             //get rows from snd.eventData
             deleteAllFromExpTables(log);
