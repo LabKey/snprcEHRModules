@@ -15,7 +15,8 @@ const fetchProtocols = species => {
             columns: ['Iacuc', 'DisplayValue', 'Species', 'MaxAnimals'],
             filterArray: [
                 Filter.create('Species', species, Filter.Types.EQUAL),
-                Filter.create('EndDate', null, Filter.Types.MISSING)
+                Filter.create('EndDate', null, Filter.Types.MISSING),
+                Filter.create('ApprovalDate', null, Filter.Types.NOT_MISSING)
             ],
             sort: 'ProjectType, SequenceNumber'
         }).then(({ rows }) => {
