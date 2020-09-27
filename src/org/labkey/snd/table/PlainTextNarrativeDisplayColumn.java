@@ -20,6 +20,7 @@ import org.labkey.api.data.DataColumn;
 import org.labkey.api.data.RenderContext;
 import org.labkey.api.snd.Event;
 import org.labkey.api.snd.EventData;
+import org.labkey.api.util.HtmlString;
 
 public class PlainTextNarrativeDisplayColumn extends DataColumn
 {
@@ -29,10 +30,10 @@ public class PlainTextNarrativeDisplayColumn extends DataColumn
     }
 
     @Override
-    public String getFormattedValue(RenderContext ctx)
+    public HtmlString getFormattedHtml(RenderContext ctx)
     {
         String htmlNarrative = (String)ctx.get(getColumnInfo().getFieldKey());
-        return removeHtmlTagsFromNarrative(htmlNarrative);
+        return HtmlString.of(removeHtmlTagsFromNarrative(htmlNarrative));
     }
 
    public static String removeHtmlTagsFromNarrative(String htmlNarrative)
