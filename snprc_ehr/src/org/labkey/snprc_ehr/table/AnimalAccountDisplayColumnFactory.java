@@ -28,6 +28,7 @@ import org.labkey.api.data.TableSelector;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.util.PageFlowUtil;
 
 import java.text.SimpleDateFormat;
@@ -84,7 +85,7 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
 
         @NotNull
         @Override
-        public String getFormattedValue(RenderContext ctx)
+        public HtmlString getFormattedHtml(RenderContext ctx)
         {
 
             if (ctx == null)
@@ -92,7 +93,7 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
 
             Map<String, Object> dataMap = this.getDataMap(ctx);
             if (dataMap.isEmpty())
-                return "";
+                return HtmlString.EMPTY_STRING;
 
             ArrayList<String> errors = new ArrayList<>();
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
@@ -106,9 +107,9 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
 
             String html = PageFlowUtil.validateHtml(sb.toString(), errors, false);
             if (errors.isEmpty())
-                return html;
+                return HtmlString.unsafe(html);
             else
-                return PageFlowUtil.filter(errors.get(0));
+                return HtmlString.of(errors.get(0));
         }
 
         @NotNull
