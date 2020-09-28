@@ -1538,12 +1538,12 @@
                 <isUserEditable>false</isUserEditable>
                 <nullable>true</nullable>
                 <isHidden>true</isHidden>
-            <fk>
-                <fkDbSchema>core</fkDbSchema>
-                <fkTable>Users</fkTable>
-                <fkColumnName>UserId</fkColumnName>
-            </fk>
-        </column>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
             <column columnName="diCreated">
                 <isUserEditable>false</isUserEditable>
                 <nullable>true</nullable>
@@ -1571,7 +1571,7 @@
         <auditLogging>DETAILED</auditLogging>
         <pkColumnName>Id</pkColumnName>
         <columns>
-    <column columnName="Id">
+            <column columnName="Id">
                 <datatype>varchar</datatype>
             </column>
             <column columnName="BirthDate">
@@ -1846,5 +1846,85 @@
             </column>
         </columns>
         <tableTitle>Counters Table</tableTitle>
+    </table>
+    <table tableName="IacucAssignmentStats" tableDbType="TABLE">
+        <pkColumnName>WorkingIacuc, ThreeYearPeriod</pkColumnName>
+        <columns>
+            <column columnName="ThreeYearPeriod">
+                <datatype>integer</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="WorkingIacuc">
+                <datatype>varchar</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="ArcNumSeq">
+                <datatype>integer</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="ArcNumGenus">
+                <datatype>varchar</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="FirstAmendment">
+                <datatype>int</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="LastAmendment">
+                <datatype>int</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="StartDate">
+                <datatype>datetime</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="EndDate">
+                <datatype>datetime</datatype>
+                <nullable>true</nullable>
+            </column>
+            <column columnName="NumAnimalsAllowed">
+                <datatype>int</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="NumAnimalsAssigned">
+                <datatype>int</datatype>
+                <nullable>false</nullable>
+            </column>
+            <column columnName="container">
+                <nullable>false</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diCreatedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diCreated">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+            <column columnName="diModifiedby">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
+        </columns>
+        <tableTitle>IACUC Assignment Stats</tableTitle>
     </table>
 </tables>
