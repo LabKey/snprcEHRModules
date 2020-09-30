@@ -1,0 +1,35 @@
+@import "../../Shared/styles/style";
+@import "../../Shared/styles/formatting/wizard";
+@import "../../Shared/styles/formatting/panels";
+@import "../../Shared/styles/components/shared";
+@import "../../Shared/styles/components/infoPanel";
+@import "../../Shared/styles/components/loadingSpinner";
+@import "../../Shared/styles/components/wrappedDatePicker";
+
+.right-panel {
+    flex: 1;
+    padding-left: 1rem;
+    flex-direction: column;
+    height: $m-panel;
+    max-width: $m-panel-width;
+}
+
+.field-label {
+    text-align-last: start;
+    margin: 0.5rem $s-size 0.2rem $s-size;
+    font-size: $font-size-small;
+    width: 15rem;
+}
+
+.report-div {
+    flex: 1;
+    height: $xs-panel;
+    padding: 0 0 1rem 0;
+}
+.info-panel {
+    margin: 0;
+    padding: 0;
+}
+.info-div {
+    padding: 0;
+}
