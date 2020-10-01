@@ -7,7 +7,6 @@ import {
     QueryConfig,
 } from "@labkey/components";
 import { MenuItem, Panel } from "react-bootstrap";
-import "@labkey/components/dist/components.css";
 import { WithRouterProps } from "react-router";
 
 class SndGridPanelButtons extends React.PureComponent<RequiresModelAndActions> {
