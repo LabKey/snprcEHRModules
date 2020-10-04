@@ -349,6 +349,16 @@ public class SNPRC_EHRController extends SpringActionController
         }
     }
 
+    @RequiresPermission(SNPRCColonyAdminPermission.class)
+    public class SsrsReportsAction extends SimpleRedirectAction
+    {
+        @Override
+        public URLHelper getRedirectURL(Object o)
+        {
+            return new ActionURL(NAME, "SsrsReporting", getContainer());
+        }
+    }
+
     @RequiresPermission(ReadPermission.class)
     public class IdChipReaderAction extends SimpleRedirectAction
     {

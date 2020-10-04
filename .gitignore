@@ -18,6 +18,7 @@ snprc_ehr/resources/views/NewAnimalPage*.*
 snprc_ehr/resources/views/BirthRecordReport*.*
 snprc_ehr/resources/views/ChipReader*.*
 snprc_ehr/resources/views/SndEventsViewer*.*
+snprc_ehr/resources/views/SsrsReporting*.*
 snprc_ehr/cmd-here.exe
 snprc_ehr/resources/referenceStudy/*.xlsx
 snprc_ehr/resources/web/snprc_ehr/snprcReports.js.gz
