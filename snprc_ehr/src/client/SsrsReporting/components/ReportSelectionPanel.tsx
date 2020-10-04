@@ -1,19 +1,18 @@
-import { ReportType } from '../api/reportList'
+import { ReportItem } from '../api/ReportItem'
 import React from 'react'
 import Select, { OptionsType } from 'react-select'
 
 interface Props {
-    handleChange(selectedReport: ReportType): void;
-    reportList: OptionsType<ReportType>;
-    selectedReport: ReportType;
+    handleChange(selectedReport: ReportItem): void;
+    reportList: OptionsType<ReportItem>;
+    selectedReport: ReportItem;
 }
 
-export default class ReportSelection extends React.Component<Props> {
+export default class ReportSelectionPanel extends React.Component<Props> {
 
-    handleChange   = (option: ReportType | null): void => {
+    handleChange   = (option: ReportItem | null): void => {
         if (option)
           this.props.handleChange(option)
-        console.log('option: ', option)
     }
 
     render() {

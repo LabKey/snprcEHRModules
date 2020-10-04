@@ -32,7 +32,7 @@ module.exports = {
     },
     {
         name: 'SsrsReporting',
-        title: 'SSRS Reports',
+        title: 'PDF Reports',
         permission: 'read',
         path: './src/client/SsrsReporting',
         scriptType: 'tsx'

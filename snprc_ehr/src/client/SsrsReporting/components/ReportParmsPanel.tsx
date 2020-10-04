@@ -1,53 +1,45 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { ParmItem } from "./ParmItem";
-import { ReportParm } from "../services/reportParms";
+import { ReportParm } from "../services/parmUtils";
+import { ReportItem } from "../api/ReportItem"
 
 interface Props {
-    reportParameters: Array<ReportParm>;
-    handleReportParameters(reportParms: Array<ReportParm>): void;
+  reportParameters: ReportParm[];
+  handleParmChange(index: number, parmItem: ReportParm): void;
+  selectedReport: ReportItem;
 }
-interface State {
-    value: string;
-}
-export default class ReportParmsPanel extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '' 
-    }
+export default class ReportParmsPanel extends React.Component<Props, {}> {
 
-  }
-  handleChange = (option: string): void => {
-
-    this.setState(() => ({
-        value: option
-    }));
+  handleParmChange = (index:number, parmItem: ReportParm): void => {
+    this.props.handleParmChange(index, parmItem);
   };
 
-    
-
-    handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-        console.log("A name was submitted");
-        e.preventDefault();
-    };
-
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="wizard-panel-col">
-                    {this.props.reportParameters &&
-                        this.props.reportParameters.map(
-                            (parm, index: number) => {
-                                return <ParmItem 
-                                  parm={parm} 
-                                  key={index}
-                                />;
-                            }
-                    )}
-                    { this.props.reportParameters && this.props.reportParameters.length === 0 &&
-                    <div style= {{padding: "1rem"}}>Report doesn't require parameters</div>}
-                </div>
-            </form>
-        );
-    }
+  render() {
+    return (
+      <>
+        <div className="wizard-panel-col">
+        {this.props.selectedReport &&
+          <div className="info-text-span"> {this.props.selectedReport.description} </div>
+        }
+          {this.props.reportParameters &&
+           this.props.reportParameters.map(
+              (parm, index) => {
+                return <ParmItem 
+                  parm={parm} 
+                  index={index}
+                  key={this.props.selectedReport.value+parm.name} 
+                  handleParmChange = {this.handleParmChange}
+                  />;
+              }
+           )}
+          {this.props.reportParameters &&
+            this.props.reportParameters.length === 0 && (
+              <div style={{ padding: "1rem" }}>
+                Report doesn't require parameters
+              </div>
+            )}
+        </div>
+      </>
+    );
+  }
 }

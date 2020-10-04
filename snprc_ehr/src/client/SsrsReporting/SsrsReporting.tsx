@@ -5,19 +5,24 @@ import { LoadingSpinner } from "../Shared/components/LoadingSpinner";
 import "./styles/ssrsReporting.scss";
 import { Button } from "react-bootstrap";
 import ReportSelectionPanel from "./components/ReportSelectionPanel";
-import { getReportPath } from "./services/printToPDF";
 import InfoPanel from "../Shared/components/InfoPanel";
 import { OptionsType } from "react-select";
-import { reportList, ReportType } from "./api/ReportList";
+import { ReportItem } from "./api/ReportItem";
+import { fetchReportList } from "./api/fetchReportList";
 import ReportParmsPanel from "./components/ReportParmsPanel";
-import { ReportParm, parseParms } from "./services/reportParms";
+import {
+    ReportParm,
+    parseParms,
+    parmsToQueryString,
+} from "./services/parmUtils";
+import { printToPDF } from "./services/printToPDF";
 
 interface State {
-    reportList: OptionsType<ReportType>;
-    selectedReport?: ReportType;
+    reportList: OptionsType<ReportItem>;
+    selectedReport?: ReportItem;
     errorMessage: string;
     isLoading: boolean;
-    reportParameters?: Array<ReportParm>;
+    reportParameters?: ReportParm[];
     parms: string;
 }
 interface Props {}
@@ -28,15 +33,23 @@ export default class SsrsReporting extends React.Component<Props, State> {
 
         this.state = {
             reportList: [],
-            // reportParameters: [{ name: "", type: "", label: "", value: "" }],
             errorMessage: "",
             isLoading: true,
             parms: "",
         };
     }
 
-    componentDidMount = () => {
-        this.setState({ reportList, isLoading: false });
+    componentDidMount = async () => {
+        await fetchReportList()
+            .then((response) => {
+                this.setState({ reportList: response, isLoading: false });
+            })
+            .catch((error) => {
+                this.setState(() => ({
+                    errorMessage: error.exception,
+                    isLoading: false
+                }));
+            });
     };
 
     //quit
@@ -44,45 +57,41 @@ export default class SsrsReporting extends React.Component<Props, State> {
         window.history.back();
     };
 
-    onClickPrint() {
+    onClickPrint = () => {
         if (!this.state.selectedReport) {
             this.setState(() => ({
                 errorMessage: "Select a report before clicking print.",
             }));
         } else {
-            const reportPath = getReportPath(
-                this.state.selectedReport.value
-            );
-
-            const fullPath = `${reportPath}${this.state.parms}`;
-            const left = window.screenX + 20;
-            window.open(
-                fullPath,
-                "_blank",
-                `location=yes,height=850,width=768,status=yes, left=${left}`
-            );
-
+            printToPDF(this.state.selectedReport, this.state.parms);
             this.setState(() => ({
                 errorMessage: "",
             }));
         }
-    }
+    };
 
-    handleChange = (selectedReport: ReportType) => {
+    handleChange = (selectedReport: ReportItem) => {
+        const parsedParms = parseParms(selectedReport.parameters);
+
         this.setState(
             () => ({
                 errorMessage: "",
                 selectedReport: selectedReport,
-                reportParameters: parseParms(selectedReport.parameters),
+                reportParameters: parsedParms,
+                parms: "",
             }),
-            () => {
-                console.log('ssrsReporting', this.state.selectedReport);
-            }
+            () => {}
         );
     };
-    handleReportParameters = (value: Array<ReportParm>): void => {
+
+    handleParmChange = (index: number, parmItem: ReportParm): void => {
+        let parameters: ReportParm[] = [...this.state.reportParameters];
+
+        parameters.splice(index, 1, parmItem);
+
         this.setState(() => ({
-            reportParameters: value,
+            reportParameters: parameters,
+            parms: parmsToQueryString(parameters),
         }));
     };
 
@@ -104,12 +113,13 @@ export default class SsrsReporting extends React.Component<Props, State> {
                         />
                     </div>
                     <div className="panel-heading">
-                        <p>Report Parameters</p>
+                        <p>Report Description and Parameters</p>
                     </div>
                     <div className="wizard-panel">
                         <ReportParmsPanel
                             reportParameters={this.state.reportParameters}
-                            handleReportParameters={this.handleReportParameters}
+                            handleParmChange={this.handleParmChange}
+                            selectedReport={this.state.selectedReport}
                         />
                     </div>
                     <InfoPanel
