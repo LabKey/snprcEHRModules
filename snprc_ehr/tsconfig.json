@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "lib": ["es2015", "es2017", "dom"],
     "jsx": "react",
     "sourceMap": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "types": ["jest"] // implicitly include only jest types; otherwise get those included via import
+    "types": ["jest"], // implicitly include only jest types; otherwise get those included via import
+                              /* Specify library files to be included in the compilation. */
+    "allowJs": true
   },
   "exclude": [
     "resources"

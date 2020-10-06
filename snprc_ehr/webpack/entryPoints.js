@@ -29,5 +29,12 @@ module.exports = {
         permission: 'read',
         path: './src/client/SndEventsViewer',
         scriptType: 'jsx'
+    },
+    {
+        name: 'SsrsReporting',
+        title: 'PDF Reports',
+        permission: 'read',
+        path: './src/client/SsrsReporting',
+        scriptType: 'tsx'
     }]
 };
