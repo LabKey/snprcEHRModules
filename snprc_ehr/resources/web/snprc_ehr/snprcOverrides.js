@@ -117,7 +117,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             Ext4.each(results, function (row) {
                 var d = LDK.ConvertUtils.parseDate(row['BcsDate'], LABKEY.extDefaultDateFormat);
                 var newRow = {
-                    BcsDate: d.format(LABKEY.extDefaultDateFormat),
+                    BcsDate: Ext4.Date.format(d, LABKEY.extDefaultDateFormat),   //d.format(LABKEY.extDefaultDateFormat),
                     LastBCS: row['LastBCS']
                 };
                 rows.push(newRow);
