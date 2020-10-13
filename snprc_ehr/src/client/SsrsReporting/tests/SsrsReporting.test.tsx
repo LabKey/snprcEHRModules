@@ -4,7 +4,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import SsrsReporting from '../SsrsReporting'
 
-jest.mock('../../Shared/api/api')
+import { fetchReportList } from '../api/fetchReportList'
+jest.mock('../api/fetchReportList')
+
 
 beforeAll(() => {
     // global.fetch = jest.fn();
