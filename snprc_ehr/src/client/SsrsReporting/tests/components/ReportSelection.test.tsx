@@ -8,6 +8,8 @@ import { fetchReportList } from '../../api/fetchReportList'
 import { OptionsType } from 'react-select'
 import { ReportItem } from '../../api/ReportItem'
 
+jest.mock('../../api/fetchReportList')
+
 let wrapper
 
 beforeEach( async () => {

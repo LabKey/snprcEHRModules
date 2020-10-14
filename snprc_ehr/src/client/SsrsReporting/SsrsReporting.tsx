@@ -41,7 +41,7 @@ export default class SsrsReporting extends React.Component<Props, State> {
 
     componentDidMount = async () => {
         await fetchReportList()
-            .then((response) => {
+            .then((response: ReportItem[]) => {
                 this.setState({ reportList: response, isLoading: false });
             })
             .catch((error) => {
