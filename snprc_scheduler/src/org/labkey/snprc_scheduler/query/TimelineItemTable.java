@@ -3,7 +3,10 @@ package org.labkey.snprc_scheduler.query;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerFilter;
+import org.labkey.api.data.JdbcType;
+import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
@@ -12,6 +15,7 @@ import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
+import org.labkey.snprc_scheduler.domains.TimelineItem;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -37,7 +41,14 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
     {
         super.init();
 
-        // initialize virtual columns here
+        SQLFragment pkgIdSql = new SQLFragment();
+
+        pkgIdSql.append("(SELECT p.PkgId as PkgId FROM snd.ProjectItems as pi");
+        pkgIdSql.append(" JOIN snd.SuperPkgs as sp ON pi.SuperPkgId = sp.SuperPkgId");
+        pkgIdSql.append(" JOIN snd.Pkgs AS p ON p.PkgId = sp.PkgId");
+        pkgIdSql.append(" WHERE " + ExprColumn.STR_TABLE_ALIAS + ".ProjectItemId = pi.ProjectItemId )");
+        ExprColumn pkgIdCol = new ExprColumn(this, TimelineItem.TIMELINEITEM_PKG_ID, pkgIdSql, JdbcType.INTEGER);
+        addColumn(pkgIdCol);
 
         return this;
     }
