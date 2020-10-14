@@ -17,6 +17,10 @@ dependencies {
     transformImplementation "org.apache.pdfbox:pdfbox:${pdfboxVersion}"
     transformImplementation "com.google.guava:guava:${guavaVersion}"
     transformImplementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+
+    BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:LabDevKitModules:laboratory", depProjectConfig: "published", depExtension: "module")
+    BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:snprcEHRModules:snprc_ehr", depProjectConfig: "published", depExtension: "module")
+
 }
 
 configurations {
