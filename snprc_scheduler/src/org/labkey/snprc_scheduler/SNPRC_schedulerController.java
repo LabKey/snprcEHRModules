@@ -102,7 +102,6 @@ public class SNPRC_schedulerController extends SpringActionController
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     public class getScheduledTimelinesForSpeciesAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
-
         @Override
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
         {
@@ -110,12 +109,7 @@ public class SNPRC_schedulerController extends SpringActionController
             Date date;
 
             ActionURL url = getViewContext().getActionURL();
-
-
-
-
             Map<String, Object> props = new HashMap<>();
-
 
             List<JSONObject> timelines;
             if (isNotBlank(url.getParameter("species")) && isNotBlank(url.getParameter("date")) )
