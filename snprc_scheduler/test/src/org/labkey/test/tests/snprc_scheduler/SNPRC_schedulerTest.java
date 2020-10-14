@@ -210,7 +210,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         }
         else // no access - assume 403
         {
-            clickButton("Stop Impersonating");
+            stopImpersonating();
         }
     }
 
@@ -232,7 +232,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         }
         else // no access - assume 403
         {
-            clickButton("Stop Impersonating");
+            stopImpersonating();
         }
     }
 
@@ -244,7 +244,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         BeginPage.beginAt(this, getProjectName());
         assertEquals("Invalid user has access to Begin.view", 403, getResponseCode());
 
-        clickButton("Stop Impersonating");
+        stopImpersonating();
     }
 
 

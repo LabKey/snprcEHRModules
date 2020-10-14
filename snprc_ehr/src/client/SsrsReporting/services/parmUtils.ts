@@ -17,7 +17,7 @@ export const parseParms = (parms: string): ReportParm[] => {
 
     const now = moment().format("YYYY-MM-DD hh:mm:ss");
     
-    if (parms.length > 0) {
+    if (parms && parms.length > 0) {
         let parmArray = parms.split(',')
         parmArray.map((parm) => {
             let keyValues: string[];
