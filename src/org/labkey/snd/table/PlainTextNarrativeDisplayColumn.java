@@ -36,6 +36,13 @@ public class PlainTextNarrativeDisplayColumn extends DataColumn
         return HtmlString.of(removeHtmlTagsFromNarrative(htmlNarrative));
     }
 
+    @Override
+    public Object getDisplayValue(RenderContext ctx)
+    {
+        String htmlNarrative = (String)ctx.get(getColumnInfo().getFieldKey());
+        return removeHtmlTagsFromNarrative(htmlNarrative);
+    }
+
    public static String removeHtmlTagsFromNarrative(String htmlNarrative)
    {
        String textNarrative;
