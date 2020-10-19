@@ -32,7 +32,7 @@
 .field-label {
   text-align: left;
   margin: 0 $s-size;
-  font-size: $font-size-small;
+  font-size: $font-sz-small;
   display: inline-block;
   width: 15rem;
 }
@@ -40,7 +40,7 @@
 .field-label-align-top {
   text-align:left;
   margin: 0 .5rem 0 $s-size !important;
-  font-size: $font-size-small;
+  font-size: $font-sz-small;
   padding: 0 0 2px 0 !important;
 }
 .field-label-align-close {
@@ -49,7 +49,7 @@
   text-align:left;
   //color: $info-red;
   margin: .5rem .5rem 0 $s-size;
-  font-size: $font-size-small;
+  font-size: $font-sz-small;
   vertical-align: center;
 }
 .field-label-align-success {

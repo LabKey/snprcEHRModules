@@ -4,7 +4,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     text-align: left;
-    font-size: $font-size-small;
+    font-size: $font-sz-small;
     padding: $m-size 0;
     border: 1px solid $dark-gray;
     border-style: none solid solid solid;
@@ -17,7 +17,7 @@
 }
 
 .species-radio {
-  font-size: $font-size-small;
+  font-size: $font-sz-small;
   padding-left: 3rem;
   cursor: default !important;
 }

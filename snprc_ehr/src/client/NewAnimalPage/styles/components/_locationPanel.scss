@@ -13,11 +13,11 @@
   border-radius: 5px;
   border: 1px solid $dark-gray;
   margin: 0 0 0 11px;
-  padding: $s-size $s-size $s-size $xs-size; 
+  padding: $s-size $s-size $s-size $xs-size;
   width: 10rem;
   height: 20px;
   font-family: helvetica, Arial, sans-serif;
-  font-size: $font-size-small;
+  font-size: $font-sz-small;
 }
 .cage-input:disabled {
      opacity: .5;

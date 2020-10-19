@@ -1,3 +1,5 @@
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables";
+
 // Colors
 $dark-gray: #333333;
 $light-gray: #999;
@@ -12,11 +14,11 @@ $info-blue: #100796;
 $tooltip-yellow: #e7e693;
 $info-green: #7aec76c2;
 // Font Size
-$font-size-xlarge: 3.6rem;
-$font-size-large: 1.8rem;
-$font-size-medium: 1.6rem;
-$font-size-small: 1.4rem;
-$font-size-xsmall: 1.2rem;
+$font-sz-xlarge: 3.6rem;
+$font-sz-large: 1.8rem;
+$font-sz-medium: 1.6rem;
+$font-sz-small: 1.4rem;
+$font-sz-xsmall: 1.2rem;
 // Spacing
 $m-size: 1.6rem;
 $l-size: 3.2rem;
