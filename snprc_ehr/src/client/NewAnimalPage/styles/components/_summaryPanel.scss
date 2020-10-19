@@ -8,7 +8,7 @@
     border-radius: 1px;
     margin-bottom: $xs-size;
     background-color: white;
-    font-size: $font-size-xsmall;
+    font-size: $font-sz-xsmall;
 }
 
 .section-header {
@@ -93,7 +93,7 @@
     height: 15px;
     text-overflow: ellipsis;
 }
-  
+
 .summary-label {
     display:flex;
     color: $info-blue;

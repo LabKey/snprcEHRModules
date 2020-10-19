@@ -13,19 +13,12 @@ $info-light-red: #e06d6d;
 $info-blue: #100796;
 $tooltip-yellow: #e7e693;
 $info-green: #7aec76c2;
-
 // Font Size
-// Base values
-// Set font-size-large/small by setting the base
-// https://getbootstrap.com/docs/4.3/content/typography/#global-settings
-$font-size-base: 16px;
-// font-size-large/small conflicts with BS variables by same name.  Need to use px if wanting to override.
-// https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss#L52
-$font-size-xlarge: 3.6rem;
-//$font-size-large: 1.8rem;
-$font-size-medium: 1.6rem;
-//$font-size-small: 1.4rem;
-$font-size-xsmall: 1.2rem;
+$font-sz-xlarge: 3.6rem;
+$font-sz-large: 1.8rem;
+$font-sz-medium: 1.6rem;
+$font-sz-small: 1.4rem;
+$font-sz-xsmall: 1.2rem;
 // Spacing
 $m-size: 1.6rem;
 $l-size: 3.2rem;
