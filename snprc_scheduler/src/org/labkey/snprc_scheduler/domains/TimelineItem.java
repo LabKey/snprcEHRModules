@@ -27,6 +27,7 @@ public class TimelineItem
     private String _objectId;
     private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineItem record.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
+    private Integer _pkgId;     // Expression column
 
 
     public static final String TIMELINEITEM_TIMELINE_ITEM_ID = "TimelineItemId";
@@ -37,6 +38,7 @@ public class TimelineItem
     public static final String TIMELINEITEM_OBJECT_ID = "ObjectId";
     public static final String TIMELINEITEM_IS_DELETED = "IsDeleted";
     public static final String TIMELINEITEM_IS_DIRTY = "IsDirty";
+    public static final String TIMELINEITEM_PKG_ID = "PkgId";
 
 
     public TimelineItem()
@@ -59,6 +61,7 @@ public class TimelineItem
             this.setObjectId(json.has(TIMELINEITEM_OBJECT_ID) && !json.isNull(TIMELINEITEM_OBJECT_ID) ? json.getString(TIMELINEITEM_OBJECT_ID) : null);
             this.setDeleted(json.has(TIMELINEITEM_IS_DELETED) && !json.isNull(TIMELINEITEM_IS_DELETED) && json.getBoolean(TIMELINEITEM_IS_DELETED));
             this.setDirty(json.has(TIMELINEITEM_IS_DIRTY) && !json.isNull(TIMELINEITEM_IS_DIRTY) && json.getBoolean(TIMELINEITEM_IS_DIRTY));
+            this.setPkgId(json.has(TIMELINEITEM_PKG_ID) && !json.isNull(TIMELINEITEM_PKG_ID) ? json.getInt(TIMELINEITEM_PKG_ID) : null);
 
             String scheduleDateString = json.has(TIMELINEITEM_SCHEDULE_DATE) && !json.isNull(TIMELINEITEM_SCHEDULE_DATE) ? json.getString(TIMELINEITEM_SCHEDULE_DATE) : null;
 
@@ -179,6 +182,16 @@ public class TimelineItem
         _isDirty = dirty;
     }
 
+    public Integer getPkgId()
+    {
+        return _pkgId;
+    }
+
+    public void setPkgId(Integer pkgId)
+    {
+        _pkgId = pkgId;
+    }
+
     @NotNull
     public Map<String, Object> toMap(Container c)
     {
@@ -191,6 +204,7 @@ public class TimelineItem
         values.put(TIMELINEITEM_OBJECT_ID, getObjectId());
         values.put(TIMELINEITEM_IS_DELETED, getDeleted());
         values.put(TIMELINEITEM_IS_DIRTY, getDirty());
+        values.put(TIMELINEITEM_PKG_ID, getPkgId());
 
         return values;
     }
@@ -211,6 +225,7 @@ public class TimelineItem
         json.put(TIMELINEITEM_OBJECT_ID, getObjectId());
         json.put(TIMELINEITEM_IS_DELETED, getDeleted());
         json.put(TIMELINEITEM_IS_DIRTY, getDirty());
+        json.put(TIMELINEITEM_PKG_ID, getPkgId());
         return json;
     }
 
@@ -227,12 +242,13 @@ public class TimelineItem
                 Objects.equals(_scheduleDate, that._scheduleDate) &&
                 Objects.equals(_objectId, that._objectId) &&
                 Objects.equals(_isDeleted, that._isDeleted) &&
+                Objects.equals(_pkgId, that._pkgId) &&
                 Objects.equals(_isDirty, that._isDirty);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(_timelineItemId, _timelineObjectId, _projectItemId, _studyDay, _scheduleDate, _objectId, _isDeleted, _isDirty);
+        return Objects.hash(_timelineItemId, _timelineObjectId, _projectItemId, _studyDay, _scheduleDate, _objectId, _isDeleted, _isDirty, _pkgId);
     }
 }

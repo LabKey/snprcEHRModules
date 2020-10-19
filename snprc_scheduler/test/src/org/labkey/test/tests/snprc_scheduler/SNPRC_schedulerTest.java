@@ -202,16 +202,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         int responseCode = getResponseCode();
 
         assertEquals("SNPRC_schedulerReaderRole doesn't have access to Begin.view", 200, responseCode);
-
-        if (responseCode == 200)
-        {
-            page.beginPage_Tests();
-            stopImpersonating();
-        }
-        else // no access - assume 403
-        {
-            clickButton("Stop Impersonating");
-        }
+        stopImpersonating();
     }
 
     @Test
@@ -225,15 +216,8 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         int responseCode = getResponseCode();
 
         assertEquals("SNPRC_schedulerEditorRole doesn't have access to Begin.view", 200, responseCode);
-        if (responseCode == 200)
-        {
-            page.beginPage_Tests();
-            stopImpersonating();
-        }
-        else // no access - assume 403
-        {
-            clickButton("Stop Impersonating");
-        }
+        stopImpersonating();
+
     }
 
     @Test
@@ -243,8 +227,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         // Verify React page does not render for non-special user roles
         BeginPage.beginAt(this, getProjectName());
         assertEquals("Invalid user has access to Begin.view", 403, getResponseCode());
-
-        clickButton("Stop Impersonating");
+        stopImpersonating();
     }
 
 
