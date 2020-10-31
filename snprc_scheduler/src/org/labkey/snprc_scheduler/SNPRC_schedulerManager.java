@@ -104,7 +104,6 @@ public class SNPRC_schedulerManager
     // TODO: fb_snprc_edit
     public List<TimelineItem> getTimelineItems(Container c, User u, String timelineObjectId, @Nullable Date scheduleDate) throws ApiUsageException
     {
-
         List<TimelineItem> timelineItems;
         try
         {
@@ -117,6 +116,7 @@ public class SNPRC_schedulerManager
             {
                 filter.addCondition(FieldKey.fromParts(TimelineItem.TIMELINEITEM_SCHEDULE_DATE), scheduleDate, CompareType.DATE_EQUAL);
             }
+
             timelineItems = new TableSelector(timelineItemTable, filter, null).getArrayList(TimelineItem.class);
 
         }
@@ -216,7 +216,6 @@ public class SNPRC_schedulerManager
 
     public List<TimelineProjectItem> getTimelineProjectItems(Container c, User u, String timelineObjectId, @Nullable List<TimelineItem> timelineItems) throws ApiUsageException
     {
-
         List<TimelineProjectItem> timelineProjectItems;
         try
         {
@@ -234,7 +233,6 @@ public class SNPRC_schedulerManager
                 filter.addInClause(FieldKey.fromParts(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID), projectItemIds );
 
             }
-
              timelineProjectItems = new TableSelector(timelineProjectItemTable, filter, null).getArrayList(TimelineProjectItem.class);
         }
         catch (Exception e)

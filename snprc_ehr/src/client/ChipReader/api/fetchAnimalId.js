@@ -8,15 +8,18 @@ const parse = rows => {
 }
 
 const fetchAnimalId = chipId => {
-    const sql = `SELECT ih.Id AS Id, ih.Id.curLocation.location as location
-            FROM study.idHistory as ih
-            WHERE ih.value = '${chipId}'`
+    const parameters = {'chipId': chipId}
+    const sql = 'PARAMETERS ( chipId VARCHAR DEFAULT NULL ) '
+        .concat('SELECT ih.Id AS Id, ih.Id.curLocation.location as location ')
+        .concat('FROM study.idHistory as ih ')
+        .concat('WHERE ih.value = chipId')
 
     return new Promise((resolve, reject) => {
 
         executeSql({
             schemaName: 'study',
-            sql
+            sql,
+            parameters
         }).then(({ rows }) => {
             const parseRows = parse(rows)
             if (parseRows.length !== 1)

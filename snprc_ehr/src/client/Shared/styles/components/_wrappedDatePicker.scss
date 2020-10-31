@@ -1,10 +1,10 @@
 
 @import "~react-datepicker/dist/react-datepicker.css";
 
-.datepicker-input-wrapper { 
+.datepicker-input-wrapper {
     position: relative;
     font-family: helvetica, Arial, sans-serif;
-    font-size: $font-size-small;
+    font-size: $font-sz-small;
 }
 .datepicker-input-wrapper i.fa-calendar { position: absolute; top: 10px; right: 8px; }
 

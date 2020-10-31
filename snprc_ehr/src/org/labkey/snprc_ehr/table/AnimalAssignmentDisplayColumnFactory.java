@@ -30,6 +30,7 @@ import org.labkey.api.data.TableSelector;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.util.PageFlowUtil;
 
 import java.sql.ResultSet;
@@ -100,7 +101,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
 
         @NotNull
         @Override
-        public String getFormattedValue(RenderContext ctx)
+        public HtmlString getFormattedHtml(RenderContext ctx)
         {
             // Other LK code overriding this method fail to evaluate the argument prior to using it.  Should it be checked? tjh
             if (ctx == null)
@@ -108,7 +109,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
 
            TableSelector ts = this.getTs(ctx);
            if (ts == null)
-              return "";
+              return HtmlString.EMPTY_STRING;
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
@@ -135,9 +136,9 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
             ArrayList<String> errors = new ArrayList<>();
             String html = PageFlowUtil.validateHtml(sb.toString(), errors, false);
             if (errors.isEmpty())
-                return html;
+                return HtmlString.unsafe(html);
             else
-                return PageFlowUtil.filter(errors.get(0));
+                return HtmlString.of(errors.get(0));
         }
 
         @NotNull

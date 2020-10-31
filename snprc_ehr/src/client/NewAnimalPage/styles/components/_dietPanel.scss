@@ -3,9 +3,9 @@
     border-color: $gray;
     border-width: 1px;
     border-left: $s-size;
-    font-size: $font-size-small;
+    font-size: $font-sz-small;
   }
-  
+
   .diet-datepicker > div > div.react-datepicker__input-container input {
       display: block;
       width: 18rem;
@@ -17,4 +17,3 @@
       background-color: $disabled-gray;
   }
 
-  

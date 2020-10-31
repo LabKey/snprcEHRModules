@@ -18,7 +18,7 @@
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.api.view.template.ClientDependencies" %>
-<%@ page import="org.labkey.snprc_ehr.controllers.FeeScheduleController" %>
+<%@ page import="org.labkey.snprc_ehr.controllers.FeeScheduleController.FeeScheduleImportAction" %>
 <%@ page import="org.labkey.snprc_ehr.pipeline.FeeScheduleImportForm" %>
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
@@ -36,8 +36,7 @@
 %>
 
 <labkey:errors/>
-<labkey:form id="<%=importFormId%>"
-             action="<%= buildURL(FeeScheduleController.FeeScheduleImportAction.class) %>" method="post">
+<labkey:form id="<%=importFormId%>" action="<%= urlFor(FeeScheduleImportAction.class) %>" method="post">
 
 
     <div class="content">
