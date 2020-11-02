@@ -199,6 +199,7 @@ public class SNDManager
             throw new IllegalStateException(table + " db table info not found.");
 
         SimpleUserSchema.SimpleTable simpleTable = new SimpleUserSchema.SimpleTable(schema, dbTableInfo, null);
+        simpleTable = simpleTable.init();
         QueryUpdateService qus = new SimpleQueryUpdateService(simpleTable, dbTableInfo);
 
         if (qus == null)
@@ -1702,19 +1703,29 @@ public class SNDManager
      * Gets event data for a given event.  This includes the data from snd.EventData and the attribute data stored in
      * exp.ObjectProperty.  Recursively iterates through subpackages to get data.
      */
-    private EventData getEventData(Container c, User u, int eventDataId, SuperPackage superPackage, BatchValidationException errors)
+    private EventData getEventData(Container c, User u, @Nullable Integer eventDataId, @NotNull SuperPackage superPackage, BatchValidationException errors)
     {
         UserSchema schema = getSndUserSchema(c, u);
         TableInfo eventDataTable = getTableInfo(schema, SNDSchema.EVENTDATA_TABLE_NAME);
 
+        Map<String, ObjectProperty> properties = null;
+        EventData eventData = null;
+        TableSelector ts = null;
+
         // Get from EventData table
-        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("EventDataId"), eventDataId, CompareType.EQUAL);
-        TableSelector ts = new TableSelector(eventDataTable, filter, null);
+        if (eventDataId != null)
+        {
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("EventDataId"), eventDataId, CompareType.EQUAL);
+            ts = new TableSelector(eventDataTable, filter, null);
 
-        EventData eventData = ts.getObject(EventData.class);
-
-        OntologyManager.getProperties(c, eventData.getObjectURI());
-        Map<String, ObjectProperty> properties = OntologyManager.getPropertyObjects(c, eventData.getObjectURI());
+            eventData = ts.getObject(EventData.class);
+            properties = OntologyManager.getPropertyObjects(c, eventData.getObjectURI());
+        }
+        else
+        {
+            eventData = new EventData();
+            eventData.setSuperPkgId(superPackage.getSuperPkgId());
+        }
 
         List<AttributeData> attributeDatas = new ArrayList<>();
         AttributeData attribute;
@@ -1725,7 +1736,7 @@ public class SNDManager
             attribute.setPropertyName(gwtPropertyDescriptor.getName());
             attribute.setPropertyDescriptor(gwtPropertyDescriptor);
             attribute.setPropertyId(gwtPropertyDescriptor.getPropertyId());
-            if (properties.get(gwtPropertyDescriptor.getPropertyURI()) != null)
+            if (properties != null && properties.get(gwtPropertyDescriptor.getPropertyURI()) != null)
             {
                 //TODO: Add redacted here
                 propValue = properties.get(gwtPropertyDescriptor.getPropertyURI()).value();
@@ -1748,7 +1759,13 @@ public class SNDManager
 
         eventData.setAttributes(attributeDatas);
         eventData.setNarrativeTemplate(superPackage.getNarrative());
-        addExtraFieldsToEventData(c, u, eventData, ts.getMap());
+
+        Map<String, Object> row = null;
+        if (ts != null)
+        {
+            row = ts.getMap();
+        }
+        addExtraFieldsToEventData(c, u, eventData, row);
 
         SQLFragment sql = new SQLFragment("SELECT EventDataId, SuperPkgId FROM ");
         sql.append(schema.getTable(SNDSchema.EVENTDATA_TABLE_NAME), "ed");
@@ -1758,41 +1775,36 @@ public class SNDManager
         try (TableResultSet results = selector.getResultSet())
         {
             Integer superPkgId;
-            SuperPackage eventDataSuperPkg = null;
+            Integer foundEventDataId;
             Map<Integer, EventData> subEventDatas = new TreeMap<>();  // preserve natural order of sort order keys
-            Integer sortOrder = null;
-            SuperPackage possibleSuperPkg;
+            Integer sortOrder;
+            SuperPackage childSuperPkg;
 
             List<SuperPackage> orderedChildPkgs = superPackage.getChildPackages();
 
-            for (Map<String, Object> result : results)
+            for (int i = 0; i < orderedChildPkgs.size(); i++)
             {
-                superPkgId = (Integer) result.get("SuperPkgId");
-                for (int i = 0; i < orderedChildPkgs.size(); i++)
-                {
-                    possibleSuperPkg = orderedChildPkgs.get(i);
-                    if (possibleSuperPkg.getSuperPkgId().equals(superPkgId))
-                    {
-                        eventDataSuperPkg = possibleSuperPkg;
-                        sortOrder = possibleSuperPkg.getSortOrder();
+                childSuperPkg = orderedChildPkgs.get(i);
+                sortOrder = childSuperPkg.getSortOrder();
+                foundEventDataId = null;
 
-                        // If order not defined, then will order by superPkgId. This will only be top level super packages
-                        if (sortOrder == null)
-                        {
-                            sortOrder = superPkgId;
-                        }
+                // If order not defined, then will order by superPkgId. This will only be top level super packages
+                if (sortOrder == null)
+                {
+                    sortOrder = childSuperPkg.getSuperPkgId();
+                }
+                for (Map<String, Object> result : results)
+                {
+                    superPkgId = (Integer) result.get("SuperPkgId");
+
+                    if (childSuperPkg.getSuperPkgId().equals(superPkgId))
+                    {
+                        foundEventDataId = (Integer)result.get("EventDataId");
                         break;
                     }
                 }
 
-                if (eventDataSuperPkg != null)
-                {
-                    subEventDatas.put(sortOrder, getEventData(c, u, (Integer) result.get("EventDataId"), eventDataSuperPkg, errors));
-                }
-                else
-                {
-                    errors.addRowError(new ValidationException("Super package not found for event data."));
-                }
+                subEventDatas.put(sortOrder, getEventData(c, u, foundEventDataId, childSuperPkg, errors));
             }
             eventData.setSubPackages(new ArrayList<>(subEventDatas.values()));
         }
@@ -2135,7 +2147,7 @@ public class SNDManager
         {
             if (row == null)
             {
-                extras.put(extraField, "");
+                extras.put(extraField, null);
             }
             else
             {
@@ -2548,6 +2560,11 @@ public class SNDManager
                                     {
                                         event.addBatchValidationExceptions(errors);
                                     }
+                                    // Errors, warnings and info are embedded in the event so don't override
+                                    else if (!event.hasErrorsWarningsOrInfo())
+                                    {
+                                        event = getEvent(c, u, event.getEventId(), null, null, true, errors);
+                                    }
                                 }
                             }
                         }
@@ -2696,6 +2713,11 @@ public class SNDManager
                                     if (errors.hasErrors())
                                     {
                                         event.addBatchValidationExceptions(errors);
+                                    }
+                                    // Errors, warnings and info are embedded in the event so don't override
+                                    else if (!event.hasErrorsWarningsOrInfo())
+                                    {
+                                        event = getEvent(c, u, event.getEventId(), null, null, true, errors);
                                     }
                                 }
                             }

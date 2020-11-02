@@ -45,15 +45,15 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }
@@ -82,13 +82,13 @@
                             eventData: [
                                 {
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }
@@ -114,15 +114,15 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attribute: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }
@@ -148,58 +148,58 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['814']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['814'][0]['superPkgId'],
                                     attributes : [],
                                     subPackages : [{
-                                        superPkgId : LABKEY.getSubpackageSuperPkgId(810, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId : LABKEY.getSubpackageSuperPkgId(810, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                              {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Sodium Colorimetric Detection Kit"
                                             }]
 
                                     }, {
-                                        superPkgId: LABKEY.getSubpackageSuperPkgId(811, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId: LABKEY.getSubpackageSuperPkgId(811, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "200"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Potassium Detection Kit"
                                             }]
 
                                     },{
-                                        superPkgId: LABKEY.getSubpackageSuperPkgId(812, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId: LABKEY.getSubpackageSuperPkgId(812, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "300"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Carbon Dioxide (CO2) Colorimetric Detection Kit"
                                             }]
 
                                     },{
-                                        superPkgId: LABKEY.getSubpackageSuperPkgId(813, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId: LABKEY.getSubpackageSuperPkgId(813, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "400"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Chloride Blood Detection Kit"
                                             }]
                                     }]
@@ -227,61 +227,61 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['814']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['814'][0]['superPkgId'],
                                     attributes : [],
                                     subPackages : [
                                             {
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "100"
                                             },{
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Sodium Colorimetric Detection Kit"
                                             }]
 
                                     }, {
-                                        superPkgId: LABKEY.getSubpackageSuperPkgId(811, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId: LABKEY.getSubpackageSuperPkgId(811, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "200"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Potassium Detection Kit"
                                             }]
 
                                     },{
-                                        superPkgId: LABKEY.getSubpackageSuperPkgId(812, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId: LABKEY.getSubpackageSuperPkgId(812, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "300"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Carbon Dioxide (CO2) Colorimetric Detection Kit"
                                             }]
 
                                     },{
-                                        superPkgId: LABKEY.getSubpackageSuperPkgId(813, LABKEY.SND_PKG_CACHE['814']['subPackages']),
+                                        superPkgId: LABKEY.getSubpackageSuperPkgId(813, LABKEY.SND_PKG_CACHE['814'][0]['subPackages']),
                                         attributes: [
                                             {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813']['attributes'], 'amount')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'amount')['propertyId'],
                                                 value: "400"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813']['attributes'], 'units')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'units')['propertyId'],
                                                 value: "mEq/L"
                                             }, {
-                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813']['attributes'], 'kit_type')['propertyId'],
+                                                propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'kit_type')['propertyId'],
                                                 value: "Chloride Blood Detection Kit"
                                             }]
                                     }]
@@ -310,33 +310,33 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'regenDate')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'regenDate')['propertyId'],
                                         value: '2018-03-14'
                                     }]
                                 },{
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '20'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'black'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'regenDate')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'regenDate')['propertyId'],
                                         value: '2018-03-18'
                                     }]
                                 }
@@ -372,15 +372,15 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }
@@ -406,15 +406,15 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }
@@ -442,15 +442,15 @@
                             qcState: 'Completed',
                             eventData: [
                                     {
-                                        superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                        superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                         attributes: [{
-                                            propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                            propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                             value: '10'
                                         }, {
-                                            propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                            propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                             value: 'mL'
                                         }, {
-                                            propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                            propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                             value: 'red'
                                         }]
                                     }
@@ -477,15 +477,15 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }
@@ -513,15 +513,15 @@
                             qcState: 'Completed',
                             eventData: [
                                 {
-                                    superPkgId: LABKEY.SND_PKG_CACHE['819']['superPkgId'],
+                                    superPkgId: LABKEY.SND_PKG_CACHE['819'][0]['superPkgId'],
                                     attributes: [{
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'amount')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'amount')['propertyId'],
                                         value: '10'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'units')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'units')['propertyId'],
                                         value: 'mL'
                                     }, {
-                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819']['attributes'], 'tube')['propertyId'],
+                                        propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['819'][0]['attributes'], 'tube')['propertyId'],
                                         value: 'red'
                                     }]
                                 }

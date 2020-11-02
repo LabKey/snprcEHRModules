@@ -815,6 +815,20 @@
         impersonateSNDTestUser(function() {deleteEvents(function() {stopImpersonating(cb)})});
     }
 
+    function cachePkg(pkg) {
+        if (LABKEY.SND_PKG_CACHE[pkg.pkgId] === undefined) {
+            LABKEY.SND_PKG_CACHE[pkg.pkgId] = [];
+        }
+
+        LABKEY.SND_PKG_CACHE[pkg.pkgId].push(pkg);
+
+        if (pkg.subPackages) {
+            for (var j = 0; j < pkg.subPackages.length; j++) {
+                cachePkg(pkg.subPackages[j])
+            }
+        }
+    }
+
     function cachePkgs(cb) {
         LABKEY.SND_PKG_CACHE = {};
         var pkgs = LABKEY.getInitData().BEFORE_ALL_TESTS.INIT_PACKAGES;
@@ -825,7 +839,7 @@
 
         LABKEY.Ajax.request({
             url: TEST_URLS.GET_PKG_URL,
-            jsonData: {packages: pkgIds},
+            jsonData: {packages: pkgIds, includeFullSubpackages: true},
             scope: this,
             failure: function (json) {
                 handleFailure(json, 'Failed package caching');
@@ -833,7 +847,7 @@
             success: function (json) {
                 var responseJson = JSON.parse(json.response).json;
                 for (var j = 0; j < responseJson.length; j++) {
-                    LABKEY.SND_PKG_CACHE[responseJson[j].pkgId] = responseJson[j];
+                    cachePkg(responseJson[j]);
                 }
                 LABKEY.SND_PKG_CACHE['loaded'] = true;
 

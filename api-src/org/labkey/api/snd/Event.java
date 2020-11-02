@@ -303,6 +303,17 @@ public class Event
         return (_eventException != null && _eventException.getSeverity() == ValidationException.SEVERITY.ERROR);
     }
 
+    public boolean hasErrorsWarningsOrInfo()
+    {
+        Integer errorCount = _exceptionCount.get(ValidationException.SEVERITY.ERROR);
+        Integer warningCount = _exceptionCount.get(ValidationException.SEVERITY.WARN);
+        Integer infoCount = _exceptionCount.get(ValidationException.SEVERITY.INFO);
+        if ((errorCount != null && errorCount > 0) || (warningCount != null && warningCount > 0) || (infoCount != null && infoCount > 0))
+            return true;
+
+        return (_eventException != null);
+    }
+
     @NotNull
     public Map<String, Object> getEventRow(Container c)
     {
