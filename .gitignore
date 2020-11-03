@@ -12,6 +12,7 @@ app
 snprc_scheduler/resources/web/snprc_scheduler/app/app.js
 *.iml
 *packageExport*.snd.xml
+snprc_ehr/.gradle
 snprc_ehr/resources/views/HelloApp*.*
 snprc_ehr/resources/views/helloWorld*.*
 snprc_ehr/resources/views/NewAnimalPage*.*
@@ -30,3 +31,4 @@ snprc_ehr/.editorconfig
 snprc_ehr/cmd-here.exe
 snprc_ehr/resources/referenceStudy/LoadTaqmanData
 snprc_ehr/resources/referenceStudy/datasetImport/LoadTaqmanData
+snprc_scheduler/.gradle
