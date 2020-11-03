@@ -6,13 +6,14 @@ kinship
 assaydata
 /snprc_ehr/resources/referenceStudy/kinship.txt
 snprc_scheduler/resources/web/snprc_scheduler/app/app.js
+snprc_scheduler/resources/web/snprc_scheduler/gen
 /snprc_ehr/resources/referenceStudy/*.log
 app
 /snprc_scheduler/resources/web/snprc_scheduler/app
-snprc_scheduler/resources/web/snprc_scheduler/app/app.js
 *.iml
 *packageExport*.snd.xml
 snprc_ehr/.gradle
+snprc_ehr/resources/views/gen
 snprc_ehr/resources/views/HelloApp*.*
 snprc_ehr/resources/views/helloWorld*.*
 snprc_ehr/resources/views/NewAnimalPage*.*
@@ -28,7 +29,6 @@ snprc_mobile
 snprc_ehr.2020*.zip
 snprc_ehr.2020*.7z
 snprc_ehr/.editorconfig
-snprc_ehr/cmd-here.exe
 snprc_ehr/resources/referenceStudy/LoadTaqmanData
 snprc_ehr/resources/referenceStudy/datasetImport/LoadTaqmanData
 snprc_scheduler/.gradle
