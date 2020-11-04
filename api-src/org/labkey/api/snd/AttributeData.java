@@ -41,7 +41,7 @@ public class AttributeData
 
     public static final String ATTRIBUTE_DATA_CSS_CLASS = "snd-attribute-data";
 
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";  // ISO8601 w/24-hour time and 'T' character
     public static final String DATE_FORMAT = "yyyy-MM-dd";  // ISO8601
 
     public AttributeData(int propertyId, @Nullable GWTPropertyDescriptor propertyDescriptor, @Nullable String value)

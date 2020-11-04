@@ -73,7 +73,7 @@ public class Event
     public static final String EVENT_CONTAINER = "Container";
     public static final String EVENT_OBJECTID = "ObjectId";
 
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";  // ISO8601 w/24-hour time and 'T' character
 
     public static final String SND_EVENT_NAMESPACE = "SND.EventData";
 
