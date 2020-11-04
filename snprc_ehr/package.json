@@ -29,7 +29,7 @@
       }
     },
     "clean": {
-      "command": "rimraf resources/web/snprc_ehr/gen"
+      "command": "rimraf resources/web/snprc_ehr/gen && rimraf resources/views/gen"
     },
     "build:jest-teamcity": {
       "command": "jest --testResultsProcessor=jest-teamcity-reporter",

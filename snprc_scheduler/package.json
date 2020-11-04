@@ -14,7 +14,7 @@
   },
   "betterScripts": {
     "clean": {
-      "command": "rimraf resources/web/snprc_scheduler/app"
+      "command": "rimraf resources/web/snprc_scheduler/app && rimraf resources/web/snprc_scheduler/gen"
     },
     "build:jest-test": {
       "command": "jest --config=jest.config.json",
