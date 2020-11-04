@@ -30,7 +30,7 @@
       }
     },
     "clean": {
-      "command": "rimraf resources/web/snd/app/"
+      "command": "rimraf resources/web/snd/gen && rimraf resources/web/snd/app"
     }
   },
   "repository": {

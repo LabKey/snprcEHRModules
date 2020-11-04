@@ -6,3 +6,4 @@ app.js.map
 .labkey
 import
 resources/web/snd/app/style.js
+.gradle
