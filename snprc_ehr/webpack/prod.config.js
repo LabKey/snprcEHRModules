@@ -22,12 +22,12 @@ for (let i = 0; i < entryPoints.apps.length; i++) {
             name: entryPoint.name,
             title: entryPoint.title,
             permission: entryPoint.permission,
-            filename: '../../../views/' + entryPoint.name + '.view.xml',
+            filename: '../../../views/gen/' + entryPoint.name + '.view.xml',
             template: 'webpack/app.view.template.xml'
         }),
         new HtmlWebpackPlugin({
             inject: false,
-            filename: '../../../views/' + entryPoint.name + '.html',
+            filename: '../../../views/gen/' + entryPoint.name + '.html',
             template: 'webpack/app.template.html'
         }),
         new HtmlWebpackPlugin({
@@ -36,14 +36,14 @@ for (let i = 0; i < entryPoints.apps.length; i++) {
             name: entryPoint.name,
             title: entryPoint.title,
             permission: entryPoint.permission,
-            filename: '../../../views/' + entryPoint.name + 'Dev.view.xml',
+            filename: '../../../views/gen/' + entryPoint.name + 'Dev.view.xml',
             template: 'webpack/app.view.template.xml'
         }),
         new HtmlWebpackPlugin({
             inject: false,
             mode: 'dev',
             name: entryPoint.name,
-            filename: '../../../views/' + entryPoint.name + 'Dev.html',
+            filename: '../../../views/gen/' + entryPoint.name + 'Dev.html',
             template: 'webpack/app.template.html'
         })
     ]);
