@@ -143,7 +143,7 @@ public abstract class AbstractSSRSNotification implements Notification
         String ssrsReportURL = baseURL + _reportId + "&rs:Command=Render&rs:Format=" + _format.toString();
 
         // Start a session that SSRS can use for its callback
-        String sessionId = SecurityManager.beginTransformSession(u);
+        String sessionId = SecurityManager.beginTransformSessionApiKey(u);
         String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.TRANSFORM_SESSION_ID + "=" + sessionId;
 
         try
@@ -211,7 +211,7 @@ public abstract class AbstractSSRSNotification implements Notification
         {
             // Ideally we'd kill the session right here. However, if SSRS is handling the request
             // asynchronously we might need to block, sleep, etc so it's not terminated too early
-            //SecurityManager.endTransformSession(sessionId);
+            //SecurityManager.endTransformSessionApiKey(sessionId);
         }
     }
 
