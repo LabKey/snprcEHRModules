@@ -23,6 +23,7 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.util.GUID;
+import org.labkey.api.util.PageFlowUtil;
 import org.labkey.snprc_scheduler.domains.StudyDayNotes;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
@@ -115,6 +116,8 @@ public class SNPRC_schedulerManager
             if (scheduleDate != null)
             {
                 filter.addCondition(FieldKey.fromParts(TimelineItem.TIMELINEITEM_SCHEDULE_DATE), scheduleDate, CompareType.DATE_EQUAL);
+                // Can have timelineItems (study days)that don't have any projectItems assigned
+                filter.addCondition(FieldKey.fromParts(TimelineItem.TIMELINEITEM_PROJECT_ITEM_ID), null, CompareType.NONBLANK);
             }
 
             timelineItems = new TableSelector(timelineItemTable, filter, null).getArrayList(TimelineItem.class);
@@ -159,14 +162,15 @@ public class SNPRC_schedulerManager
         try
         {
             SNPRC_schedulerUserSchema schema = getSNPRC_schedulerUserSchema(c, u);
+            // Get project projectId from Timeline table
+            TableInfo timelineTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter(), false, false);
+            SimpleFilter timelineFilter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_OBJECTID), timelineObjectId, CompareType.EQUAL);
+            Map projectInfo = new TableSelector(timelineTable, PageFlowUtil.set("ProjectId", "ProjectRevisionNum"), timelineFilter,null).getMap();
+
             TableInfo timelineAnimalJunctionTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE_ANIMAL_JUNCTION, schema.getDefaultContainerFilter(), false, false);
-            //TableInfo timelineAnimalJunctionTable = SNPRC_schedulerSchema.getInstance().getTableInfoTimelineAnimalJunction();
-
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
-
             timelineAnimalItems = new TableSelector(timelineAnimalJunctionTable, filter, null).getArrayList(TimelineAnimalJunction.class);
 
-            //UserSchema studySchema = QueryService.get().getUserSchema(u, EHRService.get().getEHRStudyContainer(c), "study");
             UserSchema sndSchema = QueryService.get().getUserSchema(u, c, "snd");
             TableInfo ti = sndSchema.getTable("AnimalsByProject", sndSchema.getDefaultContainerFilter());
             SimpleFilter demFilter;
@@ -185,7 +189,9 @@ public class SNPRC_schedulerManager
                 }
                 else
                 {
-                    demFilter = new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL);
+                    demFilter = new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL)
+                            .addCondition(FieldKey.fromParts("projectId"), projectInfo.get("ProjectId"), CompareType.EQUAL)
+                            .addCondition(FieldKey.fromParts("RevisionNum"), projectInfo.get("ProjectRevisionNum"));
 
                     Map result = new TableSelector(ti, demFilter, null).getMap();
 
