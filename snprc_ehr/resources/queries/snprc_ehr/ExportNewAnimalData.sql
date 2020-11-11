@@ -1,3 +1,5 @@
+-- noinspection SqlResolveForFile
+
 /********************************************************
   Query will feed the export ETL back to CAMP.
       CampNewAnimalData
@@ -39,6 +41,6 @@ SELECT
     n.Created,
     n.CreatedBy,
     n.CreatedBy.email AS CreatedByEmail,
-    n.CreatedBy.displayname
+    n.CreatedBy.displayname AS CreatedUserName
 
 FROM snprc_ehr.NewAnimalData n
