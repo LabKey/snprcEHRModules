@@ -45,7 +45,7 @@ public class NewAnimalData
     //private Integer _qcState;
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";  //
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'kk:mm:ss";  // ISO8601 w/24-hour time and 'T' character
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";  // ISO8601 w/24-hour time and 'T' character
     public static final String SQL_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS";
 
     public static final String NEWANIMAL_ID = "Id";
