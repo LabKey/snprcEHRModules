@@ -3,6 +3,6 @@
         <permission name="login"/>
     </permissions>
     <dependencies>
-        <dependency path="snprc_scheduler/app/app.css"/>
+        <dependency path="snprc_scheduler/gen/app/app.css"/>
     </dependencies>
 </view>

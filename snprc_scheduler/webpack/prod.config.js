@@ -17,7 +17,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve(__dirname, '../resources/web/snprc_scheduler/app/'),
+        path: path.resolve(__dirname, '../resources/web/snprc_scheduler/gen/app/'),
         publicPath: './', // allows context path to resolve in both js/css
         filename: "[name].js"
     },
