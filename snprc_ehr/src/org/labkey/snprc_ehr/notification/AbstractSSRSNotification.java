@@ -32,6 +32,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.ldk.notification.Notification;
 import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.security.SecurityManager;
+import org.labkey.api.security.SecurityManager.TransformSession;
 import org.labkey.api.security.User;
 import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.FileUtil;
@@ -60,7 +61,7 @@ public abstract class AbstractSSRSNotification implements Notification
 {
     private final String _subject;
     private final String _textContent;
-    private Format _format;
+    private final Format _format;
 
     private static final Logger LOG = LogManager.getLogger(AbstractSSRSNotification.class);
     private final String _reportId;
@@ -143,8 +144,11 @@ public abstract class AbstractSSRSNotification implements Notification
         String ssrsReportURL = baseURL + _reportId + "&rs:Command=Render&rs:Format=" + _format.toString();
 
         // Start a session that SSRS can use for its callback
-        String sessionId = SecurityManager.beginTransformSessionApiKey(u);
-        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.TRANSFORM_SESSION_ID + "=" + sessionId;
+        // We *should* create the transform session in a try-with-resources to ensure the API key gets invalidated.
+        // However, if SSRS is handling the request asynchronously we might need to block, sleep, etc. so it's not
+        // terminated too early
+        TransformSession session = SecurityManager.createTransformSession(u);
+        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.TRANSFORM_SESSION_ID + "=" + session.getApiKey();
 
         try
         {
@@ -206,12 +210,6 @@ public abstract class AbstractSSRSNotification implements Notification
         catch (URISyntaxException | IOException e)
         {
             throw new UnexpectedException(e);
-        }
-        finally
-        {
-            // Ideally we'd kill the session right here. However, if SSRS is handling the request
-            // asynchronously we might need to block, sleep, etc so it's not terminated too early
-            //SecurityManager.endTransformSessionApiKey(sessionId);
         }
     }
 
