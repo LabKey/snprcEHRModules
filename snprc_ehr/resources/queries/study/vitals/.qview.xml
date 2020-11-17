@@ -2,15 +2,9 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="temp"/>
-        <column name="heartRate"/>
-        <column name="respRate"/>
-        <column name="remark"/>
-        <column name="description"/>
-        <column name="taskId"/>
-        <column name="project"/>
-        <column name="performedBy"/>
-        <column name="history"/>
+        <column name="temp::Values"/>
+        <column name="HR::Values"/>
+        <column name="RR::Values"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />

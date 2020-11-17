@@ -2,12 +2,9 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="project"/>
-        <column name="reason"/>
-        <column name="quantity"/>
-        <column name="remark"/>
-        <column name="datefinalized"/>
-        <column name="history"/>
+        <column name="IACUC" />
+        <column name="Reason::Values"/>
+        <column name="blood_volume::Values"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />
