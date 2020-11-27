@@ -8,6 +8,9 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
+                    <column columnName="lsid">
+                        <isKeyField>true</isKeyField>
+                    </column>
                     <column columnName="Id">
                         <fk>
                             <fkDbSchema>study</fkDbSchema>

@@ -1,5 +1,5 @@
 SELECT
-       sdc.LSID as LSID,
+       sdc.lsid,
        sdc.Id as ID,
        sdc.Date Date,
        MAX(sdc.Value) as Values,
@@ -7,18 +7,18 @@ SELECT
        sdc.QcState as QcState,
        sdc.AttributeName
 FROM (
-         SELECT LSID as LSID,
-                EventData.EventId.SubjectId AS Id,
-                EventData.EventId.Date,
+         SELECT lsid,
+                SubjectId AS Id,
+                Date,
                 FloatValue AS value,
                 EventId,
-                EventId.QcState AS QcState,
+                QcState AS QcState,
                 AttributeName
          FROM SND.DataByCategory AS v
-         WHERE Category = 'Vitals'
+         WHERE CategoryName = 'Vitals'
      ) AS sdc
 
-GROUP BY sdc.LSID, sdc.Id, sdc.Date, sdc.EventId, sdc.QcState, sdc.AttributeName
+GROUP BY sdc.lsid, sdc.Id, sdc.Date, sdc.EventId, sdc.QcState, sdc.AttributeName
 
 PIVOT Values by AttributeName IN ('temp', 'HR', 'RR')
 

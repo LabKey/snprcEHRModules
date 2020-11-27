@@ -3,6 +3,9 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="vitals" tableDbType="TABLE" useColumnOrder="true">
                 <columns>
+                    <column columnName="lsid">
+                        <isKeyField>true</isKeyField>
+                    </column>
                     <column columnName="Id">
                         <datatype>varchar</datatype>
                         <fk>
@@ -17,28 +20,6 @@
                             <fkDbSchema>core</fkDbSchema>
                             <fkTable>QCState</fkTable>
                             <fkColumnName>RowId</fkColumnName>
-                        </fk>
-                    </column>
-                    <column columnName="diCreated">
-                        <isHidden>true</isHidden>
-                    </column>
-                    <column columnName="diCreatedBy">
-                        <isHidden>true</isHidden>
-                        <fk>
-                            <fkColumnName>UserId</fkColumnName>
-                            <fkTable>Users</fkTable>
-                            <fkDbSchema>core</fkDbSchema>
-                        </fk>
-                    </column>
-                    <column columnName="diModified">
-                        <isHidden>true</isHidden>
-                    </column>
-                    <column columnName="diModifiedBy">
-                        <isHidden>true</isHidden>
-                        <fk>
-                            <fkColumnName>UserId</fkColumnName>
-                            <fkTable>Users</fkTable>
-                            <fkDbSchema>core</fkDbSchema>
                         </fk>
                     </column>
                 </columns>

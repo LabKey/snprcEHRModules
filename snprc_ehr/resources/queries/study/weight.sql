@@ -1,10 +1,9 @@
 
 SELECT
-LSID as LSID,
-EventData.EventId.SubjectId as Id,
-EventData.EventId.Date,
+lsid,
+SubjectId as Id,
+Date,
 FloatValue as weight,
-EventId,
-EventId.QcState
+QcState
 FROM SND.DataByCategory
-WHERE Category = 'Weight'
+WHERE CategoryName = 'Weight'
