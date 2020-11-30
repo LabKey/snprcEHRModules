@@ -1,0 +1,20 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="EventsCache" tableDbType="NOT_IN_DB">
+                <tableTitle>Events Cache</tableTitle>
+                <columns>
+                    <column columnName="Plain Text Narrative">
+                        <columnTitle>Text Narrative</columnTitle>
+                        <displayWidth>120</displayWidth>
+                    </column>
+
+                    <column columnName="HtmlNarrative">
+                        <columnTitle>Html Narrative</columnTitle>
+                        <displayWidth>120</displayWidth>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
