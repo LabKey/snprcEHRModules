@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>__ Blood from SND</name>
+    <description>Blood draw data from SND</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="study" queryName="SndBlood" />
+            <destination schemaName="study" queryName="blood" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="objectid"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="blood_volume__Values" target="quantity" />
+                    <column source="reason__Values" target="reason" />
+                </columnTransforms>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="Modified" />
+
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>

@@ -8,9 +8,6 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="lsid">
-                        <isKeyField>true</isKeyField>
-                    </column>
                     <column columnName="Id">
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
@@ -19,13 +16,14 @@
                         </fk>
                     </column>
                     <column columnName="date"/>
-                    <column columnName="quantity">
+                    <column columnName="blood_volume::Values">
                         <columnTitle>Blood Volume</columnTitle>
                         <measure>true</measure>
                     </column>
-                    <column columnName="reason" >
+                    <column columnName="reason::Values" >
                         <columnTitle>Reason</columnTitle>
                     </column>
+                    <column columnName="IACUC"/>
                 </columns>
                 <tableTitle>Blood Draws</tableTitle>
             </table>
