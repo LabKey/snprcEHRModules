@@ -48,20 +48,20 @@ SELECT
   bd.id,
   bd.dateOnly as date,
   bd.quantity,
-  d.species,
-  d.death,
-  d.id.mostRecentWeight.MostRecentWeight,
-  d.id.mostRecentWeight.MostRecentWeightDate,
-  d.species.blood_per_kg,
-  d.species.max_draw_pct,
+  bd.id.Demographics.species,
+  bd.id.Demographics.death,
+  bd.id.weightChange.MostRecentWeight,
+  bd.id.weightChange.MostRecentWeightDate,
+  bd.id.Demographics.species.blood_per_kg,
+  bd.id.Demographics.species.max_draw_pct,
   bd.blood_draw_interval,
-  CASE WHEN d.species.arc_species_code = 'SM' OR d.species.arc_species_code = 'CJ'
+  CASE WHEN bd.id.Demographics.species.arc_species_code = 'SM' OR bd.id.Demographics.species.arc_species_code = 'CJ'
   THEN
-   	CASE WHEN d.id.mostRecentWeight.MostRecentWeight >= .34 THEN 3
-   	ELSE 2
-   	END
+  	CASE WHEN bd.id.weightChange.MostRecentWeight >= .34 THEN 3
+  	ELSE 2
+  	END
   ELSE
-  	(d.id.mostRecentWeight.MostRecentWeight * d.species.blood_per_kg * d.species.max_draw_pct)
+  	(bd.id.weightChange.MostRecentWeight * bd.id.Demographics.species.blood_per_kg * bd.id.Demographics.species.max_draw_pct)
   END as allowableBlood,
   bd.minDate,
   bd.maxDate,
@@ -86,6 +86,5 @@ SELECT
   ), 0) AS BloodFuture
 
 FROM study.bloodDrawChanges bd
-JOIN study.demographics d ON (d.id = bd.id)
 
 ) t

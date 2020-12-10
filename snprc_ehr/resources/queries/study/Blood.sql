@@ -1,7 +1,7 @@
 SELECT
-    sdc.LSID as LSID,
-    sdc.Id as ID,
-    sdc.Date Date,
+    sdc.LSID,
+    sdc.Id,
+    sdc.Date,
     group_concat(sdc.Value) as Values,
     sdc.Event as EventId,
     sdc.QcState as QcState,
@@ -20,8 +20,8 @@ FROM (
                 v.Event,
                 v.QcState,
                 v.AttributeName,
-                v.Event.ParentObjectId.ReferenceId.Protocol as IACUC,
-                v.Event.ParentObjectId.ReferenceId as Project
+                v.Project.ReferenceId.Protocol as IACUC,
+                v.Project.ReferenceId as Project
          FROM SND.DataByCategory AS v
 
          WHERE v.CategoryName = 'Cumulative blood'
@@ -30,5 +30,3 @@ FROM (
 GROUP BY sdc.LSID, sdc.Id, sdc.Date, sdc.Event, sdc.QcState, sdc.AttributeName, sdc.IACUC, sdc.Project
 
 PIVOT Values by AttributeName IN ('blood_volume', 'Reason')
-
-order by id, date desc
