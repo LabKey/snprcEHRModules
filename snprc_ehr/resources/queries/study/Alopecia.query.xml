@@ -1,7 +1,12 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="vitals" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="Alopecia" tableDbType="NOT_IN_DB" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
                 <columns>
                     <column columnName="lsid">
                         <isKeyField>true</isKeyField>
@@ -14,13 +19,11 @@
                             <fkColumnName>Id</fkColumnName>
                         </fk>
                     </column>
-                    <column columnName="qcstate">
-                        <datatype>int</datatype>
-                        <fk>
-                            <fkDbSchema>core</fkDbSchema>
-                            <fkTable>QCState</fkTable>
-                            <fkColumnName>RowId</fkColumnName>
-                        </fk>
+                    <column columnName="alopeciaScore">
+                        <columnTitle>Alopecia Score</columnTitle>
+                    </column>
+                    <column columnName="scorer">
+                        <columnTitle>Scorer</columnTitle>
                     </column>
                 </columns>
             </table>

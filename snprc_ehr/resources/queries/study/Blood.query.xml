@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="blood" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="blood" tableDbType="NOT_IN_DB" useColumnOrder="true">
                 <tableUrl />
                 <insertUrl />
                 <importUrl />
@@ -20,12 +20,13 @@
                     </column>
                     <column columnName="date"/>
                     <column columnName="quantity">
-                        <columnTitle>Blood Volume</columnTitle>
+                        <columnTitle>Amount (ml)</columnTitle>
                         <measure>true</measure>
                     </column>
-                    <column columnName="reason" >
+                    <column columnName="Reason" >
                         <columnTitle>Reason</columnTitle>
                     </column>
+                    <column columnName="IACUC"/>
                 </columns>
                 <tableTitle>Blood Draws</tableTitle>
             </table>

@@ -3,10 +3,12 @@
         <column name="Id"/>
         <column name="date"/>
         <column name="IACUC" />
-        <column name="Reason::Values"/>
-        <column name="blood_volume::Values"/>
+        <column name="Reason"/>
+        <column name="quantity"/>
     </columns>
     <sorts>
+        <sort column="Id" descending="true"/>
         <sort column="Date" descending="true" />
     </sorts>
 </customView>
+

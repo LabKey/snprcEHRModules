@@ -140,7 +140,7 @@ public class BloodDrawTrigger implements EventTrigger
         filter.addCondition(FieldKey.fromString("countsAgainstVolume"), true);
 
         // Currently this queries study.blood. This is still pending tying SND with SNPRC study queries
-        TableInfo ti = TriggerHelper.getTableInfo(c, u,"study", "Blood Draws", errors);
+        TableInfo ti = TriggerHelper.getTableInfo(c, u,"study", "Blood", errors);
         if (ti == null || errors.size() > 0)
         {
             // if ti is null, there will be an error in errors

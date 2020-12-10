@@ -1,17 +1,15 @@
+SELECT d.lsid,
+       d.SubjectId  as Id,
+       d.Date,
+       d.FloatValue as BCS,
+       cast(substring(bcs.Value, 1, locate(' ', bcs.Value)) as float) as  BCSValue,
+       d.QcState,
+       d.Event.CreatedBy,
+       d.Event.Created,
+       d.Event.ModifiedBy,
+       d.Event.Modified,
+       d.Event.ObjectId
+FROM SND.DataByCategory as d
+INNER JOIN snd.BCS as bcs on bcs.LookupId = cast(d.FloatValue as INTEGER)
+WHERE CategoryName = 'BCS' AND QcState.publicdata = true
 
-SELECT
-    p.id as Id,
-    p.date as BcsDate,
-    p.procNarrative as BCS,
-    case when substring(p.procNarrative, 7, 1) = ' ' then  cast(substring (p.procNarrative, 6,1) as float)
-         else cast( substring (p.procNarrative, 6,3) as float )
-         end as BCSValue,
-    p.Created,
-    p.CreatedBy,
-    p.Modified,
-    p.ModifiedBy
-
-FROM study.procedure AS p
-WHERE p.qcstate.publicdata = true
-  AND p.pkgId.categories like '%BCS%'
-  AND p.procNarrative <> 'BCS: error'

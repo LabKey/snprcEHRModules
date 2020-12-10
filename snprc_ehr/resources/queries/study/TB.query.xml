@@ -1,0 +1,48 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="tb" tableDbType="TABLE" useColumnOrder="true">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
+                <columns>
+                    <column columnName="lsid">
+                        <isKeyField>true</isKeyField>
+                    </column>
+                    <column columnName="Id">
+                        <datatype>varchar</datatype>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>Animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="date"/>
+                    <column columnName="project">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="tb_site::Value">
+                        <columnTitle>Site</columnTitle>
+                        <fk>
+                            <fkDbSchema>snd</fkDbSchema>
+                            <fkTable>tb_site</fkTable>
+                            <fkColumnName>LookupId</fkColumnName>
+                            <fkDisplayColumnName>Value</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="tb_result::Value">
+                        <columnTitle>Result</columnTitle>
+                        <fk>
+                            <fkDbSchema>snd</fkDbSchema>
+                            <fkTable>tb_result</fkTable>
+                            <fkColumnName>LookupId</fkColumnName>
+                            <fkDisplayColumnName>Value</fkDisplayColumnName>
+                        </fk>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

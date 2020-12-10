@@ -2,24 +2,38 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="BodyConditionScores" tableDbType="NOT_IN_DB">
+                <tableUrl />
+                <insertUrl />
+                <importUrl />
+                <updateUrl />
+                <deleteUrl />
                 <tableTitle>Body Condition Scores</tableTitle>
                 <columns>
-                    <column columnName="Id">
+                    <column columnName="lsid">
                         <isKeyField>true</isKeyField>
+                    </column>
+                    <column columnName="Id">
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>animal</fkTable>
                             <fkColumnName>Id</fkColumnName>
                         </fk>
                     </column>
-                    <column columnName="BcsDate">
+                    <column columnName="Date">
                         <columnTitle>BCS Date</columnTitle>
                     </column>
                     <column columnName="BCS">
                         <columnTitle>Body Condition Score</columnTitle>
+                        <fk>
+                            <fkDbSchema>snd</fkDbSchema>
+                            <fkTable>BCS</fkTable>
+                            <fkColumnName>LookupId</fkColumnName>
+                            <fkDisplayColumnName>Value</fkDisplayColumnName>
+                        </fk>
                     </column>
                     <column columnName="BCSValue">
                         <columnTitle>Numeric BCS Value</columnTitle>
+                        <measure>true</measure>
                     </column>
                     <column columnName="Created">
                         <isHidden>true</isHidden>

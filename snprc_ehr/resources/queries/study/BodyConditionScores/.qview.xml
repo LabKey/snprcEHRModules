@@ -2,11 +2,10 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="alopeciaScore"/>
-        <column name="scorer"/>
+        <column name="BCS"/>
+        <column name="BCSValue"/>
     </columns>
     <sorts>
-        <sort column="Id" descending="false" />
-        <sort column="date" descending="true" />
+        <sort column="Date" descending="true" />
     </sorts>
 </customView>

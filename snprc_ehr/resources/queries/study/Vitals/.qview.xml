@@ -2,9 +2,9 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="temp::Values"/>
-        <column name="HR::Values"/>
-        <column name="RR::Values"/>
+        <column name="temp::Value"/>
+        <column name="HR::Value"/>
+        <column name="RR::Value"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />

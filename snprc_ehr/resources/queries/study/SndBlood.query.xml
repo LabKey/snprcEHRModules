@@ -1,12 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="blood" tableDbType="TABLE" useColumnOrder="true">
-                <tableUrl />
-                <insertUrl />
-                <importUrl />
-                <updateUrl />
-                <deleteUrl />
+            <table tableName="SndBlood" tableDbType="NOT_IN_DB" useColumnOrder="true">
                 <columns>
                     <column columnName="Id">
                         <fk>
@@ -16,16 +11,16 @@
                         </fk>
                     </column>
                     <column columnName="date"/>
-                    <column columnName="blood_volume::Values">
-                        <columnTitle>Blood Volume</columnTitle>
+                    <column columnName="blood_volume::Value">
+                        <columnTitle>Quantity</columnTitle>
                         <measure>true</measure>
                     </column>
-                    <column columnName="reason::Values" >
+                    <column columnName="Reason::Value" >
                         <columnTitle>Reason</columnTitle>
                     </column>
                     <column columnName="IACUC"/>
                 </columns>
-                <tableTitle>Blood Draws</tableTitle>
+                <tableTitle>SND Blood Draws</tableTitle>
             </table>
         </tables>
     </metadata>

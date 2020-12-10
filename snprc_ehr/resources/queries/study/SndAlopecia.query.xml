@@ -1,0 +1,18 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="SndAlopecia" tableDbType="NOT_IN_DB" useColumnOrder="true">
+                <columns>
+                    <column columnName="alopeciaScore::Value">
+                        <columnTitle>Alopecia Score</columnTitle>
+                        <measure>true</measure>
+                    </column>
+                    <column columnName="scorer::Value" >
+                        <columnTitle>Scorer</columnTitle>
+                    </column>
+                </columns>
+                <tableTitle>SND Alopecia</tableTitle>
+            </table>
+        </tables>
+    </metadata>
+</query>

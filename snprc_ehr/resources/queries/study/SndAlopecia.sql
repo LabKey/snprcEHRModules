@@ -5,8 +5,6 @@ SELECT sdc.lsid,
        sdc.Event                           as EventId,
        sdc.QcState                         as QcState,
        sdc.AttributeName,
-       coalesce(sdc.IACUC, 'Non-research') as IACUC,
-       sdc.Project,
        sdc.CreatedBy,
        sdc.Created,
        sdc.ModifiedBy,
@@ -18,13 +16,11 @@ FROM (
                 v.SubjectId                                                                          AS Id,
                 v.Date,
                 CASE
-                    WHEN v.AttributeName = 'Reason' THEN StringValue
-                    WHEN v.attributeName = 'blood_volume' THEN cast(v.FloatValue as varchar(12)) END as Value,
+                    WHEN v.AttributeName = 'scorer' THEN StringValue
+                    WHEN v.attributeName = 'alopeciaScore' THEN cast(v.FloatValue as varchar(12)) END as Value,
                 v.Event,
                 v.QcState                                                                            AS QcState,
                 v.AttributeName                                                                      AS AttributeName,
-                v.Event.ParentObjectId.ReferenceId.Protocol                                          as IACUC,
-                v.Event.ParentObjectId.ReferenceId                                                   as Project,
                 v.Event.CreatedBy,
                 v.Event.Created,
                 v.Event.ModifiedBy,
@@ -32,7 +28,7 @@ FROM (
                 v.ObjectId
          FROM SND.DataByCategory AS v
 
-         WHERE v.CategoryName = 'Cumulative blood'
+         WHERE v.CategoryName = 'alopecia'
      ) AS sdc
 
 GROUP BY sdc.lsid,
@@ -41,13 +37,11 @@ GROUP BY sdc.lsid,
          sdc.Event,
          sdc.QcState,
          sdc.AttributeName,
-         sdc.IACUC,
-         sdc.Project,
          sdc.CreatedBy,
          sdc.Created,
          sdc.ModifiedBy,
          sdc.Modified,
          sdc.ObjectId
-    PIVOT Value by AttributeName IN ('blood_volume', 'Reason')
+    PIVOT Value by AttributeName IN ('alopeciaScore', 'scorer')
 
 order by id, date desc

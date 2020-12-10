@@ -32,7 +32,7 @@ public class DefaultBloodDrawDataSource extends AbstractDataSource
 {
     public DefaultBloodDrawDataSource(Module module)
     {
-        super("study", "Blood Draws", "Blood Draw", "Blood Draws", module);
+        super("study", "Blood", "Blood Draw", "Blood Draws", module);
         setShowTime(true);
     }
 
