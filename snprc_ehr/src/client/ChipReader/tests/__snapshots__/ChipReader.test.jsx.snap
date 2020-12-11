@@ -13,7 +13,7 @@ exports[`ChipReader tests Should render the landing page with no serial support 
     errorMessages={
       Array [
         Object {
-          "colName": "Sorry, Serial.API is not supported on this device, make sure you're 
+          "colName": "Sorry, Serial.API is not supported on this device, make sure you're
     running Chrome 78 or later and have enabled the #enable-experimental-web-platform-features flag in
     chrome://flags",
           "propTest": true,
@@ -56,15 +56,12 @@ exports[`ChipReader tests Should render the landing page without error message. 
           handleSetConnection={[Function]}
           serialOptions={
             Object {
-              "baudrate": 19200,
-              "buffersize": 255,
-              "databits": 8,
+              "baudRate": 19200,
+              "bufferSize": 255,
+              "dataBits": 8,
+              "flowControl": "none",
               "parity": "none",
-              "rctscts": false,
-              "stopbits": 1,
-              "xany": false,
-              "xoff": true,
-              "xon": true,
+              "stopBits": 1,
             }
           }
         />
