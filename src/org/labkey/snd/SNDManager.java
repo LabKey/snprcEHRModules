@@ -2531,13 +2531,15 @@ public class SNDManager
                                 BatchValidationException errors = new BatchValidationException();
 
                                 QueryUpdateService eventNotesQus = null;
-                                // make sure there is an event note to insert - event notes are optional
-                                if (event.getEventNotesRow(c).get("note") != null) {
+
+                                // make sure there is an event note to insert - event notes are optional - trim spaces
+                                if (event.getEventNotesRow(c).containsKey("note") && event.getEventNotesRow(c).get("note") != null && event.getEventNotesRow(c).get("note").toString().trim().length() > 0)
                                     eventNotesQus = getNewQueryUpdateService(schema, SNDSchema.EVENTNOTES_TABLE_NAME);
-                                }
+
                                 try (DbScope.Transaction tx = eventTable.getSchema().getScope().ensureTransaction())
                                 {
                                     eventQus.insertRows(u, c, Collections.singletonList(event.getEventRow(c)), errors, null, null);
+
                                     // insert event note if it exists
                                     if (eventNotesQus != null)
                                     {
@@ -2685,7 +2687,12 @@ public class SNDManager
                                 UserSchema schema = getSndUserSchema(c, u);
                                 TableInfo eventTable = getTableInfo(schema, SNDSchema.EVENTS_TABLE_NAME);
                                 QueryUpdateService eventQus = getQueryUpdateService(eventTable);
-                                QueryUpdateService eventNotesQus = getNewQueryUpdateService(schema, SNDSchema.EVENTNOTES_TABLE_NAME);
+                                QueryUpdateService eventNotesQus = null;
+
+                                // make sure there is an event note to insert - event notes are optional - trim spaces
+                                if (event.getEventNotesRow(c).containsKey("note") && event.getEventNotesRow(c).get("note") != null && event.getEventNotesRow(c).get("note").toString().trim().length() > 0)
+                                    eventNotesQus = getNewQueryUpdateService(schema, SNDSchema.EVENTNOTES_TABLE_NAME);
+
                                 QueryUpdateService eventsCacheQus = getNewQueryUpdateService(schema, SNDSchema.EVENTSCACHE_TABLE_NAME);
 
                                 String htmlEventNarrative = generateEventNarrative(c, u, event, topLevelEventDataSuperPkgs, true, false);
@@ -2697,7 +2704,13 @@ public class SNDManager
                                 {
                                     eventQus.updateRows(u, c, Collections.singletonList(event.getEventRow(c)), null, null, null);
                                     deleteEventNotes(c, u, event.getEventId());
-                                    eventNotesQus.insertRows(u, c, Collections.singletonList(event.getEventNotesRow(c)), errors, null, null);
+                                    // insert event note if it exists
+                                    if (eventNotesQus != null)
+                                    {
+                                        eventNotesQus.insertRows(u, c, Collections.singletonList(event.getEventNotesRow(c)), errors, null, null);
+                                    }
+
+
                                     deleteEventDatas(c, u, event.getEventId());
                                     insertEventDatas(c, u, event, errors);
                                     eventsCacheQus.updateRows(u, c, Collections.singletonList(eventsCacheRow), null, null, null);
