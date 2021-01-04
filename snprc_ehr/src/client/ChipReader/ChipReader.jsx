@@ -17,6 +17,7 @@ export default class ChipReader extends React.Component {
     debug = constants.debug;
     isSerialSupported = ('serial' in navigator) || this.props.debug
     previousChipId = undefined
+
     componentDidMount() {
         window.addEventListener('beforeunload', this.beforeunload.bind(this))
 
@@ -28,16 +29,16 @@ export default class ChipReader extends React.Component {
             }
         ))
     }
+
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.beforeunload.bind(this))
     }
+
     beforeunload(e) {
-        if (this.state.connection) {
+        if (this.state.connection) 
             close(this.state.connection)
-            e.preventDefault()
-            e.returnValue = true
-        }
     }
+
     handleSetConnection = connection => {
         this.setState(prevState => (
             {
@@ -46,12 +47,11 @@ export default class ChipReader extends React.Component {
             }
         ))
     }
+
     handleDataChange = async value => {
         const data = value || { chipId: undefined, animalId: undefined, temperature: undefined }
-
         if (!data.chipId || data.chipId === this.previousChipId) return
 
-        // console.log(`chipId = ${data.chipId}`)
         this.previousChipId = data.chipId
 
         if (data.chipId && !data.animalId) {
@@ -69,6 +69,7 @@ export default class ChipReader extends React.Component {
             ...prevState,
             chipData: data,
             ...(data.animalId && { errorMessage: undefined }), // clear error message
+            ...((!data.animalId.value || data.animalId.value === 'Not Found') && { errorMessage: 'Animal Not Found'}),
             ...(data.animalId && {
                 summaryData: [
                     ...prevState.summaryData,
@@ -77,6 +78,7 @@ export default class ChipReader extends React.Component {
             })
         }))
     }
+
     handleErrorMessage = error => {
         this.setState(prevState => (
             {
@@ -85,6 +87,7 @@ export default class ChipReader extends React.Component {
             }
         ))
     }
+
     render() {
         // allow debug mode to be triggered for running test suite
         this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug

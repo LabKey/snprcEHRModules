@@ -1,4 +1,4 @@
-import constants from '../constants/index'
+import constants from '../constants'
 
 export const requestPort = async () => {
     return await navigator.serial.requestPort().catch ( error => {
@@ -30,24 +30,11 @@ export const connect = async (port, serialOptions) => {
         throw new Error(`Port.open() error: ${error.message}`)
     })
 
-    const decoder = new TextDecoderStream();
-    const inputDone = port.readable.pipeTo(decoder.writable)
-    const inputStream = decoder.readable
-
-    const encoder = new TextEncoderStream()
-    const outputDone = encoder.readable.pipeTo(port.writable)
-    const outputStream = encoder.writable
-    
     const connection = {
         port: port,
         serialOptions: serialOptions,
-        reader: inputStream.getReader(),
-        writer: outputStream.getWriter(),
-
-        inputDone: inputDone,
-        outputDone: outputDone,
-        inputStream: inputStream,
-        outputStream: outputStream
+        reader: port.readable.getReader(),
+        writer: port.writable.getWriter()
     }
 
     return connection
@@ -61,7 +48,7 @@ export const write = async (connection, text) => {
     await connection.writer.write('\r')
 }
 
-export const readWithTimeout = function (ms, promise) {
+export const readWithTimeout = function (ms, reader) {
 
     let timerId = null;
 
@@ -75,7 +62,7 @@ export const readWithTimeout = function (ms, promise) {
 
     // Returns a race between our timeout and the passed in promise
     return Promise.race([
-        promise.then(value => {
+        reader.then(value => {
             clearTimeout(timerId)
             return value
         }),
@@ -87,41 +74,47 @@ export const read = async (connection) => {
     if (!connection)
         throw new Error('Read requires a valid connection object')
 
-    let response = ''
+    let data = ''
+
+
     while (true)  {
-        const { value } = await connection.reader.read().catch( error => {
+        let cr = false
+        const { value, done } = await connection.reader.read().catch( error => {
+            console.log (`read error: ${error}`)
             throw error
         })
-        if (value) {
-            response += value
-        }
-
-        if (value) {
-            if (value.indexOf('\r') > -1) {
-                break
-            }
-        }
-        else
+        if (done) {
+            connection.reader.releaseLock()
             break
-     }
-    return response     
+        }
+        
+        if (value) {
+            // value is a Uint8Array - transform to a string
+            value.forEach(v => {
+                
+                if (v >= 32 && v <= 126 ) // only transform printable characters
+                    data += String.fromCharCode(v)
+                else if (v === 13)
+                    cr = true
+            })
+        }
+        if (cr) break
+    }
+    return data
 }
 
 export const close = async (connection) => {
-    if(!connection)
-        throw new Error('Close requires a valid connection object')
+    
+    console.log('closing serial connection')
 
-    if (connection.reader) {
+    setTimeout( async () => {
+        if(!connection)
+            throw new Error('Close requires a valid connection object')
+
         await connection.reader.cancel()
-        await connection.inputDone.catch(() => {})
-    }
-
-    if (connection.outputStream) {
         await connection.writer.close()
-        connection.outputDone = null
-    }
-
-    await connection.port.close()
-    connection.port = null
+        await connection.port.close()
+        console.log('connection closed')
+    }, constants.readTimeout) // wait for the last read request to finish before closing connection
 }
  

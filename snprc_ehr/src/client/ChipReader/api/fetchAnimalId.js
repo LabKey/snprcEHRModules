@@ -2,6 +2,10 @@ import { executeSql } from '../../Shared/api/api'
 import moment from 'moment'
 
 const parse = rows => {
+    if (rows.length === 0) {
+       return [{ value: 'Not Found', url: '', location: '', time: moment()}]
+    }
+
     return rows.map(({ data }) => {
         return { value: data.Id.value, url: data.Id.url, location: data.location.value, time: moment() }
     })

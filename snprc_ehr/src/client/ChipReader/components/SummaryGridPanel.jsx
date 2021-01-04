@@ -22,10 +22,10 @@ export default class SummaryGridPanel extends React.PureComponent {
             </thead>
             <tbody>
               { this.props.summaryData.length === 0 && <tr><td colSpan="5"> No animals </td></tr> }
-              { this.props.summaryData.length > 0 && this.props.summaryData.map(row => {
+              { this.props.summaryData.length > 0 && this.props.summaryData.slice(0).reverse().map(row => {
                 return (
                   <SummaryGridItem
-                    key={ `${row.animalId.value}.${Math.floor((Math.random() * 10000)).toString()} ` }
+                    key={ `${row.chipId.value}.${Math.floor((Math.random() * 10000)).toString()} ` }
                     row={ row }
                   />
                 )

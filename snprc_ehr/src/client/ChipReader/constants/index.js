@@ -5,6 +5,7 @@ export default {
     chrome://flags`,
     timeOutErrorMessage: 'Chip reader is not responding. Ensure you are connected to the correct port, and the reader is turned on.',
     validSerialOptions: [ 'baudRate', 'dataBits', 'stopBits', 'parity', 'bufferSize', 'flowControl'],
+    readTimeout: 3000, // 3300 milliseconds
     defaultSerialOptions: {
         baudRate: 19200,
         dataBits: 8,
