@@ -34,7 +34,7 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
       </thead>
       <tbody>
         <SummaryGridItem
-          key="undefined.5000 "
+          key="3C45433F.5000 "
           row={
             Object {
               "animalId": Object {
@@ -49,7 +49,7 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
           }
         />
         <SummaryGridItem
-          key="undefined.5000 "
+          key="2C45433F.5000 "
           row={
             Object {
               "animalId": Object {
@@ -64,7 +64,7 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
           }
         />
         <SummaryGridItem
-          key="undefined.5000 "
+          key="1C45433F.5000 "
           row={
             Object {
               "animalId": Object {
