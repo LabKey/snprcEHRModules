@@ -25,7 +25,7 @@ export default class SummaryGridPanel extends React.PureComponent {
               { this.props.summaryData.length > 0 && this.props.summaryData.slice(0).reverse().map(row => {
                 return (
                   <SummaryGridItem
-                    key={ `${row.chipId.value}.${Math.floor((Math.random() * 10000)).toString()} ` }
+                    key={ `${row.chipId}.${Math.floor((Math.random() * 10000)).toString()} ` }
                     row={ row }
                   />
                 )
