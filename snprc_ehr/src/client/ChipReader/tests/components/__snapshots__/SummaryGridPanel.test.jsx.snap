@@ -34,22 +34,22 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
       </thead>
       <tbody>
         <SummaryGridItem
-          key="12345.5000 "
+          key="3C45433F.5000 "
           row={
             Object {
               "animalId": Object {
                 "location": "2.00-42",
-                "time": "2020-08-18T16:47:44.704Z",
-                "url": "/labkey/ehr/SNPRC/participantView.view?participantId=12345",
-                "value": "12345",
+                "time": "2020-08-18T16:49:56.729Z",
+                "url": "/labkey/ehr/SNPRC/participantView.view?participantId=22222",
+                "value": "22222",
               },
-              "chipId": "1C45433F",
-              "temperature": "<25.0",
+              "chipId": "3C45433F",
+              "temperature": "26.3",
             }
           }
         />
         <SummaryGridItem
-          key="11111.5000 "
+          key="2C45433F.5000 "
           row={
             Object {
               "animalId": Object {
@@ -64,17 +64,17 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
           }
         />
         <SummaryGridItem
-          key="22222.5000 "
+          key="1C45433F.5000 "
           row={
             Object {
               "animalId": Object {
                 "location": "2.00-42",
-                "time": "2020-08-18T16:49:56.729Z",
-                "url": "/labkey/ehr/SNPRC/participantView.view?participantId=22222",
-                "value": "22222",
+                "time": "2020-08-18T16:47:44.704Z",
+                "url": "/labkey/ehr/SNPRC/participantView.view?participantId=12345",
+                "value": "12345",
               },
-              "chipId": "3C45433F",
-              "temperature": "26.3",
+              "chipId": "1C45433F",
+              "temperature": "<25.0",
             }
           }
         />
