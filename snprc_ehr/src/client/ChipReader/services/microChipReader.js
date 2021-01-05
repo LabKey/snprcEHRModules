@@ -1,4 +1,5 @@
 import { readWithTimeout, read } from './serialService'
+import constants from '../constants'
 
 // convert temperature to fahrenheit - return -1 if NaN
 const celsiusToFahrenheit = c => {
@@ -13,9 +14,10 @@ export const getChipData = async (connection) => {
     let dataArr = []
     let dataObj
 
-    // read serial port with a 2 second timeout
-    data = await readWithTimeout(2000, read(connection)
+    // read serial port with a timeout
+    data = await readWithTimeout(constants.readTimeout, read(connection)
         .catch(error => {
+            console.log (`readWithTimeout error: ${error}`)
             throw error
         }))
 
@@ -23,7 +25,13 @@ export const getChipData = async (connection) => {
         // process chip data
         if (data.indexOf('XX') === -1) {  // clean queue
 
-            data = data === 'XXXXXXXXXX\r' ? '' : data.replace(/\r/g, '')
+            if (data.substring(0, 7) === '1000000') { // remove BIOMARK prefix
+                data = data.substring(7, data.length)
+            }
+            else if (data.slice(-1) === ',') { // remove trailing comma from certain UID chips
+                data = data.substring(0, data.length - 1)
+            }
+            
             dataArr = data.split(",")
             const len = dataArr.length
 
