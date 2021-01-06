@@ -2263,7 +2263,7 @@ public class SNDManager
                 }
                 else
                 {
-                    OntologyManager.insertProperties(c, null, objectProperty);
+                    OntologyManager.insertProperties(c, u, null, objectProperty);
                 }
             }
         }

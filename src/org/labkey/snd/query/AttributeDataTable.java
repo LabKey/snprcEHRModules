@@ -209,13 +209,13 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             return null;
         }
 
-        private int insertObject(Container c, String uri, List<ObjectProperty> props, Integer pkgId, int inserted, Logger logger)
+        private int insertObject(Container c, User u, String uri, List<ObjectProperty> props, Integer pkgId, int inserted, Logger logger)
         {
             try
             {
                 ObjectProperty[] properties = new ObjectProperty[props.size()];
                 properties = props.toArray(properties);
-                OntologyManager.insertProperties(c, uri, true, properties);
+                OntologyManager.insertProperties(c, u, uri, true, properties);
                 inserted += props.size();
                 if (inserted % 10000 < props.size())
                     logger.info("Inserted/updated " + inserted + " rows.");
@@ -321,7 +321,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                                 {
                                     if (!prevUri.equals(objectURI))
                                     {
-                                        inserted = insertObject(container, prevUri, prevObjProps, pkgId, inserted, logger);
+                                        inserted = insertObject(container, user, prevUri, prevObjProps, pkgId, inserted, logger);
                                         prevUri = objectURI;
                                         prevObjProps = new ArrayList<>();
                                     }
@@ -345,7 +345,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
             if (prevObjProps.size() > 0 && pkgId != null)
             {
-                inserted = insertObject(container, prevUri, prevObjProps, pkgId, inserted, logger);
+                inserted = insertObject(container, user, prevUri, prevObjProps, pkgId, inserted, logger);
             }
 
             OntologyManager.clearPropertyCache();
