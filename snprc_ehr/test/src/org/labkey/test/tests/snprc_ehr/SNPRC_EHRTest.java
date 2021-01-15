@@ -175,7 +175,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         initSND();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
-        _assayHelper = new UIAssayHelper(this); // API Helper is causing browser timeouts on experiment-showAddXarFile
+        _assayHelper = new APIAssayHelper(this);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
