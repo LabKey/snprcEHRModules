@@ -101,9 +101,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String SNPRC_ROOM_ID = "S824778";
     private static final String SNPRC_ROOM_ID2 = "S043365";
 
-    private static Integer _pipelineJobCount = 0;
-
-    private boolean _hasCreatedBirthRecords = false;
+    private static int _pipelineJobCount = 0;
 
     @Override
     public String getModuleDirectory()
@@ -242,29 +240,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
-        setPipelineRoot(path.getPath());
-
-        beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");
-        clickButton("Process and Import Data", defaultWaitForPage);
-
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.checkFileBrowserFileCheckbox("study.xml");
-
-        if (isTextPresent("Reload Study"))
-            _fileBrowserHelper.selectImportDataAction("Reload Study");
-        else
-            _fileBrowserHelper.selectImportDataAction("Import Study");
-
-        if (skipStudyImportQueryValidation())
-        {
-            Locator cb = Locator.checkboxByName("validateQueries");
-            waitForElement(cb);
-            uncheckCheckbox(cb);
-        }
-
-        clickButton("Start Import"); // Validate queries page
-        waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
+        importStudyFromPath(++_pipelineJobCount);
     }
 
     protected void initSND()
