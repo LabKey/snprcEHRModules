@@ -298,12 +298,6 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     }
 
     @Override
-    public BrowserType bestBrowser()
-    {
-        return BrowserType.FIREFOX;
-    }
-
-    @Override
     protected String getProjectName()
     {
         return PROJECTNAME;
