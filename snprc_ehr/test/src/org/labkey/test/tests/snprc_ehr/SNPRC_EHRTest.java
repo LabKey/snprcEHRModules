@@ -173,7 +173,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         initSND();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
-        _assayHelper = new UIAssayHelper(this); // API Helper is causing browser timeouts on experiment-showAddXarFile
+        _assayHelper = new APIAssayHelper(this);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
@@ -411,7 +411,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         searchPanel.selectValues("Gender", false, " All");
         assertEquals("Selecting 'All' genders didn't set input correctly", "Female;Male;Unknown", getFormElement(Locator.input("gender")));
         searchResults = searchPanel.submit();
-        assertEquals("Wrong number of rows for searching all genders", 43, searchResults.getDataRowCount());
+        assertEquals("Wrong number of rows for searching all genders", 41, searchResults.getDataRowCount());
 
         goBack();
         searchPanel = new AnimalSearchPanel(getDriver());
@@ -772,7 +772,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         participantViewPage.clickReportTab("Procedures Before Disposition");
         remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Procedure Text");
-        assertEquals("Report should show events less than 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days"), remarkColumn);
+        assertEquals("Report should show events less than or equal to 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days", "necropsy -4days"), remarkColumn);
     }
 
     @Test
