@@ -427,7 +427,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         searchPanel.setFilter("Id", null, "1");
         searchResults = searchPanel.submit();
         assertElementPresent(Locator.linkWithText("TEST1020148"));
-        assertEquals("Wrong number of rows: 'Id' contains '1'", 22, searchResults.getDataRowCount());
+        assertEquals("Wrong number of rows: 'Id' contains '1'", 20, searchResults.getDataRowCount());
 
         goBack();
         searchPanel = new AnimalSearchPanel(getDriver());
