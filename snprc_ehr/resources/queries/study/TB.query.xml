@@ -23,7 +23,7 @@
                     <column columnName="project">
                         <isHidden>true</isHidden>
                     </column>
-                    <column columnName="tb_site::Value">
+                    <column columnName="site">
                         <columnTitle>Site</columnTitle>
                         <fk>
                             <fkDbSchema>snd</fkDbSchema>
@@ -32,7 +32,7 @@
                             <fkDisplayColumnName>Value</fkDisplayColumnName>
                         </fk>
                     </column>
-                    <column columnName="tb_result::Value">
+                    <column columnName="result">
                         <columnTitle>Result</columnTitle>
                         <fk>
                             <fkDbSchema>snd</fkDbSchema>

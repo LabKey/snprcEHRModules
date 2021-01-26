@@ -16,6 +16,9 @@ exports.init = function (EHR) {
 
     EHR.Server.TriggerManager.registerHandler(EHR.Server.TriggerManager.Events.INIT, function (event, helper, EHR) {
 
+        EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'birth', EHR.Server.TriggerManager.Events.ON_BECOME_PUBLIC);
+        EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'birth', EHR.Server.TriggerManager.Events.BEFORE_UPSERT);
+
         EHR.Server.TriggerManager.unregisterAllHandlersForQueryNameAndEvent('study', 'Departure', EHR.Server.TriggerManager.Events.ON_BECOME_PUBLIC);
 
         EHR.Server.TriggerManager.registerHandlerForQuery(EHR.Server.TriggerManager.Events.ON_BECOME_PUBLIC, 'study', 'Departure', function (scriptErrors, helper, row, oldRow) {

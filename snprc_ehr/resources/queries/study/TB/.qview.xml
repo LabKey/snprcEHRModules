@@ -2,8 +2,8 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="tb_site::Value"/>
-        <column name="tb_result::Value"/>
+        <column name="site"/>
+        <column name="result"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />

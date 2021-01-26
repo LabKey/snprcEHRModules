@@ -1,4 +1,19 @@
 SELECT
+    pvt.lsid,
+    pvt.Id,
+    pvt.Date,
+    pvt."tb_site::Value" as site,
+    pvt."tb_result::Value" as result,
+    pvt.EventId as EventId,
+    pvt.QcState as QcState,
+    pvt.CreatedBy,
+    pvt.Created,
+    pvt.ModifiedBy,
+    pvt.Modified,
+    pvt.ObjectId
+
+FROM
+( SELECT
     sdc.lsid,
     sdc.Id,
     sdc.Date,
@@ -31,6 +46,7 @@ FROM (
 GROUP BY sdc.lsid, sdc.Id, sdc.Date, sdc.EventId, sdc.QcState, sdc.AttributeName, sdc.CreatedBy, sdc.Created, sdc.ModifiedBy, sdc.Modified, sdc.ObjectId
 
     PIVOT Value by AttributeName IN ('tb_site', 'tb_result')
+) pvt
 
 order by id, date desc
 

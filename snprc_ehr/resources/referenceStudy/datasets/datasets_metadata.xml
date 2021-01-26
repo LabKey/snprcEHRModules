@@ -469,65 +469,6 @@
         </columns>
         <tableTitle>Birth</tableTitle>
     </table>
-    <table tableName="blood" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>timestamp</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
-                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="tube_type">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="tube_vol">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="quantity">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="sampletype">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="chargetype">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="num_tubes">
-                <datatype>integer</datatype>
-            </column>
-            <column columnName="additionalServices">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="enddate">
-                <datatype>timestamp</datatype>
-                <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
-            </column>
-            <column columnName="daterequested">
-                <datatype>timestamp</datatype>
-                <propertyURI>urn:ehr.labkey.org/#DateRequested</propertyURI>
-            </column>
-            <column columnName="instructions">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="reason">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="datefinalized">
-                <datatype>timestamp</datatype>
-            </column>
-        </columns>
-        <tableTitle>Blood Draws</tableTitle>
-    </table>
     <table tableName="encounters" tableDbType="TABLE">
         <columns>
             <column columnName="Id">
@@ -958,34 +899,6 @@
             </column>
         </columns>
         <tableTitle>Treatment Orders</tableTitle>
-    </table>
-    <table tableName="weight" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>timestamp</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
-                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="weight">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="enddate">
-                <datatype>timestamp</datatype>
-                <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
-            </column>
-        </columns>
-        <tableTitle>Weight</tableTitle>
     </table>
     <table tableName="vitals" tableDbType="TABLE">
         <columns>
@@ -2197,50 +2110,6 @@
         </columns>
         <tableTitle>SNPRC ID History</tableTitle>
     </table>
-    <table tableName="tb" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>datetime</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="site">
-                <datatype>varchar</datatype>
-                <columnTitle>tb_site</columnTitle>
-                <displayWidth>25</displayWidth>
-                <fk>
-                    <fkDbSchema>ehr_lookups</fkDbSchema>
-                    <fkTable>tb_site</fkTable>
-                    <fkColumnName>value</fkColumnName>
-                </fk>
-            </column>
-            <column columnName="result">
-                <datatype>varchar</datatype>
-                <columnTitle>Result</columnTitle>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
-                <isKeyField>true</isKeyField>
-            </column>
-            <column columnName="user_name">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="entry_date_tm">
-                <datatype>datetime</datatype>
-            </column>
-        </columns>
-        <tableTitle>TB Test Results</tableTitle>
-    </table>
     <table tableName="diet" tableDbType="TABLE">
         <columns>
             <column columnName="Id">
@@ -2357,30 +2226,6 @@
             </column>
         </columns>
         <tableTitle>MhcStatus</tableTitle>
-    </table>
-    <table tableName="Alopecia" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>datetime</datatype>
-            </column>
-            <column columnName="AlopeciaScore">
-                <datatype>integer</datatype>
-                <fk>
-                    <fkDbSchema>ehr_lookups</fkDbSchema>
-                    <fkTable>alopecia_score</fkTable>
-                    <fkColumnName>value</fkColumnName>
-                    <fkDisplayColumnName>description</fkDisplayColumnName>
-                </fk>
-            </column>
-        </columns>
-        <tableTitle>Alopecia</tableTitle>
     </table>
     <table tableName="assay_clinpathRuns" tableDbType="TABLE">
         <columns>
