@@ -24,6 +24,7 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
+import org.labkey.test.tests.ehr.AbstractEHRTest;
 import org.labkey.test.util.ApiPermissionsHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
@@ -37,14 +38,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.labkey.remoteapi.query.Filter.Operator.EQUAL;
 
 @Category({SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
 @FixMethodOrder(MethodSorters. NAME_ASCENDING)
-public class SNPRC_schedulerTest extends BaseWebDriverTest implements JavascriptExecutor
+public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptExecutor
 {
     private final String PROJECTNAME = "SNPRC_schedulerTest Project";
 
@@ -81,20 +82,17 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         return loader.load();
     }
 
+    @Override
+    public String getContainerPath()
+    {
+        return getProjectName();
+    }
+
     @BeforeClass
     public static void setupProject()
     {
         SNPRC_schedulerTest init = (SNPRC_schedulerTest) getCurrentTest();
         init.doSetup();
-    }
-
-
-    @Override
-    protected void doCleanup(boolean afterTest) throws TestTimeoutException
-    {
-        //ToDo: The line below is needed so that the project is NOT deleted after the test run - uncomment only for debugging
-        //if (!afterTest)
-          _containerHelper.deleteProject(getProjectName(), afterTest);
     }
 
     private void doSetup()
@@ -103,6 +101,7 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
 
         _containerHelper.createProject(getProjectName(), null);
         _containerHelper.enableModule("SNPRC_scheduler");
+        _containerHelper.enableModule("SND");
 //        _containerHelper.enableModules(Arrays.asList("SNPRC_scheduler", "snprc_ehr"));
 
         // create users
@@ -126,10 +125,13 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, SecurityRole.READER.name, PermissionsHelper.MemberType.group);
         _permissionsHelper.addMemberToRole(SecurityGroup.EDITOR.name, SecurityRole.EDITOR.name, PermissionsHelper.MemberType.group);
 
+        setEHRModuleProperties();
+        createUsersandPermissions();
+        defineQCStates();
 
         importStudy();
+        defineQCStates();
         setup_sndData();
-        setEHRModuleProperties();
 
         // add ehr extensible columns
         runScript(SetupScripts.CREATE_EHR_DOMAINS);
@@ -142,16 +144,6 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
         {
             e.printStackTrace();
         }
-    }
-
-    @LogMethod
-    protected void setEHRModuleProperties()
-    {
-        List<ModulePropertyValue> props = new ArrayList<>();
-        props.add(new ModulePropertyValue("EHR", "/" + getProjectName(), "EHRStudyContainer", "/" + getProjectName() ));
-
-        goToProjectHome();
-        setModuleProperties(props);
     }
 
     protected void importStudy()
@@ -300,9 +292,9 @@ public class SNPRC_schedulerTest extends BaseWebDriverTest implements Javascript
 
 
     @Override
-    protected BrowserType bestBrowser()
+    protected String getModuleDirectory()
     {
-        return BrowserType.CHROME;
+        return "snprcEHRModules/snprc_scheduler";
     }
 
     @Override
