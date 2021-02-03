@@ -101,9 +101,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String SNPRC_ROOM_ID = "S824778";
     private static final String SNPRC_ROOM_ID2 = "S043365";
 
-    private static Integer _pipelineJobCount = 0;
-
-    private boolean _hasCreatedBirthRecords = false;
+    private static int _pipelineJobCount = 0;
 
     @Override
     public String getModuleDirectory()
@@ -175,7 +173,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         initSND();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
-        _assayHelper = new UIAssayHelper(this); // API Helper is causing browser timeouts on experiment-showAddXarFile
+        _assayHelper = new APIAssayHelper(this);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
         _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
@@ -242,29 +240,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), getModulePath() + "/resources/referenceStudy");
-        setPipelineRoot(path.getPath());
-
-        beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + getContainerPath() + "/begin.view");
-        clickButton("Process and Import Data", defaultWaitForPage);
-
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.checkFileBrowserFileCheckbox("study.xml");
-
-        if (isTextPresent("Reload Study"))
-            _fileBrowserHelper.selectImportDataAction("Reload Study");
-        else
-            _fileBrowserHelper.selectImportDataAction("Import Study");
-
-        if (skipStudyImportQueryValidation())
-        {
-            Locator cb = Locator.checkboxByName("validateQueries");
-            waitForElement(cb);
-            uncheckCheckbox(cb);
-        }
-
-        clickButton("Start Import"); // Validate queries page
-        waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
+        importStudyFromPath(++_pipelineJobCount);
     }
 
     protected void initSND()
@@ -435,7 +411,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         searchPanel.selectValues("Gender", false, " All");
         assertEquals("Selecting 'All' genders didn't set input correctly", "Female;Male;Unknown", getFormElement(Locator.input("gender")));
         searchResults = searchPanel.submit();
-        assertEquals("Wrong number of rows for searching all genders", 43, searchResults.getDataRowCount());
+        assertEquals("Wrong number of rows for searching all genders", 41, searchResults.getDataRowCount());
 
         goBack();
         searchPanel = new AnimalSearchPanel(getDriver());
@@ -451,7 +427,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         searchPanel.setFilter("Id", null, "1");
         searchResults = searchPanel.submit();
         assertElementPresent(Locator.linkWithText("TEST1020148"));
-        assertEquals("Wrong number of rows: 'Id' contains '1'", 22, searchResults.getDataRowCount());
+        assertEquals("Wrong number of rows: 'Id' contains '1'", 20, searchResults.getDataRowCount());
 
         goBack();
         searchPanel = new AnimalSearchPanel(getDriver());
@@ -796,7 +772,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         participantViewPage.clickReportTab("Procedures Before Disposition");
         remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Procedure Text");
-        assertEquals("Report should show events less than 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days"), remarkColumn);
+        assertEquals("Report should show events less than or equal to 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days", "necropsy -4days"), remarkColumn);
     }
 
     @Test

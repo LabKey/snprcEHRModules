@@ -12,11 +12,11 @@ const parse = rows => {
 }
 
 const fetchAnimalId = chipId => {
-    const parameters = {'chipId': chipId}
+    const parameters = {'chipId': `%${chipId}%`}
     const sql = 'PARAMETERS ( chipId VARCHAR DEFAULT NULL ) '
         .concat('SELECT ih.Id AS Id, ih.Id.curLocation.location as location ')
         .concat('FROM study.idHistory as ih ')
-        .concat('WHERE ih.value = chipId')
+        .concat("WHERE ih.value like chipId")
 
     return new Promise((resolve, reject) => {
 

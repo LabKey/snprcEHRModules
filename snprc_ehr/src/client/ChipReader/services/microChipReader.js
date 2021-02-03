@@ -25,8 +25,8 @@ export const getChipData = async (connection) => {
         // process chip data
         if (data.indexOf('XX') === -1) {  // clean queue
 
-            if (data.substring(0, 7) === '1000000') { // remove BIOMARK prefix
-                data = data.substring(7, data.length)
+            if (data.substring(0, 7) === '1000000') { // find 7 digit BIOMARK prefix
+                data = data.substring(10, data.length) // remove 10 digit prefix
             }
             else if (data.slice(-1) === ',') { // remove trailing comma from certain UID chips
                 data = data.substring(0, data.length - 1)
