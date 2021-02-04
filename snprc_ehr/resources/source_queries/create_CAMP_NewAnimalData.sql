@@ -71,13 +71,6 @@ go
 
 /*****   Insert trigger that distributes the data to Animal tables   *****/
 
-/************************************************************************
-Object:  Trigger [labkey_etl].[ti_NewAnimalData]    Script Date: 2/2/2021 8:33:51 AM
-
-
-
-************************************************************************/
-
 /***********************************************************************************
 -- =============================================
 --
@@ -96,8 +89,6 @@ NAD broke between 7/9/20 and 8/25/20
 srouse	srouse@vogon	2020-07-09 09:58:03.963
 NULL	srouse@vogon	2020-08-25 16:29:32.860
 ***********************************************************************************/
-
-
 
 
 CREATE TRIGGER [labkey_etl].[ti_NewAnimalData] ON [labkey_etl].[NewAnimalData] FOR INSERT AS
@@ -140,12 +131,9 @@ SELECT tid,
        RIGHT(SPACE(6) + dam, 6),
        CreatedUserName
 FROM inserted i;
--- inserted table only not usefull WHERE SyncDate IS NULL;
 
 -- dam processing
-
-
--- insert shim
+-- insert shim for adding new data types
 /*
 SELECT t.id,
 		t.CreatedBy
@@ -213,7 +201,6 @@ ON i.tid = t.tid
     ON i.DietInt = vd.tid;
 
 -- ownership
--- insert shim
 INSERT INTO  dbo.animal_ownership
 (
     id,
@@ -230,7 +217,6 @@ SELECT t.id, i.OwnerInstitution, i.ResponsibleInstitution, NULL, i.AcquisitionDa
 FROM inserted i
          INNER JOIN @TxIds t
 ON i.tid = t.tid;
-
 
 INSERT INTO dbo.colony
 ( id ,
@@ -312,6 +298,7 @@ FROM inserted i
          INNER JOIN @TxIds t
 ON i.tid = t.tid;
 -- Add trimmed id as TxBiomed Tattoo
+-- exclude hamsters
 INSERT INTO dbo.id_history
 ( sfbr_id ,
   id_date ,
@@ -327,19 +314,8 @@ SELECT t.id, i.AcquisitionDate, t.id, 3, 1, 'ETL from TAC',
 FROM inserted i
          INNER JOIN @TxIds t
 ON i.tid = t.tid
-
-    /* not sure how to handle this*****
-    -- May need to pass in getdate to insert()
-    -- set process date in NewAnimalData
-    UPDATE labkey_etl.NewAnimalData
-    SET ProcessedDate = @insertDateTime
-    WHERE ProcessedDate IS NULL
-    ******** END **********************/
-
-
-
-    /******************  Functional code STOP ********************************/
-
+WHERE i.Species NOT IN ('HAM')
+    /******************  Functional code END ********************************/
 
 
     RETURN  -- all is well
@@ -354,3 +330,8 @@ END
 
 ALTER TABLE [labkey_etl].[NewAnimalData] ENABLE TRIGGER [ti_NewAnimalData]
     GO
+
+-- Table permits
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey_etl.NewAnimalData TO z_labkey;
+GRANT VIEW DEFINITION ON labkey_etl.NewAnimalData TO z_labkey;
+GO
