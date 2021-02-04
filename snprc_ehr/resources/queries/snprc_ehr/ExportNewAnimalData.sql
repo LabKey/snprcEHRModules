@@ -6,6 +6,7 @@
 
 
  srr 07.07.2020
+  Syncing with current table structure 02.02.21
  ********************************************************/
 
 SELECT
@@ -41,6 +42,6 @@ SELECT
     n.Created,
     n.CreatedBy,
     n.CreatedBy.email AS CreatedByEmail,
-    n.CreatedBy.displayname AS CreatedUserName
-
+    n.CreatedBy.displayname AS CreatedUserName,
+    n.Container
 FROM snprc_ehr.NewAnimalData n
