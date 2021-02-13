@@ -19,6 +19,8 @@
 -- 04/03/2018 Scott Rouse
 -- Cleaned up
 -- 11/08/2018
+-- Changed curdate to now
+-- 02/03/2021 srr
 SELECT
 a.id as id,
 a.date as acq_date,
@@ -29,9 +31,9 @@ d.dispositionType.value as disp_code,
 d.dispositionType
 FROM arrival a
 	LEFT OUTER JOIN departure d
-	on d.id = a.id and a.date < ifnull(d.date,curdate())
+	on d.id = a.id and a.date < ifnull(d.date,now())
 
-where a.date < ifnull(d.date,curdate())
+where a.date < ifnull(d.date,now())
   and   ( d.date = (select min(z.date) from departure z where z.id = d.id and z.date > a.date)
                  or
        d.date is NULL)
