@@ -34,11 +34,13 @@ ALTER VIEW [labkey_etl].[V_BLOOD] AS
 -- DESCRIPTION:	View provides the blood draw data for LabKey
 -- Changes:
 -- 11/10/2016  added modified, modifiedby, created, and createdby columns tjh
+-- 1/27/2021   added eventId column and joined with demographics view tjh
 --
 -- ==========================================================================================
 
 SELECT
   ID,
+  EventId,
   BLEED_DATE_TM                       AS date,
   ADMIT_CHARGE_ID,
   project,
@@ -57,6 +59,7 @@ FROM
 
       SELECT
         AE.ANIMAL_ID                                            AS ID,
+        AE.ANIMAL_EVENT_ID                                      AS EventId,
         AE.EVENT_DATE_TM                                        AS BLEED_DATE_TM,
         CASE WHEN AE.ADMIT_ID IS NULL OR AE.ADMIT_ID = 0
           THEN CASE WHEN AE.CHARGE_ID = 0 OR AE.CHARGE_ID IS NULL
@@ -72,7 +75,6 @@ FROM
         CP.PROC_ID,
         CPA.VALUE                                               AS VALUE,
         CPA.ATTRIB_KEY,
-        --CAST(cp.OBJECT_ID AS VARCHAR(36))                       AS objectid,
         cp.OBJECT_ID                                            AS objectid,
         CP.entry_date_tm                                        AS modified,
         dbo.f_map_username(CP.user_name)                        AS modifiedby,
@@ -87,7 +89,8 @@ FROM
         INNER JOIN ANIMAL_EVENTS AE ON CP.ANIMAL_EVENT_ID = AE.ANIMAL_EVENT_ID
         INNER JOIN CODED_PROC_ATTRIBS AS CPA ON CP.PROC_ID = CPA.PROC_ID
         LEFT OUTER JOIN CHARGE_ACCOUNT AS CA ON AE.CHARGE_ID = CA.CHARGE_ID AND CA.STOP_DATE IS NULL
-
+        -- select primates only from the TxBiomed colony
+        INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = AE.ANIMAL_ID
       WHERE SP.PKG_ID IN (SELECT pc.PKG_ID
                           FROM dbo.PKG_CATEGORY AS pc
                             INNER JOIN dbo.VALID_CODE_TABLE AS vct ON pc.CATEGORY_CODE = vct.CODE

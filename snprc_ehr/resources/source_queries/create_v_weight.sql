@@ -36,10 +36,12 @@ ALTER VIEW [labkey_etl].[V_WEIGHT] AS
 --  11/19/2015	Changed query to use the pkg_category/valid_code_table to find weight pkg codes. tjh
 -- 11/15/2016  added modified, modifiedby, created, and createdby, parentid columns + code cleanup tjh
 -- 11/29/2016  added project column. tjh
+-- 1/27/2021   added eventId. tjh
 -- ==========================================================================================
 
 SELECT
   ae.ANIMAL_ID                     AS id,
+  ae.ANIMAL_EVENT_ID                AS EventId,
   ae.EVENT_DATE_TM                 AS date,
   CAST(cpa.VALUE AS NUMERIC(7, 4)) AS weight,
   ae.charge_id                     AS project,

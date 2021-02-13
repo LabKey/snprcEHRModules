@@ -37,11 +37,12 @@ ALTER VIEW [labkey_etl].[V_VITALS] AS
 -- 11/15/2016  added modified, modifiedby, created, and createdby, parentid columns tjh
 -- 11/29/2016  added project column. tjh
 -- 4/25/2017   fixed created/createdby bug. tjh
---
+-- 1/27/2021   added eventId. tjh
 -- ==========================================================================================
 
 SELECT
   ID,
+  EventId,
   DATE_TM                     AS date,
   project,
   CAST(RR AS NUMERIC(4, 0))   AS respRate,
@@ -60,6 +61,7 @@ FROM
 
       SELECT
         AE.ANIMAL_ID                              AS ID,
+        AE.ANIMAL_EVENT_ID                        AS EventId,
         AE.EVENT_DATE_TM                          AS DATE_TM,
         ae.charge_id                              AS project,
         CASE WHEN ISNUMERIC(cpa.value) <> 1
