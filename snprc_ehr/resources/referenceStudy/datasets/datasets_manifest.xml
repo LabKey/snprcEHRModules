@@ -59,9 +59,6 @@
         <dataset name="treatment_order" id="1037" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="vitals" id="1063" showByDefault="true" category="Clinical" type="Standard">
-            <tags/>
-        </dataset>
         <dataset name="iStat" id="5026" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>

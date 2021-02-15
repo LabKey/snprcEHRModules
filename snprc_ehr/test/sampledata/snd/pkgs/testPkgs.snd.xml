@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<export xmlns="http://txbiomed.org/snd" xmlns:dat="http://labkey.org/data/xml">
+    <packages>
+        <package id="1" description="Vitals" repeatable="true" displayable="true" usda-category="U">
+            <narrative>Heart rate = {HR} bpm, temperature = {temp} F, respiration rate = {RR} bpm</narrative>
+            <attributes>
+                <attribute columnName="HR">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>true</dat:nullable>
+                    <dat:columnTitle>HR</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=250&amp;~gte=0.0000</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
+                <attribute columnName="temp">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>true</dat:nullable>
+                    <dat:columnTitle>Temp</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:formatString>0.##</dat:formatString>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=109&amp;~gte=80.0000</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
+                <attribute columnName="RR">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>true</dat:nullable>
+                    <dat:columnTitle>RR</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=150&amp;~gte=4.0000</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
+            </attributes>
+        </package>
+        <package id="2" description="Weight" repeatable="true" displayable="true" usda-category="U">
+            <narrative>Weight = {weight} kg</narrative>
+            <attributes>
+                <attribute columnName="weight">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>false</dat:nullable>
+                    <dat:columnTitle>Weight</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:formatString>0.##</dat:formatString>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=200&amp;~gte=0.0001</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
+            </attributes>
+        </package>
+        <package id="3" description="Cumulative blood draw" repeatable="true" displayable="true" usda-category="U">
+            <narrative>Cumulative blood draw of {blood_volume} mL for {reason}</narrative>
+            <attributes>
+                <attribute columnName="blood_volume">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>false</dat:nullable>
+                    <dat:columnTitle>Blood volume</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=1000&amp;~gte=0.0000</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
+                <attribute columnName="reason">
+                    <dat:datatype>string</dat:datatype>
+                    <dat:nullable>true</dat:nullable>
+                    <dat:columnTitle>Reason</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                </attribute>
+            </attributes>
+        </package>
+        <package id="4" description="Alopecia score" repeatable="false" displayable="true" usda-category="U">
+            <narrative>Alopecia score: {alopeciaScore} Scored by: {scorer}</narrative>
+            <attributes>
+                <attribute columnName="alopeciaScore">
+                    <dat:datatype>double</dat:datatype>
+                    <dat:nullable>false</dat:nullable>
+                    <dat:columnTitle>Alopecia score</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                    <dat:validators>
+                        <dat:validator>
+                            <dat:name>Range</dat:name>
+                            <dat:typeURI>urn:lsid:labkey.com:PropertyValidator:range</dat:typeURI>
+                            <dat:expression>~lte=5&amp;~gte=0.0000</dat:expression>
+                        </dat:validator>
+                    </dat:validators>
+                </attribute>
+                <attribute columnName="scorer">
+                    <dat:datatype>string</dat:datatype>
+                    <dat:nullable>false</dat:nullable>
+                    <dat:columnTitle>Scored by</dat:columnTitle>
+                    <dat:inputType>text</dat:inputType>
+                </attribute>
+            </attributes>
+        </package>
+    </packages>
+    <superPackages>
+        <superPackage superPkgId="1" pkgId="1">
+            <children/>
+        </superPackage>
+        <superPackage superPkgId="2" pkgId="2">
+            <children/>
+        </superPackage>
+        <superPackage superPkgId="3" pkgId="3">
+            <children/>
+        </superPackage>
+        <superPackage superPkgId="4" pkgId="4">
+            <children/>
+        </superPackage>
+    </superPackages>
+</export>

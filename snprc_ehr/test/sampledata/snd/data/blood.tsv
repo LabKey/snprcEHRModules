@@ -1,0 +1,942 @@
+"date"	"id"	"reason"	"blood_volume"
+"2009-01-12 11:15:00.0"	"TEST3804589"	"lectus id taciti condimentum urna et cursus malesuada porta malesuada suscipit ut amet et"	0.1
+"2009-01-26 09:15:00.0"	"TEST3804589"	"sit tristique ac tortor nibh ornare pellentesque nec tortor dolor fringilla faucibus tortor"	0.1
+"2009-01-29 09:30:00.0"	"TEST3804589"	"mauris luctus sapien sit dui eu dapibus eleifend quis sit dui suscipit tellus lorem lorem"	0.1
+"2009-02-02 09:15:00.0"	"TEST3804589"	"metus vestibulum facilisis nibh rhoncus sed arcu metus turpis ac quis eu sed varius purus"	0.1
+"2009-02-05 09:30:00.0"	"TEST3804589"	"quam a laoreet fringilla odio dui posuere nec aliquet fringilla in lacinia nisi phasellus"	0.1
+"2009-02-09 09:30:00.0"	"TEST3804589"	"vel et morbi eleifend vitae molestie tristique a suspendisse lacus condimentum vivamus fusce"	0.1
+"2009-02-12 09:15:00.0"	"TEST3804589"	"nunc arcu nulla vel a est felis magna posuere dui ac ut sed mi porta cursus nisl  nascetur"	0.1
+"2009-02-16 09:15:00.0"	"TEST3804589"	"fringilla eu pulvinar diam eros donec id amet dapibus condimentum volutpat phasellus nunc"	0.1
+"2009-02-19 10:00:00.0"	"TEST3804589"	"purus non congue egestas sit risus quam pharetra nibh elementum et lobortis metus arcu ut"	0.1
+"2009-02-23 09:15:00.0"	"TEST3804589"	"proin sed urna mi nam et leo curae; sit non dignissim ut volutpat congue aliquam aliquam"	0.1
+"2009-02-26 09:45:00.0"	"TEST3804589"	"sociis in maecenas consectetur varius libero torquent vehicula sed nibh sed mauris non nec"	0.1
+"2009-03-01 09:15:00.0"	"TEST3804589"	"suspendisse amet metus lacinia tortor gravida cras et sed non vitae suspendisse nibh ac"	0.1
+"2009-03-04 09:30:00.0"	"TEST3804589"	"placerat mus tincidunt lectus odio id auctor nunc non consequat sem est amet tristique convallis"	0.1
+"2009-03-08 09:15:00.0"	"TEST3804589"	"parturient nisl turpis luctus vel donec molestie et arcu ad consectetur duis nulla in egestas"	0.1
+"2009-03-11 10:00:00.0"	"TEST3804589"	"tincidunt et sapien lorem scelerisque tempus fringilla maecenas risus nunc dictum placerat"	0.1
+"2009-03-15 09:15:00.0"	"TEST3804589"	"sem eget condimentum sed faucibus ipsum luctus leo sit litora quis ante est nunc quis quisque"	0.1
+"2009-03-18 09:45:00.0"	"TEST3804589"	"elementum sed sed gravida lacinia et risus bibendum tempor dui ut sed adipiscing sit enim"	0.1
+"2009-03-22 10:00:00.0"	"TEST3804589"	"urna consequat est tellus parturient non eleifend mus ante aliquet ut cursus mi lobortis"	0.1
+"2009-03-25 09:15:00.0"	"TEST3804589"	"tortor sollicitudin sapien etiam sit nisi mauris ultricies adipiscing lorem amet sed elit"	0.1
+"2009-03-29 09:45:00.0"	"TEST3804589"	"a condimentum nulla id auctor quis eget vel suspendisse ante urna  amet mauris dis gravida"	0.1
+"2009-04-01 09:00:00.0"	"TEST3804589"	"curabitur gravida elementum a euismod suspendisse volutpat imperdiet sagittis volutpat lorem"	0.1
+"2009-04-05 09:15:00.0"	"TEST3804589"	"vehicula enim interdum adipiscing pulvinar suscipit malesuada semper porta posuere eros"	0.1
+"2009-04-08 10:00:00.0"	"TEST3804589"	"tincidunt augue nisi posuere augue quisque dolor at felis mauris enim tempor imperdiet in"	0.1
+"2009-04-12 09:45:00.0"	"TEST3804589"	"felis et eu sed dui nisl mauris auctor sollicitudin lacinia quis nec class etiam nec ac"	0.1
+"2009-04-15 09:15:00.0"	"TEST3804589"	"quis posuere dolor sapien congue vitae nisl vulputate id turpis vulputate sagittis nec sed"	0.1
+"2009-04-19 09:00:00.0"	"TEST3804589"	"auctor blandit nulla urna suspendisse aptent amet et eu turpis sollicitudin sit elit neque"	0.1
+"2009-05-13 10:15:00.0"	"TEST3804589"	"purus tincidunt a mollis sed tristique purus placerat sed mi facilisis eu non egestas nulla"	0.1
+"2009-05-17 09:15:00.0"	"TEST3804589"	"tellus cursus pellentesque  ligula at egestas nam augue mattis ultrices ipsum scelerisque"	0.1
+"2009-05-20 09:15:00.0"	"TEST3804589"	"leo est morbi id nec nisl dignissim id pharetra id pellentesque id gravida id sollicitudin"	0.1
+"2009-05-24 10:00:00.0"	"TEST3804589"	"auctor dolor dictum eget dignissim vestibulum nec nunc turpis ultricies tortor sed praesent"	0.1
+"2009-05-27 09:15:00.0"	"TEST3804589"	"erat donec libero pretium semper felis ante elementum diam pulvinar nisl tincidunt pulvinar"	0.1
+"2009-06-01 09:00:00.0"	"TEST3804589"	"tincidunt dui varius ut amet velit nullam aliquet ac class sapien rhoncus nibh auctor faucibus"	0.1
+"2009-06-03 09:15:00.0"	"TEST3804589"	"facilisis lectus sodales nisl viverra sit cursus sed risus purus vitae ornare elementum"	0.1
+"2009-06-07 09:15:00.0"	"TEST3804589"	"amet nulla morbi sem vestibulum purus euismod in turpis sit eu nullam nulla a lacinia consequat"	0.1
+"2009-06-10 09:15:00.0"	"TEST3804589"	"metus eu pellentesque magna porta et sed mollis sapien in viverra elit sit at tellus elit"	0.1
+"2009-06-14 09:30:00.0"	"TEST3804589"	"posuere praesent rhoncus volutpat mauris ipsum ac sed arcu dignissim ut orci metus luctus"	0.1
+"2009-06-17 10:00:00.0"	"TEST3804589"	"at pretium et vestibulum odio metus fringilla dictum placerat id ut eros adipiscing tincidunt"	0.1
+"2009-06-21 10:00:00.0"	"TEST3804589"	"ante interdum interdum dolor augue nascetur massa malesuada at aliquet dignissim porta suscipit"	0.1
+"2009-06-24 10:00:00.0"	"TEST3804589"	"integer augue vestibulum ipsum id et eu varius eu tincidunt ac erat nibh urna mauris justo"	0.1
+"2009-06-28 09:30:00.0"	"TEST3804589"	"diam libero mauris nullam sed mauris tellus enim at purus nec porttitor diam fermentum "	0.1
+"2009-07-01 09:30:00.0"	"TEST3804589"	"eget nibh sodales sem sed vel sed urna in non ut vulputate vehicula neque aliquet est augue"	0.1
+"2009-07-06 10:00:00.0"	"TEST3804589"	"phasellus lectus vitae purus donec amet cursus erat elit ipsum ante amet pellentesque arcu"	0.1
+"2009-07-08 09:30:00.0"	"TEST3804589"	"gravida sem dignissim facilisis egestas metus ullamcorper cursus consectetur praesent ac"	0.1
+"2009-07-12 09:10:00.0"	"TEST3804589"	"suscipit eget tempus mi tristique non vitae leo amet gravida eu sit vitae dolor mattis nec"	0.1
+"2009-07-15 10:00:00.0"	"TEST3804589"	"malesuada odio consectetur tempus auctor mi gravida quam in sit praesent nulla et tellus"	0.1
+"2009-07-19 09:20:00.0"	"TEST3804589"	"maecenas tellus id urna neque sapien semper vestibulum venenatis suscipit dignissim consequat"	0.1
+"2009-07-22 09:20:00.0"	"TEST3804589"	"feugiat elementum dictum elit id sed eget malesuada urna tincidunt proin nulla nullam fusce"	0.1
+"2009-07-26 09:30:00.0"	"TEST3804589"	"mi augue ut sed pretium ultricies dignissim ligula at bibendum dui risus eros sed a laoreet"	0.1
+"2009-07-29 09:20:00.0"	"TEST3804589"	"eu rhoncus erat eget felis diam et vitae lobortis vivamus dictum semper euismod quis proin"	0.1
+"2009-08-02 09:20:00.0"	"TEST3804589"	"sagittis elit nisi quis dui vestibulum dui dictumst dignissim eleifend pulvinar nullam placerat"	0.1
+"2009-08-05 10:00:00.0"	"TEST3804589"	"ante sodales neque dolor erat semper ac neque augue leo sem ante sit eget consectetur sodales"	0.1
+"2009-08-09 09:20:00.0"	"TEST3804589"	"leo commodo augue aenean  ligula ad vestibulum mollis maecenas at nunc faucibus sit massa"	0.1
+"2009-08-10 07:33:00.0"	"TEST3804589"	"eget arcu fusce dui integer non felis consectetur ut sodales consequat sapien in dolor luctus"	0.1
+"2009-08-10 13:37:00.0"	"TEST3804589"	"dolor lorem vulputate  dolor egestas sapien curabitur aliquam dolor non vivamus magna cras"	0.1
+"2009-08-10 14:40:00.0"	"TEST3804589"	"curabitur elit placerat porta amet luctus aliquet quis sit sollicitudin et  ut nisi vehicula"	0.1
+"2009-08-10 15:41:00.0"	"TEST3804589"	"egestas auctor in hendrerit sed sollicitudin sagittis metus urna posuere vestibulum amet"	0.1
+"2009-08-10 07:23:00.0"	"TEST3804589"	"at nunc suscipit volutpat vitae orci a arcu ornare nec at velit gravida donec primis donec"	0.3
+"2009-08-10 13:37:00.0"	"TEST3804589"	"justo bibendum consequat non est a  magna commodo mus consectetur amet risus vulputate"	0.3
+"2009-08-10 14:40:00.0"	"TEST3804589"	"vitae dui libero id nec ultrices turpis tellus volutpat amet felis sem vehicula ac justo"	0.3
+"2009-08-10 14:41:00.0"	"TEST3804589"	"tellus ac aliquam scelerisque mi mus ante mauris mauris egestas consectetur in sociosqu"	0.3
+"2009-08-16 09:00:00.0"	"TEST3804589"	"amet non at molestie duis habitant nibh elementum tellus sed quisque quis dictum in hendrerit"	0.1
+"2009-08-19 09:00:00.0"	"TEST3804589"	"tristique cubilia pellentesque fermentum sit vitae augue mi dapibus metus turpis nec odio"	0.1
+"2009-08-23 09:15:00.0"	"TEST3804589"	"mattis dapibus nisi iaculis libero magna ut diam augue nibh at quis eget vel tortor sagittis"	0.1
+"2009-08-26 09:00:00.0"	"TEST3804589"	"imperdiet consequat eget vivamus purus urna velit ut praesent neque gravida vitae id a ligula"	0.1
+"2009-08-30 09:00:00.0"	"TEST3804589"	"cras quam tincidunt ac nam enim ante pellentesque condimentum  eu semper enim amet adipiscing"	0.1
+"2009-09-02 09:00:00.0"	"TEST3804589"	"porta luctus placerat vel auctor a dignissim accumsan nibh auctor bibendum felis sed eu eget"	0.1
+"2009-09-07 09:30:00.0"	"TEST3804589"	"viverra quam dolor in lacus ut volutpat dui nunc elit maecenas commodo non ut vestibulum"	0.1
+"2009-09-09 09:00:00.0"	"TEST3804589"	"lacinia ante interdum vitae quis tincidunt sapien ullamcorper suscipit ligula dui at vestibulum"	0.1
+"2009-09-14 09:15:00.0"	"TEST3804589"	"phasellus quisque magnis vehicula ullamcorper amet lacinia libero sit urna suscipit eleifend"	0.1
+"2009-09-15 07:06:00.0"	"TEST3804589"	"dui nostra eu lobortis lorem lobortis donec ut condimentum in sed vel sed nulla porttitor"	0.1
+"2009-09-15 13:19:00.0"	"TEST3804589"	"augue posuere facilisis nunc a sed quam morbi quisque nunc ad amet in id quis luctus lacus"	0.1
+"2009-09-15 14:21:00.0"	"TEST3804589"	"tincidunt suspendisse suscipit metus commodo aliquet sed elit aliquam quam nisl eu nulla"	0.1
+"2009-09-15 15:21:00.0"	"TEST3804589"	"nec odio rutrum quis lectus sapien aliquam tellus tortor eleifend proin nam eu potenti massa"	0.1
+"2009-09-15 07:06:00.0"	"TEST3804589"	"at non arcu tincidunt rutrum  et phasellus in urna ut sollicitudin erat non risus commodo"	0.3
+"2009-09-15 13:19:00.0"	"TEST3804589"	"sit et pharetra nunc eros eu aliquam eget felis vitae congue blandit posuere ac eu torquent"	0.3
+"2009-09-15 14:21:00.0"	"TEST3804589"	"tortor inceptos malesuada libero in penatibus rhoncus et augue eros praesent euismod arcu"	0.3
+"2009-09-15 15:21:00.0"	"TEST3804589"	"ipsum eu laoreet ultricies id est tempus posuere egestas nunc sapien vivamus feugiat adipiscing"	0.3
+"2009-09-20 09:00:00.0"	"TEST3804589"	"sed lectus fringilla gravida ligula sit morbi libero auctor quis lorem nec rhoncus varius"	0.1
+"2009-09-27 08:45:00.0"	"TEST3804589"	"nam mi tincidunt urna vehicula viverra ut vestibulum facilisis eleifend aliquam imperdiet"	0.1
+"2009-10-04 09:00:00.0"	"TEST3804589"	"lobortis sollicitudin ut nunc cursus felis nulla condimentum justo morbi nulla magna lobortis"	0.1
+"2009-10-11 09:00:00.0"	"TEST3804589"	"vehicula fusce non egestas volutpat parturient risus dis lacus morbi integer cursus fermentum"	0.1
+"2009-10-14 09:00:00.0"	"TEST3804589"	"tempor  vel aliquet elit iaculis placerat enim arcu pellentesque nulla faucibus vel velit"	0.1
+"2009-10-18 09:00:00.0"	"TEST3804589"	"pellentesque ligula ultricies odio urna lorem scelerisque placerat etiam duis magna id nam"	0.1
+"2009-10-18 09:00:00.0"	"TEST3804589"	"ligula justo sed in ut diam leo amet felis ac condimentum diam purus nunc laoreet justo"	1.0
+"2009-10-18 09:00:00.0"	"TEST3804589"	"est odio sodales commodo sed sem quam faucibus euismod rhoncus quisque nunc auctor ornare"	0.9
+"2009-10-21 09:00:00.0"	"TEST3804589"	"augue maecenas aenean purus fusce magna nulla morbi scelerisque felis et vestibulum nulla"	0.1
+"2009-10-25 10:00:00.0"	"TEST3804589"	"et dapibus duis euismod nec sed ultricies dui porttitor per ut consequat a amet diam scelerisque"	0.1
+"2009-11-01 10:00:00.0"	"TEST3804589"	"nisi massa in posuere purus in bibendum velit ut pulvinar ad eget egestas laoreet quis nisi"	0.1
+"2009-11-22 10:30:00.0"	"TEST3804589"	"tincidunt volutpat aliquet sem risus varius sit suspendisse luctus amet ornare nec placerat"	0.1
+"2009-12-20 10:45:00.0"	"TEST3804589"	"sagittis amet imperdiet auctor placerat at ante ac egestas torquent in augue id et nisl sapien"	0.1
+"2010-01-17 10:10:00.0"	"TEST3804589"	"mi tristique posuere massa vitae mollis ac posuere quis nibh ullamcorper in bibendum pretium"	0.1
+"2010-02-14 10:30:00.0"	"TEST3804589"	"maecenas curabitur suspendisse in vivamus vestibulum augue nibh quis faucibus nulla mauris"	0.1
+"2010-03-28 17:03:00.0"	"TEST3804589"	"dictum lectus auctor sit tristique enim eu convallis senectus suspendisse volutpat suscipit"	0.3
+"2010-03-28 17:03:00.0"	"TEST3804589"	"suspendisse et eleifend vestibulum vel faucibus sit nunc urna ut sem pellentesque magna"	0.1
+"2010-03-29 17:18:00.0"	"TEST3804589"	"id posuere feugiat cubilia a sem nullam in convallis condimentum odio sed donec mi a augue"	0.3
+"2010-03-29 17:18:00.0"	"TEST3804589"	"mi feugiat euismod pulvinar luctus sem leo augue a venenatis pellentesque eros dapibus semper"	0.1
+"2010-04-11 10:25:00.0"	"TEST3804589"	"tristique nisl id fusce accumsan facilisis in non praesent quam morbi laoreet rutrum ante netus"	0.1
+"2010-05-21 09:31:00.0"	"TEST3804589"	"pulvinar orci at vel nam donec purus proin lorem laoreet cum elit rhoncus volutpat mi augue"	0.3
+"2010-05-21 09:46:00.0"	"TEST3804589"	"sem sed ante convallis amet ipsum lectus libero donec risus fusce nibh non purus porta magna"	0.3
+"2010-05-21 10:02:00.0"	"TEST3804589"	"quam at varius sagittis dolor nunc porta libero suscipit eu vitae non id turpis urna urna"	0.3
+"2010-05-21 09:31:00.0"	"TEST3804589"	"nisi vitae hendrerit mi a rutrum lacus dignissim non ac eget eu nisi proin amet ut varius"	0.1
+"2010-05-21 09:46:00.0"	"TEST3804589"	"molestie dapibus faucibus lobortis odio amet odio enim et et quisque ipsum etiam nulla tortor"	0.1
+"2010-05-21 10:02:00.0"	"TEST3804589"	"nibh nulla velit aliquam feugiat id vel et proin id consequat ipsum ante metus suspendisse"	0.1
+"2010-06-14 10:10:00.0"	"TEST3804589"	"lacus fermentum neque est odio integer vel blandit sed justo sem commodo enim sed fusce"	0.1
+"2010-06-14 10:30:00.0"	"TEST3804589"	"consectetur luctus id urna dictum vestibulum odio tincidunt at class dapibus sed et etiam"	0.1
+"2010-06-14 10:45:00.0"	"TEST3804589"	"vestibulum et vestibulum nam diam congue erat fringilla scelerisque placerat sollicitudin"	0.1
+"2010-06-14 10:10:00.0"	"TEST3804589"	"faucibus fusce vivamus elit turpis et bibendum metus sit odio eu pharetra id ligula leo"	0.3
+"2010-06-14 10:30:00.0"	"TEST3804589"	"orci nulla justo nec sed purus nunc  lectus tristique blandit est purus varius etiam gravida"	0.3
+"2010-06-14 10:45:00.0"	"TEST3804589"	"sed id lacus habitant hendrerit porta mollis nisl libero porta purus vitae felis vitae"	0.3
+"2010-07-04 10:30:00.0"	"TEST3804589"	"leo non at egestas pulvinar nisi fringilla lectus elit sed molestie metus turpis donec donec"	0.1
+"2010-08-01 10:30:00.0"	"TEST3804589"	"velit dolor non elit magna condimentum ipsum leo amet interdum faucibus porta nunc eget"	0.1
+"2010-08-29 07:30:00.0"	"TEST3804589"	"lacus vestibulum amet metus risus id sit ligula pharetra porttitor leo eu urna ullamcorper"	0.1
+"2010-09-26 07:30:00.0"	"TEST3804589"	"nunc in in vel odio metus lectus faucibus nisl eu vitae nisl nulla nisi sem mollis congue"	0.1
+"2010-10-24 09:15:00.0"	"TEST3804589"	"quam natoque  ante ridiculus aliquam id tincidunt dui ut luctus dignissim aptent non vehicula"	0.2
+"2010-11-21 07:30:00.0"	"TEST3804589"	"congue mattis eu sit vel scelerisque arcu et eu amet scelerisque pulvinar vestibulum elementum"	0.1
+"2010-12-12 07:30:00.0"	"TEST3804589"	"feugiat quis rutrum porttitor tellus quis hendrerit euismod sit quam libero semper  malesuada"	0.2
+"2011-01-09 07:30:00.0"	"TEST3804589"	"in ipsum ut vitae tempor risus malesuada ut cursus sem ultrices id etiam quam sapien varius"	0.2
+"2011-01-30 07:30:00.0"	"TEST3804589"	"purus lacus cras magna massa laoreet aenean proin consequat laoreet urna mauris dapibus"	0.2
+"2011-02-27 07:10:00.0"	"TEST3804589"	"euismod inceptos non nisi viverra nec vestibulum enim ut placerat placerat neque purus elit"	0.2
+"2011-03-27 07:05:00.0"	"TEST3804589"	"metus urna nulla dapibus turpis non quis lacinia mollis libero sit conubia in leo vitae"	0.3
+"2011-04-24 08:30:00.0"	"TEST3804589"	"malesuada maecenas ullamcorper eleifend rutrum at aliquam at fusce consectetur suscipit montes"	0.2
+"2011-05-22 07:55:00.0"	"TEST3804589"	"vestibulum ut ornare augue arcu sit at ipsum cum justo elementum facilisis praesent dolor"	0.2
+"2011-06-19 07:00:00.0"	"TEST3804589"	"et arcu nulla feugiat mollis in felis eget felis scelerisque magna sit proin ligula nisl"	0.2
+"2011-07-17 07:00:00.0"	"TEST3804589"	"enim aliquet ut commodo mauris tincidunt tellus rutrum pretium neque magna eu massa non lectus"	0.2
+"2011-08-14 07:15:00.0"	"TEST3804589"	"dapibus purus id nec neque sed dui lacus nec sodales  tempor elit ultricies turpis ultrices"	0.2
+"2011-09-11 07:43:00.0"	"TEST3804589"	"sed sed eu non lobortis arcu vestibulum sit erat vel sit vulputate vivamus vitae nunc  eu"	0.2
+"2011-10-09 07:06:00.0"	"TEST3804589"	"aliquet mauris arcu leo suspendisse felis eu imperdiet nec vestibulum sollicitudin auctor"	0.2
+"2011-11-06 07:47:00.0"	"TEST3804589"	"placerat est donec eu leo suscipit ad magna amet placerat faucibus sociis tortor justo lacus"	0.2
+"2011-12-04 07:00:00.0"	"TEST3804589"	"urna hendrerit eget sed amet nisl sit justo  et suspendisse sociosqu leo sociis ligula tellus"	0.3
+"2012-01-01 07:00:00.0"	"TEST3804589"	"aliquam suscipit ligula vel nec tellus proin et scelerisque in porta sapien ac scelerisque"	0.2
+"2012-01-15 07:00:00.0"	"TEST3804589"	"bibendum at donec luctus nullam ipsum dis dignissim blandit eget orci sem velit dolor malesuada"	0.2
+"2012-01-22 07:21:00.0"	"TEST3804589"	"pellentesque at lectus amet urna euismod ultricies suscipit sapien diam aliquam lacus tincidunt"	0.2
+"2012-01-29 07:00:00.0"	"TEST3804589"	"ut ut laoreet cursus nec nec suscipit interdum purus eget cursus turpis bibendum purus orci"	0.2
+"2012-02-05 07:10:00.0"	"TEST3804589"	"lorem arcu gravida nisi nulla tempor odio sed tincidunt quis adipiscing aptent porta velit"	0.2
+"2012-02-19 07:00:00.0"	"TEST3804589"	"enim laoreet neque amet nam sollicitudin quam nulla malesuada feugiat suspendisse amet tristique"	0.2
+"2012-03-05 07:00:00.0"	"TEST3804589"	"sodales ut sed ut quam adipiscing at quis ut varius vel ut ultricies elit vestibulum adipiscing"	0.2
+"2012-03-12 06:59:00.0"	"TEST3804589"	"nibh mauris elementum venenatis lorem id quisque odio id vestibulum rutrum tortor bibendum"	0.2
+"2012-04-09 07:00:00.0"	"TEST3804589"	"adipiscing ante auctor pellentesque quis semper eu varius in egestas pellentesque libero"	0.2
+"2012-05-07 07:00:00.0"	"TEST3804589"	"eget amet in pellentesque eros erat quis netus ultrices quam sit ut libero dictum rhoncus"	0.2
+"2012-06-04 06:00:00.0"	"TEST3804589"	"semper turpis nisi sed placerat nulla non pellentesque ut cursus dolor suscipit amet et"	0.3
+"2012-07-02 09:50:00.0"	"TEST3804589"	"aliquet vehicula amet viverra tincidunt per risus ultrices pharetra tincidunt elementum"	0.2
+"2012-07-09 10:00:00.0"	"TEST3804589"	"morbi mauris at porta sit maecenas felis tempor ut luctus elit fermentum accumsan nam diam"	0.2
+"2012-08-06 10:15:00.0"	"TEST3804589"	"elit lorem quis arcu porta vestibulum vestibulum lorem faucibus mattis at lacinia purus"	0.2
+"2012-09-03 06:10:00.0"	"TEST3804589"	"ultrices rhoncus ligula hendrerit commodo lorem aliquam felis integer rutrum leo feugiat"	0.3
+"2012-10-01 06:30:00.0"	"TEST3804589"	"ligula vitae integer nullam pharetra lacinia scelerisque velit sit at facilisis nunc in purus"	0.2
+"2012-10-29 08:00:00.0"	"TEST3804589"	"sed porta sed pellentesque facilisis tincidunt pellentesque libero euismod suscipit aliquam"	0.2
+"2012-11-26 06:00:00.0"	"TEST3804589"	"luctus diam nostra primis massa vel turpis facilisis ultricies rutrum quis dolor dignissim"	0.2
+"2012-12-21 06:00:00.0"	"TEST3804589"	"nec justo lorem et sit justo tincidunt libero massa maecenas ut aliquet eros enim morbi sollicitudin"	0.2
+"2013-01-07 10:45:00.0"	"TEST3804589"	"suscipit laoreet mauris penatibus velit volutpat quam ligula dictum vitae laoreet et vitae"	0.2
+"2013-01-14 09:45:00.0"	"TEST3804589"	"scelerisque odio curabitur ultricies et eget felis porttitor ac ullamcorper potenti arcu"	0.2
+"2013-02-11 11:40:00.0"	"TEST3804589"	"eget sit vel viverra eget turpis urna amet ut eget sed iaculis ut sapien posuere a integer"	0.2
+"2013-03-10 13:40:00.0"	"TEST3804589"	"volutpat dolor pellentesque euismod nisi porta fermentum ac ut nec at phasellus mauris at"	0.2
+"2013-04-07 13:35:00.0"	"TEST3804589"	"varius tortor rhoncus turpis quis leo diam eget sem sapien rutrum ac luctus feugiat feugiat"	0.2
+"2013-05-05 11:25:00.0"	"TEST3804589"	"odio quis sagittis amet curabitur egestas viverra class aliquet laoreet in turpis ullamcorper"	0.2
+"2013-06-02 13:10:00.0"	"TEST3804589"	"scelerisque cursus ipsum augue pellentesque scelerisque felis commodo pharetra turpis a"	0.2
+"2013-06-03 09:00:00.0"	"TEST3804589"	"eu ante ut condimentum ligula tristique vestibulum consequat eros dapibus"	2.98
+"2013-06-30 11:10:00.0"	"TEST3804589"	"id nibh erat nulla et varius cras duis mi neque tellus dignissim elit ut velit tincidunt"	0.2
+"2013-07-28 11:10:00.0"	"TEST3804589"	"neque accumsan vel blandit mauris auctor viverra ut praesent elementum nam a hac non sed"	0.2
+"2013-08-25 10:50:00.0"	"TEST3804589"	"pellentesque id ultrices erat neque erat consectetur duis donec sem ipsum egestas condimentum"	0.2
+"2013-09-29 12:20:00.0"	"TEST3804589"	"consectetur dolor tortor neque amet iaculis elementum vitae elementum quis id leo nam eros"	0.2
+"2013-10-06 12:30:00.0"	"TEST3804589"	"molestie ad dapibus amet non leo placerat sit adipiscing dolor sed ut et eu id lacus in"	0.2
+"2013-11-10 12:25:00.0"	"TEST3804589"	"donec ut senectus enim id tellus massa elementum elementum lorem nulla gravida dignissim"	0.2
+"2013-12-08 12:10:00.0"	"TEST3804589"	"sit id sapien non vitae in ut elit egestas aenean vitae commodo vel placerat commodo gravida"	0.2
+"2014-01-05 11:00:00.0"	"TEST3804589"	"quis luctus congue at vehicula nisi bibendum velit pulvinar ligula sit faucibus augue et"	0.2
+"2014-06-30 09:00:00.0"	"TEST3804589"	"velit felis placerat ridiculus adipiscing nibh ridiculus elit mauris"	3.0
+"2014-07-31 10:19:00.0"	"TEST3804589"	"eget ipsum nunc quis nec facilisis ultricies in urna vel non sapien"	3.0
+"2014-09-01 10:00:00.0"	"TEST3804589"	"etiam turpis sem etiam nunc ligula id aliquet felis vitae et dignissim"	3.0
+"2014-10-02 09:24:00.0"	"TEST3804589"	"rhoncus egestas gravida tristique in molestie sollicitudin diam posuere"	3.0
+"2015-04-06 11:23:00.0"	"TEST3804589"	"pulvinar etiam mauris vestibulum egestas massa ac venenatis vitae donec"	1.5
+"2015-09-28 14:00:00.0"	"TEST3804589"	"a metus sed eget in sapien hendrerit vulputate porttitor morbi neque"	0.1
+"2010-07-21 11:20:00.0"	"TEST4551032"	"porta eu augue parturient morbi pretium rutrum pellentesque turpis mauris"	3.5
+"2010-08-04 11:00:00.0"	"TEST4551032"	"sapien tempor accumsan curae; velit nostra auctor mus tortor fusce"	5.5
+"2011-04-11 08:30:00.0"	"TEST4551032"	"a pretium augue vel ac eget mauris sit vivamus vitae vestibulum a"	5.0
+"2011-06-17 09:50:00.0"	"TEST4551032"	"feugiat magna velit varius elementum odio hendrerit eu amet a malesuada vitae dapibus"	2.5
+"2011-10-05 08:45:00.0"	"TEST4551032"	"iaculis auctor sapien duis penatibus at tincidunt etiam tincidunt aliquam commodo conubia"	1.5
+"2011-10-06 08:30:00.0"	"TEST4551032"	"facilisi ut vel vel sociosqu tincidunt  nunc sit neque a eget vel amet odio ipsum vulputate"	2.0
+"2011-10-07 08:00:00.0"	"TEST4551032"	"scelerisque per augue laoreet ultricies velit eros pellentesque sed quam non non ullamcorper"	1.0
+"2011-10-08 08:40:00.0"	"TEST4551032"	"lacinia morbi suscipit scelerisque eget nunc quisque conubia iaculis sed hendrerit placerat"	1.0
+"2011-10-09 09:20:00.0"	"TEST4551032"	"nullam pretium felis leo maecenas urna pulvinar phasellus aliquam luctus neque tellus"	1.5
+"2011-10-10 13:00:00.0"	"TEST4551032"	"ligula ut aliquet ligula quam mollis lectus venenatis aliquam amet condimentum tincidunt"	1.5
+"2011-10-11 08:30:00.0"	"TEST4551032"	"vitae sollicitudin ornare maecenas posuere dolor amet ac faucibus porttitor sed eleifend"	0.5
+"2011-10-31 08:25:00.0"	"TEST4551032"	"volutpat lacus sodales tortor nec tincidunt eget eu dapibus tellus rutrum mi consectetur"	1.5
+"2011-11-01 11:05:00.0"	"TEST4551032"	"sed vel mus dui consequat neque cursus odio ut ultrices orci eu et libero sem nunc justo"	2.0
+"2011-11-02 08:05:00.0"	"TEST4551032"	"erat sit mattis massa tortor ullamcorper conubia et hac blandit tincidunt aliquet orci"	2.0
+"2011-11-03 13:40:00.0"	"TEST4551032"	"suspendisse suspendisse convallis amet ullamcorper dictumst consequat himenaeos feugiat"	1.5
+"2011-11-04 10:10:00.0"	"TEST4551032"	"rhoncus odio semper nec ac nibh nisi  consequat amet faucibus rhoncus amet erat viverra"	1.0
+"2011-11-05 11:20:00.0"	"TEST4551032"	"aenean ut tristique scelerisque sed porttitor ut vel torquent nulla tellus ante amet"	2.0
+"2011-11-06 10:40:00.0"	"TEST4551032"	"turpis ut in rutrum tincidunt senectus orci odio varius nec id tellus a auctor etiam"	1.0
+"2011-11-07 09:10:00.0"	"TEST4551032"	"etiam suspendisse mollis a urna malesuada metus metus ut diam taciti amet pellentesque"	2.0
+"2011-11-08 11:00:00.0"	"TEST4551032"	" ac semper volutpat elit sit enim tortor at a at mi vestibulum vel convallis himenaeos"	2.0
+"2011-11-09 07:55:00.0"	"TEST4551032"	"rutrum mauris diam ac sagittis ante neque vitae orci egestas sollicitudin egestas non"	1.0
+"2014-09-02 08:30:00.0"	"TEST4551032"	"lorem sollicitudin egestas nec et suspendisse nisi hac lacinia eget"	30.0
+"2015-06-24 09:45:00.0"	"TEST4551032"	"sagittis luctus imperdiet vestibulum non risus donec condimentum praesent"	3.5
+"2015-06-24 09:45:00.0"	"TEST4551032"	"amet euismod faucibus ultrices dignissim porta vitae mus est nec eget"	3.0
+"2015-09-14 08:15:00.0"	"TEST4551032"	"commodo ligula tincidunt nisl tortor imperdiet erat in lorem ac quisque"	5.0
+"2015-11-23 09:50:00.0"	"TEST4551032"	"ut vitae augue sit diam mauris sem elit velit id placerat condimentum"	5.5
+"2011-02-08 10:00:00.0"	"TEST5904521"	"tellus vehicula facilisis elit suspendisse fringilla viverra elementum"	5.5
+"2014-12-17 08:30:00.0"	"TEST5904521"	"mattis cursus quam egestas placerat hendrerit tincidunt non urna et"	26.0
+"2015-01-11 10:23:00.0"	"TEST5904521"	"nec ultrices magna vestibulum montes iaculis purus accumsan  natoque"	5.5
+"2015-06-24 09:42:00.0"	"TEST5904521"	"amet pellentesque fermentum turpis et posuere purus malesuada turpis"	3.5
+"2015-06-24 09:42:00.0"	"TEST5904521"	"magnis id at amet facilisis tempus pulvinar nec justo et molestie"	3.0
+"2015-09-14 08:15:00.0"	"TEST5904521"	"malesuada mi feugiat purus tortor suscipit in eleifend non ut aenean"	5.0
+"2010-01-07 00:00:00.0"	"TEST4564246"	"et nam senectus ipsum justo tristique taciti vestibulum lorem ut curabitur nisi congue"	1.0
+"2010-07-13 09:57:00.0"	"TEST4564246"	"nibh faucibus lorem non primis ut a integer ipsum aliquam amet sit"	3.0
+"2012-07-11 10:58:00.0"	"TEST4564246"	"pulvinar nunc feugiat venenatis justo vulputate eros porttitor consequat"	3.5
+"2012-08-28 08:50:00.0"	"TEST4564246"	"aliquam lobortis id porta laoreet congue donec facilisis sagittis sit"	4.5
+"2012-08-29 09:15:00.0"	"TEST4564246"	"in ultricies arcu nulla suspendisse velit volutpat ut pretium duis"	2.0
+"2013-01-30 09:31:00.0"	"TEST4564246"	"leo amet lorem velit justo purus nulla facilisis iaculis id diam suscipit tempor potenti"	2.0
+"2013-07-11 10:00:00.0"	"TEST4564246"	"porttitor turpis lacinia volutpat ac rutrum in porttitor egestas auctor"	3.5
+"2014-07-16 10:00:00.0"	"TEST4564246"	"ipsum nisi a porta nulla gravida nulla sit consequat duis cum massa"	3.5
+"2014-08-28 09:15:00.0"	"TEST4564246"	"massa lorem dapibus nulla lorem ad justo et orci eros venenatis eget"	3.5
+"2014-09-08 09:00:00.0"	"TEST4564246"	"enim vestibulum amet eros massa eu justo vestibulum et consequat tristique"	36.0
+"2015-01-29 10:54:00.0"	"TEST4564246"	"gravida faucibus accumsan proin purus tincidunt nulla placerat morbi"	3.5
+"2015-03-16 07:42:00.0"	"TEST4564246"	"vel non luctus a venenatis gravida et varius tristique auctor id vitae"	5.0
+"2015-05-04 08:30:00.0"	"TEST4564246"	"class dictum et eu vestibulum quam porttitor lorem leo gravida eu"	6.0
+"2015-06-29 07:54:00.0"	"TEST4564246"	"nulla aliquam viverra orci lacinia enim natoque commodo sed orci odio"	100.0
+"2015-10-12 07:30:00.0"	"TEST4564246"	"curabitur sed leo dolor euismod et vel augue turpis lobortis ligula"	3.5
+"2016-01-11 09:58:00.0"	"TEST4564246"	"cursus per accumsan praesent justo ut purus bibendum vitae neque arcu"	3.5
+"2016-07-12 10:27:00.0"	"TEST4564246"	"adipiscing dignissim ut donec in imperdiet natoque vel pellentesque"	5.5
+"2012-07-05 10:20:00.0"	"TEST6390238"	"purus nisi in sagittis phasellus dolor pellentesque nec fringilla lectus"	3.5
+"2013-01-28 10:28:00.0"	"TEST6390238"	"a vitae vel curae; donec a semper turpis hendrerit consectetur sociis nascetur vestibulum"	2.0
+"2013-07-09 11:00:00.0"	"TEST6390238"	"eu morbi integer in in himenaeos ligula vestibulum cursus convallis"	3.5
+"2014-04-30 11:38:00.0"	"TEST6390238"	"dui at lorem eros ante libero ac non semper nibh felis sagittis netus"	3.5
+"2014-05-19 08:10:00.0"	"TEST6390238"	"lacus ante ultrices id sagittis eget per sit vitae felis amet iaculis"	3.5
+"2014-07-30 09:09:00.0"	"TEST6390238"	"non quis   ut eget lacus nam est felis enim dolor magnis sodales integer eget varius ut"	2.0
+"2014-07-30 09:08:00.0"	"TEST6390238"	"iaculis auctor quis lobortis ac donec tincidunt eu dictum scelerisque"	3.5
+"2015-01-13 10:02:00.0"	"TEST6390238"	"neque elementum ac diam donec condimentum massa porta sed dictum sodales"	3.5
+"2016-01-18 10:03:00.0"	"TEST6390238"	"sit metus praesent at leo ipsum eget risus pretium nisl diam libero"	3.5
+"2012-09-19 08:25:00.0"	"TEST3997535"	"vel aptent sodales purus urna interdum dis porta tincidunt ut at adipiscing libero aliquam"	2.0
+"2013-07-02 11:30:00.0"	"TEST3997535"	"laoreet lacus non donec neque metus risus interdum ac lectus eget sed"	3.5
+"2014-06-04 10:24:00.0"	"TEST3997535"	"est molestie ut amet volutpat porta eleifend ut urna sodales orci"	7.0
+"2014-07-02 10:30:00.0"	"TEST3997535"	"volutpat fames fringilla ut odio accumsan donec non curabitur vestibulum"	7.0
+"2014-07-23 10:09:00.0"	"TEST3997535"	"ornare sodales vestibulum congue mus suscipit tincidunt elit posuere"	3.5
+"2014-07-23 10:09:00.0"	"TEST3997535"	"imperdiet nam leo pulvinar sit vitae iaculis a suscipit vulputate purus et id sed consectetur"	2.0
+"2015-01-26 08:31:00.0"	"TEST3997535"	"duis ante tellus cursus nisl ad nisi sit pulvinar non  eleifend feugiat"	3.5
+"2016-01-11 09:36:00.0"	"TEST3997535"	"accumsan sed sit pharetra massa a in mattis donec velit pellentesque"	3.5
+"2012-10-03 09:40:00.0"	"TEST2008446"	"elit ac id in eros commodo aliquam vivamus duis  ut ipsum amet non ornare pulvinar turpis id"	1.3
+"2013-07-08 11:40:00.0"	"TEST2008446"	"erat leo sit imperdiet porttitor eu erat donec in amet ut taciti etiam"	3.5
+"2014-07-16 10:00:00.0"	"TEST2008446"	"rutrum egestas felis amet in in luctus et hendrerit in fusce donec"	3.5
+"2015-01-13 09:56:00.0"	"TEST2008446"	"donec id porta quis porta curabitur enim lectus in neque porta consectetur"	3.5
+"2016-01-11 10:10:00.0"	"TEST2008446"	"litora morbi et leo tristique ultrices lorem et proin cum ut pellentesque"	3.5
+"2016-08-25 10:45:00.0"	"TEST2008446"	"pulvinar curabitur fermentum in mi sit vel lacus odio morbi libero"	3.0
+"2012-11-21 09:45:00.0"	"TEST499022"	"faucibus eleifend sit non cras suspendisse nunc elementum pellentesque"	0.75
+"2013-07-09 10:00:00.0"	"TEST499022"	"sem suspendisse eu libero condimentum tincidunt eget sodales varius"	3.5
+"2013-07-09 10:00:00.0"	"TEST499022"	"quam lorem amet at ultricies facilisis dolor morbi urna mauris placerat placerat in ultricies"	1.5
+"2014-07-01 09:30:00.0"	"TEST499022"	"vitae felis vivamus quis convallis eget urna molestie sapien consequat"	3.0
+"2015-01-26 09:18:00.0"	"TEST499022"	"accumsan sapien amet sed eget conubia fames malesuada at magna eget"	3.5
+"2016-01-18 10:00:00.0"	"TEST499022"	"ipsum consectetur quam in sit felis non ipsum sit eu vestibulum purus"	3.5
+"2013-06-12 10:56:00.0"	"TEST5171727"	"odio sociis massa non imperdiet phasellus a ut convallis id luctus eu sed eget vestibulum"	1.0
+"2014-07-07 10:19:00.0"	"TEST5171727"	"morbi fusce quis pulvinar convallis non tincidunt consequat molestie"	3.5
+"2014-10-07 10:05:00.0"	"TEST5171727"	"libero sapien laoreet eleifend id nulla erat nulla vestibulum ac ipsum"	5.5
+"2014-12-02 10:27:00.0"	"TEST5171727"	"elit ac vel mattis volutpat maecenas leo ligula mollis cras nulla"	7.0
+"2015-01-07 10:23:00.0"	"TEST5171727"	"mattis neque et convallis in vestibulum augue accumsan vulputate malesuada"	7.0
+"2015-01-25 09:41:00.0"	"TEST5171727"	"consectetur in dolor in libero mauris nibh porta tempus pellentesque"	3.5
+"2016-01-11 09:18:00.0"	"TEST5171727"	"pretium arcu integer semper lorem egestas aliquam posuere iaculis"	3.0
+"2013-06-20 11:10:00.0"	"TEST2950014"	"aliquet augue nulla auctor ultricies vivamus a sollicitudin adipiscing at ultricies feugiat"	2.0
+"2014-07-07 11:25:00.0"	"TEST2950014"	"et pretium urna amet cursus lectus risus volutpat vestibulum convallis"	3.5
+"2014-10-07 10:05:00.0"	"TEST2950014"	"eu iaculis sit quis imperdiet sapien taciti faucibus scelerisque ante"	5.5
+"2014-11-20 13:04:00.0"	"TEST2950014"	"at urna pulvinar sapien orci adipiscing sollicitudin tincidunt vel"	7.0
+"2015-01-07 10:20:00.0"	"TEST2950014"	"elit consectetur ipsum quis eu a sed lorem iaculis semper mattis ultricies"	7.0
+"2015-01-25 09:46:00.0"	"TEST2950014"	"congue velit lorem quisque varius congue consectetur eu fames nulla"	3.5
+"2016-01-11 09:15:00.0"	"TEST2950014"	"mollis mollis dolor rhoncus sagittis laoreet massa diam hendrerit"	9.0
+"2016-01-26 08:22:00.0"	"TEST2950014"	"nunc diam amet vivamus venenatis platea justo sit pharetra a id cum"	5.5
+"2016-06-03 09:14:00.0"	"TEST2950014"	"tempor nam morbi donec turpis convallis diam blandit sit tempor et"	5.0
+"2016-07-08 09:13:00.0"	"TEST2950014"	"volutpat lorem quam dui fringilla mattis interdum non sit orci felis"	5.5
+"2013-07-07 13:15:00.0"	"TEST4710248"	"non donec in curabitur felis diam vitae etiam nec sapien id libero nunc lacinia ut nibh"	0.5
+"2014-07-02 09:16:00.0"	"TEST4710248"	"aliquet convallis quam urna facilisis pellentesque lorem porttitor"	3.5
+"2015-01-25 09:25:00.0"	"TEST4710248"	"id donec euismod ut adipiscing mi justo a curae; sem et vel praesent"	3.5
+"2016-01-11 09:45:00.0"	"TEST4710248"	"mollis diam id sem proin morbi sapien quisque ac neque gravida nisl"	3.5
+"2013-07-11 11:50:00.0"	"TEST3935154"	"etiam consequat a amet sodales rutrum vitae sit justo neque massa tristique nulla curae;"	1.7
+"2014-07-15 09:00:00.0"	"TEST3935154"	"volutpat enim dignissim  sit mauris sed tristique leo vitae luctus vitae"	3.5
+"2015-01-25 09:26:00.0"	"TEST3935154"	"lacus amet sed ac sodales in lobortis gravida varius  posuere eget"	3.5
+"2016-01-11 09:50:00.0"	"TEST3935154"	"maecenas sit odio risus sodales cras est porttitor mattis quis id"	9.0
+"2013-11-25 13:14:00.0"	"TEST4013108"	"in purus turpis eleifend ac donec fermentum mollis sed quis magnis"	7.0
+"2014-07-02 09:50:00.0"	"TEST4013108"	"erat ipsum ipsum est laoreet sit id nulla  curabitur amet sed varius"	3.5
+"2014-07-02 09:50:00.0"	"TEST4013108"	"vel purus in sit vel pellentesque eleifend ac augue montes nec malesuada congue id vestibulum"	2.0
+"2014-10-08 09:26:00.0"	"TEST4013108"	"in nec nulla dolor eleifend sem etiam aliquam amet faucibus tincidunt"	5.5
+"2015-01-21 10:22:00.0"	"TEST4013108"	"mauris id condimentum mauris et consectetur lobortis sed suscipit"	7.0
+"2015-01-25 10:10:00.0"	"TEST4013108"	"pulvinar venenatis a praesent vestibulum urna lacus purus in ipsum"	3.5
+"2016-01-11 09:33:00.0"	"TEST4013108"	"nulla nascetur sit eros suspendisse nullam ac torquent purus mollis"	3.5
+"2014-01-13 10:10:00.0"	"TEST5292692"	"amet facilisis libero himenaeos nulla id risus orci eleifend gravida natoque euismod mattis"	1.0
+"2014-07-07 11:49:00.0"	"TEST5292692"	"quis lacinia lectus vel nec urna aliquet nisl sit sapien nunc netus litora enim amet augue"	2.0
+"2014-07-07 11:49:00.0"	"TEST5292692"	"eget sem suspendisse sollicitudin consectetur erat tortor donec leo"	3.5
+"2014-10-07 09:25:00.0"	"TEST5292692"	"dapibus sem tincidunt id vitae quisque fermentum non velit eu feugiat"	5.5
+"2014-12-16 10:38:00.0"	"TEST5292692"	"erat lorem nunc id commodo nulla ac pellentesque placerat senectus"	7.0
+"2015-01-21 10:22:00.0"	"TEST5292692"	"nec mattis placerat libero tempor lobortis eleifend consequat facilisi"	7.0
+"2015-01-25 10:08:00.0"	"TEST5292692"	"magnis sit vel felis quam mi cursus sagittis et mus posuere praesent"	3.5
+"2016-01-11 09:36:00.0"	"TEST5292692"	"turpis quam augue volutpat pretium fermentum velit lacus nibh et sem"	3.5
+"2013-10-07 13:38:00.0"	"TEST2227135"	"scelerisque nam leo odio erat aliquet imperdiet etiam facilisis dapibus in accumsan turpis"	1.0
+"2014-07-07 11:05:00.0"	"TEST2227135"	"adipiscing lacinia libero adipiscing ipsum curabitur purus arcu tortor"	3.5
+"2015-01-25 09:31:00.0"	"TEST2227135"	"sit nec sed nulla mi magnis neque vivamus pretium per dignissim ipsum"	3.5
+"2015-03-08 10:35:00.0"	"TEST2227135"	"sollicitudin diam interdum sed at convallis a commodo et ipsum enim"	5.5
+"2015-05-10 08:52:00.0"	"TEST2227135"	"per justo viverra viverra lectus mi gravida id ipsum mauris amet mauris"	7.0
+"2015-05-27 10:36:00.0"	"TEST2227135"	"blandit blandit vulputate magna suspendisse justo metus imperdiet"	7.0
+"2015-06-14 10:25:00.0"	"TEST2227135"	"at id pharetra a ultricies velit dolor praesent in vitae eget lobortis"	5.5
+"2016-01-11 10:04:00.0"	"TEST2227135"	"fusce lorem porta nunc vestibulum suspendisse velit mattis mi quam"	3.5
+"2013-10-07 13:54:00.0"	"TEST4935165"	"sit quam condimentum dolor vulputate bibendum nulla at etiam diam tempus conubia vel metus"	1.0
+"2014-07-27 11:00:00.0"	"TEST4935165"	"eleifend est ante sit dapibus nibh augue metus urna justo mollis ornare"	3.5
+"2015-01-25 09:38:00.0"	"TEST4935165"	"mollis in nec varius augue imperdiet pharetra ac lacus neque mi facilisis"	3.5
+"2016-01-11 09:39:00.0"	"TEST4935165"	"quisque luctus neque sit nulla sagittis eget eu blandit egestas nisl"	3.5
+"2013-10-31 09:40:00.0"	"TEST3843301"	"nam convallis neque aliquet purus nullam a tempor dictumst et elementum"	1.0
+"2014-07-02 11:00:00.0"	"TEST3843301"	"auctor vel ullamcorper et porta sit  diam nec natoque elementum sociis"	3.5
+"2015-01-25 10:58:00.0"	"TEST3843301"	"augue ligula sit tempor vestibulum phasellus et mi odio aenean libero"	3.5
+"2015-03-08 09:55:00.0"	"TEST3843301"	"fermentum orci praesent dui nunc ut ultricies donec vitae tortor vestibulum"	5.5
+"2015-04-30 08:48:00.0"	"TEST3843301"	"sodales pulvinar erat pellentesque est eget justo fringilla neque"	7.0
+"2015-05-26 10:11:00.0"	"TEST3843301"	"erat felis arcu placerat lectus magna tellus consectetur sodales sapien"	7.0
+"2016-01-18 10:11:00.0"	"TEST3843301"	"fames odio felis vitae vestibulum suspendisse dui ut tempor integer"	3.5
+"2013-10-31 10:10:00.0"	"TEST8533200"	"nec convallis iaculis nisi phasellus bibendum libero tristique tortor"	1.0
+"2014-07-23 10:22:00.0"	"TEST8533200"	"condimentum id porttitor velit quis id nibh etiam ridiculus lorem"	3.0
+"2015-01-25 10:55:00.0"	"TEST8533200"	"lacus ante turpis sem aliquet non lacinia non eget ut purus sagittis"	3.5
+"2015-03-08 09:50:00.0"	"TEST8533200"	"nulla erat  erat a ut et erat urna lacinia turpis malesuada est etiam"	5.5
+"2015-05-03 12:08:00.0"	"TEST8533200"	"ac sollicitudin augue aliquam tempor suscipit lectus aliquam eu ante"	7.0
+"2015-05-26 10:08:00.0"	"TEST8533200"	"pellentesque magna nunc curabitur auctor rutrum tempus lacus aliquet"	7.0
+"2016-01-18 10:15:00.0"	"TEST8533200"	"semper quam donec non in eget rutrum porttitor maecenas luctus libero"	3.5
+"2013-12-08 14:20:00.0"	"TEST7407382"	"vestibulum ipsum sed turpis sit varius ac commodo purus varius metus massa dolor ipsum adipiscing"	0.7
+"2014-07-07 11:15:00.0"	"TEST7407382"	"ad quis urna auctor massa neque ante tellus dui metus nunc nec egestas"	3.5
+"2015-01-13 10:54:00.0"	"TEST7407382"	"sit neque lectus quis arcu donec tellus mi nec dapibus interdum semper"	3.5
+"2015-01-21 07:40:00.0"	"TEST7407382"	"augue suscipit mi tincidunt imperdiet lacus congue sed nunc praesent"	5.5
+"2015-03-09 09:28:00.0"	"TEST7407382"	"malesuada vitae sit eget non rutrum nisi a tortor metus primis  nam"	5.5
+"2015-05-10 12:23:00.0"	"TEST7407382"	"nec auctor vestibulum ipsum arcu porttitor imperdiet semper leo et"	7.0
+"2015-05-27 10:17:00.0"	"TEST7407382"	"semper pulvinar suscipit urna faucibus eu enim nunc donec nec elit"	7.0
+"2016-01-11 09:25:00.0"	"TEST7407382"	"class tortor ut justo suspendisse non vestibulum erat feugiat maecenas"	3.5
+"2014-03-06 13:45:00.0"	"TEST5598475"	"id vel lorem eu amet vestibulum in quam tristique ac et placerat nisi dignissim nisi vestibulum"	0.75
+"2014-07-16 10:00:00.0"	"TEST5598475"	"consequat suspendisse donec sit et cursus  libero ut placerat non velit"	3.5
+"2015-01-15 09:22:00.0"	"TEST5598475"	"elementum urna luctus volutpat odio mi nam iaculis ut nibh curabitur"	3.5
+"2015-03-08 10:44:00.0"	"TEST5598475"	"vel vel lorem duis id eu nulla arcu congue mauris ante nam vulputate"	5.5
+"2015-04-26 10:27:00.0"	"TEST5598475"	"purus mollis semper tellus tellus nibh bibendum hendrerit sed nulla"	7.0
+"2015-05-27 10:19:00.0"	"TEST5598475"	"eu id nec porttitor diam phasellus amet tempus orci aliquet ultricies"	7.0
+"2016-01-11 09:22:00.0"	"TEST5598475"	"vulputate porta massa consectetur sollicitudin amet egestas litora"	3.5
+"2014-03-06 13:45:00.0"	"TEST1684145"	"a suspendisse ut quis consectetur condimentum suspendisse turpis curae; fermentum leo"	1.0
+"2014-07-23 10:40:00.0"	"TEST1684145"	"praesent non pharetra placerat metus et feugiat ipsum non et sit"	3.0
+"2015-01-07 10:54:00.0"	"TEST1684145"	"praesent nec amet  fermentum ut faucibus accumsan tristique ut luctus"	3.0
+"2015-03-08 10:45:00.0"	"TEST1684145"	"dignissim rutrum vestibulum a nulla et  erat ut magna scelerisque"	6.0
+"2015-05-05 13:59:00.0"	"TEST1684145"	"egestas lobortis turpis arcu curae; nam eleifend adipiscing suscipit"	7.0
+"2015-05-27 10:38:00.0"	"TEST1684145"	"est per amet purus tellus ornare morbi vestibulum vel id pellentesque"	7.0
+"2016-01-11 09:58:00.0"	"TEST1684145"	"fusce dui eget nec sit metus lacinia ornare adipiscing blandit vitae"	3.5
+"2014-03-10 13:20:00.0"	"TEST4945025"	"tincidunt neque nibh augue est nam velit risus et in auctor consequat"	0.9
+"2014-07-07 10:00:00.0"	"TEST4945025"	"vehicula tellus aenean nec aptent magna vivamus facilisi turpis bibendum amet ipsum conubia"	2.0
+"2014-07-07 10:00:00.0"	"TEST4945025"	"suscipit tellus eget pellentesque vitae vel sed in id lectus donec quisque"	3.5
+"2015-01-25 11:33:00.0"	"TEST4945025"	"eros sit eget vitae aliquam dui quis in rhoncus urna leo non tortor"	3.5
+"2016-01-11 09:46:00.0"	"TEST4945025"	"adipiscing tristique tortor pharetra enim nulla a vestibulum condimentum"	3.5
+"2014-05-06 09:40:00.0"	"TEST3137998"	"sit est habitant laoreet erat tristique aliquam eu dignissim scelerisque commodo curabitur"	1.6
+"2015-01-05 11:10:00.0"	"TEST3137998"	"ipsum integer proin potenti hendrerit  vulputate vitae et gravida cursus"	1.3
+"2015-07-06 12:20:00.0"	"TEST3137998"	"luctus posuere nisl id molestie felis nisi tellus vel sed netus scelerisque"	4.5
+"2015-07-21 10:41:00.0"	"TEST3137998"	"mattis pretium eros turpis id porttitor ac mattis  erat venenatis"	7.0
+"2015-08-31 10:07:00.0"	"TEST3137998"	"aliquam sociosqu pellentesque cras quis in eget quis vehicula eu sed"	7.0
+"2016-01-18 10:04:00.0"	"TEST3137998"	"arcu molestie ante adipiscing mus aliquam lobortis facilisis adipiscing"	3.5
+"2014-05-06 10:00:00.0"	"TEST7151371"	"egestas pretium tincidunt faucibus ut adipiscing tristique lacinia sem ligula in condimentum"	1.7
+"2014-07-27 11:30:00.0"	"TEST7151371"	"mollis praesent aliquam sit feugiat vestibulum dapibus dui tristique"	2.0
+"2015-01-12 10:23:00.0"	"TEST7151371"	"sed vel pellentesque ultricies cursus venenatis integer congue ac pulvinar"	3.5
+"2015-06-09 09:34:00.0"	"TEST7151371"	"id pellentesque amet egestas curabitur vel amet sed orci at fusce nam"	4.5
+"2015-07-06 11:45:00.0"	"TEST7151371"	"sit lacus posuere donec consequat amet dolor id ut libero purus eu quam"	4.5
+"2015-08-30 10:22:00.0"	"TEST7151371"	"dictum natoque mus mauris in augue donec et aliquam vestibulum fringilla"	7.0
+"2015-09-14 10:07:00.0"	"TEST7151371"	"ac non nec ipsum eu erat nostra condimentum egestas maecenas dapibus"	7.0
+"2016-01-18 10:05:00.0"	"TEST7151371"	"aliquet est per lobortis eu ac vulputate ridiculus mauris dis aliquet"	3.5
+"2014-05-27 10:30:00.0"	"TEST5158984"	"fringilla sagittis himenaeos sit montes ultricies dui eget mi massa leo non convallis"	1.0
+"2015-01-25 11:10:00.0"	"TEST5158984"	"justo vivamus felis a lorem risus sed arcu molestie donec id felis"	3.5
+"2016-01-11 09:34:00.0"	"TEST5158984"	"tellus tristique lectus auctor odio phasellus pellentesque vivamus"	3.5
+"2014-06-08 10:10:00.0"	"TEST5131891"	"in eget suspendisse id sapien purus ultrices leo erat in velit risus suspendisse nunc"	1.0
+"2015-01-07 12:08:00.0"	"TEST5131891"	"sagittis enim lacus urna commodo non risus dapibus sagittis et dignissim"	5.5
+"2015-07-29 14:10:00.0"	"TEST5131891"	"nam sem condimentum urna interdum arcu posuere tempus faucibus dui"	5.5
+"2015-09-03 13:31:00.0"	"TEST5131891"	"felis rutrum iaculis dictum id luctus id dolor quis eleifend in condimentum"	7.0
+"2015-09-22 10:47:00.0"	"TEST5131891"	"ac posuere neque nec imperdiet faucibus nam varius luctus ligula"	7.0
+"2016-01-11 10:15:00.0"	"TEST5131891"	"dignissim fermentum nulla fusce scelerisque risus curae; lobortis aliquam"	3.5
+"2014-06-10 09:25:00.0"	"TEST5409620"	"et porttitor sed posuere amet ipsum torquent vehicula nulla penatibus suscipit consequat"	1.0
+"2015-01-07 12:14:00.0"	"TEST5409620"	"orci sodales sagittis lacus eu sollicitudin felis adipiscing scelerisque"	3.5
+"2015-07-29 13:54:00.0"	"TEST5409620"	"facilisis quis commodo tristique rutrum consectetur nibh rutrum quisque"	5.5
+"2015-09-17 08:48:00.0"	"TEST5409620"	"odio faucibus nunc luctus posuere malesuada ac hendrerit tincidunt"	7.0
+"2015-10-13 10:48:00.0"	"TEST5409620"	"auctor posuere taciti arcu laoreet tristique velit et vestibulum magnis"	7.0
+"2016-01-11 10:08:00.0"	"TEST5409620"	"morbi molestie dignissim arcu pulvinar auctor  ut adipiscing consectetur"	3.5
+"2014-06-15 11:25:00.0"	"TEST9118022"	"erat libero nisi condimentum donec ipsum augue ipsum at eget faucibus nunc nulla lorem ut"	0.9
+"2015-01-07 10:20:00.0"	"TEST9118022"	"conubia in integer et nibh quis scelerisque lacus nisi rutrum nec"	1.0
+"2015-02-01 10:05:00.0"	"TEST9118022"	"et nulla integer venenatis fermentum tempus porta id in bibendum nibh"	3.5
+"2015-07-29 14:27:00.0"	"TEST9118022"	"vitae erat pretium blandit fermentum convallis condimentum lacinia"	5.5
+"2015-09-10 10:27:00.0"	"TEST9118022"	"aliquam lacinia dolor ultricies tincidunt non sed ornare cubilia"	7.0
+"2015-09-22 10:56:00.0"	"TEST9118022"	"placerat morbi  ornare at  id risus sed aliquam vestibulum tincidunt"	7.0
+"2016-01-11 10:14:00.0"	"TEST9118022"	"adipiscing quam pulvinar sodales sed integer nulla arcu turpis pulvinar"	3.5
+"2016-03-11 12:09:00.0"	"TEST9118022"	"urna quis vitae fermentum  convallis amet tristique sit facilisi"	5.0
+"2016-05-11 10:06:00.0"	"TEST9118022"	"convallis amet lorem ac amet feugiat massa pharetra ut senectus non"	3.0
+"2016-05-19 10:18:00.0"	"TEST9118022"	"odio in id amet nulla sagittis dignissim varius faucibus sit neque"	10.0
+"2016-05-23 10:15:00.0"	"TEST9118022"	"ac tortor tortor metus id vestibulum pretium non dictum quam ut sed"	14.0
+"2014-07-14 09:15:00.0"	"TEST3771679"	"dolor viverra lacus blandit consectetur amet sed maecenas tellus vel lorem purus fermentum"	0.9
+"2015-01-07 10:20:00.0"	"TEST3771679"	"nisl posuere tempor posuere consequat urna luctus rutrum tincidunt consequat"	4.5
+"2015-01-07 10:20:00.0"	"TEST3771679"	"at sed dolor non nec augue iaculis vestibulum mi sit amet amet laoreet"	2.0
+"2015-07-29 14:25:00.0"	"TEST3771679"	"tincidunt egestas non facilisis facilisis justo massa dolor et mauris"	5.5
+"2015-09-13 13:20:00.0"	"TEST3771679"	"amet sed tempus id tincidunt lorem sit tellus scelerisque sed consectetur"	7.0
+"2015-09-29 10:12:00.0"	"TEST3771679"	"nisl egestas duis nibh ac auctor faucibus vestibulum molestie interdum"	7.0
+"2016-01-11 10:10:00.0"	"TEST3771679"	"scelerisque nisl turpis sapien lectus aliquam rutrum natoque et augue"	3.5
+"2014-07-29 10:00:00.0"	"TEST4037096"	"leo dui auctor eget condimentum id augue venenatis a eu arcu sit nunc amet tempus magna"	0.8
+"2015-01-27 12:01:00.0"	"TEST4037096"	"nunc amet convallis ultricies malesuada in pellentesque posuere condimentum"	3.5
+"2015-01-27 11:56:00.0"	"TEST4037096"	"ultricies lorem et vitae tortor habitant ut leo et leo et tempus"	5.0
+"2015-09-03 11:30:00.0"	"TEST4037096"	"adipiscing consectetur auctor egestas quis dignissim dis augue mattis"	5.5
+"2015-10-04 13:23:00.0"	"TEST4037096"	"dignissim ut lacus porta nisl pellentesque a sodales scelerisque neque"	7.0
+"2015-10-20 10:03:00.0"	"TEST4037096"	"integer cras vitae ad suspendisse condimentum pretium quam mauris"	7.0
+"2016-01-18 10:06:00.0"	"TEST4037096"	"tincidunt rutrum aliquam aliquam dui nisi aliquam sapien suspendisse"	3.0
+"2015-01-27 10:31:00.0"	"TEST1441142"	"vivamus molestie diam molestie vivamus ut laoreet porta diam sapien"	3.5
+"2015-01-27 10:31:00.0"	"TEST1441142"	"et metus fringilla quam bibendum donec mus non magna justo etiam ante vehicula id risus"	1.0
+"2015-01-27 10:31:00.0"	"TEST1441142"	"molestie eget consectetur metus convallis diam accumsan praesent ridiculus"	4.5
+"2015-07-30 09:50:00.0"	"TEST1441142"	"lectus gravida id at elit nec eget egestas sit sed curae; ut a eget tortor tempor vulputate"	2.0
+"2015-09-03 11:35:00.0"	"TEST1441142"	"at et sociosqu sollicitudin convallis magna dui amet mauris purus sollicitudin"	5.5
+"2015-10-21 08:49:00.0"	"TEST1441142"	"posuere luctus suspendisse quam condimentum sed lacus tellus suscipit"	7.0
+"2015-11-08 09:31:00.0"	"TEST1441142"	"volutpat nulla sapien eget curabitur blandit fusce pellentesque neque"	7.0
+"2016-01-18 10:10:00.0"	"TEST1441142"	"donec est potenti pellentesque cursus justo est montes blandit neque"	3.5
+"2016-06-08 09:58:00.0"	"TEST1441142"	"arcu lobortis sapien facilisis sed at pellentesque id laoreet erat"	3.0
+"2016-06-16 10:32:00.0"	"TEST1441142"	"aliquam pellentesque consequat quis nec sodales id et cursus consequat"	10.0
+"2016-06-20 09:54:00.0"	"TEST1441142"	"consequat amet luctus risus lobortis cum egestas donec bibendum urna"	17.0
+"2015-01-26 10:00:00.0"	"TEST1099252"	"sit porta aliquam nulla ut pretium urna vitae congue odio tincidunt"	4.0
+"2015-02-01 10:18:00.0"	"TEST1099252"	"facilisis arcu dis vitae eleifend morbi scelerisque nunc etiam libero"	3.5
+"2015-02-01 10:18:00.0"	"TEST1099252"	"urna tincidunt purus feugiat quisque orci pellentesque magna magna"	2.0
+"2015-07-01 10:12:00.0"	"TEST1099252"	"mauris et aliquam in dictum ut senectus in vel eget aliquet maecenas diam diam volutpat"	2.0
+"2015-09-03 11:55:00.0"	"TEST1099252"	"nullam felis nullam eleifend et tincidunt nec ut ut dolor quam morbi"	5.5
+"2015-10-08 08:56:00.0"	"TEST1099252"	"eu vitae aliquam ultricies sapien et tincidunt congue at mattis sapien"	7.0
+"2015-10-20 10:59:00.0"	"TEST1099252"	"per aliquam cras congue quam sed eros tincidunt vehicula scelerisque"	7.0
+"2016-01-18 10:15:00.0"	"TEST1099252"	"aliquam sed scelerisque sed sed vestibulum platea nulla et ad sollicitudin"	3.5
+"2016-03-11 12:10:00.0"	"TEST1099252"	"felis dolor vitae justo erat sed varius elit in volutpat leo aenean"	5.0
+"2016-05-26 08:49:00.0"	"TEST1099252"	"sed laoreet ac orci maecenas egestas velit nullam donec aliquet magna"	3.0
+"2016-06-02 08:50:00.0"	"TEST1099252"	"non orci orci ultricies ac et tristique eget in mauris orci etiam mauris"	10.0
+"2016-06-06 08:47:00.0"	"TEST1099252"	"vestibulum cubilia faucibus eros augue aenean eu venenatis  dolor"	14.0
+"2015-01-07 11:00:00.0"	"TEST1020148"	" vitae non suspendisse vel quam enim  non in quis semper ultricies amet semper felis morbi"	2.0
+"2015-01-07 11:00:00.0"	"TEST1020148"	"pulvinar id eu natoque tellus posuere sodales auctor tellus nec et"	3.5
+"2015-01-26 09:30:00.0"	"TEST1020148"	"quis aenean primis consequat non nostra varius eleifend felis  vitae"	5.0
+"2015-09-03 11:50:00.0"	"TEST1020148"	"nec ut elit nullam leo felis a orci semper non cursus pulvinar id at"	5.5
+"2015-10-25 10:25:00.0"	"TEST1020148"	"auctor vestibulum eget nec in facilisis est malesuada posuere aliquet"	7.0
+"2015-11-08 10:28:00.0"	"TEST1020148"	"egestas pellentesque bibendum quam donec nulla suspendisse at arcu"	7.0
+"2016-01-18 10:11:00.0"	"TEST1020148"	"integer ultrices dapibus ultrices quis vitae luctus amet vitae elit"	3.5
+"2016-03-11 12:12:00.0"	"TEST1020148"	"elit sed laoreet eleifend ultricies auctor mattis phasellus mattis"	5.5
+"2016-06-01 08:58:00.0"	"TEST1020148"	"augue non felis porta bibendum mus libero facilisis ligula  vel mattis"	3.0
+"2016-06-10 08:51:00.0"	"TEST1020148"	"amet nullam congue torquent tellus eu diam facilisis pellentesque sagittis"	10.0
+"2016-06-14 08:34:00.0"	"TEST1020148"	"varius fringilla risus maecenas leo semper fermentum lorem et malesuada"	14.0
+"2014-11-06 10:50:00.0"	"TEST1112911"	"pellentesque orci ultricies metus faucibus purus at aliquam molestie tempor aptent porttitor"	0.8
+"2014-11-13 09:35:00.0"	"TEST1112911"	"ultrices mi et vitae ligula ante ligula mauris at amet quam magnis imperdiet lacus urna"	1.2
+"2014-11-25 09:50:00.0"	"TEST1112911"	"sed  pharetra viverra tincidunt ullamcorper porttitor convallis felis quam dolor aliquam"	1.2
+"2014-12-14 09:22:00.0"	"TEST1112911"	"odio torquent gravida pulvinar sed ante placerat etiam sed per amet non eu sapien et accumsan"	1.2
+"2014-12-29 09:15:00.0"	"TEST1112911"	"porttitor eros porttitor lectus in eros justo libero orci ligula in ipsum varius nec lacinia"	1.2
+"2015-01-11 09:45:00.0"	"TEST1112911"	"vel imperdiet neque est ut dignissim et lorem fusce ultricies urna ad aliquam litora commodo"	1.2
+"2015-01-25 09:17:00.0"	"TEST1112911"	"ipsum feugiat vulputate morbi at bibendum faucibus adipiscing ante sem pharetra tempor"	1.2
+"2015-02-08 09:12:00.0"	"TEST1112911"	"nec purus neque ultrices faucibus lacus eu phasellus tincidunt gravida metus sed suscipit"	1.2
+"2015-02-22 09:10:00.0"	"TEST1112911"	"lacus ipsum libero suscipit eu urna velit pretium leo tempor lacinia sed a  sed varius"	1.2
+"2015-03-08 09:37:00.0"	"TEST1112911"	"enim et pretium ut lacus vel nibh amet elit suscipit lacinia vestibulum at rhoncus vitae"	1.2
+"2015-07-01 10:47:00.0"	"TEST1112911"	"sapien ante donec in risus ultrices a ridiculus turpis id sit justo odio massa feugiat"	2.0
+"2016-01-10 10:30:00.0"	"TEST1112911"	"dolor hac cras leo faucibus non auctor molestie inceptos sed at varius"	3.5
+"2016-01-10 10:30:00.0"	"TEST1112911"	"pellentesque faucibus viverra sem urna sed justo fermentum integer nec"	5.5
+"2016-03-10 11:51:00.0"	"TEST1112911"	"iaculis est eros diam ipsum nunc lacus condimentum non porta augue"	7.0
+"2016-04-12 10:50:00.0"	"TEST1112911"	"sit viverra maecenas netus dui et sapien id lacus erat sed platea"	7.0
+"2014-11-09 11:17:00.0"	"TEST727088"	"auctor pharetra dolor metus orci magna mi tincidunt luctus nunc id tortor nulla etiam"	0.8
+"2014-11-16 08:41:00.0"	"TEST727088"	"justo egestas neque morbi aliquam dictum malesuada et lectus vehicula sagittis porta"	1.2
+"2014-11-30 09:20:00.0"	"TEST727088"	"morbi curabitur vulputate at phasellus bibendum et varius molestie tempor quis vel ultrices"	1.2
+"2014-12-14 09:35:00.0"	"TEST727088"	"dictum vestibulum quis cras posuere dui porta bibendum praesent pharetra varius enim facilisis"	1.2
+"2014-12-29 09:25:00.0"	"TEST727088"	"ante nec  nisi adipiscing mauris bibendum nunc libero in ante pretium duis aliquam arcu"	1.2
+"2015-01-11 09:54:00.0"	"TEST727088"	"euismod aliquet at sit nulla id malesuada metus nisi amet  ligula justo vitae mi tempus"	1.2
+"2015-01-25 09:27:00.0"	"TEST727088"	"eget odio venenatis eu sit ut montes consectetur et orci nulla neque potenti varius  diam"	1.2
+"2015-02-08 09:25:00.0"	"TEST727088"	"at ultrices tellus cursus leo rutrum quisque sed tincidunt libero a commodo vulputate"	1.2
+"2015-02-22 09:27:00.0"	"TEST727088"	"vivamus eget ullamcorper tempor maecenas ultricies ut et nullam vivamus elit neque amet"	1.2
+"2015-03-08 09:37:00.0"	"TEST727088"	"ante condimentum vel mattis feugiat elementum dolor dignissim diam in vel amet feugiat"	1.2
+"2015-07-07 10:45:00.0"	"TEST727088"	"nullam in at porta arcu varius lacus mauris in ac fringilla vel lorem at mi sagittis neque"	2.0
+"2016-01-10 10:30:00.0"	"TEST727088"	"laoreet nec nec duis morbi dignissim ligula  eleifend suspendisse vivamus"	3.5
+"2016-01-10 10:30:00.0"	"TEST727088"	"euismod ultrices amet arcu fusce sed justo condimentum convallis massa"	5.5
+"2016-03-24 08:44:00.0"	"TEST727088"	"ornare quis ante quis orci pellentesque adipiscing nullam duis faucibus"	7.0
+"2016-04-12 10:54:00.0"	"TEST727088"	"vehicula eleifend porta ad nisl varius id parturient non viverra eu"	7.0
+"2014-12-14 09:50:00.0"	"TEST3224553"	"urna condimentum dictum vestibulum libero tortor accumsan amet nec sed amet nec mi nulla"	0.8
+"2014-12-21 09:30:00.0"	"TEST3224553"	"praesent et magnis congue mauris libero faucibus lorem ac sociosqu"	1.2
+"2014-12-21 09:25:00.0"	"TEST3224553"	"purus libero elit maecenas vel tristique nec nisl ac at cras bibendum ipsum interdum vitae"	1.2
+"2015-01-04 09:20:00.0"	"TEST3224553"	"sit neque quis elementum semper venenatis justo nulla nec pellentesque sed proin in cursus"	1.2
+"2015-01-19 09:10:00.0"	"TEST3224553"	"dapibus placerat diam aliquam sapien lacinia lobortis lectus consequat turpis lobortis"	1.2
+"2015-02-01 09:13:00.0"	"TEST3224553"	"sed mattis egestas odio mi quam eu vestibulum ac quam ut arcu sollicitudin proin mauris"	1.2
+"2015-02-15 09:14:00.0"	"TEST3224553"	"porta curabitur donec tellus dolor sem elementum tellus tincidunt risus eu lectus magna"	1.2
+"2015-03-01 09:13:00.0"	"TEST3224553"	"mollis id ultrices porttitor et sit morbi convallis eu pellentesque velit pellentesque"	1.2
+"2015-03-15 09:07:00.0"	"TEST3224553"	"tincidunt aenean ante et tempor eros sollicitudin lacus ultrices sodales ultrices sed"	1.2
+"2015-03-29 09:40:00.0"	"TEST3224553"	"dolor nisi nibh aliquam quis cursus massa dictum nulla non ut amet tristique nibh tempus"	1.2
+"2015-04-12 09:20:00.0"	"TEST3224553"	"venenatis tempor ut quisque tempor nec nec dapibus ac dolor dictum velit vitae ac at a"	1.2
+"2015-07-23 09:27:00.0"	"TEST3224553"	"nibh pellentesque orci amet condimentum augue aptent diam egestas nulla scelerisque sed"	2.0
+"2016-01-10 09:30:00.0"	"TEST3224553"	"non urna ipsum vestibulum commodo sit eget turpis molestie viverra augue"	3.5
+"2016-01-10 09:30:00.0"	"TEST3224553"	"eget quis egestas justo vitae etiam semper aliquam facilisis massa integer"	6.5
+"2016-03-10 13:19:00.0"	"TEST3224553"	"torquent porta eu amet mauris mi nulla amet enim enim odio massa venenatis"	7.0
+"2016-04-12 10:41:00.0"	"TEST3224553"	"tristique vestibulum quis lectus odio interdum non lorem ut nam volutpat"	7.0
+"2016-05-16 10:15:00.0"	"TEST3224553"	"libero augue a urna orci sapien condimentum ultricies convallis molestie"	1.5
+"2016-05-25 11:25:00.0"	"TEST3224553"	"sed in faucibus cras lectus bibendum posuere et accumsan convallis"	2.0
+"2016-06-02 06:50:00.0"	"TEST3224553"	"sed morbi dolor nisl dignissim felis pellentesque velit consequat"	5.0
+"2016-06-13 09:40:00.0"	"TEST3224553"	"turpis sem pellentesque aliquet venenatis tincidunt metus neque fermentum"	1.5
+"2016-06-22 09:14:00.0"	"TEST3224553"	"dui  velit gravida mi amet eu quam dolor volutpat et euismod mollis"	2.0
+"2016-07-25 09:30:00.0"	"TEST3224553"	"lacinia varius viverra risus erat euismod magna lobortis vitae porta"	10.0
+"2016-07-27 08:47:00.0"	"TEST3224553"	"ligula nascetur facilisis laoreet augue porttitor semper semper consectetur"	17.0
+"2015-01-02 09:53:00.0"	"TEST3621582"	"porttitor rutrum pretium eget morbi pellentesque eleifend sem vivamus egestas nisl nulla"	0.8
+"2015-01-11 09:30:00.0"	"TEST3621582"	"est urna ac lacus amet ut purus suspendisse at cras lectus nec nisi lectus nulla rutrum"	1.2
+"2015-01-25 09:37:00.0"	"TEST3621582"	"ipsum blandit dui eros risus dapibus rutrum pellentesque eu non  fringilla nec sed eget"	1.2
+"2015-02-08 09:43:00.0"	"TEST3621582"	"nostra penatibus nunc  litora eleifend tincidunt sed curabitur felis sed justo eleifend"	1.2
+"2015-02-22 09:47:00.0"	"TEST3621582"	"non sed fermentum eu sociosqu enim sapien faucibus lorem orci mollis odio fermentum class"	1.2
+"2015-03-08 09:37:00.0"	"TEST3621582"	"et adipiscing nulla nibh nullam tortor at vulputate rutrum sed luctus purus leo integer"	1.2
+"2015-03-22 09:15:00.0"	"TEST3621582"	"in amet ut lorem ac eu nulla integer odio non malesuada purus consectetur pellentesque"	1.2
+"2015-04-05 09:20:00.0"	"TEST3621582"	"pharetra a mauris mi id et nisi sem donec mauris massa non pellentesque aliquam id quis"	1.2
+"2015-04-19 09:31:00.0"	"TEST3621582"	"augue vitae euismod odio gravida nunc in posuere pulvinar duis quis mi eros mus tincidunt"	1.2
+"2015-05-03 09:25:00.0"	"TEST3621582"	"vel vestibulum erat commodo sem sem arcu vel cursus phasellus magna inceptos laoreet auctor"	1.2
+"2015-07-07 10:27:00.0"	"TEST3621582"	"mauris tincidunt id a felis vel hendrerit ante facilisis auctor placerat nisi mauris mauris"	2.0
+"2016-01-10 09:30:00.0"	"TEST3621582"	"mattis viverra parturient ut nulla ut auctor ac ac lorem dui praesent"	3.5
+"2016-01-10 09:30:00.0"	"TEST3621582"	"iaculis eleifend pretium phasellus eu sit tincidunt ut sapien  ultrices"	5.5
+"2016-03-24 10:26:00.0"	"TEST3621582"	"eu rutrum eleifend mollis augue etiam vitae donec a suscipit proin"	7.0
+"2016-04-12 10:45:00.0"	"TEST3621582"	"urna ligula pulvinar quisque elit vulputate erat suscipit at molestie"	7.0
+"2016-05-16 10:10:00.0"	"TEST3621582"	"commodo duis scelerisque quis faucibus malesuada et lacinia  urna massa"	1.5
+"2016-01-12 09:01:00.0"	"TEST6700530"	"auctor aliquam at enim luctus et posuere augue dolor vestibulum lectus"	3.5
+"2016-01-12 09:01:00.0"	"TEST6700530"	"consectetur ut justo blandit sapien massa arcu et libero nisi in"	2.0
+"2016-09-06 07:35:00.0"	"TEST6700530"	"arcu sem amet luctus augue phasellus morbi pharetra phasellus etiam integer"	2.0
+"2016-09-06 09:30:00.0"	"TEST6700530"	"etiam lectus et ante ipsum est ullamcorper sapien posuere orci mi sit pellentesque"	2.0
+"2016-09-13 19:30:00.0"	"TEST6700530"	" enim sit at molestie amet ante potenti magna risus ut sagittis lectus"	2.0
+"2016-09-13 09:49:00.0"	"TEST6700530"	"dignissim non purus egestas id nunc nam nisl amet libero nulla aliquam turpis et sapien"	2.0
+"2016-09-20 10:45:00.0"	"TEST6700530"	"erat purus felis volutpat ante felis suscipit urna sapien maecenas nulla"	2.0
+"2016-01-12 08:50:00.0"	"TEST6208376"	"nec in nec amet metus a id vivamus fermentum mauris feugiat neque vitae"	3.5
+"2016-01-12 08:50:00.0"	"TEST6208376"	"ac diam nisi urna amet  fermentum quis eu viverra iaculis ac facilisis condimentum et"	2.0
+"2016-09-21 11:06:00.0"	"TEST6208376"	"felis cubilia quam ipsum id eros eget id ante laoreet"	5.0
+"2016-01-12 08:55:00.0"	"TEST9195996"	"nullam non dui in interdum pretium id id massa vestibulum consequat"	3.5
+"2016-01-12 08:55:00.0"	"TEST9195996"	"libero quis nullam metus luctus fusce fusce a ligula in duis integer augue nisl diam odio"	2.0
+"2016-09-21 10:52:00.0"	"TEST9195996"	"erat tincidunt quis non eget sed ut nunc rhoncus metus"	5.0
+"2016-01-12 09:02:00.0"	"TEST8976544"	"mauris erat semper in gravida enim luctus fusce vivamus egestas etiam"	3.5
+"2016-01-12 09:02:00.0"	"TEST8976544"	"eu nam imperdiet nec vestibulum tincidunt auctor primis donec tempor"	2.0
+"2016-09-21 10:44:00.0"	"TEST8976544"	"a cras ultrices eget purus metus nibh tortor elit urna"	5.0
+"2016-07-06 09:15:00.0"	"TEST3844307"	"bibendum ante id non phasellus etiam metus sed suspendisse quam ipsum vel pretium ornare"	2.0
+"2000-08-04 09:30:00.0"	"TEST2312318"	"id vitae ut montes porttitor sed vulputate purus aenean eleifend"	3.0
+"2000-10-23 00:00:00.0"	"TEST2312318"	"id interdum rutrum posuere magna id tristique arcu in quis neque in sem diam eleifend"	3.0
+"2001-03-21 00:00:00.0"	"TEST2312318"	"id justo vitae accumsan lorem diam dolor iaculis ipsum lobortis odio"	2.5
+"2001-11-08 00:00:00.0"	"TEST2312318"	"sed vestibulum ligula ut varius sollicitudin justo nostra eget suscipit"	4.0
+"2002-03-14 00:00:00.0"	"TEST2312318"	"libero dolor dui quisque blandit lobortis facilisis dapibus consectetur erat sapien eu"	5.0
+"2002-04-10 00:00:00.0"	"TEST2312318"	"rhoncus iaculis tellus et cursus et morbi ut in molestie integer"	7.0
+"2002-05-19 00:00:00.0"	"TEST2312318"	"pulvinar risus sagittis amet sit sodales neque at nunc ac tempus diam"	14.0
+"2002-05-30 00:00:00.0"	"TEST2312318"	"a vestibulum lectus interdum in ultrices nec justo mi gravida  ac tempus"	14.0
+"2003-04-29 00:00:00.0"	"TEST2312318"	"rhoncus leo eget amet sapien in tortor nec ligula condimentum libero"	6.0
+"2003-06-18 08:30:00.0"	"TEST2312318"	"massa consectetur ut in lectus augue elementum justo dapibus mauris"	10.0
+"2003-07-13 00:00:00.0"	"TEST2312318"	"rutrum accumsan in inceptos turpis lacinia fusce volutpat orci sit"	12.0
+"2003-07-31 00:00:00.0"	"TEST2312318"	"ut condimentum faucibus eu quam eget dignissim rhoncus nostra neque"	10.0
+"2003-08-26 00:00:00.0"	"TEST2312318"	"sed phasellus eu quam etiam tincidunt eu pharetra platea facilisis"	10.0
+"2003-09-10 08:45:00.0"	"TEST2312318"	"id pretium bibendum est porta justo vehicula vulputate sapien dui"	10.0
+"2003-10-09 08:30:00.0"	"TEST2312318"	"dictum fermentum vestibulum nec lectus rhoncus vel laoreet enim nullam"	10.0
+"2003-11-12 00:00:00.0"	"TEST2312318"	"nec massa quis dolor ligula interdum sed metus sed purus justo malesuada"	2.0
+"2003-11-16 00:00:00.0"	"TEST2312318"	"porttitor semper vulputate laoreet porttitor praesent montes nibh"	2.0
+"2003-11-23 00:00:00.0"	"TEST2312318"	"torquent urna sit nibh mauris maecenas sit dignissim rutrum sed nec"	10.0
+"2004-02-11 00:00:00.0"	"TEST2312318"	"rhoncus posuere amet nostra eros non urna facilisis proin et imperdiet"	14.0
+"2004-02-24 00:00:00.0"	"TEST2312318"	"quis vestibulum quis hendrerit enim amet felis diam eu fermentum"	5.0
+"2004-03-02 00:00:00.0"	"TEST2312318"	" convallis hendrerit amet vivamus quis sagittis etiam at pulvinar"	5.0
+"2004-03-09 00:00:00.0"	"TEST2312318"	"posuere suspendisse non venenatis odio id malesuada proin felis massa"	5.0
+"2004-03-31 12:00:00.0"	"TEST2312318"	"phasellus nam sed nunc pulvinar augue augue lectus vitae cubilia"	7.0
+"2004-04-12 00:00:00.0"	"TEST2312318"	"elementum dictum elit porta nibh elit turpis in vitae tortor dolor"	7.0
+"2004-04-20 00:00:00.0"	"TEST2312318"	" arcu faucibus nec eleifend a in libero accumsan nisl mollis urna"	7.0
+"2004-04-27 00:00:00.0"	"TEST2312318"	"quis sit vel eros adipiscing eu tempus dictum eu ligula porta gravida"	14.0
+"2004-05-06 00:00:00.0"	"TEST2312318"	"leo ut nisl etiam erat bibendum lectus dignissim cursus adipiscing"	7.0
+"2004-05-27 00:00:00.0"	"TEST2312318"	"id justo dolor aliquam venenatis eleifend quis magnis arcu senectus"	14.0
+"2004-06-03 00:00:00.0"	"TEST2312318"	"amet ut aliquet integer bibendum porta ultrices aliquam bibendum"	7.0
+"2004-06-10 00:00:00.0"	"TEST2312318"	"purus odio erat ut ut nunc id vestibulum scelerisque donec ipsum"	3.0
+"2004-09-09 08:30:00.0"	"TEST2312318"	"nec amet placerat suspendisse ligula vitae vivamus consectetur nisi"	10.0
+"2004-09-14 00:00:00.0"	"TEST2312318"	"quam sollicitudin rhoncus est sodales quis quis et est magna commodo"	4.0
+"2004-09-16 08:00:00.0"	"TEST2312318"	"mauris sed risus erat in pellentesque nunc lectus quisque tortor"	7.0
+"2004-09-28 06:10:00.0"	"TEST2312318"	"suspendisse sociis malesuada condimentum a diam ut ligula dolor et"	14.0
+"2004-10-07 07:30:00.0"	"TEST2312318"	"donec est nisi suscipit eu nunc eu praesent curabitur turpis id quam"	7.0
+"2004-11-11 00:00:00.0"	"TEST2312318"	"faucibus sollicitudin facilisis nulla vestibulum et semper scelerisque"	7.0
+"2004-11-26 08:40:00.0"	"TEST2312318"	"nibh fringilla ac pulvinar sed sed hendrerit egestas lectus laoreet"	4.0
+"2004-12-02 10:00:00.0"	"TEST2312318"	"metus quam porttitor vitae elit lorem suspendisse amet erat urna ac"	14.0
+"2004-12-09 08:30:00.0"	"TEST2312318"	"bibendum sed sit pulvinar ipsum in ultrices metus enim egestas dignissim"	4.0
+"2004-12-16 08:00:00.0"	"TEST2312318"	"pharetra ultrices velit porta nullam tellus vehicula mauris tellus"	16.0
+"2004-12-30 08:30:00.0"	"TEST2312318"	"leo sed vehicula praesent accumsan et ipsum conubia tortor nec aliquam"	14.0
+"2005-01-13 09:00:00.0"	"TEST2312318"	"volutpat ut facilisis purus vestibulum amet dictum amet tincidunt"	16.0
+"2005-01-26 00:00:00.0"	"TEST2312318"	"libero laoreet orci felis varius lobortis non accumsan sed a pretium"	16.5
+"2005-02-07 00:00:00.0"	"TEST2312318"	"tristique posuere nec nulla tristique ipsum vel aliquet sapien ipsum"	16.5
+"2005-02-28 00:00:00.0"	"TEST2312318"	"turpis litora diam sed et ante in  turpis quam aenean sed pellentesque"	23.5
+"2005-03-20 00:00:00.0"	"TEST2312318"	"placerat elit lectus amet magna sed ante non adipiscing vel ante ut"	23.5
+"2005-04-17 00:00:00.0"	"TEST2312318"	"quam aliquam sit porta libero at commodo nisi elementum iaculis nam"	21.0
+"2005-05-08 00:00:00.0"	"TEST2312318"	"convallis magna aliquet nam quis lectus eleifend mattis proin non"	21.0
+"2005-05-17 00:00:00.0"	"TEST2312318"	"quis rutrum vitae placerat ante rutrum sociis porta quis dignissim"	10.0
+"2005-05-30 00:00:00.0"	"TEST2312318"	"bibendum justo vitae amet nostra pellentesque urna lorem ipsum nulla"	21.0
+"2005-06-19 00:00:00.0"	"TEST2312318"	"eget hendrerit imperdiet pharetra sed velit integer ac nunc at ac"	20.0
+"2005-07-10 00:00:00.0"	"TEST2312318"	"sapien mi iaculis vivamus non tellus eget venenatis odio ante lorem"	20.0
+"2005-07-31 00:00:00.0"	"TEST2312318"	"libero quis velit ornare tellus dui morbi eleifend convallis commodo"	20.0
+"2005-08-21 08:00:00.0"	"TEST2312318"	"vestibulum eleifend curabitur tortor ornare pretium gravida libero"	20.0
+"2005-08-28 08:20:00.0"	"TEST2312318"	"etiam posuere consequat sodales venenatis odio est pellentesque interdum"	20.0
+"2006-01-17 06:45:00.0"	"TEST2312318"	"pretium sed blandit natoque sapien a hac est consequat tincidunt lacinia"	18.0
+"2006-02-07 07:00:00.0"	"TEST2312318"	"at ultrices auctor eu faucibus feugiat augue massa ultrices quam nullam"	26.0
+"2006-03-07 08:00:00.0"	"TEST2312318"	"aliquet sapien ante ac sem leo fringilla suspendisse mi dolor proin"	2.0
+"2006-03-07 08:00:00.0"	"TEST2312318"	"laoreet ac quis duis sagittis scelerisque phasellus litora sapien"	42.0
+"2006-03-20 00:00:00.0"	"TEST2312318"	"adipiscing id rutrum turpis integer justo mauris sem et volutpat"	6.0
+"2006-04-11 09:00:00.0"	"TEST2312318"	"auctor faucibus faucibus sit lobortis id varius euismod morbi magna"	77.0
+"2006-05-14 00:00:00.0"	"TEST2312318"	"ultrices felis mi phasellus ultrices tellus pharetra dolor pulvinar"	44.0
+"2006-06-04 00:00:00.0"	"TEST2312318"	"et lacus donec nibh cubilia vitae odio porta integer leo eros  purus"	44.0
+"2006-06-18 08:00:00.0"	"TEST2312318"	"donec  eros tortor vel primis facilisis ut vitae aliquet vulputate"	44.0
+"2006-07-23 08:30:00.0"	"TEST2312318"	"lorem elementum convallis posuere quisque nec phasellus donec vel"	44.0
+"2006-08-20 07:00:00.0"	"TEST2312318"	"lacus interdum arcu dapibus egestas vestibulum integer ultrices vulputate"	23.0
+"2006-09-10 06:30:00.0"	"TEST2312318"	"dolor pellentesque diam arcu ac nisl euismod quam in egestas nunc"	10.0
+"2006-09-24 07:00:00.0"	"TEST2312318"	"dolor fusce eros eu venenatis nibh non ut ipsum vel urna elit dolor"	28.0
+"2006-10-08 09:00:00.0"	"TEST2312318"	"pellentesque ac fermentum ullamcorper vel ipsum laoreet congue sed"	29.0
+"2006-10-22 07:10:00.0"	"TEST2312318"	"arcu consectetur felis nec quis nec non elementum enim vel enim duis"	28.0
+"2006-11-05 07:20:00.0"	"TEST2312318"	"condimentum urna duis ac lobortis ornare dui eget pellentesque eget"	28.0
+"2006-11-19 07:10:00.0"	"TEST2312318"	"porttitor donec malesuada lorem aptent in convallis in dignissim quam"	28.0
+"2007-01-02 08:00:00.0"	"TEST2312318"	"proin nibh tortor eleifend sit nisl nulla porta non rhoncus sit elit"	22.0
+"2007-01-28 07:00:00.0"	"TEST2312318"	"ipsum nec turpis hac nisi euismod aliquam nulla nec metus rutrum nec"	28.0
+"2007-02-19 07:30:00.0"	"TEST2312318"	"tempor luctus eros et fringilla dictumst est volutpat convallis et"	31.0
+"2007-03-04 07:10:00.0"	"TEST2312318"	"mattis orci leo sit et phasellus in a condimentum elit neque elit"	6.0
+"2007-03-11 07:30:00.0"	"TEST2312318"	"maecenas leo nam nulla rhoncus ac amet iaculis vulputate ut in sollicitudin"	12.0
+"2007-03-25 07:30:00.0"	"TEST2312318"	"bibendum euismod erat ipsum amet imperdiet praesent ornare tempor"	18.0
+"2007-04-04 07:15:00.0"	"TEST2312318"	"iaculis ultricies lectus porttitor varius fermentum non neque a sit"	12.0
+"2007-04-16 00:00:00.0"	"TEST2312318"	"morbi vehicula ut gravida lacinia mi interdum at libero nascetur"	3.0
+"2007-04-23 07:00:00.0"	"TEST2312318"	"fermentum ut quis ac cras ipsum consectetur neque faucibus inceptos"	30.0
+"2007-05-03 07:50:00.0"	"TEST2312318"	"nibh fusce nulla praesent lacinia diam felis elit tincidunt volutpat"	30.0
+"2007-05-14 07:45:00.0"	"TEST2312318"	"sed parturient faucibus viverra neque arcu duis quam habitant feugiat"	18.0
+"2007-06-04 07:10:00.0"	"TEST2312318"	"et nec magna nunc maecenas id egestas nisi diam ut nulla quam  nunc"	32.0
+"2007-06-18 07:00:00.0"	"TEST2312318"	"fermentum a nulla nibh orci eros vestibulum tellus nunc sed  ante"	30.0
+"2007-07-01 00:00:00.0"	"TEST2312318"	"vehicula at at sit non a velit et auctor tortor placerat elit iaculis"	30.0
+"2007-07-11 07:30:00.0"	"TEST2312318"	"egestas non netus tincidunt dolor vitae dolor congue eget et at risus"	18.0
+"2007-07-24 00:00:00.0"	"TEST2312318"	"aliquam a nec vel lacus taciti sit molestie orci et lacus varius dui"	30.0
+"2007-07-29 00:00:00.0"	"TEST2312318"	"vehicula nunc ut ac a vel ac velit amet viverra sit volutpat nulla"	12.0
+"2007-08-08 00:00:00.0"	"TEST2312318"	"sollicitudin penatibus pretium dignissim in lorem pretium nec vel"	12.0
+"2007-08-21 00:00:00.0"	"TEST2312318"	"sem suscipit tellus mollis nunc vulputate fusce mollis lobortis mauris"	7.5
+"2007-09-09 00:00:00.0"	"TEST2312318"	"ante in luctus nulla porta volutpat pellentesque eros vestibulum varius"	48.0
+"2007-09-23 00:00:00.0"	"TEST2312318"	"in varius scelerisque massa sapien velit quis sit sit nibh blandit"	24.0
+"2007-11-21 00:00:00.0"	"TEST2312318"	"est leo facilisi  ligula elementum semper fusce dolor ligula at turpis"	24.0
+"2007-12-10 07:19:00.0"	"TEST2312318"	"condimentum et viverra vestibulum rutrum tristique nullam eu pretium"	10.0
+"2008-01-13 00:00:00.0"	"TEST2312318"	"faucibus id neque eros iaculis consequat at nam laoreet nisl porta"	18.0
+"2008-01-21 00:00:00.0"	"TEST2312318"	"ultrices eleifend vivamus dolor ipsum nibh lacus feugiat at mauris"	18.0
+"2008-01-27 00:00:00.0"	"TEST2312318"	"aliquet imperdiet diam nulla eget non adipiscing pellentesque posuere"	12.0
+"2008-02-05 00:00:00.0"	"TEST2312318"	"augue lacinia leo sed et tristique orci nulla ut est sapien nulla"	6.0
+"2008-02-10 07:20:00.0"	"TEST2312318"	"ullamcorper ac justo velit rutrum sed nullam eu tellus montes vestibulum"	6.0
+"2008-03-03 00:00:00.0"	"TEST2312318"	"felis enim enim suscipit justo ut laoreet fermentum amet ultricies"	24.0
+"2008-03-10 00:00:00.0"	"TEST2312318"	"nulla parturient enim  aliquam pellentesque varius at lorem gravida"	18.0
+"2008-03-31 00:00:00.0"	"TEST2312318"	"erat porta penatibus scelerisque velit eros pretium et amet mauris"	22.0
+"2008-04-14 00:00:00.0"	"TEST2312318"	"nullam sit eleifend leo ante dui fames nisl luctus sem scelerisque"	18.0
+"2008-04-28 00:00:00.0"	"TEST2312318"	"scelerisque congue maecenas dolor pellentesque maecenas  mus consectetur"	6.0
+"2008-05-05 00:00:00.0"	"TEST2312318"	"lacus pretium nunc id adipiscing velit maecenas sem quis id nascetur"	18.0
+"2008-05-27 00:00:00.0"	"TEST2312318"	"purus venenatis vestibulum sed ullamcorper diam fringilla ac adipiscing"	6.0
+"2008-06-02 00:00:00.0"	"TEST2312318"	"justo et  purus etiam suspendisse facilisi arcu nisl id elementum"	12.0
+"2008-06-10 07:45:00.0"	"TEST2312318"	"nec sollicitudin rutrum ut elit praesent praesent pretium quisque"	36.0
+"2008-06-17 07:00:00.0"	"TEST2312318"	"posuere vitae elementum risus donec aliquam suspendisse porta non"	18.0
+"2008-06-23 07:30:00.0"	"TEST2312318"	"tortor netus dictumst porttitor sapien vel cursus tellus  scelerisque"	25.0
+"2008-06-30 06:35:00.0"	"TEST2312318"	"urna congue consequat diam nunc magna turpis dui dolor fusce nulla"	18.0
+"2008-07-07 00:00:00.0"	"TEST2312318"	" metus potenti sapien malesuada turpis sit mauris nulla nam neque"	10.0
+"2008-07-14 07:20:00.0"	"TEST2312318"	"eleifend dolor  porttitor ipsum pulvinar nibh duis urna vehicula et"	17.0
+"2008-07-21 07:10:00.0"	"TEST2312318"	"neque id nullam eget at viverra faucibus nisi egestas tincidunt neque"	16.0
+"2008-07-28 07:35:00.0"	"TEST2312318"	"at rutrum elit ligula orci enim dolor mi dictum at tempor pellentesque"	20.0
+"2008-08-04 08:50:00.0"	"TEST2312318"	"pellentesque scelerisque pharetra imperdiet scelerisque leo eget suscipit"	20.0
+"2008-08-11 09:00:00.0"	"TEST2312318"	"et felis orci pretium gravida fermentum id metus congue elit a nisi"	20.0
+"2008-08-18 07:40:00.0"	"TEST2312318"	"quisque ultrices a orci nec dolor elit et nec diam at commodo nec"	20.0
+"2008-08-25 08:15:00.0"	"TEST2312318"	"gravida odio mauris lobortis tincidunt at pellentesque pellentesque"	20.0
+"2008-09-02 08:00:00.0"	"TEST2312318"	"non elit at at enim aliquam lobortis netus blandit luctus magna non"	20.0
+"2008-09-08 08:20:00.0"	"TEST2312318"	"risus ut consectetur ad integer feugiat morbi duis ullamcorper ipsum"	20.0
+"2008-09-15 08:15:00.0"	"TEST2312318"	"sagittis bibendum est varius vitae amet vel dignissim orci varius"	20.0
+"2008-09-22 08:05:00.0"	"TEST2312318"	"pellentesque mauris nisl pellentesque diam suspendisse nunc risus"	20.0
+"2008-09-29 08:35:00.0"	"TEST2312318"	"justo  aliquet suspendisse faucibus euismod libero quis pellentesque"	20.0
+"2008-10-06 08:20:00.0"	"TEST2312318"	"nec eleifend lacinia interdum lectus eget nulla pellentesque venenatis"	20.0
+"2008-10-20 08:25:00.0"	"TEST2312318"	"ac dignissim eget nec vestibulum quis purus netus nisi diam integer"	26.0
+"2008-11-03 08:15:00.0"	"TEST2312318"	"quisque sed eget elit vitae vestibulum ante sed quam consectetur quam"	26.0
+"2008-11-10 08:20:00.0"	"TEST2312318"	"laoreet viverra nascetur aptent viverra leo a purus feugiat lacinia"	6.0
+"2008-11-17 08:05:00.0"	"TEST2312318"	"amet aptent non tellus condimentum suspendisse et vel aliquet nec"	20.0
+"2008-11-25 08:00:00.0"	"TEST2312318"	"magna malesuada potenti ante iaculis vitae purus ac  tellus nunc ligula"	12.0
+"2008-12-01 08:20:00.0"	"TEST2312318"	"gravida dignissim quis viverra ante consectetur mattis scelerisque"	20.0
+"2008-12-09 08:15:00.0"	"TEST2312318"	"hendrerit id mollis sollicitudin vestibulum tincidunt sem dolor praesent"	18.0
+"2008-12-11 08:40:00.0"	"TEST2312318"	"mus phasellus gravida phasellus at eros id molestie massa massa elit"	30.0
+"2008-12-29 08:25:00.0"	"TEST2312318"	"dictum auctor leo ante tincidunt volutpat lorem vel cursus a pulvinar"	5.0
+"2009-01-06 08:15:00.0"	"TEST2312318"	"vitae velit sem torquent elit risus quis nisi nisi adipiscing vitae"	18.0
+"2009-01-12 09:00:00.0"	"TEST2312318"	"ut tortor augue posuere felis nec conubia a turpis auctor tempor mi"	32.0
+"2009-01-27 08:30:00.0"	"TEST2312318"	"id id quis bibendum enim consequat mollis per sem duis vel semper"	18.0
+"2009-01-29 08:15:00.0"	"TEST2312318"	"nec non nullam malesuada luctus at sagittis egestas quisque mi pellentesque"	30.0
+"2009-02-09 08:15:00.0"	"TEST2312318"	"tortor etiam elementum integer dolor ligula aliquam lorem donec vitae"	12.0
+"2009-02-23 08:30:00.0"	"TEST2312318"	"egestas etiam quam felis diam urna semper in dui lectus odio nibh"	20.0
+"2009-03-05 08:20:00.0"	"TEST2312318"	"tempus dui enim pellentesque turpis adipiscing egestas ante eros ipsum"	32.0
+"2009-03-15 08:31:00.0"	"TEST2312318"	"sollicitudin nullam vivamus non natoque tincidunt sit eleifend leo"	6.0
+"2009-03-23 08:00:00.0"	"TEST2312318"	"velit magna sit sagittis ut eget varius habitasse penatibus malesuada"	20.0
+"2009-03-25 08:15:00.0"	"TEST2312318"	"felis eget ac vel imperdiet duis semper cras aliquet vestibulum nisl"	30.0
+"2009-04-05 09:00:00.0"	"TEST2312318"	"vestibulum nunc  sed velit dolor ut id vitae fermentum nascetur pretium"	32.0
+"2009-04-19 08:30:00.0"	"TEST2312318"	"rhoncus class mollis congue ut felis nec litora fusce dui sit lacinia"	10.0
+"2009-04-27 08:10:00.0"	"TEST2312318"	"curabitur vivamus amet neque eget eros euismod amet arcu arcu mus"	6.0
+"2009-05-03 08:15:00.0"	"TEST2312318"	"gravida erat nulla lacus vitae suscipit sociosqu tortor suspendisse"	10.0
+"2009-05-11 09:30:00.0"	"TEST2312318"	"pellentesque ut dui sed risus donec eleifend imperdiet consequat sapien"	12.0
+"2009-05-17 08:35:00.0"	"TEST2312318"	"ligula tincidunt inceptos dapibus nunc sit nullam at interdum eros"	10.0
+"2009-05-25 08:45:00.0"	"TEST2312318"	"tortor viverra pretium a eu lorem aliquam pellentesque sed sodales"	6.0
+"2009-06-01 08:35:00.0"	"TEST2312318"	"fusce sed ligula non magna quis vel tristique felis lobortis iaculis"	42.0
+"2009-06-03 07:55:00.0"	"TEST2312318"	"eget blandit pharetra tristique risus sit pretium fermentum at viverra"	38.0
+"2009-06-14 00:00:00.0"	"TEST2312318"	"feugiat eget nisl natoque tristique tempus scelerisque pharetra tincidunt"	12.0
+"2009-06-28 08:00:00.0"	"TEST2312318"	"neque est nec lorem ut quam at est fringilla at sit a vitae felis"	10.0
+"2009-07-12 08:00:00.0"	"TEST2312318"	"sit facilisis curabitur ut commodo et tristique ante nascetur duis"	10.0
+"2009-07-20 07:40:00.0"	"TEST2312318"	"ante augue leo erat eget fringilla curabitur justo orci id lobortis"	12.0
+"2009-07-26 08:00:00.0"	"TEST2312318"	"justo nec quam non aliquam dapibus viverra urna nec turpis tristique"	10.0
+"2009-08-09 08:00:00.0"	"TEST2312318"	"rutrum proin nam sollicitudin sociis ac cubilia at aliquet ante dignissim"	10.0
+"2009-08-17 08:30:00.0"	"TEST2312318"	"nulla tristique rutrum at lorem neque quis justo vestibulum blandit"	12.0
+"2009-08-23 08:00:00.0"	"TEST2312318"	"urna quis justo fermentum natoque quis posuere ante sed leo commodo"	24.0
+"2009-08-25 07:55:00.0"	"TEST2312318"	"mauris aenean sem orci  urna in nulla id fusce hac ultrices suscipit"	32.0
+"2009-09-03 09:00:00.0"	"TEST2312318"	"purus pretium nisl scelerisque placerat id nullam at tincidunt tellus"	42.0
+"2009-09-13 09:00:00.0"	"TEST2312318"	"posuere egestas dignissim feugiat aliquam auctor sodales curae; ante"	6.0
+"2009-09-20 08:50:00.0"	"TEST2312318"	"orci orci tempus a nunc id porta blandit rutrum a nulla molestie rutrum"	10.0
+"2009-10-04 08:35:00.0"	"TEST2312318"	"dolor vehicula quam pharetra non leo facilisis elit suspendisse vestibulum"	10.0
+"2009-10-20 09:00:00.0"	"TEST2312318"	"auctor elit in fusce mauris nec eget mauris eget amet odio urna blandit"	12.0
+"2009-10-29 08:40:00.0"	"TEST2312318"	"eros pellentesque a nibh urna dolor gravida ut amet vel sapien eget"	6.0
+"2009-11-09 09:00:00.0"	"TEST2312318"	"velit risus at est mi inceptos lorem eget viverra tellus rutrum faucibus"	12.0
+"2009-11-15 09:00:00.0"	"TEST2312318"	"vel tortor in sed nisi nibh porta amet vel nullam ut vitae odio justo"	12.0
+"2009-11-19 00:00:00.0"	"TEST2312318"	"pellentesque viverra erat nisi pellentesque non sociis venenatis non"	12.0
+"2009-12-08 00:00:00.0"	"TEST2312318"	"risus amet dolor amet vestibulum tellus nisl egestas cursus mollis"	12.0
+"2009-12-14 00:00:00.0"	"TEST2312318"	"convallis turpis feugiat at tincidunt nullam purus rutrum quisque"	12.0
+"2009-12-20 00:00:00.0"	"TEST2312318"	"luctus eros leo sed tellus sociis eu molestie nec lectus auctor purus"	6.0
+"2009-12-27 00:00:00.0"	"TEST2312318"	"quis vivamus imperdiet conubia sed sem sollicitudin congue nisl iaculis"	6.0
+"2010-01-06 08:10:00.0"	"TEST2312318"	"id eu convallis ac magna condimentum posuere nec tincidunt arcu amet"	12.0
+"2010-01-11 00:00:00.0"	"TEST2312318"	"magna mi diam neque ridiculus imperdiet morbi quis arcu dapibus elit"	18.0
+"2010-01-18 08:45:00.0"	"TEST2312318"	" quisque ut iaculis ligula curae; suspendisse mattis pretium quis"	12.0
+"2010-01-27 08:15:00.0"	"TEST2312318"	"non sed eu id morbi et placerat quis luctus tempor at bibendum mauris"	12.0
+"2010-02-01 00:00:00.0"	"TEST2312318"	"morbi etiam iaculis nunc sit ut elit eget urna purus pellentesque ante"	17.5
+"2010-02-21 00:00:00.0"	"TEST2312318"	"orci consectetur vel nisl arcu facilisis commodo mauris sed sit vel"	"34.0"
+"2010-03-03 00:00:00.0"	"TEST2312318"	"non quam vestibulum amet sed turpis neque consectetur scelerisque"	18.0
+"2010-03-08 00:00:00.0"	"TEST2312318"	"sodales faucibus taciti eget luctus dapibus consequat a dui nibh sed"	32.0
+"2010-04-04 00:00:00.0"	"TEST2312318"	"dignissim tortor nam porttitor nulla iaculis non amet velit vulputate"	20.0
+"2010-04-13 00:00:00.0"	"TEST2312318"	"sem litora mauris aenean erat non ut auctor erat facilisis nullam"	18.0
+"2010-04-19 00:00:00.0"	"TEST2312318"	"aenean porta faucibus sed viverra interdum eleifend turpis integer"	36.0
+"2010-05-04 00:00:00.0"	"TEST2312318"	"a tellus bibendum ipsum quis viverra sed id vestibulum sollicitudin"	12.0
+"2010-05-25 00:00:00.0"	"TEST2312318"	"ligula luctus est posuere urna odio feugiat sit fringilla tristique"	60.0
+"2010-06-07 00:00:00.0"	"TEST2312318"	"lacinia donec laoreet ipsum et vitae sodales sed dis feugiat quisque"	12.0
+"2010-06-23 00:00:00.0"	"TEST2312318"	"fusce nulla a sodales mi consectetur elit litora mauris turpis ante"	12.0
+"2010-08-15 00:00:00.0"	"TEST2312318"	"dui nam ac posuere lectus neque hendrerit nisi neque ut sollicitudin"	20.0
+"2010-09-01 00:00:00.0"	"TEST2312318"	"iaculis tortor cursus amet tempus nisi molestie augue nibh turpis"	6.0
+"2010-09-06 00:00:00.0"	"TEST2312318"	"non pellentesque non donec et nulla quis porta etiam diam nibh lacinia"	6.0
+"2010-09-13 00:00:00.0"	"TEST2312318"	"lectus mollis etiam eu sit vehicula risus laoreet lacus neque ut eu"	20.0
+"2010-09-20 00:00:00.0"	"TEST2312318"	"faucibus congue fusce vitae nisl ut adipiscing porttitor id dapibus"	12.0
+"2010-10-21 00:00:00.0"	"TEST2312318"	"vulputate per vestibulum mi a consectetur facilisis duis erat euismod"	18.0
+"2010-10-27 00:00:00.0"	"TEST2312318"	"eros inceptos euismod lectus mi vestibulum convallis ipsum quis ut"	20.0
+"2010-11-03 00:00:00.0"	"TEST2312318"	"lorem eget turpis hendrerit quis vel ligula conubia mattis integer"	24.0
+"2010-11-10 08:07:00.0"	"TEST2312318"	"vestibulum sed cursus ultricies at eget libero quis ipsum sapien turpis"	12.0
+"2010-11-29 00:00:00.0"	"TEST2312318"	"nibh nullam nisl fermentum rhoncus id sollicitudin pharetra lobortis"	18.0
+"2010-12-06 00:00:00.0"	"TEST2312318"	"condimentum euismod sapien amet odio in consequat iaculis nulla congue"	23.5
+"2010-12-21 00:00:00.0"	"TEST2312318"	"lectus tempus auctor gravida tellus morbi aliquam vulputate  proin"	18.0
+"2010-12-22 00:00:00.0"	"TEST2312318"	"semper vitae auctor ultrices pharetra tortor amet egestas orci donec"	30.0
+"2011-01-04 00:00:00.0"	"TEST2312318"	"felis sodales scelerisque massa id suscipit commodo felis porta lacus"	12.0
+"2011-01-09 00:00:00.0"	"TEST2312318"	"mollis auctor at hendrerit in nulla euismod congue vel non cras morbi"	2.0
+"2011-01-12 00:00:00.0"	"TEST2312318"	"mauris donec convallis erat nunc elit in tincidunt eu urna augue ultricies"	12.0
+"2011-01-18 00:00:00.0"	"TEST2312318"	"malesuada nullam cursus diam varius et libero elit facilisis id libero"	12.0
+"2011-01-23 00:00:00.0"	"TEST2312318"	"velit laoreet senectus porta at pellentesque sed class quam posuere"	12.0
+"2011-02-02 00:00:00.0"	"TEST2312318"	"elit ligula in non rutrum duis in eget sem turpis dolor praesent mauris"	18.0
+"2011-02-06 00:00:00.0"	"TEST2312318"	"egestas congue nec tristique ipsum egestas vel pharetra mattis pharetra"	6.0
+"2011-02-14 08:00:00.0"	"TEST2312318"	"enim cras justo molestie ut fermentum quisque pharetra non lacus mi"	48.0
+"2011-03-16 00:00:00.0"	"TEST2312318"	"morbi erat ut tellus vivamus et scelerisque ante quis amet bibendum"	6.0
+"2011-03-21 08:00:00.0"	"TEST2312318"	"fames purus commodo nec amet quis eros dapibus scelerisque arcu consequat"	30.0
+"2011-03-24 08:00:00.0"	"TEST2312318"	"mollis consequat volutpat mi sollicitudin tempor non eu iaculis imperdiet"	6.0
+"2011-03-27 00:00:00.0"	"TEST2312318"	"mattis placerat a cubilia tincidunt gravida auctor a turpis interdum"	6.0
+"2011-03-30 00:00:00.0"	"TEST2312318"	"eu aliquam pretium eget cursus morbi metus neque proin sem urna sapien"	18.0
+"2011-04-13 09:36:00.0"	"TEST2312318"	"scelerisque quis erat erat vestibulum dictum integer eleifend urna"	32.0
+"2011-05-04 00:00:00.0"	"TEST2312318"	"at varius sed sodales sociis pretium cubilia blandit justo amet lorem"	30.0
+"2011-05-17 08:00:00.0"	"TEST2312318"	"orci dolor at id fermentum mi consectetur platea aliquam auctor varius"	24.0
+"2011-05-18 00:00:00.0"	"TEST2312318"	"lacinia amet penatibus in sed urna sapien vitae porttitor ac dolor"	6.0
+"2011-05-25 00:00:00.0"	"TEST2312318"	"sapien lorem diam amet ultrices varius id faucibus sodales eleifend"	18.0
+"2011-05-30 00:00:00.0"	"TEST2312318"	"posuere diam id semper a lacus congue quis aliquet interdum nisi sit"	23.0
+"2011-06-05 00:00:00.0"	"TEST2312318"	"ut donec tristique phasellus luctus turpis suspendisse sem nam varius"	30.0
+"2011-07-05 08:00:00.0"	"TEST2312318"	"auctor et proin nulla massa viverra massa est ultricies faucibus pharetra"	30.0
+"2011-07-19 00:00:00.0"	"TEST2312318"	"curabitur non pellentesque laoreet suscipit metus pretium pharetra"	24.0
+"2011-07-25 07:45:00.0"	"TEST2312318"	"pharetra ac massa eu class quisque non at nisi lectus aliquet urna"	12.0
+"2011-07-28 00:00:00.0"	"TEST2312318"	"nisl egestas vel ad augue diam magna purus nibh elit cubilia consequat"	24.0
+"2011-08-14 09:00:00.0"	"TEST2312318"	"nec egestas vitae congue at a libero est id sed amet torquent tortor"	40.0
+"2011-08-21 00:00:00.0"	"TEST2312318"	"iaculis lobortis lorem adipiscing nec metus ut euismod ullamcorper morbi"	6.0
+"2011-08-22 00:00:00.0"	"TEST2312318"	"nibh mi sapien adipiscing ligula pellentesque quis ut urna pellentesque"	12.0
+"2011-08-28 00:00:00.0"	"TEST2312318"	"pretium per egestas at scelerisque vitae sem sed mauris elementum"	18.0
+"2011-08-29 00:00:00.0"	"TEST2312318"	"eget interdum bibendum aenean turpis nam bibendum eu sollicitudin"	6.0
+"2011-09-07 00:00:00.0"	"TEST2312318"	"id ornare ornare odio ipsum gravida nunc aliquam congue nisi velit eget"	6.0
+"2011-09-11 10:00:00.0"	"TEST2312318"	"viverra viverra vel lacus massa nisi odio elementum ornare vulputate"	8.0
+"2011-09-18 00:00:00.0"	"TEST2312318"	"euismod luctus vestibulum commodo placerat rhoncus velit tincidunt"	2.0
+"2011-09-21 08:30:00.0"	"TEST2312318"	"sed lacus felis lorem nunc ipsum condimentum nibh quisque lorem sapien"	42.0
+"2011-09-25 00:00:00.0"	"TEST2312318"	"fermentum auctor eros fermentum in pellentesque vel dapibus aliquet"	6.0
+"2011-10-02 00:00:00.0"	"TEST2312318"	"sit est blandit erat magna vitae in tempor consequat proin ac orci"	2.0
+"2011-10-09 08:29:00.0"	"TEST2312318"	"suscipit nisl laoreet leo porta sem orci orci purus cubilia cursus ut"	6.0
+"2011-10-17 00:00:00.0"	"TEST2312318"	"ullamcorper nibh euismod etiam elit nunc quis sed"	12.0
+"2011-10-24 00:00:00.0"	"TEST2312318"	"sed ac orci ante nam proin amet diam amet volutpat hendrerit sollicitudin"	18.0
+"2011-11-02 08:35:00.0"	"TEST2312318"	"erat scelerisque lorem morbi quis non sit nam ultricies ullamcorper venenatis"	18.0
+"2011-11-27 08:00:00.0"	"TEST2312318"	"elementum enim fermentum nulla commodo augue pretium eros pellentesque"	6.0
+"2011-12-12 08:45:00.0"	"TEST2312318"	"tortor sollicitudin tincidunt at fusce quisque id condimentum tellus"	12.0
+"2011-12-18 00:00:00.0"	"TEST2312318"	"phasellus lorem sed amet auctor ultrices orci odio etiam donec elit nam"	18.0
+"2012-01-12 08:20:00.0"	"TEST2312318"	"odio eget sit mattis in dolor in lorem tempor fusce aliquet eros justo"	30.0
+"2012-01-25 08:00:00.0"	"TEST2312318"	"litora auctor imperdiet vel consectetur quis ipsum condimentum mauris"	12.0
+"2012-02-05 00:00:00.0"	"TEST2312318"	"nunc fermentum quis auctor semper nunc praesent sem sem urna enim"	42.0
+"2012-02-27 00:00:00.0"	"TEST2312318"	"ante et lacus accumsan fringilla enim urna mi in urna suscipit ut"	6.0
+"2012-03-05 00:00:00.0"	"TEST2312318"	"at lectus condimentum nunc gravida magna justo a elit congue habitant"	18.0
+"2012-03-12 00:00:00.0"	"TEST2312318"	"in porta gravida vivamus pellentesque lobortis accumsan nunc non commodo"	12.0
+"2012-03-29 00:00:00.0"	"TEST2312318"	"purus ullamcorper metus egestas nec et vel tristique donec sapien"	6.0
+"2012-04-09 00:00:00.0"	"TEST2312318"	"arcu mi quis mollis nam ut etiam sed nunc risus et varius lobortis"	18.0
+"2012-04-20 00:00:00.0"	"TEST2312318"	"metus dignissim maecenas tincidunt integer id purus leo adipiscing"	6.0
+"2012-05-01 00:00:00.0"	"TEST2312318"	"turpis augue vehicula at sem class at leo sit metus parturient duis"	4.0
+"2012-05-24 00:00:00.0"	"TEST2312318"	"placerat feugiat scelerisque vitae libero dolor rutrum id tempor sit"	18.0
+"2012-05-29 00:00:00.0"	"TEST2312318"	"augue rutrum magna egestas nec id felis mi quis semper turpis egestas"	18.0
+"2012-06-07 09:00:00.0"	"TEST2312318"	"dis praesent quis vivamus dui urna imperdiet in magna in turpis suspendisse"	4.0
+"2012-06-18 00:00:00.0"	"TEST2312318"	"non sodales ultricies dolor vestibulum scelerisque nunc ullamcorper"	12.0
+"2012-07-02 08:05:00.0"	"TEST2312318"	"curabitur ante sem libero magna donec orci amet consectetur mus neque"	18.0
+"2012-07-09 07:40:00.0"	"TEST2312318"	"quam dui odio aliquet sed lacus turpis egestas duis ut elementum diam"	18.0
+"2012-07-18 00:00:00.0"	"TEST2312318"	"tortor nunc potenti laoreet eu lorem dapibus fusce tellus neque condimentum"	12.0
+"2012-07-30 00:00:00.0"	"TEST2312318"	"non nam porta scelerisque sem torquent sed tortor convallis pharetra"	6.0
+"2012-08-08 08:15:00.0"	"TEST2312318"	"elit ac tincidunt enim condimentum augue urna eleifend etiam vitae"	12.0
+"2012-08-23 08:00:00.0"	"TEST2312318"	"nisi lobortis quis massa sed pulvinar neque amet torquent vitae aliquam"	12.0
+"2012-08-30 08:00:00.0"	"TEST2312318"	"sed risus malesuada et vel elit ipsum nulla faucibus sit nulla mauris"	24.0
+"2012-09-20 07:45:00.0"	"TEST2312318"	"gravida eget turpis interdum velit mauris ipsum sit et donec mollis egestas"	12.0
+"2012-10-05 08:10:00.0"	"TEST2312318"	"dolor sem consequat est non felis enim posuere id urna mollis nec posuere"	18.0
+"2012-10-08 07:30:00.0"	"TEST2312318"	"vulputate orci quam elementum amet netus leo erat sit luctus elit"	12.0
+"2012-10-18 07:50:00.0"	"TEST2312318"	"quis volutpat fringilla sed nunc consectetur tortor lacinia amet posuere"	30.0
+"2012-11-08 00:00:00.0"	"TEST2312318"	"neque pharetra tortor et elit dui in in velit porta scelerisque nisi"	6.0
+"2012-11-19 00:00:00.0"	"TEST2312318"	"nam pulvinar ut dictum erat et lobortis aliquam ipsum pellentesque"	18.0
+"2012-11-27 07:45:00.0"	"TEST2312318"	"interdum amet duis lectus arcu eget venenatis ultrices ac ac accumsan"	18.0
+"2012-12-04 00:00:00.0"	"TEST2312318"	"mi auctor augue vel amet lorem id in ligula quisque at non nibh nisi"	18.0
+"2012-12-06 00:00:00.0"	"TEST2312318"	"id laoreet viverra et magna sed in mollis integer sed platea fusce"	6.0
+"2012-12-20 00:00:00.0"	"TEST2312318"	"elit pretium tristique at a facilisi sed sociis massa quam semper at"	12.0
+"2013-01-14 07:30:00.0"	"TEST2312318"	"quisque sodales nulla lacus vitae et vitae aliquet nulla et mauris"	12.0
+"2013-01-25 07:40:00.0"	"TEST2312318"	"at faucibus in et pharetra faucibus dignissim pretium ligula ac phasellus"	30.0
+"2013-01-31 08:00:00.0"	"TEST2312318"	"odio aliquet laoreet bibendum suspendisse lobortis nulla euismod varius"	12.0
+"2013-02-07 00:00:00.0"	"TEST2312318"	"nullam at eleifend praesent quis velit risus vivamus luctus consectetur"	12.0
+"2013-02-21 08:00:00.0"	"TEST2312318"	"lorem lobortis et blandit habitant nunc amet ut nunc eu bibendum eu"	18.0
+"2013-03-03 07:45:00.0"	"TEST2312318"	"lacus rutrum ultrices aliquam facilisis turpis tortor cum curabitur"	30.0
+"2013-03-04 07:50:00.0"	"TEST2312318"	"turpis bibendum urna massa dui at posuere proin ante fusce egestas"	18.0
+"2013-03-10 08:15:00.0"	"TEST2312318"	"lobortis felis feugiat vel turpis augue a ac nec non quam elementum"	6.0
+"2013-03-12 08:00:00.0"	"TEST2312318"	"pulvinar pretium conubia diam etiam mauris lacus eget proin eu dignissim"	42.0
+"2013-04-03 07:30:00.0"	"TEST2312318"	"sollicitudin blandit praesent odio sollicitudin justo at eu vestibulum"	12.0
+"2013-04-10 07:30:00.0"	"TEST2312318"	"in amet vestibulum nec integer sed porta orci vel odio sed arcu sit"	36.0
+"2013-04-16 09:50:00.0"	"TEST2312318"	"felis mus sollicitudin donec lobortis vel potenti posuere enim ante"	5.5
+"2013-04-30 00:00:00.0"	"TEST2312318"	"sapien mattis dui in a ac id in ligula iaculis sed rutrum odio a elit"	12.0
+"2013-05-08 08:00:00.0"	"TEST2312318"	"mi ante facilisis mattis sed donec sed nulla vel pellentesque vitae"	12.0
+"2013-05-22 07:45:00.0"	"TEST2312318"	"massa nunc lacus sed sed amet a potenti a lobortis dui adipiscing"	12.0
+"2013-06-03 08:00:00.0"	"TEST2312318"	"id molestie facilisis libero morbi id sed egestas sem aliquet nunc"	2.0
+"2013-06-05 08:00:00.0"	"TEST2312318"	"lobortis orci egestas mollis ipsum porta a ac pretium volutpat viverra"	12.0
+"2013-06-09 00:00:00.0"	"TEST2312318"	"luctus dapibus quam nisi nec lectus cras leo eleifend felis luctus"	12.0
+"2013-06-11 07:20:00.0"	"TEST2312318"	"eget at tincidunt blandit tellus nulla id sed eget facilisis pulvinar"	24.0
+"2013-06-19 07:50:00.0"	"TEST2312318"	"quis faucibus velit augue sit est donec risus eros nunc nec accumsan"	12.0
+"2013-06-26 08:00:00.0"	"TEST2312318"	"dui nunc fermentum cubilia eleifend tristique ac adipiscing orci neque"	24.0
+"2013-07-03 08:05:00.0"	"TEST2312318"	"sem congue a pretium adipiscing himenaeos libero leo egestas aptent"	12.0
+"2013-07-23 08:00:00.0"	"TEST2312318"	"vestibulum ultrices quisque amet per libero hendrerit vulputate tincidunt"	18.0
+"2013-07-25 07:45:00.0"	"TEST2312318"	"sapien tempor posuere molestie nulla id vitae ultrices et natoque nec"	36.0
+"2013-07-31 00:00:00.0"	"TEST2312318"	"a odio duis primis adipiscing ac elit et posuere vel et vitae viverra"	18.0
+"2013-08-05 08:40:00.0"	"TEST2312318"	"metus integer ultricies mi facilisis sem gravida orci eleifend commodo"	18.0
+"2013-08-11 08:00:00.0"	"TEST2312318"	"facilisi urna semper pellentesque libero bibendum nec sit felis mattis"	18.0
+"2013-08-28 08:05:00.0"	"TEST2312318"	"magna cras orci nam volutpat posuere sed enim libero aliquam sed ipsum"	12.0
+"2013-09-15 08:00:00.0"	"TEST2312318"	"quis lacus sociis praesent donec quis ante sollicitudin lectus morbi"	4.0
+"2013-09-19 08:05:00.0"	"TEST2312318"	"lorem purus etiam vestibulum sodales cursus at leo mi potenti fermentum"	24.0
+"2013-09-23 08:00:00.0"	"TEST2312318"	"amet ultricies vestibulum ac blandit semper rutrum rhoncus et justo"	6.0
+"2013-09-25 08:10:00.0"	"TEST2312318"	"porta a consectetur suscipit nibh pellentesque dui orci aliquet velit"	24.0
+"2013-09-29 08:00:00.0"	"TEST2312318"	"semper leo vel sed mauris rhoncus sed massa suspendisse feugiat augue"	66.0
+"2013-11-06 07:30:00.0"	"TEST2312318"	"metus dolor sollicitudin aliquam nec eu senectus ut libero nam id"	36.0
+"2013-11-10 08:30:00.0"	"TEST2312318"	"malesuada ornare erat purus lorem sollicitudin tristique feugiat metus"	48.0
+"2013-12-15 07:29:00.0"	"TEST2312318"	"at volutpat at orci erat quam ipsum metus eleifend at molestie id"	48.0
+"2014-01-08 08:45:00.0"	"TEST2312318"	"volutpat augue venenatis nunc mi nam posuere interdum sit dolor est"	24.0
+"2014-01-12 08:30:00.0"	"TEST2312318"	"ornare nam tellus maecenas vestibulum turpis blandit vitae et eget"	24.0
+"2014-01-20 08:00:00.0"	"TEST2312318"	"quam vestibulum laoreet senectus nullam ac lacus diam ac proin pulvinar"	24.0
+"2014-01-26 08:45:00.0"	"TEST2312318"	"tempus amet tincidunt praesent mollis sollicitudin vestibulum eget"	12.0
+"2014-02-02 09:00:00.0"	"TEST2312318"	"tincidunt faucibus mollis vitae justo eget nulla risus id libero metus"	12.0
+"2014-02-17 08:15:00.0"	"TEST2312318"	"class magna quis blandit non justo mi sed justo tristique augue ut"	48.0
+"2014-02-26 08:00:00.0"	"TEST2312318"	"tristique cursus imperdiet risus id leo himenaeos quis mi tellus"	6.0
+"2014-03-05 08:40:00.0"	"TEST2312318"	"dictum a malesuada aenean malesuada lacinia nascetur accumsan id a ante"	21.0
+"2014-03-09 07:30:00.0"	"TEST2312318"	"felis penatibus metus a consequat sit urna id libero commodo adipiscing"	24.0
+"2014-03-31 08:25:00.0"	"TEST2312318"	"enim pellentesque commodo aliquet faucibus eleifend ipsum mauris suspendisse"	24.0
+"2014-04-06 07:30:00.0"	"TEST2312318"	"elit libero integer fermentum felis non penatibus dictum nisi dignissim"	8.0
+"2014-04-14 08:25:00.0"	"TEST2312318"	"quis tristique nibh euismod ac blandit ultrices praesent placerat"	24.0
+"2014-04-20 08:00:00.0"	"TEST2312318"	"mi turpis congue pharetra a non sollicitudin et id sapien conubia"	24.0
+"2014-05-19 08:00:00.0"	"TEST2312318"	"orci dapibus ut vel consequat arcu leo adipiscing nec amet tempor at"	15.5
+"2014-05-26 07:29:00.0"	"TEST2312318"	"amet velit ullamcorper euismod sit sodales laoreet at dignissim at"	6.0
+"2014-05-26 08:00:00.0"	"TEST2312318"	"in in integer turpis libero ante vel tempor neque et vitae consequat"	6.0
+"2014-06-01 09:00:00.0"	"TEST2312318"	"vel tortor facilisis odio sem mollis nunc id magna volutpat magna"	24.0
+"2014-06-11 07:55:00.0"	"TEST2312318"	"sem pellentesque laoreet pellentesque pulvinar ultrices porta velit"	12.0
+"2014-07-07 08:05:00.0"	"TEST2312318"	"neque nulla tincidunt etiam lorem ullamcorper sapien quam vitae justo"	6.0
+"2014-07-16 07:50:00.0"	"TEST2312318"	"ut eu orci eleifend egestas dolor fermentum est dignissim sed pretium"	36.0
+"2014-07-23 08:20:00.0"	"TEST2312318"	"fusce dolor mauris tellus eget sit adipiscing bibendum convallis"	6.0
+"2014-07-27 08:12:00.0"	"TEST2312318"	"quis mauris donec nec sed sit accumsan viverra neque et quam vitae at"	15.5
+"2014-07-30 08:00:00.0"	"TEST2312318"	"vestibulum quisque ligula ullamcorper eu non aliquam fusce quam urna"	6.0
+"2014-08-04 07:54:00.0"	"TEST2312318"	"lobortis ante quisque egestas semper ornare morbi faucibus eu sed"	6.0
+"2014-08-06 08:20:00.0"	"TEST2312318"	"ultrices volutpat mauris suscipit aliquam nunc at lacus commodo nisl"	6.0
+"2014-08-10 07:36:00.0"	"TEST2312318"	"molestie quisque magnis fames maecenas fames molestie risus etiam"	38.0
+"2014-08-25 08:00:00.0"	"TEST2312318"	"egestas pulvinar tempus in ultricies et diam urna per donec ac ante"	40.0
+"2014-09-03 08:48:00.0"	"TEST2312318"	"felis libero lacus class sed scelerisque turpis dolor urna dui posuere"	6.0
+"2014-09-10 08:00:00.0"	"TEST2312318"	"in duis a aliquet metus arcu in fusce sed justo eleifend vel rutrum"	6.0
+"2014-10-05 07:58:00.0"	"TEST2312318"	"porttitor luctus tellus metus quam vel nec odio semper accumsan ornare"	48.0
+"2014-10-08 09:00:00.0"	"TEST2312318"	"commodo  elit amet id vel ipsum leo sed montes erat diam massa sagittis"	18.0
+"2014-10-13 08:16:00.0"	"TEST2312318"	"a etiam est mi vestibulum odio nam purus tincidunt sed adipiscing"	6.0
+"2014-10-21 07:35:00.0"	"TEST2312318"	"ac lorem aliquam magna ut libero molestie semper sit in odio sagittis"	18.0
+"2014-10-29 08:30:00.0"	"TEST2312318"	"pulvinar leo fringilla consectetur accumsan dolor non sed ac commodo"	18.0
+"2014-12-21 08:35:00.0"	"TEST2312318"	"nibh pharetra sit eget rutrum nisi nunc sed lorem magnis leo  nunc"	6.0
+"2015-01-04 08:00:00.0"	"TEST2312318"	" urna laoreet varius vitae lorem quam dapibus tempor vehicula vitae"	6.0
+"2015-01-07 07:30:00.0"	"TEST2312318"	"at mauris nascetur pulvinar maecenas nec magna maecenas scelerisque"	48.0
+"2015-01-14 09:12:00.0"	"TEST2312318"	"quam risus consequat augue pulvinar id ornare volutpat et fermentum"	12.0
+"2015-02-08 09:00:00.0"	"TEST2312318"	"erat netus commodo venenatis eu eros augue aliquam augue dignissim"	12.0
+"2015-02-11 08:10:00.0"	"TEST2312318"	"varius velit etiam amet blandit fringilla dolor magna elementum donec"	6.0
+"2015-02-25 08:40:00.0"	"TEST2312318"	"fringilla eleifend lectus vestibulum nullam in turpis id sit nisl"	6.0
+"2015-03-01 09:00:00.0"	"TEST2312318"	"odio lacinia sapien ac elit augue pellentesque tristique ad nec a adipiscing"	32.0
+"2015-03-09 08:00:00.0"	"TEST2312318"	"blandit ligula condimentum volutpat purus sapien duis dui felis tortor"	8.0
+"2015-03-12 08:03:00.0"	"TEST2312318"	"nam lobortis nulla sagittis orci curabitur velit euismod congue eleifend"	8.0
+"2015-04-01 09:23:00.0"	"TEST2312318"	"curabitur et malesuada mauris suspendisse netus adipiscing lorem"	6.0
+"2015-04-14 07:50:00.0"	"TEST2312318"	"faucibus suspendisse eros eget eu nisl ipsum urna et velit pellentesque"	24.0
+"2015-04-21 08:30:00.0"	"TEST2312318"	"tincidunt primis ante bibendum ut laoreet sit leo  aliquam posuere"	6.0
+"2015-04-29 08:40:00.0"	"TEST2312318"	"quis turpis nulla vitae condimentum tristique eleifend aliquet consectetur"	6.0
+"2015-05-10 07:35:00.0"	"TEST2312318"	"justo accumsan ultricies eros ad est sed aenean sit ante ac sed lobortis"	48.0
+"2015-05-17 07:20:00.0"	"TEST2312318"	"venenatis consequat mauris ac faucibus cum scelerisque a justo porttitor"	6.0
+"2015-06-03 08:05:00.0"	"TEST2312318"	"eget nisl nisl lobortis turpis consectetur eleifend et habitant bibendum"	18.0
+"2015-06-23 08:30:00.0"	"TEST2312318"	"fusce est nulla facilisi nam erat ac lacus nec orci auctor nibh fames"	6.0
+"2015-07-01 08:47:00.0"	"TEST2312318"	"et malesuada gravida egestas lorem sit adipiscing magna euismod ullamcorper"	12.0
+"2015-07-08 08:08:00.0"	"TEST2312318"	"ut parturient netus eget amet in elementum pellentesque faucibus"	2.0
+"2015-07-12 07:37:00.0"	"TEST2312318"	"scelerisque tempus semper nunc turpis consequat lectus accumsan ipsum"	6.0
+"2015-07-15 07:50:00.0"	"TEST2312318"	"nec id sed habitasse egestas laoreet elementum dui pulvinar mauris"	48.0
+"2015-07-20 08:06:00.0"	"TEST2312318"	"eu semper sit volutpat porta dignissim tortor dui vestibulum porta pulvinar"	33.5
+"2015-08-05 08:06:00.0"	"TEST2312318"	"dolor aptent scelerisque blandit pharetra lectus ac suspendisse nullam"	12.0
+"2015-08-17 08:00:00.0"	"TEST2312318"	"orci a suspendisse fermentum volutpat turpis eget commodo curabitur"	48.0
+"2015-08-25 07:24:00.0"	"TEST2312318"	"quam iaculis diam at lacinia magna vel varius est justo neque felis"	6.0
+"2015-08-26 07:50:00.0"	"TEST2312318"	"vitae vestibulum nulla vestibulum amet dui ipsum imperdiet rhoncus"	24.0
+"2015-09-01 07:21:00.0"	"TEST2312318"	"ac curabitur sed lorem  volutpat libero nulla accumsan at posuere"	6.0
+"2015-09-09 08:00:00.0"	"TEST2312318"	"sed sed dapibus nibh scelerisque et nullam urna conubia nam mauris"	12.0
+"2015-09-16 09:20:00.0"	"TEST2312318"	"velit nec orci vehicula nulla nisl feugiat class turpis litora facilisis"	18.0
+"2015-10-05 07:37:00.0"	"TEST2312318"	"a purus a sit velit nullam adipiscing metus turpis dictum amet bibendum"	6.0
+"2015-10-07 08:15:00.0"	"TEST2312318"	"purus vehicula ligula tortor convallis nibh lacus amet vel sed laoreet"	12.0
+"2015-10-18 07:26:00.0"	"TEST2312318"	"pharetra sagittis velit purus curabitur eu amet felis turpis eros fusce"	21.5
+"2015-10-25 07:50:00.0"	"TEST2312318"	"hendrerit bibendum ante vestibulum duis mauris tempus egestas eleifend"	48.0
+"2015-11-12 08:10:00.0"	"TEST2312318"	"pulvinar nec elit adipiscing in est ornare orci dolor nam consequat"	48.0
+"2015-12-03 08:30:00.0"	"TEST2312318"	"erat nisl eget maecenas mi cursus quam fusce nec quis blandit pellentesque"	48.0
+"2015-12-13 07:17:00.0"	"TEST2312318"	"placerat et quis dui nulla cras pellentesque dui turpis at vitae velit"	48.0
+"2016-01-07 08:11:00.0"	"TEST2312318"	"sociosqu convallis inceptos congue nunc molestie luctus mauris cursus"	48.0
+"2016-01-24 07:20:00.0"	"TEST2312318"	"dolor bibendum et tellus consequat non suscipit interdum fringilla"	48.0
+"2016-02-10 08:57:00.0"	"TEST2312318"	"pellentesque orci nisl ante tellus sagittis leo auctor lectus vestibulum"	6.0
+"2016-02-21 08:15:00.0"	"TEST2312318"	"velit facilisis sit condimentum gravida vivamus metus cras in nulla"	18.0
+"2016-04-14 08:40:00.0"	"TEST2312318"	"nibh nullam semper tincidunt suspendisse eleifend sit non quam posuere"	21.5
+"2016-04-20 08:00:00.0"	"TEST2312318"	"a condimentum ultricies neque pharetra senectus nec urna quis lorem"	6.0
+"2016-04-28 08:30:00.0"	"TEST2312318"	"orci felis turpis at integer consequat ac mollis dignissim lectus mi"	48.0
+"2016-05-16 08:37:00.0"	"TEST2312318"	"urna luctus habitasse odio tincidunt at nisl eu ac eu ac et sapien"	48.0
+"2016-05-17 06:45:00.0"	"TEST2312318"	"sit ultrices elit dictumst amet congue dolor vivamus viverra tristique"	6.0
+"2016-06-20 07:57:00.0"	"TEST2312318"	"primis blandit lacus adipiscing bibendum bibendum adipiscing tempus"	48.0
+"2016-06-28 08:44:00.0"	"TEST2312318"	"est sociis augue orci eget suspendisse in aliquet urna tempus augue"	12.0
+"2016-07-26 07:12:00.0"	"TEST2312318"	"bibendum a urna urna urna facilisi erat sodales posuere eget euismod"	6.0
+"2016-08-01 07:26:00.0"	"TEST2312318"	"etiam diam porttitor id quisque neque urna adipiscing ullamcorper"	48.0
+"2016-08-15 08:34:00.0"	"TEST2312318"	"odio elit ligula dolor porta faucibus ullamcorper pellentesque aliquam"	18.0
+"2005-11-28 00:00:00.0"	"TEST1993532"	"interdum neque a ac cras ac neque nam congue dictum eu lectus et hendrerit posuere posuere"	10.5
+"2006-02-19 00:00:00.0"	"TEST1993532"	"in varius aliquet nibh ultrices a potenti nulla curae; enim sit velit"	5.0
+"2006-08-06 00:00:00.0"	"TEST1993532"	"vestibulum morbi condimentum nisi lacinia facilisis vitae nunc mauris"	3.5
+"2007-01-23 00:00:00.0"	"TEST1993532"	"in enim vitae ultrices pulvinar vel egestas dui  mauris nisl arcu condimentum"	3.5
+"2007-04-01 00:00:00.0"	"TEST1993532"	"sed condimentum ut id pellentesque volutpat in nulla sed nec aenean"	10.0
+"2007-07-30 00:00:00.0"	"TEST1993532"	"eget felis est lobortis velit pellentesque donec amet donec malesuada"	2.0
+"2007-11-13 00:00:00.0"	"TEST1993532"	"porttitor et dolor nec vitae euismod cras justo ligula non sodales"	12.0
+"2007-12-17 00:00:00.0"	"TEST1993532"	"mauris urna imperdiet tellus ut pharetra volutpat urna bibendum leo"	12.0
+"2008-05-14 08:00:00.0"	"TEST1993532"	"id ligula sociis justo gravida non facilisis vitae et eleifend velit"	12.0
+"2008-10-23 00:00:00.0"	"TEST1993532"	"ut ultrices urna nisi vel aliquam libero euismod turpis bibendum sem"	12.0
+"2009-01-12 00:00:00.0"	"TEST1993532"	"condimentum nec a sit phasellus donec aliquam molestie erat etiam sed"	3.5
+"2010-01-06 00:00:00.0"	"TEST1993532"	"ultrices erat facilisis faucibus commodo varius pulvinar ac cursus ut"	3.5
+"2010-07-08 11:49:00.0"	"TEST1993532"	"ultrices sem iaculis et nec condimentum posuere malesuada libero pellentesque"	3.5
+"2010-10-19 13:40:00.0"	"TEST1993532"	"augue mollis felis vel mi ridiculus leo vehicula sit est odio volutpat"	5.0
+"2012-01-11 09:20:00.0"	"TEST1993532"	"sit magna mauris condimentum enim elit tellus sed magna nisi netus"	5.5
+"2012-07-09 10:00:00.0"	"TEST1993532"	"neque lectus pellentesque condimentum accumsan a velit suscipit magna"	9.0
+"2013-01-30 11:24:00.0"	"TEST1993532"	"tincidunt vestibulum sodales volutpat consequat semper platea gravida"	5.5
+"2013-07-11 11:00:00.0"	"TEST1993532"	"ac donec tincidunt aliquam lorem orci justo donec urna elementum"	9.0
+"2014-01-22 09:45:00.0"	"TEST1993532"	"pretium elit proin eu pretium tincidunt vitae non tempus sagittis et"	5.5
+"2014-07-06 10:23:00.0"	"TEST1993532"	"maecenas vitae donec tristique tellus conubia fermentum neque purus"	5.5
+"2014-07-17 08:00:00.0"	"TEST1993532"	"nec id congue dapibus consequat vitae ac consectetur neque rhoncus"	5.5
+"2014-07-30 09:00:00.0"	"TEST1993532"	"orci et mauris nulla lacinia commodo sed sit nec duis pellentesque nulla"	5.5
+"2014-07-30 09:00:00.0"	"TEST1993532"	"aenean dolor a et quam augue tempor aenean quam neque justo massa consequat"	3.5
+"2015-01-29 10:03:00.0"	"TEST1993532"	"et quis fringilla nisi sapien ut quisque tortor leo vel praesent"	9.0
+"2015-07-13 09:15:00.0"	"TEST1993532"	"leo interdum consectetur sapien nec curabitur imperdiet feugiat tempor"	5.5
+"2016-01-11 10:20:00.0"	"TEST1993532"	"non suscipit auctor diam purus faucibus lobortis euismod magnis amet"	9.0
+"2016-04-27 11:20:00.0"	"TEST1993532"	"nam sed sit a sit eros sapien nullam rutrum libero lectus sapien eu"	5.5
+"2016-06-07 09:55:00.0"	"TEST1993532"	"fringilla arcu magnis eu eu vulputate in fermentum risus eget condimentum"	5.5

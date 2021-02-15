@@ -900,40 +900,6 @@
         </columns>
         <tableTitle>Treatment Orders</tableTitle>
     </table>
-    <table tableName="vitals" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>timestamp</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
-                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="temp">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="heartRate">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="respRate">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="enddate">
-                <datatype>timestamp</datatype>
-                <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
-            </column>
-        </columns>
-        <tableTitle>Vitals</tableTitle>
-    </table>
     <table tableName="iStat" tableDbType="TABLE">
         <columns>
             <column columnName="Id">

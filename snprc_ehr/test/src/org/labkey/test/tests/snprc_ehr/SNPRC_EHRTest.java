@@ -15,8 +15,12 @@
  */
 package org.labkey.test.tests.snprc_ehr;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -24,8 +28,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.remoteapi.CommandException;
+import org.labkey.remoteapi.CommandResponse;
 import org.labkey.remoteapi.Connection;
+import org.labkey.remoteapi.PostCommand;
+import org.labkey.remoteapi.query.Filter;
 import org.labkey.remoteapi.query.InsertRowsCommand;
+import org.labkey.remoteapi.query.SaveRowsResponse;
 import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
@@ -41,6 +49,7 @@ import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ColonyOverviewPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
+import org.labkey.test.pages.snd.PackageListPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.ehr.AbstractGenericEHRTest;
 import org.labkey.test.util.APIAssayHelper;
@@ -53,13 +62,14 @@ import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
-import org.labkey.test.util.UIAssayHelper;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -100,6 +110,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String ANIMAL_HISTORY_URL = "/ehr/" + PROJECT_NAME + "/animalHistory.view?";
     private static final String SNPRC_ROOM_ID = "S824778";
     private static final String SNPRC_ROOM_ID2 = "S043365";
+
+    // SND data files
+    private static final String SND_PKGS_IMPORT_FILE_NAME = "testPkgs.snd.xml";
+    private static final File SND_PKGS_IMPORT_FILE = TestFileUtils.getSampleData("snd/pkgs/" + SND_PKGS_IMPORT_FILE_NAME);
+    private static final String SND_DATA_DIR = "snd/data/";
 
     private static int _pipelineJobCount = 0;
 
@@ -167,10 +182,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         new RReportHelper(this).ensureRConfig();
         initProject("SNPRC EHR");
         goToProjectHome();
+
+        // SND data
         _containerHelper.enableModules(Arrays.asList("SND"));
+        initSND();
+        initSNDData();
+
         createTestSubjects();
         initGenetics();
-        initSND();
         goToProjectHome();
         clickFolder(GENETICSFOLDER);
         _assayHelper = new APIAssayHelper(this);
@@ -241,6 +260,273 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     protected void importStudy()
     {
         importStudyFromPath(++_pipelineJobCount);
+    }
+
+    private void initSNDData() throws IOException, CommandException, ParseException
+    {
+        importSNDPkgs();
+
+        // Assume this creates project 1001, the first project id
+        createSNDProject("Test project", true, 1, new Date(), List.of(1, 2, 3, 4));
+
+        createAndAssignCategory("Vitals", true, 1);
+        createAndAssignCategory("Weight", true, 2);
+        createAndAssignCategory("Cumulative blood", true, 3);
+        createAndAssignCategory("alopecia", true, 4);
+
+        setSNDPermissions();
+        importSNDData();
+    }
+
+    private void importSNDPkgs()
+    {
+        clickProject(PROJECT_NAME);
+
+        //go to Pipeline module
+        goToModule("Pipeline");
+
+        clickButton("Process and Import Data", defaultWaitForPage);
+        _fileBrowserHelper.uploadFile(SND_PKGS_IMPORT_FILE, null, null, true);
+        _fileBrowserHelper.checkFileBrowserFileCheckbox(SND_PKGS_IMPORT_FILE_NAME);
+        _fileBrowserHelper.selectImportDataAction("SND document import");
+        waitForPipelineJobsToComplete(++_pipelineJobCount, "SND Import (" + SND_PKGS_IMPORT_FILE_NAME + ")", false, 30000);
+    }
+
+    private void importSNDData() throws ParseException, CommandException, IOException
+    {
+        clickProject(PROJECT_NAME);
+
+        importSNDTsv(SND_DATA_DIR + "vitals.tsv", 1);
+        importSNDTsv(SND_DATA_DIR + "blood.tsv", 3);
+        importSNDTsv(SND_DATA_DIR + "weights.tsv", 2);
+
+    }
+
+    private void importSNDTsv(String path, int superPkgId) throws ParseException, IOException, CommandException
+    {
+        List<Map<String, Object>> data = loadTsv(TestFileUtils.getSampleData(path));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Map<String, Object> row : data)
+        {
+            List<Map<String, Object>> attributes = new ArrayList<>();
+            for (String s : row.keySet())
+            {
+                if (!s.equals("id") && !s.equals("date"))
+                {
+                    Object value = row.get(s);
+                    if (value != null)
+                    {
+                        if (value instanceof String && NumberUtils.isParsable((String) value))
+                        {
+                            value = Double.parseDouble((String) value);
+                        }
+                        attributes.add(Map.of("propertyName", s, "value", value));
+                    }
+                }
+            }
+
+            insertSNDData((String)row.get("id"), sdf.parse((String)row.get("date")), superPkgId, attributes);
+        }
+    }
+
+    private void createSNDProject(String description, boolean active, int refId, Date start, List<Integer> projItemList) throws IOException, CommandException
+    {
+        clickProject(PROJECT_NAME);
+
+        Connection remoteApiConnection = WebTestHelper.getRemoteApiConnection();
+        PostCommand<CommandResponse> command = new PostCommand<>("snd", "saveProject");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        JSONObject project = new JSONObject();
+        project.put("description", description);
+        project.put("active", active);
+        project.put("referenceId", refId);
+        project.put("startDate", sdf.format(start));
+
+        JSONArray projectItems = new JSONArray();
+        for (Integer item : projItemList)
+        {
+            JSONObject projItem = new JSONObject();
+            projItem.put("active", true);
+            projItem.put("superPkgId", item);
+
+            projectItems.put(projItem);
+        }
+
+        project.put("projectItems", projectItems);
+
+        command.setJsonObject(project);
+
+        command.execute(remoteApiConnection, PROJECT_NAME);
+    }
+
+    private void createAndAssignCategory(String name, boolean active, int pkgId) throws IOException, CommandException
+    {
+        InsertRowsCommand command = new InsertRowsCommand("snd", "PkgCategories");
+
+        Map<String,Object> rowMap = new HashMap<>();
+        rowMap.put("Description", name);
+        rowMap.put("Active", active);
+        command.addRow(rowMap);
+
+        Connection remoteApiConnection = WebTestHelper.getRemoteApiConnection();
+        CommandResponse r = command.execute(remoteApiConnection, PROJECT_NAME);
+
+        command = new InsertRowsCommand("snd", "PkgCategoryJunction");
+
+        rowMap = new HashMap<>();
+        rowMap.put("PkgId", pkgId);
+        rowMap.put("CategoryId", ((SaveRowsResponse) r).getRows().get(0).get("categoryId"));
+        command.addRow(rowMap);
+
+        command.execute(remoteApiConnection, PROJECT_NAME);
+    }
+
+    private void clickRoleInOpenDropDown(String name)
+    {
+        List<WebElement> els = Locator.tagWithClassContaining("div", "btn-group open").child("ul").child("li").child("a").withText(name).findElements(getDriver());
+        if (els.size() > 0)
+        {
+            els.get(0).click();
+        }
+    }
+
+    private void setSNDPermissions()
+    {
+        beginAt(WebTestHelper.buildURL("snd",getProjectName(), "admin"));
+
+        assertElementPresent(Locator.linkWithText("SND Security"));
+        click(Locator.linkWithText("SND Security"));
+
+        click(Locator.id("a_all_-2"));
+        clickRoleInOpenDropDown("SND Data Admin");
+
+        waitAndClickAndWait(Locator.linkContainingText("Save"));
+    }
+
+    private void insertSNDData(String id, Date date, int superPkgId, List<Map<String, Object>> attributes) throws IOException, CommandException
+    {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+
+        Connection remoteApiConnection = WebTestHelper.getRemoteApiConnection();
+        PostCommand<CommandResponse> command = new PostCommand<>("snd", "saveEvent");
+
+        JSONArray attributesArray = new JSONArray();
+        for (Map<String, Object> attribute : attributes)
+        {
+            JSONObject attObj = new JSONObject();
+            for (String prop : attribute.keySet())
+            {
+                attObj.put(prop, attribute.get(prop));
+            }
+            attributesArray.put(attObj);
+        }
+
+        JSONObject eventData = new JSONObject();
+        eventData.put("superPkgId", superPkgId);
+        eventData.put("attributes", attributesArray);
+
+        JSONArray eventDataArray = new JSONArray();
+        eventDataArray.put(eventData);
+
+        JSONObject event = new JSONObject();
+        event.put("subjectId", id);
+        event.put("date", sdf.format(date));
+        event.put("qcState", "Completed");
+        event.put("projectIdRev", "1001|0");
+        event.put("eventData", eventDataArray);
+
+        command.setJsonObject(event);
+
+        CommandResponse r = command.execute(remoteApiConnection, PROJECT_NAME);
+        if (r != null && r.getText() != null && r.getText().contains("\"success\" : false"))
+        {
+            throw new RuntimeException(r.getText());
+        }
+    }
+
+    @Override
+    protected void createTestSubjects() throws Exception
+    {
+        String[] fields;
+        Object[][] data;
+        PostCommand insertCommand;
+
+        //insert into demographics
+        log("Creating test subjects");
+        fields = new String[]{"Id", "Species", "Birth", "Gender", "date", "calculated_status", "objectid"};
+        data = new Object[][]{
+                {SUBJECTS[0], "Rhesus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {SUBJECTS[1], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {SUBJECTS[2], "Marmoset", (new Date()).toString(), getFemale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {SUBJECTS[3], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {SUBJECTS[4], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()}
+        };
+        insertCommand = getApiHelper().prepareInsertCommand("study", "demographics", "lsid", fields, data);
+        getApiHelper().deleteAllRecords("study", "demographics", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
+        getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), insertCommand, getExtraContext());
+
+        //for simplicity, also create the animals from MORE_ANIMAL_IDS right now
+        data = new Object[][]{
+                {MORE_ANIMAL_IDS[0], "Rhesus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {MORE_ANIMAL_IDS[1], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {MORE_ANIMAL_IDS[2], "Marmoset", (new Date()).toString(), getFemale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {MORE_ANIMAL_IDS[3], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
+                {MORE_ANIMAL_IDS[4], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()}
+        };
+        insertCommand = getApiHelper().prepareInsertCommand("study", "demographics", "lsid", fields, data);
+        getApiHelper().deleteAllRecords("study", "demographics", new Filter("Id", StringUtils.join(MORE_ANIMAL_IDS, ";"), Filter.Operator.IN));
+        getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), insertCommand, getExtraContext());
+
+        //used as initial dates
+        Date pastDate1 = TIME_FORMAT.parse("2012-01-03 09:30");
+        Date pastDate2 = TIME_FORMAT.parse("2012-05-03 19:20");
+
+        //set housing
+        log("Creating initial housing records");
+        fields = new String[]{"Id", "date", "enddate", "room", "cage"};
+        data = new Object[][]{
+                {SUBJECTS[0], pastDate1, pastDate2, getRooms()[0], CAGES[0]},
+                {SUBJECTS[0], pastDate2, null, getRooms()[0], CAGES[0]},
+                {SUBJECTS[1], pastDate1, pastDate2, getRooms()[0], CAGES[0]},
+                {SUBJECTS[1], pastDate2, null, getRooms()[2], CAGES[2]}
+        };
+        insertCommand = getApiHelper().prepareInsertCommand("study", "Housing", "lsid", fields, data);
+        getApiHelper().deleteAllRecords("study", "Housing", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
+        getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), insertCommand, getExtraContext());
+
+        //set a base weight
+        log("Setting initial weights");
+//        fields = new String[]{"Id", "date", "weight", "QCStateLabel"};
+//        data = new Object[][]{
+//                {SUBJECTS[0], pastDate2, 10.5, EHRQCState.COMPLETED.label},
+//                {SUBJECTS[0], new Date(), 12, EHRQCState.COMPLETED.label},
+//                {SUBJECTS[1], new Date(), 12, EHRQCState.COMPLETED.label},
+//                {SUBJECTS[2], new Date(), 12, EHRQCState.COMPLETED.label}
+//        };
+//        insertCommand = getApiHelper().prepareInsertCommand("study", "Weight", "lsid", fields, data);
+//        getApiHelper().deleteAllRecords("study", "Weight", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
+//        getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), insertCommand, getExtraContext());
+
+        insertSNDData(SUBJECTS[0], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 10.5)));
+        insertSNDData(SUBJECTS[0], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 12)));
+        insertSNDData(SUBJECTS[1], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 12)));
+        insertSNDData(SUBJECTS[2], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 12)));
+
+        //set assignment
+        log("Setting initial assignments");
+        fields = new String[]{"Id", "date", "enddate", "project"};
+        data = new Object[][]{
+                {SUBJECTS[0], pastDate1, pastDate2, PROJECTS[0]},
+                {SUBJECTS[1], pastDate1, pastDate2, PROJECTS[0]},
+                {SUBJECTS[1], pastDate2, null, PROJECTS[2]}
+        };
+        insertCommand = getApiHelper().prepareInsertCommand("study", "Assignment", "lsid", fields, data);
+        getApiHelper().deleteAllRecords("study", "Assignment", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
+        getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), insertCommand, getExtraContext());
     }
 
     protected void initSND()
