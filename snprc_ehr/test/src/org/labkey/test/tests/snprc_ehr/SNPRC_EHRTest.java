@@ -286,7 +286,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         goToModule("Pipeline");
 
         clickButton("Process and Import Data", defaultWaitForPage);
-        _fileBrowserHelper.uploadFile(SND_PKGS_IMPORT_FILE, null, null, true);
+
+        // Note change the last param to true to run locally
+        _fileBrowserHelper.uploadFile(SND_PKGS_IMPORT_FILE, null, null, false);
         _fileBrowserHelper.checkFileBrowserFileCheckbox(SND_PKGS_IMPORT_FILE_NAME);
         _fileBrowserHelper.selectImportDataAction("SND document import");
         waitForPipelineJobsToComplete(++_pipelineJobCount, "SND Import (" + SND_PKGS_IMPORT_FILE_NAME + ")", false, 30000);
