@@ -32,13 +32,15 @@ AS
 -- Create date: 9/21/2017
 -- Description:	Selects the ETL records for LabKey study.alopecia dataset
 -- Changes:
---
+-- 1/27/2021   added eventId. tjh
 --
 -- ==========================================================================================
 
 SELECT  a.ID AS id ,
+        a.EventId,
         a.DATE_TM AS date ,
         a.alopecia AS alopeciaScore ,
+        a.scorer,
         a.OBJECT_ID AS objectid ,
         a.ENTRY_DATE_TM AS modified ,
         dbo.f_map_username(a.USER_NAME) AS modifiedby ,
