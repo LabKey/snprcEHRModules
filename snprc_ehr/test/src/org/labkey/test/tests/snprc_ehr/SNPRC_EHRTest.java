@@ -57,6 +57,7 @@ import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
@@ -115,6 +116,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String SND_PKGS_IMPORT_FILE_NAME = "testPkgs.snd.xml";
     private static final File SND_PKGS_IMPORT_FILE = TestFileUtils.getSampleData("snd/pkgs/" + SND_PKGS_IMPORT_FILE_NAME);
     private static final String SND_DATA_DIR = "snd/data/";
+
+    private static final int SND_VITALS_SPKG_ID = 1;
+    private static final int SND_WEIGHT_SPKG_ID = 2;
+    private static final int SND_BLOOD_SPKG_ID = 3;
+    private static final int SND_ALOPECIA_SPKG_ID = 4;
 
     private static int _pipelineJobCount = 0;
 
@@ -287,8 +293,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         clickButton("Process and Import Data", defaultWaitForPage);
 
+        boolean replace = false;
+        if (_fileBrowserHelper.fileIsPresent(SND_PKGS_IMPORT_FILE.getName()))
+            replace = true;
+
         // Note change the last param to true to run locally
-        _fileBrowserHelper.uploadFile(SND_PKGS_IMPORT_FILE, null, null, false);
+        _fileBrowserHelper.uploadFile(SND_PKGS_IMPORT_FILE, null, null, replace);
         _fileBrowserHelper.checkFileBrowserFileCheckbox(SND_PKGS_IMPORT_FILE_NAME);
         _fileBrowserHelper.selectImportDataAction("SND document import");
         waitForPipelineJobsToComplete(++_pipelineJobCount, "SND Import (" + SND_PKGS_IMPORT_FILE_NAME + ")", false, 30000);
@@ -298,9 +308,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         clickProject(PROJECT_NAME);
 
-        importSNDTsv(SND_DATA_DIR + "vitals.tsv", 1);
-        importSNDTsv(SND_DATA_DIR + "blood.tsv", 3);
-        importSNDTsv(SND_DATA_DIR + "weights.tsv", 2);
+        importSNDTsv(SND_DATA_DIR + "vitals.tsv", SND_VITALS_SPKG_ID);
+        importSNDTsv(SND_DATA_DIR + "blood.tsv", SND_BLOOD_SPKG_ID);
+        importSNDTsv(SND_DATA_DIR + "weights.tsv", SND_WEIGHT_SPKG_ID);
 
     }
 
@@ -502,21 +512,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         //set a base weight
         log("Setting initial weights");
-//        fields = new String[]{"Id", "date", "weight", "QCStateLabel"};
-//        data = new Object[][]{
-//                {SUBJECTS[0], pastDate2, 10.5, EHRQCState.COMPLETED.label},
-//                {SUBJECTS[0], new Date(), 12, EHRQCState.COMPLETED.label},
-//                {SUBJECTS[1], new Date(), 12, EHRQCState.COMPLETED.label},
-//                {SUBJECTS[2], new Date(), 12, EHRQCState.COMPLETED.label}
-//        };
-//        insertCommand = getApiHelper().prepareInsertCommand("study", "Weight", "lsid", fields, data);
-//        getApiHelper().deleteAllRecords("study", "Weight", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
-//        getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), insertCommand, getExtraContext());
-
-        insertSNDData(SUBJECTS[0], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 10.5)));
-        insertSNDData(SUBJECTS[0], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 12)));
-        insertSNDData(SUBJECTS[1], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 12)));
-        insertSNDData(SUBJECTS[2], pastDate2, 2, List.of(Map.of("propertyName", "weight", "value", 12)));
+        insertSNDData(SUBJECTS[0], pastDate2, SND_WEIGHT_SPKG_ID, List.of(Map.of("propertyName", "weight", "value", 10.5)));
+        insertSNDData(SUBJECTS[0], pastDate2, SND_WEIGHT_SPKG_ID, List.of(Map.of("propertyName", "weight", "value", 12)));
+        insertSNDData(SUBJECTS[1], pastDate2, SND_WEIGHT_SPKG_ID, List.of(Map.of("propertyName", "weight", "value", 12)));
+        insertSNDData(SUBJECTS[2], pastDate2, SND_WEIGHT_SPKG_ID, List.of(Map.of("propertyName", "weight", "value", 12)));
 
         //set assignment
         log("Setting initial assignments");
@@ -881,21 +880,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private void setupBloodValues(String id, Double weight, List<Map<String, Object>> bloodRows) throws IOException, CommandException
     {
-        Connection connection = createDefaultConnection(true);
-        List<Map<String, Object>> weightRows = Arrays.asList(
-                Maps.of("Id", id,
-                        "date", DATE_FORMAT.format(new Date()),
-                        "weight", weight));
+        insertSNDData(id, new Date(), SND_WEIGHT_SPKG_ID, List.of(Map.of("propertyName", "weight", "value", weight)));
 
-        InsertRowsCommand command = new InsertRowsCommand("study", "weight");
-        command.setRows(weightRows);
-        command.execute(connection, getProjectName());
-
-        if(null!=bloodRows && !bloodRows.isEmpty())
+        for (Map<String, Object> bloodRow : bloodRows)
         {
-            command = new InsertRowsCommand("study", "blood");
-            command.setRows(bloodRows);
-            command.execute(connection, getProjectName());
+            insertSNDData((String)bloodRow.get("Id"), (Date)bloodRow.get("date"), SND_BLOOD_SPKG_ID, List.of(
+                    Map.of("propertyName", "blood_volume", "value", bloodRow.get("quantity")),
+                    Map.of("propertyName", "reason", "value", bloodRow.get("reason"))
+            ));
         }
     }
 
@@ -943,19 +935,19 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         List<Map<String, Object>> bloodRows = Arrays.asList(
                 Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))),
+                        "date", DateUtils.addDays(new Date(), -(2 * refreshDays - 1)),
                         "quantity", weight,
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
+                        "date", DateUtils.addDays(new Date(), -(refreshDays -3)),
                         "quantity", (weight + 0.5) * maxDraw,
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
+                        "date", DateUtils.addDays(new Date(), -3),
                         "quantity", weight,
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
+                        "date", DateUtils.addDays(new Date(), -4),
                         "quantity", 2,
                         "project", PROTOCOL_PROJECT_ID)
         );
@@ -996,20 +988,24 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         List<Map<String, Object>> bloodRows = Arrays.asList(
                 Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))),
+                        "date", DateUtils.addDays(new Date(), -(2 * refreshDays - 1)),
                         "quantity", .8,
+                        "reason", "blood draw",
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
+                        "date", DateUtils.addDays(new Date(), -(refreshDays -3)),
                         "quantity", 1.0,
+                        "reason", "blood draw",
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
+                        "date", DateUtils.addDays(new Date(), -3),
                         "quantity", .5,
+                        "reason", "blood draw",
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
+                        "date", DateUtils.addDays(new Date(), -4),
                         "quantity", 2,
+                        "reason", "blood draw",
                         "project", PROTOCOL_PROJECT_ID)
         );
 
@@ -1336,4 +1332,93 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         return ANIMAL_HISTORY_URL;
     }
+
+//    @Override
+//    protected void testUserAgainstAllStates(@LoggedParam EHRUser user)
+//    {
+//        JSONObject extraContext = new JSONObject();
+//        extraContext.put("errorThreshold", "ERROR");
+//        extraContext.put("skipIdFormatCheck", true);
+//        extraContext.put("allowAnyId", true);
+//        CommandResponse response;
+//
+//        //maintain list of insert/update times for interest
+//        _saveRowsTimes = new ArrayList<>();
+//
+//        //used as initial dates
+//        Date pastDate1 = TIME_FORMAT.parse("2012-01-03 09:30");
+//        Date pastDate2 = TIME_FORMAT.parse("2012-05-03 19:20");
+//
+//        String[] fields = new String[]{"Id", "date", "enddate", "room", "cage", FIELD_QCSTATELABEL, FIELD_OBJECTID, FIELD_LSID, "_recordid"};
+//        Object[][] data = new Object[][]{
+//                {SUBJECTS[0], pastDate1, pastDate2, getRooms()[0], CAGES[0], EHRQCState.IN_PROGRESS.label, null, null, "_recordID"},
+//                {SUBJECTS[0], pastDate2, null, getRooms()[0], CAGES[0]},
+//                {SUBJECTS[1], pastDate1, pastDate2, getRooms()[0], CAGES[0]},
+//                {SUBJECTS[1], pastDate2, null, getRooms()[2], CAGES[2]}
+//        };
+//
+//        //test insert
+//        Object[][] insertData = {weightData1};
+//        insertData[0][Arrays.asList(weightFields).indexOf(FIELD_OBJECTID)] = null;
+//        insertData[0][Arrays.asList(weightFields).indexOf(FIELD_LSID)] = null;
+//        PostCommand insertCommand = getApiHelper().prepareInsertCommand("study", "Weight", FIELD_LSID, weightFields, insertData);
+//
+//        for (EHRQCState qc : EHRQCState.values())
+//        {
+//            extraContext.put("targetQC", qc.label);
+//            boolean successExpected = successExpected(user.getRole(), qc, "insert");
+//            log("Testing role: " + user.getRole().name() + " with insert of QCState: " + qc.label);
+//            if (successExpected)
+//                getApiHelper().doSaveRows(user.getEmail(), insertCommand, extraContext);
+//            else
+//                getApiHelper().doSaveRowsExpectingError(user.getEmail(), insertCommand, extraContext);
+//        }
+//        calculateAverage();
+//
+//        //then update.  update is fun b/c we need to test many QCState combinations.  Updating a row from 1 QCstate to a new QCState technically
+//        //requires update Permission on the original QCState, plus insert Permission into the new QCState
+//        for (EHRQCState originalQc : EHRQCState.values())
+//        {
+//            // first create an initial row as a data admin
+//            UUID objectId = UUID.randomUUID();
+//            Object[][] originalData = {weightData1};
+//            originalData[0][Arrays.asList(weightFields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
+//            extraContext.put("targetQC", originalQc.label);
+//            originalData[0][Arrays.asList(weightFields).indexOf(FIELD_OBJECTID)] = objectId.toString();
+//            PostCommand initialInsertCommand = getApiHelper().prepareInsertCommand("study", "Weight", FIELD_LSID, weightFields, originalData);
+//            log("Inserting initial record for update test, with initial QCState of: " + originalQc.label);
+//            response = getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), initialInsertCommand, extraContext);
+//
+//            String lsid = getLsidFromResponse(response);
+//            originalData[0][Arrays.asList(weightFields).indexOf(FIELD_LSID)] = lsid;
+//
+//            //then try to update to all other QCStates
+//            for (EHRQCState qc : EHRQCState.values())
+//            {
+//                boolean successExpected = originalQc.equals(qc) ? successExpected(user.getRole(), originalQc, "update") : successExpected(user.getRole(), originalQc, "update") && successExpected(user.getRole(), qc, "insert");
+//                log("Testing role: " + user.getRole().name() + " with update from QCState " + originalQc.label + " to: " + qc.label);
+//                originalData[0][Arrays.asList(weightFields).indexOf(FIELD_QCSTATELABEL)] = qc.label;
+//                PostCommand updateCommand = getApiHelper().prepareUpdateCommand("study", "Weight", FIELD_LSID, weightFields, originalData, null);
+//                extraContext.put("targetQC", qc.label);
+//                if (!successExpected)
+//                    getApiHelper().doSaveRowsExpectingError(user.getEmail(), updateCommand, extraContext);
+//                else
+//                {
+//                    getApiHelper().doSaveRows(user.getEmail(), updateCommand, extraContext);
+//                    log("Resetting QCState of record to: " + originalQc.label);
+//                    originalData[0][Arrays.asList(weightFields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
+//                    extraContext.put("targetQC", originalQc.label);
+//                    updateCommand = getApiHelper().prepareUpdateCommand("study", "Weight", FIELD_LSID, weightFields, originalData, null);
+//                    getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), updateCommand, extraContext);
+//                }
+//            }
+//        }
+//
+//        //log the average save time
+//        //TODO: eventually we should set a threshold and assert we dont exceed it
+//        calculateAverage();
+//
+//        simpleSignIn(); //NOTE: this is designed to force the test to sign in, assuming our session was timed out from all the API tests
+//        resetErrors();  //note: inserting records without permission will log errors by design.  the UI should prevent this from happening, so we want to be aware if it does occur
+//    }
 }
