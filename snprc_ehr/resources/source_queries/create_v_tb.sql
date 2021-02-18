@@ -34,11 +34,13 @@ ALTER VIEW [labkey_etl].[V_TB] AS
 -- DESCRIPTION:	VIEW CONTAINS THE DATA EQUALIVENCE OF THE ORIGINAL TB TABLE for the LabKey ETL
 -- CHANGES:
 -- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
+-- 1/27/2021   added eventId. tjh
 -- ==========================================================================================
 
 SELECT
 
   ID,
+  EventId,
   TST_DATE  AS DATE,
   TB_SITE   AS SITE,
   TB_RESULT AS RESULT,
@@ -58,6 +60,7 @@ FROM
 
       SELECT
         AE.ANIMAL_ID                     AS ID,
+        AE.ANIMAL_EVENT_ID               AS EventId,
         AE.EVENT_DATE_TM                 AS TST_DATE,
         CPA.VALUE,
         CPA.ATTRIB_KEY,
