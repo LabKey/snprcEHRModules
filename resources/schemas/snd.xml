@@ -116,7 +116,6 @@
         </columns>
     </table>
     <table tableName="PkgCategoryJunction" tableDbType="TABLE">
-        <auditLogging>DETAILED</auditLogging>
         <insertUrl>/snd/app.view?#/categories</insertUrl>
         <updateUrl></updateUrl> <!--TODO: /snd/app.view?#/categories-->
         <importUrl></importUrl>
