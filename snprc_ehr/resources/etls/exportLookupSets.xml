@@ -1,0 +1,24 @@
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>ExportLookupSets</name>
+    <description>Push Lookup Sets Data to CAMP</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprc_ehr" queryName="ExportLookupSets" />
+            <destination schemaName="tacSrc" queryName="LookupSets" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="LookupSetId"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified">
+    </incrementalFilter>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>

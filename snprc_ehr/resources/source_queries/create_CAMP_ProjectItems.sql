@@ -7,7 +7,6 @@ Likely needs FK to Projects
 ***********************************************************/
 
 -- NOTE SQL Server 2016 and after
-DROP TABLE IF EXISTS labkey_etl.ProjectItems;
 DROP TABLE IF EXISTS TAC_src.ProjectItems;
 
 CREATE TABLE [TAC_src].[ProjectItems](

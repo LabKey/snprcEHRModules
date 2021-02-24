@@ -1,0 +1,24 @@
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>ExportPkgCategoryJunction</name>
+    <description>Push Package Category Junction Data to CAMP</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprc_ehr" queryName="ExportPkgCategoryJunction" />
+            <destination schemaName="tacSrc" queryName="PkgCategoryJunction" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="TBD"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified">
+    </incrementalFilter>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>
