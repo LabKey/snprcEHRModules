@@ -1,6 +1,6 @@
 <etl xmlns="http://labkey.org/etl/xml">
     <name>ExportPkgCategoryJunction</name>
-    <description>Push Package Category Junction Data to CAMP</description>
+    <description>Push Package Category Junction Data to CAMP TBD dest</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>

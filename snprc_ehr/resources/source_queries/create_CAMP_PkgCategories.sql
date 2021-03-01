@@ -1,7 +1,7 @@
 
 
 -- NOTE SQL Server 2016 and after
-DROP TABLE IF EXISTS TAC_src.Pkgs;
+DROP TABLE IF EXISTS TAC_src.PkgCategories;
 
 
 CREATE TABLE [TAC_src].[PkgCategories](
