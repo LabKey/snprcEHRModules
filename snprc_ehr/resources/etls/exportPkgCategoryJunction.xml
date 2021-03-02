@@ -7,7 +7,7 @@
             <source schemaName="snprc_ehr" queryName="ExportPkgCategoryJunction" />
             <destination schemaName="tacSrc" queryName="PkgCategoryJunction" bulkLoad="true" targetOption="merge">
                 <alternateKeys>
-                    <column name="TBD"/>
+                    <column name="tid"/>
                 </alternateKeys>
                 <columnTransforms>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>

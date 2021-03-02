@@ -4,8 +4,7 @@ Added tid identity field for PK
 ***********************************************************/
 
 -- NOTE SQL Server 2016 and after
-DROP TABLE IF EXISTS labkey_etl.Projects;
-DROP TABLE IF EXISTS TAC_src.ProjectItems;
+DROP TABLE IF EXISTS TAC_src.Projects;
 
 CREATE TABLE [TAC_src].[Projects](
     [tid] INT IDENTITY NOT NULL,

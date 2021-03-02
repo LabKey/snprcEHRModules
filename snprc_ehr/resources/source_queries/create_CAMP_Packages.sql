@@ -7,7 +7,6 @@ EXEC('CREATE SCHEMA [TAC_src] AUTHORIZATION [DBO]');
 
 
 -- NOTE SQL Server 2016 and after
-DROP TABLE IF EXISTS labkey_etl.Pkgs;
 -- new schema
 DROP TABLE IF EXISTS TAC_src.Pkgs;
 

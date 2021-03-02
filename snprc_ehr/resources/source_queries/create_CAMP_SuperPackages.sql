@@ -6,8 +6,7 @@ Purpose:
 *************************************/
 
 -- NOTE SQL Server 2016 and after
-DROP TABLE IF EXISTS labkey_etl.SuperPkgs;
-DROP TABLE IF EXISTS TAC_src.ProjectItems;
+DROP TABLE IF EXISTS TAC_src.SuperPkgs;
 
 
 CREATE TABLE [TAC_src].[SuperPkgs](
