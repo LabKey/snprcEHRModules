@@ -1,13 +1,13 @@
 <etl xmlns="http://labkey.org/etl/xml">
-    <name>ExportNewAnimalData</name>
-    <description>Sync New Animal Data to CAMP</description>
+    <name>ExportLookups</name>
+    <description>Push Lookup Data to CAMP</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
-            <source schemaName="snprc_ehr" queryName="ExportNewAnimalData" />
-            <destination schemaName="tacSrc" queryName="NewAnimalData" bulkLoad="true" targetOption="merge">
+            <source schemaName="snprc_ehr" queryName="ExportLookups" />
+            <destination schemaName="tacSrc" queryName="Lookups" bulkLoad="true" targetOption="merge">
                 <alternateKeys>
-                    <column name="objectid"/>
+                    <column name="LookupId"/>
                 </alternateKeys>
                 <columnTransforms>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
