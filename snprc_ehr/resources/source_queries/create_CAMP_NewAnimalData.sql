@@ -23,14 +23,15 @@ END
 */
 
 /*********  Create animal schema LabkeyETL if it doesn not exist ******/
-IF NOT EXISTS (SELECT name FROM sys.schemas WHERE name = N'LabkeyETL')
-EXEC('CREATE SCHEMA [LabkeyETL] AUTHORIZATION [DBO]');
+IF NOT EXISTS (SELECT name FROM sys.schemas WHERE name = N'TAC_src')
+EXEC('CREATE SCHEMA [TAC_src] AUTHORIZATION [DBO]');
 
 
 -- NOTE SQL Server 2016 and after
-DROP TABLE IF EXISTS labkey_etl.NewAnimalData;
+-- new schema
+DROP TABLE IF EXISTS TAC_src.NewAnimalData;
 
-CREATE TABLE labkey_etl.NewAnimalData
+CREATE TABLE TAC_src.NewAnimalData
 (
     tid INT IDENTITY,
     Id VARCHAR(6) NOT NULL,
@@ -91,7 +92,7 @@ NULL	srouse@vogon	2020-08-25 16:29:32.860
 ***********************************************************************************/
 
 
-CREATE TRIGGER [labkey_etl].[ti_NewAnimalData] ON [labkey_etl].[NewAnimalData] FOR INSERT AS
+CREATE TRIGGER [TAC_src].[ti_NewAnimalData] ON [TAC_src].[NewAnimalData] FOR INSERT AS
 BEGIN
 DECLARE
 @numrows  int,
@@ -328,10 +329,10 @@ ROLLBACK  TRANSACTION;
 END
     GO
 
-ALTER TABLE [labkey_etl].[NewAnimalData] ENABLE TRIGGER [ti_NewAnimalData]
+ALTER TABLE [TAC_src].[NewAnimalData] ENABLE TRIGGER [ti_NewAnimalData]
     GO
 
 -- Table permits
-GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey_etl.NewAnimalData TO z_labkey;
-GRANT VIEW DEFINITION ON labkey_etl.NewAnimalData TO z_labkey;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON TAC_src.NewAnimalData TO z_labkey;
+GRANT VIEW DEFINITION ON TAC_src.NewAnimalData TO z_labkey;
 GO
