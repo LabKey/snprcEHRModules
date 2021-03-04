@@ -141,9 +141,9 @@ Ext4.onReady(function (){
             xtype: 'ldk-linkbutton',
             text: 'View Charges Under This Protocol',
             handler: function(c){
-                var params = {schemaName: 'study'};
-                params['query.queryName'] = 'charges';
-                params['query.project/protocol~eq'] = protocol;
+                var params = {schemaName: 'ehr'};
+                params['query.queryName'] = 'project';
+                params['query.protocol/protocol~eq'] = protocol;
 
                 window.open(LABKEY.ActionURL.buildURL(
                     'query',
