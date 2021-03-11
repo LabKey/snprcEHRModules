@@ -453,6 +453,37 @@ export default class NewAnimalPage extends React.Component {
     )
   };
 
+reloadDamsAndSires = (selectedSpecies, birthdate) => {
+    const lists = {}
+
+  async function loadListsAW(species, birthdate ) {
+    if (this.state.selectedOption == 'Birth') {
+      lists.potentialDamList = await fetchPotentialDams(species, birthdate)
+      lists.potentialSireList = await fetchPotentialSires(species, birthdate)
+    }
+    else {
+      lists.potentialDamList = await fetchPotentialDams(species, birthdate)
+      lists.potentialSireList = await fetchPotentialSires(species, birthdate)
+    }
+  }
+
+  loadListsAW(selectedSpecies.arcSpeciesCode, birthdate.date)
+    .then(() => {
+      this.setState(prevState => ({
+        ...prevState,
+        potentialDamList: lists.potentialDamList,
+        potentialSireList: lists.potentialSireList
+      }))
+    })
+    .catch(error => {
+      console.log(`Error in reloadDamsSires: ${error}`)
+      this.setState(prevState => ({
+        ...prevState,
+        errorMessage: error.message,
+      }))
+    })
+};
+
   render() {
     // allow debug mode to be triggered for running test suite
     this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug
@@ -533,6 +564,7 @@ export default class NewAnimalPage extends React.Component {
                     disabled={ this.disablePanels() }
                     handleDataChange={ this.handleDataChange }
                     newAnimalData={ this.state.newAnimalData }
+                    selectedOption={ this.state.selectedOption }
                     potentialDamList={
                       this.state.potentialDamList
                     }

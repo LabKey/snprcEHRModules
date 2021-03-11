@@ -13,12 +13,18 @@ export default class DemographicsPanel extends React.Component {
     }
 
     componentDidMount = () => {
+      const { birthDate, acqDate } = this.props.newAnimalData
+      const selectedOption = this.props.selectedOption
         this.setState(() => (
             {
-                errorMessage: isBirthdateValid(this.props.newAnimalData.birthDate.date, this.props.newAnimalData.acqDate.date) ? undefined : this.dateErrorMessageText
+                errorMessage: isBirthdateValid(birthDate.date, acqDate.date) ? undefined : this.dateErrorMessageText
             }
         ))
         this.props.preventNext()
+        // if this.props.selectedOption = 'Acquisition' && isBirthdateValid(birthDate.date, acqDate.date) {
+        //    load dams and sires with birthdate option
+        //}
+
     }
 
     handleBdStatusChange = option => {
@@ -52,6 +58,7 @@ export default class DemographicsPanel extends React.Component {
 
     render() {
         const { gender, dam, sire, birthDate, bdStatus } = this.props.newAnimalData
+        const selectedOption = this.props.selectedOption
         return (
           <>
             <div className="wizard-panel__rows">

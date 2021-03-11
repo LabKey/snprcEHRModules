@@ -11,7 +11,7 @@ FROM study.demographics AS d
          INNER JOIN (
     SELECT "min" AS minAdultAge, species, gender, label
     FROM ehr_lookups.ageclass AS ac1
-) as x ON d.species.arc_species_code = x.species and x.label = 'Adult' AND (x.gender = 'M' OR x.gender is NULL)
+) as x ON d.species.arc_species_code = x.species and x.label = 'Adult' AND (x.gender = 'F' OR x.gender is NULL)
 
 -- hard code until the gestation data is available in LK - use 185 if we don't have a value
          INNER JOIN (
