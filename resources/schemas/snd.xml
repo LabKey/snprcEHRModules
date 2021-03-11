@@ -291,7 +291,6 @@
         </columns>
     </table>
     <table tableName="LookupSets" tableDbType="TABLE">
-        <auditLogging>DETAILED</auditLogging>
         <columns>
             <column columnName="LookupSetId"/>
             <column columnName="SetName"/>
