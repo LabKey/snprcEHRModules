@@ -548,7 +548,7 @@ public class SNDManager
     /**
      * Gets the extensible fields for a given table
      */
-    private List<GWTPropertyDescriptor> getExtraFields(Container c, User u, String tableName)
+    public static List<GWTPropertyDescriptor> getExtraFields(Container c, User u, String tableName)
     {
         String uri = SNDDomainKind.getDomainURI(SNDSchema.NAME, tableName, c, u);
         GWTDomain<GWTPropertyDescriptor> domain = DomainUtil.getDomainDescriptor(u, uri, c);
@@ -563,7 +563,7 @@ public class SNDManager
      */
     public Package addExtraFieldsToPackage(Container c, User u, Package pkg, @Nullable Map<String, Object> row)
     {
-        List<GWTPropertyDescriptor> extraFields = getExtraFields(c, u, SNDSchema.PKGS_TABLE_NAME);
+        List<GWTPropertyDescriptor> extraFields = SNDManager.getExtraFields(c, u, SNDSchema.PKGS_TABLE_NAME);
         Map<GWTPropertyDescriptor, Object> extras = new HashMap<>();
         for (GWTPropertyDescriptor extraField : extraFields)
         {

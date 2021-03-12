@@ -334,12 +334,12 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                     }
                     if (!found)
                     {
-                        logger.info("Attribute metadata not found for key: '" + key + "' in package: " + pkgId);
+                        throw new RuntimeException("Attribute metadata not found for key: '" + key + "' in package: " + pkgId);
                     }
                 }
                 else
                 {
-                    logger.info("Package metadata not found for package id: " + pkgId);
+                    throw new RuntimeException("Package metadata not found for package id: " + pkgId);
                 }
             }
 

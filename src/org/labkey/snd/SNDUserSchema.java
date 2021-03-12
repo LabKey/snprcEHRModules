@@ -36,6 +36,7 @@ import org.labkey.snd.query.EventsCacheTable;
 import org.labkey.snd.query.EventsTable;
 import org.labkey.snd.query.LookupSetsTable;
 import org.labkey.snd.query.LookupsTable;
+import org.labkey.snd.query.PackageAttributeTable;
 import org.labkey.snd.query.PackagesTable;
 import org.labkey.snd.query.ProjectsTable;
 import org.labkey.snd.query.SuperPackagesTable;
@@ -166,6 +167,19 @@ public class SNDUserSchema extends SimpleUserSchema
                         if (!schema.getPermissionCheck() || schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class))
                         {
                             return new AttributeDataTable(schema, cf);
+                        }
+
+                        return null;
+                    }
+                },
+        PackageAttribute
+                {
+                    @Override
+                    public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
+                    {
+                        if (!schema.getPermissionCheck() || schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class))
+                        {
+                            return new PackageAttributeTable(schema, cf);
                         }
 
                         return null;
