@@ -38,9 +38,6 @@
         <dataset name="birth" id="1007" category="Colony Management" demographicData="true" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="blood" id="1008" category="Clinical" type="Standard">
-            <tags/>
-        </dataset>
         <dataset name="encounters" id="1067" category="Clinical" type="Standard">
             <tags/>
         </dataset>

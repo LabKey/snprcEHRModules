@@ -469,65 +469,6 @@
         </columns>
         <tableTitle>Birth</tableTitle>
     </table>
-    <table tableName="blood" tableDbType="TABLE">
-        <columns>
-            <column columnName="Id">
-                <datatype>varchar</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
-            </column>
-            <column columnName="date">
-                <datatype>timestamp</datatype>
-                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
-                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
-            </column>
-            <column columnName="tube_type">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="tube_vol">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="quantity">
-                <datatype>double</datatype>
-            </column>
-            <column columnName="sampletype">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="chargetype">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="project">
-                <datatype>integer</datatype>
-                <propertyURI>urn:ehr.labkey.org/#Project</propertyURI>
-            </column>
-            <column columnName="num_tubes">
-                <datatype>integer</datatype>
-            </column>
-            <column columnName="additionalServices">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="enddate">
-                <datatype>timestamp</datatype>
-                <propertyURI>urn:ehr.labkey.org/#EndDate</propertyURI>
-            </column>
-            <column columnName="daterequested">
-                <datatype>timestamp</datatype>
-                <propertyURI>urn:ehr.labkey.org/#DateRequested</propertyURI>
-            </column>
-            <column columnName="instructions">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="reason">
-                <datatype>varchar</datatype>
-            </column>
-            <column columnName="datefinalized">
-                <datatype>timestamp</datatype>
-            </column>
-        </columns>
-        <tableTitle>Blood Draws</tableTitle>
-    </table>
     <table tableName="encounters" tableDbType="TABLE">
         <columns>
             <column columnName="Id">

@@ -591,171 +591,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertElementPresent(Locator.linkWithText("Alive"));
     }
 
-    private void setupBloodValues(String id, Double weight, List<Map<String, Object>> bloodRows) throws IOException, CommandException
-    {
-        Connection connection = createDefaultConnection(true);
-        List<Map<String, Object>> weightRows = Arrays.asList(
-                Maps.of("Id", id,
-                        "date", DATE_FORMAT.format(new Date()),
-                        "weight", weight));
-
-        InsertRowsCommand command = new InsertRowsCommand("study", "weight");
-        command.setRows(weightRows);
-        command.execute(connection, getProjectName());
-
-        if(null!=bloodRows && !bloodRows.isEmpty())
-        {
-            command = new InsertRowsCommand("study", "blood");
-            command.setRows(bloodRows);
-            command.execute(connection, getProjectName());
-        }
-    }
-
-    private void verifyBloodPlotValues(ParticipantViewPage page, int dataPoints, boolean limitShown)
-    {
-        page.clickCategoryTab("General");
-        page.clickReportTab("Current Blood");
-
-        WebElement svg = Locator.css("div[id^=snprc-bloodsummarypanel-] svg").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT);
-        assertEquals("Wrong number of data points", dataPoints, svg.findElements(By.cssSelector("a.point")).size());
-
-        if(limitShown)
-        {
-            assertElementPresent(Locator.css("rect[fill^=url]"));
-        }
-        else
-        {
-            assertElementNotPresent(Locator.css("rect[fill^=url]"));
-        }
-    }
-
-    private void verifyRecentBloodDraws(ParticipantViewPage<?> page, Map<String, List<String>> values)
-    {
-        sleep(1000);
-        List<DataRegionTable> dataRegions = page.getActiveReportDataRegions();
-        DataRegionTable recentBlood = dataRegions.get(dataRegions.size() - 1);
-
-        for (String col : values.keySet())
-        {
-            assertEquals("Wrong values in Recent Blood Draws", values.get(col), recentBlood.getColumnDataAsText(col));
-        }
-    }
-
-    @Test
-    public void testCurrentBloodReportRhesus() throws Exception
-    {
-        // See snprc/species.tsv for blood values
-        double maxDraw = 10.0; // mL/kg
-        double weight = 5; //kg
-        int refreshDays = 42;
-
-        String aliveRhesusId = "TEST9195996";
-
-        ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, aliveRhesusId);
-
-        List<Map<String, Object>> bloodRows = Arrays.asList(
-                Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))),
-                        "quantity", weight,
-                        "project", PROJECT_ID),
-                Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
-                        "quantity", (weight + 0.5) * maxDraw,
-                        "project", PROJECT_ID),
-                Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
-                        "quantity", weight,
-                        "project", PROJECT_ID),
-                Maps.of("Id", aliveRhesusId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
-                        "quantity", 2,
-                        "project", PROTOCOL_PROJECT_ID)
-        );
-
-        // Verify plot
-        setupBloodValues(aliveRhesusId, 5.0, bloodRows);
-        verifyBloodPlotValues(participantViewPage, 6, true); // Two blood draws, 3 refreshes
-
-        // Verify Recent blood draw values
-        Map<String, List<String>> recentBloodDraws = new HashMap<>();
-
-        List<String> quantities = Arrays.asList("5.0", "55.0", "5.0");
-        recentBloodDraws.put("quantity", quantities);
-
-        List<String> dates = Arrays.asList(
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))));
-        recentBloodDraws.put("date", dates);
-
-        List<String> dropDates = Arrays.asList(
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -3 + refreshDays)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3) + refreshDays)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1) + refreshDays)));
-        recentBloodDraws.put("dropDate", dropDates);
-
-        verifyRecentBloodDraws(participantViewPage, recentBloodDraws);
-    }
-
-    @Test
-    public void testCurrentBloodReportMarmoset() throws Exception
-    {
-        double weightLimit = .340; //kg
-        int refreshDays = 14;
-        String aliveMarmId = "TEST3804589";
-
-        ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, aliveMarmId);
-
-        List<Map<String, Object>> bloodRows = Arrays.asList(
-                Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))),
-                        "quantity", .8,
-                        "project", PROJECT_ID),
-                Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
-                        "quantity", 1.0,
-                        "project", PROJECT_ID),
-                Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
-                        "quantity", .5,
-                        "project", PROJECT_ID),
-                Maps.of("Id", aliveMarmId,
-                        "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
-                        "quantity", 2,
-                        "project", PROTOCOL_PROJECT_ID)
-        );
-
-        // Test lower weight limit
-        setupBloodValues(aliveMarmId, weightLimit - .01, bloodRows);
-        verifyBloodPlotValues(participantViewPage, 6, true);
-
-        // Test upper weight limit
-        participantViewPage = ParticipantViewPage.beginAt(this, aliveMarmId);
-        setupBloodValues(aliveMarmId, weightLimit, null);
-        verifyBloodPlotValues(participantViewPage, 6, false);
-
-        // Verify recent blood draw values
-        Map<String, List<String>> recentBloodDraws = new HashMap<>();
-
-        List<String> quantities = Arrays.asList("0.5", "1.0", "0.8");
-        recentBloodDraws.put("quantity", quantities);
-
-        List<String> dates = Arrays.asList(
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))));
-        recentBloodDraws.put("date", dates);
-
-        List<String> dropDates = Arrays.asList(
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -3 + refreshDays)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3) + refreshDays)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1) + refreshDays)));
-        recentBloodDraws.put("dropDate", dropDates);
-
-        verifyRecentBloodDraws(participantViewPage, recentBloodDraws);
-
-    }
-
     /**
      * Report based off of Animal Events dataset: referenceStudy/datasets/dataset1067.tsv
      */
@@ -922,7 +757,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Weights",
 
                         "Arrival/Departure",
-                        "Blood Draws",
                         "Clinical",
                         "Hematology",
                         "Labwork",
@@ -1006,20 +840,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         setProjectDateFormat(dateFormat,dateTimeFormat);
 
         confirmJavascriptDrivenDateFormat(expectedDate);
-
-        confirmQueryDrivenDateFormat(expectedDate, expectedTime);
-    }
-
-    private void confirmQueryDrivenDateFormat(String expectedDate, String expectedTime)
-    {
-        goToSchemaBrowser();
-        selectQuery("study", "blood");
-        waitAndClick(Locator.linkWithText("view data"));
-        DataRegionTable table = new DataRegionTable("Dataset", this);
-        table.setFilter("Id", "Equals","TEST1020148");
-        table.setFilter("quantity", "Equals","3.0");
-        String date = table.getDataAsText(0,1);
-        Assert.assertEquals("Expected Date", expectedDate + " " + expectedTime, date);
     }
 
     private void confirmJavascriptDrivenDateFormat(String expectedDate)
