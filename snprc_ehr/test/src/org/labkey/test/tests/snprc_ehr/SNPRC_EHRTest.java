@@ -757,6 +757,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Weights",
 
                         "Arrival/Departure",
+                        "Blood Draws",
                         "Clinical",
                         "Hematology",
                         "Labwork",
@@ -776,7 +777,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "TEST1020148 (2016-04-21)",
                         "TEST1020148 (2016-01-18)",
                         "Weight: 3.73 kg",
-                        "Charge Id: 7133145",
                         "Service/Panel: X VIRUS",
                         "Protocol: protocol101",
                         "Service/Panel: FULL PANEL CULTURE",

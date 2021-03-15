@@ -48,15 +48,13 @@ offspring	Reproductive Management	query	Offspring	true		study	demographicsOffspr
 pedigreePlot	Genetics	report	Pedigree Plot	true		study	pedigree		module:EHR/schemas/study/Pedigree/Pedigree.r		false	false		qcstate/publicdata	This report will generate a pedigree plot for the selected animal
 snapshot	General	js	Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
 clinSnapshot	Clinical	js	Clinical Snapshot	true		study	snapshot				false	false		qcstate/publicdata	This report contains a summary of the animal, including demographics, assignments and weight
-blood	General	query	Blood Draw History	true		study	Blood Draws			date	false	false			Contains records of blood draws.
 idHistory	General	query	ID History	true		study	idHistory			id_date	false	false			This report contains a summary of the identifiers that have been assigned for each animal
 generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata	
 menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata	
 freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata	
-currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
-Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata	
+Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata
 blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			Contains blood type.
 ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	ParasitologyPivot			date	false	false			Parasitology data.
 ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
