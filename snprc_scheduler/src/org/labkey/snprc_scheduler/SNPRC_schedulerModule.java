@@ -4,11 +4,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
+import org.labkey.api.ehr.EHRService;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
+import org.labkey.api.resource.Resource;
 import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.services.ServiceRegistry;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
@@ -89,6 +91,10 @@ public class SNPRC_schedulerModule extends DefaultModule
     {
         // add a container listener so we'll know when our container is deleted:
         ContainerManager.addContainerListener(new SNPRC_schedulerContainerListener());
+
+        Resource r = getModuleResource("/scripts/snprc_scheduler_triggers.js");
+        assert r != null;
+        EHRService.get().registerTriggerScript(this, r);
 
         DefaultSchema.registerProvider(SNPRC_schedulerSchema.NAME, new DefaultSchema.SchemaProvider(this)
         {
