@@ -137,22 +137,25 @@ Ext4.onReady(function (){
             linkCls: 'labkey-text-link',
             style: 'padding-bottom:10px'
         },
-        items: [{
-            xtype: 'ldk-linkbutton',
-            text: 'View Charges Under This Protocol',
-            handler: function(c){
-                var params = {schemaName: 'study'};
-                params['query.queryName'] = 'charges';
-                params['query.project/protocol~eq'] = protocol;
-
-                window.open(LABKEY.ActionURL.buildURL(
-                    'query',
-                    'executeQuery.view',
-                    LABKEY.ActionURL.getContainer(),
-                    params
-                ));
-            }
-        },{
+        items: [
+        //fb_snprc_issue245  Data not currently available at SNPRC
+        // {
+        //     xtype: 'ldk-linkbutton',
+        //     text: 'View Charges Under This Protocol',
+        //     handler: function(c){
+        //         var params = {schemaName: 'study'};
+        //         params['query.queryName'] = 'charges';
+        //         params['query.project/protocol~eq'] = protocol;
+        //
+        //         window.open(LABKEY.ActionURL.buildURL(
+        //             'query',
+        //             'executeQuery.view',
+        //             LABKEY.ActionURL.getContainer(),
+        //             params
+        //         ));
+        //     }
+        // },
+        {
             xtype: 'ldk-linkbutton',
             text: 'View Procedures Under This Protocol',
             handler: function(c){
