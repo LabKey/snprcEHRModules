@@ -49,7 +49,6 @@ import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ColonyOverviewPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
-import org.labkey.test.pages.snd.PackageListPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.ehr.AbstractGenericEHRTest;
 import org.labkey.test.util.APIAssayHelper;
@@ -63,7 +62,9 @@ import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
+import org.labkey.test.util.ehr.EHRClientAPIHelper;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
+import org.labkey.test.util.external.labModules.LabModuleHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -270,10 +271,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private void initSNDData() throws IOException, CommandException, ParseException
     {
+        populateSNDLookups();
         importSNDPkgs();
 
         // Assume this creates project 1001, the first project id
-        createSNDProject("Test project", true, 1, new Date(), List.of(1, 2, 3, 4));
+        createSNDProject("Test project", true, 640991, new Date(), List.of(1, 2, 3, 4));
 
         createAndAssignCategory("Vitals", true, 1);
         createAndAssignCategory("Weight", true, 2);
@@ -306,6 +308,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private void importSNDData() throws ParseException, CommandException, IOException
     {
+        log("Import SND data");
         clickProject(PROJECT_NAME);
 
         importSNDTsv(SND_DATA_DIR + "vitals.tsv", SND_VITALS_SPKG_ID);
@@ -407,6 +410,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     private void setSNDPermissions()
     {
+        log("Set SND permissions");
         beginAt(WebTestHelper.buildURL("snd",getProjectName(), "admin"));
 
         assertElementPresent(Locator.linkWithText("SND Security"));
@@ -457,6 +461,83 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         if (r != null && r.getText() != null && r.getText().contains("\"success\" : false"))
         {
             throw new RuntimeException(r.getText());
+        }
+    }
+
+    private void populateSNDLookups()
+    {
+        log("Populate SND lookups");
+        Connection connection = createDefaultConnection(true);
+        CommandResponse resp;
+
+        InsertRowsCommand command = new InsertRowsCommand("snd", "LookupSets");
+        List<Map<String, Object>> lookupSetRows = Arrays.asList(
+                new HashMap<String, Object>(Maps.of("SetName", "BCS",
+                        "Label", "BCS",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7ae",
+                        "Description", "Body Condition Scores")));
+
+        command.setRows(lookupSetRows);
+
+        try
+        {
+            resp = command.execute(connection, getProjectName());
+        }
+        catch (IOException | CommandException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        List<Map<String, Object>> data = (List<Map<String, Object>>)resp.getParsedData().get("rows");
+        List<Map<String, Object>> lookupRows = Arrays.asList(
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "2.5 - Lean",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a1",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "1.5 - Very Thin",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a2",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "3.5 - Slightly Overweight",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a3",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "3 - Optimum",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a4",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "4 - Heavy",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a5",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "5 - Grossly Obese",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a6",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "1 - Emaciated",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a7",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "4.5 - Obese",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a8",
+                        "Displayable", "true")),
+                new HashMap<>(Maps.of("LookupSetId", data.get(0).get("lookupSetId"),
+                        "Value", "2 - Thin",
+                        "ObjectId", "dbe561b9-b7ba-102d-8c2a-9926f351b7a9",
+                        "Displayable", "true"))
+                );
+
+        command = new InsertRowsCommand("snd", "Lookups");
+        command.setRows(lookupRows);
+
+        try
+        {
+            command.execute(connection, getProjectName());
+        }
+        catch (IOException | CommandException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
@@ -882,12 +963,15 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         insertSNDData(id, new Date(), SND_WEIGHT_SPKG_ID, List.of(Map.of("propertyName", "weight", "value", weight)));
 
-        for (Map<String, Object> bloodRow : bloodRows)
+        if (bloodRows != null)
         {
-            insertSNDData((String)bloodRow.get("Id"), (Date)bloodRow.get("date"), SND_BLOOD_SPKG_ID, List.of(
-                    Map.of("propertyName", "blood_volume", "value", bloodRow.get("quantity")),
-                    Map.of("propertyName", "reason", "value", bloodRow.get("reason"))
-            ));
+            for (Map<String, Object> bloodRow : bloodRows)
+            {
+                insertSNDData((String) bloodRow.get("Id"), (Date) bloodRow.get("date"), SND_BLOOD_SPKG_ID, List.of(
+                        Map.of("propertyName", "blood_volume", "value", bloodRow.get("quantity")),
+                        Map.of("propertyName", "reason", "value", bloodRow.get("reason"))
+                ));
+            }
         }
     }
 
@@ -933,45 +1017,53 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         ParticipantViewPage participantViewPage = ParticipantViewPage.beginAt(this, aliveRhesusId);
 
+        String reason = "blood draw";
+
         List<Map<String, Object>> bloodRows = Arrays.asList(
                 Maps.of("Id", aliveRhesusId,
                         "date", DateUtils.addDays(new Date(), -(2 * refreshDays - 1)),
                         "quantity", weight,
-                        "project", PROJECT_ID),
+                        "reason", reason),
                 Maps.of("Id", aliveRhesusId,
                         "date", DateUtils.addDays(new Date(), -(refreshDays -3)),
                         "quantity", (weight + 0.5) * maxDraw,
-                        "project", PROJECT_ID),
+                        "reason", reason),
                 Maps.of("Id", aliveRhesusId,
                         "date", DateUtils.addDays(new Date(), -3),
                         "quantity", weight,
-                        "project", PROJECT_ID),
+                        "reason", reason),
                 Maps.of("Id", aliveRhesusId,
                         "date", DateUtils.addDays(new Date(), -4),
                         "quantity", 2,
-                        "project", PROTOCOL_PROJECT_ID)
+                        "reason", reason)
         );
 
         // Verify plot
         setupBloodValues(aliveRhesusId, 5.0, bloodRows);
-        verifyBloodPlotValues(participantViewPage, 6, true); // Two blood draws, 3 refreshes
+        verifyBloodPlotValues(participantViewPage, 8, true); // 3 blood draws, 4 refreshes and today marker
 
         // Verify Recent blood draw values
         Map<String, List<String>> recentBloodDraws = new HashMap<>();
 
-        List<String> quantities = Arrays.asList("5.0", "55.0", "5.0");
+        List<String> quantities = Arrays.asList("5.0", "2.0", "55.0", "5.0");
         recentBloodDraws.put("quantity", quantities);
 
         List<String> dates = Arrays.asList(
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
+                DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))));
+                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1)))
+
+        );
         recentBloodDraws.put("date", dates);
 
         List<String> dropDates = Arrays.asList(
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -3 + refreshDays)),
+                DATE_FORMAT.format(DateUtils.addDays(new Date(), -4 + refreshDays)),
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3) + refreshDays)),
-                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1) + refreshDays)));
+                DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1) + refreshDays))
+        );
+
         recentBloodDraws.put("dropDate", dropDates);
 
         verifyRecentBloodDraws(participantViewPage, recentBloodDraws);
@@ -990,48 +1082,46 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 Maps.of("Id", aliveMarmId,
                         "date", DateUtils.addDays(new Date(), -(2 * refreshDays - 1)),
                         "quantity", .8,
-                        "reason", "blood draw",
-                        "project", PROJECT_ID),
+                        "reason", "blood draw"),
                 Maps.of("Id", aliveMarmId,
                         "date", DateUtils.addDays(new Date(), -(refreshDays -3)),
                         "quantity", 1.0,
-                        "reason", "blood draw",
-                        "project", PROJECT_ID),
+                        "reason", "blood draw"),
                 Maps.of("Id", aliveMarmId,
                         "date", DateUtils.addDays(new Date(), -3),
                         "quantity", .5,
-                        "reason", "blood draw",
-                        "project", PROJECT_ID),
+                        "reason", "blood draw"),
                 Maps.of("Id", aliveMarmId,
                         "date", DateUtils.addDays(new Date(), -4),
-                        "quantity", 2,
-                        "reason", "blood draw",
-                        "project", PROTOCOL_PROJECT_ID)
+                        "quantity", .2,
+                        "reason", "blood draw")
         );
 
         // Test lower weight limit
         setupBloodValues(aliveMarmId, weightLimit - .01, bloodRows);
-        verifyBloodPlotValues(participantViewPage, 6, true);
+        verifyBloodPlotValues(participantViewPage, 8, true); // 4 refreshes, 3 draws and today
 
         // Test upper weight limit
         participantViewPage = ParticipantViewPage.beginAt(this, aliveMarmId);
         setupBloodValues(aliveMarmId, weightLimit, null);
-        verifyBloodPlotValues(participantViewPage, 6, false);
+        verifyBloodPlotValues(participantViewPage, 8, false);
 
         // Verify recent blood draw values
         Map<String, List<String>> recentBloodDraws = new HashMap<>();
 
-        List<String> quantities = Arrays.asList("0.5", "1.0", "0.8");
+        List<String> quantities = Arrays.asList("0.5", "0.2", "1.0", "0.8");
         recentBloodDraws.put("quantity", quantities);
 
         List<String> dates = Arrays.asList(
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
+                DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3))),
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1))));
         recentBloodDraws.put("date", dates);
 
         List<String> dropDates = Arrays.asList(
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -3 + refreshDays)),
+                DATE_FORMAT.format(DateUtils.addDays(new Date(), -4 + refreshDays)),
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -(refreshDays -3) + refreshDays)),
                 DATE_FORMAT.format(DateUtils.addDays(new Date(), -(2 * refreshDays - 1) + refreshDays)));
         recentBloodDraws.put("dropDate", dropDates);
@@ -1226,7 +1316,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "TEST1020148 (2016-04-21)",
                         "TEST1020148 (2016-01-18)",
                         "Weight: 3.73 kg",
-                        "Charge Id: 7133145",
+                        "Charge Id: 640991",
                         "Service/Panel: X VIRUS",
                         "Protocol: protocol101",
                         "Service/Panel: FULL PANEL CULTURE",
@@ -1272,17 +1362,24 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         String dateFormat = "yy-M-d";
         String dateTimeFormat = "yy-M-d H:mm";
         String expectedDate = "16-6-1";
-        String expectedTime = "8:58";
+        String expectedTime = "12:00";
 
         testDateFormat(dateFormat,dateTimeFormat, expectedDate, expectedTime);
 
         dateFormat = "yyyy-MM-dd";
         dateTimeFormat = dateFormat + " HH:mm";
         expectedDate = "2016-06-01";
-        expectedTime = "08:58";
+        expectedTime = "12:00";
 
         testDateFormat(dateFormat,dateTimeFormat, expectedDate, expectedTime);
 
+    }
+
+    @Override
+    @Test
+    public void testWeightValidation()
+    {
+        // TODO: Add SND weight validation test
     }
 
     private void testDateFormat(String dateFormat, String dateTimeFormat, String expectedDate, String expectedTime)
@@ -1297,9 +1394,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private void confirmQueryDrivenDateFormat(String expectedDate, String expectedTime)
     {
         goToSchemaBrowser();
-        selectQuery("study", "blood");
+        selectQuery("study", "Blood");
         waitAndClick(Locator.linkWithText("view data"));
-        DataRegionTable table = new DataRegionTable("Dataset", this);
+        DataRegionTable table = new DataRegionTable("query", this);
         table.setFilter("Id", "Equals","TEST1020148");
         table.setFilter("quantity", "Equals","3.0");
         String date = table.getDataAsText(0,1);
@@ -1333,92 +1430,112 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         return ANIMAL_HISTORY_URL;
     }
 
-//    @Override
-//    protected void testUserAgainstAllStates(@LoggedParam EHRUser user)
-//    {
-//        JSONObject extraContext = new JSONObject();
-//        extraContext.put("errorThreshold", "ERROR");
-//        extraContext.put("skipIdFormatCheck", true);
-//        extraContext.put("allowAnyId", true);
-//        CommandResponse response;
-//
-//        //maintain list of insert/update times for interest
-//        _saveRowsTimes = new ArrayList<>();
-//
-//        //used as initial dates
-//        Date pastDate1 = TIME_FORMAT.parse("2012-01-03 09:30");
-//        Date pastDate2 = TIME_FORMAT.parse("2012-05-03 19:20");
-//
-//        String[] fields = new String[]{"Id", "date", "enddate", "room", "cage", FIELD_QCSTATELABEL, FIELD_OBJECTID, FIELD_LSID, "_recordid"};
-//        Object[][] data = new Object[][]{
-//                {SUBJECTS[0], pastDate1, pastDate2, getRooms()[0], CAGES[0], EHRQCState.IN_PROGRESS.label, null, null, "_recordID"},
-//                {SUBJECTS[0], pastDate2, null, getRooms()[0], CAGES[0]},
-//                {SUBJECTS[1], pastDate1, pastDate2, getRooms()[0], CAGES[0]},
-//                {SUBJECTS[1], pastDate2, null, getRooms()[2], CAGES[2]}
-//        };
-//
-//        //test insert
-//        Object[][] insertData = {weightData1};
-//        insertData[0][Arrays.asList(weightFields).indexOf(FIELD_OBJECTID)] = null;
-//        insertData[0][Arrays.asList(weightFields).indexOf(FIELD_LSID)] = null;
-//        PostCommand insertCommand = getApiHelper().prepareInsertCommand("study", "Weight", FIELD_LSID, weightFields, insertData);
-//
-//        for (EHRQCState qc : EHRQCState.values())
-//        {
-//            extraContext.put("targetQC", qc.label);
-//            boolean successExpected = successExpected(user.getRole(), qc, "insert");
-//            log("Testing role: " + user.getRole().name() + " with insert of QCState: " + qc.label);
-//            if (successExpected)
-//                getApiHelper().doSaveRows(user.getEmail(), insertCommand, extraContext);
-//            else
-//                getApiHelper().doSaveRowsExpectingError(user.getEmail(), insertCommand, extraContext);
-//        }
-//        calculateAverage();
-//
-//        //then update.  update is fun b/c we need to test many QCState combinations.  Updating a row from 1 QCstate to a new QCState technically
-//        //requires update Permission on the original QCState, plus insert Permission into the new QCState
-//        for (EHRQCState originalQc : EHRQCState.values())
-//        {
-//            // first create an initial row as a data admin
-//            UUID objectId = UUID.randomUUID();
-//            Object[][] originalData = {weightData1};
-//            originalData[0][Arrays.asList(weightFields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
-//            extraContext.put("targetQC", originalQc.label);
-//            originalData[0][Arrays.asList(weightFields).indexOf(FIELD_OBJECTID)] = objectId.toString();
-//            PostCommand initialInsertCommand = getApiHelper().prepareInsertCommand("study", "Weight", FIELD_LSID, weightFields, originalData);
-//            log("Inserting initial record for update test, with initial QCState of: " + originalQc.label);
-//            response = getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), initialInsertCommand, extraContext);
-//
-//            String lsid = getLsidFromResponse(response);
-//            originalData[0][Arrays.asList(weightFields).indexOf(FIELD_LSID)] = lsid;
-//
-//            //then try to update to all other QCStates
-//            for (EHRQCState qc : EHRQCState.values())
-//            {
-//                boolean successExpected = originalQc.equals(qc) ? successExpected(user.getRole(), originalQc, "update") : successExpected(user.getRole(), originalQc, "update") && successExpected(user.getRole(), qc, "insert");
-//                log("Testing role: " + user.getRole().name() + " with update from QCState " + originalQc.label + " to: " + qc.label);
-//                originalData[0][Arrays.asList(weightFields).indexOf(FIELD_QCSTATELABEL)] = qc.label;
-//                PostCommand updateCommand = getApiHelper().prepareUpdateCommand("study", "Weight", FIELD_LSID, weightFields, originalData, null);
-//                extraContext.put("targetQC", qc.label);
-//                if (!successExpected)
-//                    getApiHelper().doSaveRowsExpectingError(user.getEmail(), updateCommand, extraContext);
-//                else
-//                {
-//                    getApiHelper().doSaveRows(user.getEmail(), updateCommand, extraContext);
-//                    log("Resetting QCState of record to: " + originalQc.label);
-//                    originalData[0][Arrays.asList(weightFields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
-//                    extraContext.put("targetQC", originalQc.label);
-//                    updateCommand = getApiHelper().prepareUpdateCommand("study", "Weight", FIELD_LSID, weightFields, originalData, null);
-//                    getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), updateCommand, extraContext);
-//                }
-//            }
-//        }
-//
-//        //log the average save time
-//        //TODO: eventually we should set a threshold and assert we dont exceed it
-//        calculateAverage();
-//
-//        simpleSignIn(); //NOTE: this is designed to force the test to sign in, assuming our session was timed out from all the API tests
-//        resetErrors();  //note: inserting records without permission will log errors by design.  the UI should prevent this from happening, so we want to be aware if it does occur
-//    }
+    @Test
+    @Override
+    public void testCustomButtons()
+    {
+        log("verifying custom buttons");
+
+        //housing queries
+        beginAt("/project/" + getContainerPath() + "/begin.view");
+        waitAndClick(Locator.linkWithText("Browse All Datasets"));
+        waitForText("Housing:");
+        waitAndClick(LabModuleHelper.getNavPanelItem("Housing:", VIEW_TEXT));
+        DataRegionTable dr = new DataRegionTable("query", this);
+        saveLocation();
+        dr.checkCheckbox(0);
+        dr.checkCheckbox(1);
+
+        // TODO: Add weight custom button "Compare Weights" check on weight query
+
+        dr.clickHeaderMenu("More Actions", true, "Jump To History");
+        assertTextPresent("Animal History");
+        sleep(5000);
+        recallLocation();
+        List<String> submenuItems = dr.getHeaderMenuOptions("More Actions");
+        List<String> expectedSubmenu = Arrays.asList("Jump To History", "Return Distinct Values","Show Record History","Edit Records");
+        Assert.assertEquals("More actions menu did not contain expected options",expectedSubmenu, submenuItems);
+    }
+
+    @Override
+    protected void testUserAgainstAllStates(@LoggedParam EHRUser user)
+    {
+        JSONObject extraContext = new JSONObject();
+        extraContext.put("errorThreshold", "ERROR");
+        extraContext.put("skipIdFormatCheck", true);
+        extraContext.put("allowAnyId", true);
+        CommandResponse response;
+
+        //maintain list of insert/update times for interest
+        _saveRowsTimes = new ArrayList<>();
+
+
+        String[] fields = new String[]{"Id", "date", "enddate", "code", FIELD_QCSTATELABEL, FIELD_OBJECTID, FIELD_LSID, "_recordid"};
+        Object[][] insertData = new Object[][]{
+                {SUBJECTS[0], EHRClientAPIHelper.DATE_SUBSTITUTION, null, "S-00069", EHRQCState.IN_PROGRESS.label, null, null, "_recordID"}
+        };
+
+        //test insert
+        insertData[0][Arrays.asList(fields).indexOf(FIELD_OBJECTID)] = null;
+        insertData[0][Arrays.asList(fields).indexOf(FIELD_LSID)] = null;
+        PostCommand insertCommand = getApiHelper().prepareInsertCommand("study", "diet", FIELD_LSID, fields, insertData);
+
+        for (EHRQCState qc : EHRQCState.values())
+        {
+            extraContext.put("targetQC", qc.label);
+            boolean successExpected = successExpected(user.getRole(), qc, "insert");
+            log("Testing role: " + user.getRole().name() + " with insert of QCState: " + qc.label);
+            if (successExpected)
+                getApiHelper().doSaveRows(user.getEmail(), insertCommand, extraContext);
+            else
+                getApiHelper().doSaveRowsExpectingError(user.getEmail(), insertCommand, extraContext);
+        }
+        calculateAverage();
+
+        //then update.  update is fun b/c we need to test many QCState combinations.  Updating a row from 1 QCstate to a new QCState technically
+        //requires update Permission on the original QCState, plus insert Permission into the new QCState
+        for (EHRQCState originalQc : EHRQCState.values())
+        {
+            // first create an initial row as a data admin
+            UUID objectId = UUID.randomUUID();
+            Object[][] originalData = insertData;
+            originalData[0][Arrays.asList(fields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
+            extraContext.put("targetQC", originalQc.label);
+            originalData[0][Arrays.asList(fields).indexOf(FIELD_OBJECTID)] = objectId.toString();
+            PostCommand initialInsertCommand = getApiHelper().prepareInsertCommand("study", "diet", FIELD_LSID, fields, originalData);
+            log("Inserting initial record for update test, with initial QCState of: " + originalQc.label);
+            response = getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), initialInsertCommand, extraContext);
+
+            String lsid = getLsidFromResponse(response);
+            originalData[0][Arrays.asList(fields).indexOf(FIELD_LSID)] = lsid;
+
+            //then try to update to all other QCStates
+            for (EHRQCState qc : EHRQCState.values())
+            {
+                boolean successExpected = originalQc.equals(qc) ? successExpected(user.getRole(), originalQc, "update") : successExpected(user.getRole(), originalQc, "update") && successExpected(user.getRole(), qc, "insert");
+                log("Testing role: " + user.getRole().name() + " with update from QCState " + originalQc.label + " to: " + qc.label);
+                originalData[0][Arrays.asList(fields).indexOf(FIELD_QCSTATELABEL)] = qc.label;
+                PostCommand updateCommand = getApiHelper().prepareUpdateCommand("study", "diet", FIELD_LSID, fields, originalData, null);
+                extraContext.put("targetQC", qc.label);
+                if (!successExpected)
+                    getApiHelper().doSaveRowsExpectingError(user.getEmail(), updateCommand, extraContext);
+                else
+                {
+                    getApiHelper().doSaveRows(user.getEmail(), updateCommand, extraContext);
+                    log("Resetting QCState of record to: " + originalQc.label);
+                    originalData[0][Arrays.asList(fields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
+                    extraContext.put("targetQC", originalQc.label);
+                    updateCommand = getApiHelper().prepareUpdateCommand("study", "diet", FIELD_LSID, fields, originalData, null);
+                    getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), updateCommand, extraContext);
+                }
+            }
+        }
+
+        //log the average save time
+        //TODO: eventually we should set a threshold and assert we dont exceed it
+        calculateAverage();
+
+        simpleSignIn(); //NOTE: this is designed to force the test to sign in, assuming our session was timed out from all the API tests
+        resetErrors();  //note: inserting records without permission will log errors by design.  the UI should prevent this from happening, so we want to be aware if it does occur
+    }
 }

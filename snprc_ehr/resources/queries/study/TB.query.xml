@@ -1,7 +1,8 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="tb" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="TB" tableDbType="TABLE" useColumnOrder="true">
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <tableUrl />
                 <insertUrl />
                 <importUrl />
