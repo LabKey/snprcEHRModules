@@ -1438,22 +1438,26 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         //housing queries
         beginAt("/project/" + getContainerPath() + "/begin.view");
-        waitAndClick(Locator.linkWithText("Browse All Datasets"));
-        waitForText("Housing:");
-        waitAndClick(LabModuleHelper.getNavPanelItem("Housing:", VIEW_TEXT));
+        goToSchemaBrowser();
+        selectQuery("study", "Weight");
+        waitForText("view data");
+        clickAndWait(Locator.linkContainingText("view data"));
+
         DataRegionTable dr = new DataRegionTable("query", this);
         saveLocation();
         dr.checkCheckbox(0);
         dr.checkCheckbox(1);
 
-        // TODO: Add weight custom button "Compare Weights" check on weight query
+        dr.clickHeaderMenu("More Actions", false, "Compare Weights");
+        waitForText(5000, "Weight 1", "Weight 2", "Days Between", "% Change");
+        waitAndClick(Ext4Helper.Locators.ext4Button("OK"));
 
         dr.clickHeaderMenu("More Actions", true, "Jump To History");
         assertTextPresent("Animal History");
         sleep(5000);
         recallLocation();
         List<String> submenuItems = dr.getHeaderMenuOptions("More Actions");
-        List<String> expectedSubmenu = Arrays.asList("Jump To History", "Return Distinct Values","Show Record History","Edit Records");
+        List<String> expectedSubmenu = Arrays.asList("Jump To History", "Return Distinct Values","Show Record History", "Compare Weights");
         Assert.assertEquals("More actions menu did not contain expected options",expectedSubmenu, submenuItems);
     }
 

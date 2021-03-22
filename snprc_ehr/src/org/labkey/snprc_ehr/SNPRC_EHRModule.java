@@ -28,6 +28,7 @@ import org.labkey.api.ehr.history.DefaultNotesDataSource;
 import org.labkey.api.ehr.history.DefaultTBDataSource;
 import org.labkey.api.ehr.history.DefaultVitalsDataSource;
 import org.labkey.api.ldk.ExtendedSimpleModule;
+import org.labkey.api.ldk.LDKService;
 import org.labkey.api.ldk.notification.NotificationService;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.Module;
@@ -49,6 +50,9 @@ import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
+import org.labkey.snprc_ehr.buttons.SnprcJumpToHistoryButton;
+import org.labkey.snprc_ehr.buttons.SnprcReturnDistinctButton;
+import org.labkey.snprc_ehr.buttons.SnprcShowAuditHistoryButton;
 import org.labkey.snprc_ehr.buttons.SnprcUserEditButton;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
@@ -164,6 +168,10 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerMoreActionsButton(new SnprcUserEditButton(this, "study", "flags", UpdatePermission.class),
                     "study", "flags");
+        //buttons
+        EHRService.get().registerMoreActionsButton(new SnprcJumpToHistoryButton(this), "study", LDKService.ALL_TABLES);
+        EHRService.get().registerMoreActionsButton(new SnprcReturnDistinctButton(this), "study", LDKService.ALL_TABLES);
+        EHRService.get().registerMoreActionsButton(new SnprcShowAuditHistoryButton(this), "study", LDKService.ALL_TABLES);
 
         // register client dependencies
         EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
