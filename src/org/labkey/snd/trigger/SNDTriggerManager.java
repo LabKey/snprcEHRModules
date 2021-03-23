@@ -131,30 +131,32 @@ public class SNDTriggerManager
         Pair<EventData, SuperPackage> pair;
 
         // iterate through top level packages, perform breadth first search on each top level event data
-        for (EventData eventData : event.getEventData())
+        if (event.getEventData() != null)
         {
-            pkgTriggers = new ArrayList<>();
-            SuperPackage superPackage = topLevelEventDataSuperPackages.get(eventData.getEventDataId());
-            queue.add(new Pair<>(eventData, superPackage));
-
-            while (!queue.isEmpty())
+            for (EventData eventData : event.getEventData())
             {
-                pair = queue.poll();
-                pkgTriggers.addAll(getCategoryTriggers(event, pair.first, pair.second, topLevelEventDataSuperPackages, factories));
+                pkgTriggers = new ArrayList<>();
+                SuperPackage superPackage = topLevelEventDataSuperPackages.get(eventData.getEventDataId());
+                queue.add(new Pair<>(eventData, superPackage));
 
-                if (pair.first.getSubPackages() != null)
+                while (!queue.isEmpty())
                 {
-                    for (EventData data : pair.first.getSubPackages())
+                    pair = queue.poll();
+                    pkgTriggers.addAll(getCategoryTriggers(event, pair.first, pair.second, topLevelEventDataSuperPackages, factories));
+
+                    if (pair.first.getSubPackages() != null)
                     {
-                        queue.add(new Pair<>(data, SNDManager.get().getSuperPackage(data.getSuperPkgId(), pair.second.getChildPackages())));
+                        for (EventData data : pair.first.getSubPackages())
+                        {
+                            queue.add(new Pair<>(data, SNDManager.get().getSuperPackage(data.getSuperPkgId(), pair.second.getChildPackages())));
+                        }
                     }
                 }
+
+                // reverse bfs
+                triggerActions.addAll(Lists.reverse(pkgTriggers));
             }
-
-            // reverse bfs
-            triggerActions.addAll(Lists.reverse(pkgTriggers));
         }
-
         return triggerActions;
     }
 
