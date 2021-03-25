@@ -102,6 +102,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         _containerHelper.createProject(getProjectName(), null);
         _containerHelper.enableModule("SNPRC_scheduler");
         _containerHelper.enableModule("SND");
+        _containerHelper.enableModule("SNPRC_EHR");
 //        _containerHelper.enableModules(Arrays.asList("SNPRC_scheduler", "snprc_ehr"));
 
         // create users
@@ -128,6 +129,14 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         setEHRModuleProperties();
         createUsersandPermissions();
         defineQCStates();
+        try
+        {
+            populateInitialData();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         importStudy();
         defineQCStates();
