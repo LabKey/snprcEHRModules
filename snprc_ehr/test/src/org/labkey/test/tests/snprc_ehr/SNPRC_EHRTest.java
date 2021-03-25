@@ -550,13 +550,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         //insert into demographics
         log("Creating test subjects");
-        fields = new String[]{"Id", "Species", "Birth", "Gender", "date", "calculated_status", "objectid"};
+        fields = new String[]{"Id", "Species", "Birth", "Gender", "date", "calculated_status", "objectid", FIELD_QCSTATELABEL};
         data = new Object[][]{
-                {SUBJECTS[0], "Rhesus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {SUBJECTS[1], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {SUBJECTS[2], "Marmoset", (new Date()).toString(), getFemale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {SUBJECTS[3], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {SUBJECTS[4], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()}
+                {SUBJECTS[0], "Rhesus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {SUBJECTS[1], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {SUBJECTS[2], "Marmoset", (new Date()).toString(), getFemale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {SUBJECTS[3], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {SUBJECTS[4], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"}
         };
         insertCommand = getApiHelper().prepareInsertCommand("study", "demographics", "lsid", fields, data);
         getApiHelper().deleteAllRecords("study", "demographics", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
@@ -564,11 +564,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         //for simplicity, also create the animals from MORE_ANIMAL_IDS right now
         data = new Object[][]{
-                {MORE_ANIMAL_IDS[0], "Rhesus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {MORE_ANIMAL_IDS[1], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {MORE_ANIMAL_IDS[2], "Marmoset", (new Date()).toString(), getFemale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {MORE_ANIMAL_IDS[3], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()},
-                {MORE_ANIMAL_IDS[4], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString()}
+                {MORE_ANIMAL_IDS[0], "Rhesus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {MORE_ANIMAL_IDS[1], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {MORE_ANIMAL_IDS[2], "Marmoset", (new Date()).toString(), getFemale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {MORE_ANIMAL_IDS[3], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"},
+                {MORE_ANIMAL_IDS[4], "Cynomolgus", (new Date()).toString(), getMale(), new Date(), "Alive", UUID.randomUUID().toString(), "Completed"}
         };
         insertCommand = getApiHelper().prepareInsertCommand("study", "demographics", "lsid", fields, data);
         getApiHelper().deleteAllRecords("study", "demographics", new Filter("Id", StringUtils.join(MORE_ANIMAL_IDS, ";"), Filter.Operator.IN));
@@ -580,12 +580,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         //set housing
         log("Creating initial housing records");
-        fields = new String[]{"Id", "date", "enddate", "room", "cage"};
+        fields = new String[]{"Id", "date", "enddate", "room", "cage", FIELD_QCSTATELABEL};
         data = new Object[][]{
-                {SUBJECTS[0], pastDate1, pastDate2, getRooms()[0], CAGES[0]},
-                {SUBJECTS[0], pastDate2, null, getRooms()[0], CAGES[0]},
-                {SUBJECTS[1], pastDate1, pastDate2, getRooms()[0], CAGES[0]},
-                {SUBJECTS[1], pastDate2, null, getRooms()[2], CAGES[2]}
+                {SUBJECTS[0], pastDate1, pastDate2, getRooms()[0], CAGES[0], "Completed"},
+                {SUBJECTS[0], pastDate2, null, getRooms()[0], CAGES[0], "Completed"},
+                {SUBJECTS[1], pastDate1, pastDate2, getRooms()[0], CAGES[0], "Completed"},
+                {SUBJECTS[1], pastDate2, null, getRooms()[2], CAGES[2], "Completed"}
         };
         insertCommand = getApiHelper().prepareInsertCommand("study", "Housing", "lsid", fields, data);
         getApiHelper().deleteAllRecords("study", "Housing", new Filter("Id", StringUtils.join(SUBJECTS, ";"), Filter.Operator.IN));
