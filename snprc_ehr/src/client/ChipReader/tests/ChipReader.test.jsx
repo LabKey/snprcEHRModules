@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import Select from 'react-select'
 import moment from 'moment'
 import ChipReader from '../ChipReader'
 import { executeSql } from '../../Shared/api/api'

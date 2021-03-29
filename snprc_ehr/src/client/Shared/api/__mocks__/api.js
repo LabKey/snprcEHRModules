@@ -7,7 +7,7 @@ import {
     ProtocolLookup, pedigreeGroups
 } from '../../../NewAnimalPage/tests/fixtures/apiTestData'
 
-export const request = ({ schemaName, queryName, viewName = '', sort = '', columns = [], filterArray = [] }) => {
+export const request = ({ schemaName, queryName, parameters = {}, viewName = '', sort = '', columns = [], filterArray = [] }) => {
     // console.log(`loading list: ${queryName}`);
     return new Promise(resolve => {
         switch (queryName) {

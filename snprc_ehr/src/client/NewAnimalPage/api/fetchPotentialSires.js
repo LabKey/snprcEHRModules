@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { Filter } from '@labkey/api'
 import { request } from '../../Shared/api/api'
 
@@ -11,9 +12,10 @@ const parse = rows => {
     })
 }
 
-const fetchPotentialSires = species => {
+const fetchPotentialSires = (species, birthdate, selectedOption) => {
     return new Promise((resolve, reject) => {
         request({
+            parameters: {'birthdateParm': birthdate, 'selectedOptionParm': selectedOption},
             schemaName: 'study',
             queryName: 'PotentialSires',
             columns: ['Sire', 'ArcSpeciesCode', 'Age'],

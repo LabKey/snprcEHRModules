@@ -305,7 +305,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 "value": 0,
               },
               "birthDate": Object {
-                "date": "1970-01-01T00:00:00.000Z",
+                "date": "2020-06-09T20:00:00.000Z",
               },
               "cage": Object {
                 "value": undefined,
@@ -427,7 +427,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                   "value": 0,
                 },
                 "birthDate": Object {
-                  "date": "1970-01-01T00:00:00.000Z",
+                  "date": "2020-06-09T20:00:00.000Z",
                 },
                 "cage": Object {
                   "value": undefined,
@@ -526,6 +526,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               ]
             }
             preventNext={[Function]}
+            reloadDamsAndSires={[Function]}
           />
         </div>
       </div>
@@ -598,7 +599,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             "value": 0,
           },
           "birthDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+            "date": "2020-06-09T20:00:00.000Z",
           },
           "cage": Object {
             "value": undefined,

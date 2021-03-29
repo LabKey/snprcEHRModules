@@ -17,7 +17,9 @@ export default class AcquisitionPanel extends React.Component {
   }
 
   handleAcquisitionChange = option => {
+    const species = this.props.newAnimalData.species.arcSpeciesCode
     this.props.handleDataChange('acquisitionType', option)
+    this.props.reloadLocations(species, option.value) // value contains the acq code
   }
 
   handleAcquisitionDateChange = date => {

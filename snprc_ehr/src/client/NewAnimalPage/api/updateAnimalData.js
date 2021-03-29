@@ -8,7 +8,6 @@ const convertToJson = newAnimalData => {
         acqDate: newAnimalData.acqDate.date.toString(),
         gender: newAnimalData.gender.value,
         species: newAnimalData.species.value,
-        animalAccount: newAnimalData.animalAccount.value,
         ownerInstitution: newAnimalData.ownerInstitution.value,
         responsibleInstitution: newAnimalData.responsibleInstitution.value,
         room: newAnimalData.room.rowId,
@@ -18,6 +17,7 @@ const convertToJson = newAnimalData => {
         ...(newAnimalData.iacuc && { iacuc: newAnimalData.iacuc.value }),
         ...(newAnimalData.colony && { colony: newAnimalData.colony.value }),
         ...(newAnimalData.sire && { sire: newAnimalData.sire.value }),
+        ...(newAnimalData.animalAccount && { animalAccount: newAnimalData.animalAccount.value }),
         ...(newAnimalData.dam && { dam: newAnimalData.dam.value })
     }
     return jsonData

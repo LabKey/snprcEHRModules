@@ -110,9 +110,9 @@ export default class NewAnimalPage extends React.Component {
     const lists = {}
 
     async function loadListsAW(species) {
-      lists.potentialDamList = await fetchPotentialDams(species)
-      lists.potentialSireList = await fetchPotentialSires(species)
-      lists.locationList = await fetchLocations(species)
+      //lists.potentialDamList = await fetchPotentialDams(species)
+      //lists.potentialSireList = await fetchPotentialSires(species)
+      //lists.locationList = await fetchLocations(species)
       lists.colonyList = await fetchColonies(species)
       lists.iacucList = await fetchProtocols(species)
       lists.pedigreeList = await fetchPedigrees(species)
@@ -122,9 +122,9 @@ export default class NewAnimalPage extends React.Component {
       .then(() => {
         this.setState(prevState => ({
           ...prevState,
-          potentialDamList: lists.potentialDamList,
-          potentialSireList: lists.potentialSireList,
-          locationList: lists.locationList,
+          //potentialDamList: lists.potentialDamList,
+          //potentialSireList: lists.potentialSireList,
+          //locationList: lists.locationList,
           colonyList: lists.colonyList,
           iacucList: lists.iacucList,
           pedigreeList: lists.pedigreeList,
@@ -276,9 +276,9 @@ export default class NewAnimalPage extends React.Component {
           result = !room
           break
         case 4:
-          result = !animalAccount
+          result = ( !animalAccount && !constants.offSiteAcqCodes.includes(this.state.newAnimalData.acquisitionType.value))
             || !ownerInstitution
-            || !iacuc
+            || (!iacuc && !constants.offSiteAcqCodes.includes(this.state.newAnimalData.acquisitionType.value))
             || !responsibleInstitution
             || (!colony && this.state.colonyList.length > 0)
             || (!pedigree && this.state.pedigreeList > 0)
@@ -453,36 +453,54 @@ export default class NewAnimalPage extends React.Component {
     )
   };
 
-reloadDamsAndSires = (selectedSpecies, birthdate) => {
+  reloadDamsAndSires = (selectedSpecies, birthdate, selectedOption) => {
     const lists = {}
 
-  async function loadListsAW(species, birthdate ) {
-    if (this.state.selectedOption == 'Birth') {
-      lists.potentialDamList = await fetchPotentialDams(species, birthdate)
-      lists.potentialSireList = await fetchPotentialSires(species, birthdate)
-    }
-    else {
-      lists.potentialDamList = await fetchPotentialDams(species, birthdate)
-      lists.potentialSireList = await fetchPotentialSires(species, birthdate)
-    }
-  }
+    async function loadListsAW(species, birthdate, selectedOption) {
+      lists.potentialDamList = await fetchPotentialDams(species, birthdate, selectedOption)
+      lists.potentialSireList = await fetchPotentialSires(species, birthdate, selectedOption)
 
-  loadListsAW(selectedSpecies.arcSpeciesCode, birthdate.date)
-    .then(() => {
-      this.setState(prevState => ({
-        ...prevState,
-        potentialDamList: lists.potentialDamList,
-        potentialSireList: lists.potentialSireList
-      }))
-    })
-    .catch(error => {
-      console.log(`Error in reloadDamsSires: ${error}`)
-      this.setState(prevState => ({
-        ...prevState,
-        errorMessage: error.message,
-      }))
-    })
-};
+    }
+
+    loadListsAW(selectedSpecies.arcSpeciesCode, birthdate.date, selectedOption)
+      .then(() => {
+        this.setState(prevState => ({
+          ...prevState,
+          potentialDamList: lists.potentialDamList,
+          potentialSireList: lists.potentialSireList
+        }))
+      })
+      .catch(error => {
+        console.log(`Error in reloadDamsAndSires: ${error}`)
+        this.setState(prevState => ({
+          ...prevState,
+          errorMessage: error.message,
+        }))
+      })
+  };
+
+  reloadLocations = (species, acquisitionType) => {
+    const lists = {}
+
+    async function loadListsAW(species, acquisitionType) {
+      lists.locationList = await fetchLocations(species, acquisitionType)
+    }
+
+    loadListsAW(species, acquisitionType)
+      .then(() => {
+        this.setState(prevState => ({
+          ...prevState,
+          locationList: lists.locationList,
+        }))
+      })
+      .catch(error => {
+        console.log(`Error in reloadLocations: ${error}`)
+        this.setState(prevState => ({
+          ...prevState,
+          errorMessage: error.message,
+        }))
+      })
+  };
 
   render() {
     // allow debug mode to be triggered for running test suite
@@ -500,159 +518,161 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
           <div className="parent-panel">
             <div
               className="panel-heading"
-              disabled={ this.state.currentPanel !== 1 }
+              disabled={this.state.currentPanel !== 1}
             >
               <p>Species and Acquisition Type</p>
             </div>
             <div
               className="species-panel"
-              disabled={ this.state.currentPanel !== 1 }
+              disabled={this.state.currentPanel !== 1}
             >
               <SpeciesPanel
-                disabled={ this.state.currentPanel !== 1 }
+                disabled={this.state.currentPanel !== 1}
                 handleAcquisitionOptionChange={
                   this.handleAcquisitionOptionChange
                 }
-                handleSpeciesChange={ this.handleSpeciesChange }
-                newAnimalData={ this.state.newAnimalData }
-                selectedOption={ this.state.selectedOption }
-                speciesList={ this.state.speciesList }
+                handleSpeciesChange={this.handleSpeciesChange}
+                newAnimalData={this.state.newAnimalData}
+                selectedOption={this.state.selectedOption}
+                speciesList={this.state.speciesList}
               />
             </div>
 
-            { this.state.currentPanel === 1 && (
+            {this.state.currentPanel === 1 && (
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={ this.disableFirstPanel() }
+                  disabled={this.disableFirstPanel()}
                 >
                   <p>Acquisition</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={ this.disableFirstPanel() }
+                  disabled={this.disableFirstPanel()}
                 >
                   <AcquisitionPanel
                     acquisitionTypeList={
                       this.state.acquisitionTypeList
                     }
-                    disabled={ this.disableFirstPanel() }
-                    numAnimals={ this.state.numAnimals }
-                    newAnimalData={ this.state.newAnimalData }
-                    handleDataChange={ this.handleDataChange }
-                    preventNext={ this.preventNext }
-                    handleNumAnimalChange={ this.handleNumAnimalChange }
+                    disabled={this.disableFirstPanel()}
+                    numAnimals={this.state.numAnimals}
+                    newAnimalData={this.state.newAnimalData}
+                    handleDataChange={this.handleDataChange}
+                    preventNext={this.preventNext}
+                    handleNumAnimalChange={this.handleNumAnimalChange}
+                    reloadLocations={this.reloadLocations}
                   />
                 </div>
               </div>
-            ) }
+            )}
 
-            { this.state.currentPanel === 2 && (
+            {this.state.currentPanel === 2 && (
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <p>Demographics</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <DemographicsPanel
-                    bdStatusList={ this.state.bdStatusList }
-                    disabled={ this.disablePanels() }
-                    handleDataChange={ this.handleDataChange }
-                    newAnimalData={ this.state.newAnimalData }
-                    selectedOption={ this.state.selectedOption }
+                    bdStatusList={this.state.bdStatusList}
+                    disabled={this.disablePanels()}
+                    handleDataChange={this.handleDataChange}
+                    newAnimalData={this.state.newAnimalData}
+                    selectedOption={this.state.selectedOption}
                     potentialDamList={
                       this.state.potentialDamList
                     }
                     potentialSireList={
                       this.state.potentialSireList
                     }
-                    preventNext={ this.preventNext }
+                    preventNext={this.preventNext}
+                    reloadDamsAndSires={this.reloadDamsAndSires}
                   />
                 </div>
               </div>
-            ) }
+            )}
 
-            { this.state.currentPanel === 3 && (
+            {this.state.currentPanel === 3 && (
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <p>Location</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <LocationPanel
-                    disabled={ this.disablePanels() }
-                    handleDataChange={ this.handleDataChange }
-                    handleError={ this.handleError }
-                    locationList={ this.state.locationList }
-                    newAnimalData={ this.state.newAnimalData }
-                    preventNext={ this.preventNext }
+                    disabled={this.disablePanels()}
+                    handleDataChange={this.handleDataChange}
+                    handleError={this.handleError}
+                    locationList={this.state.locationList}
+                    newAnimalData={this.state.newAnimalData}
+                    preventNext={this.preventNext}
                   />
                 </div>
               </div>
-            ) }
+            )}
 
-            { this.state.currentPanel === 4 && (
+            {this.state.currentPanel === 4 && (
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <p>Account, Colony, and Ownership</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <AccountPanel
-                    accountList={ this.state.accountList }
-                    colonyList={ this.state.colonyList }
-                    disabled={ this.disablePanels() }
-                    handleDataChange={ this.handleDataChange }
-                    iacucList={ this.state.iacucList }
+                    accountList={this.state.accountList}
+                    colonyList={this.state.colonyList}
+                    disabled={this.disablePanels()}
+                    handleDataChange={this.handleDataChange}
+                    iacucList={this.state.iacucList}
                     institutionList={
                       this.state.institutionList
                     }
-                    newAnimalData={ this.state.newAnimalData }
-                    pedigreeList={ this.state.pedigreeList }
-                    preventNext={ this.preventNext }
+                    newAnimalData={this.state.newAnimalData}
+                    pedigreeList={this.state.pedigreeList}
+                    preventNext={this.preventNext}
                   />
                 </div>
               </div>
-            ) }
+            )}
 
-            { this.state.currentPanel === 5 && (
+            {this.state.currentPanel === 5 && (
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <p>Diet</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={ this.disablePanels() }
+                  disabled={this.disablePanels()}
                 >
                   <DietPanel
-                    dietList={ this.state.dietList }
-                    disabled={ this.disablePanels() }
-                    handleDataChange={ this.handleDataChange }
-                    newAnimalData={ this.state.newAnimalData }
-                    preventNext={ this.preventNext }
+                    dietList={this.state.dietList}
+                    disabled={this.disablePanels()}
+                    handleDataChange={this.handleDataChange}
+                    newAnimalData={this.state.newAnimalData}
+                    preventNext={this.preventNext}
                   />
                 </div>
               </div>
-            ) }
-            { this.state.errorMessage && (
+            )}
+            {this.state.errorMessage && (
               <InfoPanel
                 errorMessages={
                   this.state.errorMessage && [
@@ -663,7 +683,7 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
                   ]
                 }
               />
-            ) }
+            )}
             <div>
               <Pager className="pager-container">
                 <Pager.Item
@@ -671,12 +691,12 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
                     this.state.currentPanel <= 1
                     || this.state.hasError
                   }
-                  onClick={ this.handlePrevious }
+                  onClick={this.handlePrevious}
                   previous
                 >
                   &larr; Previous Page
                 </Pager.Item>
-                { this.state.currentPanel !== this.numPanels && (
+                {this.state.currentPanel !== this.numPanels && (
                   <Pager.Item
                     disabled={
                       this.state.currentPanel
@@ -685,19 +705,19 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
                       || this.state.preventNext
                     }
                     next
-                    onClick={ this.handleNext }
+                    onClick={this.handleNext}
                   >
                     Next Page &rarr;
                   </Pager.Item>
-                ) }
+                )}
                 <Pager.Item
-                  disabled={ false }
-                  next={ false }
-                  onClick={ this.handleCancel }
+                  disabled={false}
+                  next={false}
+                  onClick={this.handleCancel}
                 >
                   Cancel
                 </Pager.Item>
-                { this.state.currentPanel === this.numPanels && (
+                {this.state.currentPanel === this.numPanels && (
                   <Pager.Item
                     disabled={
                       this.state.currentPanel
@@ -706,11 +726,11 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
                       || this.state.preventNext
                     }
                     next
-                    onClick={ this.handleSave }
+                    onClick={this.handleSave}
                   >
                     Save
                   </Pager.Item>
-                ) }
+                )}
               </Pager>
             </div>
           </div>
@@ -722,8 +742,8 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
               </div>
               <div className="wizard-right">
                 <SummaryGridPanel
-                  print={ this.print }
-                  summaryData={ this.state.summaryData }
+                  print={this.print}
+                  summaryData={this.state.summaryData}
                 />
               </div>
             </div>
@@ -731,29 +751,29 @@ reloadDamsAndSires = (selectedSpecies, birthdate) => {
         </div>
 
         <div>
-          {/* Save Modal */ }
+          {/* Save Modal */}
           <SaveModal
-            newAnimalData={ this.state.newAnimalData }
-            numAnimals={ this.state.numAnimals }
-            onCloseClick={ this.onCloseClick }
-            onSaveClick={ this.onSaveClick }
-            show={ this.state.showSaveModal }
+            newAnimalData={this.state.newAnimalData}
+            numAnimals={this.state.numAnimals}
+            onCloseClick={this.onCloseClick}
+            onSaveClick={this.onSaveClick}
+            show={this.state.showSaveModal}
           />
-          {/* Cancel Modal */ }
+          {/* Cancel Modal */}
           <CancelChangeModal
             message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
-            noClick={ this.onCloseClick }
-            show={ this.state.showCancelModal }
+            noClick={this.onCloseClick}
+            show={this.state.showCancelModal}
             title="Cancel changes?"
-            yesClick={ this.onCancelClick }
+            yesClick={this.onCancelClick}
           />
-          {/* Species Change Modal */ }
+          {/* Species Change Modal */}
           <CancelChangeModal
             message="If you change species now, you will lose your current changes. Are you sure you want to change species?"
-            noClick={ this.onCloseClick }
-            show={ this.state.showSpeciesChangeModal }
+            noClick={this.onCloseClick}
+            show={this.state.showSpeciesChangeModal}
             title="Changes Species?"
-            yesClick={ this.onSpeciesChangeClick }
+            yesClick={this.onSpeciesChangeClick}
           />
         </div>
       </div>
