@@ -143,6 +143,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               }
             }
             preventNext={[Function]}
+            reloadLocations={[Function]}
           />
         </div>
       </div>
@@ -382,7 +383,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={false}
+          disabled={true}
         >
           <p>
             Demographics
@@ -390,7 +391,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={false}
+          disabled={true}
         >
           <DemographicsPanel
             bdStatusList={
@@ -412,7 +413,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 },
               ]
             }
-            disabled={false}
+            disabled={true}
             handleDataChange={[Function]}
             newAnimalData={
               Object {
@@ -764,7 +765,7 @@ exports[`Should render Account page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={false}
+          disabled={true}
         >
           <p>
             Account, Colony, and Ownership
@@ -772,7 +773,7 @@ exports[`Should render Account page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={false}
+          disabled={true}
         >
           <AccountPanel
             accountList={
@@ -819,7 +820,7 @@ exports[`Should render Account page 1`] = `
                 },
               ]
             }
-            disabled={false}
+            disabled={true}
             handleDataChange={[Function]}
             iacucList={
               Array [
@@ -1151,7 +1152,7 @@ exports[`Should render Diet page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={false}
+          disabled={true}
         >
           <p>
             Diet
@@ -1159,7 +1160,7 @@ exports[`Should render Diet page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={false}
+          disabled={true}
         >
           <DietPanel
             dietList={
@@ -1184,7 +1185,7 @@ exports[`Should render Diet page 1`] = `
                 },
               ]
             }
-            disabled={false}
+            disabled={true}
             handleDataChange={[Function]}
             newAnimalData={
               Object {
@@ -1447,7 +1448,7 @@ exports[`Should render Location page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={false}
+          disabled={true}
         >
           <p>
             Location
@@ -1455,40 +1456,13 @@ exports[`Should render Location page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={false}
+          disabled={true}
         >
           <LocationPanel
-            disabled={false}
+            disabled={true}
             handleDataChange={[Function]}
             handleError={[Function]}
-            locationList={
-              Array [
-                Object {
-                  "arcSpeciesCode": "PC",
-                  "id": 0,
-                  "label": "1.01",
-                  "maxCages": null,
-                  "rowId": 4201,
-                  "value": "1.01",
-                },
-                Object {
-                  "arcSpeciesCode": "PC",
-                  "id": 1,
-                  "label": "2.00",
-                  "maxCages": 12,
-                  "rowId": 4202,
-                  "value": "2.00",
-                },
-                Object {
-                  "arcSpeciesCode": "PC",
-                  "id": 2,
-                  "label": "6.06",
-                  "maxCages": 15,
-                  "rowId": 4203,
-                  "value": "6.06",
-                },
-              ]
-            }
+            locationList={Array []}
             newAnimalData={
               Object {
                 "acqDate": Object {
