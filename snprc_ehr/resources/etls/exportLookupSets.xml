@@ -5,7 +5,7 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprc_ehr" queryName="ExportLookupSets" />
-            <destination schemaName="tacSrc" queryName="LookupSets" bulkLoad="true" targetOption="merge">
+            <destination schemaName="tacSrc" queryName="LookupSets" bulkLoad="true" targetOption="truncate">
                 <alternateKeys>
                     <column name="LookupSetId"/>
                 </alternateKeys>

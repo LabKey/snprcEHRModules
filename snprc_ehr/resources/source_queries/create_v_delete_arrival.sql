@@ -33,8 +33,8 @@ ALTER VIEW [labkey_etl].[V_DELETE_ARRIVAL] AS
 -- Create date: 4/3/2015
 -- Description:	Selects the ETL records for LabKey study.arrival dataset which need to be deleted
 -- Changes:
---
---
+-- Removed v_demographics join since animals may have already been deleted from demo
+--srr 03/10/2021
 -- ==========================================================================================
 
 SELECT 
@@ -42,7 +42,7 @@ SELECT
 	ad.audit_date_tm
 FROM audit.audit_acq_disp AS ad
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+--INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
 WHERE ad.audit_action = 'D' AND ad.object_id IS NOT NULL
 
 GO

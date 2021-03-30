@@ -1,8 +1,10 @@
 /**********************************************************
 
 I think this will go to CAMP pkgAttrib lookups
-  02.24.2021
+  ori date 02.24.2021
   srr
+  Added SyncDateTime column with a default of getdate.
+  Will change ETL dump entire table.
 ***********************************************************/
 -- new schema
 DROP TABLE IF EXISTS TAC_src.LookupSets;
@@ -14,12 +16,15 @@ CREATE TABLE [TAC_src].[LookupSets](
     [Label] [nvarchar](128) NULL,
     [Description] [nvarchar](900) NULL,
     [Container] [uniqueidentifier] NOT NULL,
-    [CreatedBy] [int] NULL,
-    [Created] [datetime] NULL,
-    [ModifiedBy] [int] NULL,
-    [Modified] [datetime] NULL,
+    CreatedBy Int NULL,
+    CreatedByEmail    VARCHAR(128) NULL,
+    CreatedUserName VARCHAR(128) NULL,
+    Modified DATETIME NULL,
+    ModifiedBy Int NULL,
+    ModifiedByEmail varchar(128) NULL,
     [Lsid] [nvarchar](300) NULL,
-    [ObjectId] [uniqueidentifier] NOT NULL
+    [ObjectId] [uniqueidentifier] NOT NULL,
+    ETLDownDate [DATETIME] DEFAULT GETDATE(),
     CONSTRAINT PK_TAC_LookupSetId
     PRIMARY KEY CLUSTERED (LookupSetId ASC)
     )
