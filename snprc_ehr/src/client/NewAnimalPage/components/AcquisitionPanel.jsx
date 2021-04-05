@@ -11,22 +11,19 @@ export default class AcquisitionPanel extends React.Component {
     errorMessage: undefined,
     infoMessage: undefined
   }
-
-  componentDidMount = () => {
+componentDidMount = () => {
     this.props.preventNext() // prevent/Allow Next button
   }
-
-  handleAcquisitionChange = option => {
-    const species = this.props.newAnimalData.species.arcSpeciesCode
+handleAcquisitionChange = option => {
     this.props.handleDataChange('acquisitionType', option)
-    this.props.reloadLocations(species, option.value) // value contains the acq code
   }
-
-  handleAcquisitionDateChange = date => {
+handleAcquisitionDateChange = date => {
     this.props.handleDataChange('acqDate', { date: moment(date) })
   }
-
-  handleNumAnimalChange = e => {
+handleSourceLocationChange = sourceLocation => {
+    this.props.handleDataChange('sourceLocation', sourceLocation)
+  }
+handleNumAnimalChange = e => {
     const numAnimals = e.target.value
 
     const errorMessage = validateNumAnimals(numAnimals)
@@ -41,8 +38,7 @@ export default class AcquisitionPanel extends React.Component {
       }
     ))
   }
-
-  isInteger = e => {
+isInteger = e => {
     const i = e.key // which ? e.which : e.keyCode;
     const isInteger = (i >= 0 && i <= 9)
     if (!isInteger) {
@@ -51,14 +47,13 @@ export default class AcquisitionPanel extends React.Component {
 
     return isInteger
   }
-
-  handlePaste = e => {
+handlePaste = e => {
     e.preventDefault()
   }
-
-  render() {
-    const { acquisitionType, acqDate, species } = this.props.newAnimalData
-    const numAnimals = this.props.numAnimals
+render() {
+    const { acquisitionType, acqDate, species, sourceLocation } = this.props.newAnimalData
+    const { numAnimals } = this.props
+    const { selectedOption } = this.props
 
     return (
       <>
@@ -98,25 +93,43 @@ export default class AcquisitionPanel extends React.Component {
                 value={ acquisitionType || null }
               />
             </div>
+            { selectedOption && selectedOption === 'Acquisition' && (
+            <div className="wizard-panel__row">
+              <div className="wizard-panel__col">
+                <label className="field-label">Source Location</label>
+                <Select
+                  autoFocus
+                  className="shared-dropdown"
+                  classNamePrefix="shared-select"
+                  id="location-select"
+                  isDisabled={ this.props.disabled }
+                  isLoading={ this.props.sourceLocationList.length === 0 }
+                  onChange={ this.handleSourceLocationChange }
+                  options={ this.props.sourceLocationList }
+                  placeholder="Select Source Location"
+                  value={ sourceLocation || null }
+                />
+              </div>
+            </div>
+            )}
           </div>
           { species && species.arcSpeciesCode === 'MA' && (
             <div className="wizard-panel__row">
               <div className="wizard-panel__col">
                 <label className="field-label">Number of Animals</label>
-                
-                  <input
-                    className="acq-input"
-                    defaultValue={ numAnimals ? numAnimals : 1 }
-                    disabled={ this.props.disabled }
-                    onKeyPress={ this.isInteger }
-                    onPasteCapture={ this.handlePaste }
-                    type="text"
-                    onChange={ this.handleNumAnimalChange }
-                    max="100"
-                    min="1"
-                    type="number"
-                  />
-                
+
+                <input
+                  className="acq-input"
+                  defaultValue={ numAnimals || 1 }
+                  disabled={ this.props.disabled }
+                  max="100"
+                  min="1"
+                  onChange={ this.handleNumAnimalChange }
+                  onKeyPress={ this.isInteger }
+                  onPasteCapture={ this.handlePaste }
+                  type="number"
+                />
+
               </div>
             </div>
           ) }
@@ -124,13 +137,13 @@ export default class AcquisitionPanel extends React.Component {
         <InfoPanel
           errorMessages={ this.state.errorMessage && (
             [{ propTest: this.state.errorMessage, colName: this.state.errorMessage }]
-          )}
+          ) }
+          infoMessages={ species && species.arcSpeciesCode === 'MA' && numAnimals && numAnimals !== 1 && [
+            { key: 1, value: constants.hamsterWarnings }
+          ] }
           messages={
             [{ propTest: !acquisitionType, colName: 'Acquisition Code' }]
           }
-          infoMessages={species && species.arcSpeciesCode === 'MA' && numAnimals && numAnimals != 1 && [
-            {key: 1, value: constants.hamsterWarnings}
-          ]}
         />
       </>
     )

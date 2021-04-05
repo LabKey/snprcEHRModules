@@ -27,7 +27,8 @@ const NewAnimalState = () => {
             cage: { value: undefined },
             diet: undefined,
             pedigree: undefined,
-            iacuc: undefined
+            iacuc: undefined,
+            sourceLocation: undefined
         },
         summaryData: [],
         speciesList: [],
@@ -42,6 +43,7 @@ const NewAnimalState = () => {
         iacucList: [],
         pedigreeList: [],
         bdStatusList: [],
+        sourceLocationList: [],
         isLoading: true,
         hasError: false,
         preventNext: true,

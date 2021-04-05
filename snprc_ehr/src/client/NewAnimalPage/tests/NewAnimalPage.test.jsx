@@ -146,7 +146,7 @@ describe('NewAnimalPage tests', () => {
         // Demographics InfoPanel should be present
         const DemographicsPanel = wrapper.find('DemographicsPanel')
         expect(DemographicsPanel.dive().find('InfoPanel').exists()).toBeTruthy()
-        
+
         // Birthdate state should change -- same as acquisition date
         const birthdateDatePicker = DemographicsPanel.dive().find('WrappedDatePicker')
         birthdateDatePicker.simulate('change', data.birthdate1)
@@ -166,7 +166,7 @@ describe('NewAnimalPage tests', () => {
         await flushPromises()
         expect(wrapper.state().newAnimalData.gender).toEqual(data.gender)
 
-        //console.log(DemographicsPanel.dive().debug({ verbose: true }))
+        // console.log(DemographicsPanel.dive().debug({ verbose: true }))
         // Potential Dam Select
         const damSelect = DemographicsPanel.dive().find(Select).at(2)
         damSelect.simulate('change', data.potentialDam)

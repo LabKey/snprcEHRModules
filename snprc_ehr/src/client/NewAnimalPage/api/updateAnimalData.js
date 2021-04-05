@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import { Ajax, Utils, ActionURL } from '@labkey/api'
 
 const convertToJson = newAnimalData => {
@@ -18,7 +19,8 @@ const convertToJson = newAnimalData => {
         ...(newAnimalData.colony && { colony: newAnimalData.colony.value }),
         ...(newAnimalData.sire && { sire: newAnimalData.sire.value }),
         ...(newAnimalData.animalAccount && { animalAccount: newAnimalData.animalAccount.value }),
-        ...(newAnimalData.dam && { dam: newAnimalData.dam.value })
+        ...(newAnimalData.dam && { dam: newAnimalData.dam.value }),
+        ...(newAnimalData.sourceLocation && { sourceLocation: newAnimalData.sourceLocation.value })
     }
     return jsonData
 }
@@ -32,10 +34,8 @@ export const uploadAnimalData = (newAnimalData, numAnimals) => {
             url,
             jsonData: convertToJson(newAnimalData),
             success: Utils.getCallbackWrapper(data => {
-                if (data.success === false)
-                    reject( {exception: data.message} )
-                else
-                    resolve(data)
+                if (data.success === false) reject({ exception: data.message })
+                else resolve(data)
             }),
             failure: Utils.getCallbackWrapper(error => {
                 reject(error)

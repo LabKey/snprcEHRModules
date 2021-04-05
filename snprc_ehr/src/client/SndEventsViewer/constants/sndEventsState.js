@@ -1,7 +1,4 @@
-import defaults from './index'
-
 const SndEventsState = () => {
-
     return ({
         isDirty: false,
         summaryData: [],

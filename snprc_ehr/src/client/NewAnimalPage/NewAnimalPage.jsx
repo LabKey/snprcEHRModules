@@ -12,6 +12,7 @@ import fetchAcquisitionTypes from './api/fetchAcquisitionTypes'
 import fetchPotentialDams from './api/fetchPotentialDams'
 import fetchPotentialSires from './api/fetchPotentialSires'
 import fetchLocations from './api/fetchLocations'
+import fetchSourceLocations from './api/fetchSourceLocations'
 import fetchAccounts from './api/fetchAccounts'
 import fetchColonies from './api/fetchColonies'
 import fetchProtocols from './api/fetchProtocols'
@@ -35,14 +36,10 @@ import { getReportPath } from './services/printToPDF'
 
 export default class NewAnimalPage extends React.Component {
   state = new NewAnimalState();
-
-  debug = constants.debug;
-
-  numPanels = constants.numPanels;
-
-  selectedSpecies = undefined;
-
-  componentDidMount() {
+debug = constants.debug;
+numPanels = constants.numPanels;
+selectedSpecies = undefined;
+componentDidMount() {
     // prevent user from navigating away from page
     window.addEventListener('beforeunload', this.beforeunload.bind(this))
 
@@ -50,22 +47,19 @@ export default class NewAnimalPage extends React.Component {
       console.log(`Error in componentDidMount: ${error}`)
     }
   }
-
-  componentWillUnmount() {
+componentWillUnmount() {
     window.removeEventListener(
       'beforeunload',
       this.beforeunload.bind(this)
     )
   }
-
-  beforeunload(e) {
+beforeunload(e) {
     if (this.state.isDirty) {
       e.preventDefault()
       e.returnValue = true
     }
   }
-
-  loadLists() {
+loadLists() {
     const lists = {}
     console.log('Loading lists...')
 
@@ -85,6 +79,9 @@ export default class NewAnimalPage extends React.Component {
       fetchInstitutions().then(list => {
         lists.institutionList = list
       }),
+      fetchSourceLocations().then(list => {
+        lists.sourceLocationList = list
+      }),
     ])
       .then(() => {
         this.setState(prevState => ({
@@ -95,6 +92,7 @@ export default class NewAnimalPage extends React.Component {
           institutionList: lists.institutionList,
           dietList: lists.dietList,
           bdStatusList: lists.bdStatusList,
+          sourceLocationList: lists.sourceLocationList
         }))
       })
       .catch(error => {
@@ -105,14 +103,13 @@ export default class NewAnimalPage extends React.Component {
         }))
       })
   }
-
-  loadListsForSpecies = selectedSpecies => {
+loadListsForSpecies = selectedSpecies => {
     const lists = {}
 
     async function loadListsAW(species) {
-      //lists.potentialDamList = await fetchPotentialDams(species)
-      //lists.potentialSireList = await fetchPotentialSires(species)
-      //lists.locationList = await fetchLocations(species)
+      // lists.potentialDamList = await fetchPotentialDams(species)
+      // lists.potentialSireList = await fetchPotentialSires(species)
+      lists.locationList = await fetchLocations(species)
       lists.colonyList = await fetchColonies(species)
       lists.iacucList = await fetchProtocols(species)
       lists.pedigreeList = await fetchPedigrees(species)
@@ -122,9 +119,9 @@ export default class NewAnimalPage extends React.Component {
       .then(() => {
         this.setState(prevState => ({
           ...prevState,
-          //potentialDamList: lists.potentialDamList,
-          //potentialSireList: lists.potentialSireList,
-          //locationList: lists.locationList,
+          // potentialDamList: lists.potentialDamList,
+          // potentialSireList: lists.potentialSireList,
+          locationList: lists.locationList,
           colonyList: lists.colonyList,
           iacucList: lists.iacucList,
           pedigreeList: lists.pedigreeList,
@@ -138,12 +135,9 @@ export default class NewAnimalPage extends React.Component {
         }))
       })
   };
-
-  disablePanels = () => !(this.state.locationList && this.state.locationList.length > 0);
-
-  disableFirstPanel = () => !this.state.selectedOption || !this.state.newAnimalData.species;
-
-  handleAcquisitionOptionChange = type => {
+disablePanels = () => !(this.state.locationList && this.state.locationList.length > 0);
+disableFirstPanel = () => !this.state.selectedOption || !this.state.newAnimalData.species;
+handleAcquisitionOptionChange = type => {
     fetchAcquisitionTypes(type)
       .then(response => this.setState(prevState => ({
         ...prevState,
@@ -152,6 +146,7 @@ export default class NewAnimalPage extends React.Component {
         selectedOption: type,
         newAnimalData: {
           ...prevState.newAnimalData,
+          sourceLocation: undefined,
           acquisitionType: undefined,
           selectedOption: type,
         },
@@ -160,8 +155,7 @@ export default class NewAnimalPage extends React.Component {
         console.log(error)
       })
   };
-
-  handleSpeciesChange = selectedSpecies => {
+handleSpeciesChange = selectedSpecies => {
     // ignore sub-species change
     if (
       this.state.newAnimalData.species !== undefined
@@ -185,8 +179,7 @@ export default class NewAnimalPage extends React.Component {
       this.loadListsForSpecies(selectedSpecies)
     }
   };
-
-  handleNumAnimalChange = value => {
+handleNumAnimalChange = value => {
     this.setState(
       prevState => ({
         ...prevState,
@@ -194,8 +187,7 @@ export default class NewAnimalPage extends React.Component {
       })
     )
   }
-
-  handleDataChange = (property, value) => {
+handleDataChange = (property, value) => {
     this.setState(
       prevState => ({
         ...prevState,
@@ -212,8 +204,7 @@ export default class NewAnimalPage extends React.Component {
       this.preventNext
     )
   };
-
-  handleNext = () => {
+handleNext = () => {
     this.setState(prevState => ({
       ...prevState,
       currentPanel:
@@ -222,8 +213,7 @@ export default class NewAnimalPage extends React.Component {
           : prevState.currentPanel,
     }))
   };
-
-  handlePrevious = () => {
+handlePrevious = () => {
     this.setState(prevState => ({
       ...prevState,
       currentPanel:
@@ -232,15 +222,13 @@ export default class NewAnimalPage extends React.Component {
           : prevState.currentPanel,
     }))
   };
-
-  handleError = value => {
+handleError = value => {
     this.setState(prevState => ({
       ...prevState,
       hasError: value,
     }))
   };
-
-  // enable/disable pager controls
+// enable/disable pager controls
   preventNext = () => {
     const {
       acquisitionType,
@@ -276,9 +264,9 @@ export default class NewAnimalPage extends React.Component {
           result = !room
           break
         case 4:
-          result = ( !animalAccount && !constants.offSiteAcqCodes.includes(this.state.newAnimalData.acquisitionType.value))
+          result = (!constants.offSiteAcqCodes.includes(this.state.newAnimalData.acquisitionType.value) && !animalAccount)
             || !ownerInstitution
-            || (!iacuc && !constants.offSiteAcqCodes.includes(this.state.newAnimalData.acquisitionType.value))
+            || (!constants.offSiteAcqCodes.includes(this.state.newAnimalData.acquisitionType.value) && !iacuc)
             || !responsibleInstitution
             || (!colony && this.state.colonyList.length > 0)
             || (!pedigree && this.state.pedigreeList > 0)
@@ -298,8 +286,7 @@ export default class NewAnimalPage extends React.Component {
       preventNext: result,
     }))
   };
-
-  // save process
+// save process
   onSaveClick = () => {
     console.log('Saving...')
 
@@ -342,10 +329,8 @@ export default class NewAnimalPage extends React.Component {
           }))
         })
     }
-
   };
-
-  handleSaveReset = () => {
+handleSaveReset = () => {
     this.setState(prevState => ({
       ...prevState,
       currentPanel: 1,
@@ -375,16 +360,14 @@ export default class NewAnimalPage extends React.Component {
       },
     }))
   };
-
-  // save button callback
+// save button callback
   handleSave = () => {
     this.setState(prevState => ({
       ...prevState,
       showSaveModal: true,
     }))
   };
-
-  // Cancel button callback
+// Cancel button callback
   handleCancel = () => {
     if (this.state.isDirty) {
       this.setState(prevState => ({
@@ -395,8 +378,7 @@ export default class NewAnimalPage extends React.Component {
       window.history.back()
     }
   };
-
-  // reset app
+// reset app
   onCancelClick = () => {
     this.setState(prevState => ({
       ...prevState,
@@ -405,8 +387,7 @@ export default class NewAnimalPage extends React.Component {
     }))
     window.history.back()
   };
-
-  onSpeciesChangeClick = () => {
+onSpeciesChangeClick = () => {
     const initialState = new NewAnimalState()
     this.setState(
       prevState => ({
@@ -416,6 +397,7 @@ export default class NewAnimalPage extends React.Component {
         speciesList: [...prevState.speciesList],
         accountList: [...prevState.accountList],
         institutionList: [...prevState.institutionList],
+        sourceLocationList: [...prevState.sourceLocationList],
         dietList: [...prevState.dietList],
         bdStatusList: [...prevState.bdStatusList],
         summaryData: [...prevState.summaryData],
@@ -429,8 +411,7 @@ export default class NewAnimalPage extends React.Component {
       this.loadListsForSpecies(this.selectedSpecies)
     )
   };
-
-  // dismiss modals
+// dismiss modals
   onCloseClick = () => {
     this.setState(prevState => ({
       ...prevState,
@@ -439,8 +420,7 @@ export default class NewAnimalPage extends React.Component {
       showSpeciesChangeModal: false,
     }))
   };
-
-  print = id => {
+print = id => {
     const reportPath = getReportPath('BirthRecord')
     const fullPath = `${reportPath}&rc:Parameters=Collapsed&TargetID=${id}` // &rs:Format=PDF // uncomment to print to PDF
 
@@ -452,14 +432,12 @@ export default class NewAnimalPage extends React.Component {
       `location=yes,height=850,width=768,status=yes, left=${left}`
     )
   };
-
-  reloadDamsAndSires = (selectedSpecies, birthdate, selectedOption) => {
+reloadDamsAndSires = (selectedSpecies, birthdate, selectedOption) => {
     const lists = {}
 
-    async function loadListsAW(species, birthdate, selectedOption) {
-      lists.potentialDamList = await fetchPotentialDams(species, birthdate, selectedOption)
-      lists.potentialSireList = await fetchPotentialSires(species, birthdate, selectedOption)
-
+    async function loadListsAW(speciesValue, birthdateValue, selectedOptionValue) {
+      lists.potentialDamList = await fetchPotentialDams(speciesValue, birthdateValue, selectedOptionValue)
+      lists.potentialSireList = await fetchPotentialSires(speciesValue, birthdateValue, selectedOptionValue)
     }
 
     loadListsAW(selectedSpecies.arcSpeciesCode, birthdate.date, selectedOption)
@@ -478,31 +456,7 @@ export default class NewAnimalPage extends React.Component {
         }))
       })
   };
-
-  reloadLocations = (species, acquisitionType) => {
-    const lists = {}
-
-    async function loadListsAW(species, acquisitionType) {
-      lists.locationList = await fetchLocations(species, acquisitionType)
-    }
-
-    loadListsAW(species, acquisitionType)
-      .then(() => {
-        this.setState(prevState => ({
-          ...prevState,
-          locationList: lists.locationList,
-        }))
-      })
-      .catch(error => {
-        console.log(`Error in reloadLocations: ${error}`)
-        this.setState(prevState => ({
-          ...prevState,
-          errorMessage: error.message,
-        }))
-      })
-  };
-
-  render() {
+render() {
     // allow debug mode to be triggered for running test suite
     this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug
 
@@ -518,23 +472,23 @@ export default class NewAnimalPage extends React.Component {
           <div className="parent-panel">
             <div
               className="panel-heading"
-              disabled={this.state.currentPanel !== 1}
+              disabled={ this.state.currentPanel !== 1 }
             >
               <p>Species and Acquisition Type</p>
             </div>
             <div
               className="species-panel"
-              disabled={this.state.currentPanel !== 1}
+              disabled={ this.state.currentPanel !== 1 }
             >
               <SpeciesPanel
-                disabled={this.state.currentPanel !== 1}
+                disabled={ this.state.currentPanel !== 1 }
                 handleAcquisitionOptionChange={
                   this.handleAcquisitionOptionChange
                 }
-                handleSpeciesChange={this.handleSpeciesChange}
-                newAnimalData={this.state.newAnimalData}
-                selectedOption={this.state.selectedOption}
-                speciesList={this.state.speciesList}
+                handleSpeciesChange={ this.handleSpeciesChange }
+                newAnimalData={ this.state.newAnimalData }
+                selectedOption={ this.state.selectedOption }
+                speciesList={ this.state.speciesList }
               />
             </div>
 
@@ -542,25 +496,26 @@ export default class NewAnimalPage extends React.Component {
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={this.disableFirstPanel()}
+                  disabled={ this.disableFirstPanel() }
                 >
                   <p>Acquisition</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={this.disableFirstPanel()}
+                  disabled={ this.disableFirstPanel() }
                 >
                   <AcquisitionPanel
                     acquisitionTypeList={
                       this.state.acquisitionTypeList
                     }
-                    disabled={this.disableFirstPanel()}
-                    numAnimals={this.state.numAnimals}
-                    newAnimalData={this.state.newAnimalData}
-                    handleDataChange={this.handleDataChange}
-                    preventNext={this.preventNext}
-                    handleNumAnimalChange={this.handleNumAnimalChange}
-                    reloadLocations={this.reloadLocations}
+                    disabled={ this.disableFirstPanel() }
+                    handleDataChange={ this.handleDataChange }
+                    handleNumAnimalChange={ this.handleNumAnimalChange }
+                    newAnimalData={ this.state.newAnimalData }
+                    numAnimals={ this.state.numAnimals }
+                    preventNext={ this.preventNext }
+                    selectedOption={ this.state.selectedOption }
+                    sourceLocationList={ this.state.sourceLocationList }
                   />
                 </div>
               </div>
@@ -570,28 +525,28 @@ export default class NewAnimalPage extends React.Component {
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <p>Demographics</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <DemographicsPanel
-                    bdStatusList={this.state.bdStatusList}
-                    disabled={this.disablePanels()}
-                    handleDataChange={this.handleDataChange}
-                    newAnimalData={this.state.newAnimalData}
-                    selectedOption={this.state.selectedOption}
+                    bdStatusList={ this.state.bdStatusList }
+                    disabled={ this.disablePanels() }
+                    handleDataChange={ this.handleDataChange }
+                    newAnimalData={ this.state.newAnimalData }
                     potentialDamList={
                       this.state.potentialDamList
                     }
                     potentialSireList={
                       this.state.potentialSireList
                     }
-                    preventNext={this.preventNext}
-                    reloadDamsAndSires={this.reloadDamsAndSires}
+                    preventNext={ this.preventNext }
+                    reloadDamsAndSires={ this.reloadDamsAndSires }
+                    selectedOption={ this.state.selectedOption }
                   />
                 </div>
               </div>
@@ -601,21 +556,21 @@ export default class NewAnimalPage extends React.Component {
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <p>Location</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <LocationPanel
-                    disabled={this.disablePanels()}
-                    handleDataChange={this.handleDataChange}
-                    handleError={this.handleError}
-                    locationList={this.state.locationList}
-                    newAnimalData={this.state.newAnimalData}
-                    preventNext={this.preventNext}
+                    disabled={ this.disablePanels() }
+                    handleDataChange={ this.handleDataChange }
+                    handleError={ this.handleError }
+                    locationList={ this.state.locationList }
+                    newAnimalData={ this.state.newAnimalData }
+                    preventNext={ this.preventNext }
                   />
                 </div>
               </div>
@@ -625,26 +580,26 @@ export default class NewAnimalPage extends React.Component {
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <p>Account, Colony, and Ownership</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <AccountPanel
-                    accountList={this.state.accountList}
-                    colonyList={this.state.colonyList}
-                    disabled={this.disablePanels()}
-                    handleDataChange={this.handleDataChange}
-                    iacucList={this.state.iacucList}
+                    accountList={ this.state.accountList }
+                    colonyList={ this.state.colonyList }
+                    disabled={ this.disablePanels() }
+                    handleDataChange={ this.handleDataChange }
+                    iacucList={ this.state.iacucList }
                     institutionList={
                       this.state.institutionList
                     }
-                    newAnimalData={this.state.newAnimalData}
-                    pedigreeList={this.state.pedigreeList}
-                    preventNext={this.preventNext}
+                    newAnimalData={ this.state.newAnimalData }
+                    pedigreeList={ this.state.pedigreeList }
+                    preventNext={ this.preventNext }
                   />
                 </div>
               </div>
@@ -654,20 +609,20 @@ export default class NewAnimalPage extends React.Component {
               <div className="fade-in">
                 <div
                   className="panel-heading"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <p>Diet</p>
                 </div>
                 <div
                   className="wizard-panel"
-                  disabled={this.disablePanels()}
+                  disabled={ this.disablePanels() }
                 >
                   <DietPanel
-                    dietList={this.state.dietList}
-                    disabled={this.disablePanels()}
-                    handleDataChange={this.handleDataChange}
-                    newAnimalData={this.state.newAnimalData}
-                    preventNext={this.preventNext}
+                    dietList={ this.state.dietList }
+                    disabled={ this.disablePanels() }
+                    handleDataChange={ this.handleDataChange }
+                    newAnimalData={ this.state.newAnimalData }
+                    preventNext={ this.preventNext }
                   />
                 </div>
               </div>
@@ -691,7 +646,7 @@ export default class NewAnimalPage extends React.Component {
                     this.state.currentPanel <= 1
                     || this.state.hasError
                   }
-                  onClick={this.handlePrevious}
+                  onClick={ this.handlePrevious }
                   previous
                 >
                   &larr; Previous Page
@@ -705,15 +660,15 @@ export default class NewAnimalPage extends React.Component {
                       || this.state.preventNext
                     }
                     next
-                    onClick={this.handleNext}
+                    onClick={ this.handleNext }
                   >
                     Next Page &rarr;
                   </Pager.Item>
                 )}
                 <Pager.Item
-                  disabled={false}
-                  next={false}
-                  onClick={this.handleCancel}
+                  disabled={ false }
+                  next={ false }
+                  onClick={ this.handleCancel }
                 >
                   Cancel
                 </Pager.Item>
@@ -726,7 +681,7 @@ export default class NewAnimalPage extends React.Component {
                       || this.state.preventNext
                     }
                     next
-                    onClick={this.handleSave}
+                    onClick={ this.handleSave }
                   >
                     Save
                   </Pager.Item>
@@ -742,8 +697,8 @@ export default class NewAnimalPage extends React.Component {
               </div>
               <div className="wizard-right">
                 <SummaryGridPanel
-                  print={this.print}
-                  summaryData={this.state.summaryData}
+                  print={ this.print }
+                  summaryData={ this.state.summaryData }
                 />
               </div>
             </div>
@@ -753,27 +708,27 @@ export default class NewAnimalPage extends React.Component {
         <div>
           {/* Save Modal */}
           <SaveModal
-            newAnimalData={this.state.newAnimalData}
-            numAnimals={this.state.numAnimals}
-            onCloseClick={this.onCloseClick}
-            onSaveClick={this.onSaveClick}
-            show={this.state.showSaveModal}
+            newAnimalData={ this.state.newAnimalData }
+            numAnimals={ this.state.numAnimals }
+            onCloseClick={ this.onCloseClick }
+            onSaveClick={ this.onSaveClick }
+            show={ this.state.showSaveModal }
           />
           {/* Cancel Modal */}
           <CancelChangeModal
             message="If you cancel now, you will lose unsaved changes. Are you sure you want to cancel?"
-            noClick={this.onCloseClick}
-            show={this.state.showCancelModal}
+            noClick={ this.onCloseClick }
+            show={ this.state.showCancelModal }
             title="Cancel changes?"
-            yesClick={this.onCancelClick}
+            yesClick={ this.onCancelClick }
           />
           {/* Species Change Modal */}
           <CancelChangeModal
             message="If you change species now, you will lose your current changes. Are you sure you want to change species?"
-            noClick={this.onCloseClick}
-            show={this.state.showSpeciesChangeModal}
+            noClick={ this.onCloseClick }
+            show={ this.state.showSpeciesChangeModal }
             title="Changes Species?"
-            yesClick={this.onSpeciesChangeClick}
+            yesClick={ this.onSpeciesChangeClick }
           />
         </div>
       </div>

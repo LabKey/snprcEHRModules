@@ -58,6 +58,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
+              "sourceLocation": undefined,
               "species": undefined,
             }
           }
@@ -139,11 +140,33 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
+                "sourceLocation": undefined,
                 "species": undefined,
               }
             }
             preventNext={[Function]}
-            reloadLocations={[Function]}
+            sourceLocationList={
+              Array [
+                Object {
+                  "id": 0,
+                  "label": "1001 - New Iberia Research Center U of LA at Lafayette, Lafayette, LA, USA",
+                  "rowId": 1593,
+                  "value": 1001,
+                },
+                Object {
+                  "id": 1,
+                  "label": "1009 - Chimp Haven, Keithville, LA, USA",
+                  "rowId": 1601,
+                  "value": 1009,
+                },
+                Object {
+                  "id": 2,
+                  "label": "1010 - SNBL USA Ltd., Everett, WA, USA",
+                  "rowId": 1602,
+                  "value": 1010,
+                },
+              ]
+            }
           />
         </div>
       </div>
@@ -237,6 +260,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
+          "sourceLocation": undefined,
           "species": undefined,
         }
       }
@@ -346,6 +370,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 "label": "14022",
                 "value": "14022",
               },
+              "sourceLocation": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
                 "id": 10,
@@ -468,6 +493,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                   "label": "14022",
                   "value": "14022",
                 },
+                "sourceLocation": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
                   "id": 10,
@@ -531,6 +557,16 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           />
         </div>
       </div>
+      <InfoPanel
+        errorMessages={
+          Array [
+            Object {
+              "colName": "Cannot read property 'value' of undefined",
+              "propTest": true,
+            },
+          ]
+        }
+      />
       <div>
         <Pager
           bsClass="pager"
@@ -640,6 +676,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             "label": "14022",
             "value": "14022",
           },
+          "sourceLocation": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
             "id": 10,
@@ -728,6 +765,7 @@ exports[`Should render Account page 1`] = `
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
+              "sourceLocation": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
                 "id": 10,
@@ -795,58 +833,10 @@ exports[`Should render Account page 1`] = `
                 },
               ]
             }
-            colonyList={
-              Array [
-                Object {
-                  "Category": 7,
-                  "id": 0,
-                  "label": "pc_Conv",
-                  "species": "PC",
-                  "value": 214,
-                },
-                Object {
-                  "Category": 7,
-                  "id": 1,
-                  "label": "pc_SPF",
-                  "species": "PC",
-                  "value": 213,
-                },
-                Object {
-                  "Category": 42,
-                  "id": 2,
-                  "label": "pc_Whatever",
-                  "species": "PC",
-                  "value": 215,
-                },
-              ]
-            }
+            colonyList={Array []}
             disabled={true}
             handleDataChange={[Function]}
-            iacucList={
-              Array [
-                Object {
-                  "id": 0,
-                  "label": "1134PC - Nathanielsz, P. -Maternal Nutrient Restriction:  Placental and Fetal Brain and Kidney Outcomes",
-                  "maxAnimals": 0,
-                  "species": "PC",
-                  "value": "1134PC",
-                },
-                Object {
-                  "id": 1,
-                  "label": "1272PC - Chen, Christopher -Baboon Model of Liver Cancer",
-                  "maxAnimals": 8,
-                  "species": "PC",
-                  "value": "1272PC",
-                },
-                Object {
-                  "id": 2,
-                  "label": "1497PC - Giavedoni, L. -Natural Resistance of baboon cells to SIV infection",
-                  "maxAnimals": 60,
-                  "species": "PC",
-                  "value": "1497PC",
-                },
-              ]
-            }
+            iacucList={Array []}
             institutionList={
               Array [
                 Object {
@@ -900,6 +890,7 @@ exports[`Should render Account page 1`] = `
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
+                "sourceLocation": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
                   "id": 10,
@@ -908,35 +899,21 @@ exports[`Should render Account page 1`] = `
                 },
               }
             }
-            pedigreeList={
-              Array [
-                Object {
-                  "Category": 2,
-                  "id": 0,
-                  "label": "baboon1",
-                  "species": "PC",
-                  "value": 31,
-                },
-                Object {
-                  "Category": 2,
-                  "id": 1,
-                  "label": "baboon2",
-                  "species": "PC",
-                  "value": 32,
-                },
-                Object {
-                  "Category": 2,
-                  "id": 2,
-                  "label": "baboon3",
-                  "species": "PC",
-                  "value": 33,
-                },
-              ]
-            }
+            pedigreeList={Array []}
             preventNext={[Function]}
           />
         </div>
       </div>
+      <InfoPanel
+        errorMessages={
+          Array [
+            Object {
+              "colName": "Cannot read property 'value' of undefined",
+              "propTest": true,
+            },
+          ]
+        }
+      />
       <div>
         <Pager
           bsClass="pager"
@@ -1027,6 +1004,7 @@ exports[`Should render Account page 1`] = `
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
+          "sourceLocation": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
             "id": 10,
@@ -1115,6 +1093,7 @@ exports[`Should render Diet page 1`] = `
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
+              "sourceLocation": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
                 "id": 10,
@@ -1221,6 +1200,7 @@ exports[`Should render Diet page 1`] = `
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
+                "sourceLocation": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
                   "id": 10,
@@ -1233,6 +1213,16 @@ exports[`Should render Diet page 1`] = `
           />
         </div>
       </div>
+      <InfoPanel
+        errorMessages={
+          Array [
+            Object {
+              "colName": "Cannot read property 'value' of undefined",
+              "propTest": true,
+            },
+          ]
+        }
+      />
       <div>
         <Pager
           bsClass="pager"
@@ -1323,6 +1313,7 @@ exports[`Should render Diet page 1`] = `
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
+          "sourceLocation": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
             "id": 10,
@@ -1411,6 +1402,7 @@ exports[`Should render Location page 1`] = `
               "room": undefined,
               "selectedOption": undefined,
               "sire": undefined,
+              "sourceLocation": undefined,
               "species": Object {
                 "arcSpeciesCode": "PC",
                 "id": 10,
@@ -1497,6 +1489,7 @@ exports[`Should render Location page 1`] = `
                 "room": undefined,
                 "selectedOption": undefined,
                 "sire": undefined,
+                "sourceLocation": undefined,
                 "species": Object {
                   "arcSpeciesCode": "PC",
                   "id": 10,
@@ -1509,6 +1502,16 @@ exports[`Should render Location page 1`] = `
           />
         </div>
       </div>
+      <InfoPanel
+        errorMessages={
+          Array [
+            Object {
+              "colName": "Cannot read property 'value' of undefined",
+              "propTest": true,
+            },
+          ]
+        }
+      />
       <div>
         <Pager
           bsClass="pager"
@@ -1599,6 +1602,7 @@ exports[`Should render Location page 1`] = `
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
+          "sourceLocation": undefined,
           "species": Object {
             "arcSpeciesCode": "PC",
             "id": 10,

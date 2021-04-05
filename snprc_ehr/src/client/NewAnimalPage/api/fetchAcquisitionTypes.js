@@ -20,7 +20,7 @@ const fetchAcquisitionTypes = type => {
             sort: 'SortOrder',
             filterArray: [
                 Filter.create('Category', type, Filter.Types.EQUAL),
-                Filter.create('AcqCode', 97, Filter.Types.NOT_EQUAL)  // 97 is only used administatively
+                Filter.create('AcqCode', 97, Filter.Types.NOT_EQUAL) // 97 is only used administatively
             ]
         }).then(({ rows }) => {
             resolve(parse(rows))

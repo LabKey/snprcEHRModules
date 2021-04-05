@@ -7,12 +7,10 @@ export default class SpeciesPanel extends React.Component {
         const option = e.target.value
         this.props.handleAcquisitionOptionChange(option)
     }
-
-    handleSpeciesChange = value => {
+handleSpeciesChange = value => {
         this.props.handleSpeciesChange(value)
     }
-
-    render() {
+render() {
         const { species } = this.props.newAnimalData
         return (
           <div className="wizard-panel__rows">

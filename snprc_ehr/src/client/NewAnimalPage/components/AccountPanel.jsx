@@ -7,33 +7,27 @@ export default class AccountPanel extends React.Component {
   componentDidMount = () => {
     this.props.preventNext()
   }
-
-  handleAccountChange = option => {
+handleAccountChange = option => {
     this.props.handleDataChange('animalAccount', option)
   }
-
-  handleColonyChange = option => {
+handleColonyChange = option => {
     this.props.handleDataChange('colony', option)
   }
-
-  handleOwnerInstitutionChange = option => {
+handleOwnerInstitutionChange = option => {
     this.props.handleDataChange('ownerInstitution', option)
   }
-
-  handleIacucChange = option => {
+handleIacucChange = option => {
     this.props.handleDataChange('iacuc', option)
   }
-
-  handlePedigreeChange = option => {
+handlePedigreeChange = option => {
     this.props.handleDataChange('pedigree', option)
   }
-
-  handleResponsibleInstitutionChange = option => {
+handleResponsibleInstitutionChange = option => {
     this.props.handleDataChange('responsibleInstitution', option)
   }
-
-  render() {
+render() {
     const { animalAccount, colony, pedigree, iacuc, responsibleInstitution, ownerInstitution, acquisitionType } = this.props.newAnimalData
+    const { offSiteAcqCodes } = constants
 
     return (
       <>
@@ -46,13 +40,13 @@ export default class AccountPanel extends React.Component {
                 autoFocus
                 className="shared-dropdown"
                 classNamePrefix="shared-select"
-                defaultValue={animalAccount}
+                defaultValue={ animalAccount }
                 id="account-select"
                 isClearable
-                isDisabled={this.props.disabled}
-                isLoading={this.props.accountList.length === 0}
-                onChange={this.handleAccountChange}
-                options={this.props.accountList}
+                isDisabled={ this.props.disabled }
+                isLoading={ this.props.accountList.length === 0 }
+                onChange={ this.handleAccountChange }
+                options={ this.props.accountList }
                 placeholder="Select Account"
               />
             </div>
@@ -65,13 +59,13 @@ export default class AccountPanel extends React.Component {
                   <Select
                     className="shared-dropdown"
                     classNamePrefix="shared-select"
-                    defaultValue={colony}
+                    defaultValue={ colony }
                     id="colony-select"
                     isClearable
-                    isDisabled={this.props.disabled}
-                    isLoading={this.props.colonyList.length === 0}
-                    onChange={this.handleColonyChange}
-                    options={this.props.colonyList}
+                    isDisabled={ this.props.disabled }
+                    isLoading={ this.props.colonyList.length === 0 }
+                    onChange={ this.handleColonyChange }
+                    options={ this.props.colonyList }
                     placeholder="Select Colony"
                   />
                 </div>
@@ -83,13 +77,13 @@ export default class AccountPanel extends React.Component {
               <Select
                 className="shared-dropdown"
                 classNamePrefix="shared-select"
-                defaultValue={iacuc}
+                defaultValue={ iacuc }
                 id="iacuc-select"
                 isClearable
-                isDisabled={this.props.disabled}
-                isLoading={this.props.iacucList.length === 0}
-                onChange={this.handleIacucChange}
-                options={this.props.iacucList}
+                isDisabled={ this.props.disabled }
+                isLoading={ this.props.iacucList.length === 0 }
+                onChange={ this.handleIacucChange }
+                options={ this.props.iacucList }
                 placeholder="Select IACUC"
               />
             </div>
@@ -101,13 +95,13 @@ export default class AccountPanel extends React.Component {
                 <Select
                   className="shared-dropdown"
                   classNamePrefix="shared-select"
-                  defaultValue={pedigree}
+                  defaultValue={ pedigree }
                   id="pedigree-select"
                   isClearable
-                  isDisabled={this.props.disabled}
-                  isLoading={this.props.pedigreeList.length === 0}
-                  onChange={this.handlePedigreeChange}
-                  options={this.props.pedigreeList}
+                  isDisabled={ this.props.disabled }
+                  isLoading={ this.props.pedigreeList.length === 0 }
+                  onChange={ this.handlePedigreeChange }
+                  options={ this.props.pedigreeList }
                   placeholder="Select Pedigree"
                 />
               </div>
@@ -121,12 +115,12 @@ export default class AccountPanel extends React.Component {
                 classNamePrefix="shared-select"
                 id="owner-select"
                 isClearable
-                isDisabled={this.props.disabled}
-                isLoading={this.props.institutionList.length === 0}
-                onChange={this.handleOwnerInstitutionChange}
-                options={this.props.institutionList}
+                isDisabled={ this.props.disabled }
+                isLoading={ this.props.institutionList.length === 0 }
+                onChange={ this.handleOwnerInstitutionChange }
+                options={ this.props.institutionList }
                 placeholder="Select Owner"
-                value={ownerInstitution}
+                value={ ownerInstitution }
               />
             </div>
           </div>
@@ -138,21 +132,21 @@ export default class AccountPanel extends React.Component {
                 classNamePrefix="shared-select"
                 id="responsible-institution-select"
                 isClearable
-                isDisabled={this.props.disabled}
-                isLoading={this.props.institutionList.length === 0}
-                onChange={this.handleResponsibleInstitutionChange}
-                options={this.props.institutionList}
+                isDisabled={ this.props.disabled }
+                isLoading={ this.props.institutionList.length === 0 }
+                onChange={ this.handleResponsibleInstitutionChange }
+                options={ this.props.institutionList }
                 placeholder="Select Responsible Institution"
-                value={responsibleInstitution}
+                value={ responsibleInstitution }
               />
             </div>
           </div>
         </div>
         <InfoPanel
           messages={
-            [{ propTest: (!animalAccount && !constants.offSiteAcqCodes.includes(acquisitionType.value)), colName: 'Account' },
+            [{ propTest: (!offSiteAcqCodes.includes(acquisitionType.value) && !animalAccount), colName: 'Account' },
             { propTest: (!colony && this.props.colonyList.length > 0), colName: 'Colony' },
-            { propTest: (!iacuc && !constants.offSiteAcqCodes.includes(acquisitionType.value)), colName: 'IACUC' },
+            { propTest: (!offSiteAcqCodes.includes(acquisitionType.value) && !iacuc), colName: 'IACUC' },
             { propTest: (!pedigree && this.props.pedigreeList.length > 0), colName: 'Pedigree' },
             { propTest: !ownerInstitution, colName: 'Owner' },
             { propTest: !responsibleInstitution, colName: 'Responsible Institution' }
