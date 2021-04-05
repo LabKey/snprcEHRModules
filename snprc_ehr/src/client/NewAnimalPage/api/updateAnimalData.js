@@ -20,7 +20,7 @@ const convertToJson = newAnimalData => {
         ...(newAnimalData.sire && { sire: newAnimalData.sire.value }),
         ...(newAnimalData.animalAccount && { animalAccount: newAnimalData.animalAccount.value }),
         ...(newAnimalData.dam && { dam: newAnimalData.dam.value }),
-        ...(newAnimalData.sourceLocation && { sourceLocation: newAnimalData.sourceLocation.value })
+        ...(newAnimalData.sourceLocation && { sourceInstitutionLocation: newAnimalData.sourceLocation.rowId })
     }
     return jsonData
 }
