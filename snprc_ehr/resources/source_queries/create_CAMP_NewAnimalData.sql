@@ -31,6 +31,13 @@ EXEC('CREATE SCHEMA [TAC_src] AUTHORIZATION [DBO]');
 -- new schema
 DROP TABLE IF EXISTS TAC_src.NewAnimalData;
 
+/*****************************************************
+  Added SourceInstitutionLocation to hold
+  source location for non-birth acquisitions
+04.01.2021 srr
+  ******************************************************/
+
+
 CREATE TABLE TAC_src.NewAnimalData
 (
     tid INT IDENTITY,
@@ -39,6 +46,7 @@ CREATE TABLE TAC_src.NewAnimalData
     Bd_Status INT NULL,
     AcquisitionType INT NULL,
     AcquisitionDate DATETIME NULL, -- Start date for Data Tables
+    SourceInstitutionLocation VARCHAR(10) NULL, -- handle as room
     Gender CHAR(1) NULL,
     Sire VARCHAR(6) NULL,
     Dam VARCHAR(6) NULL,
