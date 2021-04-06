@@ -166,6 +166,7 @@ exports[`Modal tests Should render the SaveModal 1`] = `
           "room": undefined,
           "selectedOption": undefined,
           "sire": undefined,
+          "sourceLocation": undefined,
           "species": undefined,
         }
       }
