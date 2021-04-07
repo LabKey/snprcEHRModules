@@ -10,12 +10,10 @@ export default class ChipDataPanel extends React.Component {
         isReading: false,
         connection: undefined
     }
-
-    componentDidMount = () => {
+componentDidMount = () => {
         console.log('ChipDataPanel mounted')
     }
-
-    onConnectClick = () => {
+onConnectClick = () => {
         if (!this.state.connection) {
             requestPort().then(serialPort => connect(serialPort, this.props.serialOptions).then(connection => {
                 this.props.handleErrorMessage(undefined)
@@ -25,10 +23,8 @@ export default class ChipDataPanel extends React.Component {
             })
         }
     }
-
-    flushPromises = () => { return new Promise(resolve => setImmediate(resolve)) }
-
-    onStartClick = async () => {
+flushPromises = () => { return new Promise(resolve => setImmediate(resolve)) }
+onStartClick = async () => {
         if (this.state.connection && !this.state.isReading) {
             this.setState(prevState => (
                 {
@@ -66,8 +62,7 @@ export default class ChipDataPanel extends React.Component {
             })
         }
     }
-
-    onQuitClick = () => {
+onQuitClick = () => {
         // close serial connection
         if (this.state.connection) {
             this.setState(prevState => ( // shutdown reading before closing connection
@@ -84,13 +79,11 @@ export default class ChipDataPanel extends React.Component {
             })
         }
     }
+handleChange = () => { /* lint fix */ }
+render() {
+        this.state.connection = this.props.connection // && this.props.connection
 
-    handleChange = () => { /* lint fix */ }
-
-    render() {
-        this.state.connection = this.props.connection //&& this.props.connection
-
-        const { chipId, animalId, temperature } = this.props.chipData //&& this.props.chipData
+        const { chipId, animalId, temperature } = this.props.chipData // && this.props.chipData
 
         return (
           <>
