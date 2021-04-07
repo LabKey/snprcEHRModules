@@ -22,12 +22,14 @@ CREATE VIEW [labkey_etl].[v_delete_snd_eventData] AS
 --
 -- Changes: Modified to use EventDataId as key (instead of ObjectId) (by Binal on Mar 23, 2018)
 --
+-- 3/23/2021 Deleting from the NarrativeCache requires the EventId. tjh
 -- ==========================================================================================
 
 
 SELECT
-PROC_ID as EventDataId,
-audit_date_tm
+a.ANIMAL_EVENT_ID AS EventId,
+a.PROC_ID as EventDataId,
+a.audit_date_tm
 FROM audit.audit_coded_procs AS a
 WHERE a.audit_action = 'D'
 

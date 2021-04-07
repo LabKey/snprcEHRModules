@@ -8,8 +8,7 @@ const celsiusToFahrenheit = c => {
     return f.toFixed(1)
 }
 
-export const getChipData = async (connection) => {
-
+export const getChipData = async connection => {
     let data
     let dataArr = []
     let dataObj
@@ -17,23 +16,20 @@ export const getChipData = async (connection) => {
     // read serial port with a timeout
     data = await readWithTimeout(constants.readTimeout, read(connection)
         .catch(error => {
-            console.log (`readWithTimeout error: ${error}`)
+            console.log(`readWithTimeout error: ${error}`)
             throw error
         }))
 
     if (data) {
         // process chip data
-        if (data.indexOf('XX') === -1) {  // clean queue
-            
+        if (data.indexOf('XX') === -1) { // clean queue
             if (data.substring(0, 7) === '1000000') { // find 7 digit BIOMARK prefix
                 data = data.substring(10, data.length) // remove 10 digit prefix
-
-            }
-            else if (data.slice(-1) === ',') { // remove trailing comma from certain UID chips
+            } else if (data.slice(-1) === ',') { // remove trailing comma from certain UID chips
                 data = data.substring(0, data.length - 1)
             }
-            
-            dataArr = data.split(",")
+
+            dataArr = data.split(',')
             const len = dataArr.length
 
             dataObj = {

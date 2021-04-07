@@ -37,6 +37,7 @@ AS
 -- 10/11/2018 removing rows that have attribute values that are '' or null. tjh
 -- 05/13/19  Added a REPLACE to numeric/decimal CAST
 --           Purpose is to handle numeric data with commas (',') ~line 59  srr
+-- 03/23/2021 Recent changes to dataintegration require the Key column to have the underscore prefix. tjh
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
   cp.ANIMAL_EVENT_ID               AS EventId,
@@ -47,7 +48,7 @@ SELECT TOP (99.999999999) PERCENT
   pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
   cpa.value AS value,
   -- exp.ObjectProperty columns
-  ltrim(rtrim(cpa.ATTRIB_KEY)) AS [KEY],
+  ltrim(rtrim(cpa.ATTRIB_KEY)) AS [_KEY],
 
   CASE WHEN (LOWER(pa.DATA_TYPE) = 'numeric' OR
     LOWER(pa.DATA_TYPE) = 'decimal')

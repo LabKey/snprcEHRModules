@@ -378,7 +378,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
               title="Owner"
             />
           }
-          placement="left"
+          placement="right"
           trigger={
             Array [
               "hover",
@@ -600,7 +600,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         <label
           className="summary-label summary-label-red"
         >
-          Number of Animals
+          # Animals
         </label>
         <OverlayTrigger
           defaultOverlayShown={false}
@@ -610,6 +610,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
               title="Number of animals"
             />
           }
+          placement="left"
           trigger={
             Array [
               "hover",
@@ -928,7 +929,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
               title="Owner"
             />
           }
-          placement="left"
+          placement="right"
           trigger={
             Array [
               "hover",

@@ -8,12 +8,10 @@ export default class LocationPanel extends React.Component {
     state = {
         errorMessage: undefined
     }
-
-    componentDidMount = () => {
+componentDidMount = () => {
         this.props.preventNext() // prevent/Allow Next button
     }
-
-    handleCageChange = e => {
+handleCageChange = e => {
         const cage = e.target.value
         const { room } = this.props.newAnimalData
 
@@ -29,8 +27,7 @@ export default class LocationPanel extends React.Component {
             }
         ))
     }
-
-    handleRoomChange = room => {
+handleRoomChange = room => {
         const el = document.getElementById('cage-input')
         if (room.maxCages) {
             el.disabled = false
@@ -43,16 +40,13 @@ export default class LocationPanel extends React.Component {
         this.props.handleDataChange('room', room)
         this.props.handleDataChange('cage', { value: undefined })
     }
-
-    handleDateSelect = () => {
+handleDateSelect = () => {
         // do nothing
     }
-
-    handleDateChangeRaw = e => {
+handleDateChangeRaw = e => {
         e.preventDefault()
     }
-
-    isInteger = e => {
+isInteger = e => {
         const i = e.key // which ? e.which : e.keyCode;
         console.log(i)
         const isInteger = (i >= 0 && i <= 9)
@@ -62,12 +56,10 @@ export default class LocationPanel extends React.Component {
 
         return isInteger
     }
-
-    handlePaste = e => {
+handlePaste = e => {
         e.preventDefault()
     }
-
-    render() {
+render() {
         const { room, cage, acqDate } = this.props.newAnimalData
         return (
           <>
@@ -129,7 +121,7 @@ export default class LocationPanel extends React.Component {
             <InfoPanel
               errorMessages={ this.state.errorMessage && (
                         [{ propTest: this.state.errorMessage, colName: this.state.errorMessage }]
-              )}
+              ) }
               messages={
                         [{ propTest: !room, colName: 'Location' }]
                     }
