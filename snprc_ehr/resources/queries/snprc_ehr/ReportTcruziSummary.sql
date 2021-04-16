@@ -1,9 +1,9 @@
 /**************************************************************
 Sourced from ReportTcruziPositiveSummary
   Purpose is to report all summary data on T. cruzi tests.
-Need to refactor out TestName and result to single values
-of "T cruzi Test" and "Positive"
 
+  Changed to CASE to report single value for result (i.e. combining seroPos and Positive)
+  Runs as expected in SQLdbx.
   srr 04.16.2021
 **************************************************************/
 
@@ -18,10 +18,12 @@ FROM
             b.serviceTestId.testName AS TestName,
             coalesce(b.runId, b.objectid) as runId,
             b.resultoorindicator,
-            CASE
-                WHEN b.result IS NULL THEN  b.qualresult
-                ELSE CAST(CAST(b.result AS float) AS VARCHAR)
-                END as result
+            CASE b.qualresult
+                WHEN 'NEGATIVE' THEN 'NEGATIVE'
+                WHEN 'SERONEG' THEN 'NEGATIVE'
+                WHEN 'POSITIVE' THEN 'POSITIVE'
+                WHEN 'SEROPOS' THEN 'POSITIVE'
+                END AS result
      FROM study.labworkResults b
      WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
        AND b.serviceTestId.testName LIKE '%CRUZI%'
@@ -37,15 +39,18 @@ FROM
             b.serviceTestId.testName AS TestName,
             coalesce(b.runId, b.objectid) as runId,
             b.resultoorindicator,
-            CASE
-                WHEN b.result IS NULL THEN b.qualresult
-                ELSE CAST(CAST(b.result AS float) AS VARCHAR)
-                END as result
+            CASE b.qualresult
+                WHEN 'NEGATIVE' THEN 'NEGATIVE'
+                WHEN 'SERONEG' THEN 'NEGATIVE'
+                WHEN 'POSITIVE' THEN 'POSITIVE'
+                WHEN 'SEROPOS' THEN 'POSITIVE'
+                END AS result
+
      FROM study.assay_labworkResults b
      WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
        AND b.serviceTestId.testName LIKE '%CRUZI%'
        AND b.id.demographics.calculated_status  = 'Alive'
     ) AS d
-/*WHERE result IN ('SEROPOS','POSITIVE')*/
+    --WHERE result IN ('SEROPOS','POSITIVE')
 GROUP BY d.speciesCode,d.CurrentLocation, d.id, d.TestName, d.result
-ORDER BY min(d.TestDate)
+ORDER BY d.id, min(d.TestDate)
