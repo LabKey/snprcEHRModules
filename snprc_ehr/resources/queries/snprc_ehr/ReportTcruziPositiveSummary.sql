@@ -1,9 +1,9 @@
 /**************************************************************
-Sourced from ReportTcruziPositiveSummary
-  Purpose is to report all summary data on T. cruzi tests.
+Purpose is to report summary data on T. cruzi tests.
 Need to refactor out TestName and result to single values
 of "T cruzi Test" and "Positive"
-
+  srr 03.31.2021
+Renamed to ReportTcruziPositiveSummary.sql
   srr 04.16.2021
 **************************************************************/
 
@@ -46,6 +46,6 @@ FROM
        AND b.serviceTestId.testName LIKE '%CRUZI%'
        AND b.id.demographics.calculated_status  = 'Alive'
     ) AS d
-/*WHERE result IN ('SEROPOS','POSITIVE')*/
+WHERE result IN ('SEROPOS','POSITIVE')
 GROUP BY d.speciesCode,d.CurrentLocation, d.id, d.TestName, d.result
 ORDER BY min(d.TestDate)
