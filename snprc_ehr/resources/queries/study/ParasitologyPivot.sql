@@ -24,7 +24,6 @@ SELECT
   p.date,
   p.serviceTestId.testName as TestName,
   p.runId.serviceRequested as PanelName,
-  --p.TestName,
   GROUP_CONCAT(p.qualresult) as QResults
 
 FROM study.labworkResults as p
