@@ -11,9 +11,10 @@ const parse = rows => {
     })
 }
 
-const fetchPotentialSires = species => {
+const fetchPotentialSires = (species, birthdate, selectedOption) => {
     return new Promise((resolve, reject) => {
         request({
+            parameters: { birthdateParm: birthdate, selectedOptionParm: selectedOption },
             schemaName: 'study',
             queryName: 'PotentialSires',
             columns: ['Sire', 'ArcSpeciesCode', 'Age'],

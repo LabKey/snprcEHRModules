@@ -1,4 +1,4 @@
-/* eslint-disable no-alert */
+/* eslint-disable no-alert, no-unused-vars */
 
 import React from 'react'
 import { LoadingSpinner } from '../Shared/components/LoadingSpinner'
@@ -17,8 +17,7 @@ export default class ChipReader extends React.Component {
     debug = constants.debug;
     isSerialSupported = ('serial' in navigator) || this.props.debug
     previousChipId = undefined
-
-    componentDidMount() {
+componentDidMount() {
         window.addEventListener('beforeunload', this.beforeunload.bind(this))
 
         this.setState(prevState => (
@@ -29,17 +28,13 @@ export default class ChipReader extends React.Component {
             }
         ))
     }
-
-    componentWillUnmount() {
+componentWillUnmount() {
         window.removeEventListener('beforeunload', this.beforeunload.bind(this))
     }
-
-    beforeunload(e) {
-        if (this.state.connection) 
-            close(this.state.connection)
+beforeunload(e) {
+        if (this.state.connection) { close(this.state.connection) }
     }
-
-    handleSetConnection = connection => {
+handleSetConnection = connection => {
         this.setState(prevState => (
             {
                 ...prevState,
@@ -47,8 +42,7 @@ export default class ChipReader extends React.Component {
             }
         ))
     }
-
-    handleDataChange = async value => {
+handleDataChange = async value => {
         const data = value || { chipId: undefined, animalId: undefined, temperature: undefined }
         if (!data.chipId || data.chipId === this.previousChipId) return
 
@@ -69,7 +63,7 @@ export default class ChipReader extends React.Component {
             ...prevState,
             chipData: data,
             ...(data.animalId && { errorMessage: undefined }), // clear error message
-            ...((!data.animalId.value || data.animalId.value === 'Not Found') && { errorMessage: 'Animal Not Found'}),
+            ...((!data.animalId.value || data.animalId.value === 'Not Found') && { errorMessage: 'Animal Not Found' }),
             ...(data.animalId && {
                 summaryData: [
                     ...prevState.summaryData,
@@ -78,8 +72,7 @@ export default class ChipReader extends React.Component {
             })
         }))
     }
-
-    handleErrorMessage = error => {
+handleErrorMessage = error => {
         this.setState(prevState => (
             {
                 ...prevState,
@@ -87,8 +80,7 @@ export default class ChipReader extends React.Component {
             }
         ))
     }
-
-    render() {
+render() {
         // allow debug mode to be triggered for running test suite
         this.debug = this.props.debug !== undefined ? this.props.debug : constants.debug
 

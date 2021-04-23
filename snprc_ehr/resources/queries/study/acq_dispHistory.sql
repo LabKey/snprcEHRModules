@@ -27,9 +27,9 @@ a.id as id, a.date as acq_date,
 
 FROM arrival a
 	LEFT OUTER JOIN departure d
-	on d.id = a.id and a.date < ifnull(d.date, now())
+	on d.id = a.id and a.date <= ifnull(d.date, now())
 
-where a.date < ifnull(d.date, now())
-  and   ( d.date = (select min(z.date) from departure z where z.id = d.id and z.date > a.date)
+where a.date <= ifnull(d.date, now())
+  and   ( d.date = (select min(z.date) from departure z where z.id = d.id and z.date >= a.date)
                  or
        d.date is NULL)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Source Locations lookup</name>
+    <description>Places from which an animal can be acquired</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_sourceLocations" />
+            <destination schemaName="ehr_lookups" queryName="source" bulkLoad="true" targetOption="truncate" />
+        </transform>
+    </transforms>
+    <schedule>
+        <cron expression="0 15 7 ? * *"/>
+    </schedule>
+</etl>

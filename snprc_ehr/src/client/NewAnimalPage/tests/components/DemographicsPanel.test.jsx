@@ -16,6 +16,7 @@ test('Should render the DemographicsPanel', () => {
         potentialDamList={ lists.potentialDamList }
         potentialSireList={ lists.potentialSireList }
         preventNext={ () => { return false } }
+        reloadDamsAndSires={ () => { return false } }
       />
     )
     expect(wrapper).toMatchSnapshot()

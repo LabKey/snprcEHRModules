@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import { Ajax, Utils, ActionURL } from '@labkey/api'
 
 const convertToJson = newAnimalData => {
@@ -8,7 +9,6 @@ const convertToJson = newAnimalData => {
         acqDate: newAnimalData.acqDate.date.toString(),
         gender: newAnimalData.gender.value,
         species: newAnimalData.species.value,
-        animalAccount: newAnimalData.animalAccount.value,
         ownerInstitution: newAnimalData.ownerInstitution.value,
         responsibleInstitution: newAnimalData.responsibleInstitution.value,
         room: newAnimalData.room.rowId,
@@ -18,7 +18,9 @@ const convertToJson = newAnimalData => {
         ...(newAnimalData.iacuc && { iacuc: newAnimalData.iacuc.value }),
         ...(newAnimalData.colony && { colony: newAnimalData.colony.value }),
         ...(newAnimalData.sire && { sire: newAnimalData.sire.value }),
-        ...(newAnimalData.dam && { dam: newAnimalData.dam.value })
+        ...(newAnimalData.animalAccount && { animalAccount: newAnimalData.animalAccount.value }),
+        ...(newAnimalData.dam && { dam: newAnimalData.dam.value }),
+        ...(newAnimalData.sourceLocation && { sourceInstitutionLocation: newAnimalData.sourceLocation.rowId })
     }
     return jsonData
 }
@@ -32,10 +34,8 @@ export const uploadAnimalData = (newAnimalData, numAnimals) => {
             url,
             jsonData: convertToJson(newAnimalData),
             success: Utils.getCallbackWrapper(data => {
-                if (data.success === false)
-                    reject( {exception: data.message} )
-                else
-                    resolve(data)
+                if (data.success === false) reject({ exception: data.message })
+                else resolve(data)
             }),
             failure: Utils.getCallbackWrapper(error => {
                 reject(error)

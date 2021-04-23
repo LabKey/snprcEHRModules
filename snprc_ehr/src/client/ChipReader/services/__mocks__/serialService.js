@@ -1,34 +1,30 @@
-import constants from '../../constants/index'
-
+/* eslint-disable func-names */
 export const requestPort = async () => {
-    return ( {port: {readable: {}, writable: {}} })
+    return ({ port: { readable: {}, writable: {} } })
 }
 
 export const connect = async (port, serialOptions) => {
-
     const inputDone = null
     const inputStream = null
 
     const outputDone = null
     const outputStream = null
-    
+
     const connection = {
-        port: port,
-        serialOptions: serialOptions,
+        port,
+        serialOptions,
         reader: null,
         writer: null,
 
-        inputDone: inputDone,
-        outputDone: outputDone,
-        inputStream: inputStream,
-        outputStream: outputStream
+        inputDone,
+        outputDone,
+        inputStream,
+        outputStream
     }
     return connection
 }
 
-
 export const readWithTimeout = function (ms, promise) {
-
     promise.then(value => {
         return value
     })
@@ -52,17 +48,12 @@ export const readWithTimeout = function (ms, promise) {
     // ])
 }
 
-export const read = async (connection) => {
-    if (!connection)
-        throw new Error('Read requires a valid connection object')
+export const read = async connection => {
+    if (!connection) throw new Error('Read requires a valid connection object')
 
     return '1C45433F, 23.4'
-
 }
 
-export const close = async (connection) => {
-    if(!connection)
-        throw new Error('Close requires a valid connection object')
-    connection.port = null
+export const close = async connection => {
+    if (!connection) throw new Error('Close requires a valid connection object')
 }
- 

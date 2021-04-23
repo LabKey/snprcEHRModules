@@ -7,20 +7,16 @@ export default class DietPanel extends React.Component {
     componentDidMount = () => {
         this.props.preventNext() // prevent/Allow Next button
     }
-
-    handleDateSelect = () => {
+handleDateSelect = () => {
         // do nothing
     };
-
-    handleDateChangeRaw = e => {
+handleDateChangeRaw = e => {
         e.preventDefault()
     }
-
-    handleDataChange = option => {
+handleDataChange = option => {
         this.props.handleDataChange('diet', option)
     }
-
-    render() {
+render() {
         const { diet, acqDate } = this.props.newAnimalData
         return (
           <>
