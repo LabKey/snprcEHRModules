@@ -76,6 +76,7 @@ FROM
 
 /* d.SpeciesCode AS Species,d.CurrentLocation,d.id, d.status,'T cruzi', d.result*/
 GROUP BY d.SpeciesCode,d.CurrentLocation,  d.id,d.status, d.result
+/*  Look at last 12 month per Dr. Elmore */
 HAVING min(d.TestDate) > timestampadd('SQL_TSI_MONTH', -12, now())
    AND d.result = 'POSITIVE'
 ORDER BY min(d.TestDate) desc --, min(d.TestDate)
