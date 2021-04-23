@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="ParasitologyPivotOP" tableDbType="TABLE">
-                <tableTitle>Parasitology OP Pivot </tableTitle>
+                <tableTitle>Parasitology OP Pivot</tableTitle>
                 <columns>
                     <column columnName="Id">
                         <fk>
@@ -16,6 +16,7 @@
                     </column>
                     <column columnName="panelName">
                         <columnTitle>Parasitology Panel Name</columnTitle>
+                        <displayWidth>80</displayWidth>
                     </column>
                     <column columnName="COMMENTS::QResults">
                         <displayWidth>500</displayWidth>
