@@ -1,6 +1,6 @@
 import { Query } from '@labkey/api'
 
-export const request = ({ schemaName, queryName, viewName = '', sort = '', columns = [], filterArray = [] }) => {
+export const request = ({ schemaName, queryName, parameters = {}, viewName = '', sort = '', columns = [], filterArray = [] }) => {
     return new Promise((resolve, reject) => {
         const success = response => {
             resolve(response)
@@ -15,6 +15,7 @@ export const request = ({ schemaName, queryName, viewName = '', sort = '', colum
             viewName,
             sort,
             columns,
+            parameters,
             success,
             failure,
             filterArray

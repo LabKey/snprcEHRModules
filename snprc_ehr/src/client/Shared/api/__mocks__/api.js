@@ -4,10 +4,10 @@ import { NewAnimalData } from '../../../BirthRecordReport/tests/fixtures/apiTest
 import {
     CurrentSpeciesLookup, AccountLookup, validInstitutions, ValidDiet, AcquisitionTypesLookup,
     valid_bd_status, PotentialDams, PotentialSires, ActiveLocationsAll, colonyGroups,
-    ProtocolLookup, pedigreeGroups
+    ProtocolLookup, pedigreeGroups, sourceLocations
 } from '../../../NewAnimalPage/tests/fixtures/apiTestData'
 
-export const request = ({ schemaName, queryName, viewName = '', sort = '', columns = [], filterArray = [] }) => {
+export const request = ({ schemaName, queryName, parameters = {}, viewName = '', sort = '', columns = [], filterArray = [] }) => {
     // console.log(`loading list: ${queryName}`);
     return new Promise(resolve => {
         switch (queryName) {
@@ -57,6 +57,9 @@ export const executeSql = ({ schemaName, sql, parameters = {}, sort = '' }) => {
         }
         if (sql.indexOf('FROM snprc_ehr.colonyGroups') > 0) {
             resolve(colonyGroups)
+        }
+        if (sql.indexOf('FROM ehr_lookups.source') > 0) {
+            resolve(sourceLocations)
         }
     })
 }

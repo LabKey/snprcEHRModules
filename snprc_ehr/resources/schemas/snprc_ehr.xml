@@ -1625,6 +1625,9 @@
             <column columnName="IACUC">
                 <datatype>varchar</datatype>
             </column>
+            <column columnName="SourceInstitutionLocation">
+                <datatype>integer</datatype>
+            </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>

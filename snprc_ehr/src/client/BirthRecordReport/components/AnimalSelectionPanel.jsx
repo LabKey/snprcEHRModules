@@ -5,8 +5,7 @@ export default class AnimalSelectionPanel extends React.Component {
     handleChange = option => {
         this.props.handleChange(option)
     }
-
-    render() {
+render() {
         return (
           <>
             <div className="wizard-panel__rows">

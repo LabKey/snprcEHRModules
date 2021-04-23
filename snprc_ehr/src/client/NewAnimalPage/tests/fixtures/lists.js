@@ -15,6 +15,8 @@ export default {
         { id: 1, value: 2, label: 'Corn feed', species: null }],
     locationList: [{ id: 0, value: '1.01', label: '1.01', arcSpeciesCode: 'PC', maxCages: 42 },
         { id: 1, value: '1.02', label: '1.02', arcSpeciesCode: 'PC', maxCages: 43 }],
+    sourceLocationList: [{ id: 0, value: '1001.00', label: '1001.00', rowId: 42 },
+        { id: 1, value: '1002.00', label: '1002.00', rowId: 43 }],
     potentialDamList: [{ id: 0, value: '12924', label: '12924', ArcSpeciesCode: 'PC', Age: 24.7 },
         { id: 1, value: '12925', label: '12925', ArcSpeciesCode: 'PC', Age: 21.8 }],
     potentialSireList: [{ id: 0, value: '14022', label: '14022', ArcSpeciesCode: 'PC', Age: 22.8 },

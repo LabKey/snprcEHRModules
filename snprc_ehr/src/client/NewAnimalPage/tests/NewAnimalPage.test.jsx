@@ -147,6 +147,13 @@ describe('NewAnimalPage tests', () => {
         const DemographicsPanel = wrapper.find('DemographicsPanel')
         expect(DemographicsPanel.dive().find('InfoPanel').exists()).toBeTruthy()
 
+        // Birthdate state should change -- same as acquisition date
+        const birthdateDatePicker = DemographicsPanel.dive().find('WrappedDatePicker')
+        birthdateDatePicker.simulate('change', data.birthdate1)
+        await flushPromises()
+
+        expect(wrapper.state().newAnimalData.birthDate).toEqual({ date: moment(data.birthdate1) })
+
         // bdStatus Select
         const bdStatusSelect = DemographicsPanel.dive().find(Select).at(0)
         bdStatusSelect.simulate('change', data.bdStatus)
@@ -159,6 +166,7 @@ describe('NewAnimalPage tests', () => {
         await flushPromises()
         expect(wrapper.state().newAnimalData.gender).toEqual(data.gender)
 
+        // console.log(DemographicsPanel.dive().debug({ verbose: true }))
         // Potential Dam Select
         const damSelect = DemographicsPanel.dive().find(Select).at(2)
         damSelect.simulate('change', data.potentialDam)
@@ -173,14 +181,6 @@ describe('NewAnimalPage tests', () => {
 
         // snapshot test
         expect(wrapper).toMatchSnapshot()
-
-        // Birthdate state should change -- same as acquisition date
-        const birthdateDatePicker = DemographicsPanel.dive().find('WrappedDatePicker')
-        birthdateDatePicker.simulate('change', data.birthdate1)
-        await flushPromises()
-
-        expect(wrapper.state().newAnimalData.birthDate).toEqual({ date: moment(data.birthdate1) })
-
         // TODO: birthdate after acqDate should produce error
         // birthdateDatePicker.simulate('change', data.birthdate2);
         // await flushPromises();

@@ -6,26 +6,22 @@ export default class SaveModal extends React.PureComponent {
     state = {
         disabled: false
     }
-
-    onExit = () => {
+onExit = () => {
         this.setState(() => (
             { disabled: false }
         ))
     }
-
-    onSaveClick = () => {
+onSaveClick = () => {
         this.setState(() => (
             { disabled: true }
         ), this.props.onSaveClick())
     };
-
-    onCloseClick = () => {
+onCloseClick = () => {
         this.setState(() => (
             { disabled: true }
         ), this.props.onCloseClick())
     };
-
-    render() {
+render() {
         return (
           <Modal
             backdrop="static"
@@ -41,11 +37,11 @@ export default class SaveModal extends React.PureComponent {
 
             <Modal.Body>
               <SummaryPanel
-                infoMessages={ [...(this.props.numAnimals && this.props.numAnimals != 1 ? [{ key: 1, value: 'Multiple animals are being addeded!' }] : []),
+                infoMessages={ [...(this.props.numAnimals && this.props.numAnimals !== 1 ? [{ key: 1, value: 'Multiple animals are being addeded!' }] : []),
                             { key: 2, value: 'Please review data before saving.' },
                             { key: 3, value: 'Hover cursor over fields for full text.' }] }
                 newAnimalData={ this.props.newAnimalData }
-                numAnimals= { this.props.numAnimals }
+                numAnimals={ this.props.numAnimals }
               />
             </Modal.Body>
 

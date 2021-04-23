@@ -1,9 +1,9 @@
 /* eslint-disable no-alert */
 
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import { LoadingSpinner } from '../Shared/components/LoadingSpinner'
 import './styles/birthRecordReport.scss'
-import { Button } from 'react-bootstrap'
 import BirthRecordState from './constants/BirthRecordState'
 import AnimalSelectionPanel from './components/AnimalSelectionPanel'
 import fetchNewAnimalData from './api/fetchNewAnimalData'
@@ -13,14 +13,12 @@ import InfoPanel from '../Shared/components/InfoPanel'
 
 export default class BirthRecordReport extends React.Component {
     state = new BirthRecordState();
-
-    componentDidMount() {
+componentDidMount() {
         Promise.resolve(this.loadLists()).catch = error => {
             console.log(`Error in componentDidMount: ${error}`)
         }
     }
-
-    loadLists() {
+loadLists() {
         let animalList = []
 
         return new Promise(() => {
@@ -41,13 +39,11 @@ export default class BirthRecordReport extends React.Component {
             })
         })
     }
-
-    // quit
+// quit
     onQuitClick = () => {
         window.history.back()
     }
-
-    onClickPrint = () => {
+onClickPrint = () => {
         if (!this.state.selectedAnimal) {
             this.setState(prevState => (
                 {
@@ -74,8 +70,7 @@ export default class BirthRecordReport extends React.Component {
             }
         }
     }
-
-    handleChange = option => {
+handleChange = option => {
         this.setState(prevState => (
             {
                 ...prevState,
@@ -84,8 +79,7 @@ export default class BirthRecordReport extends React.Component {
             }
         ))
     }
-
-    render() {
+render() {
         const { isLoading } = this.state
 
         if (isLoading) {

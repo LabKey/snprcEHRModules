@@ -578,3 +578,82 @@ export const valid_bd_status = {
     }],
     rowCount: 3
 }
+
+export const sourceLocations = {
+        schemaName: ['ehr_lookups'],
+        queryName: 'sourceLocations',
+            rows: [{
+                data: {
+                  SourceState: {
+                    value: 'LA'
+                  },
+                  SourceCountry: {
+                    value: 'USA'
+                  },
+                  code: {
+                    value: 1001.00
+                  },
+                  meaning: {
+                    value: 'New Iberia Research Center U of LA at Lafayette'
+                  },
+                  description: {
+                    value: null
+                  },
+                  SourceCity: {
+                    value: 'Lafayette'
+                  },
+                  rowid: {
+                    value: 1593
+                  }
+                }
+              }, {
+                data: {
+                  SourceState: {
+                    value: 'LA'
+                  },
+                  SourceCountry: {
+                    value: 'USA'
+                  },
+                  code: {
+                    value: 1009.00
+                  },
+                  meaning: {
+                    value: 'Chimp Haven'
+                  },
+                  description: {
+                    value: null
+                  },
+                  SourceCity: {
+                    value: 'Keithville'
+                  },
+                  rowid: {
+                    value: 1601
+                  }
+                }
+              }, {
+                data: {
+                  SourceState: {
+                    value: 'WA'
+                  },
+                  SourceCountry: {
+                    value: 'USA'
+                  },
+                  code: {
+                    value: 1010.00
+                  },
+                  meaning: {
+                    value: 'SNBL USA Ltd.'
+                  },
+                  description: {
+                    value: '6605 Merrill Creek Pkwy'
+                  },
+                  SourceCity: {
+                    value: 'Everett'
+                  },
+                  rowid: {
+                    value: 1602
+                  }
+                }
+        }],
+        rowCount: 3
+}

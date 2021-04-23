@@ -1,41 +1,37 @@
 import React from 'react'
 import Select from 'react-select'
 import InfoPanel from '../../Shared/components/InfoPanel'
+import constants from '../constants'
 
 export default class AccountPanel extends React.Component {
   componentDidMount = () => {
     this.props.preventNext()
   }
-
-  handleAccountChange = option => {
+handleAccountChange = option => {
     this.props.handleDataChange('animalAccount', option)
   }
-
-  handleColonyChange = option => {
+handleColonyChange = option => {
     this.props.handleDataChange('colony', option)
   }
-
-  handleOwnerInstitutionChange = option => {
+handleOwnerInstitutionChange = option => {
     this.props.handleDataChange('ownerInstitution', option)
   }
-
-  handleIacucChange = option => {
+handleIacucChange = option => {
     this.props.handleDataChange('iacuc', option)
   }
-
-  handlePedigreeChange = option => {
+handlePedigreeChange = option => {
     this.props.handleDataChange('pedigree', option)
   }
-
-  handleResponsibleInstitutionChange = option => {
+handleResponsibleInstitutionChange = option => {
     this.props.handleDataChange('responsibleInstitution', option)
   }
-
-  render() {
-    const { animalAccount, colony, pedigree, iacuc, responsibleInstitution, ownerInstitution } = this.props.newAnimalData
+render() {
+    const { animalAccount, colony, pedigree, iacuc, responsibleInstitution, ownerInstitution, acquisitionType } = this.props.newAnimalData
+    const { offSiteAcqCodes } = constants
 
     return (
       <>
+
         <div className="wizard-panel__rows" id="account-panel">
           <div className="wizard-panel__row" id="account-row">
             <div className="wizard-panel__col">
@@ -148,9 +144,9 @@ export default class AccountPanel extends React.Component {
         </div>
         <InfoPanel
           messages={
-            [{ propTest: !animalAccount, colName: 'Account' },
+            [{ propTest: (!offSiteAcqCodes.includes(acquisitionType.value) && !animalAccount), colName: 'Account' },
             { propTest: (!colony && this.props.colonyList.length > 0), colName: 'Colony' },
-            { propTest: !iacuc, colName: 'IACUC' },
+            { propTest: (!offSiteAcqCodes.includes(acquisitionType.value) && !iacuc), colName: 'IACUC' },
             { propTest: (!pedigree && this.props.pedigreeList.length > 0), colName: 'Pedigree' },
             { propTest: !ownerInstitution, colName: 'Owner' },
             { propTest: !responsibleInstitution, colName: 'Responsible Institution' }

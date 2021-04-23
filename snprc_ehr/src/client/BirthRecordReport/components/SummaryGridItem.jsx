@@ -6,8 +6,7 @@ export default class SummaryGridItem extends React.PureComponent {
     const { id } = this.props.row
     this.props.print(id)
   }
-
-  render() {
+render() {
     const { Id, gender, BirthDate } = this.props.row
     return (
       <tr>

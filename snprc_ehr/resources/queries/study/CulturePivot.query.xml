@@ -1,8 +1,8 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="ParasitologyPivot" tableDbType="TABLE">
-                <tableTitle>Parasitology Pivot (Non OP) </tableTitle>
+            <table tableName="CulturePivot" tableDbType="TABLE">
+                <tableTitle>Culture Pivot</tableTitle>
                 <columns>
                     <column columnName="Id">
                         <fk>
@@ -12,8 +12,8 @@
                         </fk>
                     </column>
                     <column columnName="panelName">
-                        <columnTitle>Parasitology Panel Name</columnTitle>
-                        <displayWidth>80</displayWidth>
+                        <columnTitle>Panel Name</columnTitle>
+                        <displayWidth>105</displayWidth>
                     </column>
                     <column columnName="runId">
                         <isHidden>true</isHidden>

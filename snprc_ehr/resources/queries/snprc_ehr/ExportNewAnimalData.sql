@@ -6,7 +6,11 @@
 
 
  srr 07.07.2020
-  Syncing with current table structure 02.02.21
+ Syncing with current table structure
+  srr 02.02.2021
+ Adding SourceInstitution column to hold source institution for
+  non-birth acquisitions.
+  srr 03.31.2021
  ********************************************************/
 
 SELECT
@@ -15,6 +19,7 @@ SELECT
     n.BirthCode as Bd_Status,
     n.AcquisitionType,
     n.AcqDate AS AcquisitionDate,
+    n.SourceInstitutionLocation,
     n.species,
     n.Gender,
     n.sire,

@@ -33,21 +33,21 @@ ALTER VIEW [labkey_etl].[V_DELETE_ARRIVAL] AS
 -- Create date: 4/3/2015
 -- Description:	Selects the ETL records for LabKey study.arrival dataset which need to be deleted
 -- Changes:
---
+-- 3/10/2021 Removed the join on the v_demographics view - if animal is removed from the colony
+--      before the arrivals ETL runs, then the arrivals deletion will be missed
 --
 -- ==========================================================================================
 
-SELECT 
+SELECT
 	ad.object_id,
 	ad.audit_date_tm
 FROM audit.audit_acq_disp AS ad
--- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+
 WHERE ad.audit_action = 'D' AND ad.object_id IS NOT NULL
 
 GO
 
-GRANT SELECT ON Labkey_etl.v_delete_arrival TO z_labkey 
+GRANT SELECT ON Labkey_etl.v_delete_arrival TO z_labkey
 GRANT SELECT ON audit.audit_acq_disp TO z_labkey
 
 GO

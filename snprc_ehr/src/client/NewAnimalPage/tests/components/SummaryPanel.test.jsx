@@ -9,11 +9,11 @@ describe('AcquisitionPanel tests', () => {
 
     const wrapper = shallow(
       <SummaryPanel
+        includeBullets
         infoMessages={ [{ key: 1, value: 'Please review data before saving.' },
         { key: 2, value: 'Hover cursor over fields for full text.' }] }
-        newAnimalData={ newAnimalData }
 
-        includeBullets={ true }
+        newAnimalData={ newAnimalData }
       />
     )
     expect(wrapper).toMatchSnapshot()

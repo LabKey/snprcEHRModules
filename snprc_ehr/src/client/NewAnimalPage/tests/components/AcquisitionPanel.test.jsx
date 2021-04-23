@@ -13,10 +13,10 @@ describe('AcquisitionPanel tests', () => {
         acquisitionTypeList={ lists.acquisitionTypeList }
         disabled={ false }
         handleDataChange={ () => { } }
-        newAnimalData={ newAnimalData }
-        preventNext={ () => { return false } }
-        numAnimals= { undefined }
         handleNumAnimalChange={ () => {} }
+        newAnimalData={ newAnimalData }
+        numAnimals={ undefined }
+        preventNext={ () => { return false } }
       />
 
     )
@@ -25,18 +25,17 @@ describe('AcquisitionPanel tests', () => {
 
   test('Should render the AcquisitionPanel for multiple animal acquisition', () => {
     const newAnimalData = { ...(NewAnimalState().newAnimalData),
-                            species: {value: 'HAM', arcSpeciesCode: 'MA' }
-    }
-    
+                            species: { value: 'HAM', arcSpeciesCode: 'MA' } }
+
     const wrapper = shallow(
       <AcquisitionPanel
         acquisitionTypeList={ lists.acquisitionTypeList }
         disabled={ false }
         handleDataChange={ () => { } }
-        newAnimalData={ newAnimalData }
-        preventNext={ () => { return false } }
-        numAnimals={ 2 }
         handleNumAnimalChange={ () => {} }
+        newAnimalData={ newAnimalData }
+        numAnimals={ 2 }
+        preventNext={ () => { return false } }
       />
 
     )

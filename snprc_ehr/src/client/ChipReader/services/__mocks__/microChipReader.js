@@ -1,19 +1,16 @@
-export const getChipData = async (connection) => {
-
+export const getChipData = async () => {
     let data
     let dataArr = []
     let dataObj
 
     // read serial port with a 2 second timeout
-    data = "12345, 27.3"
-    
+    data = '12345, 27.3'
 
     if (data) {
         // process chip data
-        if (data.indexOf('XX') === -1) {  // clean queue
-
+        if (data.indexOf('XX') === -1) { // clean queue
             data = data === 'XXXXXXXXXX\r' ? '' : data.replace(/\r/g, '')
-            dataArr = data.split(",")
+            dataArr = data.split(',')
             const len = dataArr.length
 
             dataObj = {
@@ -24,6 +21,6 @@ export const getChipData = async (connection) => {
             }
         }
     }
-    
+
     return dataObj
 }

@@ -33,6 +33,7 @@
     "LABKEY": "readonly"
   },
   "rules": {
+    "linebreak-style": ["error", "windows"],
     "arrow-body-style": 0,
     "arrow-parens": [
       "warn",

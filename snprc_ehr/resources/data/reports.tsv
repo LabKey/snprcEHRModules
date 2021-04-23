@@ -16,10 +16,10 @@ surveillance	Lab Results	query	Surveillance	true		study	surveillancePivot			date
 urinalysis	Lab Results	query	Urinalysis	true		study	urinalysisPivot			date	false	false			Contains urinalysis results
 miscTests	Lab Results	query	Misc Tests	true		study	miscPivot			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
 surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
-Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata	
-Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata	
-procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata	
-proceduresBeforeDisposition	Clinical	js	Procedures Before Disposition	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata	
+Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata
+Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata
+procedures	Clinical	query	Procedures	true		study	procedure	proceduresByEncounter		date	false	false		qcstate/publicdata
+proceduresBeforeDisposition	Clinical	js	Procedures Before Disposition	true		study	proceduresBeforeDisposition	ProceduresBeforeDisposition		date	false	false		qcstate/publicdata
 procedureHistory	Surgery	query	Procedure Summary	true		study	proceduresPerYear			date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 DailyObs	Clinical	query	Daily Obs	true		study	DailyObs			date	false	false			Contains daily observations
 clinObsBsu	Behavior	js	Observations	true		study	underDevelopment	BSU Observations		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surergies, exams, procedures, etc.
@@ -52,14 +52,15 @@ blood	General	query	Blood Draw History	true		study	Blood Draws			date	false	fals
 idHistory	General	query	ID History	true		study	idHistory			id_date	false	false			This report contains a summary of the identifiers that have been assigned for each animal
 generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
-reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata	
-menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata	
-freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata	
+reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
+menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
+freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
-Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata	
+Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata
 blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			Contains blood type.
 ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	ParasitologyPivot			date	false	false			Parasitology data.
-ParasitologyPivot	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
+ParasitologyPivot2	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
+CulturePivot	Lab Results	query	Cultures	true		study	CulturePivot			date	false	false			Culture data.
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes
 Flags	Colony Management	query	Animal Attributes (flags)	true		study	flags			StartDate	false	false		qcstate/publicdata	Animal attribute flags
 FileRepository	General	js	File Repository	true		study	FileRepository				false	false		qcstate/publicdata	File Repository for uploading and viewing animal related files
@@ -70,4 +71,4 @@ Procedure History	Exposures	query	Procedure History	true		study	ExpProcedureHist
 Research Treatments	Exposures	query	Research Treatments	true		study	ExpResearchTreatments			Date	false	false		qcstate/publicdata	Research Treatments data
 Abnormal Behavior	Behavior	query	Abnormal Behavior	true		study	BehaviorAbnormalSummary			Date	false	false		qcstate/publicdata	Abnormal behavoir detail data
 Vaccines	Exposures	query	Vaccines	true		study	ExpVaccines			Date	false	false		qcstate/publicdata	Exposure vaccines data
-Body Condition Score	Clinical	query	Body Condition Score	true		study	BodyConditionScores	
+Body Condition Score	Clinical	query	Body Condition Score	true		study	BodyConditionScores

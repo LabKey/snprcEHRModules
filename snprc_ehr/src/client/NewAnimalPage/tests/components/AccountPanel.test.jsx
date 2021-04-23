@@ -5,7 +5,10 @@ import NewAnimalState from '../../constants/NewAnimalState'
 import lists from '../fixtures/lists'
 
 test('Should render the AccountPanel', () => {
-    const { newAnimalData } = new NewAnimalState()
+    const newAnimalData = {
+      ...(NewAnimalState().newAnimalData),
+      acquisitionType: { id: 0, value: 1, label: '1 - Colony-born, Vaginal delivery (at TBRI)', Category: 'Birth', SortOrder: 1 }
+    }
 
     const wrapper = shallow(
       <AccountPanel

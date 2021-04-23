@@ -23,5 +23,5 @@ export const validateNumAnimals = numAnimals => {
         hasError = numAnimals < 1 || numAnimals > 100
     }
 
-    return hasError ? `Number of Animals must be between 1 and 100` : undefined
+    return hasError ? 'Number of Animals must be between 1 and 100' : undefined
 }

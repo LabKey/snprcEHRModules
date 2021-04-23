@@ -29,7 +29,6 @@ const fetchColonies = species => {
             console.log('Error', error)
         })
     })
-
 }
 
 export default fetchColonies
