@@ -103,6 +103,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
         >
           <AcquisitionPanel
             acquisitionTypeList={Array []}
+            debug={true}
             disabled={true}
             handleDataChange={[Function]}
             handleNumAnimalChange={[Function]}
@@ -408,7 +409,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={true}
+          disabled={false}
         >
           <p>
             Demographics
@@ -416,7 +417,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={true}
+          disabled={false}
         >
           <DemographicsPanel
             bdStatusList={
@@ -438,7 +439,8 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 },
               ]
             }
-            disabled={true}
+            debug={true}
+            disabled={false}
             handleDataChange={[Function]}
             newAnimalData={
               Object {
@@ -557,16 +559,6 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           />
         </div>
       </div>
-      <InfoPanel
-        errorMessages={
-          Array [
-            Object {
-              "colName": "Cannot read property 'value' of undefined",
-              "propTest": true,
-            },
-          ]
-        }
-      />
       <div>
         <Pager
           bsClass="pager"
@@ -803,7 +795,7 @@ exports[`Should render Account page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={true}
+          disabled={false}
         >
           <p>
             Account, Colony, and Ownership
@@ -811,7 +803,7 @@ exports[`Should render Account page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={true}
+          disabled={false}
         >
           <AccountPanel
             accountList={
@@ -833,10 +825,58 @@ exports[`Should render Account page 1`] = `
                 },
               ]
             }
-            colonyList={Array []}
-            disabled={true}
+            colonyList={
+              Array [
+                Object {
+                  "Category": 7,
+                  "id": 0,
+                  "label": "pc_Conv",
+                  "species": "PC",
+                  "value": 214,
+                },
+                Object {
+                  "Category": 7,
+                  "id": 1,
+                  "label": "pc_SPF",
+                  "species": "PC",
+                  "value": 213,
+                },
+                Object {
+                  "Category": 42,
+                  "id": 2,
+                  "label": "pc_Whatever",
+                  "species": "PC",
+                  "value": 215,
+                },
+              ]
+            }
+            disabled={false}
             handleDataChange={[Function]}
-            iacucList={Array []}
+            iacucList={
+              Array [
+                Object {
+                  "id": 0,
+                  "label": "1134PC - Nathanielsz, P. -Maternal Nutrient Restriction:  Placental and Fetal Brain and Kidney Outcomes",
+                  "maxAnimals": 0,
+                  "species": "PC",
+                  "value": "1134PC",
+                },
+                Object {
+                  "id": 1,
+                  "label": "1272PC - Chen, Christopher -Baboon Model of Liver Cancer",
+                  "maxAnimals": 8,
+                  "species": "PC",
+                  "value": "1272PC",
+                },
+                Object {
+                  "id": 2,
+                  "label": "1497PC - Giavedoni, L. -Natural Resistance of baboon cells to SIV infection",
+                  "maxAnimals": 60,
+                  "species": "PC",
+                  "value": "1497PC",
+                },
+              ]
+            }
             institutionList={
               Array [
                 Object {
@@ -899,21 +939,35 @@ exports[`Should render Account page 1`] = `
                 },
               }
             }
-            pedigreeList={Array []}
+            pedigreeList={
+              Array [
+                Object {
+                  "Category": 2,
+                  "id": 0,
+                  "label": "baboon1",
+                  "species": "PC",
+                  "value": 31,
+                },
+                Object {
+                  "Category": 2,
+                  "id": 1,
+                  "label": "baboon2",
+                  "species": "PC",
+                  "value": 32,
+                },
+                Object {
+                  "Category": 2,
+                  "id": 2,
+                  "label": "baboon3",
+                  "species": "PC",
+                  "value": 33,
+                },
+              ]
+            }
             preventNext={[Function]}
           />
         </div>
       </div>
-      <InfoPanel
-        errorMessages={
-          Array [
-            Object {
-              "colName": "Cannot read property 'value' of undefined",
-              "propTest": true,
-            },
-          ]
-        }
-      />
       <div>
         <Pager
           bsClass="pager"
@@ -1131,7 +1185,7 @@ exports[`Should render Diet page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={true}
+          disabled={false}
         >
           <p>
             Diet
@@ -1139,7 +1193,7 @@ exports[`Should render Diet page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={true}
+          disabled={false}
         >
           <DietPanel
             dietList={
@@ -1164,7 +1218,7 @@ exports[`Should render Diet page 1`] = `
                 },
               ]
             }
-            disabled={true}
+            disabled={false}
             handleDataChange={[Function]}
             newAnimalData={
               Object {
@@ -1213,16 +1267,6 @@ exports[`Should render Diet page 1`] = `
           />
         </div>
       </div>
-      <InfoPanel
-        errorMessages={
-          Array [
-            Object {
-              "colName": "Cannot read property 'value' of undefined",
-              "propTest": true,
-            },
-          ]
-        }
-      />
       <div>
         <Pager
           bsClass="pager"
@@ -1440,7 +1484,7 @@ exports[`Should render Location page 1`] = `
       >
         <div
           className="panel-heading"
-          disabled={true}
+          disabled={false}
         >
           <p>
             Location
@@ -1448,13 +1492,40 @@ exports[`Should render Location page 1`] = `
         </div>
         <div
           className="wizard-panel"
-          disabled={true}
+          disabled={false}
         >
           <LocationPanel
-            disabled={true}
+            disabled={false}
             handleDataChange={[Function]}
             handleError={[Function]}
-            locationList={Array []}
+            locationList={
+              Array [
+                Object {
+                  "arcSpeciesCode": "PC",
+                  "id": 0,
+                  "label": "1.01 - Test location 1",
+                  "maxCages": null,
+                  "rowId": 4201,
+                  "value": "1.01",
+                },
+                Object {
+                  "arcSpeciesCode": "PC",
+                  "id": 1,
+                  "label": "2.00 - Test location 2",
+                  "maxCages": 12,
+                  "rowId": 4202,
+                  "value": "2.00",
+                },
+                Object {
+                  "arcSpeciesCode": "PC",
+                  "id": 2,
+                  "label": "6.06 - Test location 3",
+                  "maxCages": 15,
+                  "rowId": 4203,
+                  "value": "6.06",
+                },
+              ]
+            }
             newAnimalData={
               Object {
                 "acqDate": Object {
@@ -1502,16 +1573,6 @@ exports[`Should render Location page 1`] = `
           />
         </div>
       </div>
-      <InfoPanel
-        errorMessages={
-          Array [
-            Object {
-              "colName": "Cannot read property 'value' of undefined",
-              "propTest": true,
-            },
-          ]
-        }
-      />
       <div>
         <Pager
           bsClass="pager"

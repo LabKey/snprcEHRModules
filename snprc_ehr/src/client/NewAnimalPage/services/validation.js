@@ -2,7 +2,13 @@ import moment from 'moment'
 
 export const isBirthdateValid = (birthdate, acqDate) => {
     return (
-        moment(birthdate).isSameOrBefore(moment(acqDate))
+        birthdate.isSameOrBefore(acqDate)
+    )
+}
+
+export const isFutureDate = date => {
+    return (
+        date.isSameOrBefore(moment())
     )
 }
 
