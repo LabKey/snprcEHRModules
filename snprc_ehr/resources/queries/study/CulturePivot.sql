@@ -33,9 +33,9 @@ FROM study.labworkResults as p
 
 where p.id is not null
   group by p.runid, p.Id, p.date,p.serviceTestId.testName, p.runId.serviceRequested
-    PIVOT QResults by TestName IN
-  (select TestName from snprc_ehr.labwork_panels t
+    PIVOT   QResults by TestName IN
+  (select  t.testName from snprc_ehr.labwork_panels t
   where t.includeInPanel = true
   and t.ServiceId.Dataset = 'Culture'
-  order by t.sortOrder
+  order by t.TestName asc
   );
