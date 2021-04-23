@@ -274,8 +274,34 @@ FROM inserted i
 ON i.tid = t.tid;
 
 
-
 -- move to SNPRC loc
+-- move to SNPRC loc
+-- Move to source location for non TxBiomed births
+/********************************
+To allow for a move to a source location, actual
+onCampus move will be 1 minute after the AcquisitionDate
+srr 04.05.2021
+********************************/
+-- move to ori source location
+IF UPDATE(SourceInstitutionLocation)
+BEGIN
+INSERT INTO dbo.location
+( id ,
+  move_date_tm ,
+  location,
+  user_name,
+  entry_date_tm
+)
+SELECT t.id,
+       i.AcquisitionDate,
+       CAST(i.SourceInstitutionLocation AS NUMERIC(7,2)),
+       t.CreatedBy, @insertDateTime
+FROM inserted i
+         INNER JOIN @TxIds t
+ON i.tid = t.tid
+WHERE i.SourceInstitutionLocation IS NOT NULL;
+END
+-- Current Location
 INSERT INTO dbo.location
 ( id ,
   move_date_tm ,
@@ -284,11 +310,17 @@ INSERT INTO dbo.location
   entry_date_tm
 )
 -- insert shim
-SELECT t.id, i.AcquisitionDate, CAST(i.Room AS NUMERIC(7,2)),
+SELECT t.id,
+       CASE WHEN i.SourceInstitutionLocation IS NOT NULL THEN  DATEADD(MINUTE,1, i.AcquisitionDate)
+            ELSE i.AcquisitionDate
+           END AcquisitionDate,
+       CAST(i.Room AS NUMERIC(7,2)),
        t.CreatedBy, @insertDateTime
 FROM inserted i
          INNER JOIN @TxIds t
 ON i.tid = t.tid;
+
+
 
 -- add Primary ID to id_history
 INSERT INTO dbo.id_history
