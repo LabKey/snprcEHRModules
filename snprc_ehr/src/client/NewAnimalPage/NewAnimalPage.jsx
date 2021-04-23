@@ -107,8 +107,6 @@ loadListsForSpecies = selectedSpecies => {
     const lists = {}
 
     async function loadListsAW(species) {
-      // lists.potentialDamList = await fetchPotentialDams(species)
-      // lists.potentialSireList = await fetchPotentialSires(species)
       lists.locationList = await fetchLocations(species)
       lists.colonyList = await fetchColonies(species)
       lists.iacucList = await fetchProtocols(species)
@@ -119,8 +117,6 @@ loadListsForSpecies = selectedSpecies => {
       .then(() => {
         this.setState(prevState => ({
           ...prevState,
-          // potentialDamList: lists.potentialDamList,
-          // potentialSireList: lists.potentialSireList,
           locationList: lists.locationList,
           colonyList: lists.colonyList,
           iacucList: lists.iacucList,
@@ -439,7 +435,6 @@ reloadDamsAndSires = (selectedSpecies, birthdate, selectedOption) => {
       lists.potentialDamList = await fetchPotentialDams(speciesValue, birthdateValue, selectedOptionValue)
       lists.potentialSireList = await fetchPotentialSires(speciesValue, birthdateValue, selectedOptionValue)
     }
-
     loadListsAW(selectedSpecies.arcSpeciesCode, birthdate.date, selectedOption)
       .then(() => {
         this.setState(prevState => ({
@@ -508,6 +503,7 @@ render() {
                     acquisitionTypeList={
                       this.state.acquisitionTypeList
                     }
+                    debug={ this.debug }
                     disabled={ this.disableFirstPanel() }
                     handleDataChange={ this.handleDataChange }
                     handleNumAnimalChange={ this.handleNumAnimalChange }
@@ -535,6 +531,7 @@ render() {
                 >
                   <DemographicsPanel
                     bdStatusList={ this.state.bdStatusList }
+                    debug={ this.debug }
                     disabled={ this.disablePanels() }
                     handleDataChange={ this.handleDataChange }
                     newAnimalData={ this.state.newAnimalData }

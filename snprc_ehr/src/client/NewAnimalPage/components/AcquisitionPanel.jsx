@@ -3,10 +3,11 @@ import Select from 'react-select'
 import moment from 'moment'
 import WrappedDatePicker from '../../Shared/components/WrappedDatePicker'
 import InfoPanel from '../../Shared/components/InfoPanel'
-import { validateNumAnimals } from '../services/validation'
+import { validateNumAnimals, isFutureDate } from '../services/validation'
 import constants from '../constants/index'
 
 export default class AcquisitionPanel extends React.Component {
+  dateErrorMessageText = 'Future dates are not allowed.'
   state = {
     errorMessage: undefined,
     infoMessage: undefined
@@ -18,7 +19,14 @@ handleAcquisitionChange = option => {
     this.props.handleDataChange('acquisitionType', option)
   }
 handleAcquisitionDateChange = date => {
-    this.props.handleDataChange('acqDate', { date: moment(date) })
+  const acqDate = moment(date)
+  const dateStatus = isFutureDate(acqDate) || this.props.debug // debug is triggered by test suite
+    if (dateStatus) {
+      this.props.handleDataChange('acqDate', { date: acqDate })
+    }
+    this.setState(() => ({
+      errorMessage: dateStatus ? undefined : this.dateErrorMessageText
+    }))
   }
 handleSourceLocationChange = sourceLocation => {
     this.props.handleDataChange('sourceLocation', sourceLocation)
@@ -102,6 +110,7 @@ render() {
                   className="shared-dropdown"
                   classNamePrefix="shared-select"
                   id="location-select"
+                  isClearable
                   isDisabled={ this.props.disabled }
                   isLoading={ this.props.sourceLocationList.length === 0 }
                   onChange={ this.handleSourceLocationChange }
