@@ -333,6 +333,9 @@ export const ActiveLocationsAll = {
             },
             rowId: {
                 value: 4201
+            },
+            description: {
+                value: 'Test location 1'
             }
         }
     }, {
@@ -349,6 +352,9 @@ export const ActiveLocationsAll = {
             },
             rowId: {
                 value: 4202
+            },
+            description: {
+                value: 'Test location 2'
             }
         }
     }, {
@@ -365,6 +371,9 @@ export const ActiveLocationsAll = {
             },
             rowId: {
                 value: 4203
+            },
+            description: {
+                value: 'Test location 3'
             }
         }
     }],

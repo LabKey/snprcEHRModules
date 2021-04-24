@@ -4,7 +4,7 @@ PARAMETERS
     selectedOptionParm VARCHAR DEFAULT 'Birth'  -- Birth or Acquisition
 )
 -- TODO: Do we want to limit selection to animals that were co-located with dam?
-SELECT d.id as Sire,
+SELECT distinct d.id as Sire,
        d.species as Species,
        d.species.arc_species_code as ArcSpeciesCode,
        d.gender as Gender,
@@ -39,7 +39,7 @@ FROM study.demographics AS d
     UNION ALL
     SELECT 185 as gestation, timestampadd('SQL_TSI_DAY', -185, birthdateParm ) as minConceptionDate, 'O' as species
 ) AS y ON CASE WHEN d.species.arc_species_code IN ('PC', 'CJ', 'MM', 'MF', 'PT','MA') then d.species.arc_species_code ELSE 'O' END = y.species
-         INNER JOIN study.acq_disp as ad on d.id = ad.id
+INNER JOIN study.acq_disp as ad on d.id = ad.id
 WHERE d.gender = 'M'
 -- age at conception is greater or equal to minimum adult age
   -- LK has trouble matching parameters correctly using the code below, so minConceptionDate was added to the y result set
