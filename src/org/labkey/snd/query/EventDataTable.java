@@ -34,7 +34,6 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
-import org.labkey.api.query.SimpleQueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.security.UserPrincipal;
@@ -78,7 +77,7 @@ public class EventDataTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
         return new EventDataTable.UpdateService(this);
     }
 
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected class UpdateService extends SNDQueryUpdateService
     {
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();

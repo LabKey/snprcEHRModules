@@ -25,7 +25,6 @@ import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.QueryUpdateService;
-import org.labkey.api.query.SimpleQueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
@@ -60,7 +59,7 @@ public class EventNotesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
         return new EventNotesTable.UpdateService(this);
     }
 
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected class UpdateService extends SNDQueryUpdateService
     {
         public UpdateService(SimpleUserSchema.SimpleTable ti)
         {

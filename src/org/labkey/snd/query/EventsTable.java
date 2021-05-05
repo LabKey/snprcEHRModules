@@ -27,7 +27,6 @@ import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
-import org.labkey.api.query.SimpleQueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema.SimpleTable;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
@@ -72,7 +71,7 @@ public class EventsTable extends SimpleTable<SNDUserSchema>
         return new EventsTable.UpdateService(this);
     }
 
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected class UpdateService extends SNDQueryUpdateService
     {
         public UpdateService(SimpleTable ti)
         {
