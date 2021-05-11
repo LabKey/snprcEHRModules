@@ -1,0 +1,36 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="ReportTcruziNewPositives" tableDbType="NOT_IN_DB">
+                <tableTitle>T cruzi New Positives</tableTitle>
+                <columns>
+                    <column columnName="Species">
+                        <columnTitle>Species</columnTitle>
+                    </column>
+                    <column columnName="CurrentLocation">
+                        <columnTitle>Current Location</columnTitle>
+                    </column>
+                    <column columnName="Id">
+                        <columnTitle>Animal Id</columnTitle>
+                        <fk>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>id</fkColumnName>
+                        </fk>
+                    </column>
+                    <column columnName="status">
+                        <columnTitle>Status</columnTitle>
+                    </column>
+                    <column columnName="TcruziResult">
+                        <columnTitle>T cruzi result</columnTitle>
+                    </column>
+                    <column columnName="MinDate">
+                        <columnTitle>First Date</columnTitle>
+                    </column>
+                </columns>
+                <sorts>
+                    <sort column="MinDate" descending="true"/>
+                </sorts>
+            </table>
+        </tables>
+    </metadata>
+</query>
