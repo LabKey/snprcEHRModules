@@ -1,4 +1,3 @@
-
 /**************************************************************
 Sourced from ReportTcruziPositiveSummary
   Purpose is to report all summary data on T. cruzi tests.
@@ -10,6 +9,7 @@ Sourced from ReportTcruziPositiveSummary
     to results CASE
   srr 04.20.21
 
+  Dr. Elmore request
   This report is for positive only, therefore restricting
   in each subquery and not the unioned result.  Did not remove
   negative or indeterminate from case, but will never be used.
@@ -19,8 +19,8 @@ Sourced from ReportTcruziPositiveSummary
   srr 04.23.21
 **************************************************************/
 
-SELECT d.SpeciesCode AS Species, d.CurrentLocation,d.id, d.status, d.result AS "T cruzi result",
-       min(d.TestDate) AS MinDate,max(d.TestDate) AS MaxDate,  count(*) TestCount
+SELECT d.SpeciesCode AS Species, d.CurrentLocation,d.id, d.status, d.result AS "TcruziResult",
+       min(d.TestDate) AS FirstDate   /*, count(*) AS NumTests*/
 FROM
     (SELECT 'LabResults',
             b.id.demographics.species.arc_species_code.code AS SpeciesCode,
@@ -76,5 +76,8 @@ FROM
 
 /* d.SpeciesCode AS Species,d.CurrentLocation,d.id, d.status,'T cruzi', d.result*/
 GROUP BY d.SpeciesCode,d.CurrentLocation,  d.id,d.status, d.result
-
+/*  Look at last 12 month per Dr. Elmore */
+HAVING min(d.TestDate) > timestampadd('SQL_TSI_MONTH', -12, now())
+   AND d.result = 'POSITIVE'
 ORDER BY min(d.TestDate) desc --, min(d.TestDate)
+
