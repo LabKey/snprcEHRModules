@@ -1740,18 +1740,20 @@ public class SNDManager
             {
                 //TODO: Add redacted here
                 propValue = properties.get(gwtPropertyDescriptor.getPropertyURI()).value();
-
-                // Convert dates to ISO8601 format
-                if (PropertyType.getFromURI(null, gwtPropertyDescriptor.getRangeURI()).equals(PropertyType.DATE))
+                if (propValue != null)
                 {
-                    propValue = DateUtil.formatDateTime((Date) propValue, AttributeData.DATE_FORMAT);
-                }
-                else if (PropertyType.getFromURI(null, gwtPropertyDescriptor.getRangeURI()).equals(PropertyType.DATE_TIME))
-                {
-                    propValue = DateUtil.formatDateTime((Date) propValue, AttributeData.DATE_TIME_FORMAT);
-                }
+                    // Convert dates to ISO8601 format
+                    if (PropertyType.getFromURI(null, gwtPropertyDescriptor.getRangeURI()).equals(PropertyType.DATE))
+                    {
+                        propValue = DateUtil.formatDateTime((Date) propValue, AttributeData.DATE_FORMAT);
+                    }
+                    else if (PropertyType.getFromURI(null, gwtPropertyDescriptor.getRangeURI()).equals(PropertyType.DATE_TIME))
+                    {
+                        propValue = DateUtil.formatDateTime((Date) propValue, AttributeData.DATE_TIME_FORMAT);
+                    }
 
-                attribute.setValue(propValue.toString());
+                    attribute.setValue(propValue.toString());
+                }
             }
 
             attributeDatas.add(attribute);
