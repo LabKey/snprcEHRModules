@@ -238,7 +238,7 @@ public class PackageAttributeTable extends FilteredTable<SNDUserSchema>
         sql.append(" INNER JOIN ");
         sql.append(OntologyManager.getTinfoPropertyDescriptor(), "pd");
         sql.append(" ON pd.PropertyId = pdom.PropertyId ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append(" exp.PropertyValidator pv");
         sql.append(" ON pd.PropertyId = pv.PropertyId ");
         sql.append(") ");
