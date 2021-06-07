@@ -15,7 +15,6 @@
  */
 package org.labkey.api.snd;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
@@ -48,6 +47,7 @@ public interface SNDService
 
     void savePackage(Container c, User u, Package pkg);
     void savePackage(Container c, User u, Package pkg, SuperPackage superPkg, boolean cloneFlag);
+    void savePackage(Container c, User u, Package pkg, SuperPackage superPkg, boolean cloneFlag, boolean isPipelineJob);
     void saveSuperPackages(Container c, User u, List<SuperPackage> superPkgs);
     List<Package> getPackages(Container c, User u, List<Integer> pkgIds, boolean includeExtraFields, boolean includeLookups, boolean includeFullSubpackages);
     void registerAttributeLookup(Container c, User u, String schema, @Nullable String table);

@@ -199,11 +199,16 @@ public class SNDServiceImpl implements SNDService
     @Override
     public void savePackage(Container c, User u, Package pkg)
     {
-        savePackage(c, u, pkg, null, false);
+        savePackage(c, u, pkg, null, false, false);
     }
 
     @Override
-    public void savePackage(Container c, User u, Package pkg, SuperPackage superPkg, boolean cloneFlag)
+    public void savePackage(Container c, User u, Package pkg, SuperPackage superPkg, boolean cloneFlag) {
+        savePackage(c, u, pkg, superPkg, cloneFlag, false);
+    }
+
+    @Override
+    public void savePackage(Container c, User u, Package pkg, SuperPackage superPkg, boolean cloneFlag, boolean isPipelineJob)
     {
         BatchValidationException errors = new BatchValidationException();
         Domain domain = null;
@@ -218,7 +223,7 @@ public class SNDServiceImpl implements SNDService
         {
             if ((null != domain) && !cloneFlag)  // clone case is basically creation
             {
-                SNDManager.get().updatePackage(u, c, pkg, superPkg, errors);
+                SNDManager.get().updatePackage(u, c, pkg, superPkg, errors, isPipelineJob);
             }
             else
             {

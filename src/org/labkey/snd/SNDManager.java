@@ -287,7 +287,11 @@ public class SNDManager
     /**
      * Called from SNDService.savePackage when saving updates to an already existing package.
      */
-    public void updatePackage(User u, Container c, @NotNull Package pkg, @Nullable SuperPackage superPkg, BatchValidationException errors)
+    public void updatePackage(User u, Container c, @NotNull Package pkg, @Nullable SuperPackage superPkg, BatchValidationException errors) {
+       updatePackage(u, c, pkg, superPkg, errors, false);
+    }
+
+    public void updatePackage(User u, Container c, @NotNull Package pkg, @Nullable SuperPackage superPkg, BatchValidationException errors, boolean isPipelineJob)
     {
         UserSchema schema = getSndUserSchema(c, u);
 
@@ -317,7 +321,8 @@ public class SNDManager
         if (!errors.hasErrors())
         {
             // If package is in use (either assigned to an event or project) then do not update the domain
-            if (!((PackagesTable) pkgsTable).isPackageInUse(pkg.getPkgId()))
+            // If pipeline import job is running then always update
+            if (!((PackagesTable) pkgsTable).isPackageInUse(pkg.getPkgId()) || isPipelineJob )
             {
                 String domainURI = PackageDomainKind.getDomainURI(PackageDomainKind.getPackageSchemaName(), getPackageName(pkg.getPkgId()), c, u);
 

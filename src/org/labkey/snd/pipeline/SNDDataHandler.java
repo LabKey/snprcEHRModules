@@ -140,7 +140,7 @@ public class SNDDataHandler extends AbstractExperimentDataHandler
         for (PackageType packageType : packageArray)
         {
             Package pkg = parsePackage(packageType, info); //convert auto-generated objects/tokens to SND's Package objects
-            sndService.savePackage(info.getContainer(), info.getUser(), pkg); //save to db
+            sndService.savePackage(info.getContainer(), info.getUser(), pkg, null,false, true); //save to db
             log.info("Saving package: " + packageType.getId() + "-" + packageType.getDescription());
         }
     }
