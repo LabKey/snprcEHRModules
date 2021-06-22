@@ -25,6 +25,18 @@
         </rep:property>
       </tags>
     </dataset>
+    <dataset name="AccountAssignments" id="5003" category="Animal Info" type="Standard">
+      <tags>
+        <rep:property>
+          <rep:propDef name="status" label="Status" type="http://www.w3.org/2001/XMLSchema#string"/>
+          <rep:propValue value="Final"/>
+        </rep:property>
+        <rep:property>
+          <rep:propDef name="author" label="Author" type="http://www.w3.org/2001/XMLSchema#int"/>
+          <rep:propValue value="Terry"/>
+        </rep:property>
+      </tags>
+    </dataset>
     <dataset name="SampleInventory" id="7001" category="Samples" type="Standard">
       <tags>
         <rep:property>

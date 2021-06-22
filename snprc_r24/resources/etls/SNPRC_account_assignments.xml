@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Account Assignments</name>
+    <description>SNPRC Account Assignments </description>
+    <transforms>
+        <transform type="RemoteQueryTransformStep" id="step1">
+            <description>Copy Account Assignments to local table</description>
+            <source remoteSource="snprcLkSrc" schemaName="study" queryName="R24MarmosetAccountAssignments" />
+            <destination schemaName="study" queryName="AccountAssignments" targetOption="truncate"/>
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="1d" />
+    </schedule>
+</etl>
