@@ -13,14 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 /*==============================================================*/
 /* View: V_ANIMAL_EVENT_NARRATIVES                                    */
@@ -35,6 +27,7 @@ ALTER VIEW [labkey_etl].[V_ANIMAL_EVENT_NARRATIVES] AS
 -- 12/29/2015	Terry Hawkins	renamed visitRowId column to encounterId
 -- 11/3/2016  added modified, modifiedby, created, createdby columns tjh
 -- 2/28/2017	added encounter_type column. tjh
+-- 6/28/2021    removed ParticipantSequenceNum column. tjh
 -- ==========================================================================================
 
 
@@ -42,7 +35,6 @@ SELECT
   ap.animal_event_id               AS encounterId,
   ap.animal_id                     AS id,
   ap.event_date_tm                 AS date,
-  ap.ParticipantSequenceNum,
   ap.charge_id                     AS project,
   ap.proc_narrative                AS remark,
   'procedure'                      AS encounter_type,

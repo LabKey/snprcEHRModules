@@ -13,16 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
-/****** Object:  View [labkey_etl].[V_DELETE_DEPARTURE]    Script Date: 6/26/2015 11:20:17 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 
 /*==============================================================*/
 /* View: V_DELETE_DEPARTURE                                            */
@@ -35,13 +25,13 @@ ALTER VIEW [labkey_etl].[V_DELETE_DEPARTURE] AS
 -- Changes:
 -- 3/10/2021 Removed the join on the v_demographics view - if animal is removed from the colony
 --      before the departures ETL runs, then the departure deletion will be missed
---
+-- 7/2/2021 added join to improved demographics source which includes animals removed from colony. tjh
 -- ==========================================================================================
 
 SELECT ad.object_id,
 	   ad.audit_date_tm
 FROM audit.audit_acq_disp AS ad
-
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = ad.id
 WHERE ad.audit_action = 'D' AND ad.object_id IS NOT NULL
 
 GO

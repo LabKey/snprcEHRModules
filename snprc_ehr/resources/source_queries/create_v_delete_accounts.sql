@@ -13,14 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 /*==============================================================*/
 /* View: V_DELETE_ACCOUNTS                                      */
@@ -32,6 +24,7 @@ ALTER VIEW [labkey_etl].[V_DELETE_ACCOUNTS] as
 -- Create date: 6/12/2015
 --
 -- 6/29/2015 renamed. tjh
+-- 7/2/2021 changed demographics data source. tjh
 -- ==========================================================================================
 SELECT 
 	aa.object_id,
@@ -39,10 +32,10 @@ SELECT
 
 FROM audit.audit_accounts AS aa
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aa.id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = aa.id
 WHERE aa.AUDIT_ACTION = 'D' AND aa.OBJECT_ID IS NOT NULL
 
-go
+GO
 
 GRANT SELECT on labkey_etl.V_DELETE_ACCOUNTS to z_labkey
 GRANT SELECT ON audit.audit_accounts TO z_labkey

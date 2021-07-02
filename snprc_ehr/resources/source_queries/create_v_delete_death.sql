@@ -13,16 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
-/****** Object:  View [labkey_etl].[V_DELETE_DEATH]    Script Date: 6/26/2015 10:22 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 
 /*==============================================================*/
 /* View: V_DELETE_DEATH                                         */
@@ -33,7 +23,7 @@ ALTER VIEW [labkey_etl].[V_DELETE_DEATH] AS
 -- Create date: 6/26/2015
 -- Description:	Selects the ETL records for LabKey study.birth dataset which need to be deleted
 -- Changes:
---
+-- 7/2/2021 changed demographics data source. tjh
 --
 -- ==========================================================================================
 
@@ -42,7 +32,7 @@ SELECT am.object_id,
 FROM audit.audit_master AS am
 INNER JOIN dbo.master as m on m.id = am.id
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = am.id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = am.id
 WHERE am.audit_action = 'D' 
   OR
 	 (m.death_date is null and am.death_date IS null

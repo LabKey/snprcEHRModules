@@ -13,12 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SET ANSI_NULLS ON;
-GO
-
-SET QUOTED_IDENTIFIER ON;
-GO
-
 /*==============================================================*/
 /* View: V_AUDIT_LOCATION                                               */
 /*==============================================================*/
@@ -29,6 +23,7 @@ ALTER VIEW labkey_etl.v_delete_housing as
 -- Create date: 6/12/2015
 -- Changes:
 -- 12/20/2017 added audit.audit_cage_position records tjh
+-- 7/2/2021 changed demographics data source. tjh
 -- ==========================================================================================
 SELECT 
 	CAST(al.object_id AS VARCHAR(36)) AS object_id,
@@ -36,7 +31,7 @@ SELECT
 
 FROM audit.audit_location AS al
 -- select primates only from the TxBiomed colony
-INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = al.id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = al.id
 WHERE al.audit_action = 'D' AND al.object_id IS NOT NULL
 
 UNION

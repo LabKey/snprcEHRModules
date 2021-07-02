@@ -30,6 +30,7 @@ alter VIEW [labkey_etl].[v_delete_diet] as
 -- Object: v_delete_diet
 -- Author:		Terry Hawkins
 -- Create date: 7/15/2015
+-- 7/2/2021 changed demographics data source. tjh
 --
 -- ==========================================================================================
 SELECT 
@@ -38,7 +39,7 @@ SELECT
 
 FROM audit.audit_diet AS ad
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ad.id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = ad.id
 WHERE ad.audit_action = 'D' AND ad.object_id IS NOT NULL
  
 go
