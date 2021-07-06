@@ -31,6 +31,7 @@ import java.util.Map;
 public enum SNPRC_EHRSequencer
 {
     ANIMALID("org.labkey.snprc_ehr.domain.AnimalId", 100);
+    // "last value assigned" is stored in the table - not the same as CAMP which is the "next value to assign"
     // new sequences are added here
     // example:
     // ANIMALID("org.labkey.snprc_ehr.domain.AnimalId", 0),

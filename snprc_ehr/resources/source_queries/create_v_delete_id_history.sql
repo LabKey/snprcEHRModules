@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 /*==============================================================*/
 /* View: V_DELETE_ID_HISTORY                                    */
 /*==============================================================*/
-CREATE VIEW [labkey_etl].[V_DELETE_ID_HISTORY] as
+ALTER VIEW [labkey_etl].[V_DELETE_ID_HISTORY] as
 -- ====================================================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 7/30/2015
 --
 -- Changes:
+-- 7/2/2021 changed demographics data source. tjh
 -- ==========================================================================================
 SELECT 
 	aih.object_id,
@@ -38,13 +30,12 @@ SELECT
 
 FROM audit.audit_id_history AS aih
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aih.sfbr_id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = aih.sfbr_id
 WHERE aih.AUDIT_ACTION = 'D' AND aih.OBJECT_ID IS NOT NULL
 
-go
+GO
 
 GRANT SELECT on labkey_etl.V_DELETE_ID_HISTORY to z_labkey
 GRANT SELECT ON audit.audit_id_history TO z_labkey
-
 
 go

@@ -19,7 +19,7 @@ SELECT
     n.BirthCode as Bd_Status,
     n.AcquisitionType,
     n.AcqDate AS AcquisitionDate,
-    n.SourceInstitutionLocation,
+    n.SourceInstitutionLocation.code as SourceInstitutionLocation,
     n.species,
     n.Gender,
     n.sire,
