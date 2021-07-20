@@ -184,7 +184,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         "            'validators': [{                                           \n" +
         "               'name': 'SNDLength',                                    \n" +
         "               'description': 'This will check the length of the field',\n" +
-        "               'type': 'length',                                       \n" +
+        "               'type': 'textlength',                                       \n" +
         "               'expression': '~gte=1&amp;~lte=400',                    \n" +
         "               'errorMessage': 'This value must be between 1 and 400 characters long'  \n" +
         "           }]                                                          \n" +
@@ -252,7 +252,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         "				'validators': [{                                        \n" +
         "					'name': 'SNDLength',                                \n" +
         "					'description': 'This will check the length of the field',\n" +
-        "					'type': 'length',                                   \n" +
+        "					'type': 'textlength',                                   \n" +
         "					'expression': '~gte=1&amp;~lte=400',                \n" +
         "					'errorMessage': 'This value must be between 1 and 400 characters long'\n" +
         "				}]                                                      \n" +
@@ -331,7 +331,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         "				'validators': [{                                        \n" +
         "					'name': 'SNDLength',                                \n" +
         "					'description': 'This will check the length of the field',\n" +
-        "					'type': 'length',                                   \n" +
+        "					'type': 'textlength',                                   \n" +
         "					'expression': '~gte=1&amp;~lte=400',                \n" +
         "					'errorMessage': 'This value must be between 1 and 400 characters long'\n" +
         "				}]                                                      \n" +
@@ -411,7 +411,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
             "				'validators': [{                                        \n" +
             "					'name': 'SNDLength',                                \n" +
             "					'description': 'This will check the length of the field',\n" +
-            "					'type': 'length',                                   \n" +
+            "					'type': 'textlength',                                   \n" +
             "					'expression': '~gte=1&amp;~lte=400',                \n" +
             "					'errorMessage': 'This value must be between 1 and 400 characters long'\n" +
             "				}]                                                      \n" +
@@ -465,7 +465,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
             "				'validators': [{                                        \n" +
             "					'name': 'SNDLength',                                \n" +
             "					'description': 'This will check the length of the field',\n" +
-            "					'type': 'length',                                   \n" +
+            "					'type': 'textlength',                                   \n" +
             "					'expression': '~gte=1&amp;~lte=400',                \n" +
             "					'errorMessage': 'This value must be between 1 and 400 characters long'\n" +
             "				}]                                                      \n" +

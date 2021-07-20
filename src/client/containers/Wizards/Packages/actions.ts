@@ -378,7 +378,7 @@ function addValidator(attribute: PropertyDescriptor) : PropertyDescriptor {
         return attribute;
 
     let newValidator = new PropertyValidator();
-    newValidator.type = (type === 'string' ? 'length' : 'range');
+    newValidator.type = (type === 'string' ? 'textlength' : 'range');
     newValidator.name = (type === 'string' ? 'SND Length' : 'SND Range');  // Name must start with SND
     newValidator.description = (type === 'string' ? 'SND String Length' : 'SND Numeric Range');
 
