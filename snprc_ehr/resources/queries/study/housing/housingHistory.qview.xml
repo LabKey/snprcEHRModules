@@ -5,6 +5,7 @@
         <column name="enddate"/>
         <column name="room"/>
         <column name="cage"/>
+        <column name="room/area/description"/>
         <column name="duration">
             <properties>
                 <property name="columnTitle" value="Days In This Cage"/>
