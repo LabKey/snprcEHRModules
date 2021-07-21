@@ -11,14 +11,16 @@
  Adding SourceInstitution column to hold source institution for
   non-birth acquisitions.
   srr 03.31.2021
+ Removed seconds from birth and acquisition
+  srr 07.07.2021
  ********************************************************/
 
 SELECT
     n.Id,
-    n.BirthDate,
+    timestampadd(SQL_TSI_SECOND, -second(n.BirthDate), n.BirthDate) AS BirthDate,
     n.BirthCode as Bd_Status,
     n.AcquisitionType,
-    n.AcqDate AS AcquisitionDate,
+    timestampadd(SQL_TSI_SECOND, -second(n.AcqDate), n.AcqDate) AS AcquisitionDate,
     n.SourceInstitutionLocation.code as SourceInstitutionLocation,
     n.species,
     n.Gender,
