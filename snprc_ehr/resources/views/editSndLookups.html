@@ -1,0 +1,20 @@
+<script type="text/javascript">
+
+    Ext4.onReady(function (){
+
+        let webpart = <%=webpartContext%>
+
+        Ext4.create('LDK.panel.NavPanel', {
+            renderTo: webpart.wrapperDivId,
+            width: '100%',
+            sections:  [{
+                header: 'SND Lookups (Coded Procs)',
+                items: [
+                    {name: 'Lookup Sets', url: '<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName=snd&query.queryName=LookupSets' },
+                    {name: 'Lookup Set Items', url: '<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName=snd&query.queryName=Lookups' }
+                 ]
+             }]
+        })
+    })
+</script>
+
