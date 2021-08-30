@@ -296,7 +296,10 @@
             <column columnName="SetName"/>
             <column columnName="Label"/>
             <column columnName="Description"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+                <isReadOnly>true</isReadOnly>
+            </column>
             <column columnName="Container"/>
             <column columnName="CreatedBy"/>
             <column columnName="Created"/>
@@ -324,7 +327,10 @@
             <column columnName="Value"/>
             <column columnName="Displayable"/>
             <column columnName="SortOrder"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+                <isReadOnly>true</isReadOnly>
+            </column>
             <column columnName="Container"/>
             <column columnName="CreatedBy"/>
             <column columnName="Created"/>
