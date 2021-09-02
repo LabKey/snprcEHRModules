@@ -124,7 +124,23 @@
                         }
                     ]
                 })
-            }]
+            },{
+                ...(currentUserGroups.find(o => (o.name === 'SND Data Admins')) && {
+                    header: 'SND Data Management',
+                    itemDefaults: {
+                        linkCls: 'none',
+                        style: 'font-weight: bold;'
+                    },
+                    items: [
+                        {
+                            name: 'Packages and Projects',
+                            url: '<%=contextPath%>/snd' + ctx['EHRStudyContainer'] + '/app.view?'
+                        },
+                        { name: 'Manage SND Lookups', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/editSndLookups.view' }
+                    ]
+                })
+            }
+            ]
         });
 
         let menuCfg = {

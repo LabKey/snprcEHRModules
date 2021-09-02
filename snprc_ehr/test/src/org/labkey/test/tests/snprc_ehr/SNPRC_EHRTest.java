@@ -53,7 +53,6 @@ import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
-import org.labkey.test.util.UIAssayHelper;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -772,7 +771,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         participantViewPage.clickReportTab("Procedures Before Disposition");
         remarkColumn = participantViewPage.getActiveReportDataRegion().getColumnDataAsText("Procedure Text");
-        assertEquals("Report should show events less than or equal to 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days", "necropsy -4days"), remarkColumn);
+        assertEquals("Report should show events less than or equal to 3 days before death", Arrays.asList("necropsy +1days", "necropsy -0days", "necropsy -3days"), remarkColumn);
     }
 
     @Test
