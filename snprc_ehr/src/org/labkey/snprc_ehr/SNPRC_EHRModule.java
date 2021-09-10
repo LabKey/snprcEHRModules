@@ -53,8 +53,6 @@ import org.labkey.snprc_ehr.buttons.SnprcUserEditButton;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
 import org.labkey.snprc_ehr.controllers.FeeScheduleController;
-import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
-import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.EditLookupTablesFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.FlagsFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.GroupsCategoriesFormType;
@@ -264,11 +262,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         PipelineService.get().registerPipelineProvider(new FeeSchedulePipelineProvider(this));
 
         // SNPRC Data Entry Forms
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
-        //EHRService.get().registerFormType(new DefaultDataEntryFormFactory(NewAnimalDataFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(EditLookupTablesFormType.class, this));
 
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(WeightFormType.class, this));
