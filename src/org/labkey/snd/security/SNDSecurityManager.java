@@ -19,6 +19,7 @@ package org.labkey.snd.security;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.CoreSchema;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SimpleFilter;
@@ -301,8 +302,7 @@ public class SNDSecurityManager
 
     public Integer getQCStateId(Container c, User u, QCStateEnum qcState)
     {
-        UserSchema schema = QueryService.get().getUserSchema(u, c, "core");
-        TableInfo qcStateTable = SNDManager.get().getTableInfo(schema, "QCState");
+        TableInfo qcStateTable = CoreSchema.getInstance().getTableInfoDataStates();
 
         SimpleFilter qcFilter = new SimpleFilter(FieldKey.fromParts("Label"), qcState.getName(), CompareType.EQUAL);
 
@@ -316,8 +316,7 @@ public class SNDSecurityManager
 
     public QCStateEnum getQCState(Container c, User u, int qcStateId)
     {
-        UserSchema schema = QueryService.get().getUserSchema(u, c, "core");
-        TableInfo qcStateTable = SNDManager.get().getTableInfo(schema, "QCState");
+        TableInfo qcStateTable = CoreSchema.getInstance().getTableInfoDataStates();
 
         SimpleFilter qcFilter = new SimpleFilter(FieldKey.fromParts("RowId"), qcStateId, CompareType.EQUAL);
 
@@ -334,8 +333,7 @@ public class SNDSecurityManager
     public void populateQCStates(Container c, User u)
     {
         UserSchema coreSchema = QueryService.get().getUserSchema(u, c, "core");
-        DbSchema coreDbSchema = coreSchema.getDbSchema();
-        TableInfo qcStateTi = coreDbSchema.getTable("QCState");
+        TableInfo qcStateTi = CoreSchema.getInstance().getTableInfoDataStates();
 
         Object[][] states = EnumSet.allOf(QCStateEnum.class).stream().map(qcStateEnum -> new Object[]{qcStateEnum.getName(), qcStateEnum.getDescription(), qcStateEnum.isPublicData()}).toArray(Object[][]::new);
 
