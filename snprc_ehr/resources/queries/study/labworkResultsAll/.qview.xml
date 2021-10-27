@@ -1,5 +1,21 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
+        <column name="Id"/>
+        <column name="Id/Demographics/species/arc_species_code">
+            <properties>
+                <property name="columnTitle" value="Species"/>
+            </properties>
+        </column>
+        <column name="serviceTestId/serviceId/ServiceName">
+            <properties>
+                <property name="columnTitle" value="Service Name"/>
+            </properties>
+        </column>
+        <column name="serviceTestId/serviceId/Dataset">
+            <properties>
+                <property name="columnTitle" value="Service Type"/>
+            </properties>
+        </column>
         <column name="date"/>
         <column name="testid"/>
         <column name="value_type"/>
@@ -9,13 +25,10 @@
         <column name="refRange"/>
         <column name="abnormal_flags"/>
         <column name="remark"/>
-        <column name="runid"/>
-        <column name="Id"/>
         <column name="resultNumber"/>
         <column name="resultInRange"/>
         <column name="qualresult"/>
         <column name="history"/>
-        <!--<column name="taskid"/>-->
     </columns>
     <sorts>
         <sort column="Date" descending="true" />

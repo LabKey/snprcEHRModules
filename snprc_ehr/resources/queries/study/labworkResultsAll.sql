@@ -39,10 +39,11 @@ select
   enddate,
   method,
   remark,
-  history
+  history,
+  lsid
 from study.labworkResults
 
-union all
+union
 
 select
   Id,
@@ -62,5 +63,30 @@ select
   enddate,
   method,
   remark,
-  history
+  history,
+  lsid
 from study.assay_labworkResults
+
+union
+
+select
+    Id,
+    date,
+    project,
+    serviceId,
+    serviceTestId,
+    testid,
+    resultOORIndicator,
+    value_type,
+    result,
+    units,
+    qualresult,
+    refRange,
+    abnormal_flags,
+    runid,
+    enddate,
+    method,
+    remark,
+    history,
+    lsid
+from study.labworkTaqman
