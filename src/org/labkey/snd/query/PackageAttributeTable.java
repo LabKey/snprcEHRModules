@@ -44,6 +44,7 @@ public class PackageAttributeTable extends FilteredTable<SNDUserSchema>
     public PackageAttributeTable(@NotNull SNDUserSchema userSchema, ContainerFilter cf)
     {
         super(OntologyManager.getTinfoPropertyDescriptor(), userSchema, cf);
+
         setName(SNDUserSchema.TableType.PackageAttribute.name());
         setDescription("Package/attributes, one row per package/attribute combination.");
 
@@ -250,7 +251,7 @@ public class PackageAttributeTable extends FilteredTable<SNDUserSchema>
     @Override
     public boolean hasPermission(@NotNull UserPrincipal user, @NotNull Class<? extends Permission> perm)
     {
-        return getContainer().hasPermission(user, AdminPermission.class);
+        return getContainer().hasPermission(user, AdminPermission.class, getUserSchema().getContextualRoles());
     }
 
 }

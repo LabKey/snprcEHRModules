@@ -113,6 +113,6 @@ public class EventNotesTable extends SimpleUserSchema.SimpleTable<SNDUserSchema>
     @Override
     public boolean hasPermission(@NotNull UserPrincipal user, @NotNull Class<? extends Permission> perm)
     {
-        return getContainer().hasPermission(user, AdminPermission.class);
+        return getContainer().hasPermission(user, AdminPermission.class, getUserSchema().getContextualRoles());
     }
 }

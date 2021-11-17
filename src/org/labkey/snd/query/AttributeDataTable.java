@@ -71,6 +71,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
     public AttributeDataTable(@NotNull SNDUserSchema userSchema, ContainerFilter cf)
     {
         super(OntologyManager.getTinfoObjectProperty(), userSchema, cf);
+
         setName(SNDUserSchema.TableType.AttributeData.name());
         setDescription("Event/package attribute data, one row per attribute/value combination.");
 
@@ -137,7 +138,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
     @Override
     public boolean hasPermission(@NotNull UserPrincipal user, @NotNull Class<? extends Permission> perm)
     {
-        return getContainer().hasPermission(user, AdminPermission.class);
+        return getContainer().hasPermission(user, AdminPermission.class, getUserSchema().getContextualRoles());
     }
 
     @Override
