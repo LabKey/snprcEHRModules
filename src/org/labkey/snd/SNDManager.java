@@ -61,6 +61,8 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationError;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
+import org.labkey.api.security.roles.FolderAdminRole;
+import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.settings.LookAndFeelProperties;
 import org.labkey.api.snd.AttributeData;
 import org.labkey.api.snd.Category;
@@ -129,7 +131,12 @@ public class SNDManager
 
     public static UserSchema getSndUserSchema(Container c, User u)
     {
-        return new SNDUserSchema(SNDSchema.NAME, null, u, c, SNDSchema.getInstance().getSchema(), false);
+        return new SNDUserSchema(SNDSchema.NAME, null, u, c, SNDSchema.getInstance().getSchema());
+    }
+
+    public static UserSchema getSndUserSchemaAdminRole(Container c, User u)
+    {
+        return new SNDUserSchema(SNDSchema.NAME, null, u, c, SNDSchema.getInstance().getSchema(), RoleManager.getRole(FolderAdminRole.class));
     }
 
     public static int MAX_MERGE_ROWS = 100000;
@@ -1710,7 +1717,7 @@ public class SNDManager
      */
     private EventData getEventData(Container c, User u, @Nullable Integer eventDataId, @NotNull SuperPackage superPackage, BatchValidationException errors)
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
         TableInfo eventDataTable = getTableInfo(schema, SNDSchema.EVENTDATA_TABLE_NAME);
 
         Map<String, ObjectProperty> properties = null;
@@ -1844,7 +1851,7 @@ public class SNDManager
     @Nullable
     public Event getEvent(Container c, User u, int eventId, Set<EventNarrativeOption> narrativeOptions, @Nullable Map<Integer, SuperPackage> topLevelEventDataSuperPkgs, boolean skipPermissionCheck, BatchValidationException errors)
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
 
         TableInfo eventsTable = getTableInfo(schema, SNDSchema.EVENTS_TABLE_NAME);
 
@@ -1908,7 +1915,7 @@ public class SNDManager
     private Map<EventNarrativeOption, String> getNarratives(Container c, User u, Set<EventNarrativeOption> narrativeOptions, Map<Integer, SuperPackage> topLevelEventDataSuperPkgs, Event event, BatchValidationException errors)
     {
         Map<EventNarrativeOption, String> narratives = null;
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
         SimpleFilter eventFilter = new SimpleFilter(FieldKey.fromParts("EventId"), event.getEventId(), CompareType.EQUAL);
 
         if (narrativeOptions != null)
@@ -2096,7 +2103,7 @@ public class SNDManager
      */
     public void deleteEventNotes(Container c, User u, int eventId) throws SQLException, QueryUpdateServiceException, BatchValidationException, InvalidKeyException
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
 
         SQLFragment sql = new SQLFragment("SELECT EventNoteId FROM ");
         sql.append(schema.getTable(SNDSchema.EVENTNOTES_TABLE_NAME), "en");
@@ -2310,7 +2317,7 @@ public class SNDManager
      */
     private void insertEventDatas(Container c, User u, Event event, BatchValidationException errors) throws ValidationException, SQLException, QueryUpdateServiceException, BatchValidationException, DuplicateKeyException
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
         TableInfo eventDataTable = getTableInfo(schema, SNDSchema.EVENTDATA_TABLE_NAME);
 
         QueryUpdateService eventDataQus = getNewQueryUpdateService(schema, SNDSchema.EVENTDATA_TABLE_NAME);
@@ -2527,7 +2534,7 @@ public class SNDManager
 
                             if (!event.hasErrors() && !validateOnly)
                             {
-                                UserSchema schema = getSndUserSchema(c, u);
+                                UserSchema schema = getSndUserSchemaAdminRole(c, u);
                                 TableInfo eventTable = getTableInfo(schema, SNDSchema.EVENTS_TABLE_NAME);
                                 QueryUpdateService eventQus = getQueryUpdateService(eventTable);
                                 QueryUpdateService eventsCacheQus = getNewQueryUpdateService(schema, SNDSchema.EVENTSCACHE_TABLE_NAME);
@@ -2598,7 +2605,7 @@ public class SNDManager
      */
     public void deleteEventsCache(Container c, User u, int eventId) throws SQLException, QueryUpdateServiceException, BatchValidationException, InvalidKeyException
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
 
         QueryUpdateService eventsCacheQus = getNewQueryUpdateService(schema, SNDSchema.EVENTSCACHE_TABLE_NAME);
 
@@ -2613,7 +2620,7 @@ public class SNDManager
      */
     public void deleteEventDatas(Container c, User u, int eventId) throws SQLException, QueryUpdateServiceException, BatchValidationException, InvalidKeyException
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
 
         SQLFragment sql = new SQLFragment("SELECT EventDataId FROM ");
         sql.append(schema.getTable(SNDSchema.EVENTDATA_TABLE_NAME), "ed");
@@ -2643,7 +2650,7 @@ public class SNDManager
      */
     private void deleteExpObjects(Container c, User u, int eventId)
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
         TableInfo eventDataTable = getTableInfo(schema, SNDSchema.EVENTDATA_TABLE_NAME);
 
         // Get from eventNotes table
@@ -2691,7 +2698,7 @@ public class SNDManager
 
                             if (!event.hasErrors() && !validateOnly)
                             {
-                                UserSchema schema = getSndUserSchema(c, u);
+                                UserSchema schema = getSndUserSchemaAdminRole(c, u);
                                 TableInfo eventTable = getTableInfo(schema, SNDSchema.EVENTS_TABLE_NAME);
                                 QueryUpdateService eventQus = getQueryUpdateService(eventTable);
                                 QueryUpdateService eventNotesQus = null;
@@ -2803,7 +2810,7 @@ public class SNDManager
      */
     public void deleteNarrativeCacheRows(Container c, User u, List<Map<String, Object>> eventIds, BatchValidationException errors)
     {
-        UserSchema sndSchema = getSndUserSchema(c, u);
+        UserSchema sndSchema = getSndUserSchemaAdminRole(c, u);
         QueryUpdateService eventsCacheQus = getNewQueryUpdateService(sndSchema, SNDSchema.EVENTSCACHE_TABLE_NAME);
 
         try
@@ -2821,7 +2828,7 @@ public class SNDManager
      */
     public void clearNarrativeCache(Container c, User u, BatchValidationException errors)
     {
-        UserSchema sndSchema = getSndUserSchema(c, u);
+        UserSchema sndSchema = getSndUserSchemaAdminRole(c, u);
         QueryUpdateService eventsCacheQus = getNewQueryUpdateService(sndSchema, SNDSchema.EVENTSCACHE_TABLE_NAME);
 
         try (DbScope.Transaction tx = sndSchema.getDbSchema().getScope().ensureTransaction())
@@ -2840,7 +2847,7 @@ public class SNDManager
      */
     public void fillInNarrativeCache(Container c, User u, BatchValidationException errors, @Nullable Logger logger)
     {
-        UserSchema sndSchema = getSndUserSchema(c, u);
+        UserSchema sndSchema = getSndUserSchemaAdminRole(c, u);
 
         SQLFragment eventSql = new SQLFragment("SELECT ev.EventId FROM ");
         eventSql.append(sndSchema.getTable(SNDSchema.EVENTS_TABLE_NAME), "ev");
@@ -2869,7 +2876,7 @@ public class SNDManager
      */
     public void populateNarrativeCache(Container c, User u, List<Map<String, Object>> eventIds, BatchValidationException errors, @Nullable Logger logger)
     {
-        UserSchema sndSchema = getSndUserSchema(c, u);
+        UserSchema sndSchema = getSndUserSchemaAdminRole(c, u);
         QueryUpdateService eventsCacheQus = getNewQueryUpdateService(sndSchema, SNDSchema.EVENTSCACHE_TABLE_NAME);
 
         Map<Integer, SuperPackage> eventDataTopLevelSuperPkgs;
@@ -2927,7 +2934,7 @@ public class SNDManager
      */
     private Map<Integer, SuperPackage> getTopLevelEventDataSuperPkgs(Container c, User u, int eventId, BatchValidationException errors)
     {
-        UserSchema schema = getSndUserSchema(c, u);
+        UserSchema schema = getSndUserSchemaAdminRole(c, u);
 
         SQLFragment sql = new SQLFragment("SELECT SuperPkgId, EventDataId FROM ");
         sql.append(schema.getTable(SNDSchema.EVENTDATA_TABLE_NAME), "ed");

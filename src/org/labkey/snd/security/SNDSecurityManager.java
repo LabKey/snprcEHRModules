@@ -20,7 +20,6 @@ import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.CoreSchema;
-import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.Table;
@@ -304,7 +303,7 @@ public class SNDSecurityManager
     {
         TableInfo qcStateTable = CoreSchema.getInstance().getTableInfoDataStates();
 
-        SimpleFilter qcFilter = new SimpleFilter(FieldKey.fromParts("Label"), qcState.getName(), CompareType.EQUAL);
+        SimpleFilter qcFilter = SimpleFilter.createContainerFilter(c).addCondition(FieldKey.fromParts("Label"), qcState.getName(), CompareType.EQUAL);
 
         // Get from eventNotes table
         Set<String> cols = new HashSet<>();
@@ -318,7 +317,7 @@ public class SNDSecurityManager
     {
         TableInfo qcStateTable = CoreSchema.getInstance().getTableInfoDataStates();
 
-        SimpleFilter qcFilter = new SimpleFilter(FieldKey.fromParts("RowId"), qcStateId, CompareType.EQUAL);
+        SimpleFilter qcFilter = SimpleFilter.createContainerFilter(c).addCondition(FieldKey.fromParts("RowId"), qcStateId, CompareType.EQUAL);
 
         // Get from eventNotes table
         Set<String> cols = new HashSet<>();
