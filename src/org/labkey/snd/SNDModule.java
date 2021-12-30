@@ -65,7 +65,7 @@ public class SNDModule extends SpringModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 21.002;
+        return 22.000;
     }
 
     @Override
