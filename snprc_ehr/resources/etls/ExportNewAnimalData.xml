@@ -19,6 +19,6 @@
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified">
     </incrementalFilter>
     <schedule>
-        <poll interval="365d" />
+        <poll interval="1h" />
     </schedule>
 </etl>
