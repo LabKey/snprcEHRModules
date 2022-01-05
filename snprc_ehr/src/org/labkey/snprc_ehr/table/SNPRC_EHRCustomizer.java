@@ -253,7 +253,9 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     private void customizeEncounterTable(AbstractTableInfo ti)
     {
-        ti.getMutableColumn("remark").setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
+        var remark = ti.getMutableColumn("remark");
+        if (null != remark)
+            remark.setDisplayColumnFactory(new WhitespacePreservingDisplayColumnFactory());
     }
 
 //    species column moved to extensible column (in ehr.template.xml) - keep this code example. tjh

@@ -34,10 +34,12 @@ select
   verifiedDate,
   datefinalized,
   remark,
-  history
+  history,
+  objectid,
+  lsid
 from study.clinpathRuns
 
-union all
+union
 
 select
   Id,
@@ -60,5 +62,37 @@ select
   verifiedDate,
   datefinalized,
   remark,
-  history
+  history,
+  sampleId as objectid,
+  lsid
 from study.assay_clinpathRuns
+
+union
+
+select distinct
+    tr.Id,
+    tr.date,
+    null enddate,
+    'surveillance' as type,
+    null as tissue,
+    null as project,
+    null as instructions,
+    ls.serviceName,
+    null as units,
+    20000 as serviceId,
+    null as collectedBy,
+    null as sampleId,
+    null as collectionMethod,
+    null as method,
+    null as sampleQuantity,
+    null as quantityUnits,
+    null as chargetype,
+    tr.date as verifiedDate,
+    tr.date as datefinalized,
+    'From Excel import' as remark,
+    tr.history as history,
+    cast(tr.sequencenum as varchar) as objectid,
+    tr.lsid
+from study.TaqmanResults as tr
+inner join snprc_ehr.labwork_services as ls on ls.serviceId = 20000
+
