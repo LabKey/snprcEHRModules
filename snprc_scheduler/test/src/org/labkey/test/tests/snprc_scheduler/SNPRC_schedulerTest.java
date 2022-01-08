@@ -142,6 +142,12 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     }
 
     @Override
+    public String getModulePath()
+    {
+        return "/server/modules/" + getModuleDirectory();
+    }
+
+    @Override
     protected void importStudy()
     {
         importFolderFromPath(++_pipelineJobCount);
