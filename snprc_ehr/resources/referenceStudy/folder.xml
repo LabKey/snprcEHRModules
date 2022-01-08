@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder archiveVersion="22.0" label="Primate Electronic Health Record" type="normal" title="demo" defaultDateFormat="yyyy-MM-dd" defaultDateTimeFormat="yyyy-MM-dd" xmlns="http://labkey.org/folder/xml">
+  <missingValueIndicator>
+    <missingValueIndicator indicator="E" label="Value is estimated."/>
+    <missingValueIndicator indicator="Q" label="Data currently under quality control review."/>
+    <missingValueIndicator indicator="A" label="Data value is abnormal."/>
+    <missingValueIndicator indicator="N" label="Required field marked by site as 'data not available'."/>
+  </missingValueIndicator>
+  <study dir="study"/>
+</folder>

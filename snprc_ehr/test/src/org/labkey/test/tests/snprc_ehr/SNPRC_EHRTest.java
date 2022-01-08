@@ -232,14 +232,15 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
-    public String getModulePath() {
+    public String getModulePath()
+    {
         return "/server/modules/" + getModuleDirectory();
     }
 
     @Override
     protected void importStudy()
     {
-        importStudyFromPath(++_pipelineJobCount);
+        importFolderFromPath(++_pipelineJobCount);
     }
 
     protected void initSND()

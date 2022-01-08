@@ -17,16 +17,11 @@ import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.Sort;
 import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
-import org.labkey.test.Locator;
-import org.labkey.test.ModulePropertyValue;
 import org.labkey.test.TestFileUtils;
-import org.labkey.test.TestTimeoutException;
-import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.tests.ehr.AbstractEHRTest;
 import org.labkey.test.util.ApiPermissionsHelper;
-import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
 import org.openqa.selenium.JavascriptExecutor;
 
@@ -146,28 +141,10 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         }
     }
 
+    @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), SNPRC_EHR_PATH + "/resources/referenceStudy");
-        setPipelineRoot(path.getPath());
-
-        beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + PROJECTNAME + "/begin.view");
-        clickButton("Process and Import Data", defaultWaitForPage);
-
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.checkFileBrowserFileCheckbox("study.xml");
-
-        if (isTextPresent("Reload Study"))
-            _fileBrowserHelper.selectImportDataAction("Reload Study");
-        else
-            _fileBrowserHelper.selectImportDataAction("Import Study");
-
-        Locator cb = Locator.checkboxByName("validateQueries");
-        waitForElement(cb);
-        uncheckCheckbox(cb);
-
-        clickButton("Start Import"); // Validate queries page
-        waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
+        importFolderFromPath(++_pipelineJobCount);
     }
 
     @Before
