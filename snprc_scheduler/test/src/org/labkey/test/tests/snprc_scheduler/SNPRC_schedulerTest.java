@@ -17,16 +17,11 @@ import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.Sort;
 import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
-import org.labkey.test.Locator;
-import org.labkey.test.ModulePropertyValue;
 import org.labkey.test.TestFileUtils;
-import org.labkey.test.TestTimeoutException;
-import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.tests.ehr.AbstractEHRTest;
 import org.labkey.test.util.ApiPermissionsHelper;
-import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PermissionsHelper;
 import org.openqa.selenium.JavascriptExecutor;
 
@@ -47,19 +42,18 @@ import static org.labkey.remoteapi.query.Filter.Operator.EQUAL;
 @FixMethodOrder(MethodSorters. NAME_ASCENDING)
 public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptExecutor
 {
-    private final String PROJECTNAME = "SNPRC_schedulerTest Project";
+    private static final String PROJECT_NAME = "SNPRC_schedulerTest Project";
+    private static final String SNPRC_EHR_PATH  = "server/modules/snprcEHRModules/snprc_ehr";
+    private static final File PROTOCOL_TSV = TestFileUtils.getSampleData("ehr/protocol.tsv");
+    private static final File PROJECT_TSV = TestFileUtils.getSampleData("ehr/project.tsv");
+
+    private static Integer _pipelineJobCount = 0;
 
     protected static TestUser READER_USER = new TestUser("reader@foo.bar", SecurityGroup.READER, SecurityRole.READER);
     protected static TestUser EDITOR_USER = new TestUser("editor@foo.bar", SecurityGroup.EDITOR, SecurityRole.EDITOR);
     protected static TestUser BAD_USER = new TestUser("bad_user@foo.bar", SecurityGroup.NO_ACCESS, SecurityRole.NO_ACCESS);
+
     protected ApiPermissionsHelper _permissionsHelper = new ApiPermissionsHelper(this);
-
-    final static String SNPRC_EHR_PATH  = "server/modules/snprcEHRModules/snprc_ehr";
-    private static Integer _pipelineJobCount = 0;
-
-    private static final File PROTOCOL_TSV = TestFileUtils.getSampleData("ehr/protocol.tsv");
-    private static final File PROJECT_TSV = TestFileUtils.getSampleData("ehr/project.tsv");
-
 
     protected void populateEHRTables() throws Exception
     {
@@ -72,7 +66,6 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         command = new InsertRowsCommand("ehr", "project");
         command.setRows(loadTsv(PROJECT_TSV));
         command.execute(connection, getProjectName()).getRows();
-
     }
 
     @Override
@@ -114,8 +107,8 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         _permissionsHelper.createProjectGroup(SecurityGroup.EDITOR.name, getProjectName());
 
         // add users to groups
-        _permissionsHelper.addUserToProjGroup(READER_USER.getEmail(), PROJECTNAME, SecurityGroup.READER.name);
-        _permissionsHelper.addUserToProjGroup(EDITOR_USER.getEmail(), PROJECTNAME, SecurityGroup.EDITOR.name);
+        _permissionsHelper.addUserToProjGroup(READER_USER.getEmail(), PROJECT_NAME, SecurityGroup.READER.name);
+        _permissionsHelper.addUserToProjGroup(EDITOR_USER.getEmail(), PROJECT_NAME, SecurityGroup.EDITOR.name);
 
         // set folder permission for groups
         _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, "Reader", PermissionsHelper.MemberType.group);
@@ -146,28 +139,16 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         }
     }
 
+    @Override
+    public String getModulePath()
+    {
+        return SNPRC_EHR_PATH; // Retrieve reference study from snprc_ehr, not snprc_scheduler
+    }
+
+    @Override
     protected void importStudy()
     {
-        File path = new File(TestFileUtils.getLabKeyRoot(), SNPRC_EHR_PATH + "/resources/referenceStudy");
-        setPipelineRoot(path.getPath());
-
-        beginAt(WebTestHelper.getBaseURL() + "/pipeline-status/" + PROJECTNAME + "/begin.view");
-        clickButton("Process and Import Data", defaultWaitForPage);
-
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.checkFileBrowserFileCheckbox("study.xml");
-
-        if (isTextPresent("Reload Study"))
-            _fileBrowserHelper.selectImportDataAction("Reload Study");
-        else
-            _fileBrowserHelper.selectImportDataAction("Import Study");
-
-        Locator cb = Locator.checkboxByName("validateQueries");
-        waitForElement(cb);
-        uncheckCheckbox(cb);
-
-        clickButton("Start Import"); // Validate queries page
-        waitForPipelineJobsToComplete(++_pipelineJobCount, "Study import", false, MAX_WAIT_SECONDS * 2500);
+        importFolderFromPath(++_pipelineJobCount);
     }
 
     @Before
@@ -300,7 +281,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     @Override
     protected String getProjectName()
     {
-        return PROJECTNAME;
+        return PROJECT_NAME;
     }
 
     @Override
