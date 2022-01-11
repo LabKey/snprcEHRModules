@@ -145,10 +145,14 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         return SNPRC_EHR_PATH; // Retrieve reference study from snprc_ehr, not snprc_scheduler
     }
 
+    protected boolean skipStudyImportQueryValidation()
+    {
+        return true;
+    }
+
     @Override
     protected void importStudy()
     {
-        skipStudyImportQueryValidation();
         importFolderFromPath(++_pipelineJobCount);
     }
 
