@@ -148,6 +148,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     @Override
     protected void importStudy()
     {
+        skipStudyImportQueryValidation();
         importFolderFromPath(++_pipelineJobCount);
     }
 
