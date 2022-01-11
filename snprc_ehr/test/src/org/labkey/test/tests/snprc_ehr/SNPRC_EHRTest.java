@@ -871,7 +871,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         final String animal1 = "TEST2312318";
         final String animal2 = "TEST3844307";
 
-        SNPRCAnimalHistoryPage historyPage = SNPRCAnimalHistoryPage.beginAt(this);
+        goToAnimalHistory();
+        SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver());
         historyPage.appendMultipleAnimals(animal1, animal2);
         historyPage.clickCategoryTab("Genetics");
         historyPage.clickReportTab("Kinship");
