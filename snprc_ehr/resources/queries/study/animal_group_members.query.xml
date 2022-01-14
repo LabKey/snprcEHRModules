@@ -5,7 +5,6 @@
                 <tableTitle>Animal Group Members</tableTitle>
                 <columns>
                     <column columnName="Id">
-                        <isKeyField>true</isKeyField>
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>animal</fkTable>
