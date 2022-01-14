@@ -29,17 +29,20 @@ SELECT o.Id,
        CASE
            WHEN o.SaNone = 'Y' THEN 'None'
            ELSE ''
-       END + 
+       END +
 	   CASE
            WHEN o.SaUnknown = 'Y' THEN 'Unknown'
            ELSE ''
-       END + 
+       END +
 	   CASE WHEN o.SaNormal = 'Y' THEN 'Normal'
            ELSE ''
-       END + 
-	   CASE WHEN o.SaSoft = 'Y' THEN ' Soft'
+       END +
+       CASE WHEN o.SaLoose = 'Y' THEN ' Loose'
+                  ELSE ''
+       END +
+       CASE WHEN o.SaSoft = 'Y' THEN ' Soft'
            ELSE ''
-       END + 
+       END +
 	   CASE WHEN o.SaWatery = 'Y' THEN ' Watery'
             ELSE ''
        END +
