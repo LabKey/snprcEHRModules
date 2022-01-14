@@ -1006,3 +1006,498 @@ CREATE TABLE snprc_ehr.ValidDiet(
 -- will need to be changed if we begin to use Diet instead of SnomedCode srr
 CREATE UNIQUE INDEX idx_ValidDiet_SnomedCode_StartStopDate ON snprc_ehr.ValidDiet(SnomedCode, StartDate, StopDate);
   go
+
+/*********************************************************
+Valids for diagnosis (DX) taken from legacy DB.
+  Likely needs refactoring.
+  Will no do now.
+  srr
+
+*********************************************************/
+
+
+
+EXEC core.fn_dropifexists 'ValidDXGroup','snprc_ehr', 'TABLE';
+
+--srr 07.17.19
+
+CREATE TABLE snprc_ehr.ValidDXGroup
+(
+    DXGroup      VARCHAR(30)      NOT NULL,
+    Created      DATETIME,
+    CreatedBy    USERID,
+    Modified     DATETIME,
+    ModifiedBy   USERID,
+    diCreated    datetime         NULL,
+    diModified   datetime         NULL,
+    diCreatedBy  dbo.USERID       NULL,
+    diModifiedBy dbo.USERID       NULL,
+    Container    dbo.ENTITYID     NOT NULL,
+    objectid     uniqueidentifier NOT NULL
+        CONSTRAINT PK_ValidDXGroup PRIMARY KEY CLUSTERED (DXGroup ASC)
+)
+
+
+EXEC core.fn_dropifexists 'ValidDXList','snprc_ehr', 'TABLE';
+
+
+--srr 07.17.19
+
+CREATE TABLE snprc_ehr.ValidDXList
+(
+    DXGroup      VARCHAR(30)      NOT NULL,
+    DX VARCHAR(30) NOT NULL,
+    Created      DATETIME,
+    CreatedBy    USERID,
+    Modified     DATETIME,
+    ModifiedBy   USERID,
+    diCreated    datetime         NULL,
+    diModified   datetime         NULL,
+    diCreatedBy  dbo.USERID       NULL,
+    diModifiedBy dbo.USERID       NULL,
+    Container    dbo.ENTITYID     NOT NULL,
+    objectid     uniqueidentifier NOT NULL
+        CONSTRAINT PK_ValidDXList PRIMARY KEY CLUSTERED (DXGroup ASC, DX ASC)
+)
+
+EXEC core.fn_dropifexists 'ValidVaccines','snprc_ehr', 'TABLE';
+
+--srr 07.17.19
+
+CREATE TABLE snprc_ehr.ValidVaccines
+(
+    Vaccine      VARCHAR(128)      NOT NULL,
+    Created      DATETIME,
+    CreatedBy    USERID,
+    Modified     DATETIME,
+    ModifiedBy   USERID,
+    diCreated    datetime         NULL,
+    diModified   datetime         NULL,
+    diCreatedBy  dbo.USERID       NULL,
+    diModifiedBy dbo.USERID       NULL,
+    Container    dbo.ENTITYID     NOT NULL,
+    objectid     uniqueidentifier NOT NULL
+        CONSTRAINT PK_ValidVaccine PRIMARY KEY CLUSTERED (Vaccine ASC)
+)
+
+-- adding species to the PK
+ALTER TABLE snprc_ehr.ValidChargeBySpecies
+    DROP CONSTRAINT PK_snprc_ValidChargeBySpecies
+GO
+
+ALTER TABLE snprc_ehr.ValidChargeBySpecies ADD CONSTRAINT
+    PK_snprc_ValidChargeBySpecies PRIMARY KEY CLUSTERED
+(
+    Project,
+    Species
+)
+
+GO
+
+/*******************************************************
+New table to load data from new animal wizard.
+  Data will be ETLed back down to animal database
+
+srr 01.28.2020
+
+  May not use all columns.
+  I defaulted to nvarchar(400) if unsure of datatype.
+  May need to change databypes to match those in lookup tables.
+
+*******************************************************/
+
+EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
+
+CREATE TABLE snprc_ehr.NewAnimalData
+(
+    Id NVARCHAR(32) NOT NULL,
+    BirthDate DATETIME NULL,
+    AcquisitionType INT NULL,
+    AcqDate DATETIME NULL,  -- Will use for all start dates in this dataset
+    Gender NVARCHAR(10) NULL,         --gender nvarchar(4000)
+    Sire NVARCHAR(32) NULL,
+    Dam NVARCHAR(32) NULL,
+    Species NVARCHAR(3) NULL, -- species, nvarchar(4000)
+    Colony NVARCHAR(400) NULL,
+    AnimalAccount NVARCHAR(400) NULL,
+    OwnerInstitution INT NULL,       -- lookup snprc_ehr.validInstitutions
+    ResponsibleInstitution INT NULL,       -- likely same as owner
+    Location NVARCHAR(400) NULL,
+    Diet NVARCHAR(400) NULL,
+    Pedigree NVARCHAR(400) NULL,
+    IACUC NVARCHAR(400) NULL,
+    Created DATETIME NULL,
+    CreatedBy dbo.USERID NULL,
+    Modified DATETIME NULL,
+    ModifiedBy dbo.USERID NULL,
+    DiCreated DATETIME NULL,
+    DiModified DATETIME NULL,
+    DiCreatedBy dbo.USERID NULL,
+    DiModifiedBy dbo.USERID NULL,
+    Container ENTITYID NOT NULL,
+    objectid UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_snprc_NEWANIMALDATA   PRIMARY KEY (Id)
+);
+--[DeliveryType]  [nvarchar](400) NULL,
+--[BirthNature]   [nvarchar](400) NULL,
+--[AcquireType]   [nvarchar](400) NULL,
+
+
+/*
+Species,
+Acq_code,
+id_type,
+institution_id,
+colony,
+delivery_type,
+birth_nature,
+acquire_type,
+animalAccounts,
+location,
+IACUC fields,
+pedigree,
+diet
+ */
+
+
+
+go
+
+ALTER TABLE snprc_ehr.ValidChargeBySpecies ADD startDate DATETIME NOT NULL DEFAULT GETDATE();
+ALTER TABLE snprc_ehr.ValidChargeBySpecies ADD stopDate DATETIME;
+
+/*******************************************************
+New table to load data from new animal wizard.
+  Data will be ETLed back down to animal database
+
+srr 01.28.2020
+
+  May not use all columns.
+  I defaulted to nvarchar(400) if unsure of datatype.
+  May need to change databypes to match those in lookup tables.
+
+srr 03.09.2020 version 20.003
+Changed to ints for values that have a dropdown.
+  No Real data, therefore dropping table and re-recreating.
+*******************************************************/
+
+EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
+
+
+
+CREATE TABLE [snprc_ehr].[NewAnimalData](
+    [Id] [nvarchar](32) NOT NULL,
+    [BirthDate] [datetime] NULL,
+    [AcquisitionType] [int] NULL,
+    [AcqDate] [datetime] NULL,
+    [Gender] [nvarchar](10) NULL,
+    [Sire] [nvarchar](32) NULL,
+    [Dam] [nvarchar](32) NULL,
+    [Species] [nvarchar](3) NULL,
+    [Colony] [int] NULL,
+    [AnimalAccount] [int] NULL,
+    [OwnerInstitution] [int] NULL,
+    [ResponsibleInstitution] [int] NULL,
+    [Room] [int] NULL,
+    [Cage] [int] NULL,
+    [Diet] [int] NULL,
+    [Pedigree] [int] NULL,
+    [IACUC] [int] NULL,
+    [Created] [datetime] NULL,
+    [CreatedBy] [dbo].[USERID] NULL,
+    [Modified] [datetime] NULL,
+    [ModifiedBy] [dbo].[USERID] NULL,
+    [Container] [dbo].[ENTITYID] NOT NULL,
+    [objectid] [uniqueidentifier] NOT NULL,
+        CONSTRAINT PK_snprc_NEWANIMALDATA   PRIMARY KEY (Id)
+);
+
+-- generated w/o issue from SSMS srr 04.10.20
+-- schemas/dbscripts/sqlserver/snprc_ehr-20.003-20.004.sql
+EXEC core.fn_dropifexists 'BehaviorNotificationComment','snprc_ehr', 'TABLE';
+
+
+CREATE TABLE snprc_ehr.BehaviorNotificationComment
+(
+    NotificationNumber   INT              NOT NULL,
+    NotificationDateTm   DATETIME         NOT NULL,
+    BehaviorId           INT              NOT NULL,
+    NotificationStatus   INT              NOT NULL,
+    CaseNumber           INT              NULL,
+    NotificationComments VARCHAR(255)     NULL,
+    SuspiciousBehavior   CHAR(1)          NOT NULL,
+    Sib                  CHAR(1)          NOT NULL,
+    HousingType          INT              NULL,
+    Behavior             VARCHAR(30)      NOT NULL,
+    AbnormalFlag         CHAR(1)          NOT NULL,
+    BehaviorDescription  VARCHAR(200)     NOT NULL,
+    BehaviorCategory     VARCHAR(40)      NULL,
+    BehaviorComments     VARCHAR(200)     NULL,
+    Container            ENTITYID         NOT NULL,
+    Created              DATETIME         NULL,
+    CreatedBy            USERID           NULL,
+    ModifiedBy           USERID           NULL,
+    Modified             DATETIME         NULL,
+    DiCreatedBy          USERID           NULL,
+    DiCreated            DATETIME         NULL,
+    DiModifiedBy         USERID           NULL,
+    DiModified           DATETIME         NULL,
+    ObjectId             UNIQUEIDENTIFIER NULL,
+    CONSTRAINT PK_BehaviorNotiComment PRIMARY KEY (NotificationNumber)
+);
+
+-- generated w/o issue from SSMS srr 04.10.20
+-- schemas/dbscripts/sqlserver/snprc_ehr-20.003-20.004.sql
+-- changed pk to tid idenity
+EXEC core.fn_dropifexists 'BehaviorNotificationComment','snprc_ehr', 'TABLE';
+
+
+CREATE TABLE snprc_ehr.BehaviorNotificationComment
+(
+    NotificationNumber   INT              NOT NULL,
+    NotificationDateTm   DATETIME         NOT NULL,
+    BehaviorId           INT              NOT NULL,
+    NotificationStatus   INT              NOT NULL,
+    CaseNumber           INT              NULL,
+    NotificationComments VARCHAR(255)     NULL,
+    SuspiciousBehavior   CHAR(1)          NOT NULL,
+    Sib                  CHAR(1)          NOT NULL,
+    HousingType          INT              NULL,
+    Behavior             VARCHAR(30)      NOT NULL,
+    AbnormalFlag         CHAR(1)          NOT NULL,
+    BehaviorDescription  VARCHAR(200)     NOT NULL,
+    BehaviorCategory     VARCHAR(40)      NULL,
+    BehaviorComments     VARCHAR(200)     NULL,
+    Container            ENTITYID         NOT NULL,
+    Created              DATETIME         NULL,
+    CreatedBy            USERID           NULL,
+    ModifiedBy           USERID           NULL,
+    Modified             DATETIME         NULL,
+    DiCreatedBy          USERID           NULL,
+    DiCreated            DATETIME         NULL,
+    DiModifiedBy         USERID           NULL,
+    DiModified           DATETIME         NULL,
+    tid                  INT              IDENTITY,
+    objectid             UNIQUEIDENTIFIER NULL
+        CONSTRAINT PK_BehaviorNotiComment_oid PRIMARY KEY (tid)
+);
+
+EXEC core.fn_dropifexists 'ValidDefaultIACUC','snprc_ehr', 'TABLE';
+
+
+CREATE TABLE snprc_ehr.validDefaultIACUC
+(
+    WorkingIacuc varchar(7)       NOT NULL,
+    ArcNumSeq    int              NOT NULL,
+    ArcNumGenus varchar(2)       NOT NULL,
+    Mandatory    varchar(1)       NULL,
+    DefaultIacuc varchar(1)       NULL,
+    Container    ENTITYID         NOT NULL,
+    Created      DATETIME         NULL,
+    CreatedBy    USERID           NULL,
+    ModifiedBy   USERID           NULL,
+    Modified     DATETIME         NULL,
+    DiCreatedBy  USERID           NULL,
+    DiCreated    DATETIME         NULL,
+    DiModifiedBy USERID           NULL,
+    DiModified   DATETIME         NULL,
+    ObjectId     UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_ValidDefaultIACUC PRIMARY KEY (WorkingIacuc)
+);
+
+/*******************************************************
+New table to load data from new animal wizard.
+  Data will be ETLed back down to animal database
+
+srr 01.28.2020
+
+  May not use all columns.
+  I defaulted to nvarchar(400) if unsure of datatype.
+  May need to change datatypes to match those in lookup tables.
+
+srr 03.09.2020 version 20.003
+  Changed to ints for values that have a dropdown.
+  No Real data, therefore dropping table and re-recreating.
+srr 06.08.2020 version 20.007
+  Added column for BirthCode.
+    1   DOB accurate
+    2   Month-Year accurate
+    3   Year accurate
+  No Real data, therefore dropping table and re-recreating.
+*******************************************************/
+
+EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
+
+
+CREATE TABLE snprc_ehr.NewAnimalData
+(
+    Id                     nvarchar(32)     NOT NULL,
+    BirthDate              datetime         NULL,
+    BirthCode              int              NULL,
+    AcquisitionType        int              NULL,
+    AcqDate                datetime         NULL,
+    Gender                 nvarchar(10)     NULL,
+    Sire                   nvarchar(32)     NULL,
+    Dam                    nvarchar(32)     NULL,
+    Species                nvarchar(3)      NULL,
+    Colony                 int              NULL,
+    AnimalAccount          int              NULL,
+    OwnerInstitution       int              NULL,
+    ResponsibleInstitution int              NULL,
+    Room                   int              NULL,
+    Cage                   int              NULL,
+    Diet                   int              NULL,
+    Pedigree               int              NULL,
+    IACUC                  int              NULL,
+    Created                datetime         NULL,
+    CreatedBy              dbo.USERID       NULL,
+    Modified               datetime         NULL,
+    ModifiedBy             dbo.USERID       NULL,
+    Container              dbo.ENTITYID     NOT NULL,
+    objectid               uniqueidentifier NOT NULL,
+    CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
+);
+
+/******************************************************
+Change ValidDiet PK
+Script generated by SSMS
+srr 06.16.2020
+******************************************************/
+ALTER TABLE snprc_ehr.ValidDiet
+    DROP CONSTRAINT PK_ValidDiet
+    GO
+ALTER TABLE snprc_ehr.ValidDiet ADD CONSTRAINT
+    PK_ValidDiet PRIMARY KEY CLUSTERED
+(
+    Diet
+)
+
+GO
+ALTER TABLE snprc_ehr.ValidDiet SET (LOCK_ESCALATION = TABLE)
+GO
+
+/*******************************************************
+New table to load data from new animal wizard.
+  Data will be ETLed back down to animal database
+
+srr 01.28.2020
+
+  May not use all columns.
+  I defaulted to nvarchar(400) if unsure of datatype.
+  May need to change datatypes to match those in lookup tables.
+
+srr 03.09.2020 version 20.003
+  Changed to ints for values that have a dropdown.
+  No Real data, therefore dropping table and re-recreating.
+srr 06.08.2020 version 20.007
+  Added column for BirthCode.
+    1   DOB accurate
+    2   Month-Year accurate
+    3   Year accurate
+  No Real data, therefore dropping table and re-recreating.
+
+ srr 06.24.2020
+  Changed Diet, AnimalAccount and IACUC to strings
+*******************************************************/
+
+EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
+
+
+CREATE TABLE snprc_ehr.NewAnimalData
+(
+    Id                     nvarchar(32)     NOT NULL,
+    BirthDate              datetime         NULL,
+    BirthCode              int              NULL,
+    AcquisitionType        int              NULL,
+    AcqDate                datetime         NULL,
+    Gender                 nvarchar(10)     NULL,
+    Sire                   nvarchar(32)     NULL,
+    Dam                    nvarchar(32)     NULL,
+    Species                nvarchar(3)      NULL,
+    Colony                 int              NULL,
+    AnimalAccount          nvarchar(16)     NULL,
+    OwnerInstitution       int              NULL,
+    ResponsibleInstitution int              NULL,
+    Room                   int              NULL,
+    Cage                   int              NULL,
+    Diet                   nvarchar(20)     NULL,
+    Pedigree               int              NULL,
+    IACUC                  nvarchar(200)    NULL,
+    Created                datetime         NULL,
+    CreatedBy              dbo.USERID       NULL,
+    Modified               datetime         NULL,
+    ModifiedBy             dbo.USERID       NULL,
+    Container              dbo.ENTITYID     NOT NULL,
+    objectid               uniqueidentifier NOT NULL,
+    CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
+);
+
+/*******************************************************
+Counters table for SNPRC_EHRSequencer
+  Creator: thawkins
+  Date: 08/21/2020
+*******************************************************/
+
+CREATE TABLE snprc_ehr.Counters
+(
+    RowId                  INT IDENTITY(1,1) NOT NULL,
+    Name                   NVARCHAR(255)    NOT NULL,
+    Value                  INT              NOT NULL,
+    Container              dbo.ENTITYID     NOT NULL,
+    ObjectId               UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    CONSTRAINT PK_snprc_Counters PRIMARY KEY (RowId),
+    CONSTRAINT FK_Counters_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
+);
+GO
+
+CREATE UNIQUE INDEX idx_snprc_container_NameValue ON snprc_ehr.Counters (Container, Name, Value);
+GO
+
+/*
+ * New table to track number of animals allowed and assigned to IACUC protocols
+ * 9/25/2020 tjh
+ */
+EXEC core.fn_dropifexists 'IacucAssignmentStats','snprc_ehr', 'TABLE';
+
+CREATE TABLE snprc_ehr.IacucAssignmentStats
+(
+    ThreeYearPeriod    INT              NOT NULL,
+    WorkingIacuc       NVARCHAR(50)     NOT NULL,
+    ArcNumSeq          INT              NOT NULL,
+    arcNumGenus        VARCHAR(50)      NOT NULL,
+    FirstAmendment     INT              NOT NULL,
+    LastAmendment      INT              NOT NULL,
+    StartDate          DATETIME         NOT NULL,
+    EndDate            DATETIME         NULL,
+    NumAnimalsAllowed  INT              NOT NULL,
+    NumAnimalsAssigned INT              NOT NULL,
+    diCreated          DATETIME,
+    diModified         DATETIME,
+    diCreatedBy        USERID,
+    diModifiedBy       USERID,
+    Container          entityId         NOT NULL
+    CONSTRAINT PK_IacucAssignmentStats PRIMARY KEY CLUSTERED ( WorkingIacuc ASC, ThreeYearPeriod ASC ),
+    CONSTRAINT FK_IacucAssignmentsStats_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
+)
+
+/*
+ * New table to configure external reports
+ *
+ */
+EXEC core.fn_dropifexists 'ExternalReports','snprc_ehr', 'TABLE';
+
+CREATE TABLE snprc_ehr.ExternalReports
+(
+    Id                 INT              IDENTITY(1,1),
+    SortOrder          INT              NULL,
+    Label              NVARCHAR(64)     NOT NULL,
+    Report             NVARCHAR(400)    NOT NULL,
+    Description        NVARCHAR(4000)   NOT NULL,
+    Parameters         NVARCHAR(4000)   NULL,
+    rsParameters       NVARCHAR(4000)   NULL,
+    Created            DATETIME         DEFAULT GETDATE(),
+    Modified           DATETIME         DEFAULT GETDATE(),
+    CreatedBy          USERID,
+    ModifiedBy         USERID
+        CONSTRAINT PK_ExternalReports PRIMARY KEY CLUSTERED ( Id ASC)
+)
