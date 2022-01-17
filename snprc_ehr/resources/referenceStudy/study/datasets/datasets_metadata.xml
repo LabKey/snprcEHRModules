@@ -2596,6 +2596,11 @@
                 <datatype>varchar</datatype>
                 <scale>1</scale>
             </column>
+             <column columnName="SaLoose">
+                 <columnTitle>Stool: Loose</columnTitle>
+                 <datatype>varchar</datatype>
+                 <scale>1</scale>
+             </column>
             <column columnName="HousingStatus">
                 <columnTitle>Housing status</columnTitle>
                 <datatype>varchar</datatype>
@@ -3291,6 +3296,7 @@
             <column columnName="objectid">
                 <datatype>entityid</datatype>
                 <isKeyField>false</isKeyField>
+                <nullable>true</nullable>
             </column>
         </columns>
     </table>
