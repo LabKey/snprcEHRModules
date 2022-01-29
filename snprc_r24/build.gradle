@@ -1,27 +1,5 @@
 import org.labkey.gradle.util.GroupNames
 
-task('metadataStudyArchive', type: Zip, group: "Data", description: "Assemble study archive with dataset metadata") {
-    archiveFileName.set('snprc_r24_metadata.zip')
-    destinationDirectory = project.file("${project.labkey.explodedModuleDir}/archives")
-    from("resources/referenceStudy/") {
-        include "study.xml"
-        include "datasets/*"
-        exclude "datasets/*.tsv"
-    }
-}
-project.tasks.module.dependsOn(project.tasks.metadataStudyArchive)
-
-task('datasetStudyArchive', type: Zip, group: "Data", description: "Assemble study archive with dataset data") {
-    archiveFileName.set( 'snprc_r24.zip')
-    destinationDirectory = project.file("${project.labkey.explodedModuleDir}/archives")
-    from("resources/referenceStudy/") {
-        include "study.xml"
-        include "datasets/*"
-    }
-}
-
-project.tasks.module.dependsOn(project.tasks.datasetStudyArchive)
-
 sourceSets {
     transform {
         java {
