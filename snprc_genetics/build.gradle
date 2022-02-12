@@ -13,7 +13,6 @@ sourceSets {
 dependencies {
     transformImplementation "org.apache.poi:poi:${poiVersion}"
     transformImplementation "org.apache.poi:poi-ooxml:${poiVersion}"
-    transformImplementation "org.apache.poi:poi-ooxml-schemas:${poiVersion}"
     transformImplementation "org.apache.pdfbox:pdfbox:${pdfboxVersion}"
     transformImplementation "com.google.guava:guava:${guavaVersion}"
     transformImplementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
