@@ -7,3 +7,6 @@ SELECT p.protocol AS Iacuc,
        p.enddate AS EndDate,
        p.maxAnimals AS MaxAnimals
 FROM ehr.protocol AS p
+INNER JOIN snprc_ehr.IacucAssignmentStats as ia on p.protocol = ia.WorkingIacuc
+WHERE ia.NumAnimalsAssigned  < ia.NumAnimalsAllowed
+    AND ia.StartDate = p.approve
