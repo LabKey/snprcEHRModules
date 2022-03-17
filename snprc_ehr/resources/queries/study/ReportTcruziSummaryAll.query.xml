@@ -1,0 +1,40 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="ReportTcruziSummaryAll" tableDbType="NOT_IN_DB">
+                <tableTitle>T cruzi Summary</tableTitle>
+                <columns>
+                    <column columnName="Species">
+                        <columnTitle>Species</columnTitle>
+                    </column>
+                    <column columnName="Id">
+                        <columnTitle>Animal Id</columnTitle>
+                        <fk>
+                            <fkTable>animal</fkTable>
+                            <fkColumnName>id</fkColumnName>
+                        </fk>
+                    </column>
+                    
+                    <column columnName="status">
+                        <columnTitle>Status</columnTitle>
+                    </column>
+                    <column columnName="TcruziResult">
+                        <columnTitle>T cruzi result</columnTitle>
+                    </column>
+                    <column columnName="MinDate">
+                        <columnTitle>MinDate</columnTitle>
+                    </column>
+                    <column columnName="MaxDate">
+                        <columnTitle>MaxDate</columnTitle>
+                    </column>
+                    <column columnName="TestCount">
+                        <columnTitle>Test Count</columnTitle>
+                    </column>
+                </columns>
+                <sorts>
+                    <sort column="MinDate" descending="true"/>
+                </sorts>
+            </table>
+        </tables>
+    </metadata>
+</query>

@@ -13,19 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-USE [animal]
-GO
 
-/****** Object:  View [labkey_etl].[v_delete_clinical_admissions]    Script Date: 6/26/2015 10:59:28 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
-CREATE VIEW [labkey_etl].[v_delete_arc_animal_assignments] AS
+ALTER VIEW [labkey_etl].[v_delete_arc_animal_assignments] AS
 -- ==========================================================================================
 -- Author:		Terry Hawkins
 -- Create date: 8/14/2015
@@ -33,6 +22,7 @@ CREATE VIEW [labkey_etl].[v_delete_arc_animal_assignments] AS
 -- Note: 
 --		
 -- Changes:
+-- 7/2/2021 changed demographics data source. tjh
 --
 -- ==========================================================================================
 
@@ -40,13 +30,10 @@ CREATE VIEW [labkey_etl].[v_delete_arc_animal_assignments] AS
 SELECT aaa.object_id AS objectid,
 	   aaa.audit_date_tm AS audit_date_tm
 
-
-
 FROM audit.audit_arc_animal_assignments AS aaa
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aaa.id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = aaa.id
 WHERE aaa.audit_action = 'D' AND aaa.object_id IS NOT NULL
-
 
 GO
 

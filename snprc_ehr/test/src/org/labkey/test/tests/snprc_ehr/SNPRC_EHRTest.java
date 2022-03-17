@@ -259,14 +259,15 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
-    public String getModulePath() {
+    public String getModulePath()
+    {
         return "/server/modules/" + getModuleDirectory();
     }
 
     @Override
     protected void importStudy()
     {
-        importStudyFromPath(++_pipelineJobCount);
+        importFolderFromPath(++_pipelineJobCount);
     }
 
     private void initSNDData() throws IOException, CommandException, ParseException
@@ -1154,7 +1155,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         goToAnimalHistory();
         SNPRCAnimalHistoryPage animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
-        animalHistoryPage.searchSingleAnimal("TEST1441142", "No active housing");
+        animalHistoryPage.searchSingleAnimal("Test1441142", "No active housing");
         _helper.verifyAllReportTabs(animalHistoryPage);
     }
 
@@ -1245,7 +1246,8 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         final String animal1 = "TEST2312318";
         final String animal2 = "TEST3844307";
 
-        SNPRCAnimalHistoryPage historyPage = SNPRCAnimalHistoryPage.beginAt(this);
+        goToAnimalHistory();
+        SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver());
         historyPage.appendMultipleAnimals(animal1, animal2);
         historyPage.clickCategoryTab("Genetics");
         historyPage.clickReportTab("Kinship");

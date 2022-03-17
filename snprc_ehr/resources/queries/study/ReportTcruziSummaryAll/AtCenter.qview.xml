@@ -1,0 +1,51 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Species">
+            <properties>
+                <property name="columnTitle" value="Species"/>
+            </properties>
+        </column>
+        <column name="Id">
+            <properties>
+                <property name="columnTitle" value="Id"/>
+            </properties>
+        </column>
+        <column name="CurrentLocation">
+            <properties>
+                <property name="columnTitle" value="Current Location"/>
+            </properties>
+        </column>
+        <column name="status">
+            <properties>
+                <property name="columnTitle" value="Status"/>
+            </properties>
+        </column>
+        <column name="TcruziResult">
+            <properties>
+                <property name="columnTitle" value="T cruzi result"/>
+            </properties>
+        </column>
+        <column name="MinDate">
+            <properties>
+                <property name="columnTitle" value="MinDate"/>
+            </properties>
+        </column>
+        <column name="MaxDate">
+            <properties>
+                <property name="columnTitle" value="MaxDate"/>
+            </properties>
+        </column>
+        <column name="TestCountZ">
+            <properties>
+                <property name="columnTitle" value="TestCount"/>
+            </properties>
+        </column>
+    </columns>
+    <filters>
+        <filter column="Id/Demographics/calculated_status" operator="eq" value="Alive"/>
+    </filters>
+    <sorts>
+        <sort column="MinDate" descending="true"/>
+    </sorts>
+</customView>
+

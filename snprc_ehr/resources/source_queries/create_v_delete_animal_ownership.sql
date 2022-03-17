@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE VIEW [labkey_etl].[V_DELETE_ANIMAL_OWNERSHIP] as
+ALTER VIEW [labkey_etl].[V_DELETE_ANIMAL_OWNERSHIP] as
 -- ====================================================================================================================
 -- Object: v_delete_animal_ownership
 -- Author:		Terry Hawkins
 -- Create date: 5/25/2016
+-- 7/2/2021 changed demographics data source. tjh
 --
 -- ==========================================================================================
 SELECT 
@@ -26,7 +27,7 @@ SELECT
 
 FROM audit.audit_animal_ownership AS aa
 -- select primates only from the TxBiomed colony
-INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = aa.id
+INNER JOIN Labkey_etl.v_demographics_for_delete AS d ON d.id = aa.id
 WHERE aa.AUDIT_ACTION = 'D' AND aa.OBJECT_ID IS NOT NULL
 
 go

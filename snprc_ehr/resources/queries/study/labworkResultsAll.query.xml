@@ -1,8 +1,8 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="labworkResults" tableDbType="TABLE" useColumnOrder="true">
-                <tableTitle>SNPRC Labwork Results</tableTitle>
+            <table tableName="labworkResultsAll" tableDbType="NOT_IN_DB">
+                <tableTitle>Consolidated Labwork Results</tableTitle>
                 <tableUrl/>
                 <insertUrl/>
                 <importUrl/>
@@ -54,11 +54,6 @@
                         <columnTitle>Ref Range</columnTitle>
                         <isUnselectable>true</isUnselectable>
                         <isHidden>false</isHidden>
-                        <!-- <fk>
-                            <fkDbSchema>study</fkDbSchema>
-                            <fkTable>labRefRange</fkTable>
-                            <fkColumnName>lsid</fkColumnName>
-                        </fk> -->
                     </column>
                     <column columnName="abnormal_flags">
                         <columnTitle>Abnormal Flags</columnTitle>
@@ -76,12 +71,6 @@
                     <column columnName="method">
                         <nullable>true</nullable>
                         <columnTitle>Method</columnTitle>
-                        <!--
-                        <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>chemistry_method</fkTable>
-                            <fkColumnName>value</fkColumnName>
-                        </fk> -->
                     </column>
                     <column columnName="Id">
                         <fk>
@@ -92,7 +81,6 @@
                         </fk>
                     </column>
                     <column columnName="runid">
-                        <isHidden>true</isHidden>
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>ClinpathRuns</fkTable>

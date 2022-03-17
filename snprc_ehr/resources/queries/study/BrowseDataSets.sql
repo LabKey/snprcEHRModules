@@ -27,7 +27,9 @@ UNION
 UNION
 select 'study' as schema, 'ClinPath' as CategoryId,'Hematology Results' as Label, 'hematologyPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Biochemistry Results' as Label, 'chemPivot' as Name,  true as ShowByDefault, true as isAnimal
+select 'study' as schema, 'ClinPath' as CategoryId,'Biochemistry Results' as Label, 'chemPivot' as Name,  true as ShowByDefault, true as isAnimalisAnimal
+UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Culture and susceptibility Results' as Label, 'CulturePivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'study' as schema, 'ClinPath' as CategoryId,'Misc Lab Results' as Label, 'miscPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION

@@ -57,8 +57,6 @@ import org.labkey.snprc_ehr.buttons.SnprcUserEditButton;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
 import org.labkey.snprc_ehr.controllers.FeeScheduleController;
-import org.labkey.snprc_ehr.dataentry.dataentry.ArrivalFormType;
-import org.labkey.snprc_ehr.dataentry.dataentry.BirthFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.EditLookupTablesFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.FlagsFormType;
 import org.labkey.snprc_ehr.dataentry.dataentry.GroupsCategoriesFormType;
@@ -123,7 +121,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 21.001;
+        return 22.000;
     }
 
     @Override
@@ -225,8 +223,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Search Apath History", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=apathHistoryReport"), "Pathololgy");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Overall Behavior Report", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=BehaviorReport"), "Behavior");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Birth Record Report", this, DetailsURL.fromString("/snprc_ehr/BirthReport.view?"), "Colony Management");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi New Positives Report",this,DetailsURL.fromString("/query/executeQuery.view?schemaName=snprc_ehr&query.queryName=ReportTcruziNewPositives"),"Surveillance");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi Summary Report",this,DetailsURL.fromString("/query/executeQuery.view?schemaName=snprc_ehr&query.queryName=ReportTcruziSummaryAll"),"Surveillance");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi New Positives Report",this,DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=ReportTcruziNewPositives"),"Surveillance");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi Summary Report",this,DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=ReportTcruziSummaryAll"),"Surveillance");
 
         // Add the current date to the chimp observation report
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
@@ -272,11 +270,8 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         PipelineService.get().registerPipelineProvider(new FeeSchedulePipelineProvider(this));
 
         // SNPRC Data Entry Forms
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BirthFormType.class, this));
-        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ArrivalFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(FlagsFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(GroupsCategoriesFormType.class, this));
-        //EHRService.get().registerFormType(new DefaultDataEntryFormFactory(NewAnimalDataFormType.class, this));
         EHRService.get().registerFormType(new DefaultDataEntryFormFactory(EditLookupTablesFormType.class, this));
 
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(WeightFormType.class, this));
