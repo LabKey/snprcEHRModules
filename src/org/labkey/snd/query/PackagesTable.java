@@ -52,6 +52,7 @@ import org.labkey.snd.SNDUserSchema;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -109,8 +110,7 @@ public class PackagesTable extends SimpleTable<SNDUserSchema>
 
     public boolean isPackageInUse(int pkgId)
     {
-        Set<String> cols = new HashSet<>();
-        cols.add("HasEvent");
+        Set<String> cols = Collections.singleton("HasEvent");
         TableSelector ts = new TableSelector(this, cols, new SimpleFilter(FieldKey.fromString("PkgId"), pkgId), null);
         Map<String, Object> ret = ts.getMap();
 
@@ -244,9 +244,9 @@ public class PackagesTable extends SimpleTable<SNDUserSchema>
                 Set<String> cols = new HashSet<>();
                 cols.add("HasEvent");
                 cols.add("HasProject");
-                TableSelector ts = new TableSelector(this.getQueryTable(), cols, new SimpleFilter(FieldKey.fromString("PkgId"), row.get("PkgId")), null);
-                row.put(Package.PKG_HASEVENT, Boolean.parseBoolean((String) ts.getMap().get(Package.PKG_HASEVENT)));
-                row.put(Package.PKG_HASPROJECT, Boolean.parseBoolean((String) ts.getMap().get(Package.PKG_HASPROJECT)));
+                Map<String, Object> map = new TableSelector(this.getQueryTable(), cols, new SimpleFilter(FieldKey.fromString("PkgId"), row.get("PkgId")), null).getMap();
+                row.put(Package.PKG_HASEVENT, Boolean.parseBoolean((String) map.get(Package.PKG_HASEVENT)));
+                row.put(Package.PKG_HASPROJECT, Boolean.parseBoolean((String) map.get(Package.PKG_HASPROJECT)));
             }
 
             return row;

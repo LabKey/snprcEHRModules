@@ -306,8 +306,7 @@ public class SNDSecurityManager
         SimpleFilter qcFilter = SimpleFilter.createContainerFilter(c).addCondition(FieldKey.fromParts("Label"), qcState.getName(), CompareType.EQUAL);
 
         // Get from eventNotes table
-        Set<String> cols = new HashSet<>();
-        cols.add("RowId");
+        Set<String> cols = Collections.singleton("RowId");
         TableSelector qcStateTs = new TableSelector(qcStateTable, cols, qcFilter, null);
 
         return qcStateTs.getObject(Integer.class);
@@ -320,8 +319,7 @@ public class SNDSecurityManager
         SimpleFilter qcFilter = SimpleFilter.createContainerFilter(c).addCondition(FieldKey.fromParts("RowId"), qcStateId, CompareType.EQUAL);
 
         // Get from eventNotes table
-        Set<String> cols = new HashSet<>();
-        cols.add("Label");
+        Set<String> cols = Collections.singleton("Label");
         TableSelector qcStateTs = new TableSelector(qcStateTable, cols, qcFilter, null);
 
         String qcStateName = qcStateTs.getObject(String.class);

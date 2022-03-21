@@ -41,7 +41,7 @@ import org.labkey.snd.SNDSchema;
 import org.labkey.snd.SNDUserSchema;
 
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,8 +82,7 @@ public class ProjectsTable extends SimpleTable<SNDUserSchema>
 
     public boolean isProjectInUse(int projectId, int revNum)
     {
-        Set<String> cols = new HashSet<>();
-        cols.add("HasEvent");
+        Set<String> cols = Collections.singleton("HasEvent");
         SimpleFilter filter = new SimpleFilter(FieldKey.fromString("ProjectId"), projectId, CompareType.EQUAL);
         filter.addCondition(FieldKey.fromString("RevisionNum"), revNum, CompareType.EQUAL);
         TableSelector ts = new TableSelector(this, cols, filter, null);

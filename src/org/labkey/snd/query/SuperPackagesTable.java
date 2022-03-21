@@ -40,8 +40,8 @@ import org.labkey.snd.SNDUserSchema;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -101,12 +101,11 @@ public class SuperPackagesTable extends SimpleTable<SNDUserSchema>
 
     public boolean isPackageInUse(int superPkgId)
     {
-        Set<String> cols = new HashSet<>();
-        cols.add("HasEvent");
+        Set<String> cols = Collections.singleton("HasEvent");
         TableSelector ts = new TableSelector(this, cols, new SimpleFilter(FieldKey.fromString("SuperPkgId"), superPkgId), null);
-        Map<String, Object> ret = ts.getMap();
+        Map<String, Object> map = ts.getMap();
 
-        return Boolean.parseBoolean((String) ret.get("HasEvent"));
+        return Boolean.parseBoolean((String) map.get("HasEvent"));
     }
 
     @Override
@@ -172,21 +171,6 @@ public class SuperPackagesTable extends SimpleTable<SNDUserSchema>
             }
 
             return super.deleteRow(user, container, oldRowMap);
-        }
-
-        @Override
-        protected Map<String, Object> getRow(User user, Container container, Map<String, Object> keys) throws InvalidKeyException, QueryUpdateServiceException, SQLException
-        {
-            Map<String, Object> row = super.getRow(user, container, keys);
-            if(row == null)  // might have been deleted already due to package/super package cascading deletes
-                return null;
-
-            Set<String> cols = new HashSet<>();
-            cols.add("HasEvent");
-            cols.add("HasProject");
-            TableSelector ts = new TableSelector(this.getQueryTable(), cols, new SimpleFilter(FieldKey.fromString("SuperPkgId"), row.get("SuperPkgId")), null);
-
-            return row;
         }
 
         private TableInfo getTableInfo(@NotNull UserSchema schema, @NotNull String table)
