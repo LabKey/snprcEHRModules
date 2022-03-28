@@ -1,0 +1,26 @@
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>DemographicsHL7</name>
+    <description>Export Demographics Data to Orchard Harvest</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="study" queryName="DemographicsHL7" />
+            <destination schemaName="LISExport" queryName="DemographicsHL7Staging" bulkLoad="true" targetOption="append">
+                <alternateKeys>
+                    <column name="objectid"/>
+                </alternateKeys>
+            </destination>
+        </transform>
+        <transform id="step2" type="StoredProcedure">
+            <description>Kick off HL7 processing</description>
+            <procedure schemaName="LISExport" procedureName="p_load_demographics">
+            </procedure>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified" >
+        <deletedRowsSource schemaName="study" queryName="DemographicsHL7Deleted" deletedSourceKeyColumnName="ObjectId" targetKeyColumnName="ObjectId"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>
