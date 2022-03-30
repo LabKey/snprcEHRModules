@@ -13,13 +13,12 @@
         </transform>
         <transform id="step2" type="StoredProcedure">
             <description>Kick off HL7 processing</description>
+            <source schemaName="study" queryName="DemographicsHL7" />
             <procedure schemaName="LISExport" procedureName="p_load_demographics">
             </procedure>
         </transform>
     </transforms>
-    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified" >
-        <deletedRowsSource schemaName="study" queryName="DemographicsHL7Deleted" deletedSourceKeyColumnName="ObjectId" targetKeyColumnName="ObjectId"/>
-    </incrementalFilter>
+        <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified" />
     <schedule>
         <poll interval="60m" />
     </schedule>

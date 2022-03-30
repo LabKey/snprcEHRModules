@@ -12,4 +12,4 @@ SELECT
     d.modifiedBy.DisplayName as modifiedBy,
     d.modified
 FROM demographics as d
-where len(d.id) <= 6 and d.birth >= '1/1/2022'
+where len(d.id) <= 6
