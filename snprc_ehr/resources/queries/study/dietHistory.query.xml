@@ -22,9 +22,9 @@
                         <nullable>false</nullable>
                         <columnTitle>Diet</columnTitle>
                         <fk>
-                            <fkDbSchema>ehr_lookups</fkDbSchema>
-                            <fkTable>snomed</fkTable>
-                            <fkColumnName>code</fkColumnName>
+                            <fkDbSchema>snprc_ehr</fkDbSchema>
+                            <fkTable>validDiet</fkTable>
+                            <fkColumnName>SnomedCode</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="duration">
