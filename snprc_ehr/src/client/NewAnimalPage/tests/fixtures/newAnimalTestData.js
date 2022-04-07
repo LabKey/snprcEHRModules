@@ -11,6 +11,7 @@ const newAnimalTestData = {
     diet: 0,
     pedigree: 31,
     iacuc: 0,
-    colony: 214
+    colony: 214,
+    isNonPrimate: false
 }
 export default newAnimalTestData

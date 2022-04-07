@@ -152,6 +152,7 @@ exports[`Modal tests Should render the SaveModal 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
+          "isNonPrimate": undefined,
           "ownerInstitution": Object {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",

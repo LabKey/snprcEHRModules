@@ -7,9 +7,10 @@ const parse = rows => {
     })
 }
 
-const fetchProtocols = species => {
+const fetchProtocols = (species, newAssignments) => {
     return new Promise((resolve, reject) => {
         request({
+            parameters: { newAssignmentsParm: newAssignments },
             schemaName: 'ehr',
             queryName: 'ProtocolLookup',
             columns: ['Iacuc', 'DisplayValue', 'Species', 'MaxAnimals'],
