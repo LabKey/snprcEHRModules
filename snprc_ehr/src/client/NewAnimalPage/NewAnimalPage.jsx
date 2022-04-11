@@ -107,7 +107,7 @@ loadLists() {
   }
 loadListsForSpecies = selectedSpecies => {
     const lists = {}
-    const newAssignments = this.state.numAnimals ? this.state.numAnimals : 1
+    const newAssignments = this.state.numAnimals || 1
     async function loadListsAW(species) {
       lists.locationList = await fetchLocations(species)
       lists.colonyList = await fetchColonies(species)
@@ -183,8 +183,7 @@ handleSpeciesChange = selectedSpecies => {
     // ignore sub-species change
     if (
       this.state.newAnimalData.species !== undefined
-      && this.state.newAnimalData.species.arcSpeciesCode
-      !== selectedSpecies.arcSpeciesCode
+      && this.state.newAnimalData.species.arcSpeciesCode !== selectedSpecies.arcSpeciesCode
     ) {
       this.selectedSpecies = selectedSpecies
       this.setState(prevState => ({
@@ -206,7 +205,7 @@ handleSpeciesChange = selectedSpecies => {
     }
   };
 handleNumAnimalChange = value => {
-  const newAssignments = this.state.numAnimals ? this.state.numAnimals : 1
+  const newAssignments = this.state.numAnimals || 1
   const species = this.state.newAnimalData.species.arcSpeciesCode
 
   this.setState(
