@@ -25,7 +25,9 @@ describe('AcquisitionPanel tests', () => {
 
   test('Should render the AcquisitionPanel for multiple animal acquisition', () => {
     const newAnimalData = { ...(NewAnimalState().newAnimalData),
-                            species: { value: 'HAM', arcSpeciesCode: 'MA' } }
+                            species: { value: 'HAM', arcSpeciesCode: 'MA' },
+                            isNonPrimate:true 
+                          }
 
     const wrapper = shallow(
       <AcquisitionPanel

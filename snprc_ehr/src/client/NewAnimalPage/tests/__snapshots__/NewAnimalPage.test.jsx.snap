@@ -44,6 +44,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
+              "isNonPrimate": undefined,
               "ownerInstitution": Object {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -127,6 +128,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
+                "isNonPrimate": undefined,
                 "ownerInstitution": Object {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -247,6 +249,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
+          "isNonPrimate": undefined,
           "ownerInstitution": Object {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -351,6 +354,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               },
               "iacuc": undefined,
               "id": undefined,
+              "isNonPrimate": false,
               "ownerInstitution": Object {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -475,6 +479,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 },
                 "iacuc": undefined,
                 "id": undefined,
+                "isNonPrimate": false,
                 "ownerInstitution": Object {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -648,6 +653,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           },
           "iacuc": undefined,
           "id": undefined,
+          "isNonPrimate": false,
           "ownerInstitution": Object {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -743,6 +749,7 @@ exports[`Should render Account page 1`] = `
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
+              "isNonPrimate": false,
               "ownerInstitution": Object {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -916,6 +923,7 @@ exports[`Should render Account page 1`] = `
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
+                "isNonPrimate": false,
                 "ownerInstitution": Object {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1044,6 +1052,7 @@ exports[`Should render Account page 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
+          "isNonPrimate": false,
           "ownerInstitution": Object {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1133,6 +1142,7 @@ exports[`Should render Diet page 1`] = `
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
+              "isNonPrimate": false,
               "ownerInstitution": Object {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1240,6 +1250,7 @@ exports[`Should render Diet page 1`] = `
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
+                "isNonPrimate": false,
                 "ownerInstitution": Object {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1343,6 +1354,7 @@ exports[`Should render Diet page 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
+          "isNonPrimate": false,
           "ownerInstitution": Object {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1432,6 +1444,7 @@ exports[`Should render Location page 1`] = `
               "gender": undefined,
               "iacuc": undefined,
               "id": undefined,
+              "isNonPrimate": false,
               "ownerInstitution": Object {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1546,6 +1559,7 @@ exports[`Should render Location page 1`] = `
                 "gender": undefined,
                 "iacuc": undefined,
                 "id": undefined,
+                "isNonPrimate": false,
                 "ownerInstitution": Object {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
@@ -1649,6 +1663,7 @@ exports[`Should render Location page 1`] = `
           "gender": undefined,
           "iacuc": undefined,
           "id": undefined,
+          "isNonPrimate": false,
           "ownerInstitution": Object {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",

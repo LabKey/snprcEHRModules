@@ -190,7 +190,7 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
       Array [
         Object {
           "key": 1,
-          "value": "Hamsters can be acquired in bulk; however, when added in bulk you must ensure all animals:
+          "value": "Non-primates can be acquired in bulk; however, when added in bulk you must ensure all animals:
         1) are the same sex
         2) have the same birth and acquisition dates
         3) are in the same location
