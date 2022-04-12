@@ -31,7 +31,7 @@ ALTER VIEW [labkey_etl].[v_labwork_results] AS
 -- Note:  Merged all procedure types into a single query
 -- Changes:
 --
--- 
+-- 4/11/2022 Fixed NTE concatenation bug
 -- ==========================================================================================
 
 SELECT
@@ -58,7 +58,7 @@ SELECT
                   REPLACE(
                       (SELECT RTRIM(LTRIM(nte.comment)) + '**NEWLINE**'
                        FROM dbo.CLINICAL_PATH_NTE AS nte
-                       WHERE nte.message_id = obr.message_id AND obx.set_id = nte.set_id
+                       WHERE nte.message_id = obr.message_id
                        ORDER BY CAST(nte.set_id AS INTEGER)
                        FOR XML PATH ('')        -- generates a concatenation of notes
 
