@@ -33,12 +33,14 @@ import SaveModal from './components/SaveModal'
 import { isBirthdateValid } from './services/validation'
 import { uploadAnimalData } from './api/updateAnimalData'
 import { getReportPath } from './services/printToPDF'
+import { isNonPrimate } from './services/utils'
 
 export default class NewAnimalPage extends React.Component {
   state = new NewAnimalState();
 debug = constants.debug;
 numPanels = constants.numPanels;
 selectedSpecies = undefined;
+
 componentDidMount() {
     // prevent user from navigating away from page
     window.addEventListener('beforeunload', this.beforeunload.bind(this))
@@ -105,11 +107,11 @@ loadLists() {
   }
 loadListsForSpecies = selectedSpecies => {
     const lists = {}
-
+    const newAssignments = this.state.numAnimals || 1
     async function loadListsAW(species) {
       lists.locationList = await fetchLocations(species)
       lists.colonyList = await fetchColonies(species)
-      lists.iacucList = await fetchProtocols(species)
+      lists.iacucList = await fetchProtocols(species, newAssignments)
       lists.pedigreeList = await fetchPedigrees(species)
     }
 
@@ -131,8 +133,34 @@ loadListsForSpecies = selectedSpecies => {
         }))
       })
   };
+
+  loadIacucList = (species, newAssignments ) => {
+    const lists = {}
+    
+    async function loadListsAW(species, newAssignments) {
+       lists.iacucList = await fetchProtocols(species, newAssignments)
+    }
+
+    loadListsAW(species, newAssignments)
+      .then(() => {
+        this.setState(prevState => ({
+          ...prevState,
+          iacucList: lists.iacucList
+        }))
+      })
+      .catch(error => {
+        console.log(`Error in loadIacucList: ${error}`)
+        this.setState(prevState => ({
+          ...prevState,
+          errorMessage: error.message,
+        }))
+      })
+  };
+
 disablePanels = () => !(this.state.locationList && this.state.locationList.length > 0);
+
 disableFirstPanel = () => !this.state.selectedOption || !this.state.newAnimalData.species;
+
 handleAcquisitionOptionChange = type => {
     fetchAcquisitionTypes(type)
       .then(response => this.setState(prevState => ({
@@ -151,12 +179,11 @@ handleAcquisitionOptionChange = type => {
         console.log(error)
       })
   };
-handleSpeciesChange = selectedSpecies => {
+handleSpeciesChange = selectedSpecies => {   
     // ignore sub-species change
     if (
       this.state.newAnimalData.species !== undefined
-      && this.state.newAnimalData.species.arcSpeciesCode
-      !== selectedSpecies.arcSpeciesCode
+      && this.state.newAnimalData.species.arcSpeciesCode !== selectedSpecies.arcSpeciesCode
     ) {
       this.selectedSpecies = selectedSpecies
       this.setState(prevState => ({
@@ -164,25 +191,36 @@ handleSpeciesChange = selectedSpecies => {
         showSpeciesChangeModal: true,
       }))
     } else {
+      let nonPrimate = isNonPrimate(selectedSpecies)
       this.setState(prevState => ({
         ...prevState,
         isDirty: true,
         newAnimalData: {
           ...prevState.newAnimalData,
           species: selectedSpecies,
+          isNonPrimate: nonPrimate,
         },
       }))
       this.loadListsForSpecies(selectedSpecies)
     }
   };
 handleNumAnimalChange = value => {
-    this.setState(
+  const newAssignments = this.state.numAnimals || 1
+  const species = this.state.newAnimalData.species.arcSpeciesCode
+
+  this.setState(
       prevState => ({
         ...prevState,
         numAnimals: value
       })
     )
+
+  // see if the protocol list needs to be reloaded
+  if (value != newAssignments) {
+    this.loadIacucList(species, value ) 
   }
+}
+    
 handleDataChange = (property, value) => {
     this.setState(
       prevState => ({
@@ -385,6 +423,7 @@ handleSaveReset = () => {
   };
 onSpeciesChangeClick = () => {
     const initialState = new NewAnimalState()
+    let nonPrimate = isNonPrimate(this.selectedSpecies)
     this.setState(
       prevState => ({
         ...initialState,
@@ -402,6 +441,7 @@ onSpeciesChangeClick = () => {
           ...initialState.newAnimalData,
           species: this.selectedSpecies,
           selectedOption: prevState.newAnimalData.selectedOption,
+          isNonPrimate: nonPrimate
         },
       }),
       this.loadListsForSpecies(this.selectedSpecies)

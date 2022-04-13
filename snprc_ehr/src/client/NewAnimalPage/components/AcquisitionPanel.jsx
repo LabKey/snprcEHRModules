@@ -59,7 +59,7 @@ handlePaste = e => {
     e.preventDefault()
   }
 render() {
-    const { acquisitionType, acqDate, species, sourceLocation } = this.props.newAnimalData
+    const { acquisitionType, acqDate, species, sourceLocation, isNonPrimate } = this.props.newAnimalData
     const { numAnimals } = this.props
     const { selectedOption } = this.props
 
@@ -122,7 +122,7 @@ render() {
             </div>
             )}
           </div>
-          { species && species.arcSpeciesCode === 'MA' && (
+          {species && isNonPrimate && (
             <div className="wizard-panel__row">
               <div className="wizard-panel__col">
                 <label className="field-label">Number of Animals</label>
@@ -147,7 +147,7 @@ render() {
           errorMessages={ this.state.errorMessage && (
             [{ propTest: this.state.errorMessage, colName: this.state.errorMessage }]
           ) }
-          infoMessages={ species && species.arcSpeciesCode === 'MA' && numAnimals && numAnimals !== 1 && [
+          infoMessages={ species && isNonPrimate && numAnimals && numAnimals !== 1 && [
             { key: 1, value: constants.hamsterWarnings }
           ] }
           messages={
