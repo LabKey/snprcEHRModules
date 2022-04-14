@@ -22,6 +22,7 @@ describe('AcquisitionPanel tests', () => {
   test('Should render the SummaryPanel for multiple acquisitions', () => {
     const newAnimalData = {
       ...(NewAnimalState().newAnimalData),
+      isNonPrimate: true,
       species: { value: 'HAM', arcSpeciesCode: 'MA' }
     }
 

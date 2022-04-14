@@ -12,5 +12,5 @@ LEFT OUTER JOIN
      ) as x ON x.species = s.species_code
 WHERE s.dateDisabled is null
   AND (
-        age_in_years(x.birth, curdate()) <= 5 OR age_in_months(s.created, curdate()) <= 3
+        age_in_years(x.birth, curdate()) <= 10 OR age_in_months(s.created, curdate()) <= 3
     )

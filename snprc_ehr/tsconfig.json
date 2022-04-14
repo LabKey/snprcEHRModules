@@ -11,8 +11,14 @@
                               /* Specify library files to be included in the compilation. */
     "allowJs": true
   },
+  "include": [
+    "src/client/**/*"
+  ],
   "exclude": [
-    "resources"
+    "resources",
+    "node_modules",
+    "dist",
+    "build"
   ]
 }
 
