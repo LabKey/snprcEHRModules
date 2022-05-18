@@ -1,0 +1,20 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="MHCValue"/>
+        <column name="Haplotype"/>
+        <column name="DataFileSource"/>
+        <column name="OcId"/>
+        <column name="Modified"/>
+        <column name="id/parents/dam"/>
+        <column name="id/parents/sire"/>
+        <column name="id/age/birth"/>
+        <column name="Id/age/ageInYears"/>
+        <column name="Id/AgeClass/Label"/>
+        <column name="Id/ActiveGroups/Colony::animal_group.Category"/>
+    </columns>
+    <sorts>
+        <sort column="Id"/>
+        <sort column="Haplotype" />
+    </sorts>
+</customView>

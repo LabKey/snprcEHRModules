@@ -28,12 +28,12 @@ ALTER VIEW [labkey_etl].[V_MhcData] AS
 -- Create date: 5/16/2017
 -- Description:	
 -- Changes:
---
+-- 05/18/2022 removed leading spaces from animal id
 --
 -- ==========================================================================================
 
 SELECT
-	RIGHT(SPACE(6) + u.[Animal ID], 6) AS Id,
+	u.[Animal ID] AS Id,
 	u.[File Source] AS DataFileSource,
 	u.[OC ID] AS OcId,
 	u.Haplotype AS Haplotype,
