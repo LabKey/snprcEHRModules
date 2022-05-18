@@ -8,7 +8,13 @@
                 <updateUrl />
                 <deleteUrl />
                 <columns>
-                    <column columnName="Id"/>
+                    <column columnName="Id">
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>Animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                        </fk>
+                    </column>
                     <column columnName="OcId">
                         <columnTitle>OC ID</columnTitle>
                         <isHidden>true</isHidden>
