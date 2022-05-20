@@ -210,7 +210,7 @@ BEGIN
                             FORMAT(@BirthDate,'yyyyMMddHHmm'),	-- Date of Birth
                             @Gender,		-- Sex
                             RTRIM(@Species),	-- Race - Species
-                            RTRIM(@Breed),	-- Ethnic Grouop - Breed
+                            RTRIM(@Breed),	-- Ethnic Group - Breed
                             FORMAT(@DeathDate,'yyyyMMddHHmm'), -- Patient Death Date and Time
                             @isAlive	-- Patient Death Indicator
                         )
