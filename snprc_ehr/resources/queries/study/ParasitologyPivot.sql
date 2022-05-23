@@ -22,6 +22,7 @@ SELECT
   p.runid,
   p.Id,
   p.date,
+  p.remark,
   p.serviceTestId.testName as TestName,
   p.runId.serviceRequested as PanelName,
   GROUP_CONCAT(p.qualresult) as QResults
@@ -33,7 +34,7 @@ FROM study.labworkResults as p
 
 where p.id is not null
   and p.runId.serviceRequested not in ('OVA & PARASITES','OVA & PARASITES, URINE')
-group by p.runid, p.Id, p.date,p.serviceTestId.testName, p.runId.serviceRequested
+group by p.runid, p.Id, p.date,p.serviceTestId.testName, p.runId.serviceRequested, p.remark
   PIVOT QResults by TestName IN
   (select TestName from snprc_ehr.labwork_panels t
   where t.includeInPanel = true
