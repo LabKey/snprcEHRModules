@@ -21,7 +21,7 @@
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>ClinpathRuns</fkTable>
-                            <fkColumnName>_key</fkColumnName>
+                            <fkColumnName>objectid</fkColumnName>
                         </fk>
                     </column>
                 </columns>
