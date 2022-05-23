@@ -20,6 +20,7 @@ SELECT
   b.serviceTestId.testName AS TestName,
 
   coalesce(b.runId, b.objectid) as runId,
+  b.remark,
   b.resultoorindicator,
   CASE
   WHEN b.result IS NULL THEN  b.qualresult
