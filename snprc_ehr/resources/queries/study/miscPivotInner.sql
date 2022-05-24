@@ -18,7 +18,7 @@ SELECT
   b.date,
   b.runId.serviceRequested as panelName,
   b.serviceTestId.testName AS TestName,
-
+  b.remark,
   coalesce(b.runId, b.objectid) as runId,
   b.resultoorindicator,
   CASE
