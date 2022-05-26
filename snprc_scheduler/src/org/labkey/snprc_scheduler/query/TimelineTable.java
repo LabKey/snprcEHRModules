@@ -26,7 +26,7 @@ import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
 import org.labkey.snprc_scheduler.domains.Timeline;
 
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,7 +51,6 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
     public SimpleTable init()
     {
         super.init();
-
 
         // initialize virtual columns here
         // HasItems = true if the timeline has timeline items assigned
@@ -149,14 +148,11 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
                 addColumn(wrapped);
             }
         }
-
     }
-
 
     public boolean isTimelineInUse(Integer timelineId, Integer revisionNum)
     {
-        Set<String> cols = new HashSet<>();
-        cols.add("IsScheduled");
+        Set<String> cols = Collections.singleton("IsScheduled");
         SimpleFilter filter = new SimpleFilter(FieldKey.fromString("TimelineId"), timelineId, CompareType.EQUAL).
             addCondition(FieldKey.fromString("RevisionNum"), revisionNum, CompareType.EQUAL);
 
