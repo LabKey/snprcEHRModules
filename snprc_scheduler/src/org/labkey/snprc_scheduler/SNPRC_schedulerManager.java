@@ -70,7 +70,6 @@ public class SNPRC_schedulerManager
      */
     private Integer getNextRevisionNum(int timelineId)
     {
-
         SQLFragment sql = new SQLFragment("SELECT MAX(t.RevisionNum) AS RevisionNum FROM ");
         sql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimeline(), "t");
         sql.append(" WHERE t.TimelineId = ?").add(timelineId);
@@ -79,7 +78,6 @@ public class SNPRC_schedulerManager
         Integer revNum = sqlSelector.getObject(Integer.class);
 
         return (revNum == null) ? 0 : revNum + 1;
-
     }
 
     /**
@@ -102,6 +100,7 @@ public class SNPRC_schedulerManager
         }
         return userName;
     }
+
     // TODO: fb_snprc_edit
     public List<TimelineItem> getTimelineItems(Container c, User u, String timelineObjectId, @Nullable Date scheduleDate) throws ApiUsageException
     {
@@ -121,7 +120,6 @@ public class SNPRC_schedulerManager
             }
 
             timelineItems = new TableSelector(timelineItemTable, filter, null).getArrayList(TimelineItem.class);
-
         }
         catch (Exception e)
         {
@@ -144,7 +142,6 @@ public class SNPRC_schedulerManager
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(StudyDayNotes.STUDYDAY_TIMELINE_OBJECT_ID), timelineObjectId, CompareType.EQUAL);
             studyDayNotes = new TableSelector(studyDayTable, filter, null).getArrayList(StudyDayNotes.class);
-
         }
         catch (Exception e)
         {
@@ -154,10 +151,8 @@ public class SNPRC_schedulerManager
         return studyDayNotes;
     }
 
-
     public List<TimelineAnimalJunction> getTimelineAnimalItems(Container c, User u, String timelineObjectId) throws ApiUsageException
     {
-
         List<TimelineAnimalJunction> timelineAnimalItems;
         try
         {
@@ -259,7 +254,6 @@ public class SNPRC_schedulerManager
      */
     public void validateBeforeDelete(Container c, User u, Timeline timeline, BatchValidationException errors)
     {
-
         Integer timelineId = timeline.getTimelineId();
         Integer revisionNum = timeline.getRevisionNum();
         String timelineObjectId = timeline.getObjectId();
@@ -274,8 +268,7 @@ public class SNPRC_schedulerManager
         // Does timeline exist?
         if (!errors.hasErrors() && timelineTable != null)
         {
-            Set<String> cols = new HashSet<>();
-            cols.add(Timeline.TIMELINE_ID);
+            Set<String> cols = Collections.singleton(Timeline.TIMELINE_ID);
 
             SimpleFilter filter = new SimpleFilter(FieldKey.fromString(Timeline.TIMELINE_ID), timelineId, CompareType.EQUAL).
                     addCondition(FieldKey.fromString(Timeline.TIMELINE_REVISION_NUM), revisionNum, CompareType.EQUAL);
@@ -290,11 +283,9 @@ public class SNPRC_schedulerManager
         // is timeline in use?
         if (!errors.hasErrors() && timelineTable != null)
         {
-
             if (timelineTable.isTimelineInUse(timelineId, revisionNum))
                 errors.addRowError(new ValidationException("Timeline is in use - cannot be deleted."));
         }
-
     }
 
     /**
@@ -318,7 +309,6 @@ public class SNPRC_schedulerManager
             Integer timelineId = timeline.getTimelineId();
             Integer revisionNum = timeline.getRevisionNum();
             String timelineObjectId = timeline.getObjectId();
-
 
             // delete the timeline
             try (DbScope.Transaction transaction = scope.ensureTransaction())
@@ -431,7 +421,6 @@ public class SNPRC_schedulerManager
 
                 // All is well
                 transaction.commit();
-
             }
             catch (BatchValidationException | InvalidKeyException | QueryUpdateServiceException | SQLException e)
             {
@@ -439,7 +428,6 @@ public class SNPRC_schedulerManager
             }
         }
     }
-
 
     /**
      * Update the Timeline table (called by SNPRC_schedulerServiceImpl.saveTimelineData()
