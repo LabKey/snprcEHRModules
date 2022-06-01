@@ -16,7 +16,6 @@
 
 package org.labkey.snprc_ehr;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
@@ -39,7 +38,6 @@ import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryAction;
-import org.labkey.api.query.QueryException;
 import org.labkey.api.query.QueryForm;
 import org.labkey.api.query.QueryParseException;
 import org.labkey.api.query.QueryUpdateService;
@@ -57,7 +55,6 @@ import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
-import org.labkey.api.view.NotFoundException;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
@@ -202,7 +199,7 @@ public class SNPRC_EHRController extends SpringActionController
         @Override
         public ModelAndView getView(QueryForm form, BindException errors) throws Exception
         {
-            ensureQueryExists(form);
+            form.ensureQueryExists();
 
             _form = form;
 
@@ -264,43 +261,8 @@ public class SNPRC_EHRController extends SpringActionController
 
             root.addChild(ti == null ? _form.getQueryName() : ti.getTitle(), _form.urlFor(QueryAction.executeQuery));
         }
-
-        protected void ensureQueryExists(QueryForm form)
-        {
-            if (form.getSchema() == null)
-            {
-                throw new NotFoundException("Could not find schema: " + form.getSchemaName());
-            }
-
-            if (StringUtils.isEmpty(form.getQueryName()))
-            {
-                throw new NotFoundException("Query not specified");
-            }
-
-            if (!queryExists(form))
-            {
-                throw new NotFoundException("Query '" + form.getQueryName() + "' in schema '" + form.getSchemaName() + "' doesn't exist.");
-            }
-        }
-
-        protected boolean queryExists(QueryForm form)
-        {
-            try
-            {
-                return form.getSchema() != null && form.getSchema().getTable(form.getQueryName()) != null;
-            }
-            catch (QueryParseException x)
-            {
-                // exists with errors
-                return true;
-            }
-            catch (QueryException x)
-            {
-                // exists with errors
-                return true;
-            }
-        }
     }
+
     // http://localhost:8080/labkey/snprc_ehr/snprc/getNextAnimalId
     @RequiresPermission(EHRDataEntryPermission.class)
     public class getNextAnimalIdAction extends MutatingApiAction<SimpleApiJsonForm>
