@@ -1995,4 +1995,246 @@
         <tableTitle>External Reports</tableTitle>
     </table>
 
+    <table tableName="HL7_MSH_STAGING" tableDbType="TABLE">
+        <pkColumnName>MESSAGE_ID</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID"/>
+            <column columnName="SENDING_APPLICATION"/>
+            <column columnName="SENDING_FACILITY"/>
+            <column columnName="RECEIVING_APPLICATION"/>
+            <column columnName="RECEIVING_FACILITY"/>
+            <column columnName="MESSAGE_CONTROL_ID"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 MSH STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_PID_STAGING" tableDbType="TABLE">
+        <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkColumnName>MESSAGE_ID</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="IDX"/>
+            <column columnName="SET_ID"/>
+            <column columnName="PATIENT_ID_EXTERNAL"/>
+            <column columnName="PATIENT_ID_INTERNAL"/>
+            <column columnName="BIRTHDATE"/>
+            <column columnName="SEX"/>
+            <column columnName="BREED"/>
+            <column columnName="SPECIES"/>
+            <column columnName="ACCOUNT_NUMBER"/>
+            <column columnName="DEATH_DATE"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 PID STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_PV1_STAGING" tableDbType="TABLE">
+        <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkColumnName>MESSAGE_ID</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="IDX"/>
+            <column columnName="SET_ID"/>
+            <column columnName="ADMISSION_TYPE"/>
+            <column columnName="ATTENDING_DOCTOR_LAST"/>
+            <column columnName="ATTENDING_DOCTOR_FIRST"/>
+            <column columnName="VISIT_NUMBER"/>
+            <column columnName="CHARGE_NUMBER"/>
+            <column columnName="ADMIT_DATE"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 PV1 STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_ORC_STAGING" tableDbType="TABLE">
+        <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkColumnName>MESSAGE_ID</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="IDX"/>
+            <column columnName="ORDER_CONTROL_CODE"/>
+            <column columnName="FILLER_ORDER_NUMBER"/>
+            <column columnName="ENTERED_BY_LAST"/>
+            <column columnName="ENTERED_BY_FIRST"/>
+            <column columnName="VERIFIED_BY_LAST"/>
+            <column columnName="VERIFIED_BY_FIRST"/>
+            <column columnName="ORDER_PROVIDER_LAST"/>
+            <column columnName="ORDER_PROVIDER_FIRST"/>
+            <column columnName="ORDER_DATE"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 ORC STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_OBR_STAGING" tableDbType="TABLE">
+        <pkColumnName>OBJECT_ID</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkColumnName>MESSAGE_ID</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="ANIMAL_ID">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+                <fk>
+                    <fkDbSchema>study</fkDbSchema>
+                    <fkTable>demographics</fkTable>
+                    <fkColumnName>Id</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="VERIFIED_DATE_TM"/>
+            <column columnName="REQUESTED_DATE_TM"/>
+            <column columnName="OBSERVATION_DATE_TM"/>
+            <column columnName="SPECIMEN_RECEIVED_DATE_TM"/>
+            <column columnName="PV1_VISIT_NUM"/>
+            <column columnName="SET_ID"/>
+            <column columnName="SPECIMEN_NUM"/>
+            <column columnName="PROCEDURE_ID"/>
+            <column columnName="PROCEDURE_NAME"/>
+            <column columnName="PRIORITY"/>
+            <column columnName="RESULT_STATUS"/>
+            <column columnName="TECHNICIAN_NAME"/>
+            <column columnName="TECHNICIAN_INITIALS"/>
+            <column columnName="CHARGE_ID"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 OBR STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_OBX_STAGING" tableDbType="TABLE">
+        <pkColumnName>OBJECT_ID</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkColumnName>MESSAGE_ID</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="SET_ID"/>
+            <column columnName="VALUE_TYPE"/>
+            <column columnName="TEST_ID"/>
+            <column columnName="TEST_NAME"/>
+            <column columnName="OBSERVED_VALUE"/>
+            <column columnName="UNITS"/>
+            <column columnName="REFERENCE_RANGE"/>
+            <column columnName="ABNORMAL_FLAGS"/>
+            <column columnName="RESULT_STATUS"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 OBX STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_NTE_STAGING" tableDbType="TABLE">
+        <pkColumnName>OBJECT_ID</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="MESSAGE_ID">
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkColumnName>MESSAGE_ID</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="SET_ID"/>
+            <column columnName="COMMENT"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 NTE STAGING</tableTitle>
+    </table>
+    <table tableName="HL7_IMPORT_LOG" tableDbType="TABLE">
+        <pkColumnName>TID</pkColumnName>
+        <auditLogging>DETAILED</auditLogging>
+        <importUrl/>
+        <insertUrl/>
+        <updateUrl/>
+        <deleteUrl/>
+        <columns>
+            <column columnName="TID"/>
+            <column columnName="MESSAGE_ID"/>
+            <column columnName="OBSERVATION_DATE_TM"/>
+            <column columnName="MESSAGE_CONTROL_ID"/>
+            <column columnName="IMPORT_STATUS"/>
+            <column columnName="RESULT_STATUS"/>
+            <column columnName="PATIENT_ID"/>
+            <column columnName="SPECIES"/>
+            <column columnName="HL7_MESSAGE_TEXT"/>
+            <column columnName="OBJECT_ID"/>
+            <column columnName="USER_NAME"/>
+            <column columnName="ENTRY_DATE_TM"/>
+            <column columnName="TIMESTAMP"/>
+        </columns>
+        <tableTitle>HL7 IMPORT LOG</tableTitle>
+    </table>
 </tables>
