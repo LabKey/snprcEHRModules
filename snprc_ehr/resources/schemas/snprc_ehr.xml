@@ -2004,11 +2004,13 @@
         <deleteUrl/>
         <columns>
             <column columnName="MESSAGE_ID"/>
+            <column columnName="IDX"/>
             <column columnName="SENDING_APPLICATION"/>
             <column columnName="SENDING_FACILITY"/>
             <column columnName="RECEIVING_APPLICATION"/>
             <column columnName="RECEIVING_FACILITY"/>
             <column columnName="MESSAGE_CONTROL_ID"/>
+            <column columnName="MESSAGE_DATE_TM"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
@@ -2125,6 +2127,8 @@
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
+            <column columnName="MESSAGE_CONTROL_ID"/>
+            <column columnName="IDX"/>
             <column columnName="ANIMAL_ID">
                 <datatype>varchar</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
@@ -2173,6 +2177,9 @@
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
+            <column columnName="IDX"/>
+            <column columnName="OBR_OBJECT_ID"/>
+            <column columnName="OBR_SET_ID" />
             <column columnName="SET_ID"/>
             <column columnName="VALUE_TYPE"/>
             <column columnName="TEST_ID"/>
@@ -2204,6 +2211,9 @@
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
+            <column columnName="IDX"/>
+            <column columnName="OBR_OBJECT_ID"/>
+            <column columnName="OBR_SET_ID" />
             <column columnName="SET_ID"/>
             <column columnName="COMMENT"/>
             <column columnName="OBJECT_ID"/>
@@ -2230,6 +2240,7 @@
             <column columnName="PATIENT_ID"/>
             <column columnName="SPECIES"/>
             <column columnName="HL7_MESSAGE_TEXT"/>
+            <column columnName="IMPORT_TEXT"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
