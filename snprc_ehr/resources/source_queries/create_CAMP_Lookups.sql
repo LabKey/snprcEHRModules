@@ -1,8 +1,10 @@
 /**********************************************************
 
 Will go to CAMP lookup_table
-  02.24.2021
-  srr
+  02.24.2021   srr
+
+  Changed user data from INT to nvarchar(128) and appended "Text" to column name
+  08.23.2021 srr
 ***********************************************************/
 
 -- new schema
@@ -15,9 +17,9 @@ CREATE TABLE [TAC_src].[Lookups](
     [Displayable] [bit] NOT NULL,
     [SortOrder] [int] NULL,
     [Container] [uniqueidentifier] NOT NULL,
-    [CreatedBy] [int] NULL,
+    [CreatedByText] [nvarchar](128) NULL,
     [Created] [datetime] NULL,
-    [ModifiedBy] [int] NULL,
+    [ModifiedByText] [nvarchar](128) NULL,
     [Modified] [datetime] NULL,
     [Lsid] [nvarchar](300) NULL,
     [LookupId] [int] IDENTITY(1,1) NOT NULL,
