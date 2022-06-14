@@ -19,12 +19,12 @@ SELECT
     b.runId,
     b.panelName,
     b.TestName,
+    b.remark,
     MAX(b.result) as results,
-    (select group_concat(a.remark) from study.labworkResults as a where a.runId = b.runId) as remark
 
 FROM miscPivotInner b
 
-GROUP BY b.runid,b.id, b.date, b.TestName, b.panelName
+GROUP BY b.runid,b.id, b.date, b.TestName, b.panelName, b.remark
 
 PIVOT results BY TestName IN
 (select TestName from snprc_ehr.labwork_panels t

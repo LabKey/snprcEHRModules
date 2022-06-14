@@ -24,6 +24,7 @@ SELECT
     p.date,
     p.serviceTestId.testName as TestName,
     p.runId.serviceRequested as PanelName,
+    p.remark,
     GROUP_CONCAT(p.qualresult) as QResults
 
 FROM study.labworkResults as p
@@ -32,7 +33,7 @@ FROM study.labworkResults as p
                         and lt.ServiceId.Dataset='Culture'
 
 where p.id is not null
-  group by p.runid, p.Id, p.date,p.serviceTestId.testName, p.runId.serviceRequested
+  group by p.runid, p.Id, p.date,p.serviceTestId.testName, p.remark, p.runId.serviceRequested
     PIVOT   QResults by TestName IN
   (select  t.testName from snprc_ehr.labwork_panels t
   where t.includeInPanel = true

@@ -24,6 +24,7 @@ SELECT
     b.serviceTestId.testName AS TestName,
     coalesce(b.runId, b.objectid) as runId,
     b.resultoorindicator,
+    b.remark,
     CASE
     WHEN b.result IS NULL THEN  b.qualresult
       ELSE CAST(CAST(b.result AS float) AS VARCHAR)
@@ -40,6 +41,7 @@ SELECT
   b.serviceTestId.testName AS TestName,
   coalesce(b.runId, b.objectid) as runId,
   b.resultoorindicator,
+  b.remark,
   CASE
   WHEN b.result IS NULL THEN b.qualresult
     ELSE CAST(CAST(b.result AS float) AS VARCHAR)
@@ -56,6 +58,7 @@ SELECT
     b.serviceTestId.testName AS TestName,
     coalesce(b.runId, cast(b.Sequencenum as varchar)) as runId,
     b.resultoorindicator,
+    b.remark,
     CASE
         WHEN b.result IS NULL THEN b.qualresult
         ELSE CAST(CAST(b.result AS float) AS VARCHAR)
