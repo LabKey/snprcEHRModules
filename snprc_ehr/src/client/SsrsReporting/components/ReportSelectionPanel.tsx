@@ -8,7 +8,7 @@ interface Props {
     selectedReport: ReportItem;
 }
 
-export default class ReportSelectionPanel extends React.Component<Props> {
+export default class ReportSelectionPanel extends React.Component<Props, {}> {
 
     handleChange   = (option: ReportItem | null): void => {
         if (option)
