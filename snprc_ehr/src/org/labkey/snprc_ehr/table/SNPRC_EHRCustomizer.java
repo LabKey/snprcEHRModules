@@ -29,6 +29,7 @@ import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
+import org.labkey.api.ehr.table.AssignmentAtTimeForeignKey;
 import org.labkey.api.exp.api.StorageProvisioner;
 import org.labkey.api.exp.property.Domain;
 import org.labkey.api.ldk.LDKService;
@@ -42,6 +43,7 @@ import org.labkey.api.study.DatasetTable;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -62,6 +64,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             doSharedCustomization((AbstractTableInfo) table);
             doTableSpecificCustomizations((AbstractTableInfo) table);
+            doCalculatedCustomizations((AbstractTableInfo) table);
             //TODO: customizeColumns((AbstractTableInfo) table);
         }
     }
@@ -148,6 +151,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
     }
 
+
     public UserSchema getEHRUserSchema(AbstractTableInfo ds, String name)
     {
         Container ehrContainer = EHRService.get().getEHRStudyContainer(ds.getUserSchema().getContainer());
@@ -206,6 +210,62 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             customizeTasks(ti);
         }
+    }
+
+    public void doCalculatedCustomizations(AbstractTableInfo tableInfo) {
+        if (tableInfo.getColumn("date") != null) {
+            addCalculatedColumns((AbstractTableInfo) tableInfo, "date");
+        }
+    }
+
+    private boolean isDemographicsTable(TableInfo tableInfo) {
+        return tableInfo.getName().equalsIgnoreCase("demographics") && tableInfo.getPublicSchemaName().equalsIgnoreCase("study");
+    }
+
+    private void addCalculatedColumns(AbstractTableInfo table, String dateColName)
+    {
+        UserSchema ehrSchema = getEHRUserSchema(table, "study");
+        if (ehrSchema != null && !isDemographicsTable(table))
+        {
+            appendAssignmentAtTimeCol(ehrSchema, table, dateColName);
+        }
+    }
+
+    private void appendAssignmentAtTimeCol(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String colName) {
+        String name = "assignmentAtTime";
+        if(tableInfo.getColumn(name) != null)
+            return;
+
+        final ColumnInfo pkCol = getPkCol(tableInfo);
+        if(pkCol == null)
+            return;
+
+        if(tableInfo.getColumn("Id") == null)
+            return;
+
+        if(!hasTable(tableInfo, "study", "assignment", ehrSchema.getContainer()))
+            return;
+
+        WrappedColumn col = new WrappedColumn(pkCol, name);
+        col.setLabel("Assignments At Time");
+        col.setReadOnly(true);
+        col.setIsUnselectable(true);
+        col.setUserEditable(false);
+        col.setFk(new AssignmentAtTimeForeignKey(tableInfo, pkCol, ehrSchema, colName, "investigatorId.lastName"));
+        tableInfo.addColumn(col);
+    }
+
+    private boolean hasTable(AbstractTableInfo tableInfo, String schemaName, String queryName, Container targetContainer) {
+        UserSchema userSchema = getUserSchema(tableInfo, schemaName, targetContainer);
+        if (userSchema == null) {
+            return false;
+        }
+        return userSchema.getTableNames().contains(queryName);
+    }
+
+    private ColumnInfo getPkCol(TableInfo tableInfo) {
+        List<ColumnInfo> pks = tableInfo.getPkColumns();
+        return (pks.size() != 1) ? null : pks.get(0);
     }
 
     /**
