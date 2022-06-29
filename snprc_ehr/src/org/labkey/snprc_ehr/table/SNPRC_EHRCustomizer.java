@@ -29,7 +29,6 @@ import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
-import org.labkey.api.ehr.table.AssignmentAtTimeForeignKey;
 import org.labkey.api.exp.api.StorageProvisioner;
 import org.labkey.api.exp.property.Domain;
 import org.labkey.api.ldk.LDKService;
@@ -251,7 +250,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         col.setReadOnly(true);
         col.setIsUnselectable(true);
         col.setUserEditable(false);
-        col.setFk(new AssignmentAtTimeForeignKey(tableInfo, pkCol, ehrSchema, colName, "investigatorId.lastName"));
+        col.setFk(new AssignmentAtTimeForeignKey(tableInfo, pkCol, ehrSchema, colName));
         tableInfo.addColumn(col);
     }
 
