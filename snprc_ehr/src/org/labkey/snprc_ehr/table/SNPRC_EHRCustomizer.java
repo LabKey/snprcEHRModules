@@ -15,8 +15,12 @@
  */
 package org.labkey.snprc_ehr.table;
 
+import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.text.CaseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
+import org.labkey.api.collections.CaseInsensitiveHashSet;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
@@ -27,6 +31,7 @@ import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
+
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
 import org.labkey.api.exp.api.StorageProvisioner;
@@ -40,9 +45,13 @@ import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
+import static org.labkey.snprc_ehr.query.QueryConstants.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -51,8 +60,11 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
     private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
 
+    private static CustomizerQueryProvider provider;
+
     public SNPRC_EHRCustomizer()
     {
+        provider = new CustomizerQueryProvider();
 
     }
 
@@ -160,6 +172,19 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         return getUserSchema(ds, name, ehrContainer);
     }
 
+    protected boolean hasTable(AbstractTableInfo tableInfo, String schemaName, String queryName, @Nullable Container targetContainer) {
+
+        if (targetContainer == null)
+            targetContainer = tableInfo.getUserSchema().getContainer();
+
+        UserSchema userSchema = getUserSchema(tableInfo, schemaName, targetContainer);
+        if (userSchema == null)
+            return false;
+
+        CaseInsensitiveHashSet schemaTableNames = new CaseInsensitiveHashSet(userSchema.getTableNames());
+
+        return schemaTableNames.contains(queryName);
+    }
 
     /**
      * Allows changes to be applied table-by-table
@@ -212,60 +237,66 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     }
 
     public void doCalculatedCustomizations(AbstractTableInfo tableInfo) {
-        if (tableInfo.getColumn("date") != null) {
-            addCalculatedColumns((AbstractTableInfo) tableInfo, "date");
+        if (tableInfo.getColumn(DATE_COLUMN) != null) {
+            addCalculatedColumns((AbstractTableInfo) tableInfo);
         }
     }
 
     private boolean isDemographicsTable(TableInfo tableInfo) {
-        return tableInfo.getName().equalsIgnoreCase("demographics") && tableInfo.getPublicSchemaName().equalsIgnoreCase("study");
+        return tableInfo.getName().equalsIgnoreCase(DEMOGRAPHICS_TABLE) && tableInfo.getPublicSchemaName().equalsIgnoreCase(STUDY_SCHEMA);
     }
 
-    private void addCalculatedColumns(AbstractTableInfo table, String dateColName)
+    private void addCalculatedColumns(AbstractTableInfo table)
     {
-        UserSchema ehrSchema = getEHRUserSchema(table, "study");
+        UserSchema ehrSchema = getEHRUserSchema(table, STUDY_SCHEMA);
         if (ehrSchema != null && !isDemographicsTable(table))
         {
-            appendAssignmentAtTimeCol(ehrSchema, table, dateColName);
+            appendAssignmentAtTimeCol(ehrSchema, table, DATE_COLUMN);
+            appendAgeAtTimeCol(ehrSchema, table, DATE_COLUMN);
         }
     }
 
-    private void appendAssignmentAtTimeCol(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String colName) {
-        String name = "assignmentAtTime";
-        if(tableInfo.getColumn(name) != null)
+    private void appendAssignmentAtTimeCol(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String dateColumnName) {
+
+        if(tableInfo.getColumn(CaseUtils.toCamelCase(ASSIGNMENT_AT_TIME_COLUMN, false)) != null)
             return;
 
-        final ColumnInfo pkCol = getPkCol(tableInfo);
-        if(pkCol == null)
+        final ColumnInfo primaryKeyColumn = provider.getPrimaryKeyColumn(tableInfo);
+        if(primaryKeyColumn == null)
+            return;
+        final ColumnInfo idColumn = tableInfo.getColumn(ID_COLUMN);
+        if(idColumn == null)
+            return;
+        if(!hasTable(tableInfo, STUDY_SCHEMA, ASSIGNMENT_TABLE, ehrSchema.getContainer()))
             return;
 
-        if(tableInfo.getColumn("Id") == null)
-            return;
+        CalculatedColumnQueryInfo queryInfo = provider.getQueryInfo(tableInfo, primaryKeyColumn, idColumn, ehrSchema, ASSIGNMENT_AT_TIME_COLUMN, null);
+        WrappedColumn calculatedColumn = provider.getCalculatedColumn(queryInfo, provider.mapQueryStringValues(ASSIGNMENT_AT_TIME_SQL, queryInfo));
+        tableInfo.addColumn(calculatedColumn);
 
-        if(!hasTable(tableInfo, "study", "assignment", ehrSchema.getContainer()))
-            return;
-
-        WrappedColumn col = new WrappedColumn(pkCol, name);
-        col.setLabel("Assignments At Time");
-        col.setReadOnly(true);
-        col.setIsUnselectable(true);
-        col.setUserEditable(false);
-        col.setFk(new AssignmentAtTimeForeignKey(tableInfo, pkCol, ehrSchema, colName));
-        tableInfo.addColumn(col);
     }
 
-    private boolean hasTable(AbstractTableInfo tableInfo, String schemaName, String queryName, Container targetContainer) {
-        UserSchema userSchema = getUserSchema(tableInfo, schemaName, targetContainer);
-        if (userSchema == null) {
-            return false;
-        }
-        return userSchema.getTableNames().contains(queryName);
+    private void appendAgeAtTimeCol(UserSchema ehrSchema, AbstractTableInfo tableInfo, String dateColumnName) {
+
+        if (tableInfo.getColumn(CaseUtils.toCamelCase(AGE_AT_TIME_COLUMN, false), false) != null)
+            tableInfo.removeColumn(tableInfo.getColumn(CaseUtils.toCamelCase(AGE_AT_TIME_COLUMN, false)));
+        final ColumnInfo primaryKeyColumn = provider.getPrimaryKeyColumn(tableInfo);
+        if (primaryKeyColumn == null)
+            return;
+        final ColumnInfo idColumn = tableInfo.getColumn(ID_COLUMN);
+        if(idColumn == null)
+            return;
+        if (!hasTable(tableInfo, STUDY_SCHEMA, DEMOGRAPHICS_TABLE, ehrSchema.getContainer()))
+            return;
+        if (!provider.hasAnimalLookup(tableInfo))
+            return;
+
+        CalculatedColumnQueryInfo queryInfo = provider.getQueryInfo(tableInfo, primaryKeyColumn, idColumn, ehrSchema, AGE_AT_TIME_COLUMN, null);
+        WrappedColumn caluclatedColumn = provider.getCalculatedColumn(queryInfo, provider.mapQueryStringValues(AGE_AT_TIME_SQL, queryInfo));
+        tableInfo.addColumn(caluclatedColumn);
+
     }
 
-    private ColumnInfo getPkCol(TableInfo tableInfo) {
-        List<ColumnInfo> pks = tableInfo.getPkColumns();
-        return (pks.size() != 1) ? null : pks.get(0);
-    }
 
     /**
      * A helper that will do a case-insensitive, name-vs-label-aware match to determine if the
