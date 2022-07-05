@@ -1,14 +1,21 @@
 package org.labkey.snprc_ehr.table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.query.UserSchema;
 
 import java.util.List;
 
-@Data
-public class CalculatedColumnQueryInfo implements QueryInfo
+/**
+ * Object containing query info for data to be calculated via SQL query amd added as a column to a table
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+public class CalculatedColumnQueryInfo
 {
     private AbstractTableInfo tableInfo;
 

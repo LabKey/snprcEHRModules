@@ -1,5 +1,11 @@
 package org.labkey.snprc_ehr.query;
 
+import org.apache.commons.text.CaseUtils;
+
+/**
+ * String constants used for database queries. Contains table names, schema names, column names, SQL aueries,
+ * and other database query information
+ */
 public class QueryConstants
 {
     public static final String AGE_AT_TIME_COLUMN = "Age At Time";
@@ -8,12 +14,7 @@ public class QueryConstants
     public static final String AGE_AT_TIME_DAYS_COLUMN = "Age At Time Days";
     public static final String AGE_AT_TIME_MONTHS_COLUMN = "Age At Time Months";
     public static final String AGE_CLASS_AT_TIME_COLUMN = "Age Class At Time";
-
     public static final String ASSIGNMENT_AT_TIME_COLUMN = "Assignment At Time";
-
-
-
-
     public static final String STUDY_SCHEMA = "study";
     public static final String CODE_COLUMN = "code";
     public static final String SPECIES_TABLE = "species";
@@ -26,7 +27,6 @@ public class QueryConstants
     public static final String PROJECTS_AT_TIME_CALCULATED = "Projects At Time";
     public static final String PROTOCOLS_AT_TIME_CALCULATED = "Protocols At Time";
     public static final String PROJECT_NUMBERS_AT_TIME_CALCULATED = "Project Numbers At Time";
-
     public static final String PRIMARY_KEY_VARIABLE = "primaryKeyColumnName";
     public static final String SCHEMA_VARIABLE = "schemaName";
     public static final String EHR_PATH_VARIABLE = "ehrPath";
@@ -37,9 +37,9 @@ public class QueryConstants
 
     public static final String ASSIGNMENT_AT_TIME_SQL = "SELECT\n" +
             "sd.${" + PRIMARY_KEY_VARIABLE + "},\n" +
-            "group_concat(DISTINCT h.project.displayName, chr(10)) as projectsAtTime,\n" +
-            "group_concat(DISTINCT h.protocol.displayName, chr(10)) as protocolsAtTime,\n" +
-            "group_concat(DISTINCT h.project.project, chr(10)) as projectNumbersAtTime\n" +
+            "group_concat(DISTINCT h.project.displayName, chr(10)) as " + CaseUtils.toCamelCase(PROJECTS_AT_TIME_CALCULATED, true) + ",\n" +
+            "group_concat(DISTINCT h.protocol.displayName, chr(10)) as " + CaseUtils.toCamelCase(PROTOCOLS_AT_TIME_CALCULATED, true) + ",\n" +
+            "group_concat(DISTINCT h.project.project, chr(10)) as " + CaseUtils.toCamelCase(PROJECT_NUMBERS_AT_TIME_CALCULATED, true) + "\n" +
             "FROM \"${" + SCHEMA_VARIABLE + "}\".\"${" + QUERY_VARIABLE + "}\" sd\n" +
             "JOIN \"${" + TARGET_CONTAINER_VARIABLE + "}\".study.assignment h\n" +
             "  ON (sd.id = h.id AND h.dateOnly <= CAST(sd.${" + DATE_COLUMN_VARIABLE + "} AS DATE) AND (CAST(sd.${" + DATE_COLUMN_VARIABLE +"} AS DATE) <= h.enddateCoalesced) AND h.qcstate.publicdata = true)\n" +
@@ -55,7 +55,7 @@ public class QueryConstants
             " ROUND(CONVERT(age_in_months(d.birth, d.lastDayAtCenter), DOUBLE) / 12, 1)\n" +
             "ELSE\n" +
             "  ROUND(CONVERT(age_in_months(d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} as DATE)), DOUBLE) / 12, 1)\n" +
-            "END AS float) as " + AGE_AT_TIME_COLUMN + ",\n" +
+            "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_COLUMN, true) + ",\n" +
             "\n" +
 
             "CAST(\n" +
@@ -66,7 +66,7 @@ public class QueryConstants
             " ROUND(CONVERT(timestampdiff('SQL_TSI_DAY', d.birth, d.lastDayAtCenter), DOUBLE) / 365.25, 2)\n" +
             "ELSE\n" +
             "  ROUND(CONVERT(timestampdiff('SQL_TSI_DAY', d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} as DATE)), DOUBLE) / 365.25, 2)\n" +
-            "END AS float) as " + AGE_AT_TIME_YEARS_COLUMN + ",\n" +
+            "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_YEARS_COLUMN, true) + ",\n" +
             "\n" +
             "CAST(\n" +
             "CASE\n" +
@@ -76,7 +76,7 @@ public class QueryConstants
             " floor(age(d.birth, d.lastDayAtCenter))\n" +
             "ELSE\n" +
             "  floor(age(d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} as DATE)))\n" +
-            "END AS float) as " + AGE_AT_TIME_YEARS_ROUNDED_COLUMN + ",\n" +
+            "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_YEARS_ROUNDED_COLUMN, true) + ",\n" +
             "\n" +
             //Added 'Age at time Days' by kollil on 02/15/2019
             "CAST(\n" +
@@ -87,7 +87,7 @@ public class QueryConstants
             "  CONVERT(TIMESTAMPDIFF('SQL_TSI_DAY',d.birth, d.lastDayAtCenter), INTEGER)\n" +
             "ELSE\n" +
             "  CONVERT(TIMESTAMPDIFF('SQL_TSI_DAY',d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} AS DATE)), INTEGER)\n" +
-            "END AS float) as " + AGE_AT_TIME_DAYS_COLUMN + ",\n" +
+            "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_DAYS_COLUMN, true) + ",\n" +
             "\n" +
             //
             "CAST(\n" +
@@ -98,7 +98,7 @@ public class QueryConstants
             "  CONVERT(age_in_months(d.birth, d.lastDayAtCenter), INTEGER)\n" +
             "ELSE\n" +
             "  CONVERT(age_in_months(d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} AS DATE)), INTEGER)\n" +
-            "END AS float) as " + AGE_AT_TIME_MONTHS_COLUMN + ",\n" +
+            "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_MONTHS_COLUMN, true) + ",\n" +
             //NOTE: written as subselect so we ensure a single row returned in case data in ehr_lookups.ageclass has rows that allow dupes
             "(SELECT ac.ageclass FROM ehr_lookups.ageclass ac\n" +
             "  WHERE " +
@@ -106,7 +106,7 @@ public class QueryConstants
             "  ((CONVERT(age_in_months(d.birth, COALESCE(d.lastDayAtCenter, now())), DOUBLE) / 12) < ac.\"max\" OR ac.\"max\" is null) AND\n" +
             "  d.species.arc_species_code = ac.species AND\n" +
             "  (d.gender = ac.gender OR ac.gender IS NULL)\n" +
-            ") AS " + AGE_CLASS_AT_TIME_COLUMN + " \n" +
+            ") AS " + CaseUtils.toCamelCase(AGE_CLASS_AT_TIME_COLUMN, true) + " \n" +
             "FROM \"${" + SCHEMA_VARIABLE + "}\".\"${" + QUERY_VARIABLE + "}\" c " +
             "LEFT JOIN \"${" + EHR_PATH_VARIABLE + "}\".study.demographics d ON (d.Id = c.${" + ID_COLUMN_VARIABLE + "})";
 

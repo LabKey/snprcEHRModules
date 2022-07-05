@@ -1,9 +1,15 @@
 package org.labkey.snprc_ehr.table;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+/**
+ * Object containing Column information for data that will be calculated via SQL query
+ * and added as a column to a table
+ */
+@Getter
+@Setter
 @AllArgsConstructor
 public class CalculatedColumn
 {

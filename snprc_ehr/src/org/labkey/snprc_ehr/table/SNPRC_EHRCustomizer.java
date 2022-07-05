@@ -57,7 +57,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
     private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
 
-    private static CustomizerQueryProvider provider;
+    private CustomizerQueryProvider provider;
 
     public SNPRC_EHRCustomizer()
     {
@@ -233,16 +233,21 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
     }
 
+    /**
+     * Performs table customizations for columns that are calculated by SQL queries
+     * @param tableInfo
+     */
     public void doCalculatedCustomizations(AbstractTableInfo tableInfo) {
         if (tableInfo.getColumn(DATE_COLUMN) != null) {
             addCalculatedColumns((AbstractTableInfo) tableInfo);
         }
     }
 
-    private boolean isDemographicsTable(TableInfo tableInfo) {
-        return tableInfo.getName().equalsIgnoreCase(DEMOGRAPHICS_TABLE) && tableInfo.getPublicSchemaName().equalsIgnoreCase(STUDY_SCHEMA);
-    }
 
+    /**
+     * Checks the user schema and whether the table is 'demographics' and performs the necessary column calculations
+     * @param table
+     */
     private void addCalculatedColumns(AbstractTableInfo table)
     {
         UserSchema ehrSchema = getEHRUserSchema(table, STUDY_SCHEMA);
@@ -253,32 +258,46 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
     }
 
+    /**
+     * Checks the table and schema information and invokes provider method to build the table with the
+     * IACUC Assignment Calculated columns
+     * @param ehrSchema
+     * @param tableInfo
+     * @param dateColumnName
+     */
     private void appendAssignmentAtTimeColumn(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String dateColumnName) {
 
         if(!hasTable(tableInfo, STUDY_SCHEMA, ASSIGNMENT_TABLE, ehrSchema.getContainer()))
             return;
-        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(ASSIGNMENT_AT_TIME_COLUMN,
-                PROTOCOLS_AT_TIME_CALCULATED,
-                PROJECTS_AT_TIME_CALCULATED,
-                PROJECT_NUMBERS_AT_TIME_CALCULATED));
+        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(
+                PROTOCOLS_AT_TIME_CALCULATED,       // "Protocols At Time"
+                PROJECTS_AT_TIME_CALCULATED));      // "Projects At Time"
 
         if(!provider.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
                 ehrSchema, calculatedColumnNames,false))
             return;
     }
 
+    /**
+     * Checks the table and schema information and invokes provider method to build the table with the
+     * Age At Time calculated columns
+     * @param ehrSchema
+     * @param tableInfo
+     * @param dateColumnName
+     */
     private void appendAgeAtTimeColumn(UserSchema ehrSchema, AbstractTableInfo tableInfo, String dateColumnName) {
 
         if (!hasTable(tableInfo, STUDY_SCHEMA, DEMOGRAPHICS_TABLE, ehrSchema.getContainer()))
             return;
         if (!hasAnimalLookup(tableInfo))
             return;
-        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(AGE_AT_TIME_COLUMN,
-                AGE_AT_TIME_DAYS_COLUMN,
-                AGE_AT_TIME_MONTHS_COLUMN,
-                AGE_AT_TIME_YEARS_COLUMN,
-                AGE_AT_TIME_YEARS_ROUNDED_COLUMN,
-                AGE_CLASS_AT_TIME_COLUMN));
+        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(
+                AGE_AT_TIME_COLUMN,                     // "Age At Time"
+                AGE_AT_TIME_DAYS_COLUMN,                // "Age At Time Days"
+                AGE_AT_TIME_MONTHS_COLUMN,              // "Age At Time Months"
+                AGE_AT_TIME_YEARS_COLUMN,               // "Age At Time Years"
+                AGE_AT_TIME_YEARS_ROUNDED_COLUMN,       // "Age At Time Years Rounded"
+                AGE_CLASS_AT_TIME_COLUMN));             // "Age Class At Time"
 
         if(!provider.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
                 ehrSchema, calculatedColumnNames,true))
@@ -286,10 +305,23 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     }
 
-
+    /**
+     * Checks if the current table has a lookup value in the animal table
+     * @param tableInfo
+     * @return
+     */
     private boolean hasAnimalLookup(AbstractTableInfo tableInfo) {
         var idCol = tableInfo.getMutableColumn(ID_COLUMN);
         return idCol != null && idCol.getFk() != null && idCol.getFk().getLookupTableName().equalsIgnoreCase(ANIMAL_TABLE);
+    }
+
+    /**
+     * Checks if the current table is demographics
+     * @param tableInfo
+     * @return
+     */
+    private boolean isDemographicsTable(TableInfo tableInfo) {
+        return tableInfo.getName().equalsIgnoreCase(DEMOGRAPHICS_TABLE) && tableInfo.getPublicSchemaName().equalsIgnoreCase(STUDY_SCHEMA);
     }
 
     /**
