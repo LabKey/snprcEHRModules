@@ -270,8 +270,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         if(!hasTable(tableInfo, STUDY_SCHEMA, ASSIGNMENT_TABLE, ehrSchema.getContainer()))
             return;
         List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(
-                PROTOCOLS_AT_TIME_CALCULATED,       // "Protocols At Time"
-                PROJECTS_AT_TIME_CALCULATED));      // "Projects At Time"
+                PROTOCOLS_AT_TIME_CALCULATED));       // "Protocols At Time"
 
         if(!provider.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
                 ehrSchema, calculatedColumnNames,false))
