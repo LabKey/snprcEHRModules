@@ -20,15 +20,26 @@ public class CalculatedColumnForeignKey extends LookupForeignKey
 {
     private static final Logger _log = LogManager.getLogger(CalculatedColumnForeignKey.class);
 
+    /* Query info object */
     private CalculatedColumnQueryInfo _queryInfo;
 
+    /* SQL query to be used to calculate column values */
     private String _queryString;
 
+    /**
+     * Constructor
+     * @param queryInfo
+     * @param queryString
+     */
     public CalculatedColumnForeignKey(CalculatedColumnQueryInfo queryInfo, String queryString) {
         _queryInfo = queryInfo;
         _queryString = queryString;
     }
 
+    /**
+     * Returns a table that contains the new foreign key columns that were calculated via SQL query
+     * @return
+     */
     @Override
     public TableInfo getLookupTableInfo() {
 
