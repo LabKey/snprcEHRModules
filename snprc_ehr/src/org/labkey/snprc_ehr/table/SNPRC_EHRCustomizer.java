@@ -15,8 +15,6 @@
  */
 package org.labkey.snprc_ehr.table;
 
-import org.apache.commons.lang.text.StrSubstitutor;
-import org.apache.commons.text.CaseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -48,10 +46,9 @@ import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import static org.labkey.snprc_ehr.query.QueryConstants.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -251,52 +248,49 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         UserSchema ehrSchema = getEHRUserSchema(table, STUDY_SCHEMA);
         if (ehrSchema != null && !isDemographicsTable(table))
         {
-            appendAssignmentAtTimeCol(ehrSchema, table, DATE_COLUMN);
-            appendAgeAtTimeCol(ehrSchema, table, DATE_COLUMN);
+            appendAssignmentAtTimeColumn(ehrSchema, table, DATE_COLUMN);
+            appendAgeAtTimeColumn(ehrSchema, table, DATE_COLUMN);
         }
     }
 
-    private void appendAssignmentAtTimeCol(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String dateColumnName) {
+    private void appendAssignmentAtTimeColumn(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String dateColumnName) {
 
-        if(tableInfo.getColumn(CaseUtils.toCamelCase(ASSIGNMENT_AT_TIME_COLUMN, false)) != null)
-            return;
-
-        final ColumnInfo primaryKeyColumn = provider.getPrimaryKeyColumn(tableInfo);
-        if(primaryKeyColumn == null)
-            return;
-        final ColumnInfo idColumn = tableInfo.getColumn(ID_COLUMN);
-        if(idColumn == null)
-            return;
         if(!hasTable(tableInfo, STUDY_SCHEMA, ASSIGNMENT_TABLE, ehrSchema.getContainer()))
             return;
+        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(ASSIGNMENT_AT_TIME_COLUMN,
+                PROTOCOLS_AT_TIME_CALCULATED,
+                PROJECTS_AT_TIME_CALCULATED,
+                PROJECT_NUMBERS_AT_TIME_CALCULATED));
 
-        CalculatedColumnQueryInfo queryInfo = provider.getQueryInfo(tableInfo, primaryKeyColumn, idColumn, ehrSchema, ASSIGNMENT_AT_TIME_COLUMN, null);
-        WrappedColumn calculatedColumn = provider.getCalculatedColumn(queryInfo, provider.mapQueryStringValues(ASSIGNMENT_AT_TIME_SQL, queryInfo));
-        tableInfo.addColumn(calculatedColumn);
-
+        if(!provider.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
+                ehrSchema, calculatedColumnNames,false))
+            return;
     }
 
-    private void appendAgeAtTimeCol(UserSchema ehrSchema, AbstractTableInfo tableInfo, String dateColumnName) {
+    private void appendAgeAtTimeColumn(UserSchema ehrSchema, AbstractTableInfo tableInfo, String dateColumnName) {
 
-        if (tableInfo.getColumn(CaseUtils.toCamelCase(AGE_AT_TIME_COLUMN, false), false) != null)
-            tableInfo.removeColumn(tableInfo.getColumn(CaseUtils.toCamelCase(AGE_AT_TIME_COLUMN, false)));
-        final ColumnInfo primaryKeyColumn = provider.getPrimaryKeyColumn(tableInfo);
-        if (primaryKeyColumn == null)
-            return;
-        final ColumnInfo idColumn = tableInfo.getColumn(ID_COLUMN);
-        if(idColumn == null)
-            return;
         if (!hasTable(tableInfo, STUDY_SCHEMA, DEMOGRAPHICS_TABLE, ehrSchema.getContainer()))
             return;
-        if (!provider.hasAnimalLookup(tableInfo))
+        if (!hasAnimalLookup(tableInfo))
             return;
+        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(AGE_AT_TIME_COLUMN,
+                AGE_AT_TIME_DAYS_COLUMN,
+                AGE_AT_TIME_MONTHS_COLUMN,
+                AGE_AT_TIME_YEARS_COLUMN,
+                AGE_AT_TIME_YEARS_ROUNDED_COLUMN,
+                AGE_CLASS_AT_TIME_COLUMN));
 
-        CalculatedColumnQueryInfo queryInfo = provider.getQueryInfo(tableInfo, primaryKeyColumn, idColumn, ehrSchema, AGE_AT_TIME_COLUMN, null);
-        WrappedColumn caluclatedColumn = provider.getCalculatedColumn(queryInfo, provider.mapQueryStringValues(AGE_AT_TIME_SQL, queryInfo));
-        tableInfo.addColumn(caluclatedColumn);
+        if(!provider.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
+                ehrSchema, calculatedColumnNames,true))
+            return;
 
     }
 
+
+    private boolean hasAnimalLookup(AbstractTableInfo tableInfo) {
+        var idCol = tableInfo.getMutableColumn(ID_COLUMN);
+        return idCol != null && idCol.getFk() != null && idCol.getFk().getLookupTableName().equalsIgnoreCase(ANIMAL_TABLE);
+    }
 
     /**
      * A helper that will do a case-insensitive, name-vs-label-aware match to determine if the
