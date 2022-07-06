@@ -12,6 +12,8 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 
 import org.apache.commons.text.CaseUtils;
+import org.labkey.snprc_ehr.domain.CalculatedColumn;
+import org.labkey.snprc_ehr.domain.CalculatedColumnQueryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
