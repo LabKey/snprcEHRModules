@@ -1,4 +1,4 @@
-package org.labkey.snprc_ehr.table;
+package org.labkey.snprc_ehr.helpers;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -8,32 +8,33 @@ import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.query.UserSchema;
-import org.labkey.snprc_ehr.domain.CalculatedColumn;
-import org.labkey.snprc_ehr.domain.CalculatedColumnQueryInfo;
+import org.labkey.snprc_ehr.model.CalculatedColumn;
+import org.labkey.snprc_ehr.model.CalculatedColumnQueryInfo;
+import org.labkey.snprc_ehr.query.CalculatedColumnForeignKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.labkey.snprc_ehr.query.QueryConstants.DATE_COLUMN_VARIABLE;
-import static org.labkey.snprc_ehr.query.QueryConstants.EHR_PATH_VARIABLE;
-import static org.labkey.snprc_ehr.query.QueryConstants.ID_COLUMN;
-import static org.labkey.snprc_ehr.query.QueryConstants.ID_COLUMN_VARIABLE;
-import static org.labkey.snprc_ehr.query.QueryConstants.PRIMARY_KEY_VARIABLE;
-import static org.labkey.snprc_ehr.query.QueryConstants.QUERY_VARIABLE;
-import static org.labkey.snprc_ehr.query.QueryConstants.SCHEMA_VARIABLE;
-import static org.labkey.snprc_ehr.query.QueryConstants.TARGET_CONTAINER_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.DATE_COLUMN_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.EHR_PATH_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.ID_COLUMN;
+import static org.labkey.snprc_ehr.constants.QueryConstants.ID_COLUMN_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.PRIMARY_KEY_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.QUERY_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.SCHEMA_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.TARGET_CONTAINER_VARIABLE;
 
 /**
  * Class that provides methods to build a table from a SQL query that contains columns to be calculated
  */
-public class CustomizerQueryProvider
+public class CustomizerQueryHelper
 {
     /**
      * Constructor
      */
-    CustomizerQueryProvider() {
+    public CustomizerQueryHelper() {
 
     }
 
@@ -50,7 +51,7 @@ public class CustomizerQueryProvider
      * @param isRemovingDefaultTable
      * @return
      */
-    protected boolean buildTableFromQuery(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
+    public boolean buildTableFromQuery(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
                                           String queryString, UserSchema ehrSchema,
                                           List<String> calculatedColumnNames, boolean isRemovingDefaultTable) {
 
