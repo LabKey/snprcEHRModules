@@ -18,7 +18,7 @@
 -- Changes:
 --
 -- =================================================================
-alter PROCEDURE [dbo].[p_load_hl7_data]
+ALTER PROCEDURE [dbo].[p_load_hl7_data]
 (	@MessageId VARCHAR(50))
 AS
 BEGIN
@@ -92,13 +92,15 @@ begin transaction trans1
     --------------------------------------------------------------------------------------------------------
     -- insert into MSH table
     BEGIN TRY
-        INSERT INTO labkey.snprc_ehr.HL7_MSH_Staging
+        INSERT INTO labkey.snprc_ehr.HL7_MSH
             (   MESSAGE_ID,
                 IDX,
                 SENDING_APPLICATION,
                 SENDING_FACILITY,
                 RECEIVING_APPLICATION,
                 RECEIVING_FACILITY,
+                MESSAGE_TYPE,
+                TRIGGER_EVENT_ID,
                 MESSAGE_CONTROL_ID,
                 MESSAGE_DATE_TM
             )
@@ -109,6 +111,8 @@ begin transaction trans1
                msh.MSH_F4_C1,
                msh.MSH_F5_C1,
                msh.MSH_F5_C1,
+               msh.MSH_F9_C1,
+               msh.MSH_F9_C2,
                msh.MSH_F10_C1,
                dbo.f_format_hl7_date(msh.MSH_F7_C1)
 
@@ -117,13 +121,13 @@ begin transaction trans1
     END TRY
     BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_MSH_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_MSH.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
     --------------------------------------------------------------------------------------------------------
     -- insert into PID table
     BEGIN TRY
-        INSERT INTO labkey.snprc_ehr.HL7_PID_Staging
+        INSERT INTO labkey.snprc_ehr.HL7_PID
         (
             MESSAGE_ID,
             IDX,
@@ -156,13 +160,13 @@ begin transaction trans1
     END TRY
         BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_PID_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_PID.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
                 goto error
     END CATCH
     --------------------------------------------------------------------------------------------------------
     -- insert into PV1 table
     BEGIN TRY
-        INSERT INTO labkey.snprc_ehr.HL7_PV1_Staging
+        INSERT INTO labkey.snprc_ehr.HL7_PV1
         (
             MESSAGE_ID,
             IDX,
@@ -192,7 +196,7 @@ begin transaction trans1
     END TRY
         BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_PV1_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_PV1.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
 
@@ -200,7 +204,7 @@ begin transaction trans1
     -- insert into OCR table
 
     BEGIN TRY
-        INSERT INTO labkey.snprc_ehr.HL7_ORC_Staging
+        INSERT INTO labkey.snprc_ehr.HL7_ORC
         (
             MESSAGE_ID,
             IDX,
@@ -212,6 +216,7 @@ begin transaction trans1
             VERIFIED_BY_FIRST,
             ORDER_PROVIDER_LAST,
             ORDER_PROVIDER_FIRST,
+            CALLBACK_EMAIL,
             ORDER_DATE
         )
         ( SELECT
@@ -225,15 +230,16 @@ begin transaction trans1
                 orc.ORC_F11_C3,        -- VERIFIED_BY_FIRST - varchar(50)
                 orc.ORC_F12_C2,        -- ORDER_PROVIDER_LAST - varchar(50)
                 orc.ORC_F12_C3,        -- ORDER_PROVIDER_FIRST - varchar(50)
+                orc.ORC_F14_C3,        -- CALLBACK_EMAIL - varchar(50)
                 dbo.f_format_hl7_date(orc.ORC_F15_C1) -- ORDER_DATE - datetime
                 
             FROM Orchard_HL7_staging.dbo.ORC_Segment_ORC_A as orc
             WHERE orc.MessageId = @messageId
             )
     END TRY
-        BEGIN CATCH
+    BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_ORC_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_ORC.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
 
@@ -265,14 +271,14 @@ begin transaction trans1
             -- remove observations
                 DELETE cpx
 
-                FROM labkey.snprc_ehr.HL7_OBX_Staging AS cpx
-                INNER JOIN labkey.snprc_ehr.HL7_OBR_Staging AS cpr ON cpr.OBJECT_ID = cpx.OBR_OBJECT_ID
+                FROM labkey.snprc_ehr.HL7_OBX AS cpx
+                INNER JOIN labkey.snprc_ehr.HL7_OBR AS cpr ON cpr.OBJECT_ID = cpx.OBR_OBJECT_ID
                 INNER JOIN Orchard_hl7_staging.dbo.ORC_segment_obr_a AS obr ON obr.messageID = @MessageId AND obr.OBR_F1_C1 = cpx.OBR_SET_ID
                 WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X'	-- Result_status = Order cancelled
         END TRY
     BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error deleting message: *' + @messageid + '* from HL7_OBX_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error deleting message: *' + @messageid + '* from HL7_OBX.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
 
@@ -280,14 +286,14 @@ begin transaction trans1
     BEGIN TRY
         DELETE cpn
 
-        FROM labkey.snprc_ehr.HL7_NTE_Staging AS cpn
-        JOIN labkey.snprc_ehr.HL7_OBR_Staging AS cpr ON cpr.OBJECT_ID = cpn.OBR_OBJECT_ID
+        FROM labkey.snprc_ehr.HL7_NTE AS cpn
+        JOIN labkey.snprc_ehr.HL7_OBR AS cpr ON cpr.OBJECT_ID = cpn.OBR_OBJECT_ID
         JOIN dbo.ORC_segment_obr_a AS obr ON obr.messageID = @MessageId AND obr.OBR_F1_C1 = cpn.OBR_SET_ID
         WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X'	-- Result_status = Order cancelled
     END TRY
     BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error deleting message: *' + @messageid + '* from HL7_NTE_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error deleting message: *' + @messageid + '* from HL7_NTE.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
 
@@ -296,14 +302,14 @@ begin transaction trans1
         UPDATE cpr
         SET RESULT_STATUS = 'X'
 
-        FROM labkey.snprc_ehr.HL7_OBR_Staging AS cpr
+        FROM labkey.snprc_ehr.HL7_OBR AS cpr
         JOIN dbo.ORC_segment_obr_a AS obr ON obr.messageID = @MessageId AND cpr.Set_ID = obr.OBR_F1_C1
         WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X'	-- Result_status = Order cancelled
 
     END TRY
     BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error updating message: *' + @messageid + '* from HL7_OBR_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error updating message: *' + @messageid + '* from HL7_OBR.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
 
@@ -327,7 +333,7 @@ BEGIN
 
 
     BEGIN TRY
-        INSERT INTO labkey.snprc_ehr.HL7_OBR_Staging
+        INSERT INTO labkey.snprc_ehr.HL7_OBR
             
             ( MESSAGE_ID ,
                 IDX,
@@ -343,8 +349,8 @@ BEGIN
                 PROCEDURE_NAME ,
                 PRIORITY ,
                 RESULT_STATUS ,
-                TECHNICIAN_NAME ,
-                TECHNICIAN_INITIALS,
+                TECHNICIAN_LAST_NAME ,
+                TECHNICIAN_FIRST_NAME,
                 CHARGE_ID,
                 OBJECT_ID
             ) 
@@ -363,8 +369,8 @@ BEGIN
                obr.OBR_F4_C2, -- Procedure Name
                obr.OBR_F5_C1, -- Priority
                LTRIM(RTRIM(obr.OBR_F25_C1)), -- Result status
-               obr.OBR_F34_C2, -- Technicial Name
-               NULL, -- Technician Initials
+               obr.OBR_F34_C1, -- Technician last name
+               obr.OBR_F34_C2, -- Technician first name
                pv1.PV1_F24_C1,	--charge_id  -- TODO: maps to HL7 Contract Code
                NEWID() -- object_ID
 
@@ -381,7 +387,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         select @error = -101
-        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_OBR_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+        SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_OBR.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
         goto error
     END CATCH
 
@@ -403,11 +409,11 @@ BEGIN
                 LEAD(OBR.IDX, 1, 9999)  OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
 
             FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
-            INNER JOIN labkey.snprc_ehr.HL7_OBR_Staging as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
+            INNER JOIN labkey.snprc_ehr.HL7_OBR as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
             WHERE OBR.MessageId = @messageId
         ) 
 
-        INSERT INTO labkey.snprc_ehr.HL7_OBX_Staging
+        INSERT INTO labkey.snprc_ehr.HL7_OBX
            ( MESSAGE_ID ,
                IDX,
                OBR_OBJECT_ID,
@@ -416,7 +422,8 @@ BEGIN
                VALUE_TYPE ,
                TEST_ID ,
                TEST_NAME ,
-               OBSERVED_VALUE ,
+               QUALITATIVE_RESULT,
+               RESULT,
                UNITS ,
                REFERENCE_RANGE , -- TODO: missing reference ranges in Orchard data
                ABNORMAL_FLAGS ,  -- TODO: ditto ditto
@@ -432,6 +439,9 @@ BEGIN
                    obx.OBX_F3_C1,
                    obx.OBX_F3_C2,
                    obx.OBX_RESULTDATA,
+                   CASE WHEN obx.OBX_F2_C1 = 'NM' AND snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
+                            THEN CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
+                    ELSE NULL END AS RESULT,
                    obx.OBX_F6_C1,
                    obx.OBX_F7_C1,
                    obx.OBX_F8_C1,
@@ -445,7 +455,7 @@ BEGIN
         END TRY
         BEGIN CATCH
             select @error = -101
-            SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_OBX_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+            SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_OBX.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
             goto error
         END CATCH
 
@@ -457,10 +467,10 @@ BEGIN
                 LEAD(OBR.IDX, 1, 9999)  OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
 
             FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
-            INNER JOIN labkey.snprc_ehr.HL7_OBR_Staging as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
+            INNER JOIN labkey.snprc_ehr.HL7_OBR as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
             WHERE OBR.MessageId = @messageId
         ) 
-            INSERT INTO labkey.snprc_ehr.HL7_NTE_Staging
+            INSERT INTO labkey.snprc_ehr.HL7_NTE
                 ( MESSAGE_ID ,
                     IDX,
                     OBR_OBJECT_ID,
@@ -481,7 +491,7 @@ BEGIN
         END TRY
         BEGIN CATCH
             select @error = -101
-            SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_OBR_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+            SELECT @errormsg = 'Error inserting message: *' + @messageid + '* into HL7_OBR.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
             goto error
         END CATCH
 
@@ -496,7 +506,7 @@ BEGIN
                 LEAD(OBR.IDX, 1, 9999)  OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
 
             FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
-            INNER JOIN labkey.snprc_ehr.HL7_OBR_Staging as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
+            INNER JOIN labkey.snprc_ehr.HL7_OBR as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
             WHERE OBR.MessageId = @messageId
         ) 
 
@@ -506,13 +516,23 @@ BEGIN
                 -- cpx.VALUE_TYPE = ,				-- ditto (should not change)
                 -- cpx.TEST_ID = ,					-- ditto ditto
                 -- cpx.TEST_NAME ',					-- ditto ditto
-                cpx.OBSERVED_VALUE = CASE WHEN obx.OBX_F11_C1 = 'D' then '00' else obx.OBX_RESULTDATA END,
+
+                cpx.RESULT = CASE WHEN obx.OBX_F11_C1 = 'D' then '00'
+                    else
+                        CASE WHEN obx.OBX_F2_C1 = 'NM' AND snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
+                        THEN CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
+                        ELSE
+                            NULL
+                        END
+                    END,
+                
+                cpx.QUALITATIVE_RESULT = CASE WHEN obx.OBX_F11_C1 = 'D' THEN '00' ELSE obx.OBX_RESULTDATA END,
                 -- cpx.UNITS = ,					-- leave intact (should not change)
                 -- cpx.REFERENCE_RANGE ,			-- ditto ditto
                 cpx.ABNORMAL_FLAGS = CASE WHEN obx.OBX_F11_C1 = 'D' then NULL else obx.OBX_F8_C1 END,
                 cpx.RESULT_STATUS = obx.OBX_F11_C1
 
-                FROM labkey.snprc_ehr.HL7_OBX_Staging AS cpx
+                FROM labkey.snprc_ehr.HL7_OBX AS cpx
                 INNER JOIN cte ON cpx.Message_ID = cte.MessageID AND cpx.IDX > cte.OBR_IDX AND cpx.IDX < cte.next_OBR_IDX
                 INNER JOIN Orchard_hl7_staging.dbo.ORC_segment_obx_a as OBX on cpx.MESSAGE_ID = OBX.MessageId and cpx.IDX = OBX.IDX
             -- only update data with obx result_status = 'C' or 'D' (corrected or deleted entries)
@@ -521,7 +541,7 @@ BEGIN
         END TRY
         BEGIN CATCH
             select @error = -101
-            SELECT @errormsg = 'Error processing message: *' + @messageid + '* for update of HL7_OBX_Staging.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
+            SELECT @errormsg = 'Error processing message: *' + @messageid + '* for update of HL7_OBX.' + CHAR(13)+CHAR(10) + ERROR_MESSAGE()
             goto error
         END CATCH 
        
@@ -530,11 +550,9 @@ BEGIN
         INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT)
 		VALUES (@messageId,@hl7_observation_date_tm, @hl7_message_control_id, 1, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'upload okay.')
 
-
 		GOTO finis
 END
 not_animal_data:
-
 
 	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT)
 	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'Not animal data.')
@@ -561,7 +579,6 @@ finis:
     return 0
 
 END
-
 
 GRANT EXEC ON LIS.p_load_hl7_data TO hl7_admin;
 GRANT VIEW DEFINITION ON LIS.p_load_demographics TO hl7_admin;

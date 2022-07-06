@@ -1995,7 +1995,7 @@
         <tableTitle>External Reports</tableTitle>
     </table>
 
-    <table tableName="HL7_MSH_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_MSH" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2018,7 +2018,7 @@
         </columns>
         <tableTitle>HL7 MSH STAGING</tableTitle>
     </table>
-    <table tableName="HL7_PID_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_PID" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2029,7 +2029,7 @@
             <column columnName="MESSAGE_ID">
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkTable>HL7_MSH</fkTable>
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
@@ -2050,7 +2050,7 @@
         </columns>
         <tableTitle>HL7 PID STAGING</tableTitle>
     </table>
-    <table tableName="HL7_PV1_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_PV1" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2061,7 +2061,7 @@
             <column columnName="MESSAGE_ID">
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkTable>HL7_MSH</fkTable>
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
@@ -2080,7 +2080,7 @@
         </columns>
         <tableTitle>HL7 PV1 STAGING</tableTitle>
     </table>
-    <table tableName="HL7_ORC_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_ORC" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2091,7 +2091,7 @@
             <column columnName="MESSAGE_ID">
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkTable>HL7_MSH</fkTable>
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
@@ -2112,7 +2112,7 @@
         </columns>
         <tableTitle>HL7 ORC STAGING</tableTitle>
     </table>
-    <table tableName="HL7_OBR_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_OBR" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2123,7 +2123,7 @@
             <column columnName="MESSAGE_ID">
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkTable>HL7_MSH</fkTable>
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
@@ -2148,12 +2148,19 @@
             <column columnName="PV1_VISIT_NUM"/>
             <column columnName="SET_ID"/>
             <column columnName="SPECIMEN_NUM"/>
-            <column columnName="PROCEDURE_ID"/>
+            <column columnName="PROCEDURE_ID">
+                <columnTitle>Service ID</columnTitle>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>labwork_services</fkTable>
+                    <fkColumnName>ServiceId</fkColumnName>
+                </fk>
+            </column>
             <column columnName="PROCEDURE_NAME"/>
             <column columnName="PRIORITY"/>
             <column columnName="RESULT_STATUS"/>
-            <column columnName="TECHNICIAN_NAME"/>
-            <column columnName="TECHNICIAN_INITIALS"/>
+            <column columnName="TECHNICIAN_FIRST_NAME"/>
+            <column columnName="TECHNICIAN_LAST_NAME"/>
             <column columnName="CHARGE_ID"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
@@ -2162,7 +2169,7 @@
         </columns>
         <tableTitle>HL7 OBR STAGING</tableTitle>
     </table>
-    <table tableName="HL7_OBX_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_OBX" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2173,7 +2180,7 @@
             <column columnName="MESSAGE_ID">
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkTable>HL7_MSH</fkTable>
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
@@ -2196,7 +2203,7 @@
         </columns>
         <tableTitle>HL7 OBX STAGING</tableTitle>
     </table>
-    <table tableName="HL7_NTE_STAGING" tableDbType="TABLE">
+    <table tableName="HL7_NTE" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
         <auditLogging>DETAILED</auditLogging>
         <importUrl/>
@@ -2207,7 +2214,7 @@
             <column columnName="MESSAGE_ID">
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
-                    <fkTable>HL7_MSH_STAGING</fkTable>
+                    <fkTable>HL7_MSH</fkTable>
                     <fkColumnName>MESSAGE_ID</fkColumnName>
                 </fk>
             </column>
