@@ -1,4 +1,4 @@
-package org.labkey.snprc_ehr.domain;
+package org.labkey.snprc_ehr.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

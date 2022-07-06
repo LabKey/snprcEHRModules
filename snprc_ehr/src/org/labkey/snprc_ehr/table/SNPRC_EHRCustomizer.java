@@ -43,7 +43,9 @@ import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
-import static org.labkey.snprc_ehr.query.QueryConstants.*;
+import org.labkey.snprc_ehr.helpers.CustomizerQueryHelper;
+
+import static org.labkey.snprc_ehr.constants.QueryConstants.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,11 +59,11 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
     private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
 
-    private CustomizerQueryProvider provider;
+    private CustomizerQueryHelper helper;
 
     public SNPRC_EHRCustomizer()
     {
-        provider = new CustomizerQueryProvider();
+        helper = new CustomizerQueryHelper();
 
     }
 
@@ -272,7 +274,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(
                 PROTOCOLS_AT_TIME_CALCULATED));       // "Protocols At Time"
 
-        if(!provider.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
+        if(!helper.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
                 ehrSchema, calculatedColumnNames,false))
             return;
     }
@@ -298,7 +300,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 AGE_AT_TIME_YEARS_ROUNDED_COLUMN,       // "Age At Time Years Rounded"
                 AGE_CLASS_AT_TIME_COLUMN));             // "Age Class At Time"
 
-        if(!provider.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
+        if(!helper.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
                 ehrSchema, calculatedColumnNames,true))
             return;
 

@@ -1,4 +1,4 @@
-package org.labkey.snprc_ehr.query;
+package org.labkey.snprc_ehr.constants;
 
 import org.apache.commons.text.CaseUtils;
 

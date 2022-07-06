@@ -1,4 +1,4 @@
-package org.labkey.snprc_ehr.table;
+package org.labkey.snprc_ehr.query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +12,8 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 
 import org.apache.commons.text.CaseUtils;
-import org.labkey.snprc_ehr.domain.CalculatedColumn;
-import org.labkey.snprc_ehr.domain.CalculatedColumnQueryInfo;
+import org.labkey.snprc_ehr.model.CalculatedColumn;
+import org.labkey.snprc_ehr.model.CalculatedColumnQueryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
