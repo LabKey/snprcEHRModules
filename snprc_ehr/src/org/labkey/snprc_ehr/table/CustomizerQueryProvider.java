@@ -8,6 +8,8 @@ import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.query.UserSchema;
+import org.labkey.snprc_ehr.domain.CalculatedColumn;
+import org.labkey.snprc_ehr.domain.CalculatedColumnQueryInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

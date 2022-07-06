@@ -1,4 +1,4 @@
-package org.labkey.snprc_ehr.table;
+package org.labkey.snprc_ehr.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.query.UserSchema;
+import org.labkey.snprc_ehr.domain.CalculatedColumn;
 
 import java.util.List;
 
