@@ -21,7 +21,9 @@ FROM study.demographics AS d
            gender,
            label
     FROM ehr_lookups.ageclass AS ac
-) as x ON d.species.arc_species_code = x.species and x.label = 'Adult' AND (x.gender = 'M' OR x.gender is NULL)
+) as x ON d.species.arc_species_code = x.species
+    AND (x.label = 'Adult' OR (d.species.arc_species_code = 'CJ' AND x.label = 'Senior' ))
+    AND (x.gender = 'M' OR x.gender is NULL)
 
 -- hard code until the gestation data is available in LK - use 185 if we don't have a value
          INNER JOIN (
