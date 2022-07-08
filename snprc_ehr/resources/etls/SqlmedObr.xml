@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Sqlmed OBR data</name>
+    <description>Clinical Pathology OBR data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprcSrc" queryName="v_Sqlmed_obr" />
+            <destination schemaName="snprc_ehr" queryName="HL7_OBR" bulkLoad="true" batchSize="10000" targetOption="merge">
+                <alternateKeys>
+                    <column name="OBJECT_ID"/>
+                </alternateKeys>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_clinpathruns" timestampColumnName="entry_date_tm" deletedSourceKeyColumnName="objectid" targetKeyColumnName="OBJECT_ID"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>

@@ -2132,12 +2132,9 @@
             <column columnName="ANIMAL_ID">
                 <datatype>varchar</datatype>
                 <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
-                <importAliases>
-                    <importAlias>ptid</importAlias>
-                </importAliases>
                 <fk>
                     <fkDbSchema>study</fkDbSchema>
-                    <fkTable>demographics</fkTable>
+                    <fkTable>animal</fkTable>
                     <fkColumnName>Id</fkColumnName>
                 </fk>
             </column>
@@ -2167,7 +2164,7 @@
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 OBR STAGING</tableTitle>
+        <tableTitle>HL7 `OBR` STAGING</tableTitle>
     </table>
     <table tableName="HL7_OBX" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
