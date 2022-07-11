@@ -275,7 +275,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 PROTOCOLS_AT_TIME_CALCULATED));       // "Protocols At Time"
 
         if(!helper.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
-                ehrSchema, calculatedColumnNames,false))
+                ehrSchema, ASSIGNMENT_TABLE, ID_COLUMN, calculatedColumnNames, false))
             return;
     }
 
@@ -301,7 +301,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 AGE_CLASS_AT_TIME_COLUMN));             // "Age Class At Time"
 
         if(!helper.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
-                ehrSchema, calculatedColumnNames,true))
+                ehrSchema, AGE_CLASS_TABLE, AGE_CLASS_TABLE, calculatedColumnNames,true))
             return;
 
     }

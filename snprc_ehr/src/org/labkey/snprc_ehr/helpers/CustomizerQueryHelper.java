@@ -52,7 +52,7 @@ public class CustomizerQueryHelper
      * @return
      */
     public boolean buildTableFromQuery(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
-                                          String queryString, UserSchema ehrSchema,
+                                          String queryString, UserSchema ehrSchema, String lookupTableName, String lookupTableKeyName,
                                           List<String> calculatedColumnNames, boolean isRemovingDefaultTable) {
 
         /* Check if the column already exists in the table */
@@ -75,7 +75,7 @@ public class CustomizerQueryHelper
 
         /* Build a query info object to be used by the foreign key class */
         CalculatedColumnQueryInfo queryInfo = getQueryInfo(tableInfo, primaryKeyColumn, idColumn, ehrSchema, columnName,
-                getCalculatedColumns(calculatedColumnNames));
+                getCalculatedColumns(calculatedColumnNames, lookupTableName, lookupTableKeyName));
 
         /* Build a wrapped column object for the table */
         WrappedColumn calculatedColumn = getWrappedCalculatedColumn(queryInfo, mapQueryStringValues(queryString, queryInfo,
@@ -89,11 +89,11 @@ public class CustomizerQueryHelper
      * @param columnNames
      * @return
      */
-    private List<CalculatedColumn> getCalculatedColumns(List<String> columnNames) {
+    private List<CalculatedColumn> getCalculatedColumns(List<String> columnNames, String lookupTableName, String lookupTableKeyName) {
         List<CalculatedColumn> calculatedColumns = new ArrayList<>();
         for (String columnName : columnNames) {
             calculatedColumns.add(new CalculatedColumn(CaseUtils.toCamelCase(columnName, true),
-                    columnName, false));
+                    columnName, lookupTableName, lookupTableKeyName, false));
         }
         return calculatedColumns;
     }
