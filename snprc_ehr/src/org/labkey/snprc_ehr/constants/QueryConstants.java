@@ -32,7 +32,9 @@ public class QueryConstants
     public static final String ID_COLUMN_VARIABLE = "idColumnName";
     public static final String TARGET_CONTAINER_VARIABLE ="targetContainerName";
     public static final String DATE_COLUMN_VARIABLE = "dateColumnName";
+    public static final String EHR_LOOKUPS_SCHEMA = "ehr_lookups";
 
+    public static final String AGE_CLASS_TABLE = "ageClass";
     public static final String ASSIGNMENT_AT_TIME_SQL = "SELECT\n" +
             "sd.${" + PRIMARY_KEY_VARIABLE + "},\n" +
             "group_concat(DISTINCT h.protocol.displayName, chr(10)) as " + CaseUtils.toCamelCase(PROTOCOLS_AT_TIME_CALCULATED, true) + ",\n" +

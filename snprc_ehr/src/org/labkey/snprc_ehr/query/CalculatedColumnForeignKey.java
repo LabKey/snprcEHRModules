@@ -4,10 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.BaseColumnInfo;
+import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.LookupForeignKey;
 import org.labkey.api.query.QueryDefinition;
 import org.labkey.api.query.QueryException;
+import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 
@@ -70,8 +73,14 @@ public class CalculatedColumnForeignKey extends LookupForeignKey
             BaseColumnInfo columnInfo = ((BaseColumnInfo) lookupTable.getColumn(column.getColumnName()));
             columnInfo.setLabel(column.getLabel());
             columnInfo.setHidden(column.isHidden());
+            columnInfo.setFk(new QueryForeignKey(QueryForeignKey.from(targetSchema, tableInfo.getContainerFilter())
+                    .table(column.getLookupTableName())
+                    .key(column.getLookupTableKeyName())
+                    .display(column.getLookupTableKeyName())
+                    .url()));
         }
 
         return lookupTable;
     }
+
 }

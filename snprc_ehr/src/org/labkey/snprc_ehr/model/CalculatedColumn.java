@@ -18,6 +18,10 @@ public class CalculatedColumn
 
     private String label;
 
+    private String lookupTableName;
+
+    private String lookupTableKeyName;
+
     private boolean isHidden;
 
 }
