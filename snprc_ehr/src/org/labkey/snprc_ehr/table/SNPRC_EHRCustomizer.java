@@ -43,14 +43,13 @@ import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
-import org.labkey.snprc_ehr.helpers.CustomizerQueryHelper;
+import org.labkey.snprc_ehr.helpers.CustomizerQueryProvider;
+import org.labkey.snprc_ehr.model.CalculatedColumn;
 
 import static org.labkey.snprc_ehr.constants.QueryConstants.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by bimber on 1/23/2015.
@@ -59,11 +58,13 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
     private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
 
-    private CustomizerQueryHelper helper;
+    private CustomizerQueryProvider helper;
+
+    private Set<CalculatedColumn> calculatedColumns;
 
     public SNPRC_EHRCustomizer()
     {
-        helper = new CustomizerQueryHelper();
+        helper = new CustomizerQueryProvider();
 
     }
 
@@ -271,11 +272,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if(!hasTable(tableInfo, STUDY_SCHEMA, ASSIGNMENT_TABLE, ehrSchema.getContainer()))
             return;
-        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(
-                PROTOCOLS_AT_TIME_CALCULATED));       // "Protocols At Time"
 
-        if(!helper.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
-                ehrSchema, ASSIGNMENT_TABLE, ID_COLUMN, calculatedColumnNames, false))
+        calculatedColumns = Set.of(
+                new CalculatedColumn(PROTOCOLS_AT_TIME_CALCULATED),
+                new CalculatedColumn(ACCOUNTS_AT_TIME_CALCULATED)
+        );
+
+        if(helper.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
+                ehrSchema, calculatedColumns, false) == null)
             return;
     }
 
@@ -292,16 +296,18 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             return;
         if (!hasAnimalLookup(tableInfo))
             return;
-        List<String> calculatedColumnNames = new ArrayList<>(Arrays.asList(
-                AGE_AT_TIME_COLUMN,                     // "Age At Time"
-                AGE_AT_TIME_DAYS_COLUMN,                // "Age At Time Days"
-                AGE_AT_TIME_MONTHS_COLUMN,              // "Age At Time Months"
-                AGE_AT_TIME_YEARS_COLUMN,               // "Age At Time Years"
-                AGE_AT_TIME_YEARS_ROUNDED_COLUMN,       // "Age At Time Years Rounded"
-                AGE_CLASS_AT_TIME_COLUMN));             // "Age Class At Time"
 
-        if(!helper.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
-                ehrSchema, AGE_CLASS_TABLE, AGE_CLASS_TABLE, calculatedColumnNames,true))
+        calculatedColumns = Set.of(
+                new CalculatedColumn(AGE_AT_TIME_COLUMN),
+                new CalculatedColumn(AGE_AT_TIME_DAYS_COLUMN),
+                new CalculatedColumn(AGE_AT_TIME_MONTHS_COLUMN),
+                new CalculatedColumn(AGE_AT_TIME_YEARS_COLUMN),
+                new CalculatedColumn(AGE_AT_TIME_YEARS_ROUNDED_COLUMN),
+                new CalculatedColumn(AGE_CLASS_AT_TIME_COLUMN)
+        );
+
+        if(helper.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
+                ehrSchema, calculatedColumns,true) == null)
             return;
 
     }
