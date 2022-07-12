@@ -58,13 +58,13 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
     private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
 
-    private CustomizerQueryProvider helper;
+    private CustomizerQueryProvider _provider;
 
     private Set<CalculatedColumn> calculatedColumns;
 
     public SNPRC_EHRCustomizer()
     {
-        helper = new CustomizerQueryProvider();
+        _provider = new CustomizerQueryProvider();
 
     }
 
@@ -278,7 +278,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 new CalculatedColumn(ACCOUNTS_AT_TIME_CALCULATED)
         );
 
-        if(helper.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
+        if(_provider.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
                 ehrSchema, calculatedColumns, false) == null)
             return;
     }
@@ -306,7 +306,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 new CalculatedColumn(AGE_CLASS_AT_TIME_COLUMN)
         );
 
-        if(helper.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
+        if(_provider.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
                 ehrSchema, calculatedColumns,true) == null)
             return;
 
