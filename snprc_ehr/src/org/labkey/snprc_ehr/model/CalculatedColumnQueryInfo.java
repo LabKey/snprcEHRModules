@@ -9,6 +9,7 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Object containing query info for data to be calculated via SQL query amd added as a column to a table
@@ -30,6 +31,6 @@ public class CalculatedColumnQueryInfo
 
     private String label;
 
-    private List<CalculatedColumn> calculatedColumns;
+    private Set<CalculatedColumn> calculatedColumns;
 
 }

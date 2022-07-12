@@ -7,6 +7,7 @@ import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.ldk.table.AbstractTableCustomizer;
+import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.LookupForeignKey;
 import org.labkey.api.query.QueryDefinition;
 import org.labkey.api.query.QueryException;
@@ -19,7 +20,9 @@ import org.labkey.snprc_ehr.model.CalculatedColumn;
 import org.labkey.snprc_ehr.model.CalculatedColumnQueryInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CalculatedColumnForeignKey extends LookupForeignKey
 {
@@ -73,11 +76,14 @@ public class CalculatedColumnForeignKey extends LookupForeignKey
             BaseColumnInfo columnInfo = ((BaseColumnInfo) lookupTable.getColumn(column.getColumnName()));
             columnInfo.setLabel(column.getLabel());
             columnInfo.setHidden(column.isHidden());
-            columnInfo.setFk(new QueryForeignKey(QueryForeignKey.from(targetSchema, tableInfo.getContainerFilter())
-                    .table(column.getLookupTableName())
-                    .key(column.getLookupTableKeyName())
-                    .display(column.getLookupTableKeyName())
-                    .url()));
+            if (column.getLookupTableKeyName() != null && column.getLookupTableName() != null && column.getLookupUrl() != null)
+            {
+                columnInfo.setFk(new QueryForeignKey(QueryForeignKey.from(targetSchema, tableInfo.getContainerFilter())
+                        .table(column.getLookupTableName())
+                        .key(column.getLookupTableKeyName())
+                        .display(column.getLookupTableKeyName())));
+                columnInfo.setURL(DetailsURL.fromString(column.getLookupUrl()));
+            }
         }
 
         return lookupTable;

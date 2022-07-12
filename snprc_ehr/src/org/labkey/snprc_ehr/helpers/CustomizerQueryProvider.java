@@ -5,17 +5,21 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.text.CaseUtils;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.JdbcType;
+import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WrappedColumn;
+import org.labkey.api.query.DetailsURL;
+import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.UserSchema;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
 import org.labkey.snprc_ehr.model.CalculatedColumnQueryInfo;
 import org.labkey.snprc_ehr.query.CalculatedColumnForeignKey;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.labkey.snprc_ehr.constants.QueryConstants.DATE_COLUMN_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.EHR_PATH_VARIABLE;
@@ -23,18 +27,19 @@ import static org.labkey.snprc_ehr.constants.QueryConstants.ID_COLUMN;
 import static org.labkey.snprc_ehr.constants.QueryConstants.ID_COLUMN_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.PRIMARY_KEY_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.QUERY_VARIABLE;
+import static org.labkey.snprc_ehr.constants.QueryConstants.ROW_ID_COLUMN;
 import static org.labkey.snprc_ehr.constants.QueryConstants.SCHEMA_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.TARGET_CONTAINER_VARIABLE;
 
 /**
  * Class that provides methods to build a table from a SQL query that contains columns to be calculated
  */
-public class CustomizerQueryHelper
+public class CustomizerQueryProvider
 {
     /**
      * Constructor
      */
-    public CustomizerQueryHelper() {
+    public CustomizerQueryProvider() {
 
     }
 
@@ -47,13 +52,13 @@ public class CustomizerQueryHelper
      * @param dateColumnName
      * @param queryString
      * @param ehrSchema
-     * @param calculatedColumnNames
+     * @param calculatedColumns
      * @param isRemovingDefaultTable
      * @return
      */
-    public boolean buildTableFromQuery(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
-                                          String queryString, UserSchema ehrSchema, String lookupTableName, String lookupTableKeyName,
-                                          List<String> calculatedColumnNames, boolean isRemovingDefaultTable) {
+    public AbstractTableInfo buildTableFromQuery(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
+                                       String queryString, UserSchema ehrSchema,
+                                       Set<CalculatedColumn> calculatedColumns, boolean isRemovingDefaultTable) {
 
         /* Check if the column already exists in the table */
         if (tableInfo.getColumn(CaseUtils.toCamelCase(columnName, false), false) != null)
@@ -63,39 +68,25 @@ public class CustomizerQueryHelper
             if (isRemovingDefaultTable)
                 tableInfo.removeColumn(tableInfo.getColumn(CaseUtils.toCamelCase(columnName, false)));
             else
-                return false;
+                return null;
         }
 
         final ColumnInfo primaryKeyColumn = getPrimaryKeyColumn(tableInfo);
         if (primaryKeyColumn == null)
-            return false;
+            return null;
         final ColumnInfo idColumn = tableInfo.getColumn(ID_COLUMN);
         if(idColumn == null)
-            return false;
+            return null;
 
         /* Build a query info object to be used by the foreign key class */
         CalculatedColumnQueryInfo queryInfo = getQueryInfo(tableInfo, primaryKeyColumn, idColumn, ehrSchema, columnName,
-                getCalculatedColumns(calculatedColumnNames, lookupTableName, lookupTableKeyName));
+                calculatedColumns);
 
         /* Build a wrapped column object for the table */
         WrappedColumn calculatedColumn = getWrappedCalculatedColumn(queryInfo, mapQueryStringValues(queryString, queryInfo,
                 dateColumnName));
         tableInfo.addColumn(calculatedColumn);
-        return true;
-    }
-
-    /**
-     * Returns a list of column objects from a list of given column names. Converts names to camel case
-     * @param columnNames
-     * @return
-     */
-    private List<CalculatedColumn> getCalculatedColumns(List<String> columnNames, String lookupTableName, String lookupTableKeyName) {
-        List<CalculatedColumn> calculatedColumns = new ArrayList<>();
-        for (String columnName : columnNames) {
-            calculatedColumns.add(new CalculatedColumn(CaseUtils.toCamelCase(columnName, true),
-                    columnName, lookupTableName, lookupTableKeyName, false));
-        }
-        return calculatedColumns;
+        return tableInfo;
     }
 
     /**
@@ -120,7 +111,7 @@ public class CustomizerQueryHelper
      */
     private CalculatedColumnQueryInfo getQueryInfo(AbstractTableInfo tableInfo, ColumnInfo primaryKeyColumn,
                                                    ColumnInfo idColumn, UserSchema ehrSchema,
-                                                   String label, List<CalculatedColumn> calculatedColumns)
+                                                   String label, Set<CalculatedColumn> calculatedColumns)
     {
         CalculatedColumnQueryInfo queryInfo = new CalculatedColumnQueryInfo();
         queryInfo.setTableInfo(tableInfo);
@@ -175,7 +166,6 @@ public class CustomizerQueryHelper
             queryByValues.put(TARGET_CONTAINER_VARIABLE, queryInfo.getTableInfo().getUserSchema().getName());
         if(StringUtils.contains(queryString, DATE_COLUMN_VARIABLE))
             queryByValues.put(DATE_COLUMN_VARIABLE, dateColumnName);
-
         return StrSubstitutor.replace(queryString, queryByValues);
 
     }
