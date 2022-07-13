@@ -54,7 +54,6 @@ public class CustomizerQueryProvider
     public AbstractTableInfo getCalculatedColumnsTable(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
                                        String queryString, UserSchema ehrSchema,
                                        Set<CalculatedColumn> calculatedColumns, boolean isRemovingDefaultCustomizerColumns) {
-
         /* Check if the column already exists in the table */
         if (tableInfo.getColumn(CaseUtils.toCamelCase(columnName, false), false) != null)
         {
