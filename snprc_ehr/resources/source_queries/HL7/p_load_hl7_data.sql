@@ -406,6 +406,7 @@ BEGIN
 		;WITH cte AS (
 
             SELECT OBR.MessageId, OBR.IDX AS OBR_IDX, OBR.OBR_F1_C1 AS SET_ID, OBR.OBR_F25_C1 as RESULT_STATUS, cbr.OBJECT_ID as obr_object_id,
+                   obr.OBR_F4_C1 as obr_service_id
                 LEAD(OBR.IDX, 1, 9999)  OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
 
             FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
@@ -422,6 +423,7 @@ BEGIN
                VALUE_TYPE ,
                TEST_ID ,
                TEST_NAME ,
+               serviceTestId,
                QUALITATIVE_RESULT,
                RESULT,
                UNITS ,
@@ -438,6 +440,7 @@ BEGIN
                    obx.OBX_F2_C1,
                    obx.OBX_F3_C1,
                    obx.OBX_F3_C2,
+                   lp.objectId,
                    obx.OBX_RESULTDATA,
                    CASE WHEN obx.OBX_F2_C1 = 'NM' AND snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
                             THEN CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
@@ -448,6 +451,8 @@ BEGIN
                    obx.OBX_F11_C1
             FROM dbo.ORC_segment_obx_a AS obx
 			INNER JOIN cte ON OBX.MessageID = cte.MessageID AND obx.IDX > cte.OBR_IDX AND obx.IDX < cte.next_OBR_IDX
+			LEFT OUTER JOIN labkey.snprc_ehr.labwork_panels AS lp ON cte.obr_service_id = lp.serviceId
+			        AND obx.OBX_F3_C1 = lp.testId
             
               -- only load data with result_status = 'F' (final).
               AND cte.RESULT_STATUS = 'F'

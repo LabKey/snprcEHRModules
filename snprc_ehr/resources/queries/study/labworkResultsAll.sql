@@ -17,76 +17,76 @@
             superceding original labworkResults table in all uses.
 
    Author:  Charles Peterson, 10/29/2018
+   7/13/2022 Refactored to use HL7 tables from Orchard
 
  */
+SELECT
+    obr.ANIMAL_ID AS Id,
+    obr.OBSERVATION_DATE_TM as date,
+    obr.CHARGE_ID as project,
+    obr.PROCEDURE_ID as serviceId,
+    obx.serviceTestId as serviceTestId,
+    obx.TEST_ID as testId,
+    NULL as resultOORIndicator,
+    obx.VALUE_TYPE as VALUE_TYPE,
+    CAST(obx.RESULT as DOUBLE) as RESULT,
+    obx.UNITS as units,
+    obx.QUALITATIVE_RESULT as qualresult,
+    obx.REFERENCE_RANGE as refRange,
+    obx.ABNORMAL_FLAGS as abnormal_flags,
+    obx.MESSAGE_ID as runId,
+    NULL as enddate,
+    NULL as method,
+    nte.COMMENT as remark
+FROM snprc_ehr.HL7_OBR obr
+    LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
+    LEFT OUTER JOIN
+    (
+        select nte.OBR_OBJECT_ID, nte.OBR_SET_ID, GROUP_CONCAT(nte.COMMENT) as COMMENT
+        from snprc_ehr.HL7_NTE nte
+        group by nte.OBR_OBJECT_ID, nte.OBR_SET_ID
 
+    ) AS nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
+    LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = lp.ServiceId
 
+UNION
 select
-  Id,
-  date,
-  project,
-  serviceId,
-  serviceTestId,
-  testid,
-  resultOORIndicator,
-  value_type,
-  result,
-  units,
-  qualresult,
-  refRange,
-  abnormal_flags,
-  runid,
-  enddate,
-  method,
-  remark,
-  history,
-  lsid
-from study.labworkResults
-
+  alr.Id,
+  alr.date,
+  alr.project,
+  alr.serviceId,
+  alr.serviceTestId,
+  alr.testid,
+  alr.resultOORIndicator,
+  alr.value_type,
+  alr.result,
+  alr.units,
+  alr.qualresult,
+  alr.refRange,
+  alr.abnormal_flags,
+  alr.runid,
+  alr.enddate,
+  alr.method,
+  alr.remark
+from study.assay_labworkResults as alr
 union
 
 select
-  Id,
-  date,
-  project,
-  serviceId,
-  serviceTestId,
-  testid,
-  resultOORIndicator,
-  value_type,
-  result,
-  units,
-  qualresult,
-  refRange,
-  abnormal_flags,
-  runid,
-  enddate,
-  method,
-  remark,
-  history,
-  lsid
-from study.assay_labworkResults
-
-union
-
-select
-    Id,
-    date,
-    project,
-    serviceId,
-    serviceTestId,
-    testid,
-    resultOORIndicator,
-    value_type,
-    result,
-    units,
-    qualresult,
-    refRange,
-    abnormal_flags,
-    runid,
-    enddate,
-    method,
-    remark,
-    history,
-    lsid
-from study.labworkTaqman
+    lt.Id,
+    lt.date,
+    lt.project,
+    lt.serviceId,
+    lt.serviceTestId,
+    lt.testid,
+    lt.resultOORIndicator,
+    lt.value_type,
+    lt.result,
+    lt.units,
+    lt.qualresult,
+    lt.refRange,
+    lt.abnormal_flags,
+    lt.runid,
+    lt.enddate,
+    lt.method,
+    remark
+from study.labworkTaqman as lt

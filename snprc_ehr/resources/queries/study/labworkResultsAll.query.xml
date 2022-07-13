@@ -21,11 +21,11 @@
                         <nullable>true</nullable>
                     </column>
                     <column columnName="serviceTestId">
-                        <columnTitle>Test Name</columnTitle>
+                        <columnTitle>Service Test ID</columnTitle>
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>labwork_panels</fkTable>
-                            <fkColumnName>RowId</fkColumnName>
+                            <fkColumnName>objectId</fkColumnName>
                             <fkDisplayColumnName>TestName</fkDisplayColumnName>
                         </fk>
                     </column>
@@ -50,7 +50,7 @@
                         <columnTitle>Units</columnTitle>
                         <displayWidth>60</displayWidth>
                     </column>
-                    <column columnName="refRange" wrappedColumnName="lsid">
+                    <column columnName="refRange">
                         <columnTitle>Ref Range</columnTitle>
                         <isUnselectable>true</isUnselectable>
                         <isHidden>false</isHidden>

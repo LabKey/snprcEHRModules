@@ -23,10 +23,10 @@ from snprc_ehr.HL7SurveillancePivotInner
 
 GROUP BY id, date, MESSAGE_ID, PROCEDURE_NAME,  PROCEDURE_NAME, PROCEDURE_ID, COMMENT, TestName
     PIVOT RESULT, QUALITATIVE_RESULT, ABNORMAL_FLAGS BY TestName
---
---      IN
---     (
---     select TestName from snprc_ehr.labwork_panels t
---     where t.includeInPanel = true AND t.ServiceId.Dataset='Surveillance'
---     )
+
+     IN
+    (
+    select TestName from snprc_ehr.labwork_panels t
+    where t.includeInPanel = true AND t.ServiceId.Dataset='Surveillance'
+    )
 

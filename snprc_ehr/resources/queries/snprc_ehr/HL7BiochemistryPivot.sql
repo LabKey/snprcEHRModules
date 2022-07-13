@@ -30,9 +30,9 @@ WHERE obr.PROCEDURE_ID.Dataset = 'Biochemistry'
 
 GROUP BY obr.ANIMAL_ID, obr.OBSERVATION_DATE_TM, obr.MESSAGE_ID, obr.PROCEDURE_NAME, obr.SET_ID, COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME), obr.PROCEDURE_ID, nte.COMMENT, COALESCE (lp.TestName, obx.TEST_NAME)
     PIVOT RESULT, QUALITATIVE_RESULT, ABNORMAL_FLAGS BY TestName
---
---      IN
---     (
---     select TestName from snprc_ehr.labwork_panels t
---     where t.includeInPanel = true AND t.ServiceId.Dataset='Biochemistry'
---     )
+
+IN
+    (
+        select TestName from snprc_ehr.labwork_panels t
+        where t.includeInPanel = true AND t.ServiceId.Dataset='Biochemistry'
+    )

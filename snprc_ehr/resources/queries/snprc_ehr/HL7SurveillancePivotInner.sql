@@ -1,14 +1,3 @@
-/* Valid Service types:
-	Biochemistry
-	Culture
-	Hematology
-	Histology
-	Misc Tests
-	Parasitology
-	Surveillance
-	Unknown
-	Urinalysis
- */
     SELECT
         obr.ANIMAL_ID AS Id,
         obr.OBSERVATION_DATE_TM as date,
@@ -55,6 +44,6 @@
         b.remark as COMMENT,
         '' AS ABNORMAL_FLAGS,
         b.qualresult as QUALITATIVE_RESULT,
-        b.RESULT as RESULT
+        NULL as RESULT
     FROM study.assay_labworkResults b
     WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'

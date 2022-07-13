@@ -2188,7 +2188,17 @@
             <column columnName="VALUE_TYPE"/>
             <column columnName="TEST_ID"/>
             <column columnName="TEST_NAME"/>
-            <column columnName="OBSERVED_VALUE"/>
+            <column columnName="serviceTestId">
+                <columnTitle>serviceTestId</columnTitle>
+                <fk>
+                    <fkDbSchema>snprc_ehr</fkDbSchema>
+                    <fkTable>labwork_panels</fkTable>
+                    <fkColumnName>objectId</fkColumnName>
+                    <fkDisplayColumnName>TestId</fkDisplayColumnName>
+                </fk>
+            </column>
+            <column columnName="QUALITATIVE_RESULT"/>
+            <column columnName="RESULT"/>
             <column columnName="UNITS"/>
             <column columnName="REFERENCE_RANGE"/>
             <column columnName="ABNORMAL_FLAGS"/>
