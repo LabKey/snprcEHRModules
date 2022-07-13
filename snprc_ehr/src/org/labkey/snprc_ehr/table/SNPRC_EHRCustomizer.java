@@ -278,7 +278,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 new CalculatedColumn(ACCOUNTS_AT_TIME_CALCULATED)
         );
 
-        if(_provider.buildTableFromQuery(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
+        if(_provider.getCalculatedColumnsTable(tableInfo, ASSIGNMENT_AT_TIME_COLUMN, dateColumnName, ASSIGNMENT_AT_TIME_SQL,
                 ehrSchema, calculatedColumns, false) == null)
             return;
     }
@@ -306,7 +306,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
                 new CalculatedColumn(AGE_CLASS_AT_TIME_COLUMN)
         );
 
-        if(_provider.buildTableFromQuery(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
+        if(_provider.getCalculatedColumnsTable(tableInfo, AGE_AT_TIME_COLUMN, dateColumnName, AGE_AT_TIME_SQL,
                 ehrSchema, calculatedColumns,true) == null)
             return;
 

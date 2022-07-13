@@ -5,12 +5,8 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.text.CaseUtils;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
-import org.labkey.api.data.JdbcType;
-import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WrappedColumn;
-import org.labkey.api.query.DetailsURL;
-import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.UserSchema;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
 import org.labkey.snprc_ehr.model.CalculatedColumnQueryInfo;
@@ -27,7 +23,6 @@ import static org.labkey.snprc_ehr.constants.QueryConstants.ID_COLUMN;
 import static org.labkey.snprc_ehr.constants.QueryConstants.ID_COLUMN_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.PRIMARY_KEY_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.QUERY_VARIABLE;
-import static org.labkey.snprc_ehr.constants.QueryConstants.ROW_ID_COLUMN;
 import static org.labkey.snprc_ehr.constants.QueryConstants.SCHEMA_VARIABLE;
 import static org.labkey.snprc_ehr.constants.QueryConstants.TARGET_CONTAINER_VARIABLE;
 
@@ -53,19 +48,19 @@ public class CustomizerQueryProvider
      * @param queryString
      * @param ehrSchema
      * @param calculatedColumns
-     * @param isRemovingDefaultTable
+     * @param isRemovingDefaultCustomizerColumns
      * @return
      */
-    public AbstractTableInfo buildTableFromQuery(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
+    public AbstractTableInfo getCalculatedColumnsTable(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
                                        String queryString, UserSchema ehrSchema,
-                                       Set<CalculatedColumn> calculatedColumns, boolean isRemovingDefaultTable) {
+                                       Set<CalculatedColumn> calculatedColumns, boolean isRemovingDefaultCustomizerColumns) {
 
         /* Check if the column already exists in the table */
         if (tableInfo.getColumn(CaseUtils.toCamelCase(columnName, false), false) != null)
         {
             /* Check if the table should be removed so that it can be rebuilt. Applies to tables that require
             *  queries that are different from the DefaultEHRCustomizer's query */
-            if (isRemovingDefaultTable)
+            if (isRemovingDefaultCustomizerColumns)
                 tableInfo.removeColumn(tableInfo.getColumn(CaseUtils.toCamelCase(columnName, false)));
             else
                 return null;
