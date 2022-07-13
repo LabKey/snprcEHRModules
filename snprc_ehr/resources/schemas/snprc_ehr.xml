@@ -2009,6 +2009,8 @@
             <column columnName="SENDING_FACILITY"/>
             <column columnName="RECEIVING_APPLICATION"/>
             <column columnName="RECEIVING_FACILITY"/>
+            <column columnName="MESSAGE_TYPE"/>
+            <column columnName="TRIGGER_EVENT_ID"/>
             <column columnName="MESSAGE_CONTROL_ID"/>
             <column columnName="MESSAGE_DATE_TM"/>
             <column columnName="OBJECT_ID"/>
