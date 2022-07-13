@@ -13,7 +13,7 @@
         </column>
         <column name="VaginalBleeding">
             <properties>
-                <property name = "columnTitle" value="VI"/>
+                <property name = "columnTitle" value="VB"/>
             </properties>
         </column>
         <column name="PurpleColor">

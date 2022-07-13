@@ -53,7 +53,6 @@ idHistory	General	query	ID History	true		study	idHistory			id_date	false	false		
 generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
-menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
 freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
 Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata
