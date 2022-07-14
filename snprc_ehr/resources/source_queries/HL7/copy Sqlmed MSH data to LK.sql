@@ -30,10 +30,10 @@ INSERT INTO labkey.snprc_ehr.HL7_MSH
 		   'ORU' AS MESSAGE_TYPE,
 		   '' AS TRIGGER_EVENT_ID,
 		   obr.MESSAGE_CONTROL_ID AS MESSAGE_CONTROL_ID,
-		   CAST(CAST(obr.VERIFIED_DATE_TM AS DATETIME2(0)) AS DATETIME) AS MESSAGE_DATE_TM,
+		   obr.VERIFIED_DATE_TM AS MESSAGE_DATE_TM,
 		   obr.OBJECT_ID AS OBJECT_ID,
-		   obr.ENTRY_DATE_TM AS ENTRY_DATE_TM,
-		   dbo.f_map_username(obr.USER_NAME) AS USER_NAME
+		   dbo.f_map_username(obr.USER_NAME) AS USER_NAME,
+		   obr.ENTRY_DATE_TM AS ENTRY_DATE_TM
 	FROM dbo.CLINICAL_PATH_OBR AS obr
 
 		-- select primates only from the TxBiomed colony
