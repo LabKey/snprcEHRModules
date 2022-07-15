@@ -13,13 +13,24 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
 
         this.items = [
             this.getQueryCmpConfig('Active IACUC Assignments', 'study', 'colonyUsage'),
-            this.getQueryCmpConfig('Assigned (funded)', 'study', 'baboonAssignedColonyUsage'),
-            this.getQueryCmpConfig('Breeding/Colony Use', 'study', 'baboonBreedingColonyUsage'),
-            this.getQueryCmpConfig('Unassigned', 'study', 'baboonUnassignedColonyUsage'),
+
+            this.getSpecies('PC') ?
+                    this.getQueryCmpConfig('Assigned (funded)', 'study', 'baboonAssignedColonyUsage') : [],
+            this.getSpecies('PC') ?
+                    this.getQueryCmpConfig('Breeding/Colony Use', 'study', 'baboonBreedingColonyUsage') : [],
+            this.getSpecies('PC') ?
+                    this.getQueryCmpConfig('Unassigned', 'study', 'baboonUnassignedColonyUsage') : [],
+
             this.getQueryCmpConfig('Age Classes (in years)', 'ehr_lookups', 'AgeClassPivot')
         ];
 
         this.callParent();
+    },
+
+
+    getSpecies: function(species) {
+        obj = this.filterArray.find(o => o.value === species);
+        return (typeof obj !== 'undefined');
     },
 
     getQueryCmpConfig: function(title, schemaName, queryName) {
