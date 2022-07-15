@@ -11,26 +11,39 @@ Ext4.define('SNPRC.panel.ColonyUsagePanel', {
 
     initComponent: function(){
 
-        this.items = [
-            this.getQueryCmpConfig('Active IACUC Assignments', 'study', 'colonyUsage'),
+        let obj = (this.filterArray.find(o => o.value !== null));
+        let species = Object.values(obj)[2];
+        this.items = [];
+        switch (species) {
+            case 'PC':
+                this.getBaboonColonyOverview();
+                break;
+            case 'MM':
+                this.getRhesusMonkeyColonyOverview();
+                break;
+            case 'CJ':
+                this.getMarmosetColonyOverview();
+                break;
+        }
+        this.items.push(this.getQueryCmpConfig('Age Classes (in years)', 'ehr_lookups', 'AgeClassPivot'));
 
-            this.getSpecies('PC') ?
-                    this.getQueryCmpConfig('Assigned (funded)', 'study', 'baboonAssignedColonyUsage') : [],
-            this.getSpecies('PC') ?
-                    this.getQueryCmpConfig('Breeding/Colony Use', 'study', 'baboonBreedingColonyUsage') : [],
-            this.getSpecies('PC') ?
-                    this.getQueryCmpConfig('Unassigned', 'study', 'baboonUnassignedColonyUsage') : [],
-
-            this.getQueryCmpConfig('Age Classes (in years)', 'ehr_lookups', 'AgeClassPivot')
-        ];
 
         this.callParent();
     },
 
+    getBaboonColonyOverview() {
+        this.items.push(this.getQueryCmpConfig('Active IACUC Assignments', 'study', 'colonyUsage'),
+                this.getQueryCmpConfig('Assigned (funded)', 'study', 'baboonAssignedColonyUsage'),
+                this.getQueryCmpConfig('Breeding/Colony Use', 'study', 'baboonBreedingColonyUsage'),
+                this.getQueryCmpConfig('Unassigned', 'study', 'baboonUnassignedColonyUsage'));
+    },
 
-    getSpecies: function(species) {
-        obj = this.filterArray.find(o => o.value === species);
-        return (typeof obj !== 'undefined');
+    getRhesusMonkeyColonyOverview() {
+        this.items.push(this.getQueryCmpConfig('Active IACUC Assignments', 'study', 'colonyUsageRhesusMonkey'))
+    },
+
+    getMarmosetColonyOverview() {
+        this.items.push(this.getQueryCmpConfig('Active IACUC Assignments', 'study', 'colonyUsageMarmoset'))
     },
 
     getQueryCmpConfig: function(title, schemaName, queryName) {
