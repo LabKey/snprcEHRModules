@@ -37,7 +37,9 @@ BEGIN
 	  @hl7_observation_date_tm DATETIME,
 	  @pos INT,
 	  @patient_id VARCHAR(32),
-      @table_prefix VARCHAR(3)
+      @table_prefix VARCHAR(3),
+      @container UNIQUEIDENTIFIER
+
 
 	SET @animal_id = 'Unproc'
 	SET @hl7_message_text = 'Could not read message text.'
@@ -83,6 +85,9 @@ begin transaction trans1
                @animal_id = LTRIM(RTRIM(pid.PID_F2_C1))
         FROM dbo.ORC_Segment_PID_A AS pid WHERE pid.MessageID = @MessageId
 
+        -- get container id
+        SELECT @container = EntityId FROM labkey.core.Containers AS c WHERE c.Name = 'SNPRC'
+
     END TRY
     BEGIN CATCH
         SELECT @error = -101
@@ -102,7 +107,8 @@ begin transaction trans1
                 MESSAGE_TYPE,
                 TRIGGER_EVENT_ID,
                 MESSAGE_CONTROL_ID,
-                MESSAGE_DATE_TM
+                MESSAGE_DATE_TM,
+				Container
             )
 
         SELECT msh.MessageID,
@@ -114,7 +120,8 @@ begin transaction trans1
                msh.MSH_F9_C1,
                msh.MSH_F9_C2,
                msh.MSH_F10_C1,
-               dbo.f_format_hl7_date(msh.MSH_F7_C1)
+               dbo.f_format_hl7_date(msh.MSH_F7_C1),
+			   @container AS Container
 
         FROM Orchard_HL7_staging.dbo.ORC_segment_msh_a AS msh
         WHERE msh.MessageId = @messageid
@@ -139,7 +146,8 @@ begin transaction trans1
             BREED,
             SPECIES,
             ACCOUNT_NUMBER,
-            DEATH_DATE
+            DEATH_DATE,
+            Container
         )
         
         (   SELECT 
@@ -153,7 +161,8 @@ begin transaction trans1
                 pid.PID_F10_C1,        -- BREED - varchar(50)
                 pid.PID_F22_C1,        -- SPECIES - varchar(50)
                 pid.PID_F18_C1,        -- ACCOUNT_NUMBER - varchar(50)
-                dbo.f_format_hl7_date(pid.PID_F29_C1)
+                dbo.f_format_hl7_date(pid.PID_F29_C1),
+                @container             -- Container
             FROM Orchard_hl7_staging.dbo.ORC_Segment_PID_A as pid
             where pid.messageID = @messageId
         )
@@ -176,7 +185,8 @@ begin transaction trans1
             ATTENDING_DOCTOR_FIRST,
             VISIT_NUMBER,
             CHARGE_NUMBER,
-            ADMIT_DATE
+            ADMIT_DATE,
+            Container
         )
         ( 
             SELECT
@@ -188,7 +198,8 @@ begin transaction trans1
                 pv1.PV1_F7_C3,        -- ATTENDING_DOCTOR_FIRST - varchar(50)
                 pv1.PV1_F19_C1,        -- VISIT_NUMBER - varchar(20)
                 pv1.PV1_F22_C1,        -- CHARGE_NUMBER - varchar(20)
-                dbo.f_format_hl7_date(pv1b.PV1_F44_C1) -- ADMIT_DATE
+                dbo.f_format_hl7_date(pv1b.PV1_F44_C1), -- ADMIT_DATE
+                @container             -- Container
             FROM Orchard_HL7_staging.dbo.ORC_Segment_PV1_A as pv1
 			INNER JOIN Orchard_hl7_staging.dbo.ORC_Segment_PV1_B AS pv1b ON pv1b.MessageID = pv1.MessageID AND pv1b.IDX = pv1.IDX
             WHERE pv1.MessageId = @messageId
@@ -217,7 +228,8 @@ begin transaction trans1
             ORDER_PROVIDER_LAST,
             ORDER_PROVIDER_FIRST,
             CALLBACK_EMAIL,
-            ORDER_DATE
+            ORDER_DATE,
+            Container
         )
         ( SELECT
                 orc.MessageId,        -- MESSAGE_ID - varchar(50)
@@ -231,7 +243,8 @@ begin transaction trans1
                 orc.ORC_F12_C2,        -- ORDER_PROVIDER_LAST - varchar(50)
                 orc.ORC_F12_C3,        -- ORDER_PROVIDER_FIRST - varchar(50)
                 orc.ORC_F14_C3,        -- CALLBACK_EMAIL - varchar(50)
-                dbo.f_format_hl7_date(orc.ORC_F15_C1) -- ORDER_DATE - datetime
+                dbo.f_format_hl7_date(orc.ORC_F15_C1), -- ORDER_DATE - datetime
+                @container             -- Container
                 
             FROM Orchard_HL7_staging.dbo.ORC_Segment_ORC_A as orc
             WHERE orc.MessageId = @messageId
@@ -316,9 +329,9 @@ begin transaction trans1
 		-- all processing finished jump to clean exit routine
 
     INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID,
-			IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT)
+			IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
 		VALUES (@messageId,@hl7_observation_date_tm, @hl7_message_control_id, 1, @hl7_result_status,
-			@animal_id, @hl7_species, @hl7_message_text, 'Record cancelled: okay.')
+			@animal_id, @hl7_species, @hl7_message_text, 'Record cancelled: okay.', @container)
 
 		GOTO finis
 END
@@ -352,7 +365,8 @@ BEGIN
                 TECHNICIAN_LAST_NAME ,
                 TECHNICIAN_FIRST_NAME,
                 CHARGE_ID,
-                OBJECT_ID
+                OBJECT_ID,
+                Container
             ) 
 
         SELECT obr.MessageID,
@@ -372,7 +386,8 @@ BEGIN
                obr.OBR_F34_C1, -- Technician last name
                obr.OBR_F34_C2, -- Technician first name
                pv1.PV1_F24_C1,	--charge_id  -- TODO: maps to HL7 Contract Code
-               NEWID() -- object_ID
+               NEWID(), -- object_ID
+               @container
 
         FROM dbo.ORC_segment_obr_a AS obr
         JOIN dbo.ORC_segment_pid_a AS pid ON pid.MessageID = obr.MessageID
@@ -406,11 +421,12 @@ BEGIN
 		;WITH cte AS (
 
             SELECT OBR.MessageId, OBR.IDX AS OBR_IDX, OBR.OBR_F1_C1 AS SET_ID, OBR.OBR_F25_C1 as RESULT_STATUS, cbr.OBJECT_ID as obr_object_id,
-                   obr.OBR_F4_C1 as obr_service_id
+                   obr.OBR_F4_C1 as obr_service_id,
                 LEAD(OBR.IDX, 1, 9999)  OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
 
             FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
             INNER JOIN labkey.snprc_ehr.HL7_OBR as cbr on OBR.messageId = cbr.Message_ID and OBR.OBR_F1_C1 = cbr.SET_ID
+			INNER JOIN labkey.core.Containers AS c ON c.Name = 'SNPRC'
             WHERE OBR.MessageId = @messageId
         ) 
 
@@ -427,9 +443,10 @@ BEGIN
                QUALITATIVE_RESULT,
                RESULT,
                UNITS ,
-               REFERENCE_RANGE , -- TODO: missing reference ranges in Orchard data
-               ABNORMAL_FLAGS ,  -- TODO: ditto ditto
-               RESULT_STATUS     -- TODO: ditto ditto
+               REFERENCE_RANGE ,
+               ABNORMAL_FLAGS ,
+               RESULT_STATUS,
+               Container
            ) -- output Inserted.OBR_OBJECT_ID
 
             SELECT obx.MessageID,
@@ -442,13 +459,14 @@ BEGIN
                    obx.OBX_F3_C2,
                    lp.objectId,
                    obx.OBX_RESULTDATA,
-                   CASE WHEN obx.OBX_F2_C1 = 'NM' AND snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
+                   CASE WHEN obx.OBX_F2_C1 = 'NM' AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
                             THEN CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
                     ELSE NULL END AS RESULT,
                    obx.OBX_F6_C1,
                    obx.OBX_F7_C1,
                    obx.OBX_F8_C1,
-                   obx.OBX_F11_C1
+                   obx.OBX_F11_C1,
+                   @container
             FROM dbo.ORC_segment_obx_a AS obx
 			INNER JOIN cte ON OBX.MessageID = cte.MessageID AND obx.IDX > cte.OBR_IDX AND obx.IDX < cte.next_OBR_IDX
 			LEFT OUTER JOIN labkey.snprc_ehr.labwork_panels AS lp ON cte.obr_service_id = lp.serviceId
@@ -481,14 +499,16 @@ BEGIN
                     OBR_OBJECT_ID,
                     SET_ID,
                     OBR_SET_ID,
-                    COMMENT
+                    COMMENT,
+					Container
                 )
             SELECT nte.MessageID,
                    nte.IDX,
                    cte.obr_object_id,
                    nte.NTE_F1_C1,
                    cte.SET_ID, -- OBR_SET_ID
-                   nte.NTE_F3_C1
+                   nte.NTE_F3_C1,
+				   @container
             FROM Orchard_hl7_staging.dbo.ORC_Segment_NTE_A AS nte
             INNER JOIN cte ON nte.MessageID = cte.messageId AND nte.IDX > cte.OBR_IDX AND nte.IDX < cte.next_OBR_IDX
             -- only load data with result_status = 'F' (final).
@@ -524,7 +544,7 @@ BEGIN
 
                 cpx.RESULT = CASE WHEN obx.OBX_F11_C1 = 'D' then '00'
                     else
-                        CASE WHEN obx.OBX_F2_C1 = 'NM' AND snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
+                        CASE WHEN obx.OBX_F2_C1 = 'NM' AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
                         THEN CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
                         ELSE
                             NULL
@@ -552,15 +572,15 @@ BEGIN
        
 		-- all processing finished jump to clean exit routine
 
-        INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT)
-		VALUES (@messageId,@hl7_observation_date_tm, @hl7_message_control_id, 1, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'upload okay.')
+        INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+		VALUES (@messageId,@hl7_observation_date_tm, @hl7_message_control_id, 1, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'upload okay.', @container)
 
 		GOTO finis
 END
 not_animal_data:
 
-	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT)
-	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'Not animal data.')
+	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'Not animal data.', @container)
 
 	GOTO finis
 
@@ -568,8 +588,8 @@ error:
 	-- an error occurred, rollback the entire transaction.
     rollback transaction trans1
 
-	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT)
-	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, @error, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, @errorMsg)
+	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, @error, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, @errorMsg, @container)
 
     Update Orchard_hl7_staging.dbo.ORC_HL7Data Set Processed = 1, StatusMessage = 'ERROR: Processed By p_load_hl7_data.sql' Where MessageID = @MessageID
        
@@ -586,6 +606,7 @@ finis:
 END
 
 GRANT EXEC ON LIS.p_load_hl7_data TO hl7_admin;
+GRANT SELECT ON labkey.core.Containers TO hl7_admin;
 GRANT VIEW DEFINITION ON LIS.p_load_demographics TO hl7_admin;
 
 GO

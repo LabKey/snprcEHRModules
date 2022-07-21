@@ -16,6 +16,7 @@ INSERT INTO labkey.snprc_ehr.HL7_MSH
     TRIGGER_EVENT_ID,
     MESSAGE_CONTROL_ID,
     MESSAGE_DATE_TM,
+    Container,
     OBJECT_ID,
     USER_NAME,
     ENTRY_DATE_TM
@@ -31,6 +32,7 @@ INSERT INTO labkey.snprc_ehr.HL7_MSH
 		   '' AS TRIGGER_EVENT_ID,
 		   obr.MESSAGE_CONTROL_ID AS MESSAGE_CONTROL_ID,
 		   obr.VERIFIED_DATE_TM AS MESSAGE_DATE_TM,
+	       c.EntityId as Container,
 		   obr.OBJECT_ID AS OBJECT_ID,
 		   dbo.f_map_username(obr.USER_NAME) AS USER_NAME,
 		   obr.ENTRY_DATE_TM AS ENTRY_DATE_TM
@@ -38,6 +40,7 @@ INSERT INTO labkey.snprc_ehr.HL7_MSH
 
 		-- select primates only from the TxBiomed colony
 		INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
+	    INNER JOIN labkey.core.Containers AS c on c.name = 'SNPRC'
 		LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obr.OBJECT_ID
 	WHERE obr.RESULT_STATUS IN ( 'F', 'C', 'D' )
 		  AND obr.VERIFIED_DATE_TM IS NOT NULL

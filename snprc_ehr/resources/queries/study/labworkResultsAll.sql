@@ -40,7 +40,8 @@ SELECT
     lr.runid,
     lr.enddate,
     lr.method,
-    lr.remark
+    lr.remark,
+    lr.objectId
 FROM study.labworkResults lr
 LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp ON lr.testId = lp.TestId AND lr.serviceId = lp.ServiceId
 
@@ -63,7 +64,8 @@ SELECT
     obx.MESSAGE_ID as runId,
     NULL as enddate,
     NULL as method,
-    nte.COMMENT as remark
+    nte.COMMENT as remark,
+    obx.OBJECT_ID AS objectId
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
     LEFT OUTER JOIN
@@ -93,7 +95,8 @@ select
   alr.runid,
   alr.enddate,
   alr.method,
-  alr.remark
+  alr.remark,
+  alr.objectId
 from study.assay_labworkResults as alr
 union
 
@@ -114,5 +117,6 @@ select
     lt.runid,
     lt.enddate,
     lt.method,
-    remark
+    lt.remark,
+    null as objectId
 from study.labworkTaqman as lt

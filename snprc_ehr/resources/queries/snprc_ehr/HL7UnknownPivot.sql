@@ -1,14 +1,3 @@
-/* Valid Service types:
-	Biochemistry
-	Culture
-	Hematology
-	Histology
-	Misc Tests
-	Parasitology
-	Surveillance
-	Unknown
-	Urinalysis
- */
 SELECT obr.ANIMAL_ID as id,
        obr.OBSERVATION_DATE_TM as date,
     obr.MESSAGE_ID,
@@ -16,7 +5,6 @@ SELECT obr.ANIMAL_ID as id,
     obr.PROCEDURE_ID,
     nte.COMMENT,
     COALESCE (lp.TestName, obx.TEST_NAME) as TestName,
-    --obx.TEST_ID,
     MAX(obx.ABNORMAL_FLAGS) AS ABNORMAL_FLAGS,
     MAX(obx.QUALITATIVE_RESULT) as QUALITATIVE_RESULT,
     MAX(obx.RESULT) as RESULT
@@ -24,7 +12,7 @@ SELECT obr.ANIMAL_ID as id,
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx
 ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
-    LEFT OUTER JOIN snprc_ehr.HL7_NTE nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
+    LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = lp.ServiceId
 WHERE obr.PROCEDURE_ID.Dataset = 'Unknown'
 

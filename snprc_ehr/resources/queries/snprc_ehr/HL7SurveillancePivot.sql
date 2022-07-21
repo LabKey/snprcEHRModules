@@ -1,15 +1,4 @@
-/* Valid Service types:
-	Biochemistry
-	Culture
-	Hematology
-	Histology
-	Misc Tests
-	Parasitology
-	Surveillance
-	Unknown
-	Urinalysis
- */
- select Id,
+select Id,
     date,
     MESSAGE_ID,
     PROCEDURE_NAME,

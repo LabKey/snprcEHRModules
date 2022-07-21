@@ -2013,12 +2013,13 @@
             <column columnName="TRIGGER_EVENT_ID"/>
             <column columnName="MESSAGE_CONTROL_ID"/>
             <column columnName="MESSAGE_DATE_TM"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 MSH STAGING</tableTitle>
+        <tableTitle>HL7 MSH Data</tableTitle>
     </table>
     <table tableName="HL7_PID" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
@@ -2045,12 +2046,13 @@
             <column columnName="SPECIES"/>
             <column columnName="ACCOUNT_NUMBER"/>
             <column columnName="DEATH_DATE"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 PID STAGING</tableTitle>
+        <tableTitle>HL7 PID Data</tableTitle>
     </table>
     <table tableName="HL7_PV1" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
@@ -2075,12 +2077,13 @@
             <column columnName="VISIT_NUMBER"/>
             <column columnName="CHARGE_NUMBER"/>
             <column columnName="ADMIT_DATE"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 PV1 STAGING</tableTitle>
+        <tableTitle>HL7 PV1 Data</tableTitle>
     </table>
     <table tableName="HL7_ORC" tableDbType="TABLE">
         <pkColumnName>MESSAGE_ID, IDX</pkColumnName>
@@ -2107,12 +2110,13 @@
             <column columnName="ORDER_PROVIDER_LAST"/>
             <column columnName="ORDER_PROVIDER_FIRST"/>
             <column columnName="ORDER_DATE"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 ORC STAGING</tableTitle>
+        <tableTitle>HL7 ORC Data</tableTitle>
     </table>
     <table tableName="HL7_OBR" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
@@ -2161,12 +2165,13 @@
             <column columnName="TECHNICIAN_FIRST_NAME"/>
             <column columnName="TECHNICIAN_LAST_NAME"/>
             <column columnName="CHARGE_ID"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 `OBR` STAGING</tableTitle>
+        <tableTitle>HL7 OBR Data</tableTitle>
     </table>
     <table tableName="HL7_OBX" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
@@ -2205,12 +2210,13 @@
             <column columnName="REFERENCE_RANGE"/>
             <column columnName="ABNORMAL_FLAGS"/>
             <column columnName="RESULT_STATUS"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 OBX STAGING</tableTitle>
+        <tableTitle>HL7 OBX Data</tableTitle>
     </table>
     <table tableName="HL7_NTE" tableDbType="TABLE">
         <pkColumnName>OBJECT_ID</pkColumnName>
@@ -2232,12 +2238,13 @@
             <column columnName="OBR_SET_ID" />
             <column columnName="SET_ID"/>
             <column columnName="COMMENT"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
-        <tableTitle>HL7 NTE STAGING</tableTitle>
+        <tableTitle>HL7 NTE Data</tableTitle>
     </table>
     <table tableName="HL7_IMPORT_LOG" tableDbType="TABLE">
         <pkColumnName>TID</pkColumnName>
@@ -2257,11 +2264,20 @@
             <column columnName="SPECIES"/>
             <column columnName="HL7_MESSAGE_TEXT"/>
             <column columnName="IMPORT_TEXT"/>
+            <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
             <column columnName="USER_NAME"/>
             <column columnName="ENTRY_DATE_TM"/>
             <column columnName="TIMESTAMP"/>
         </columns>
         <tableTitle>HL7 IMPORT LOG</tableTitle>
+    </table>
+    <table tableName="HL7_GroupNTE" tableDbType="VIEW">
+        <columns>
+            <column columnName="OBR_OBJECT_ID"/>
+            <column columnName="OBR_SET_ID" />
+            <column columnName="COMMENT"/>
+            <column columnName="Container"/>
+        </columns>
     </table>
 </tables>

@@ -20,6 +20,7 @@ INSERT INTO labkey.snprc_ehr.HL7_OBX
     REFERENCE_RANGE,
     ABNORMAL_FLAGS,
     RESULT_STATUS,
+    Container,
     OBJECT_ID,
     USER_NAME,
     ENTRY_DATE_TM
@@ -33,6 +34,7 @@ SELECT obx.MESSAGE_ID AS MESSAGE_ID,
        obx.VALUE_TYPE AS VALUE_TYPE,
        obx.TEST_ID AS TEST_ID,
        COALESCE (lp.TestName, obx.TEST_NAME) as TEST_NAME,
+       c.EntityId as Container,
        lp.OBJECT_ID AS serviceTestId,
        CAST(LTRIM(RTRIM(obx.OBSERVED_VALUE)) as VARCHAR(MAX)) as QUALITATIVE_RESULT,
        CASE WHEN obx.VALUE_TYPE = 'NM' AND dbo.f_isNumeric(obx.OBSERVED_VALUE) = 1
@@ -54,16 +56,8 @@ FROM dbo.CLINICAL_PATH_OBX AS obx
     INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
     LEFT OUTER JOIN dbo.CLINICAL_PATH_LABWORK_PANELS AS lp ON obr.PROCEDURE_ID = lp.ServiceId AND obx.TEST_ID = lp.TestId
     LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obx.OBJECT_ID
+    INNER JOIN labkey.core.Containers AS c on c.name = 'SNPRC'
 WHERE obx.RESULT_STATUS IN ( 'F', 'C', 'D' )
 	AND obr.VERIFIED_DATE_TM IS NOT NULL
 	AND NOT EXISTS (SELECT 1 FROM labkey_etl.v_delete_labwork_results AS dclr WHERE obx.OBJECT_ID = dclr.objectid)
 )
---	SELECT * FROM dbo.CLINICAL_PATH_OBX AS obx
---	    -- select primates only from the TxBiomed colony
---    INNER JOIN dbo.CLINICAL_PATH_OBR as obr on obx.MESSAGE_ID = obr.MESSAGE_ID
---    INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
---    LEFT OUTER JOIN dbo.CLINICAL_PATH_LABWORK_PANELS AS lp ON obr.PROCEDURE_ID = lp.ServiceId AND obx.TEST_ID = lp.TestId
---    LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obx.OBJECT_ID
---WHERE obx.RESULT_STATUS IN ( 'F', 'C', 'D' )
---	AND NOT EXISTS (SELECT 1 FROM labkey_etl.v_delete_labwork_results AS dclr WHERE obx.OBJECT_ID = dclr.objectid)
---	and obx.MESSAGE_ID NOT IN (SELECT obr.message_id FROM labkey.snprc_ehr.HL7_OBR AS obr)

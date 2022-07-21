@@ -25,5 +25,5 @@ SELECT
     WHEN b.result IS NULL THEN  b.qualresult
       ELSE CAST(CAST(b.result AS float) AS VARCHAR)
     END as result
-  FROM study.labworkResults b
-  WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Hematology'
+  FROM study.labworkResultsAll b
+  WHERE b.serviceTestId.includeInPanel = true and b.serviceTestid.ServiceId.Dataset = 'Hematology'
