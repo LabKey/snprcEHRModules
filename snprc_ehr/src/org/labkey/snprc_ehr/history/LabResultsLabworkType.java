@@ -65,13 +65,14 @@ public class LabResultsLabworkType extends DefaultLabworkType
 
     public LabResultsLabworkType(Module module)
     {
-        super("Labwork Results", "study", "LabworkResults", module);
+        // LabworkResultsAll is a query that aggregates several labwork related datasets
+        super("Labwork Results", "study", "LabworkResultsAll", module);
         _testType = _default_testType;  // this is just a temporary value it will be updated for the specific
         // assay type in the getRows() method. tjh
         _normalRangeField = "refRange";
         _unitsField = "units";
         _normalRangeStatusField = "abnormal_flags";
-        _testIdField = "serviceTestId";
+        _testIdField = "TestId";
     }
 
     /**

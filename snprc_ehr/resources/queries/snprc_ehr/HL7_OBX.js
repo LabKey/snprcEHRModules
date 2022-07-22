@@ -1,11 +1,5 @@
-/*
- * Copyright (c) 2018 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
- */
-
 /**
- * Created by thawkins on 6/29/2017.  Cloned for assay_labworkResults by Charles Peterson on 11/1/18.
+ * Created by thawkins on 7/12/2022
  */
 
 require("ehr/triggers").initScript(this);
@@ -20,7 +14,7 @@ var missingTestId = 999999;
 function onUpsert(helper, scriptErrors, row, oldRow) {
     // If we don't have the serviceTestId try resolving it based on the testId and serviceId
     if (!row.serviceTestId) {
-        cacheKey = row.serviceid + '~' + row.testid;
+        cacheKey = row.serviceId + '~' + row.testId;
         row.serviceTestId = cachedIds[cacheKey];
         if (row.serviceTestId === undefined || row.serviceTestId == 'undefined') {
             if (!assignServiceTestId(row, row.serviceId, row.testId)) {
@@ -37,22 +31,22 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
     }
 }
 
-function assignServiceTestId (row, serviceId, testid ) {
+function assignServiceTestId (row, serviceId, testId ) {
 
     var result = true;
 
     LABKEY.Query.selectRows({
         schemaName: 'snprc_ehr',
         queryName: 'labwork_panels',
-        columns: 'ObjectId',
+        columns: 'objectId',
         scope: this,
         filterArray: [
             LABKEY.Filter.create('ServiceId', serviceId, LABKEY.Filter.Types.EQUAL),
-            LABKEY.Filter.create('TestId', testid, LABKEY.Filter.Types.EQUAL)
+            LABKEY.Filter.create('TestId', testId, LABKEY.Filter.Types.EQUAL)
         ],
         success: function (data) {
             if (data.rows && data.rows.length) {
-                row.serviceTestId = data.rows[0].ObjectId;
+                row.serviceTestId = data.rows[0].objectId;
                 cachedIds[cacheKey] = row.serviceTestId;
                 //console.log('caching ' + cacheKey + ': ' + row.serviceTestId);
 
