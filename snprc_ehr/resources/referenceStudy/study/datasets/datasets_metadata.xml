@@ -1495,7 +1495,7 @@
                 <datatype>timestamp</datatype>
             </column>
         </columns>
-        <tableTitle>Assignment</tableTitle>
+        <tableTitle>IACUC Assignment</tableTitle>
     </table>
     <table tableName="animal_group_members" tableDbType="TABLE">
         <columns>
