@@ -66,3 +66,5 @@ UNION
 select 'study' as schema, 'Behavior' as CategoryId,'Abnormal Behavior' as Label, 'BehaviorAbnormalAll' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Body Condition Scores' as Label, 'BodyConditionScores' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'study' as schema, 'ClinPath' as CategoryId,'Urinalysis Results' as Label, 'urinalysisPivot' as Name,  true as ShowByDefault, true as isAnimalisAnimal
