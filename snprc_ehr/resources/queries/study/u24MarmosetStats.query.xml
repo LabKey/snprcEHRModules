@@ -1,0 +1,43 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="u24MarmosetStats" tableDbType="NOT_IN_DB" useColumnOrder="true">
+                <columns>
+                    <column columnName="Id">
+                        <columnTitle>Animal Id</columnTitle>
+                    </column>
+                    <column columnName="ageClass">
+                        <columnTitle>Age Class</columnTitle>
+                    </column>
+                    <column columnName="u24_status">
+                        <columnTitle>U24 Status</columnTitle>
+                        <dimension>true</dimension>
+                    </column>
+                    <column columnName="available_to_transfer">
+                        <columnTitle>Available</columnTitle>
+                        <dimension>true</dimension>
+                    </column>
+                    <column columnName="current_housing_status">
+                        <columnTitle>Current Housing Status</columnTitle>
+                        <dimension>true</dimension>
+                    </column>
+                    <column columnName="Infant History">
+                        <columnTitle>u24_infant_history</columnTitle>
+                        <dimension>true</dimension>
+                    </column>
+                    <column columnName="fertility_status">
+                        <columnTitle>Fertility Status</columnTitle>
+                        <dimension>true</dimension>
+                    </column>
+                    <column columnName="medical_history">
+                        <columnTitle>Medical History</columnTitle>
+                        <dimension>true</dimension>
+                    </column>
+                    <column columnName="run_date_tm">
+                        <columnTitle>Last Run</columnTitle>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
