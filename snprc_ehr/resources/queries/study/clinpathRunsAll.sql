@@ -14,6 +14,34 @@
  * limitations under the License.
  */
 select
+    ANIMAL_ID as Id,
+    OBSERVATION_DATE_TM AS date,
+    NULL AS enddate,
+    PROCEDURE_ID.Dataset.ServiceType AS type,
+    NULL as tissue,
+    CHARGE_ID AS project,
+    NULL AS instructions,
+    PROCEDURE_ID.ServiceName AS servicerequested,
+    NULL AS units,
+    PROCEDURE_ID AS serviceId,
+    NULL AS collectedBy,
+    SPECIMEN_NUM AS sampleId,
+    NULL AS collectionMethod,
+    NULL AS method,
+    NULL AS sampleQuantity,
+    NULL AS quantityUnits,
+    NULL AS chargetype,
+    VERIFIED_DATE_TM AS verifiedDate,
+    NULL AS datefinalized,
+    NULL AS remark,
+    NULL AS history,
+    OBJECT_ID AS objectid,
+    NULL AS lsid
+from snprc_ehr.HL7_OBR
+
+union
+
+select
   Id,
   date,
   enddate,
@@ -63,7 +91,7 @@ select
   datefinalized,
   remark,
   history,
-  sampleId as objectid,
+  objectid,
   lsid
 from study.assay_clinpathRuns
 
@@ -91,7 +119,7 @@ select distinct
     tr.date as datefinalized,
     'From Excel import' as remark,
     tr.history as history,
-    cast(tr.sequencenum as varchar) as objectid,
+    null as objectid,
     tr.lsid
 from study.TaqmanResults as tr
 inner join snprc_ehr.labwork_services as ls on ls.serviceId = 20000

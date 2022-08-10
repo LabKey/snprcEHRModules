@@ -80,7 +80,7 @@
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>assay_ClinpathRuns</fkTable>
-                            <fkColumnName>sampleid</fkColumnName>
+                            <fkColumnName>objectId</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="diCreated">

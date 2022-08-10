@@ -83,7 +83,7 @@
                     <column columnName="runid">
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
-                            <fkTable>ClinpathRuns</fkTable>
+                            <fkTable>ClinpathRunsAll</fkTable>
                             <fkColumnName>objectid</fkColumnName>
                         </fk>
                     </column>

@@ -16,7 +16,6 @@
 SELECT
 b.Id,
 b.date,
-b.runId,
 b.panelName,
 b.TestName,
 b.remark,
@@ -24,7 +23,7 @@ MAX(b.result) as results
 
 FROM chemPivotInner b
 
-GROUP BY b.runid,b.id, b.date, b.TestName, b.panelName, b.remark
+GROUP BY b.id, b.date, b.TestName, b.panelName, b.remark
 
 PIVOT results BY TestName IN
 (select TestName from snprc_ehr.labwork_panels t
