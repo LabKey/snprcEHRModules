@@ -14,38 +14,40 @@
  * limitations under the License.
  */
 select
-    ANIMAL_ID as Id,
-    OBSERVATION_DATE_TM AS date,
+    obr.ANIMAL_ID as Id,
+    obr.OBSERVATION_DATE_TM AS date,
     NULL AS enddate,
-    PROCEDURE_ID.Dataset.ServiceType AS type,
+    obr.PROCEDURE_ID.Dataset.ServiceType AS type,
     NULL as tissue,
-    CHARGE_ID AS project,
+    obr.CHARGE_ID AS project,
     NULL AS instructions,
-    PROCEDURE_ID.ServiceName AS servicerequested,
+    obr.PROCEDURE_ID.ServiceName AS servicerequested,
     NULL AS units,
-    PROCEDURE_ID AS serviceId,
+    obr.PROCEDURE_ID AS serviceId,
     NULL AS collectedBy,
-    SPECIMEN_NUM AS sampleId,
+    obr.SPECIMEN_NUM AS sampleId,
     NULL AS collectionMethod,
     NULL AS method,
     NULL AS sampleQuantity,
     NULL AS quantityUnits,
     NULL AS chargetype,
-    VERIFIED_DATE_TM AS verifiedDate,
+    obr.VERIFIED_DATE_TM AS verifiedDate,
     NULL AS datefinalized,
     NULL AS remark,
     NULL AS history,
-    OBJECT_ID AS objectid,
-    NULL AS lsid
-from snprc_ehr.HL7_OBR
+    obr.OBJECT_ID AS objectid,
+    NULL AS lsid,
+    q.rowId as QCState
+FROM snprc_ehr.HL7_OBR as obr
+INNER JOIN core.QCState as q on q.Label = 'Completed'
 
-union
+UNION
 
-select
+SELECT
   Id,
   date,
   enddate,
-  type,
+  serviceId.Dataset.ServiceType as type,
   tissue,
   project,
   instructions,
@@ -64,16 +66,17 @@ select
   remark,
   history,
   objectid,
-  lsid
-from study.clinpathRuns
+  lsid,
+  QCState
+FROM study.clinpathRuns
 
-union
+UNION
 
-select
+SELECT
   Id,
   date,
   enddate,
-  type,
+  serviceId.Dataset.ServiceType as type,
   tissue,
   project,
   instructions,
@@ -92,12 +95,13 @@ select
   remark,
   history,
   objectid,
-  lsid
-from study.assay_clinpathRuns
+  lsid,
+  QCState
+FROM study.assay_clinpathRuns
 
-union
+UNION
 
-select distinct
+SELECT DISTINCT
     tr.Id,
     tr.date,
     null enddate,
@@ -120,7 +124,8 @@ select distinct
     'From Excel import' as remark,
     tr.history as history,
     null as objectid,
-    tr.lsid
+    tr.lsid,
+    tr.QCState
 from study.TaqmanResults as tr
 inner join snprc_ehr.labwork_services as ls on ls.serviceId = 20000
 

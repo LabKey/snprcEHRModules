@@ -83,7 +83,8 @@ import org.labkey.snprc_ehr.history.DefaultDepartureDataSource;
 import org.labkey.snprc_ehr.history.DefaultPregnanciesDataSource;
 import org.labkey.snprc_ehr.history.DefaultTreatmentOrdersDataSource;
 import org.labkey.snprc_ehr.history.DietDataSource;
-import org.labkey.snprc_ehr.history.LabResultsLabworkType;
+import org.labkey.snprc_ehr.history.LabworkType;
+import org.labkey.snprc_ehr.history.LabworkDataSource;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
@@ -239,13 +240,14 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerHistoryDataSource(new DefaultCasesDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultCasesCloseDataSource(this));
         EHRService.get().registerHistoryDataSource(new DefaultPregnanciesDataSource(this));
+        EHRService.get().registerHistoryDataSource(new LabworkDataSource(this));
 
         // Add SNPRC clinical history data sources
         EHRService.get().registerHistoryDataSource(new DietDataSource(this));
         EHRService.get().registerHistoryDataSource(new OffspringDataSource(this));
 
         // Add SNPRC Labwork type
-        EHRService.get().registerLabworkType(new LabResultsLabworkType(this));
+        EHRService.get().registerLabworkType(new LabworkType(this));
 
         // demographics
         EHRService.get().registerDemographicsProvider(new ParentsDemographicsProvider(this));

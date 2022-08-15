@@ -21,16 +21,7 @@
                         <columnTitle>Surveillance Panel Name</columnTitle>
                         <displayWidth>200</displayWidth>
                     </column>
-                    <column columnName="runId">
-                        <isHidden>true</isHidden>
-                        <shownInDetailsView>false</shownInDetailsView>
-                        <fk>
-                            <fkDbSchema>study</fkDbSchema>
-                            <fkTable>ClinpathRuns</fkTable>
-                            <fkColumnName>objectid</fkColumnName>
-                        </fk>
-                    </column>
-                </columns>
+                 </columns>
             </table>
         </tables>
     </metadata>

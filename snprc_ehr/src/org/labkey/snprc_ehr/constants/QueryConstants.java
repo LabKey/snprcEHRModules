@@ -36,6 +36,8 @@ public class QueryConstants
     public static final String DATE_COLUMN_VARIABLE = "dateColumnName";
     public static final String EHR_LOOKUPS_SCHEMA = "ehr_lookups";
     public static final String AGE_CLASS_LOOKUP_URL = "/detailsQueryRow.view?schemaName=ehr_lookups&query.queryName=ageclass&rowid=";
+    public static final String ENCOUNTER_FLAGS_TABLE = "encounter_flags";
+    public static final String LABWORK_SERVICE_TYPE_COLUMN = "type";
 
 
     public static final String AGE_CLASS_TABLE = "ageClass";

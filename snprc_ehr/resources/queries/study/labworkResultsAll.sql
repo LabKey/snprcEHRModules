@@ -41,11 +41,12 @@ SELECT
     lr.enddate,
     lr.method,
     lr.remark,
-    lr.objectId
+    lr.objectId,
+    lr.QCState
 FROM study.labworkResults lr
 LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp ON lr.testId = lp.TestId AND lr.serviceId = lp.ServiceId
 
-union
+UNION
 
 SELECT
     obr.ANIMAL_ID AS Id,
@@ -65,12 +66,13 @@ SELECT
     NULL as enddate,
     NULL as method,
     nte.COMMENT as remark,
-    obx.OBJECT_ID AS objectId
+    obx.OBJECT_ID AS objectId,
+    q.rowId as QCState
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = lp.ServiceId
-
+    INNER JOIN core.QCState as q on q.Label = 'Completed'
 UNION
 select
   alr.Id,
@@ -90,7 +92,8 @@ select
   alr.enddate,
   alr.method,
   alr.remark,
-  alr.objectId
+  alr.objectId,
+  alr.QCState
 from study.assay_labworkResults as alr
 union
 
@@ -112,5 +115,6 @@ select
     lt.enddate,
     lt.method,
     lt.remark,
-    null as objectId
+    null as objectId,
+    lt.QCState
 from study.labworkTaqman as lt

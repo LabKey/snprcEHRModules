@@ -50,20 +50,22 @@ import java.util.TreeMap;
  * 7/21/2017 Fixed issue with labworkResults not populating. tjh
  * 7/28/2017 Fixed sorting issue. tjh
  * 8/14/2017 Fixed _runid_typeField. tjh
+ * 8/12/2022 Added color highlighting for abnormal results. tjh
  */
-public class LabResultsLabworkType extends DefaultLabworkType
+public class LabworkType extends DefaultLabworkType
 {
     protected String _test_nameField = "serviceTestId/testName";
-    protected String _sortField = "sortOrder";
+    protected String _sortField = "serviceTestId/sortOrder";
     protected String _runid_typeField = "runid/ServiceId/Dataset";
     protected String _default_testType = "LabworkResults";
+    protected String _test_typeField = "ServiceId/Dataset/ServiceType";
 
     private static String _testType;
     private String _testCol = "RowId";
     private String _sortCol = "sortOrder";
     private Map<String, Integer> _tests = null;
 
-    public LabResultsLabworkType(Module module)
+    public LabworkType(Module module)
     {
         // LabworkResultsAll is a query that aggregates several labwork related datasets
         super("Labwork Results", "study", "LabworkResultsAll", module);
@@ -100,10 +102,12 @@ public class LabResultsLabworkType extends DefaultLabworkType
         if (result != null || qualResult != null)
         {
             //col 1
-            sb.append("<td style='padding: 2px;'>").append(testName).append("<font size='1'>").append(" (").append(testId).append(") </font>").append("</td>");
+            sb.append( "<td style='padding: 2px;" + ((abnormalFlags == null) ? "color:black;'>" : "color:red;'>"));
+            sb.append(testName).append("<font size='1'>").append(" (").append(testId).append(") </font>").append("</td>");
 
             // col 2
-            sb.append("<td style='padding: 2px;'>");
+            sb.append( "<td style='padding: 2px;" + ((abnormalFlags == null) ? "color:black;'>" : "color:red;'>"));
+
             if (qualResult != null)
             {
                 sb.append(": ").append(qualResult);
@@ -112,11 +116,10 @@ public class LabResultsLabworkType extends DefaultLabworkType
                     sb.append("   ").append(units);
                 }
             }
-
             sb.append("</td>");
 
             // col 3
-            sb.append("<td style='padding: 2px;'>");
+            sb.append( "<td style='padding: 2px;" + ((abnormalFlags == null) ? "color:black;'>" : "color:red;'>"));
             if (refRange != null)
             {
                 sb.append("Normal Range: ").append(refRange);
@@ -141,7 +144,7 @@ public class LabResultsLabworkType extends DefaultLabworkType
 
             _tests = new CaseInsensitiveHashMap<>();
             //
-            TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString("ServiceId/Dataset/ServiceType"), _testType), null);
+            TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString(_test_typeField), _testType), null);
             ts.forEach(new Selector.ForEachBlock<ResultSet>()
             {
                 @Override

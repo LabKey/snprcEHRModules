@@ -1,7 +1,6 @@
 SELECT
     obr.ANIMAL_ID AS Id,
     obr.OBSERVATION_DATE_TM as date,
-        obr.MESSAGE_ID,
         COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME) as PROCEDURE_NAME,
         obr.PROCEDURE_ID,
         COALESCE (lp.TestName, obx.TEST_NAME) as TestName,
@@ -21,7 +20,6 @@ UNION
 SELECT
     b.id,
     b.date,
-    coalesce(b.runId, cast(b.Sequencenum as varchar)) as MESSAGE_ID,
     b.serviceTestId.serviceId.ServiceName AS PROCEDURE_NAME,
     b.serviceTestId.serviceId AS PROCEDURE_ID,
     b.serviceTestId.testName AS TestName,
@@ -37,7 +35,6 @@ union
 SELECT
     b.id,
     b.date,
-    coalesce(b.runId, b.objectid) as MESSAGE_ID,
     b.serviceTestId.serviceId.ServiceName AS PROCEDURE_NAME,
     b.serviceTestId.serviceId AS PROCEDURE_ID,
     b.serviceTestId.testName AS TestName,

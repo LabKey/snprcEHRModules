@@ -46,7 +46,7 @@ public class CurrentDietDemographicsProvider extends AbstractListDemographicsPro
         keys.add(FieldKey.fromString("lsid"));
         keys.add(FieldKey.fromString("Id"));
         keys.add(FieldKey.fromString("code"));
-        keys.add(FieldKey.fromString("code/meaning"));
+        keys.add(FieldKey.fromString("code/Diet"));
         keys.add(FieldKey.fromString("date"));
         keys.add(FieldKey.fromString("enddate"));
         keys.add(FieldKey.fromString("performedby"));

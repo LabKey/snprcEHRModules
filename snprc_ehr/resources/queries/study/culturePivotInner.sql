@@ -4,7 +4,8 @@ SELECT
     p.serviceTestId.testName as TestName,
     p.runId.serviceRequested as PanelName,
     p.remark,
-    p.qualresult as result
+    p.qualresult as result,
+    p.abnormal_flags
 
 FROM study.labworkResults as p
 WHERE p.serviceTestId.includeInPanel = true AND p.serviceTestid.ServiceId.Dataset ='Culture'
@@ -17,7 +18,8 @@ SELECT
     COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME) as PanelName,
     COALESCE (lp.TestName, obx.TEST_NAME) as TestName,
     nte.COMMENT as remark,
-    COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result
+    COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
+    obx.ABNORMAL_FLAGS AS abnormal_flags
 
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
