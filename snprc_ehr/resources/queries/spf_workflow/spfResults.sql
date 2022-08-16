@@ -26,7 +26,7 @@ select distinct
   d.procedure_id as serviceId,
   d.test_id as testid,
   d.test_name as test_name,
-  d.sample as runId,
+  NULL as runId,
   NULL as result,
   'ST' as value_type,
   case when d.assay_value = 'N' then 'NEGATIVE'
@@ -35,9 +35,4 @@ select distinct
          else d.assay_value end as qualresult,
   d.file_name as remark,
   d.sample as sampleId
-
-/*  ServiceName debugging hack
-  ,d.test_id as refRange,
-  d.procedure_id as abnormal_flags */
-
 from spf_workflow.data as d

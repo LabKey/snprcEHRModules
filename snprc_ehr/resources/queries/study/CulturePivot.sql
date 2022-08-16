@@ -13,30 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/******************************************************************************
-Non Ova & Parasite (O&P) result set.
-srr 04.02.2019
-
-******************************************************************************/
 SELECT
-    p.runid,
-    p.Id,
-    p.date,
-    p.serviceTestId.testName as TestName,
-    p.runId.serviceRequested as PanelName,
-    p.remark,
-    GROUP_CONCAT(p.qualresult) as QResults
+    b.Id,
+    b.date,
+    b.panelName,
+    b.TestName,
+    b.remark,
+    MAX(b.result) as results,
+    GROUP_CONCAT(b.abnormal_flags) as abnormal_flags
+FROM culturePivotInner b
 
-FROM study.labworkResults as p
-         inner join snprc_ehr.labwork_panels as lt
-                    on p.serviceTestid = lt.rowId
-                        and lt.ServiceId.Dataset='Culture'
+GROUP BY b.panelName, b.id, b.date, b.TestName, b.remark
 
-where p.id is not null
-  group by p.runid, p.Id, p.date,p.serviceTestId.testName, p.remark, p.runId.serviceRequested
-    PIVOT   QResults by TestName IN
-  (select  t.testName from snprc_ehr.labwork_panels t
-  where t.includeInPanel = true
-  and t.ServiceId.Dataset = 'Culture'
-  order by t.TestName asc
-  );
+PIVOT results, abnormal_flags BY TestName IN
+(select TestName from snprc_ehr.labwork_panels t
+    where t.includeInPanel = true AND t.ServiceId.Dataset='Culture'
+ order by t.TestName asc
+)

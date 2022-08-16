@@ -18,9 +18,7 @@
   Author: Charles Peterson, Texas Biomedical Research Institute, September 20, 2018
  */
   select distinct
-    case when d.snprc_id is NULL then
-      d.pdl_animal_id
-    else d.snprc_id end as Id,
+    COALESCE(d.snprc_id, d.pdl_animal_id) as Id,
     d.sample_date as date,
     d.report_date as datefinalized,
     d.procedure_id as serviceId,

@@ -39,8 +39,8 @@ public class DietDataSource extends AbstractDataSource
     {
         StringBuilder sb = new StringBuilder();
 
-        addStringFieldLookup(rs, sb, "meaning", "code", "Diet");
-        addStringField(rs, sb, "code", "SNOMED");
+        addStringFieldLookup(rs, sb, "Diet", "code", "Diet");
+        addStringField(rs, sb, "Diet", "Diet");
         addDateField(c, rs, sb, "enddate", "End Date");
 
         return sb.toString();

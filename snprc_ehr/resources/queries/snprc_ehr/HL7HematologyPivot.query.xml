@@ -1,0 +1,9 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="HL7HematologyPivot" tableDbType="NOT_IN_DB">
+                <tableTitle>Hematology Pivot</tableTitle>
+            </table>
+        </tables>
+    </metadata>
+</query>

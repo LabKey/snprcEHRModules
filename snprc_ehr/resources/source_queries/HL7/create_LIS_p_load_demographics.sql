@@ -210,7 +210,7 @@ BEGIN
                             FORMAT(@BirthDate,'yyyyMMddHHmm'),	-- Date of Birth
                             @Gender,		-- Sex
                             RTRIM(@Species),	-- Race - Species
-                            RTRIM(@Breed),	-- Ethnic Grouop - Breed
+                            RTRIM(@Breed),	-- Ethnic Group - Breed
                             FORMAT(@DeathDate,'yyyyMMddHHmm'), -- Patient Death Date and Time
                             @isAlive	-- Patient Death Indicator
                         )
@@ -320,7 +320,36 @@ BEGIN
                     goto error
                 END CATCH
 
-
+				/*
+					Step. 6 add record to import log
+				*/
+					INSERT INTO LIS.HL7ImportLog
+					(
+						MessageId,
+						ObservationDateTm,
+						MessageControlId,
+						ImportStatus,
+						ResultStatis,
+						PatientId,
+						Species,
+						HL7MessageText,
+						ImportText,
+						UserName,
+						EntryDateTm
+					)
+					VALUES
+					(   @hl7_messageId,        -- MessageId - varchar(50)
+						GETDATE(), -- ObservationDateTm - datetime
+						@hl7_messageControl,        -- MessageControlId - varchar(50)
+						1,         -- ImportStatus - int
+						'F',        -- ResultStatis - varchar(10)
+						@Id,        -- PatientId - varchar(20)
+						@Species,    -- Species - varchar(50)
+						NULL,		 -- HL7MessageText - varchar(max)
+						'Upload okay', -- ImportText - varchar(max)
+						@ModifiedBy, -- USER_NAME - varchar(128)
+						@Modified    -- ENTRY_DATE_TM - datetime
+					)
 
                 -- next row
                 FETCH NEXT FROM @msgCursor INTO @RowId, @Id, @Gender, @BirthDate, @DeathDate, @Breed, @Species, @isAlive, @Sire, @Dam, @Modified, @ModifiedBy, @Processed, @ObjectId
@@ -333,35 +362,36 @@ BEGIN
         GOTO finis
 
         -- error handling
-        error:
-    ROLLBACK;
+   error:
+		ROLLBACK
 
-    -- Update error log
-    INSERT INTO LIS.HL7ExportErrorLog
-    (
-        ObjectId,
-        ProcessedDateTm,
-        MessageControlId,
-        PatientId,
-        ErrorMsg,
-        UserName,
-        EntryDateTm
-    )
-    VALUES
-        (   @ObjectId, -- ObjectId of demographics row -- varchar(50)
-            GETDATE(), -- PROCESSED_DATE_TM - datetime
-            @hl7_messageControl,        -- MESSAGE_CONTROL_ID - varchar(50)
-            @Id,				-- PATIENT_ID - varchar(20)
-            @errormsg,          -- ERROR_MSG - varchar(max)
-            @ModifiedBy,        -- USER_NAME - varchar(128)
-            @Modified  -- ENTRY_DATE_TM - datetime
-        );
+		-- Update error log
+		INSERT INTO LIS.HL7ExportErrorLog
+		(
+			ObjectId,
+			ProcessedDateTm,
+			MessageControlId,
+			PatientId,
+			ErrorMsg,
+			UserName,
+			EntryDateTm
+		)
+		VALUES
+			(   @ObjectId, -- ObjectId of demographics row -- varchar(50)
+				GETDATE(), -- PROCESSED_DATE_TM - datetime
+				@hl7_messageControl,        -- MESSAGE_CONTROL_ID - varchar(50)
+				@Id,				-- PATIENT_ID - varchar(20)
+				@errormsg,          -- ERROR_MSG - varchar(max)
+				@ModifiedBy,        -- USER_NAME - varchar(128)
+				@Modified  -- ENTRY_DATE_TM - datetime
+			);
 
-    -- Note to self: XACT_ABORT (set above) will rollback transaction
-    THROW 51000, @errormsg, 1
+		-- Note to self: XACT_ABORT (set above) will rollback transaction
+		THROW 51000, @errormsg, 1
 
 -- If no error occurred, commit the entire transaction.
     finis:
+
     COMMIT transaction trans1
 
     RETURN 0

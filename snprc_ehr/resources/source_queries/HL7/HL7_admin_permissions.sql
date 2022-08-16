@@ -1,0 +1,13 @@
+-- HL7_Admin permissions required for HL7 Schema Engine import
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_IMPORT_LOG TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_MSH TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_NTE TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_OBR TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_OBX TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_ORC TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_PID TO HL7_Admin;
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE ON labkey.snprc_ehr.HL7_PV1 TO HL7_Admin;
+GRANT EXECUTE ON labkey.snprc_ehr.f_isNumeric TO HL7_Admin;
+GRANT SELECT ON labkey.snprc_ehr.HL7_GroupNTE TO HL7_Admin;
+GRANT EXECUTE ON labkey.snprc_ehr.f_format_hl7_date TO HL7_Admin;
+GRANT SELECT ON labkey.core.Containers TO HL7_Admin;
