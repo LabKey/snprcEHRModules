@@ -47,7 +47,7 @@ SELECT
   Id,
   date,
   enddate,
-  serviceId.Dataset.ServiceType as type,
+  COALESCE(serviceId.Dataset.ServiceType, type) as type,
   tissue,
   project,
   instructions,
