@@ -2109,6 +2109,7 @@
             <column columnName="VERIFIED_BY_FIRST"/>
             <column columnName="ORDER_PROVIDER_LAST"/>
             <column columnName="ORDER_PROVIDER_FIRST"/>
+            <column columnName="CALLBACK_EMAIL"/>
             <column columnName="ORDER_DATE"/>
             <column columnName="Container"/>
             <column columnName="OBJECT_ID"/>
