@@ -12,6 +12,7 @@ require("ehr/triggers").initScript(this);
 
 var cachedIds = {};
 var cacheKey = '';
+let runIdCache = {};
 
 // the missing value codes will link the record up to an unknown service (needed for ancient legacy data)
 var missingServiceId = 999999;
@@ -31,9 +32,20 @@ function onUpsert(helper, scriptErrors, row, oldRow) {
         }
         else
         {
-            // console.log("Cache hit: " + cachedIds[cacheKey]);
+             //console.log("Cache hit: " + cachedIds[cacheKey]);
         }
 
+    }
+    if (!row.runId) {
+        row.runId = runIdCache[row.sampleId];
+
+        if (row.runId === undefined || row.runId == 'undefined') {
+                assignRunId(row, row.sampleId);
+        }
+        else
+        {
+             //console.log("RunId Cache hit: " + runIdCache[row.sampleId]);
+        }
     }
 }
 
@@ -44,7 +56,7 @@ function assignServiceTestId (row, serviceId, testid ) {
     LABKEY.Query.selectRows({
         schemaName: 'snprc_ehr',
         queryName: 'labwork_panels',
-        columns: 'RowId',
+        columns: 'ObjectId',
         scope: this,
         filterArray: [
             LABKEY.Filter.create('ServiceId', serviceId, LABKEY.Filter.Types.EQUAL),
@@ -52,7 +64,7 @@ function assignServiceTestId (row, serviceId, testid ) {
         ],
         success: function (data) {
             if (data.rows && data.rows.length) {
-                row.serviceTestId = data.rows[0].RowId;
+                row.serviceTestId = data.rows[0].ObjectId;
                 cachedIds[cacheKey] = row.serviceTestId;
                 //console.log('caching ' + cacheKey + ': ' + row.serviceTestId);
 
@@ -67,6 +79,35 @@ function assignServiceTestId (row, serviceId, testid ) {
             console.log(error);
         }
 
+    });
+    return result;
+}
+
+function assignRunId (row, sampleId ) {
+
+    let result = true;
+
+    LABKEY.Query.selectRows({
+        schemaName: 'study',
+        queryName: 'assay_clinpathRuns',
+        columns: '_key',
+        scope: this,
+        filterArray: [
+            LABKEY.Filter.create('sampleId', sampleId, LABKEY.Filter.Types.EQUAL)
+        ],
+        success: function (data) {
+            if (data.rows && data.rows.length) {
+                row.runId = data.rows[0]._key;
+                runIdCache[row.sampleId] = row.runId;
+            }
+            else {
+                result = false;
+            }
+        },
+        failure: function (error) {
+            console.log('Select rows error');
+            console.log(error);
+        }
     });
     return result;
 }

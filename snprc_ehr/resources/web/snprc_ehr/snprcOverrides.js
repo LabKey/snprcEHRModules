@@ -205,7 +205,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             Ext4.each(results, function (row) {
                 var newRow = {
                     diet_date: row['date'],
-                    diet: row['code/meaning'],
+                    diet: row['code/Diet'],
                 };
                 rows.push(newRow);
             }, this);

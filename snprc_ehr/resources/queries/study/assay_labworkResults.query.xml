@@ -24,7 +24,7 @@
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>labwork_panels</fkTable>
-                            <fkColumnName>RowId</fkColumnName>
+                            <fkColumnName>ObjectId</fkColumnName>
                             <fkDisplayColumnName>TestName</fkDisplayColumnName>
                         </fk>
                     </column>
@@ -80,7 +80,7 @@
                         <fk>
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>assay_ClinpathRuns</fkTable>
-                            <fkColumnName>sampleid</fkColumnName>
+                            <fkColumnName>objectId</fkColumnName>
                         </fk>
                     </column>
                     <column columnName="diCreated">
