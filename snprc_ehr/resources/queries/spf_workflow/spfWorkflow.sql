@@ -27,5 +27,4 @@
     'Surveillance' as type,
     d.file_name as remark,
     d.sample as sampleId
-
   from spf_workflow.data as d

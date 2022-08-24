@@ -18,27 +18,21 @@ Ova & Parasite (O&P) result set.
 srr 04.02.2019
 
 ******************************************************************************/
-
 SELECT
-  p.runid,
-  p.Id,
-  p.date,
-  p.serviceTestId.testName as TestName,
-  p.runId.serviceRequested as PanelName,
-  p.remark,
-  GROUP_CONCAT(p.qualresult) as QResults
+    p.Id,
+    p.date,
+    p.remark,
+    p.testName,
+    p.panelName,
+    GROUP_CONCAT(p.result) as result,
+    GROUP_CONCAT(p.abnormal_flags) as abnormal_flags
 
-FROM study.labworkResults as p
-       inner join snprc_ehr.labwork_panels as lt
-                  on p.serviceTestid = lt.rowId
-                    and lt.ServiceId.Dataset='Parasitology'
+FROM ParasitologyPivotInner p
+WHERE p.panelName in ('OVA & PARASITES','OVA & PARASITES, URINE')
 
-where p.id is not null
-      and p.runId.serviceRequested  in ('OVA & PARASITES' ,'OVA & PARASITES, URINE')
-group by p.runid, p.Id, p.date,p.remark, p.serviceTestId.testName, p.runId.serviceRequested
-  PIVOT QResults by TestName IN
-  (select TestName from snprc_ehr.labwork_panels t
-  where t.includeInPanel = true
-  and t.ServiceId.Dataset = 'Parasitology'
-  and t.ServiceId.ServiceName in ('OVA & PARASITES', 'OVA & PARASITES, URINE')
-  );
+GROUP BY p.id, p.date, p.remark, p.panelName, p.TestName
+    PIVOT result, abnormal_flags BY TestName IN
+(select TestName from snprc_ehr.labwork_panels t
+where t.includeInPanel = true AND t.ServiceId.Dataset='Parasitology'
+   and t.ServiceId.ServiceName in ('OVA & PARASITES','OVA & PARASITES, URINE')
+)

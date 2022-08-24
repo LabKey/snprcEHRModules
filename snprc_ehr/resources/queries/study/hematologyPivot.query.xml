@@ -8,6 +8,10 @@
                         <columnTitle>Hematology Panel Name</columnTitle>
                         <displayWidth>200</displayWidth>
                     </column>
+                    <column columnName="Remark">
+                        <columnTitle>Remarks</columnTitle>
+                        <displayWidth>200</displayWidth>
+                    </column>
                     <column columnName="resultOORIndicator">
                         <isHidden>true</isHidden>
                     </column>

@@ -16,6 +16,7 @@
                 <property name="columnTitle" value="Service Type"/>
             </properties>
         </column>
+        <column name="runId"/>
         <column name="date"/>
         <column name="testid"/>
         <column name="value_type"/>
@@ -25,10 +26,7 @@
         <column name="refRange"/>
         <column name="abnormal_flags"/>
         <column name="remark"/>
-        <column name="resultNumber"/>
-        <column name="resultInRange"/>
         <column name="qualresult"/>
-        <column name="history"/>
     </columns>
     <sorts>
         <sort column="Date" descending="true" />
