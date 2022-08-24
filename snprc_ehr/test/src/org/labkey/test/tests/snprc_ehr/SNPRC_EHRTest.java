@@ -792,10 +792,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         WebElement enterData = Locator.tagWithText("a", "Enter Data").findElement(frontPage);
         WebElement colonyOverview = Locator.tagWithText("a", "Colony Overview").findElement(frontPage);
 
-        log("Expecting this to be a relative URL: " + browseData.getAttribute("href"));
-        log("Expecting this to be a relative URL: " + enterData.getAttribute("href"));
-        log("Expecting this to be a relative URL: " + colonyOverview.getAttribute("href"));
-
         Crawler.ControllerActionId actionId = new Crawler.ControllerActionId(browseData.getAttribute("href"));
         assertEquals("Wrong controller for 'Browse Data'", "snprc_ehr", actionId.getController());
         assertEquals("Wrong action for 'Browse Data'", "animalHistory", actionId.getAction());
