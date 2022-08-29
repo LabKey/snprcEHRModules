@@ -5,13 +5,13 @@ PARAMETERS
 )
 -- TODO: Do we want to limit selection to animals that were co-located with dam?
 SELECT distinct d.id as Sire,
-       d.species as Species,
-       d.species.arc_species_code as ArcSpeciesCode,
-       d.gender as Gender,
-       d.birth as BirthDate,
-       d.id.age.ageInYears as Age,
-       ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) as AgeOnConceptionDate,
-       x.minAdultAge as MinAdultAge
+                d.species as Species,
+                d.species.arc_species_code as ArcSpeciesCode,
+                d.gender as Gender,
+                d.birth as BirthDate,
+                d.id.age.ageInYears as Age,
+                ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) as AgeOnConceptionDate,
+                x.minAdultAge as MinAdultAge
 
 FROM study.demographics AS d
          INNER JOIN (
@@ -41,12 +41,13 @@ FROM study.demographics AS d
     UNION ALL
     SELECT 185 as gestation, timestampadd('SQL_TSI_DAY', -185, birthdateParm ) as minConceptionDate, 'O' as species
 ) AS y ON CASE WHEN d.species.arc_species_code IN ('PC', 'CJ', 'MM', 'MF', 'PT','MA') then d.species.arc_species_code ELSE 'O' END = y.species
-INNER JOIN study.acq_disp as ad on d.id = ad.id
+         INNER JOIN study.acq_disp as ad on d.id = ad.id
 WHERE d.gender = 'M'
 -- age at conception is greater or equal to minimum adult age
   -- LK has trouble matching parameters correctly using the code below, so minConceptionDate was added to the y result set
   --AND x.minAdultAge <= ROUND(CAST(age_in_months(d.birth, timestampadd('SQL_TSI_DAY', -y.gestation, coalesce(birthdateParm, curdate()) ) ) AS DOUBLE) / 12.0, 1)
-  AND ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) between x.minAdultAge and x.maxAdultAge
+  -- Exception added for Marmosets to allow 'Senior' ageclass as sire
+  AND (ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) between x.minAdultAge and (case when d.species.arc_species_code = 'CJ' then 30 else x.maxAdultAge end))
 -- ensure animal was at txbiomed on date of conception for birth type acquisitions
   AND (timestampadd('SQL_TSI_DAY', -y.gestation, birthdateParm) BETWEEN ad.acq_date AND COALESCE(ad.disp_date, birthdateParm) OR selectedOptionParm = 'Acquisition')
 -- make sure animal was alive (at center) on conception date for birth type acquisitions
