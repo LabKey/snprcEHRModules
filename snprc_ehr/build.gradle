@@ -16,8 +16,8 @@ dependencies
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premium", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:snd", depProjectConfig: "published", depExtension: "module")
 
-            compileOnly "org.projectlombok:lombok:1.18.22"
-            annotationProcessor "org.projectlombok:lombok:1.18.22"
+            compileOnly "org.projectlombok:lombok:${lombokVersion}"
+            annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
             BuildUtils.addExternalDependency(
                 project,
