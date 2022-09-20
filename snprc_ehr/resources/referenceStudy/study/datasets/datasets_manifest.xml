@@ -160,9 +160,6 @@
         <dataset name="DailyObservations" id="5043" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="Cycle" id="5044" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
-            <tags/>
-        </dataset>
         <dataset name="CycleDaily" id="5045" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>

@@ -2,7 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="urinalysisPivot" tableDbType="TABLE">
-                <tableTitle>Chemistry Results</tableTitle>
+                <tableTitle>Urinalysis Results</tableTitle>
                 <columns>
                     <column columnName="resultOORIndicator">
                         <isHidden>true</isHidden>
