@@ -312,10 +312,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         // Labwork types
         List<Map<String, Object>> labworkTypeRows = Arrays.asList(
-                Maps.of("serviceType", "Hematology"),
-                Maps.of("serviceType", "Surveillance"),
-                Maps.of("serviceType", "Microbiology"),
-                Maps.of("serviceType", "Urinalysis")
+                Maps.of("serviceType", "Labwork")
         );
 
         command = new InsertRowsCommand("snprc_ehr", "labwork_types");
@@ -907,7 +904,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         openClinicalHistoryForAnimal("TEST1020148");
 
         Ext4FieldRef.getForLabel(this, "Min Date").setValue("09/01/2015");
-        clickButtonContainingText("Reload", "Hematology");
+        clickButtonContainingText("Reload", "Labwork");
 
         List<String> expectedLabels = new ArrayList<>(
                 Arrays.asList(
@@ -916,16 +913,13 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "Chemistry",
                         "Diet",
                         "Housing Transfers",
-                        "Labwork Results",
                         "Offspring",
                         "TB",
                         "Virology",
                         "Weights",
-
                         "Arrival/Departure",
                         "Blood Draws",
                         "Clinical",
-                        "Hematology",
                         "Labwork",
                         "Notes",
                         "Pregnancy",
