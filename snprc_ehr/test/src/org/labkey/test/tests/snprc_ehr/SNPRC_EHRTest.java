@@ -314,9 +314,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 //        List<Map<String, Object>> labworkTypeRows = Arrays.asList(
 //                Maps.of("serviceType", "Labwork")
 //        );
-
-        command = new InsertRowsCommand("snprc_ehr", "labwork_types");
-        command.setRows(labworkTypeRows);
+//
+//        command = new InsertRowsCommand("snprc_ehr", "labwork_types");
+//        command.setRows(labworkTypeRows);
         command.execute(connection, getProjectName());
 
         // Labwork services
