@@ -15,7 +15,7 @@
  */
 package org.labkey.snprc_ehr.dataentry.dataentry;
 
-import org.json.JSONObject;
+import org.json.old.JSONObject;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DataEntryFormContext;
 import org.labkey.api.ehr.dataentry.SimpleGridPanel;

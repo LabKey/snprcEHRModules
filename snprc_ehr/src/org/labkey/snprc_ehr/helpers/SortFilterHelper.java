@@ -16,7 +16,7 @@
 package org.labkey.snprc_ehr.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
+import org.json.old.JSONObject;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.Sort;

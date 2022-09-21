@@ -2,7 +2,7 @@ package org.labkey.snprc_scheduler.domains;
 
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
+import org.json.old.JSONObject;
 import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.data.Container;
 
