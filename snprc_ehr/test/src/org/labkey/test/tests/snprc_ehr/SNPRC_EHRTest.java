@@ -953,9 +953,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         // Deselect weight, blood and housing
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4).click();
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click();
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11).click();
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4).click(); // Housing
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(8).click(); // weight
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(10).click(); // blood
         findButton("Submit").click();
 
         animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
