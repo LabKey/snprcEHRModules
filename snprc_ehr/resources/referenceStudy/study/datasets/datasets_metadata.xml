@@ -3293,11 +3293,6 @@
             <column columnName="STLV1">
                 <datatype>varchar</datatype>
             </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <isKeyField>false</isKeyField>
-                <nullable>true</nullable>
-            </column>
         </columns>
     </table>
 </tables>

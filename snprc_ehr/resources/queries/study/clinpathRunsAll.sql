@@ -33,43 +33,44 @@ select
     NULL AS chargetype,
     obr.VERIFIED_DATE_TM AS verifiedDate,
     NULL AS datefinalized,
-    NULL AS remark,
+    nte.comment AS remark,
     NULL AS history,
     obr.OBJECT_ID AS objectid,
     NULL AS lsid,
     q.rowId as QCState
 FROM snprc_ehr.HL7_OBR as obr
+LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE AS nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
 INNER JOIN core.QCState as q on q.Label = 'Completed'
 
 UNION
 
 SELECT
-  Id,
-  date,
-  enddate,
-  COALESCE(serviceId.Dataset.ServiceType, type) as type,
-  tissue,
-  project,
-  instructions,
-  servicerequested,
-  units,
-  serviceId,
-  collectedBy,
-  sampleId,
-  collectionMethod,
-  method,
-  sampleQuantity,
-  quantityUnits,
-  chargetype,
-  verifiedDate,
-  datefinalized,
-  remark,
-  history,
-  objectid,
-  lsid,
-  QCState
-FROM study.clinpathRuns
-
+  cpr.Id,
+  cpr.date,
+  cpr.enddate,
+  COALESCE(cpr.serviceId.Dataset.ServiceType, cpr.type) as type,
+  cpr.tissue,
+  cpr.project,
+  cpr.instructions,
+  cpr.servicerequested,
+  cpr.units,
+  cpr.serviceId,
+  cpr.collectedBy,
+  cpr.sampleId,
+  cpr.collectionMethod,
+  cpr.method,
+  cpr.sampleQuantity,
+  cpr.quantityUnits,
+  cpr.chargetype,
+  cpr.verifiedDate,
+  cpr.datefinalized,
+  lr.remark as remark,
+  cpr.history,
+  cpr.objectid,
+  cpr.lsid,
+  cpr.QCState
+FROM study.clinpathRuns cpr
+LEFT JOIN study.labworkResults lr on lr.runId = cpr.objectId and lr.remark is not null
 UNION
 
 SELECT

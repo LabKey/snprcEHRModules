@@ -57,11 +57,13 @@ public class LabworkType extends DefaultLabworkType
     protected String _test_nameField = "serviceTestId/testName";
     protected String _sortField = "serviceTestId/sortOrder";
     protected String _runid_typeField = "runid/ServiceId/Dataset";
-    protected String _default_testType = "LabworkResults";
-    protected String _test_typeField = "ServiceId/Dataset/ServiceType";
+    protected String _default_serviceType = "LabworkResults";
+    protected String _labworkTable = "labwork_panels";
+    protected String _serviceIdField = "ServiceId";
 
-    private static String _testType;
-    private String _testCol = "RowId";
+    private static String _serviceId;
+    private static String _serviceType;
+    private String _testCol = "TestId";
     private String _sortCol = "sortOrder";
     private Map<String, Integer> _tests = null;
 
@@ -69,12 +71,11 @@ public class LabworkType extends DefaultLabworkType
     {
         // LabworkResultsAll is a query that aggregates several labwork related datasets
         super("Labwork Results", "study", "LabworkResultsAll", module);
-        _testType = _default_testType;  // this is just a temporary value it will be updated for the specific
-        // assay type in the getRows() method. tjh
+        _serviceType = _default_serviceType;
         _normalRangeField = "refRange";
         _unitsField = "units";
         _normalRangeStatusField = "abnormal_flags";
-        _testIdField = "TestId";
+        _testIdField = "testid";
     }
 
     /**
@@ -83,8 +84,8 @@ public class LabworkType extends DefaultLabworkType
     @Override
     protected Set<String> getColumnNames()
     {
-        return PageFlowUtil.set(_idField, _dateField, _runIdField, _testIdField, _resultField, _qualResultField, _test_nameField,
-                _unitsField, _normalRangeField, _normalRangeStatusField, _sortField, _runid_typeField);
+        return PageFlowUtil.set(_idField, _dateField, _runIdField, _serviceIdField, _testIdField, _resultField, _qualResultField, _test_nameField,
+                _unitsField, _normalRangeField, _normalRangeStatusField, _sortField, _runid_typeField, _remarkField);
     }
 
     @Override
@@ -139,12 +140,12 @@ public class LabworkType extends DefaultLabworkType
     {
         if (forceRefresh || _tests == null)
         {
-            TableInfo ti = DbSchema.get("snprc_ehr", DbSchemaType.Module).getTable("labwork_panels");
+            TableInfo ti = DbSchema.get("snprc_ehr", DbSchemaType.Module).getTable(_labworkTable);
             assert ti != null;
 
             _tests = new CaseInsensitiveHashMap<>();
-            //
-            TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString(_test_typeField), _testType), null);
+
+            TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString(_serviceIdField), _serviceId), null);
             ts.forEach(new Selector.ForEachBlock<ResultSet>()
             {
                 @Override
@@ -175,8 +176,11 @@ public class LabworkType extends DefaultLabworkType
                            if (forceRefresh)
                            {
                                String assayType = rs.getString(FieldKey.fromString(_runid_typeField));
-                               if (assayType != _testType)
-                                   _testType = assayType == null ? _default_testType : assayType;
+                               if (assayType != _serviceType)
+                               {
+                                   _serviceType = assayType == null ? _default_serviceType : assayType;
+                                   _serviceId = rs.getString(FieldKey.fromString(_serviceIdField));
+                               }
                                else
                                    forceRefresh = false;
                            }

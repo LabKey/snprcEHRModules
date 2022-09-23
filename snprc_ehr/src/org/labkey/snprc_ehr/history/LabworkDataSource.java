@@ -55,9 +55,11 @@ public class LabworkDataSource extends AbstractDataSource
     private Map<String, List<String>> _results;
     private Map<String, List<String>> _flags;
 
+    protected static final String _labwork_category = "Labwork";
+
     public LabworkDataSource(Module module)
     {
-        super("study", "clinpathRunsAll", "Labwork", "Labwork", module);
+        super("study", "clinpathRunsAll", _labwork_category, _labwork_category, module);
     }
 
     @Override
@@ -176,8 +178,7 @@ public class LabworkDataSource extends AbstractDataSource
     @Override
     protected String getCategoryText(Results rs) throws SQLException
     {
-        String category = rs.getString(LABWORK_SERVICE_TYPE_COLUMN);
-        return category == null ? super.getCategoryText(rs) : category;
+        return _labwork_category;
     }
 
     @Override
@@ -190,12 +191,7 @@ public class LabworkDataSource extends AbstractDataSource
     public Set<String> getAllowableCategoryGroups(Container c, User u)
     {
         Set<String> types = new HashSet<>();
-        types.add("Labwork");
-        for (LabworkType type : EHRService.get().getLabworkTypes(c))
-        {
-            types.add(type.getName());
-        }
-
-        return types;
+        types.add(_labwork_category);
+       return types;
     }
 }
