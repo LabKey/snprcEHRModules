@@ -951,11 +951,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         assertTextPresent(new TextSearcher(activeReport::getText), entries.toArray(new String[]{}));
 
-        // Deselect weight, blood and housing
+        // Deselect weight, blood and housing - checkbox count starts at 0, count down the first column and then down the next
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4).click(); // Housing
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(8).click(); // weight
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(10).click(); // blood
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(3).click(); // Housing
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(7).click(); // weight
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click(); // blood
         findButton("Submit").click();
 
         animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
