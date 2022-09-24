@@ -907,25 +907,20 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         openClinicalHistoryForAnimal("TEST1020148");
 
         Ext4FieldRef.getForLabel(this, "Min Date").setValue("09/01/2015");
-        clickButtonContainingText("Reload", "Hematology");
+        clickButtonContainingText("Reload", "Labwork");
 
         List<String> expectedLabels = new ArrayList<>(
                 Arrays.asList(
                         "Accounts",
                         "Assignments",
-                        "Chemistry",
                         "Diet",
                         "Housing Transfers",
-                        "Labwork Results",
                         "Offspring",
                         "TB",
-                        "Virology",
                         "Weights",
-
                         "Arrival/Departure",
                         "Blood Draws",
                         "Clinical",
-                        "Hematology",
                         "Labwork",
                         "Notes",
                         "Pregnancy",
@@ -956,11 +951,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         assertTextPresent(new TextSearcher(activeReport::getText), entries.toArray(new String[]{}));
 
-        // Deselect weight, blood and housing
+        // Deselect weight, blood and housing - checkbox count starts at 0, count down the first column and then down the next
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4).click();
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click();
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11).click();
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(3).click(); // Housing
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(7).click(); // weight
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click(); // blood
         findButton("Submit").click();
 
         animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
