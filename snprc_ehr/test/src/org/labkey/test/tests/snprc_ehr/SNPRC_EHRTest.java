@@ -975,6 +975,27 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         );
 
         assertTextPresent(entries);
+        // ensure deselecting labwork from show/hide types removes labwork panels from clinical history
+        // Deselect labwork
+        waitAndClick(Locator.linkWithText("Show/Hide Types"));
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11).click(); // labwork
+        findButton("Submit").click();
+
+        animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
+        activeReport = animalHistoryPage.getActiveReportPanel();
+
+        assertTextNotPresent(new TextSearcher(activeReport::getText), "Service/Panel: X VIRUS", "Service/Panel: FULL PANEL CULTURE", "Service/Panel: URINE CHEM");
+
+        entries = new ArrayList<>(
+                Arrays.asList(
+                        "TEST1020148 (2016-03-28)",
+                        "TEST1020148 (2016-03-07)",
+                        "Protocol: protocol101",
+                        "Status: Holding"
+                )
+        );
+
+        assertTextPresent(entries);
 
     }
 
