@@ -45,3 +45,9 @@ obscan_placenta_loc_fc	Placenta Location F to C	value		sort_order
 obscan_placenta_loc_lr	Placenta Location L to R	value		sort_order						
 obscan_placenta_grade	Placenta Grade	value		sort_order						
 obscan_reason	Reason for Scan	value		sort_order						
+u24_status	description	value	sort_order
+u24_available_to_transfer	description	value	sort_order
+u24_current_housing_status	description	value	sort_order
+u24_infant_history	description	value	sort_order
+u24_fertility_status	description	value	sort_order
+u24_medical_history	description	value	sort_order
