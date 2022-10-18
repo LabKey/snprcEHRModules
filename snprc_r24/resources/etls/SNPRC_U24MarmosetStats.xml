@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml" >
+    <name>U24 Marmoset Stats</name>
+    <description>U24 statistics for marmosets</description>
+    <transforms>
+        <transform type="RemoteQueryTransformStep" id="step1">
+            <description>Copy marmoset stats to local table</description>
+            <source remoteSource="snprcLkSrc" schemaName="study" queryName="u24MarmosetStats"/>
+            <destination schemaName="study" queryName="u24MarmosetStats" targetOption="truncate">
+                <columnTransforms>
+                    <column source="Id" target="AnimalId" />
+                </columnTransforms>
+            </destination>
+        </transform>
+    </transforms>
+    <schedule>
+        <poll interval="1d"/>
+    </schedule>
+</etl>

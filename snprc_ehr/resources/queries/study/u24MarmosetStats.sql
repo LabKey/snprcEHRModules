@@ -55,7 +55,7 @@ SELECT
     GREATEST( a.experience, b.experience, c.experience, d.experience ) AS infant_history,
     GREATEST (g.fertility_status, h.fertility_status, i.fertility_status, j.fertility_status, k.fertility_status) as fertility_status,
     coalesce(f.medical_history, coalesce(f.medical_history, 0)) as medical_history,
-    now() as run_date_tm
+    now() as Date
 FROM
 
 -- default - everyone starts at 0

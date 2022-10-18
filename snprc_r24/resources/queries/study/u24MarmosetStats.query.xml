@@ -3,7 +3,7 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="u24MarmosetStats" tableDbType="NOT_IN_DB" useColumnOrder="true">
                 <columns>
-                    <column columnName="Id">
+                    <column columnName="AnimalId">
                         <columnTitle>Animal Id</columnTitle>
                     </column>
                     <column columnName="ageClass">
@@ -40,7 +40,7 @@
                         <dimension>true</dimension>
                         <measure>true</measure>
                     </column>
-                    <column columnName="date">
+                    <column columnName="Date">
                         <columnTitle>Run Date</columnTitle>
                     </column>
                 </columns>
