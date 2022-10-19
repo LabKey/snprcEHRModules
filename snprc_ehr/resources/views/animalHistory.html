@@ -12,11 +12,11 @@
             defaultTab: 'General',
             showFilterOptionsTitle: true,
             showReportsOption:true,
+            caseInsensitiveSubjects: true,
             filterTypes: [{
                 xtype: 'ldk-singlesubjectfiltertype',
                 inputValue: LDK.panel.SingleSubjectFilterType.filterName,
                 label: 'Single Animal',
-                caseInsensitive: true,
                 aliasTable: {
                     schemaName: 'study',
                     queryName: 'validIdAndAlias',
@@ -27,7 +27,6 @@
                 xtype: 'ehr-multianimalfiltertype',
                 inputValue: EHR.panel.MultiAnimalFilterType.filterName,
                 label: EHR.panel.MultiAnimalFilterType.label,
-                caseInsensitive: true,
                 searchOptions: {
                     room: false,
                     cage: false,
