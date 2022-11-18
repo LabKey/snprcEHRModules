@@ -2290,7 +2290,7 @@
             </column>
             <column columnName="Date" />
             <column columnName="RowId" />
-            <column columnName="AccessionCode" />
+            <column columnName="AccessionNumber" />
             <column columnName="Tissue" />
             <column columnName="PerformedBy" />
             <column columnName="Description" />
@@ -2315,7 +2315,7 @@
             </column>
             <column columnName="Date" />
             <column columnName="RowId" />
-            <column columnName="AccessionCode" />
+            <column columnName="AccessionNumber" />
             <column columnName="Morphology" />
             <column columnName="Organ" />
             <column columnName="EtiologyCode" />
