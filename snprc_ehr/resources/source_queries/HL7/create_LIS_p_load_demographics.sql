@@ -41,7 +41,7 @@ BEGIN
         @DeathDate DATETIME2,
         @Breed VARCHAR(2),
         @Species VARCHAR(MAX),
-        @isAlive VARCHAR(1),
+        @isDeceased VARCHAR(1),
         @Sire VARCHAR(6),
         @Dam VARCHAR(6),
         @Modified DATETIME2,
@@ -66,7 +66,7 @@ BEGIN
                    DeathDate,
                    Breed,
                    Species,
-                   isAlive,
+                   isDeceased,
                    Sire,
                    Dam,
                    Modified,
@@ -81,7 +81,7 @@ BEGIN
 
         OPEN @msgCursor
 
-        FETCH @msgCursor INTO @RowId, @Id, @Gender, @BirthDate, @DeathDate, @Breed, @Species, @isAlive, @Sire, @Dam, @Modified, @ModifiedBy, @Processed, @ObjectId
+        FETCH @msgCursor INTO @RowId, @Id, @Gender, @BirthDate, @DeathDate, @Breed, @Species, @isDeceased, @Sire, @Dam, @Modified, @ModifiedBy, @Processed, @ObjectId
 
         WHILE (@@FETCH_STATUS = 0)
             BEGIN
@@ -212,7 +212,7 @@ BEGIN
                             RTRIM(@Species),	-- Race - Species
                             RTRIM(@Breed),	-- Ethnic Group - Breed
                             FORMAT(@DeathDate,'yyyyMMddHHmm'), -- Patient Death Date and Time
-                            @isAlive	-- Patient Death Indicator
+                            @isDeceased	-- Patient Death Indicator
                         )
 
                     -- Insert row into the NTE table (dbo.TAC_Segment_NTE_A)
@@ -352,7 +352,7 @@ BEGIN
 					)
 
                 -- next row
-                FETCH NEXT FROM @msgCursor INTO @RowId, @Id, @Gender, @BirthDate, @DeathDate, @Breed, @Species, @isAlive, @Sire, @Dam, @Modified, @ModifiedBy, @Processed, @ObjectId
+                FETCH NEXT FROM @msgCursor INTO @RowId, @Id, @Gender, @BirthDate, @DeathDate, @Breed, @Species, @isDeceased, @Sire, @Dam, @Modified, @ModifiedBy, @Processed, @ObjectId
 
             END
 

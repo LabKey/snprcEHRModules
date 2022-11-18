@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml" standalone="false">
+    <name>HL7 Pathology Cases</name>
+    <description>Load PathologyCases from HL7 Staging</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprc_ehr" queryName="HL7_PathologyCasesStaging" />
+            <destination schemaName="study" queryName="PathologyCases" bulkLoad="true" batchSize="5000" targetOption="merge">
+                <alternateKeys>
+                    <column name="objectid"/>
+                </alternateKeys>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="timestamp">
+        <deletedRowsSource schemaName="snprc_ehr" queryName="HL7_DeletePathologyCasesStaging" timestampColumnName="timestamp" deletedSourceKeyColumnName="objectId" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>

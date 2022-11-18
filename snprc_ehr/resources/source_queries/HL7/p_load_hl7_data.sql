@@ -483,9 +483,9 @@ BEGIN
                 SELECT ObjectId
                 FROM @ObjectId_TableVar
                 WHERE tid =
-            (
-                SELECT MAX(tid) FROM @ObjectId_TableVar
-            )
+                (
+                    SELECT MAX(tid) FROM @ObjectId_TableVar
+                )
             )
             -- New OBX records
             ;
