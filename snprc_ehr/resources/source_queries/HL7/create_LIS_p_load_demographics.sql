@@ -185,7 +185,6 @@ BEGIN
 
 
                     -- Insert row into the PID table (dbo.TAC_Segment_PID_A)
-                    -- ?? Where do Breed and Species go ??
 
                     INSERT INTO tac_hl7_staging.dbo.TAC_Segment_PID_A
                     (
@@ -194,6 +193,8 @@ BEGIN
                         PID_F1_C1,
                         PID_F2_C1,
                         PID_F3_C1,
+                        PID_F5_C1,
+                        PID_F5_C2,
                         PID_F7_C1,
                         PID_F8_C1,
                         PID_F10_C1,
@@ -207,6 +208,8 @@ BEGIN
                             '1', -- Set Id
                             @id, -- Patient_id (External ID)
                             @id,	-- Patient_id (Internal ID)
+                            @id, -- Lastname
+                            @id, -- Firstname
                             FORMAT(@BirthDate,'yyyyMMddHHmm'),	-- Date of Birth
                             @Gender,		-- Sex
                             RTRIM(@Species),	-- Race - Species
