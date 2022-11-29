@@ -2291,6 +2291,7 @@
             <column columnName="Date" />
             <column columnName="RowId" />
             <column columnName="AccessionNumber" />
+            <column columnName="AccessionCode" />
             <column columnName="Tissue" />
             <column columnName="PerformedBy" />
             <column columnName="Description" />
