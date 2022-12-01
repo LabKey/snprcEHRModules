@@ -19,7 +19,7 @@ CREATE TABLE LIS.DemographicsHL7Staging
     DeathDate DATETIME NULL,
     Breed VARCHAR(2) NULL,  -- arc_species_code
     Species VARCHAR(MAX) NULL, -- common name
-    isAlive Varchar(1) NULL, -- Y/N/NULL
+    isDeceased Varchar(1) NULL, -- Y/N/NULL
     Sire VARCHAR(6) NULL,
     Dam VARCHAR(6) NULL,
     Modified DATETIME NULL,

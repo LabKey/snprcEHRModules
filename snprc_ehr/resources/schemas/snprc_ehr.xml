@@ -2281,4 +2281,94 @@
             <column columnName="Container"/>
         </columns>
     </table>
+    <table tableName="HL7_PathologyCasesStaging" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>HL7_PathologyCasesStaging</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="id">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="Date" />
+            <column columnName="RowId" />
+            <column columnName="AccessionNumber" />
+            <column columnName="AccessionCode" />
+            <column columnName="Tissue" />
+            <column columnName="PerformedBy" />
+            <column columnName="Description" />
+            <column columnName="Remark" />
+            <column columnName="ApathRecordStatus" />
+            <column columnName="DeathType" />
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container" />
+            <column columnName="objectid" />
+            <column columnName="timestamp" />
+        </columns>
+    </table>
+    <table tableName="HL7_PathologyDiagnosesStaging" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>HL7_PathologyDiagnosisStaging</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="id">
+                <isKeyField>true</isKeyField>
+            </column>
+            <column columnName="Date" />
+            <column columnName="RowId" />
+            <column columnName="AccessionNumber" />
+            <column columnName="Morphology" />
+            <column columnName="Organ" />
+            <column columnName="EtiologyCode" />
+            <column columnName="SpecificEtiology" />
+            <column columnName="PerformedBy" />
+            <column columnName="Description" />
+            <column columnName="Remark" />
+            <column columnName="Created"/>
+            <column columnName="CreatedBy"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container" />
+            <column columnName="objectid" />
+            <column columnName="timestamp" />
+        </columns>
+    </table>
+    <table tableName="HL7_DeletePathologyCasesStaging" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>HL7_DeletePathologyCasesStaging</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="AccessionNumber" />
+            <column columnName="objectid" />
+            <column columnName="timestamp" />
+        </columns>
+    </table>
+    <table tableName="HL7_DeletePathologyDiagnosesStaging" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>HL7_DeletePathologyDiagnosisStaging</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="AccessionNumber" />
+            <column columnName="objectid" />
+            <column columnName="timestamp"/>
+        </columns>
+    </table>
+    <table tableName="HL7_Demographics" tableDbType="TABLE" useColumnOrder="true">
+        <tableTitle>HL7_Demographics</tableTitle>
+        <pkColumnName>id</pkColumnName>
+        <columns>
+            <column columnName="ID" />
+            <column columnName="RowId"/>
+            <column columnName="Gender" />
+            <column columnName="Species"/>
+            <column columnName="Breed"/>
+            <column columnName="BirthDate"/>
+            <column columnName="DeathDate"/>
+            <column columnName="isDeceased"/>
+            <column columnName="Dam"/>
+            <column columnName="Sire"/>
+            <column columnName="ObjectId"/>
+            <column columnName="Modified"/>
+            <column columnName="ModifiedBy"/>
+            <column columnName="Container"/>
+        </columns>
+    </table>
 </tables>
