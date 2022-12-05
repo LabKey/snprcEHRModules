@@ -1,24 +1,3 @@
--- ===============================================================
--- Author:		Terry Hawkins
--- Create date: 05/19/2022
--- Description:	loads HL7 results from Orchard Harvest
--- Returns:
---     0             Okay
---   -1 thru -99     Reserved by sql server for system errors
---    -100           Illegal null value passed into procedure
---    -101           General error
---    -102           Illegal update column passed into procedure
---    @@error        SQL errors
---
--- Note: hl7_import_log import_status:
---	1 == import okay
---  2 == animal not found in master table or as a cage location
--- other == SQL server error number
---
--- Changes:
---
--- =================================================================
-
 USE [Orchard_hl7_staging];
 GO
 /****** Object:  StoredProcedure [dbo].[p_load_hl7_data]    Script Date: 9/6/2022 12:31:52 PM ******/
@@ -68,7 +47,7 @@ BEGIN
             @container UNIQUEIDENTIFIER;
 
 
-    SET @animal_id = 'Unproc';
+    SET @animal_id = NULL
     SET @hl7_message_text = 'Could not read message text.';
     SET @hl7_message_control_id = 'Unprocessed.';
     SET @hl7_result_status = 'Unproc';
@@ -113,10 +92,9 @@ BEGIN
         FROM dbo.ORC_Segment_OBR_A
         WHERE MessageID = @MessageId;
 
-        -- make sure we are working with an animal record
+        -- Get patient information
         SELECT @hl7_species = pid.PID_F10_C1,
-               @patient_id = pid.PID_F2_C1,
-               @animal_id = LTRIM(RTRIM(pid.PID_F2_C1))
+               @patient_id = pid.PID_F2_C1
         FROM dbo.ORC_Segment_PID_A AS pid
         WHERE pid.MessageID = @MessageId;
 
@@ -131,6 +109,19 @@ BEGIN
         SELECT @errormsg = 'Error reading HL7 message data from staging database.';
         GOTO error;
     END CATCH;
+
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-- make sure we are working with an animal record
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	SELECT @animal_id = d.ID
+	FROM labkey.snprc_ehr.HL7_Demographics AS d
+	WHERE d.ID = LTRIM(RTRIM(@patient_id))
+
+	IF @animal_id IS NULL
+	   GOTO not_animal_data;
+
+
     --------------------------------------------------------------------------------------------------------
     -- insert into MSH table
     BEGIN TRY
@@ -290,7 +281,6 @@ BEGIN
         GOTO error;
     END CATCH;
 
-    -- TODO: which table do we want to use as the demographics source - using Marvin.labkey database for development
     -- TODO: Do we want to import data for location pool samples? Section is commented out for now
     --     IF NOT EXISTS (SELECT 1 FROM labkey.StudyDataSet.c6d340_demographics AS m WHERE m.participantid = @animal_id)
     --     BEGIN
@@ -307,8 +297,6 @@ BEGIN
     --            END
     --     END
 
-
-    -- TODO: currently using database: Marvin.labkey for development
     -- This section removes cancelled orders from the animal DB tables
     -- OBR result status = 'X' Order cancelled
 
@@ -483,9 +471,9 @@ BEGIN
                 SELECT ObjectId
                 FROM @ObjectId_TableVar
                 WHERE tid =
-            (
-                SELECT MAX(tid) FROM @ObjectId_TableVar
-            )
+                (
+                    SELECT MAX(tid) FROM @ObjectId_TableVar
+                )
             )
             -- New OBX records
             ;
@@ -703,48 +691,22 @@ BEGIN
 
         GOTO finis;
     END;
-    not_animal_data:
 
+	not_animal_data:
 
-    INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
-    (
-        MESSAGE_ID,
-        OBSERVATION_DATE_TM,
-        MESSAGE_CONTROL_ID,
-        IMPORT_STATUS,
-        RESULT_STATUS,
-        PATIENT_ID,
-        SPECIES,
-        HL7_MESSAGE_TEXT,
-        IMPORT_TEXT,
-        Container
-    )
-    VALUES
-    (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id, @hl7_species,
-     @hl7_message_text, 'Not animal data.', @container);
+	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'Not animal data.', @container)
 
-    GOTO finis;
+	GOTO finis
+
 
     error:
     -- an error occurred, rollback the entire transaction.
     ROLLBACK TRANSACTION trans1;
 
     INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
-    (
-        MESSAGE_ID,
-        OBSERVATION_DATE_TM,
-        MESSAGE_CONTROL_ID,
-        IMPORT_STATUS,
-        RESULT_STATUS,
-        PATIENT_ID,
-        SPECIES,
-        HL7_MESSAGE_TEXT,
-        IMPORT_TEXT,
-        Container
-    )
-    VALUES
-    (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, @error, @hl7_result_status, @animal_id,
-     @hl7_species, @hl7_message_text, @errormsg, @container);
+    ( MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container )
+    VALUES (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, @error, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, @errormsg, @container);
 
     UPDATE Orchard_hl7_staging.dbo.ORC_HL7Data
     SET Processed = 1,
@@ -767,6 +729,6 @@ END;
 
 GRANT EXEC ON LIS.p_load_hl7_data TO hl7_admin;
 GRANT SELECT ON labkey.core.Containers TO hl7_admin;
-GRANT VIEW DEFINITION ON LIS.p_load_demographics TO hl7_admin;
+GRANT SELECT ON labkey.snprc_ehr.HL7_Demographics TO hl7_admin;
 
 GO
