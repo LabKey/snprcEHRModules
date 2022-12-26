@@ -308,9 +308,6 @@ public class SNPRC_schedulerController extends SpringActionController
                     errors.reject(ERROR_MSG, "timelineId is present but not a valid integer.");
                 }
             }
-
-            return;
-
         }
 
         @Override
