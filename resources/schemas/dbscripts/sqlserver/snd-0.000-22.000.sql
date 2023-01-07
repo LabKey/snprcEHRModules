@@ -976,3 +976,26 @@ GO
 
 ALTER TABLE snd.EventsCache CHECK CONSTRAINT FK_EventsCache_EventId
 GO
+
+/* 21.xxx SQL scripts */
+
+UPDATE exp.PropertyValidator SET TypeURI = 'urn:lsid:labkey.com:PropertyValidator:textlength'
+WHERE TypeURI = 'urn:lsid:labkey.com:PropertyValidator:length'
+  AND PropertyId IN (
+    SELECT PropertyId
+    FROM exp.PropertyDescriptor
+    WHERE PropertyURI LIKE '%:package-snd%Package%'
+  )
+
+GO
+
+ALTER TRIGGER snd.ti_after_Events ON snd.Events FOR INSERT AS
+BEGIN
+    SET NOCOUNT ON;
+UPDATE snd.Events
+SET QcState = (SELECT TOP(1) q.rowId FROM core.DataStates AS q WHERE q.Label = 'Completed' ORDER BY q.rowId)
+    FROM inserted AS i
+             INNER JOIN snd.Events AS e ON i.EventId = e.EventId
+WHERE i.QcState IS NULL
+END
+GO
