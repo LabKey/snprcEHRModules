@@ -104,11 +104,16 @@ public class LabworkType extends DefaultLabworkType
         {
             //col 1
             sb.append( "<td style='padding: 2px;" + ((abnormalFlags == null) ? "color:black;'>" : "color:red;'>"));
-            sb.append(testName).append("<font size='1'>").append(" (").append(testId).append(") </font>").append("</td>");
-
+            if (testName == null)
+            {
+                sb.append("*****").append("<font size='1'>").append(" (").append("*").append(") </font>").append("</td>");
+            }
+            else
+            {
+                sb.append(testName).append("<font size='1'>").append(" (").append(testId).append(") </font>").append("</td>");
+            }
             // col 2
             sb.append( "<td style='padding: 2px;" + ((abnormalFlags == null) ? "color:black;'>" : "color:red;'>"));
-
             if (qualResult != null)
             {
                 sb.append(": ").append(qualResult);
@@ -120,18 +125,20 @@ public class LabworkType extends DefaultLabworkType
             sb.append("</td>");
 
             // col 3
-            sb.append( "<td style='padding: 2px;" + ((abnormalFlags == null) ? "color:black;'>" : "color:red;'>"));
+            sb.append( "<td style='padding-top: 2px; padding-bottom: 2px; padding-left: 6px; padding-right: 6px; color:black;'>" );
             if (refRange != null)
             {
-                sb.append("Normal Range: ").append(refRange);
-
-                if (abnormalFlags != null)
-                {
-                    sb.append(" **ABNORMAL - ").append(abnormalFlags);
-                }
+                sb.append("Normal Range:  ").append(refRange);
             }
             sb.append("</td>");
 
+            //  col 4
+            sb.append( "<td style='padding-top: 2px; padding-bottom: 2px; padding-left: 6px; padding-right: 6px; color:red;'>" );
+            if (abnormalFlags != null)
+            {
+                sb.append("  **ABNORMAL - ").append(abnormalFlags);
+            }
+            sb.append("</td>");
         }
         return sb.toString();
     }
