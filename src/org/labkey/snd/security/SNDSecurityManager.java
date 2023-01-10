@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -339,7 +338,9 @@ public class SNDSecurityManager
             // check if QCStates exist, if not insert them
             for (Object[] qc : states)
             {
-                SimpleFilter filter = new SimpleFilter(FieldKey.fromString("Label"), qc[0]);
+                SimpleFilter filter = SimpleFilter.createContainerFilter(c);
+                filter.addCondition(FieldKey.fromString("Label"), qc[0]);
+
                 TableSelector ts = new TableSelector(qcStateTi, Collections.singleton("RowId"), filter, null);
                 Integer[] rowIds = ts.getArray(Integer.class);
 
