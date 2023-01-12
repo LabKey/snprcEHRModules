@@ -151,7 +151,7 @@ BEGIN TRANSACTION trans1;
 
         -- get container id
         SELECT @container = EntityId
-        FROM labkey.core.Containers AS c
+        FROM labkey_staging.core.Containers AS c
         WHERE c.Name = 'SNPRC';
 
 END TRY
@@ -166,7 +166,7 @@ END CATCH;
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	SELECT @animal_id = d.ID
-	FROM labkey.snprc_ehr.HL7_Demographics AS d
+	FROM labkey_staging.snprc_ehr.HL7_Demographics AS d
 	WHERE d.ID = LTRIM(RTRIM(@patient_id))
 
 	IF @animal_id IS NULL
@@ -190,7 +190,7 @@ END CATCH;
     IF @hl7_result_status = 'X'
     BEGIN
         BEGIN TRY
-			INSERT INTO labkey.snprc_ehr.HL7_DeletePathologyCasesStaging
+			INSERT INTO labkey_staging.snprc_ehr.HL7_DeletePathologyCasesStaging
 			(
 				AccessionNumber,
 				ObjectId
@@ -198,7 +198,7 @@ END CATCH;
 			(
 				SELECT pcs.AccessionNumber,
 						pcs.objectId 
-				FROM labkey.snprc_ehr.HL7_PathologyCasesStaging AS pcs
+				FROM labkey_staging.snprc_ehr.HL7_PathologyCasesStaging AS pcs
 				WHERE pcs.accessionNumber = @accessionNumber
 			)
 		 END TRY
@@ -210,7 +210,7 @@ END CATCH;
 				END CATCH;
 
 		BEGIN TRY
-			INSERT INTO labkey.snprc_ehr.HL7_DeletePathologyDiagnosesStaging
+			INSERT INTO labkey_staging.snprc_ehr.HL7_DeletePathologyDiagnosesStaging
 			(
 				AccessionNumber,
 				ObjectId
@@ -218,7 +218,7 @@ END CATCH;
 			(
 				SELECT pds.AccessionNumber,
 						pds.objectId 
-				FROM labkey.snprc_ehr.HL7_PathologyDiagnosesStaging AS pds
+				FROM labkey_staging.snprc_ehr.HL7_PathologyDiagnosesStaging AS pds
 				WHERE pds.accessionNumber = @accessionNumber
 			)
 		 END TRY
@@ -357,8 +357,8 @@ END CATCH;
 					   ELSE NULL END  AS TEST_CODE_INDEX,
 					  
                    obx.OBX_RESULTDATA,
-				   animal.[dbo].[f_split] (obx.OBX_RESULTDATA, ';', 1) AS RESULT_VALUE,
-				   animal.[dbo].[f_split] (obx.OBX_RESULTDATA, ';', 2) AS RESULT_CODE,
+				   [dbo].[f_split] (obx.OBX_RESULTDATA, ';', 1) AS RESULT_VALUE,
+				   [dbo].[f_split] (obx.OBX_RESULTDATA, ';', 2) AS RESULT_CODE,
 
                    obx.OBX_F6_C1,
                 NEWID()
@@ -378,16 +378,11 @@ END CATCH;
             GOTO error;
         END CATCH;
 
--- used during testing
---TRUNCATE TABLE labkey.snprc_ehr.HL7_PathologyCasesStaging
---TRUNCATE TABLE labkey.snprc_ehr.HL7_PathologyDiagnosesStaging
-
-
 -- insert into the HL7_PathologyCasesStaging table
 
 BEGIN
     BEGIN TRY
-		INSERT INTO labkey.snprc_ehr.HL7_PathologyCasesStaging
+		INSERT INTO labkey_staging.snprc_ehr.HL7_PathologyCasesStaging
 		(
 			ID,
 			Date,
@@ -427,17 +422,25 @@ BEGIN
 				WHEN obr.RESULT_STATUS = 'C' THEN 'C' -- 'Correction"
 				WHEN obr.RESULT_STATUS = 'P' THEN 'F' -- 'Preliminary"
 			ELSE NULL END AS ApathRecordStatus,
-			(SELECT animal.dbo.f_split(animal.dbo.f_split(obx.RESULT_VALUE, '(',1),')',1)  -- The code is in parens at the beginning of the string
+
+			(SELECT 
+				CASE WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Euthan' THEN 'E'
+					WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Found' THEN 'N'
+					WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Resea' THEN 'R'
+					WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Sacri' THEN 'S'
+					ELSE 'U'
+					END 
 				FROM @obx_data AS obx
 				WHERE obx.TEST_NAME = 'TYPE OF DEATH' AND obx.OBR_OBJECT_ID = obr.object_id
 			) AS DeathType,
+
 			GETDATE() AS Created,
 			u.UserId AS CreatedBy,
 			GETDATE() AS Modified,
 			u.UserId AS ModifiedBy,
 			@container
 			FROM @obr_data AS obr
-			INNER JOIN labkey.core.Principals AS u ON u.Name LIKE 'hl7_Admin%'
+			INNER JOIN labkey_staging.core.Principals AS u ON u.Name LIKE 'hl7_Admin%'
 		)
 
 	END TRY
@@ -468,7 +471,7 @@ BEGIN
 			WHILE (@ctr <= @maxRecords)
 			BEGIN
 				BEGIN TRY
-					INSERT INTO labkey.snprc_ehr.HL7_PathologyDiagnosesStaging
+					INSERT INTO labkey_staging.snprc_ehr.HL7_PathologyDiagnosesStaging
 					(
 						ID,
 						Date,
@@ -522,7 +525,7 @@ BEGIN
 						@container
 				
 					FROM @obr_data AS obr
-					INNER JOIN labkey.core.Principals AS u ON u.Name LIKE 'hl7_Admin%'
+					INNER JOIN labkey_staging.core.Principals AS u ON u.Name LIKE 'hl7_Admin%'
 
 				)
             END TRY
@@ -540,7 +543,7 @@ BEGIN
     DEALLOCATE @msgCursor
 
 	-- update local import log
-	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
+	INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG
     (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
     VALUES (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, 1, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'AP upload okay.', @container);
 
@@ -553,7 +556,7 @@ error:
     -- an error occurred, rollback the entire transaction.
     ROLLBACK TRANSACTION trans1;
 
-    INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
+    INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG
     ( MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container )
     VALUES
         (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, @error, @hl7_result_status, @animal_id,
@@ -569,7 +572,7 @@ error:
 not_animal_data:
 
 
-	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+	INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
 	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, 'Not animal data.', @container)
 
 	GOTO finis
@@ -579,8 +582,8 @@ finis:
 	-- Used only during testing
 	--SELECT * FROM @obr_data
 	--SELECT * FROM @obx_data
-	--SELECT * FROM labkey.snprc_ehr.HL7_PathologyCasesStaging
-	--SELECT * FROM labkey.snprc_ehr.HL7_PathologyDiagnosesStaging
+	--SELECT * FROM labkey_staging.snprc_ehr.HL7_PathologyCasesStaging
+	--SELECT * FROM labkey_staging.snprc_ehr.HL7_PathologyDiagnosesStaging
 
 	-- update HermeTech table
     UPDATE Orchard_ap_staging.dbo.AP_HL7Data
@@ -599,18 +602,18 @@ END
 GO
 
 
-GRANT EXEC ON p_load_ap_data TO hl7_admin;
+--GRANT EXEC ON p_load_ap_data TO hl7_admin;
 
-USE labkey
-GRANT SELECT ON labkey.core.Containers TO hl7_admin;
-GRANT SELECT ON labkey.core.Principals TO hl7_admin;
+--USE labkey
+--GRANT SELECT ON labkey_staging.core.Containers TO hl7_admin;
+--GRANT SELECT ON labkey_staging.core.Principals TO hl7_admin;
 
 
-GRANT INSERT, UPDATE, DELETE ON labkey.snprc_ehr.HL7_DeletePathologyDiagnosesStaging TO hl7_admin;
-GRANT INSERT, UPDATE, DELETE ON labkey.snprc_ehr.HL7_DeletePathologyCasesStaging TO hl7_admin;
-GRANT INSERT, UPDATE, DELETE ON labkey.snprc_ehr.HL7_PathologyDiagnosesStaging TO hl7_admin;
-GRANT INSERT, UPDATE, DELETE ON labkey.snprc_ehr.HL7_DeletePathologyCasesStaging  TO hl7_admin;
-GRANT SELECT ON labkey.snprc_ehr.HL7_Demographics TO hl7_admin;
-USE Orchard_AP_staging
+--GRANT INSERT, UPDATE, DELETE ON labkey_staging.snprc_ehr.HL7_DeletePathologyDiagnosesStaging TO hl7_admin;
+--GRANT INSERT, UPDATE, DELETE ON labkey_staging.snprc_ehr.HL7_DeletePathologyCasesStaging TO hl7_admin;
+--GRANT INSERT, UPDATE, DELETE ON labkey_staging.snprc_ehr.HL7_PathologyDiagnosesStaging TO hl7_admin;
+--GRANT INSERT, UPDATE, DELETE ON labkey_staging.snprc_ehr.HL7_DeletePathologyCasesStaging  TO hl7_admin;
+--GRANT SELECT ON labkey_staging.snprc_ehr.HL7_Demographics TO hl7_admin;
+--USE Orchard_AP_staging
 
 GO
