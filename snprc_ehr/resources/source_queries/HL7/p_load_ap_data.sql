@@ -283,8 +283,6 @@ END CATCH;
 		INNER JOIN dbo.AP_Segment_PID_A AS pid ON pid.MessageID = obr.MessageID
 		INNER JOIN dbo.AP_Segment_MSH_A AS msh ON msh.MessageID = obr.MessageID
 		INNER JOIN dbo.AP_Segment_PV1_A AS pv1 ON pv1.MessageID = obr.MessageID
-		-- only load rows for animal_ids in master
-		--JOIN dbo.master AS m ON right('      '+ LTRIM(RTRIM(pid.PID_F2_C1)),6)   = m.id
 		INNER JOIN dbo.AP_HL7Data AS h ON h.MessageID = obr.MessageID
 		-- ignore rows that are currently being processed
 		WHERE obr.MessageID = @MessageId AND LTRIM(RTRIM(obr.OBR_F25_C1)) = 'F';
@@ -424,7 +422,7 @@ BEGIN
 			ELSE NULL END AS ApathRecordStatus,
 
 			(SELECT 
-				CASE WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Euthan' THEN 'E'
+				CASE WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Eutha' THEN 'E'
 					WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Found' THEN 'N'
 					WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Resea' THEN 'R'
 					WHEN SUBSTRING(LTRIM(obx.RESULT_VALUE), 1, 5) = 'Sacri' THEN 'S'
