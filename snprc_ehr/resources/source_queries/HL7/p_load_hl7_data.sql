@@ -529,7 +529,7 @@ BEGIN
                        ELSE
                            NULL
                    END AS RESULT,
-                   obx.OBX_F6_C1,
+                   REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F6_C1,'\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\','~') AS UNITS,
                    obx.OBX_F7_C1,
                    obx.OBX_F8_C1,
                    obx.OBX_F11_C1,
@@ -730,5 +730,6 @@ END;
 GRANT EXEC ON LIS.p_load_hl7_data TO hl7_admin;
 GRANT SELECT ON labkey.core.Containers TO hl7_admin;
 GRANT SELECT ON labkey.snprc_ehr.HL7_Demographics TO hl7_admin;
+GRANT EXEC ON labkey.snprc_ehr.f_isNumeric TO hl7_admin;
 
 GO
