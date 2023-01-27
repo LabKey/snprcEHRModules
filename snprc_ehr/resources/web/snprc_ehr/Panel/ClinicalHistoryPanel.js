@@ -136,10 +136,20 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
 
                 },{
                     xtype: 'button',
-                    text: 'Show Yesterday Only',
+                    text: 'View Previous Day Only',
                     handler: function(btn){
                         var panel = btn.up('snprc-clinicalhistorypanel');
-                        panel.doShowYesterday();
+                        var yesterday = Ext4.Date.add(new Date(), Ext4.Date.DAY, -1)
+                        panel.doBetweenDates(yesterday, yesterday);
+                    }
+
+                },{
+                    xtype: 'button',
+                    text: 'View Last 30 Days',
+                    handler: function(btn){
+                        var panel = btn.up('snprc-clinicalhistorypanel');
+                        var minDate = Ext4.Date.add(new Date(), Ext4.Date.DAY, -30)
+                        panel.doBetweenDates(minDate, null);
                     }
 
                 }, {
@@ -249,12 +259,12 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
         });
     },
 
-    doShowYesterday: function(){
+    doBetweenDates: function(minDate, maxDate){
         var currentDate = new Date();
         var minDateField = this.down('#minDate');
         var maxDateField = this.down('#maxDate');
-        minDateField.setValue(Ext4.Date.add(currentDate, Ext4.Date.DAY, -1));
-        maxDateField.setValue(Ext4.Date.add(currentDate, Ext4.Date.DAY, -1));
+        minDateField.setValue(minDate);
+        maxDateField.setValue(maxDate);
         this.minDate = minDateField.getValue();
         this.maxDate = maxDateField.getValue();
         this.reloadData({
