@@ -505,8 +505,7 @@ EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeA
         }
         tab.addCls('ehr-snapshotsubpanel');
         var currentDate = new Date();
-        var minDate = includeAll ? null : Ext4.Date.add(currentDate, Ext4.Date.DAY, -1);
-        var maxDate = includeAll ? null : currentDate;
+        var minDate = includeAll ? null : Ext4.Date.add(currentDate, Ext4.Date.DAY, -30);
         var toAdd = [];
         Ext4.each(subjects, function(s){
             toAdd.push({
@@ -536,7 +535,6 @@ EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeA
                 subjectId: s,
                 autoLoadRecords: true,
                 minDate: minDate,
-                maxDate: maxDate,
                 //maxGridHeight: 1000,
                 hrefTarget: '_blank',
                 style: 'margin-bottom: 20px;'
