@@ -166,6 +166,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         // register client dependencies
         EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);
+        EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/ClinicalHistoryPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/ColonyUsage.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/EnterDataPanel.js"), this);
         EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/snprcReports.js"), this);
@@ -183,7 +184,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerActionOverride("ehrAdmin", this, "views/ehrAdmin.html");
         EHRService.get().registerActionOverride("populateInitialData", this, "views/populateData.html");
         EHRService.get().registerActionOverride("enterData", this, "views/enterData.html");
-
 
         EHRService.get().registerTableCustomizer(this, SNPRC_EHRCustomizer.class);
         EHRService.get().registerDemographicsProvider(new IdHistoryDemographicsProvider(this));
