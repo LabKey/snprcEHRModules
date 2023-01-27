@@ -83,6 +83,7 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
     },
 
     getGridConfig: function(){
+        var date = new Date();
         return {
             xtype: 'grid',
             border: this.printMode ? false : true,
@@ -117,7 +118,7 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
                     itemId: 'minDate',
                     labelWidth: 80,
                     width: 200,
-                    value: this.minDate
+                    value: date.getDate() - 1
                 },{
                     xtype: 'datefield',
                     fieldLabel: 'Max Date',
@@ -125,7 +126,7 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
                     labelWidth: 80,
                     width: 200,
                     hidden: this.showMaxDate,
-                    value: this.maxDate
+                    value: date
                 },{
                     xtype: 'button',
                     text: 'Reload',
