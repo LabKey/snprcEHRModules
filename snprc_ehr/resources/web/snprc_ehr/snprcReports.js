@@ -464,5 +464,87 @@ EHR.reports.FileRepository =  function(panel,tab) {
             });
         }, this);
     }
+};
 
+EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeAll) {
+    if (tab.filters.subjects) {
+        renderSubjects(tab.filters.subjects, tab);
+    } else {
+        panel.resolveSubjectsFromHousing(tab, renderSubjects, this);
+    }
+
+    function renderSubjects(subjects, tab) {
+        if (subjects.length > 10) {
+            tab.add({
+                html: 'Because more than 10 subjects were selected, the condensed report is being shown.  Note that you can click the animal ID to open this same report in a different tab, showing that animal in more detail or click the link labeled \'Show Hx\'.',
+                style: 'padding-bottom: 20px;',
+                border: false
+            })
+            var filterArray = panel.getFilterArray(tab);
+            var title = panel.getTitleSuffix();
+            tab.add({
+                xtype: 'ldk-querycmp',
+                style: 'margin-bottom:20px',
+                queryConfig: {
+                    title: 'Overview' + title,
+                    schemaName: 'study',
+                    queryName: 'demographics',
+                    viewName: 'Snapshot',
+                    filterArray: filterArray.removable.concat(filterArray.nonRemovable)
+                }
+            });
+            return;
+        }
+
+        if(!subjects.length) {
+            tab.add({
+                html: 'No animals were found.',
+                border: false
+            });
+            return;
+        }
+        tab.addCls('ehr-snapshotsubpanel');
+        var currentDate = new Date();
+        var minDate = includeAll ? null : Ext4.Date.add(currentDate, Ext4.Date.DAY, -30);
+        var toAdd = [];
+        Ext4.each(subjects, function(s){
+            toAdd.push({
+                html: '<span style="font-size: large;"><b>Animal: ' + s + '</b></span>',
+                style: 'padding-bottom: 20px;',
+                border: false
+            });
+
+            toAdd.push({
+                xtype: EHR.reports.clinicalHistoryPanelXtype,
+                showActionsButton: !!showActionsBtn,
+                hrefTarget: '_blank',
+                border: false,
+                subjectId: s
+            });
+
+            toAdd.push({
+                html: '<b>Chronological History:</b><hr>',
+                style: 'padding-top: 5px;',
+                border: false
+            });
+
+
+            toAdd.push({
+                xtype: 'snprc-clinicalhistorypanel',
+                border: true,
+                subjectId: s,
+                autoLoadRecords: true,
+                minDate: minDate,
+                //maxGridHeight: 1000,
+                hrefTarget: '_blank',
+                style: 'margin-bottom: 20px;'
+            });
+
+
+        }, this);
+
+        if (toAdd.length) {
+            tab.add(toAdd);
+        }
+    }
 };
