@@ -23,7 +23,9 @@ GO
 -- other == SQL server error number
 --
 -- Changes:
---
+-- NOTE WELL - 1/31/2023 - Terry
+-- NOTE: See p_load_hl7_data_cursor.sql for current version
+-- NOTE: Do not delete this file - yet
 -- =================================================================
 ALTER PROCEDURE [dbo].[p_load_hl7_data](@MessageId VARCHAR(50))
 AS
@@ -41,7 +43,7 @@ BEGIN
         @hl7_species VARCHAR(50),
         @hl7_observation_date_tm DATETIME,
         @patient_id VARCHAR(32),
-        @container UNIQUEIDENTIFIER;
+        @container UNIQUEIDENTIFIER
 
 
     SET @animal_id = NULL
@@ -81,6 +83,7 @@ BEGIN
         FROM dbo.ORC_HL7Data
         WHERE MessageID = @MessageId;
 
+        -- TODO: could be more than one OBR record per HL7 message
         SELECT @hl7_result_status = OBR_F25_C1,
                @hl7_observation_date_tm = dbo.f_format_hl7_date(OBR_F7_C1)
         FROM dbo.ORC_Segment_OBR_A
@@ -94,7 +97,7 @@ BEGIN
 
 -- get container id
         SELECT @container = EntityId
-        FROM labkey_staging.core.Containers AS c
+        FROM labkey.core.Containers AS c
         WHERE c.Name = 'SNPRC';
 
     END TRY
@@ -104,12 +107,12 @@ BEGIN
         GOTO error;
     END CATCH;
 
-    --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- make sure we are working with an animal record
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     SELECT @animal_id = d.ID
-    FROM labkey_staging.snprc_ehr.HL7_Demographics AS d
+    FROM labkey.snprc_ehr.HL7_Demographics AS d
     WHERE d.ID = LTRIM(RTRIM(@patient_id))
 
     IF @animal_id IS NULL
@@ -119,7 +122,7 @@ BEGIN
     --------------------------------------------------------------------------------------------------------
 -- insert into MSH table
     BEGIN TRY
-        INSERT INTO labkey_staging.snprc_ehr.HL7_MSH
+        INSERT INTO labkey.snprc_ehr.HL7_MSH
         (MESSAGE_ID,
          IDX,
          SENDING_APPLICATION,
@@ -155,7 +158,7 @@ BEGIN
     --------------------------------------------------------------------------------------------------------
     -- insert into PID table
     BEGIN TRY
-        INSERT INTO labkey_staging.snprc_ehr.HL7_PID
+        INSERT INTO labkey.snprc_ehr.HL7_PID
         (MESSAGE_ID,
          IDX,
          SET_ID,
@@ -193,7 +196,7 @@ BEGIN
     --------------------------------------------------------------------------------------------------------
     -- insert into PV1 table
     BEGIN TRY
-        INSERT INTO labkey_staging.snprc_ehr.HL7_PV1
+        INSERT INTO labkey.snprc_ehr.HL7_PV1
         (MESSAGE_ID,
          IDX,
          SET_ID,
@@ -229,10 +232,10 @@ BEGIN
     END CATCH;
 
     --------------------------------------------------------------------------------------------------------
-    -- insert into OCR table
-
+    -- insert into ORC table
+    -- can have multiple ORC segments - let's get them all
     BEGIN TRY
-        INSERT INTO labkey_staging.snprc_ehr.HL7_ORC
+        INSERT INTO labkey.snprc_ehr.HL7_ORC
         (MESSAGE_ID,
          IDX,
          ORDER_CONTROL_CODE,
@@ -275,16 +278,14 @@ BEGIN
     -- OBR result status = 'X' Order cancelled
 
     IF @hl7_result_status = 'X'
-        BEGIN
+	BEGIN
             BEGIN TRY
                 -- remove observations
-                DELETE cpx
-                FROM labkey_staging.snprc_ehr.HL7_OBX AS cpx
-                         INNER JOIN labkey_staging.snprc_ehr.HL7_OBR AS cpr
-                                    ON cpr.OBJECT_ID = cpx.OBR_OBJECT_ID
-                         INNER JOIN Orchard_hl7_staging.dbo.ORC_Segment_OBR_A AS obr
-                                    ON obr.MessageID = @MessageId
-                                        AND obr.OBR_F1_C1 = cpx.OBR_SET_ID
+                DELETE cbx
+                FROM labkey.snprc_ehr.HL7_OBX AS cbx
+				INNER JOIN  labkey.snprc_ehr.HL7_OBR AS cbr ON cbx.OBR_OBJECT_ID = cbr.OBJECT_ID
+				INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
+
                 WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X'; -- Result_status = Order cancelled
             END TRY
             BEGIN CATCH
@@ -298,12 +299,9 @@ BEGIN
             -- remove notes
             BEGIN TRY
                 DELETE cpn
-                FROM labkey_staging.snprc_ehr.HL7_NTE AS cpn
-                         JOIN labkey_staging.snprc_ehr.HL7_OBR AS cpr
-                              ON cpr.OBJECT_ID = cpn.OBR_OBJECT_ID
-                         JOIN dbo.ORC_Segment_OBR_A AS obr
-                              ON obr.MessageID = @MessageId
-                                  AND obr.OBR_F1_C1 = cpn.OBR_SET_ID
+                FROM labkey.snprc_ehr.HL7_NTE AS cpn
+					INNER JOIN  labkey.snprc_ehr.HL7_OBR AS cbr ON cpn.OBR_OBJECT_ID = cbr.OBJECT_ID
+					INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
                 WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X'; -- Result_status = Order cancelled
             END TRY
             BEGIN CATCH
@@ -316,12 +314,10 @@ BEGIN
 
             -- update observation request
             BEGIN TRY
-                UPDATE cpr
+                UPDATE cbr
                 SET RESULT_STATUS = 'X'
-                FROM labkey_staging.snprc_ehr.HL7_OBR AS cpr
-                         JOIN dbo.ORC_Segment_OBR_A AS obr
-                              ON obr.MessageID = @MessageId
-                                  AND cpr.SET_ID = obr.OBR_F1_C1
+                FROM labkey.snprc_ehr.HL7_OBR AS cbr
+                INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
                 WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X'; -- Result_status = Order cancelled
 
             END TRY
@@ -335,7 +331,7 @@ BEGIN
 
             -- all processing finished jump to clean exit routine
 
-            INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG
+            INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
             (MESSAGE_ID,
              OBSERVATION_DATE_TM,
              MESSAGE_CONTROL_ID,
@@ -361,14 +357,13 @@ BEGIN
             -- RESULT_STATUS = 'F'
             DECLARE @obr_object_id UNIQUEIDENTIFIER;
             DECLARE @ObjectId_TableVar TABLE
-                                       (
-                                           ObjectId UNIQUEIDENTIFIER,
-                                           tid      INT IDENTITY
-                                       );
-
+                    (
+                        ObjectId UNIQUEIDENTIFIER,
+                        tid      INT IDENTITY
+                    );
 
             BEGIN TRY
-                INSERT INTO labkey_staging.snprc_ehr.HL7_OBR
+                INSERT INTO labkey.snprc_ehr.HL7_OBR
                 (MESSAGE_ID,
                  IDX,
                  MESSAGE_CONTROL_ID,
@@ -455,14 +450,14 @@ BEGIN
                                     OBR.OBR_F4_C1                                  AS obr_service_id,
                                     LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
                              FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
-                                      INNER JOIN labkey_staging.snprc_ehr.HL7_OBR AS cbr
+                                      INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
                                                  ON OBR.MessageID = cbr.MESSAGE_ID
                                                      AND OBR.OBR_F1_C1 = cbr.SET_ID
-                                      INNER JOIN labkey_staging.core.Containers AS c
+                                      INNER JOIN labkey.core.Containers AS c
                                                  ON c.Name = 'SNPRC'
                              WHERE OBR.MessageID = @MessageId)
                 INSERT
-                INTO labkey_staging.snprc_ehr.HL7_OBX
+                INTO labkey.snprc_ehr.HL7_OBX
                 (MESSAGE_ID,
                  IDX,
                  OBR_OBJECT_ID,
@@ -492,7 +487,7 @@ BEGIN
                        obx.OBX_RESULTDATA,
                        CASE
                            WHEN obx.OBX_F2_C1 = 'NM'
-                               AND labkey_staging.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1 THEN
+                               AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1 THEN
                                CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
                            ELSE
                                NULL
@@ -508,7 +503,7 @@ BEGIN
                                     ON obx.MessageID = cte.MessageID
                                         AND obx.IDX > cte.OBR_IDX
                                         AND obx.IDX < cte.next_OBR_IDX
-                         LEFT OUTER JOIN labkey_staging.snprc_ehr.labwork_panels AS lp
+                         LEFT OUTER JOIN labkey.snprc_ehr.labwork_panels AS lp
                                          ON cte.obr_service_id = lp.ServiceId
                                              AND obx.OBX_F3_C1 = lp.TestId
 
@@ -535,12 +530,12 @@ BEGIN
                                     cbr.OBJECT_ID                                  AS obr_object_id,
                                     LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
                              FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
-                                      INNER JOIN labkey_staging.snprc_ehr.HL7_OBR AS cbr
+                                      INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
                                                  ON OBR.MessageID = cbr.MESSAGE_ID
                                                      AND OBR.OBR_F1_C1 = cbr.SET_ID
                              WHERE OBR.MessageID = @MessageId)
                 INSERT
-                INTO labkey_staging.snprc_ehr.HL7_NTE
+                INTO labkey.snprc_ehr.HL7_NTE
                 (MESSAGE_ID,
                  IDX,
                  OBR_OBJECT_ID,
@@ -599,7 +594,7 @@ BEGIN
                                                  WHEN OBX.OBX_F11_C1 = 'D' THEN
                                                      NULL
                                                  WHEN OBX.OBX_F2_C1 = 'NM'
-                                                     AND labkey_staging.snprc_ehr.f_isNumeric(OBX.OBX_RESULTDATA) = 1
+                                                     AND labkey.snprc_ehr.f_isNumeric(OBX.OBX_RESULTDATA) = 1
                                                      THEN
                                                      CAST(LTRIM(RTRIM(REPLACE(OBX.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
                                                  ELSE
@@ -620,8 +615,8 @@ BEGIN
                                                      OBX.OBX_F8_C1
                         END --,
                     --cpx.RESULT_STATUS = OBX.OBX_F11_C1
-                FROM labkey_staging.snprc_ehr.HL7_OBX AS cpx
-                         INNER JOIN labkey_staging.snprc_ehr.HL7_OBR AS cbr ON cpx.OBR_OBJECT_ID = cbr.OBJECT_ID
+                FROM labkey.snprc_ehr.HL7_OBX AS cpx
+                         INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr ON cpx.OBR_OBJECT_ID = cbr.OBJECT_ID
                          INNER JOIN cte
                                     ON cbr.SPECIMEN_NUM = cte.SPECIMEN_NUM AND cbr.PROCEDURE_ID = cte.PROCEDURE_ID AND
                                        cbr.RESULT_STATUS = 'F'
@@ -644,7 +639,7 @@ BEGIN
             -- ADD NTE record with correction notice
             BEGIN TRY
 
-                INSERT INTO labkey_staging.snprc_ehr.HL7_NTE
+                INSERT INTO labkey.snprc_ehr.HL7_NTE
                 (MESSAGE_ID,
                  IDX,
                  OBR_OBJECT_ID,
@@ -668,7 +663,7 @@ BEGIN
                                   OBR.OBR_F7_C1  AS OBSERVATION_DATE_TM
                            FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
                            WHERE OBR.MessageID = @MessageId) a
-                              INNER JOIN labkey_staging.snprc_ehr.HL7_OBR AS cbr
+                              INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
                                          ON cbr.SPECIMEN_NUM = a.SPECIMEN_NUM AND cbr.PROCEDURE_ID = a.PROCEDURE_ID AND
                                             cbr.RESULT_STATUS = 'F'
                      WHERE RTRIM(LTRIM(a.RESULT_STATUS)) IN ('C', 'D'))
@@ -685,7 +680,7 @@ BEGIN
 
             -- all processing finished jump to clean exit routine
 
-            INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG
+            INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
             (MESSAGE_ID,
              OBSERVATION_DATE_TM,
              MESSAGE_CONTROL_ID,
@@ -704,7 +699,7 @@ BEGIN
 
     not_animal_data:
 
-    INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID,
+    INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID,
                                                          IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES,
                                                          HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
     VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 2, @hl7_result_status, @animal_id,
@@ -717,7 +712,7 @@ BEGIN
     -- an error occurred, rollback the entire transaction.
     ROLLBACK TRANSACTION trans1;
 
-    INSERT INTO labkey_staging.snprc_ehr.HL7_IMPORT_LOG
+    INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
     (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES,
      HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
     VALUES (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, @error, @hl7_result_status, @animal_id,
@@ -744,10 +739,10 @@ END;
 
 --    GRANT
 --    EXEC ON LIS.p_load_hl7_data TO hl7_admin;
---    GRANT SELECT ON labkey_staging.core.Containers TO hl7_admin;
---    GRANT SELECT ON labkey_staging.snprc_ehr.HL7_Demographics TO hl7_admin;
+--    GRANT SELECT ON labkey.core.Containers TO hl7_admin;
+--    GRANT SELECT ON labkey.snprc_ehr.HL7_Demographics TO hl7_admin;
 --    GRANT
---    EXEC ON labkey_staging.snprc_ehr.f_isNumeric TO hl7_admin;
+--    EXEC ON labkey.snprc_ehr.f_isNumeric TO hl7_admin;
 
 
 --    GRANT
