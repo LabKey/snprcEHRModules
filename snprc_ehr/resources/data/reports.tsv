@@ -31,8 +31,8 @@ drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treat
 treatments	Clinical	query	Therapies	true		study	Treatment Orders	Therapies		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 diets	General	query	Diet History	true		study	dietHistory	DietHistory		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
-clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
-clinicalHistory2	General	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory	Clinical	js	Clinical History	true		study	snprcClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory2	General	js	Clinical History	true		study	snprcClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false	2	qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 birth	Colony Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
 birth2	Reproductive Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
