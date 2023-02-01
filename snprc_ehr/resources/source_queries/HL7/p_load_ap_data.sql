@@ -20,7 +20,8 @@ GO
 --
 -- Note: hl7_import_log import_status:
 --	1 == import okay
---  2 == animal not found in master table 
+--  2 == animal not found in master table
+--  3 == preliminary data - not uploaded
 -- other == SQL server error number
 --
 -- Hard coded to use the hl7_admin userId
@@ -29,7 +30,7 @@ GO
 --
 -- =================================================================
 
-DROP PROCEDURE  [dbo].[p_load_ap_data];
+DROP PROCEDURE IF EXISTS [dbo].[p_load_ap_data];
 go
 
 CREATE PROCEDURE [dbo].[p_load_ap_data]
@@ -58,8 +59,7 @@ BEGIN
 			@obr_object_id UNIQUEIDENTIFIER,
 			@accessionNumber VARCHAR(40)
 
-
-
+			
     SET @animal_id = NULL;
     SET @hl7_message_text = 'Could not read message text.';
     SET @hl7_message_control_id = '';
@@ -180,10 +180,19 @@ BEGIN TRANSACTION trans1;
 	   GOTO not_animal_data;
 
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-- Preliminary request - Ignore
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+IF @hl7_result_status = 'P'
+BEGIN
+		GOTO isPreliminary;
+END
+
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- Record change request - NOT ALLOWED AT THIS TIME
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	IF @hl7_result_status = 'C'
+	IF @hl7_result_status IN ('C', 'D')
     BEGIN
 		SET @error = -102
 		SET @errormsg
@@ -245,6 +254,7 @@ BEGIN TRANSACTION trans1;
 
     --------------------------------------------------------------------------------------------------------
     -- Populate table variable to hold OBR data
+	IF @hl7_result_status = 'F'
 	BEGIN
         BEGIN TRY
           INSERT INTO @obr_data
@@ -573,7 +583,6 @@ error:
     SET Processed = 1,
         StatusMessage = 'ERROR: Processed By p_load_ap_data.sql'
     WHERE MessageID = @MessageId;
-	SELECT @errormsg
     RETURN @error;
 
 not_animal_data:
@@ -584,14 +593,16 @@ not_animal_data:
 
 	GOTO finis
 
+isPreliminary:
+
+    SET @errormsg = 'Preliminary Results ignored'
+	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES, HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+	VALUES (@messageId, @hl7_observation_date_tm, @hl7_message_control_id, 3, @hl7_result_status, @animal_id, @hl7_species, @hl7_message_text, @errormsg, @container)
+
+	GOTO finis
+
 -- If no error occurred, commit the entire transaction.
 finis:
-	-- Used only during testing
-	--SELECT * FROM @obr_data
-	--SELECT * FROM @obx_data
-	--SELECT * FROM labkey.snprc_ehr.HL7_PathologyCasesStaging
-	--SELECT * FROM labkey.snprc_ehr.HL7_PathologyDiagnosesStaging
-
 	-- update HermeTech table
     UPDATE Orchard_ap_staging.dbo.AP_HL7Data
     SET Processed = 1,
@@ -601,9 +612,7 @@ finis:
 	COMMIT TRANSACTION trans1;
 
     RETURN 0;
-
-    SET NOCOUNT OFF
-
+	
 END
 
 GO

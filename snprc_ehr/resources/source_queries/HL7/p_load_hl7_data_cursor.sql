@@ -26,7 +26,7 @@ GO
 -- Changes:
 -- NOTE: Replaces p_load_hl7_data.sql - 1/31/2023 Terry
 -- =================================================================
-DROP PROCEDURE [dbo].[p_load_hl7_data]
+DROP PROCEDURE IF EXISTS [dbo].[p_load_hl7_data]
 GO
 
 CREATE PROCEDURE [dbo].[p_load_hl7_data](@MessageId VARCHAR(50))
@@ -810,7 +810,7 @@ BEGIN
         BEGIN
             ROLLBACK TRANSACTION trans1;
 
-            SET @hl7_message_text = 'Preliminary Results ignored'
+            SET @errormsg = 'Preliminary Results ignored'
             INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
                     (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES,
                     HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
