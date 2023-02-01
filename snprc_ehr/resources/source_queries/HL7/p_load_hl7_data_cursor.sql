@@ -89,7 +89,8 @@ BEGIN
     BEGIN TRY
         -- set local variables
         SELECT @hl7_message_text = HL7Message,
-               @hl7_message_control_id = MsgControl
+               @hl7_message_control_id = MsgControl,
+               @hl7_observation_date_tm = DateLoaded
         FROM dbo.ORC_HL7Data
         WHERE MessageID = @MessageId;
 
