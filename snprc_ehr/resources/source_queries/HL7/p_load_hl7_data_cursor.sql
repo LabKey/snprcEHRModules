@@ -20,6 +20,7 @@ GO
 -- Note: hl7_import_log import_status:
 --	1 == import okay
 --  2 == animal not found in master table or as a cage location
+--  3 == preliminary data - not uploaded
 -- other == SQL server error number
 --
 -- Changes:
@@ -49,7 +50,8 @@ BEGIN
 		@msgCursor CURSOR,
 		@obr_set_id INTEGER,
 		@obr_object_id UNIQUEIDENTIFIER,
-		@obr_message_id VARCHAR(50)
+		@obr_message_id VARCHAR(50),
+        @isPreliminary INTEGER
 
 	DECLARE @ObjectId_TableVar TABLE (ObjectId UNIQUEIDENTIFIER );
 
@@ -58,7 +60,8 @@ BEGIN
     SET @hl7_message_control_id = 'Unprocessed.';
     SET @hl7_result_status = 'Error';
     SET @hl7_species = 'Unprocessed';
-    SET @hl7_observation_date_tm = '01-01-1900 00:00';
+    SET @hl7_observation_date_tm = '01-01-1900 00:00'
+    SET @isPreliminary = 0
 
     -- Start a new transaction
     BEGIN TRANSACTION trans1;
@@ -288,508 +291,540 @@ BEGIN
 		OPEN @msgCursor
 		FETCH @msgCursor INTO @hl7_result_status, @obr_set_id
 
-WHILE (@@FETCH_STATUS = 0)
-BEGIN
-    -- This section removes cancelled orders from the LabKey DB tables
-    -- OBR result status = 'X' Order cancelled
-    IF @hl7_result_status = 'X'
-	BEGIN
-			-- Get OBR ObjectId for matching observations and notes
-			SELECT @obr_object_id = cbr.OBJECT_ID, @obr_message_id = cbr.MESSAGE_ID
-            FROM labkey.snprc_ehr.HL7_OBR AS cbr
-            INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
-            WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X' -- Result_status = Order cancelled
-				  AND  obr.OBR_F1_C1 = @obr_set_id
+    WHILE (@@FETCH_STATUS = 0)
+    BEGIN
 
-            BEGIN TRY
-                -- remove observations
-                DELETE
-                FROM labkey.snprc_ehr.HL7_OBX
-				WHERE OBR_OBJECT_ID = @obr_object_id
-            END TRY
-            BEGIN CATCH
-                SELECT @error = -101;
-                SELECT @errormsg
-                           = 'Error deleting message: *' + @MessageId + '* from HL7_OBX.' + CHAR(13) + CHAR(10) +
-                             ERROR_MESSAGE();
-                GOTO error;
-            END CATCH;
-			
-            -- remove notes
-            BEGIN TRY
-                DELETE 
-                FROM labkey.snprc_ehr.HL7_NTE
-				WHERE OBR_OBJECT_ID = @obr_object_id
-            END TRY
-            BEGIN CATCH
-                SELECT @error = -101;
-                SELECT @errormsg
-                           = 'Error deleting message: *' + @MessageId + '* from HL7_NTE.' + CHAR(13) + CHAR(10) +
-                             ERROR_MESSAGE();
-                GOTO error;
-            END CATCH;
+        IF @hl7_result_status = 'P'
+        BEGIN
+            SET @isPreliminary = 1
+        END
+        -- This section removes cancelled orders from the LabKey DB tables
+        -- OBR result status = 'X' Order cancelled
+        IF @hl7_result_status = 'X'
+        BEGIN
+                SET @isPreliminary = 0
+                -- Get OBR ObjectId for matching observations and notes
+                SELECT @obr_object_id = cbr.OBJECT_ID, @obr_message_id = cbr.MESSAGE_ID
+                FROM labkey.snprc_ehr.HL7_OBR AS cbr
+                INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
+                WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) = 'X' -- Result_status = Order cancelled
+                      AND  obr.OBR_F1_C1 = @obr_set_id
 
-            -- delete observation request
-            BEGIN TRY
-                DELETE 
-				FROM labkey.snprc_ehr.HL7_OBR
-				WHERE OBJECT_ID = @obr_object_id
-            END TRY
-            BEGIN CATCH
-                SELECT @error = -101;
-                SELECT @errormsg
-                           = 'Error deleting message: *' + @MessageId + '* from HL7_OBR.' + CHAR(13) + CHAR(10) +
-                             ERROR_MESSAGE();
-                GOTO error;
-            END CATCH;
+                BEGIN TRY
+                    -- remove observations
+                    DELETE
+                    FROM labkey.snprc_ehr.HL7_OBX
+                    WHERE OBR_OBJECT_ID = @obr_object_id
+                END TRY
+                BEGIN CATCH
+                    SELECT @error = -101;
+                    SELECT @errormsg
+                               = 'Error deleting message: *' + @MessageId + '* from HL7_OBX.' + CHAR(13) + CHAR(10) +
+                                 ERROR_MESSAGE();
+                    GOTO error;
+                END CATCH;
 
-			-- if this is the last obr for the messageId, then clean up pv1, pid, orc, and msh tables
-			IF NOT EXISTS (SELECT 1 FROM labkey.snprc_ehr.HL7_OBR AS cbr WHERE cbr.MESSAGE_ID = @obr_message_id)
-			BEGIN
+                -- remove notes
+                BEGIN TRY
+                    DELETE
+                    FROM labkey.snprc_ehr.HL7_NTE
+                    WHERE OBR_OBJECT_ID = @obr_object_id
+                END TRY
+                BEGIN CATCH
+                    SELECT @error = -101;
+                    SELECT @errormsg
+                               = 'Error deleting message: *' + @MessageId + '* from HL7_NTE.' + CHAR(13) + CHAR(10) +
+                                 ERROR_MESSAGE();
+                    GOTO error;
+                END CATCH;
 
-				-- remove PV1 
-				BEGIN TRY
-					DELETE
-					FROM labkey.snprc_ehr.HL7_PV1
-					WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-							   = 'Error deleting message: *' + @MessageId + '* from HL7_PV1.' + CHAR(13) + CHAR(10) +
-								 ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;
+                -- delete observation request
+                BEGIN TRY
+                    DELETE
+                    FROM labkey.snprc_ehr.HL7_OBR
+                    WHERE OBJECT_ID = @obr_object_id
+                END TRY
+                BEGIN CATCH
+                    SELECT @error = -101;
+                    SELECT @errormsg
+                               = 'Error deleting message: *' + @MessageId + '* from HL7_OBR.' + CHAR(13) + CHAR(10) +
+                                 ERROR_MESSAGE();
+                    GOTO error;
+                END CATCH;
 
-				-- remove pid 
-				BEGIN TRY
-					DELETE
-					FROM labkey.snprc_ehr.HL7_PID
-					WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-							   = 'Error deleting message: *' + @MessageId + '* from HL7_PID.' + CHAR(13) + CHAR(10) +
-								 ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;
+                -- if this is the last obr for the messageId, then clean up pv1, pid, orc, and msh tables
+                IF NOT EXISTS (SELECT 1 FROM labkey.snprc_ehr.HL7_OBR AS cbr WHERE cbr.MESSAGE_ID = @obr_message_id)
+                BEGIN
 
-			-- remove ORC 
-				BEGIN TRY
-					DELETE
-					FROM labkey.snprc_ehr.HL7_ORC
-					WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-							   = 'Error deleting message: *' + @MessageId + '* from ORC.' + CHAR(13) + CHAR(10) +
-								 ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;		
+                    -- remove PV1
+                    BEGIN TRY
+                        DELETE
+                        FROM labkey.snprc_ehr.HL7_PV1
+                        WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                   = 'Error deleting message: *' + @MessageId + '* from HL7_PV1.' + CHAR(13) + CHAR(10) +
+                                     ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
 
-			-- remove MSH
-				BEGIN TRY
-					DELETE
-					FROM labkey.snprc_ehr.HL7_MSH
-					WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-							   = 'Error deleting message: *' + @MessageId + '* from MSH.' + CHAR(13) + CHAR(10) +
-								 ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;	
+                    -- remove pid
+                    BEGIN TRY
+                        DELETE
+                        FROM labkey.snprc_ehr.HL7_PID
+                        WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                   = 'Error deleting message: *' + @MessageId + '* from HL7_PID.' + CHAR(13) + CHAR(10) +
+                                     ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
 
-			END
-        END;
+                -- remove ORC
+                    BEGIN TRY
+                        DELETE
+                        FROM labkey.snprc_ehr.HL7_ORC
+                        WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                   = 'Error deleting message: *' + @MessageId + '* from ORC.' + CHAR(13) + CHAR(10) +
+                                     ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
 
-		-- Process messeges for new results, changed result, and deleted tests
-		--
-	IF @hl7_result_status IN ( 'F', 'C', 'D')
-		BEGIN
-			-- RESULT_STATUS = 'F', 'C', 'D' - Add the OBR record
-			BEGIN TRY
-				INSERT INTO labkey.snprc_ehr.HL7_OBR
-				(MESSAGE_ID,
-					IDX,
-					MESSAGE_CONTROL_ID,
-					ANIMAL_ID,
-					VERIFIED_DATE_TM,
-					REQUESTED_DATE_TM,
-					OBSERVATION_DATE_TM,
-					SPECIMEN_RECEIVED_DATE_TM,
-					SET_ID,
-					SPECIMEN_NUM,
-					PROCEDURE_ID,
-					PROCEDURE_NAME,
-					PRIORITY,
-					RESULT_STATUS,
-					TECHNICIAN_LAST_NAME,
-					TECHNICIAN_FIRST_NAME,
-					CHARGE_ID,
-					OBJECT_ID,
-					Container)
-				OUTPUT Inserted.OBJECT_ID INTO  @ObjectId_TableVar
-				SELECT obr.MessageID,
-						obr.IDX,
-						msh.MSH_F10_C1,
-						@animal_id,
-						dbo.f_format_hl7_date(obr.OBR_F22_C1), -- verified_date_tm
-						dbo.f_format_hl7_date(obr.OBR_F6_C1),  -- requested_date_tm
-						dbo.f_format_hl7_date(obr.OBR_F7_C1),  -- observation_date_tm
-						dbo.f_format_hl7_date(obr.OBR_F14_C1), -- specimen_received_date_tm
-						obr.OBR_F1_C1,                         -- Set_ID
-						obr.OBR_F3_C1,                         --Filler Order Number
-						obr.OBR_F4_C1,                         -- Procedure ID
-						obr.OBR_F4_C2,                         -- Procedure Name
-						obr.OBR_F5_C1,                         -- Priority
-						LTRIM(RTRIM(obr.OBR_F25_C1)),          -- Result status
-						obr.OBR_F34_C1,                        -- Technician last name
-						obr.OBR_F34_C2,                        -- Technician first name
-						pv1.PV1_F24_C1,                        --charge_id  -- TODO: maps to HL7 Contract Code
-						NEWID(),                               -- object_ID
-						@container
-				FROM dbo.ORC_Segment_OBR_A AS obr
-							JOIN dbo.ORC_Segment_PID_A AS pid
-								ON pid.MessageID = obr.MessageID
-							JOIN dbo.ORC_Segment_MSH_A AS msh
-								ON msh.MessageID = obr.MessageID
-							JOIN dbo.ORC_Segment_PV1_A AS pv1
-								ON pv1.MessageID = obr.MessageID
-							JOIN dbo.ORC_HL7Data AS h
-								ON h.MessageID = obr.MessageID
-						-- ignore rows that are currently being processed
-				WHERE obr.MessageID = @MessageId
-					AND LTRIM(RTRIM(obr.OBR_F25_C1)) IN ( 'F', 'C', 'D')
-					AND  obr.OBR_F1_C1 = @obr_set_id
-			END TRY
-			BEGIN CATCH
-				SELECT @error = -101;
-				SELECT @errormsg
-							= 'Error inserting message: *' + @MessageId + '* into HL7_OBR.' + CHAR(13) + CHAR(10) +
-								ERROR_MESSAGE();
-				GOTO error;
-			END CATCH;
-				
-			
-			-- get OBR's ObjectId
-			SELECT TOP (1) @obr_object_id = objectId FROM @ObjectId_TableVar ORDER BY ObjectId
+                -- remove MSH
+                    BEGIN TRY
+                        DELETE
+                        FROM labkey.snprc_ehr.HL7_MSH
+                        WHERE MESSAGE_ID IN (@obr_message_id, @MessageId)
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                   = 'Error deleting message: *' + @MessageId + '* from MSH.' + CHAR(13) + CHAR(10) +
+                                     ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
 
-			IF @hl7_result_status IN ( 'F')
-			BEGIN
-				BEGIN TRY
-					-- This is a little tricky. The OBR and OBX records match on MessageId; however multiple OBR records can be in a single message.
-					-- If that happens, the IDX value of the OBX records that match a given OBR record will be one greater than the OBR's IDX value,
-					-- and will increment to be one less than the next OBR's IDX value. The LEAD function is used to get the next OBR.IDX value and
-					-- the OBX records are constrained by the OBR.IDX and OBR.next_OBR_IDX. A CTE is used to select the OBR records.
+                END
+            END;
 
-				-- New OBX records - Result Status F
-
-					;WITH cte AS (
-						SELECT a.MessageID,
-							a.OBR_IDX,
-							a.SET_ID,
-							a.RESULT_STATUS,
-							cbr.object_id AS obr_object_id,
-							a.obr_service_id,
-							a.next_OBR_IDX
-							FROM 
-							(
-								SELECT OBR.MessageID,
-									OBR.IDX                                        AS OBR_IDX,
-									OBR.OBR_F1_C1                                  AS SET_ID,
-									OBR.OBR_F25_C1                                 AS RESULT_STATUS,
-									OBR.OBR_F4_C1                                  AS obr_service_id,
-									LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
-								FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR			  
-								WHERE OBR.MessageID = @MessageId
-							) a
-						INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
-									ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID =a.SET_ID
-						WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
-					) 
+            -- Process messeges for new results, changed result, and deleted tests
+            --
+            IF @hl7_result_status IN ( 'F', 'C', 'D')
+            BEGIN
+                SET @isPreliminary = 0
+                -- RESULT_STATUS = 'F', 'C', 'D' - Add the OBR record
+                BEGIN TRY
+                    INSERT INTO labkey.snprc_ehr.HL7_OBR
+                    (MESSAGE_ID,
+                        IDX,
+                        MESSAGE_CONTROL_ID,
+                        ANIMAL_ID,
+                        VERIFIED_DATE_TM,
+                        REQUESTED_DATE_TM,
+                        OBSERVATION_DATE_TM,
+                        SPECIMEN_RECEIVED_DATE_TM,
+                        SET_ID,
+                        SPECIMEN_NUM,
+                        PROCEDURE_ID,
+                        PROCEDURE_NAME,
+                        PRIORITY,
+                        RESULT_STATUS,
+                        TECHNICIAN_LAST_NAME,
+                        TECHNICIAN_FIRST_NAME,
+                        CHARGE_ID,
+                        OBJECT_ID,
+                        Container)
+                    OUTPUT Inserted.OBJECT_ID INTO  @ObjectId_TableVar
+                    SELECT obr.MessageID,
+                            obr.IDX,
+                            msh.MSH_F10_C1,
+                            @animal_id,
+                            dbo.f_format_hl7_date(obr.OBR_F22_C1), -- verified_date_tm
+                            dbo.f_format_hl7_date(obr.OBR_F6_C1),  -- requested_date_tm
+                            dbo.f_format_hl7_date(obr.OBR_F7_C1),  -- observation_date_tm
+                            dbo.f_format_hl7_date(obr.OBR_F14_C1), -- specimen_received_date_tm
+                            obr.OBR_F1_C1,                         -- Set_ID
+                            obr.OBR_F3_C1,                         --Filler Order Number
+                            obr.OBR_F4_C1,                         -- Procedure ID
+                            obr.OBR_F4_C2,                         -- Procedure Name
+                            obr.OBR_F5_C1,                         -- Priority
+                            LTRIM(RTRIM(obr.OBR_F25_C1)),          -- Result status
+                            obr.OBR_F34_C1,                        -- Technician last name
+                            obr.OBR_F34_C2,                        -- Technician first name
+                            pv1.PV1_F24_C1,                        --charge_id  -- TODO: maps to HL7 Contract Code
+                            NEWID(),                               -- object_ID
+                            @container
+                    FROM dbo.ORC_Segment_OBR_A AS obr
+                                JOIN dbo.ORC_Segment_PID_A AS pid
+                                    ON pid.MessageID = obr.MessageID
+                                JOIN dbo.ORC_Segment_MSH_A AS msh
+                                    ON msh.MessageID = obr.MessageID
+                                JOIN dbo.ORC_Segment_PV1_A AS pv1
+                                    ON pv1.MessageID = obr.MessageID
+                                JOIN dbo.ORC_HL7Data AS h
+                                    ON h.MessageID = obr.MessageID
+                            -- ignore rows that are currently being processed
+                    WHERE obr.MessageID = @MessageId
+                        AND LTRIM(RTRIM(obr.OBR_F25_C1)) IN ( 'F', 'C', 'D')
+                        AND  obr.OBR_F1_C1 = @obr_set_id
+                END TRY
+                BEGIN CATCH
+                    SELECT @error = -101;
+                    SELECT @errormsg
+                                = 'Error inserting message: *' + @MessageId + '* into HL7_OBR.' + CHAR(13) + CHAR(10) +
+                                    ERROR_MESSAGE();
+                    GOTO error;
+                END CATCH;
 
 
-					INSERT INTO labkey.snprc_ehr.HL7_OBX
-					(MESSAGE_ID,
-						IDX,
-						OBR_OBJECT_ID,
-						SET_ID,
-						OBR_SET_ID,
-						VALUE_TYPE,
-						TEST_ID,
-						TEST_NAME,
-						serviceTestId,
-						QUALITATIVE_RESULT,
-						RESULT,
-						UNITS,
-						REFERENCE_RANGE,
-						ABNORMAL_FLAGS,
-						RESULT_STATUS,
-						Container) 
-					SELECT obx.MessageID,
-							obx.IDX,
-							cte.obr_object_id,
-							obx.OBX_F1_C1,
-							cte.SET_ID, -- OBR SET ID
-							obx.OBX_F2_C1,
-							obx.OBX_F3_C1,
-							obx.OBX_F3_C2,
-							lp.ObjectId,
-							obx.OBX_RESULTDATA,
-							CASE
-								WHEN obx.OBX_F2_C1 = 'NM'
-									AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1 THEN
-									CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
-								ELSE
-									NULL
-								END      AS RESULT,
-							REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F6_C1, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
-									'~') AS UNITS,
-							obx.OBX_F7_C1,
-							obx.OBX_F8_C1,
-							obx.OBX_F11_C1,
-							@container
-					FROM dbo.ORC_Segment_OBX_A AS obx
-								INNER JOIN cte
-										ON obx.MessageID = cte.MessageID
-											AND obx.IDX > cte.OBR_IDX
-											AND obx.IDX < cte.next_OBR_IDX
-											AND  cte.set_id = @obr_set_id
-								LEFT OUTER JOIN labkey.snprc_ehr.labwork_panels AS lp
-												ON cte.obr_service_id = lp.ServiceId
-													AND obx.OBX_F3_C1 = lp.TestId
+                -- get OBR's ObjectId
+                SELECT TOP (1) @obr_object_id = objectId FROM @ObjectId_TableVar ORDER BY ObjectId
 
-													-- only load data with result_status = 'F' (final).
-													AND cte.RESULT_STATUS = 'F';
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-								= 'Error inserting message: *' + @MessageId + '* into HL7_OBX.' + CHAR(13) + CHAR(10) +
-									ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;
+                IF @hl7_result_status IN ( 'F')
+                BEGIN
+                    BEGIN TRY
+                        -- This is a little tricky. The OBR and OBX records match on MessageId; however multiple OBR records can be in a single message.
+                        -- If that happens, the IDX value of the OBX records that match a given OBR record will be one greater than the OBR's IDX value,
+                        -- and will increment to be one less than the next OBR's IDX value. The LEAD function is used to get the next OBR.IDX value and
+                        -- the OBX records are constrained by the OBR.IDX and OBR.next_OBR_IDX. A CTE is used to select the OBR records.
 
-				-- New NTE records
-				BEGIN TRY
-					;WITH cte AS (
-						SELECT a.MessageID,
-							a.OBR_IDX,
-							a.SET_ID,
-							a.RESULT_STATUS,
-							cbr.object_id AS obr_object_id,
-							a.obr_service_id,
-							a.next_OBR_IDX
-							FROM 
-							(
-								SELECT OBR.MessageID,
-									OBR.IDX                                        AS OBR_IDX,
-									OBR.OBR_F1_C1                                  AS SET_ID,
-									OBR.OBR_F25_C1                                 AS RESULT_STATUS,
-									OBR.OBR_F4_C1                                  AS obr_service_id,
-									LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
-								FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR			  
-								WHERE OBR.MessageID = @MessageId
-							) a
-						INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
-									ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID = a.SET_ID
-						WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
-					) 
-					INSERT INTO labkey.snprc_ehr.HL7_NTE
-					(MESSAGE_ID,
-						IDX,
-						OBR_OBJECT_ID,
-						SET_ID,
-						OBR_SET_ID,
-						COMMENT,
-						Container)
-					SELECT nte.MessageID,
-							nte.IDX,
-							cte.obr_object_id,
-							nte.NTE_F1_C1,
-							cte.SET_ID, -- OBR_SET_ID
-							nte.NTE_F3_C1,
-							@container
-					FROM Orchard_hl7_staging.dbo.ORC_Segment_NTE_A AS nte
-								INNER JOIN cte
-										ON nte.MessageID = cte.MessageID
-											AND nte.IDX > cte.OBR_IDX
-											AND nte.IDX < cte.next_OBR_IDX
-											AND cte.SET_ID = @obr_set_id
-											-- only load data with result_status = 'F' (final).
-											AND cte.RESULT_STATUS = 'F';
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-								= 'Error inserting message: *' + @MessageId + '* into HL7_OBR.' + CHAR(13) + CHAR(10) +
-									ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;
-			END
-			-- Process messeges for corrected results
-			-- RESULT_STATUS = 'C' for corrected entries, 'D' for deleted entries
-			-- OBR entries don't change
-			IF @hl7_result_status IN ( 'C','D')
-			BEGIN
+                    -- New OBX records - Result Status F
 
-				-- Get OBR ObjectId for matching observations and notes
-				SELECT @obr_object_id = cbr.OBJECT_ID, @obr_message_id = cbr.MESSAGE_ID
-				FROM labkey.snprc_ehr.HL7_OBR AS cbr
-				INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
-				WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) IN ('C', 'D') -- Result_status = Results changed or deleted
-					  AND  obr.OBR_F1_C1 = @obr_set_id
+                        ;WITH cte AS (
+                            SELECT a.MessageID,
+                                a.OBR_IDX,
+                                a.SET_ID,
+                                a.RESULT_STATUS,
+                                cbr.object_id AS obr_object_id,
+                                a.obr_service_id,
+                                a.next_OBR_IDX
+                                FROM
+                                (
+                                    SELECT OBR.MessageID,
+                                        OBR.IDX                                        AS OBR_IDX,
+                                        OBR.OBR_F1_C1                                  AS SET_ID,
+                                        OBR.OBR_F25_C1                                 AS RESULT_STATUS,
+                                        OBR.OBR_F4_C1                                  AS obr_service_id,
+                                        LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
+                                    FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
+                                    WHERE OBR.MessageID = @MessageId
+                                ) a
+                            INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
+                                        ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID =a.SET_ID
+                            WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
+                        )
 
-				BEGIN TRY
-					;WITH cte AS (
-						SELECT a.MessageID,
-							a.OBR_IDX,
-							a.SET_ID,
-							a.RESULT_STATUS,
-							cbr.object_id AS obr_object_id,
-							a.obr_service_id,
-							a.SPECIMEN_NUM,
-							a.PROCEDURE_ID,
-							a.next_OBR_IDX
-							FROM 
-							(
-								SELECT OBR.MessageID,
-									OBR.IDX                                        AS OBR_IDX,
-									OBR.OBR_F1_C1                                  AS SET_ID,
-									OBR.OBR_F25_C1                                 AS RESULT_STATUS,
-									OBR.OBR_F4_C1                                  AS obr_service_id,
-									OBR.OBR_F3_C1                                  AS SPECIMEN_NUM,
-									OBR.OBR_F4_C1                                  AS PROCEDURE_ID,
-									LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
-								FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR			  
-								WHERE OBR.MessageID = @MessageId
-							) a
-						INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
-									ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID = a.SET_ID
-						WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
-				) 
 
-					UPDATE cpx
-					SET -- cpx.MESSAGE_ID = ,				-- leave intact (needed to join with obr data)
-						-- cpx.SET_ID = ,					-- ditto (needed for ordering data)
-						-- cpx.VALUE_TYPE = ,				-- ditto (should not change)
-						-- cpx.TEST_ID = ,					-- ditto ditto
-						-- cpx.TEST_NAME ',					-- ditto ditto
+                        INSERT INTO labkey.snprc_ehr.HL7_OBX
+                        (MESSAGE_ID,
+                            IDX,
+                            OBR_OBJECT_ID,
+                            SET_ID,
+                            OBR_SET_ID,
+                            VALUE_TYPE,
+                            TEST_ID,
+                            TEST_NAME,
+                            serviceTestId,
+                            QUALITATIVE_RESULT,
+                            RESULT,
+                            UNITS,
+                            REFERENCE_RANGE,
+                            ABNORMAL_FLAGS,
+                            RESULT_STATUS,
+                            Container)
+                        SELECT obx.MessageID,
+                                obx.IDX,
+                                cte.obr_object_id,
+                                obx.OBX_F1_C1,
+                                cte.SET_ID, -- OBR SET ID
+                                obx.OBX_F2_C1,
+                                obx.OBX_F3_C1,
+                                obx.OBX_F3_C2,
+                                lp.ObjectId,
+                                obx.OBX_RESULTDATA,
+                                CASE
+                                    WHEN obx.OBX_F2_C1 = 'NM'
+                                        AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1 THEN
+                                        CAST(LTRIM(RTRIM(REPLACE(obx.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
+                                    ELSE
+                                        NULL
+                                    END      AS RESULT,
+                                REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F6_C1, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
+                                        '~') AS UNITS,
+                                obx.OBX_F7_C1,
+                                obx.OBX_F8_C1,
+                                obx.OBX_F11_C1,
+                                @container
+                        FROM dbo.ORC_Segment_OBX_A AS obx
+                                    INNER JOIN cte
+                                            ON obx.MessageID = cte.MessageID
+                                                AND obx.IDX > cte.OBR_IDX
+                                                AND obx.IDX < cte.next_OBR_IDX
+                                                AND  cte.set_id = @obr_set_id
+                                    LEFT OUTER JOIN labkey.snprc_ehr.labwork_panels AS lp
+                                                    ON cte.obr_service_id = lp.ServiceId
+                                                        AND obx.OBX_F3_C1 = lp.TestId
 
-						cpx.RESULT             = CASE
-														WHEN OBX.OBX_F11_C1 = 'D' THEN
-															NULL
-														WHEN OBX.OBX_F2_C1 = 'NM'
-															AND labkey.snprc_ehr.f_isNumeric(OBX.OBX_RESULTDATA) = 1
-															THEN
-															CAST(LTRIM(RTRIM(REPLACE(OBX.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
-														ELSE
-															NULL
-							END,
-						cpx.QUALITATIVE_RESULT = CASE
-														WHEN OBX.OBX_F11_C1 = 'D' THEN
-															'RESULT DELETED'
-														ELSE
-															OBX.OBX_RESULTDATA
-							END,
-						-- cpx.UNITS = ,					-- leave intact (should not change)
-						-- cpx.REFERENCE_RANGE ,			-- ditto ditto
-						cpx.ABNORMAL_FLAGS     = CASE
-														WHEN OBX.OBX_F11_C1 = 'D' THEN
-															NULL
-														ELSE
-															OBX.OBX_F8_C1
-							END --,
-						--cpx.RESULT_STATUS = OBX.OBX_F11_C1
-					FROM labkey.snprc_ehr.HL7_OBX AS cpx
-								INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr ON OBR_OBJECT_ID = @obr_object_id --cpx.OBR_OBJECT_ID = cbr.OBJECT_ID
-								INNER JOIN cte
-										ON cbr.SPECIMEN_NUM = cte.SPECIMEN_NUM AND cbr.PROCEDURE_ID = cte.PROCEDURE_ID
-											AND cbr.RESULT_STATUS = 'F'
-											AND cte.SET_ID = @obr_set_id
-								INNER JOIN Orchard_hl7_staging.dbo.ORC_Segment_OBX_A AS OBX
-										ON cte.MessageID = OBX.MessageID AND OBX.OBX_F3_C1 = cpx.TEST_ID
-											AND OBX.IDX > cte.OBR_IDX AND OBX.IDX < cte.next_OBR_IDX
+                                                        -- only load data with result_status = 'F' (final).
+                                                        AND cte.RESULT_STATUS = 'F';
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                    = 'Error inserting message: *' + @MessageId + '* into HL7_OBX.' + CHAR(13) + CHAR(10) +
+                                        ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
 
-							-- only update data with obx result_status = 'C' or 'D' (corrected or deleted entries)
-					WHERE RTRIM(LTRIM(OBX.OBX_F11_C1)) IN ('C', 'D')
+                    -- New NTE records
+                    BEGIN TRY
+                        ;WITH cte AS (
+                            SELECT a.MessageID,
+                                a.OBR_IDX,
+                                a.SET_ID,
+                                a.RESULT_STATUS,
+                                cbr.object_id AS obr_object_id,
+                                a.obr_service_id,
+                                a.next_OBR_IDX
+                                FROM
+                                (
+                                    SELECT OBR.MessageID,
+                                        OBR.IDX                                        AS OBR_IDX,
+                                        OBR.OBR_F1_C1                                  AS SET_ID,
+                                        OBR.OBR_F25_C1                                 AS RESULT_STATUS,
+                                        OBR.OBR_F4_C1                                  AS obr_service_id,
+                                        LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
+                                    FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
+                                    WHERE OBR.MessageID = @MessageId
+                                ) a
+                            INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
+                                        ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID = a.SET_ID
+                            WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
+                        )
+                        INSERT INTO labkey.snprc_ehr.HL7_NTE
+                        (MESSAGE_ID,
+                            IDX,
+                            OBR_OBJECT_ID,
+                            SET_ID,
+                            OBR_SET_ID,
+                            COMMENT,
+                            Container)
+                        SELECT nte.MessageID,
+                                nte.IDX,
+                                cte.obr_object_id,
+                                nte.NTE_F1_C1,
+                                cte.SET_ID, -- OBR_SET_ID
+                                nte.NTE_F3_C1,
+                                @container
+                        FROM Orchard_hl7_staging.dbo.ORC_Segment_NTE_A AS nte
+                                    INNER JOIN cte
+                                            ON nte.MessageID = cte.MessageID
+                                                AND nte.IDX > cte.OBR_IDX
+                                                AND nte.IDX < cte.next_OBR_IDX
+                                                AND cte.SET_ID = @obr_set_id
+                                                -- only load data with result_status = 'F' (final).
+                                                AND cte.RESULT_STATUS = 'F';
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                    = 'Error inserting message: *' + @MessageId + '* into HL7_OBR.' + CHAR(13) + CHAR(10) +
+                                        ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
+                END
+                -- Process messeges for corrected results
+                -- RESULT_STATUS = 'C' for corrected entries, 'D' for deleted entries
+                -- OBR entries don't change
+                IF @hl7_result_status IN ( 'C','D')
+                BEGIN
+                    SET @isPreliminary = 0
+                    -- Get OBR ObjectId for matching observations and notes
+                    SELECT @obr_object_id = cbr.OBJECT_ID, @obr_message_id = cbr.MESSAGE_ID
+                    FROM labkey.snprc_ehr.HL7_OBR AS cbr
+                    INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
+                    WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) IN ('C', 'D') -- Result_status = Results changed or deleted
+                          AND  obr.OBR_F1_C1 = @obr_set_id
 
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-								=
-							'Error processing message: *' + @MessageId + '* for update of HL7_OBX.' + CHAR(13) + CHAR(10)
-								+ ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;
-				-- ADD NTE record with correction notice
-				BEGIN TRY
-					INSERT INTO labkey.snprc_ehr.HL7_NTE
+                    BEGIN TRY
+                        ;WITH cte AS (
+                            SELECT a.MessageID,
+                                a.OBR_IDX,
+                                a.SET_ID,
+                                a.RESULT_STATUS,
+                                cbr.object_id AS obr_object_id,
+                                a.obr_service_id,
+                                a.SPECIMEN_NUM,
+                                a.PROCEDURE_ID,
+                                a.next_OBR_IDX
+                                FROM
+                                (
+                                    SELECT OBR.MessageID,
+                                        OBR.IDX                                        AS OBR_IDX,
+                                        OBR.OBR_F1_C1                                  AS SET_ID,
+                                        OBR.OBR_F25_C1                                 AS RESULT_STATUS,
+                                        OBR.OBR_F4_C1                                  AS obr_service_id,
+                                        OBR.OBR_F3_C1                                  AS SPECIMEN_NUM,
+                                        OBR.OBR_F4_C1                                  AS PROCEDURE_ID,
+                                        LEAD(OBR.IDX, 1, 9999) OVER (ORDER BY OBR.IDX) AS next_OBR_IDX
+                                    FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
+                                    WHERE OBR.MessageID = @MessageId
+                                ) a
+                            INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
+                                        ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID = a.SET_ID
+                            WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
+                    )
 
-					(MESSAGE_ID,
-						IDX,
-						OBR_OBJECT_ID,
-						SET_ID,
-						OBR_SET_ID,
-						COMMENT,
-						Container)
-						(SELECT @MessageId,
-								cbr.IDX    AS IDX,
-								cbr.OBJECT_ID,
-								a.SET_ID   AS SET_ID,
-								cbr.SET_ID AS OBR_SET_ID,
-								'Corrected: ' + CAST(dbo.f_format_hl7_date(a.OBSERVATION_DATE_TM) AS VARCHAR(50)),
-								@container as Container
-							FROM (SELECT OBR.MessageID,
-										OBR.IDX        AS OBR_IDX,
-										OBR.OBR_F1_C1  AS SET_ID,
-										OBR.OBR_F25_C1 AS RESULT_STATUS,
-										OBR.OBR_F3_C1  AS SPECIMEN_NUM,
-										OBR.OBR_F4_C1  AS PROCEDURE_ID,
-										OBR.OBR_F7_C1  AS OBSERVATION_DATE_TM
-								FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
-								WHERE OBR.MessageID = @MessageId) a
-									INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
-												ON cbr.OBJECT_ID = @obr_object_id
-							WHERE RTRIM(LTRIM(a.RESULT_STATUS)) IN ('C', 'D'))
+                        UPDATE cpx
+                        SET -- cpx.MESSAGE_ID = ,				-- leave intact (needed to join with obr data)
+                            -- cpx.SET_ID = ,					-- ditto (needed for ordering data)
+                            -- cpx.VALUE_TYPE = ,				-- ditto (should not change)
+                            -- cpx.TEST_ID = ,					-- ditto ditto
+                            -- cpx.TEST_NAME ',					-- ditto ditto
 
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-								=
-							'Error inserting Update comment for : *' + @MessageId + '* into HL7_NTE.' + CHAR(13) + CHAR(10) +
-							ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;
+                            cpx.RESULT = CASE
+                                    WHEN OBX.OBX_F11_C1 = 'D' THEN
+                                        NULL
+                                    WHEN OBX.OBX_F2_C1 = 'NM'
+                                        AND labkey.snprc_ehr.f_isNumeric(OBX.OBX_RESULTDATA) = 1
+                                        THEN
+                                        CAST(LTRIM(RTRIM(REPLACE(OBX.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
+                                    ELSE
+                                        NULL
+                                END,
+                            cpx.QUALITATIVE_RESULT = CASE
+                                    WHEN OBX.OBX_F11_C1 = 'D' THEN
+                                        'RESULT DELETED'
+                                    ELSE
+                                        OBX.OBX_RESULTDATA
+                                END,
+                            -- cpx.UNITS = ,					-- leave intact (should not change)
+                            -- cpx.REFERENCE_RANGE ,			-- ditto ditto
+                            cpx.ABNORMAL_FLAGS = CASE
+                                    WHEN OBX.OBX_F11_C1 = 'D' THEN
+                                        NULL
+                                    ELSE
+                                        OBX.OBX_F8_C1
+                                END --,
+                            --cpx.RESULT_STATUS = OBX.OBX_F11_C1
+                        FROM labkey.snprc_ehr.HL7_OBX AS cpx
+                                    INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr ON OBR_OBJECT_ID = @obr_object_id --cpx.OBR_OBJECT_ID = cbr.OBJECT_ID
+                                    INNER JOIN cte
+                                            ON cbr.SPECIMEN_NUM = cte.SPECIMEN_NUM AND cbr.PROCEDURE_ID = cte.PROCEDURE_ID
+                                                AND cbr.RESULT_STATUS = 'F'
+                                                AND cte.SET_ID = @obr_set_id
+                                    INNER JOIN Orchard_hl7_staging.dbo.ORC_Segment_OBX_A AS OBX
+                                            ON cte.MessageID = OBX.MessageID AND OBX.OBX_F3_C1 = cpx.TEST_ID
+                                                AND OBX.IDX > cte.OBR_IDX AND OBX.IDX < cte.next_OBR_IDX
 
-				-- if result status in 'C', 'D' then remove the OBR record
-				BEGIN TRY
-					DELETE
-					FROM labkey.snprc_ehr.HL7_OBR
-					WHERE MESSAGE_ID IN (@MessageId) 
-						AND RTRIM(LTRIM(RESULT_STATUS)) IN ('C', 'D')
-				END TRY
-				BEGIN CATCH
-					SELECT @error = -101;
-					SELECT @errormsg
-								= 'Error deleting message: *' + @MessageId + '* from ORC.' + CHAR(13) + CHAR(10) +
-									ERROR_MESSAGE();
-					GOTO error;
-				END CATCH;		
-			END
-		END
-	FETCH NEXT FROM @msgCursor INTO @hl7_result_status, @obr_set_id
-END; -- WHILE LOOP
+                                -- only update data with obx result_status = 'C' or 'D' (corrected or deleted entries)
+                        WHERE RTRIM(LTRIM(OBX.OBX_F11_C1)) IN ('C', 'D')
 
-CLOSE @msgCursor
-DEALLOCATE @msgCursor
-				-- all processing finished write to import log and jump to clean exit routine
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                    =
+                                'Error processing message: *' + @MessageId + '* for update of HL7_OBX.' + CHAR(13) + CHAR(10)
+                                    + ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
+                    -- ADD NTE record with correction notice
+                    BEGIN TRY
+                        INSERT INTO labkey.snprc_ehr.HL7_NTE
+
+                        (MESSAGE_ID,
+                            IDX,
+                            OBR_OBJECT_ID,
+                            SET_ID,
+                            OBR_SET_ID,
+                            COMMENT,
+                            Container)
+                            (SELECT @MessageId,
+                                    cbr.IDX    AS IDX,
+                                    cbr.OBJECT_ID,
+                                    a.SET_ID   AS SET_ID,
+                                    cbr.SET_ID AS OBR_SET_ID,
+                                    'Corrected: ' + CAST(dbo.f_format_hl7_date(a.OBSERVATION_DATE_TM) AS VARCHAR(50)),
+                                    @container as Container
+                                FROM (SELECT OBR.MessageID,
+                                            OBR.IDX        AS OBR_IDX,
+                                            OBR.OBR_F1_C1  AS SET_ID,
+                                            OBR.OBR_F25_C1 AS RESULT_STATUS,
+                                            OBR.OBR_F3_C1  AS SPECIMEN_NUM,
+                                            OBR.OBR_F4_C1  AS PROCEDURE_ID,
+                                            OBR.OBR_F7_C1  AS OBSERVATION_DATE_TM
+                                    FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
+                                    WHERE OBR.MessageID = @MessageId) a
+                                        INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
+                                                    ON cbr.OBJECT_ID = @obr_object_id
+                                WHERE RTRIM(LTRIM(a.RESULT_STATUS)) IN ('C', 'D'))
+
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                    =
+                                'Error inserting Update comment for : *' + @MessageId + '* into HL7_NTE.' + CHAR(13) + CHAR(10) +
+                                ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
+
+                    -- if result status in 'C', 'D' then remove the OBR record
+                    BEGIN TRY
+                        DELETE
+                        FROM labkey.snprc_ehr.HL7_OBR
+                        WHERE MESSAGE_ID IN (@MessageId)
+                            AND RTRIM(LTRIM(RESULT_STATUS)) IN ('C', 'D')
+                    END TRY
+                    BEGIN CATCH
+                        SELECT @error = -101;
+                        SELECT @errormsg
+                                    = 'Error deleting message: *' + @MessageId + '* from ORC.' + CHAR(13) + CHAR(10) +
+                                        ERROR_MESSAGE();
+                        GOTO error;
+                    END CATCH;
+                END
+            END
+        FETCH NEXT FROM @msgCursor INTO @hl7_result_status, @obr_set_id
+    END; -- WHILE LOOP
+
+    CLOSE @msgCursor
+    DEALLOCATE @msgCursor
+
+	-- Ignore preliminary results @hl7_result_status = 'P'
+    -- Since, no observations were recorded, clean up pv1, pid, orc, and msh tables
+    -- a rollback will take care of it
+    IF @isPreliminary = 1
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM labkey.snprc_ehr.HL7_OBR AS cbr WHERE cbr.MESSAGE_ID = @messageId)
+        BEGIN
+            ROLLBACK TRANSACTION trans1;
+
+            SET @hl7_message_text = 'Preliminary Results ignored'
+            INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
+                    (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID, IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES,
+                    HL7_MESSAGE_TEXT, IMPORT_TEXT, Container)
+            VALUES (@MessageId, @hl7_observation_date_tm, @hl7_message_control_id, 3, @hl7_result_status, @animal_id,
+            @hl7_species, @hl7_message_text, @errormsg, @container);
+
+            UPDATE Orchard_hl7_staging.dbo.ORC_HL7Data
+            SET Processed     = 1,
+                StatusMessage = 'SUCCESS: Processed By p_load_hl7_data.sql'
+            WHERE MessageID = @MessageId;
+
+            RETURN 0;
+        END
+    END
+	-- all processing finished write to import log and jump to clean exit routine
 
 	INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG
 	(MESSAGE_ID,
@@ -808,8 +843,7 @@ DEALLOCATE @msgCursor
 	GOTO finis;
 
 
-
-		not_animal_data:
+not_animal_data:
 
 		INSERT INTO labkey.snprc_ehr.HL7_IMPORT_LOG (MESSAGE_ID, OBSERVATION_DATE_TM, MESSAGE_CONTROL_ID,
 															 IMPORT_STATUS, RESULT_STATUS, PATIENT_ID, SPECIES,
@@ -821,7 +855,7 @@ DEALLOCATE @msgCursor
     GOTO finis
 
 
-    error:
+error:
     -- an error occurred, rollback the entire transaction.
     ROLLBACK TRANSACTION trans1;
 
