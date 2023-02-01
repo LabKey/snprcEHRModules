@@ -878,17 +878,17 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         historyPage.clickReportTab("Kinship");
 
         DataRegionTable tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 14);
+        assertEquals(tbl.getDataRowCount(), 20);
 
         _ext4Helper.checkCheckbox(Locator.ehrCheckboxIdContaining("limitRawDataToSelection"));
 
         tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 1);
+        assertEquals(tbl.getDataRowCount(), 2);
 
         String[] idCols = {"Id", "Id2", "Coefficient"};
         List<List<String>> rows = tbl.getRows(idCols);
         List<List<String>> expectedRows = Arrays.asList(
-                Arrays.asList(animal1, animal2, "0.375"));
+                Arrays.asList(animal1, animal2, "0.375"), Arrays.asList(animal2, animal1, "0.375"));
         assertEquals(String.join(", ", Arrays.asList(idCols)), expectedRows, rows);
 
         _ext4Helper.clickExt4Tab("Matrix");
