@@ -489,6 +489,7 @@ BEGIN
                 SELECT TOP (1) @obr_object_id = objectId FROM @ObjectId_TableVar ORDER BY ObjectId
 
                 IF @hl7_result_status IN ( 'F')
+                SET @isPreliminary = 0
                 BEGIN
                     BEGIN TRY
                         -- This is a little tricky. The OBR and OBX records match on MessageId; however multiple OBR records can be in a single message.
