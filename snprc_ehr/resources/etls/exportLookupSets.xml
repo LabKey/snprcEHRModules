@@ -3,7 +3,7 @@
     <description>Push Lookup Sets Data to CAMP</description>
     <transforms>
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
-            <description>Copy to target</description>
+            <description>Copy SND to CAMP</description>
             <source schemaName="snprc_ehr" queryName="ExportLookupSets" />
             <destination schemaName="tacSrc" queryName="LookupSets" bulkLoad="true" targetOption="merge">
                 <alternateKeys>

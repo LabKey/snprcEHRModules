@@ -1,3 +1,9 @@
+/********************************************************************************
+
+  Changed user data from INT to nvarchar(128) and appended "Text" to column name
+  08.23.2021 srr
+
+*********************************************************************************/
 
 
 -- NOTE SQL Server 2016 and after
@@ -11,10 +17,10 @@ CREATE TABLE [TAC_src].[PkgCategories](
     [Active] [bit] NOT NULL,
     [SortOrder] [int] NULL,
     [Container] [uniqueidentifier] NOT NULL,
-    [CreatedBy] [int] NULL,
+    [CreatedByText] [nvarchar](128) NULL,
     [Created] [datetime] NULL,
     [ModifiedBy] [int] NULL,
-    [Modified] [datetime] NULL,
+    [ModifiedText] [nvarchar](128) NULL,
     [Lsid] [nvarchar](300) NULL,
     [Objectid] [uniqueidentifier] NOT NULL
     CONSTRAINT PK_TAC_PkgCategories
