@@ -27,7 +27,7 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
             hideHeaders: true,
             deferEmptyText: true,
             viewConfig : {
-                emptyText: this.minDate ? 'No records found since: ' + Ext4.util.Format.date(this.minDate, LABKEY.extDefaultDateFormat): 'There are no records to display',
+                emptyText: 'There are no records to display',
                 deferEmptyText: true,
                 enableTextSelection: true,
                 border: false,
@@ -167,7 +167,7 @@ Ext4.define('SNPRC.panel.ClinicalHistoryPanel', {
         this.reloadData({
             minDate: this.minDate,
             maxDate: this.maxDate
-        });
+        })
     },
 
     getColumnConfig: function(){
