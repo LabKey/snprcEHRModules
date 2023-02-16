@@ -51,7 +51,8 @@ BEGIN
 		@obr_set_id INTEGER,
 		@obr_object_id UNIQUEIDENTIFIER,
 		@obr_message_id VARCHAR(50),
-        @isPreliminary INTEGER
+        @isPreliminary INTEGER,
+        @ctr INTEGER
 
 	DECLARE @ObjectId_TableVar TABLE (ObjectId UNIQUEIDENTIFIER );
 
@@ -62,6 +63,7 @@ BEGIN
     SET @hl7_species = 'Unprocessed';
     SET @hl7_observation_date_tm = '01-01-1900 00:00'
     SET @isPreliminary = 0
+    SET @ctr = 0
 
     -- Start a new transaction
     BEGIN TRANSACTION trans1;
@@ -450,7 +452,9 @@ BEGIN
                             @animal_id,
                             dbo.f_format_hl7_date(obr.OBR_F22_C1), -- verified_date_tm
                             dbo.f_format_hl7_date(obr.OBR_F6_C1),  -- requested_date_tm
-                            dbo.f_format_hl7_date(obr.OBR_F7_C1),  -- observation_date_tm
+                            -- Increment the time by one second per OBR to ensure they
+                            -- sort correctly when displaying results
+                            DATEADD(SECOND, @ctr, dbo.f_format_hl7_date(obr.OBR_F7_C1)),  -- observation_date_tm
                             dbo.f_format_hl7_date(obr.OBR_F14_C1), -- specimen_received_date_tm
                             obr.OBR_F1_C1,                         -- Set_ID
                             obr.OBR_F3_C1,                         --Filler Order Number
@@ -796,6 +800,7 @@ BEGIN
                     END CATCH;
                 END
             END
+		SET @ctr = @ctr + 1
         FETCH NEXT FROM @msgCursor INTO @hl7_result_status, @obr_set_id
     END; -- WHILE LOOP
 
