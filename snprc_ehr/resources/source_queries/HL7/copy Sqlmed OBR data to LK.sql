@@ -4,6 +4,7 @@
 -- Create date: 7-11-2022
 -- Description:	copies OBR records from Sqlmed data to populate LabKey HL7 tables
 -- ==========================================================================================
+BEGIN TRAN
 INSERT INTO labkey.snprc_ehr.HL7_OBR
 (
     MESSAGE_ID,
@@ -26,7 +27,8 @@ INSERT INTO labkey.snprc_ehr.HL7_OBR
     CHARGE_ID,
     OBJECT_ID,
     USER_NAME,
-    ENTRY_DATE_TM
+    ENTRY_DATE_TM,
+	container
 )
 
 (
@@ -45,20 +47,22 @@ SELECT obr.MESSAGE_ID AS MESSAGE_ID,
        COALESCE (lu.ServiceName, obr.PROCEDURE_NAME) AS PROCEDURE_NAME,
 	   obr.PRIORITY AS PRIORITY,
 	   obr.RESULT_STATUS AS RESULT_STATUS,
-	   obr.TECHNICIAN_NAME AS TECHNICIAN_FIRST_NAME,
+	   LEFT(obr.TECHNICIAN_NAME, 50) AS TECHNICIAN_FIRST_NAME,
 	   obr.TECHNICIAN_INITIALS AS TECHNICIAN_LAST_NAME,
 	   obr.CHARGE_ID AS CHARGE_ID,
        obr.OBJECT_ID AS OBJECT_ID,
-       dbo.f_map_username(obr.USER_NAME) AS USER_NAME,
-       obr.ENTRY_DATE_TM AS ENTRY_DATE_TM
-FROM dbo.CLINICAL_PATH_OBR AS obr
+       animal.dbo.f_map_username(obr.USER_NAME) AS USER_NAME,
+       obr.ENTRY_DATE_TM AS ENTRY_DATE_TM,
+	   c.EntityId AS container
+FROM animal.dbo.CLINICAL_PATH_OBR AS obr
 
     -- select primates only from the TxBiomed colony
-    INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
-    INNER JOIN dbo.CLINICAL_PATH_LABWORK_SERVICES AS lu ON obr.PROCEDURE_ID = lu.ServiceId
-    LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obr.OBJECT_ID
+    INNER JOIN animal.labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
+    INNER JOIN animal.dbo.CLINICAL_PATH_LABWORK_SERVICES AS lu ON obr.PROCEDURE_ID = lu.ServiceId
+	INNER JOIN labkey.core.Containers AS c ON c.Name = 'SNPRC'
 WHERE obr.RESULT_STATUS IN ( 'F', 'C', 'D' )
     AND obr.VERIFIED_DATE_TM IS NOT NULL
-	AND NOT EXISTS (SELECT 1 FROM labkey_etl.v_delete_clinPathRuns AS dcpr WHERE obr.OBJECT_ID = dcpr.objectid)
+	AND NOT EXISTS (SELECT 1 FROM animal.labkey_etl.v_delete_clinPathRuns AS dcpr WHERE obr.OBJECT_ID = dcpr.objectid)
 
 )
+commit

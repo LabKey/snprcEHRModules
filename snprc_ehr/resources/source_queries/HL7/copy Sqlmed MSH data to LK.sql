@@ -4,6 +4,7 @@
 -- Description:	Copy MSH records from Sqlmed data to populate LabKey HL7 tables
 -- Changes:
 -- ==========================================================================================
+BEGIN TRAN 
 INSERT INTO labkey.snprc_ehr.HL7_MSH
 (
     MESSAGE_ID,
@@ -18,7 +19,8 @@ INSERT INTO labkey.snprc_ehr.HL7_MSH
     MESSAGE_DATE_TM,
     OBJECT_ID,
     USER_NAME,
-    ENTRY_DATE_TM
+    ENTRY_DATE_TM,
+	Container
 )
 (
 	SELECT obr.MESSAGE_ID AS MESSAGE_ID,
@@ -32,14 +34,17 @@ INSERT INTO labkey.snprc_ehr.HL7_MSH
 		   obr.MESSAGE_CONTROL_ID AS MESSAGE_CONTROL_ID,
 		   CAST(CAST(obr.VERIFIED_DATE_TM AS DATETIME2(0)) AS DATETIME) AS MESSAGE_DATE_TM,
 		   obr.OBJECT_ID AS OBJECT_ID,
+		   animal.dbo.f_map_username(obr.USER_NAME) AS USER_NAME,
 		   obr.ENTRY_DATE_TM AS ENTRY_DATE_TM,
-		   dbo.f_map_username(obr.USER_NAME) AS USER_NAME
-	FROM dbo.CLINICAL_PATH_OBR AS obr
+		   c.EntityId AS container
+	FROM animal.dbo.CLINICAL_PATH_OBR AS obr
 
 		-- select primates only from the TxBiomed colony
-		INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
-		LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = obr.OBJECT_ID
+		INNER JOIN [animal].labkey_etl.V_DEMOGRAPHICS AS d ON d.id = obr.ANIMAL_ID
+		LEFT OUTER JOIN [animal].dbo.TAC_COLUMNS AS tc ON tc.object_id = obr.OBJECT_ID
+		INNER JOIN labkey.core.Containers AS c ON c.Name = 'SNPRC'
 	WHERE obr.RESULT_STATUS IN ( 'F', 'C', 'D' )
 		  AND obr.VERIFIED_DATE_TM IS NOT NULL
-		  AND NOT EXISTS (SELECT 1 FROM labkey_etl.v_delete_clinPathRuns AS dcpr WHERE obr.OBJECT_ID = dcpr.objectid)
+		  AND NOT EXISTS (SELECT 1 FROM animal.labkey_etl.v_delete_clinPathRuns AS dcpr WHERE obr.OBJECT_ID = dcpr.objectid)
 )
+COMMIT
