@@ -45,35 +45,6 @@ INNER JOIN core.QCState as q on q.Label = 'Completed'
 UNION
 
 SELECT
-  cpr.Id,
-  cpr.date,
-  cpr.enddate,
-  COALESCE(cpr.serviceId.Dataset.ServiceType, cpr.type) as type,
-  cpr.tissue,
-  cpr.project,
-  cpr.instructions,
-  cpr.servicerequested,
-  cpr.units,
-  cpr.serviceId,
-  cpr.collectedBy,
-  cpr.sampleId,
-  cpr.collectionMethod,
-  cpr.method,
-  cpr.sampleQuantity,
-  cpr.quantityUnits,
-  cpr.chargetype,
-  cpr.verifiedDate,
-  cpr.datefinalized,
-  lr.remark as remark,
-  cpr.history,
-  cpr.objectid,
-  cpr.lsid,
-  cpr.QCState
-FROM study.clinpathRuns cpr
-LEFT JOIN study.labworkResults lr on lr.runId = cpr.objectId and lr.remark is not null
-UNION
-
-SELECT
   Id,
   date,
   enddate,
@@ -124,7 +95,7 @@ SELECT DISTINCT
     tr.date as datefinalized,
     'From Excel import' as remark,
     tr.history as history,
-    null as objectid,
+    tr.objectid as objectid,
     tr.lsid,
     tr.QCState
 from study.TaqmanResults as tr
