@@ -494,8 +494,8 @@ BEGIN
                 SELECT TOP (1) @obr_object_id = objectId FROM @ObjectId_TableVar ORDER BY ObjectId
 
                 IF @hl7_result_status IN ( 'F')
-                SET @isPreliminary = 0
                 BEGIN
+                    SET @isPreliminary = 0
                     BEGIN TRY
                         -- This is a little tricky. The OBR and OBX records match on MessageId; however multiple OBR records can be in a single message.
                         -- If that happens, the IDX value of the OBX records that match a given OBR record will be one greater than the OBR's IDX value,
@@ -658,7 +658,7 @@ BEGIN
                     FROM labkey.snprc_ehr.HL7_OBR AS cbr
                     INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
                     WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) IN ('C', 'D') -- Result_status = Results changed or deleted
-                          AND  obr.OBR_F1_C1 = @obr_set_id
+                          AND  obr.OBR_F1_C1 = @obr_set_id AND cbr.OBJECT_ID <> @obr_object_id
 
                     BEGIN TRY
                         ;WITH cte AS (
@@ -686,7 +686,7 @@ BEGIN
                                 ) a
                             INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
                                         ON a.MessageID = cbr.MESSAGE_ID  AND cbr.SET_ID = a.SET_ID
-                            WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id
+                            WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id 
                     )
 
                         UPDATE cpx
@@ -794,7 +794,7 @@ BEGIN
                     BEGIN CATCH
                         SELECT @error = -101;
                         SELECT @errormsg
-                                    = 'Error deleting message: *' + @MessageId + '* from ORC.' + CHAR(13) + CHAR(10) +
+                                    = 'Error deleting message: *' + @MessageId + '* from OBR.' + CHAR(13) + CHAR(10) +
                                         ERROR_MESSAGE();
                         GOTO error;
                     END CATCH;
