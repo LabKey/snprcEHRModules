@@ -13,6 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+SELECT
+    cpr.Id,
+    cpr.date,
+    cpr.enddate,
+    COALESCE(cpr.serviceId.Dataset.ServiceType, cpr.type) as type,
+    cpr.tissue,
+    cpr.project,
+    cpr.instructions,
+    cpr.servicerequested,
+    cpr.units,
+    cpr.serviceId,
+    cpr.collectedBy,
+    cpr.sampleId,
+    cpr.collectionMethod,
+    cpr.method,
+    cpr.sampleQuantity,
+    cpr.quantityUnits,
+    cpr.chargetype,
+    cpr.verifiedDate,
+    cpr.datefinalized,
+    lr.remark as remark,
+    cpr.history,
+    cpr.objectid,
+    cpr.lsid,
+    cpr.QCState
+FROM study.clinpathRuns cpr
+         LEFT JOIN study.labworkResults lr on lr.runId = cpr.objectId and lr.remark is not null
+UNION
+
 select
     obr.ANIMAL_ID as Id,
     obr.OBSERVATION_DATE_TM AS date,

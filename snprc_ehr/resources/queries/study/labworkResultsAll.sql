@@ -20,7 +20,30 @@
    7/13/2022 Refactored to use HL7 tables from Orchard
 
  */
+SELECT
+    lr.Id,
+    lr.date,
+    lr.project,
+    lr.serviceId,
+    lp.objectID AS serviceTestId,
+    lr.testid,
+    lr.resultOORIndicator,
+    lr.value_type,
+    lr.result,
+    lr.units,
+    lr.qualresult,
+    lr.refRange,
+    lr.abnormal_flags,
+    lr.runid,
+    lr.enddate,
+    lr.method,
+    lr.remark,
+    lr.objectId,
+    lr.QCState
+FROM study.labworkResults lr
+         LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp ON lr.testId = lp.TestId AND lr.serviceId = lp.ServiceId
 
+UNION
 
 SELECT
     obr.ANIMAL_ID AS Id,
