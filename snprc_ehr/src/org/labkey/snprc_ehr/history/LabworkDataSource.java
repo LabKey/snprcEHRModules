@@ -37,6 +37,9 @@ import org.labkey.api.util.PageFlowUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -81,7 +84,9 @@ public class LabworkDataSource extends AbstractDataSource
         if (rs.hasColumn(FieldKey.fromString("tissue")) && rs.getObject("tissue") != null)
             sb.append("Sample/Tissue: ").append(snomedToString(rs, FieldKey.fromString("tissue"), FieldKey.fromString("tissue/meaning")));
 
+        sb.append(safeAppendTimeFromDate(rs, "date"));
         sb.append(safeAppend(rs, "Remark", "remark"));
+
 
         String runId = rs.getString("objectid");
         if (runId != null)
@@ -194,4 +199,17 @@ public class LabworkDataSource extends AbstractDataSource
         types.add(_labwork_category);
        return types;
     }
+
+    protected String safeAppendTimeFromDate(Results rs, String column) throws SQLException {
+        FieldKey fk = FieldKey.fromString(column);
+        String result = "";
+        if (rs.hasColumn(fk) && rs.getObject(fk) != null) {
+            String date = rs.getString(fk);
+            String time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")).format(DateTimeFormatter.ofPattern("H:mm a"));
+            result = ("Time: ") + time + "\n";
+        }
+
+        return PageFlowUtil.filter(result);
+    }
+
 }
