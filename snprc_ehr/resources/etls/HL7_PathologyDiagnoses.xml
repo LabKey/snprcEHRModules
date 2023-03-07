@@ -12,6 +12,7 @@
                 </alternateKeys>
                 <columnTransforms>
                     <column source="SpecificEtiology" target="sp_etiology" />
+                    <column source="EtiologyCode" target="etiology_code" />
                 </columnTransforms>
             </destination>
         </transform>
