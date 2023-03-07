@@ -20,9 +20,6 @@
    7/13/2022 Refactored to use HL7 tables from Orchard
 
  */
-
--- TODO: remove study.labworkResults from query after data is merged into HL7_MSH, HL7_OBR, and HL7_OBX
-
 SELECT
     lr.Id,
     lr.date,
@@ -44,7 +41,7 @@ SELECT
     lr.objectId,
     lr.QCState
 FROM study.labworkResults lr
-LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp ON lr.testId = lp.TestId AND lr.serviceId = lp.ServiceId
+         LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp ON lr.testId = lp.TestId AND lr.serviceId = lp.ServiceId
 
 UNION
 
@@ -88,8 +85,7 @@ select
   alr.qualresult,
   alr.refRange,
   alr.abnormal_flags,
-  null as runId,
-  --alr.runid,
+  alr.runId as runid,
   alr.enddate,
   alr.method,
   alr.remark,

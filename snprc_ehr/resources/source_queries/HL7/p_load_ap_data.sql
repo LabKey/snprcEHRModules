@@ -520,7 +520,7 @@ END
                                     WHERE obr.OBJECT_ID = obx.OBR_OBJECT_ID AND
                                     obx.TEST_CODE =  'CODEORGAN' AND obx.TEST_CODE_INDEX = @ctr
                                 ) AS Organ,
-                                (SELECT TOP (1) obx.RESULT_CODE
+                                (SELECT TOP (1) LTRIM(RTRIM(UPPER(obx.RESULT_CODE)))
                                     FROM @obx_data AS obx
                                     WHERE obr.OBJECT_ID = obx.OBR_OBJECT_ID AND
                                     obx.TEST_CODE =  'CODEETIOLOGY' AND obx.TEST_CODE_INDEX = @ctr

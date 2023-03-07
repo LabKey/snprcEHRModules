@@ -13,6 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+SELECT
+    cpr.Id,
+    cpr.date,
+    cpr.enddate,
+    COALESCE(cpr.serviceId.Dataset.ServiceType, cpr.type) as type,
+    cpr.tissue,
+    cpr.project,
+    cpr.instructions,
+    cpr.servicerequested,
+    cpr.units,
+    cpr.serviceId,
+    cpr.collectedBy,
+    cpr.sampleId,
+    cpr.collectionMethod,
+    cpr.method,
+    cpr.sampleQuantity,
+    cpr.quantityUnits,
+    cpr.chargetype,
+    cpr.verifiedDate,
+    cpr.datefinalized,
+    lr.remark as remark,
+    cpr.history,
+    cpr.objectid,
+    cpr.lsid,
+    cpr.QCState
+FROM study.clinpathRuns cpr
+         LEFT JOIN study.labworkResults lr on lr.runId = cpr.objectId and lr.remark is not null
+UNION
+
 select
     obr.ANIMAL_ID as Id,
     obr.OBSERVATION_DATE_TM AS date,
@@ -42,35 +71,6 @@ FROM snprc_ehr.HL7_OBR as obr
 LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE AS nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
 INNER JOIN core.QCState as q on q.Label = 'Completed'
 
-UNION
-
-SELECT
-  cpr.Id,
-  cpr.date,
-  cpr.enddate,
-  COALESCE(cpr.serviceId.Dataset.ServiceType, cpr.type) as type,
-  cpr.tissue,
-  cpr.project,
-  cpr.instructions,
-  cpr.servicerequested,
-  cpr.units,
-  cpr.serviceId,
-  cpr.collectedBy,
-  cpr.sampleId,
-  cpr.collectionMethod,
-  cpr.method,
-  cpr.sampleQuantity,
-  cpr.quantityUnits,
-  cpr.chargetype,
-  cpr.verifiedDate,
-  cpr.datefinalized,
-  lr.remark as remark,
-  cpr.history,
-  cpr.objectid,
-  cpr.lsid,
-  cpr.QCState
-FROM study.clinpathRuns cpr
-LEFT JOIN study.labworkResults lr on lr.runId = cpr.objectId and lr.remark is not null
 UNION
 
 SELECT
@@ -124,7 +124,7 @@ SELECT DISTINCT
     tr.date as datefinalized,
     'From Excel import' as remark,
     tr.history as history,
-    null as objectid,
+    tr.objectid as objectid,
     tr.lsid,
     tr.QCState
 from study.TaqmanResults as tr
