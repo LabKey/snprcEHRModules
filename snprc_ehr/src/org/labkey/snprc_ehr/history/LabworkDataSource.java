@@ -28,7 +28,6 @@ import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.history.HistoryRow;
 import org.labkey.api.ehr.history.AbstractDataSource;
 import org.labkey.api.module.Module;
-import org.labkey.api.ehr.history.LabworkType;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
@@ -37,6 +36,8 @@ import org.labkey.api.util.PageFlowUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -81,7 +82,9 @@ public class LabworkDataSource extends AbstractDataSource
         if (rs.hasColumn(FieldKey.fromString("tissue")) && rs.getObject("tissue") != null)
             sb.append("Sample/Tissue: ").append(snomedToString(rs, FieldKey.fromString("tissue"), FieldKey.fromString("tissue/meaning")));
 
+        sb.append(safeAppendTimeFromDate(rs, "Time", "date"));
         sb.append(safeAppend(rs, "Remark", "remark"));
+
 
         String runId = rs.getString("objectid");
         if (runId != null)
@@ -194,4 +197,17 @@ public class LabworkDataSource extends AbstractDataSource
         types.add(_labwork_category);
        return types;
     }
+
+    protected String safeAppendTimeFromDate(Results rs, String label, String field) throws SQLException {
+        FieldKey fk = FieldKey.fromString(field);
+        String result = "";
+        if (rs.hasColumn(fk) && rs.getObject(fk) != null) {
+            String date = rs.getString(fk);
+            String time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")).format(DateTimeFormatter.ofPattern("H:mm a"));
+            result = (label == null ? "" : label + ": ") + time + "\n";
+        }
+
+        return PageFlowUtil.filter(result);
+    }
+
 }
