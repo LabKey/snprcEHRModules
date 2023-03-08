@@ -81,6 +81,7 @@
                             <fkDbSchema>study</fkDbSchema>
                             <fkTable>assay_ClinpathRuns</fkTable>
                             <fkColumnName>objectId</fkColumnName>
+                            <fkDisplayColumnName>ServiceRequested</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="diCreated">
