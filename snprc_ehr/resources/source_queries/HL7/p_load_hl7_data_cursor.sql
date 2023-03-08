@@ -654,12 +654,12 @@ BEGIN
                 BEGIN
                     SET @isPreliminary = 0
                     -- Get OBR ObjectId for matching observations and notes
-                    SELECT @obr_object_id = cbr.OBJECT_ID, @obr_message_id = cbr.MESSAGE_ID
-                    FROM labkey.snprc_ehr.HL7_OBR AS cbr
-                    INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
-                    WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) IN ('C', 'D') -- Result_status = Results changed or deleted
-                          AND  obr.OBR_F1_C1 = @obr_set_id AND cbr.OBJECT_ID <> @obr_object_id
-
+					SELECT @obr_object_id = cbr.OBJECT_ID, @obr_message_id = cbr.MESSAGE_ID
+					FROM labkey.snprc_ehr.HL7_OBR AS cbr
+					INNER JOIN Orchard_HL7_staging.dbo.ORC_Segment_OBR_A AS OBR ON cbr.SPECIMEN_NUM = obr.OBR_F3_C1 AND cbr.PROCEDURE_ID = obr.OBR_F4_C1
+					WHERE LTRIM(RTRIM(obr.OBR_F25_C1)) IN ('C', 'D') -- Result_status = Results changed or deleted
+							AND cbr.ANIMAL_ID = @animal_id
+							AND cbr.MESSAGE_ID <> @MessageId
                     BEGIN TRY
                         ;WITH cte AS (
                             SELECT a.MessageID,
@@ -689,50 +689,104 @@ BEGIN
                             WHERE a.MessageID = @MessageId AND a.SET_ID = @obr_set_id 
                     )
 
-                        UPDATE cpx
-                        SET -- cpx.MESSAGE_ID = ,				-- leave intact (needed to join with obr data)
-                            -- cpx.SET_ID = ,					-- ditto (needed for ordering data)
-                            -- cpx.VALUE_TYPE = ,				-- ditto (should not change)
-                            -- cpx.TEST_ID = ,					-- ditto ditto
-                            -- cpx.TEST_NAME ',					-- ditto ditto
+					MERGE labkey.snprc_ehr.HL7_OBX AS cbx
+						USING (  
+								SELECT DISTINCT @obr_message_id AS MESSAGE_ID ,				
+									   obx.IDX,
+									   @obr_object_id AS obr_object_id,
+									   cte.SET_ID ,					
+                                       obx.OBX_F2_C1 AS VALUE_TYPE , 
+                                       obx.OBX_F3_C1 AS TEST_ID ,	
+                                       obx.OBX_F3_C2 AS TEST_NAME ,	
+									   lp.ObjectId AS serviceTestId,
+									   CASE
+											WHEN obx.OBX_F11_C1 = 'D' THEN
+											NULL
+											WHEN obx.OBX_F2_C1 = 'NM'
+												AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1
+											THEN
+												CAST(LTRIM(RTRIM(REPLACE(OBX.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
+										ELSE
+											NULL
+										END AS RESULT,
+										CASE
+											WHEN obx.OBX_F11_C1 = 'D' THEN
+												'RESULT DELETED'
+										ELSE
+												obx.OBX_RESULTDATA
+										END AS QUALITATIVE_RESULT,
+										REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F6_C1, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\', '~') AS UNITS,
+										obx.OBX_F7_C1 AS REFERENCE_RANGE ,
+										CASE
+											WHEN obx.OBX_F11_C1 = 'D' THEN
+											NULL
+										ELSE
+											obx.OBX_F8_C1
+										END AS ABNORMAL_FLAGS,
+										obx.OBX_F11_C1 AS RESULT_STATUS,
+										@container AS Container,
+										lp.ServiceId AS serviceId
 
-                            cpx.RESULT = CASE
-                                    WHEN OBX.OBX_F11_C1 = 'D' THEN
-                                        NULL
-                                    WHEN OBX.OBX_F2_C1 = 'NM'
-                                        AND labkey.snprc_ehr.f_isNumeric(OBX.OBX_RESULTDATA) = 1
-                                        THEN
-                                        CAST(LTRIM(RTRIM(REPLACE(OBX.OBX_RESULTDATA, ' ', ''))) AS DECIMAL(10, 3))
-                                    ELSE
-                                        NULL
-                                END,
-                            cpx.QUALITATIVE_RESULT = CASE
-                                    WHEN OBX.OBX_F11_C1 = 'D' THEN
-                                        'RESULT DELETED'
-                                    ELSE
-                                        OBX.OBX_RESULTDATA
-                                END,
-                            -- cpx.UNITS = ,					-- leave intact (should not change)
-                            -- cpx.REFERENCE_RANGE ,			-- ditto ditto
-                            cpx.ABNORMAL_FLAGS = CASE
-                                    WHEN OBX.OBX_F11_C1 = 'D' THEN
-                                        NULL
-                                    ELSE
-                                        OBX.OBX_F8_C1
-                                END --,
-                            --cpx.RESULT_STATUS = OBX.OBX_F11_C1
-                        FROM labkey.snprc_ehr.HL7_OBX AS cpx
-                                    INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr ON OBR_OBJECT_ID = @obr_object_id --cpx.OBR_OBJECT_ID = cbr.OBJECT_ID
+								FROM labkey.snprc_ehr.HL7_OBX AS cpx
+                                    INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr ON cbr.OBJECT_ID = @obr_object_id 
                                     INNER JOIN cte
                                             ON cbr.SPECIMEN_NUM = cte.SPECIMEN_NUM AND cbr.PROCEDURE_ID = cte.PROCEDURE_ID
-                                                AND cbr.RESULT_STATUS = 'F'
                                                 AND cte.SET_ID = @obr_set_id
-                                    INNER JOIN Orchard_hl7_staging.dbo.ORC_Segment_OBX_A AS OBX
-                                            ON cte.MessageID = OBX.MessageID AND OBX.OBX_F3_C1 = cpx.TEST_ID
-                                                AND OBX.IDX > cte.OBR_IDX AND OBX.IDX < cte.next_OBR_IDX
+                                    LEFT OUTER JOIN Orchard_hl7_staging.dbo.ORC_Segment_OBX_A AS OBX
+                                            ON cte.MessageID = OBX.MessageID AND obx.OBX_F11_C1 IN ('C', 'D')
+                                    LEFT OUTER JOIN labkey.snprc_ehr.labwork_panels AS lp
+                                            ON cte.obr_service_id = lp.ServiceId AND obx.OBX_F3_C1 = lp.TestId
 
-                                -- only update data with obx result_status = 'C' or 'D' (corrected or deleted entries)
-                        WHERE RTRIM(LTRIM(OBX.OBX_F11_C1)) IN ('C', 'D')
+						) AS m ON cbx.OBR_OBJECT_ID = m.obr_object_id AND m.serviceTestId = cbx.serviceTestId
+						
+						WHEN MATCHED THEN  
+							UPDATE SET  
+								cbx.RESULT = m.RESULT,
+								cbx.QUALITATIVE_RESULT = m.QUALITATIVE_RESULT,
+								cbx.ABNORMAL_FLAGS = m.ABNORMAL_FLAGS
+						WHEN NOT MATCHED THEN  
+							INSERT (  
+								MESSAGE_ID,
+								IDX,
+								OBR_OBJECT_ID,
+								SET_ID,
+								OBR_SET_ID,
+								VALUE_TYPE,
+								TEST_ID,
+								TEST_NAME,
+								serviceTestId,
+								QUALITATIVE_RESULT,
+								RESULT,
+								UNITS,
+								REFERENCE_RANGE,
+								ABNORMAL_FLAGS,
+								RESULT_STATUS,
+								Container,
+								OBJECT_ID,
+								USER_NAME,
+								ENTRY_DATE_TM
+							)  
+							VALUES (  
+								m.MESSAGE_ID,
+								m.IDX,
+								m.obr_object_id,
+								m.SET_ID,
+								@obr_set_id,
+								m.VALUE_TYPE,
+								m.TEST_ID,
+								m.TEST_NAME,
+								m.serviceTestId,
+								m.QUALITATIVE_RESULT,
+								m.RESULT,
+								m.UNITS,
+								m.REFERENCE_RANGE,
+								m.ABNORMAL_FLAGS,
+								m.RESULT_STATUS,
+								m.Container,
+								DEFAULT,
+								DEFAULT,
+								DEFAULT
+							);  
 
                     END TRY
                     BEGIN CATCH
