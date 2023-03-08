@@ -815,7 +815,7 @@
                                         "Bicarbonate: <span class='snd-attribute-data'>300</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
                                         "<span class='snd-attribute-data'>Carbon Dioxide (CO2) Colorimetric Detection Kit</span></div>\n<div class='snd-event-data'>" +
                                         "Chloride: <span class='snd-attribute-data'>112.67605633802818</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                        "<span class='snd-attribute-data'>Chloride Blood Detection Kit</span></div>\n</div>\n",
+                                        "<span class='snd-attribute-data'>Chloride Blood Detection Kit</span></div>\n</div>",
                     eventData: [
                         {
                             superPkgId: LABKEY.SND_PKG_CACHE['814'][0]['superPkgId'],
