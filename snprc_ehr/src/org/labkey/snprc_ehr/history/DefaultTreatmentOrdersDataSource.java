@@ -41,7 +41,7 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
 
         sb.append(safeAppend(rs, null, "code"));
         sb.append(safeAppend(rs, "Category", "category"));
-        sb.append(safeAppend(rs, "Start Date", "startdate"));
+        sb.append(safeAppendDateAndTime(rs, "Start Date", "startdate"));
         sb.append(safeAppend(rs, "Dosage", "amount"));
         sb.append(safeAppend(rs, "Units", "amount_units"));
         sb.append(safeAppend(rs, "Route", "route"));
