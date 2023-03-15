@@ -26,7 +26,7 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
 {
     public DefaultTreatmentOrdersDataSource(Module module)
     {
-        super("study", "Treatment Orders", "Therapy", "Therapy", module);
+        super("study", "Treatment Orders", "Medication Ordered", "Therapy", module);
         setShowTime(true);
     }
 
@@ -35,20 +35,18 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
     {
         StringBuilder sb = new StringBuilder();
 
-        addStringField(rs, sb, "enddate", "End Date");
-        addStringField(rs, sb, "category", "Category");
-        addStringField(rs, sb, "meaning", "Short Name");
-        addStringFieldLookup(rs, sb,"meaning", "code","Treatment");
-        addStringField(rs, sb, "qualifier", "Qualifier");
-        addIntegerField(rs, sb, "frequency", "Frequency");
-        addStringField(rs, sb, "route", "Route");
-        addFloatWithUnitsColField(rs, sb, "concentration", "Drug Conc", "conc_units");
-        addFloatWithUnitsColField(rs, sb, "dosage", "Dosage", "dosage_units");
-        addFloatWithUnitsColField(rs, sb, "volume", "Volume", "vol_units");
-        addFloatWithUnitsColField(rs, sb, "amount", "Amount", "amount_units");
-        addStringField(rs, sb, "performedby", "Ordered By");
-        addStringField(rs, sb, "remark", "Remark");
-        addStringField(rs, sb, "description", "Description");
+        sb.append(safeAppend(rs, null, "code"));
+        sb.append(safeAppend(rs, "Category", "category"));
+        sb.append(safeAppend(rs, "Start Date", "startdate"));
+        sb.append(safeAppend(rs, "Dosage", "dosage"));
+        sb.append(safeAppend(rs, "Units", "dosage_units"));
+        sb.append(safeAppend(rs, "Route", "route"));
+        sb.append(safeAppend(rs, "Frequency", "frequency/meaning"));
+        sb.append(safeAppend(rs, "Duration", "duration"));
+        sb.append(safeAppend(rs, "Reason", "reason"));
+        sb.append(safeAppend(rs, "Remark", "remark"));
+        sb.append(safeAppend(rs, "Description", "description"));
+        sb.append(safeAppend(rs, "End Date", "enddate"));
 
         return sb.toString();
     }
