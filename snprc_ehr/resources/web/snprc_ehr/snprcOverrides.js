@@ -475,43 +475,70 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         }];
     },
 
+
+
+
     getTreatmentColumns: function(){
         return [{
             name: 'code',
-            label: 'Medication'
+            label: 'Medication',
+            attrs: {
+                style: 'text-align: center;'
+            }
 //        },{
 //            name: 'performedby',
 //            label: 'Ordered By'
         },{
             name: 'frequency',
-            label: 'Frequency'
+            label: 'Frequency',
+            attrs: {
+                style: 'text-align: center;'
+            }
         },{
             name: 'amountAndVolume',
             label: 'Amount',
             attrs: {
-                style: 'white-space: normal !important;"'
+                style: 'white-space: normal !important; text-align: center;'
             }
         },{
             name: 'route',
-            label: 'Route'
+            label: 'Route',
+            attrs: {
+                style: 'text-align: center;'
+            }
         },{
             name: 'date',
             label: 'Start Date',
-            dateFormat: 'm-d-Y H:m A'
+            dateFormat: 'm-d-Y H:m A',
+            attrs: {
+                style: 'text-align: center;'
+            }
 
         },{
             name: 'daysElapsed',
-            label: 'Days Elapsed'
+            label: 'Days Elapsed',
+            attrs: {
+                style: 'text-align: center;'
+            }
         },{
             name: 'enddate',
             label: 'End Date',
-            dateFormat: 'm-d-Y H:m A'
+            dateFormat: 'm-d-Y H:m A',
+            attrs: {
+                style: 'text-align: center;'
+            }
         },{
             name: 'remark',
-            label: 'Remark'
+            label: 'Remark',
+            attrs: {
+                style: 'text-align: center;'
+            }
         },{
             name: 'category',
-            label: 'Category'
+            label: 'Category',
+            attrs: {
+                style: 'text-align: center;'
+            }
         }];
     },
 
