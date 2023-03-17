@@ -260,6 +260,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['assignments'] = values.length ? values.join('<br>') : 'None';
     },
 
+
+
     getBaseItems: function () {
         return [{
             xtype: 'container',
@@ -367,6 +369,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }]
         }];
     },
+
     appendMhcSummary: function (toSet, results) {
         if (results) {
             toSet['mhcSummary'] = '<a onclick="SNPRC_EHR.Utils.showMhcPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
@@ -475,6 +478,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         }];
     },
 
+
     getTreatmentColumns: function(){
         return [{
             name: 'code',
@@ -496,13 +500,16 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             label: 'Route'
         },{
             name: 'date',
-            label: 'Start Date'
+            label: 'Start Date',
+            dateFormat: 'm-d-Y H:m A'
+
         },{
             name: 'daysElapsed',
             label: 'Days Elapsed'
         },{
             name: 'enddate',
-            label: 'End Date'
+            label: 'End Date',
+            dateFormat: 'm-d-Y H:m A'
         },{
             name: 'remark',
             label: 'Remark'
@@ -598,129 +605,19 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 //     }
 // });
 
-Ext4.override(EHR.panel.AnimalDetailsExtendedPanel, {
+Ext4.override(EHR.panel.SmallFormSnapshotPanel, {
     getItems: function(){
-        return [{
-            layout: 'column',
-            defaults: {
-                border: false,
-                bodyStyle: 'padding-right: 20px;'
-            },
-            items: [{
-                xtype: 'container',
-                width: 380,
-                defaults: {
-                    xtype: 'displayfield',
-                    labelWidth: this.defaultLabelWidth
-                },
-                items: [{
-                    fieldLabel: 'Id',
-                    name: 'animalId'
-                },{
-                    fieldLabel: 'Location',
-                    name: 'location'
-                },{
-                    fieldLabel: 'Gender',
-                    name: 'gender'
-                },{
-                    fieldLabel: 'Species',
-                    name: 'species'
-                },{
-                    fieldLabel: 'Age',
-                    name: 'age'
-                },{
-                    fieldLabel: 'Projects / Groups',
-                    name: 'assignmentsAndGroups'
-                }]
-            },{
-                xtype: 'container',
-                width: 350,
-                defaults: {
-                    xtype: 'displayfield'
-                },
-                items: [{
-                    fieldLabel: 'Status',
-                    name: 'calculated_status'
-                },{
-                    fieldLabel: 'Flags',
-                    name: 'flags'
-                },{
-                    fieldLabel: 'Weight',
-                    name: 'weights'
-                },{
-                    xtype: 'ldk-linkbutton',
-                    style: 'margin-top: 10px;',
-                    scope: this,
-                    text: '[Show Full Hx]',
-                    handler: function(){
-                        if (this.subjectId){
-                            EHR.window.ClinicalHistoryWindow.showClinicalHistory(null, this.subjectId, null);
-                        }
-                        else {
-                            console.log('no id');
-                        }
-                    }
-                },{
-                    xtype: 'ldk-linkbutton',
-                    style: 'margin-top: 5px;',
-                    scope: this,
-                    text: '[Show Recent SOAPs]',
-                    handler: function(){
-                        if (this.subjectId){
-                            EHR.window.RecentRemarksWindow.showRecentRemarks(this.subjectId);
-                        }
-                        else {
-                            console.log('no id');
-                        }
-                    }
-                },{
-                    xtype: 'ldk-linkbutton',
-                    style: 'margin-top: 5px;',
-                    scope: this,
-                    text: '[Manage Treatments]',
-                    hidden: EHR.Security.hasClinicalEntryPermission() && !EHR.Security.hasPermission(EHR.QCStates.COMPLETED, 'update', [{schemaName: 'study', queryName: 'Treatment Orders'}]),
-                    handler: function(){
-                        if (this.subjectId){
-                            Ext4.create('EHR.window.ManageTreatmentsWindow', {animalId: this.subjectId}).show();
-                        }
-                        else {
-                            console.log('no id');
-                        }
-                    }
-                },{
-                    xtype: 'ldk-linkbutton',
-                    style: 'margin-top: 5px;margin-bottom:10px;',
-                    scope: this,
-                    text: '[Manage Cases]',
-                    hidden: EHR.Security.hasClinicalEntryPermission() && !EHR.Security.hasPermission(EHR.QCStates.COMPLETED, 'update', [{schemaName: 'study', queryName: 'Cases'}]),
-                    handler: function(){
-                        if (this.subjectId){
-                            Ext4.create('EHR.window.ManageCasesWindow', {animalId: this.subjectId}).show();
-                        }
-                        else {
-                            console.log('no id');
-                        }
-                    }
-                }]
-            }]
-        },{
-            name: 'treatments',
-            xtype: 'ehr-snapshotchildpanel',
-            headerLabel: 'Current Medications',
-            emptyText: 'There are no active medications'
-        },{
-            name: 'caseSummary',
-            xtype: 'ehr-snapshotchildpanel',
-            headerLabel: 'Case Summary',
-            emptyText: 'There are no active cases'
-        },{
-            xtype: 'button',
-            border: true,
-            text: 'Reload',
-            scope: this,
-            handler: function(btn){
-                this.loadAnimal(this.subjectId, true);
-            }
-        }];
+        var items = this.getBaseItems();
+
+        if (!this.redacted){
+            items[0].items.push({
+                name: 'treatments',
+                xtype: 'ehr-snapshotchildpanel',
+                headerLabel: 'Current Medications',
+                emptyText: 'There are no active medications'
+            });
+        }
+
+        return items;
     }
-});
+})
