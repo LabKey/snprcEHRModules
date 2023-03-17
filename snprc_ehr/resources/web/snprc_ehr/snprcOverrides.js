@@ -483,7 +483,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             name: 'code',
             label: 'Medication',
             attrs: {
-                style: 'text-align: left;'
+                style: 'float: left;'
             }
 //        },{
 //            name: 'performedby',
@@ -492,52 +492,45 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             name: 'frequency',
             label: 'Frequency',
             attrs: {
-                style: 'text-align: center;'
+                style: 'float: center;'
             }
         },{
             name: 'amountAndVolume',
             label: 'Amount',
             attrs: {
-                style: 'white-space: normal !important; text-align: center;'
+                style: 'white-space: normal !important; float: left;'
             }
         },{
             name: 'route',
             label: 'Route',
             attrs: {
-                style: 'text-align: center;'
+                style: 'float: left;'
             }
         },{
             name: 'date',
             label: 'Start Date',
             dateFormat: 'm-d-Y H:m A',
             attrs: {
-                style: 'text-align: center;'
+                style: 'float: right;'
             }
 
         },{
             name: 'daysElapsed',
             label: 'Days Elapsed',
             attrs: {
-                style: 'text-align: center;'
-            }
-        },{
-            name: 'enddate',
-            label: 'End Date',
-            dateFormat: 'm-d-Y H:m A',
-            attrs: {
-                style: 'text-align: center;'
+                style: 'float: right;'
             }
         },{
             name: 'remark',
             label: 'Remark',
             attrs: {
-                style: 'text-align: center;'
+                style: 'float: right;'
             }
         },{
             name: 'category',
             label: 'Category',
             attrs: {
-                style: 'text-align: right;'
+                style: 'float: right;'
             }
         }];
     },
