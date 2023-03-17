@@ -260,8 +260,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         toSet['assignments'] = values.length ? values.join('<br>') : 'None';
     },
 
-
-
     getBaseItems: function () {
         return [{
             xtype: 'container',
@@ -369,7 +367,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }]
         }];
     },
-
     appendMhcSummary: function (toSet, results) {
         if (results) {
             toSet['mhcSummary'] = '<a onclick="SNPRC_EHR.Utils.showMhcPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
@@ -477,7 +474,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }]
         }];
     },
-
 
     getTreatmentColumns: function(){
         return [{
