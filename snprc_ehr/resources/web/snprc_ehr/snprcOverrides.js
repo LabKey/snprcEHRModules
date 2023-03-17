@@ -474,64 +474,40 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }]
         }];
     },
-
-
-
-
+    
     getTreatmentColumns: function(){
         return [{
             name: 'code',
             label: 'Medication',
-            attrs: {
-                style: 'float: left;'
-            }
 //        },{
 //            name: 'performedby',
 //            label: 'Ordered By'
         },{
             name: 'frequency',
             label: 'Frequency',
-            attrs: {
-                style: 'float: center;'
-            }
         },{
             name: 'amountAndVolume',
             label: 'Amount',
             attrs: {
-                style: 'white-space: normal !important; float: left;'
+                style: 'white-space: normal !important;'
             }
         },{
             name: 'route',
             label: 'Route',
-            attrs: {
-                style: 'float: left;'
-            }
         },{
             name: 'date',
             label: 'Start Date',
-            dateFormat: 'm-d-Y H:m A',
-            attrs: {
-                style: 'float: right;'
-            }
+            dateFormat: 'm-d-Y',
 
         },{
             name: 'daysElapsed',
             label: 'Days Elapsed',
-            attrs: {
-                style: 'float: right;'
-            }
         },{
             name: 'remark',
             label: 'Remark',
-            attrs: {
-                style: 'float: right;'
-            }
         },{
             name: 'category',
             label: 'Category',
-            attrs: {
-                style: 'float: right;'
-            }
         }];
     },
 
