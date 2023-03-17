@@ -1,7 +1,7 @@
 package org.labkey.snprc_ehr.helpers;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.CaseUtils;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
@@ -161,11 +161,5 @@ public class CustomizerQueryProvider
         if(StringUtils.contains(queryString, DATE_COLUMN_VARIABLE))
             queryByValues.put(DATE_COLUMN_VARIABLE, dateColumnName);
         return StrSubstitutor.replace(queryString, queryByValues);
-
     }
-
-
-
-
-
 }
