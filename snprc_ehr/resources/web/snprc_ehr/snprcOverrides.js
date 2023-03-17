@@ -483,7 +483,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             name: 'code',
             label: 'Medication',
             attrs: {
-                style: 'text-align: center;'
+                style: 'text-align: left;'
             }
 //        },{
 //            name: 'performedby',
@@ -537,7 +537,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             name: 'category',
             label: 'Category',
             attrs: {
-                style: 'text-align: center;'
+                style: 'text-align: right;'
             }
         }];
     },
