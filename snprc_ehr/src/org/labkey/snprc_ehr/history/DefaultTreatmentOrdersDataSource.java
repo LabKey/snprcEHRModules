@@ -19,14 +19,18 @@ import org.labkey.api.data.Container;
 import org.labkey.api.data.Results;
 import org.labkey.api.ehr.history.AbstractDataSource;
 import org.labkey.api.module.Module;
+import org.labkey.api.query.FieldKey;
+import org.labkey.api.util.PageFlowUtil;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
 {
     public DefaultTreatmentOrdersDataSource(Module module)
     {
-        super("study", "Treatment Orders", "Therapy", "Therapy", module);
+        super("study", "treatment_order", "Medication Ordered", "Therapy", module);
         setShowTime(true);
     }
 
@@ -35,22 +39,31 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
     {
         StringBuilder sb = new StringBuilder();
 
-        addStringField(rs, sb, "enddate", "End Date");
-        addStringField(rs, sb, "category", "Category");
-        addStringField(rs, sb, "meaning", "Short Name");
-        addStringFieldLookup(rs, sb,"meaning", "code","Treatment");
-        addStringField(rs, sb, "qualifier", "Qualifier");
-        addIntegerField(rs, sb, "frequency", "Frequency");
-        addStringField(rs, sb, "route", "Route");
-        addFloatWithUnitsColField(rs, sb, "concentration", "Drug Conc", "conc_units");
-        addFloatWithUnitsColField(rs, sb, "dosage", "Dosage", "dosage_units");
-        addFloatWithUnitsColField(rs, sb, "volume", "Volume", "vol_units");
-        addFloatWithUnitsColField(rs, sb, "amount", "Amount", "amount_units");
-        addStringField(rs, sb, "performedby", "Ordered By");
-        addStringField(rs, sb, "remark", "Remark");
-        addStringField(rs, sb, "description", "Description");
+        sb.append(safeAppend(rs, null, "code"));
+        sb.append(safeAppend(rs, "Category", "category"));
+        sb.append(safeAppendDateAndTime(rs, "Start Date", "startdate"));
+        sb.append(safeAppend(rs, "Dosage", "amount"));
+        sb.append(safeAppend(rs, "Units", "amount_units"));
+        sb.append(safeAppend(rs, "Route", "route"));
+        sb.append(safeAppend(rs, "Frequency", "frequency/meaning"));
+        sb.append(safeAppend(rs, "Duration", "duration"));
+        sb.append(safeAppend(rs, "Reason", "reason"));
+        sb.append(safeAppend(rs, "Remark", "remark"));
+        sb.append(safeAppend(rs, "Description", "description"));
+        sb.append(safeAppendDateAndTime(rs, "End Date", "enddate"));
 
         return sb.toString();
+    }
+    protected String safeAppendDateAndTime(Results rs, String label, String field) throws SQLException {
+        FieldKey fk = FieldKey.fromString(field);
+        String result = "";
+        if (rs.hasColumn(fk) && rs.getObject(fk) != null) {
+            String date = rs.getString(fk);
+            String time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")).format(DateTimeFormatter.ofPattern("MM-dd-yyyy H:mm"));
+            result = (label == null ? "" : label + ": ") + time + "\n";
+        }
+
+        return PageFlowUtil.filter(result);
     }
 
 
