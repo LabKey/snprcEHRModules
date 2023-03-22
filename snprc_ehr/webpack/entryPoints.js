@@ -36,5 +36,12 @@ module.exports = {
         permission: 'read',
         path: './src/client/SsrsReporting',
         scriptType: 'tsx'
-    }]
+    },
+        {
+            name: 'SndLookupsManagement',
+            title: 'SND Lookups Management',
+            permission: 'read',
+            path: './src/client/SndLookupsManagement',
+            scriptType: 'tsx'
+        }]
 };
