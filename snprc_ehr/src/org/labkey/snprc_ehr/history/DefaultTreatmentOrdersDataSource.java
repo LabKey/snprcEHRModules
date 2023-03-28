@@ -41,11 +41,11 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
 
         sb.append(safeAppend(rs, null, "code"));
         sb.append(safeAppend(rs, "Category", "category"));
-        sb.append(safeAppendDateAndTime(rs, "Start Date", "startdate"));
-        sb.append(safeAppend(rs, "Dosage", "amount"));
+        sb.append(safeAppendDateAndTime(rs, "Start Date", "date"));
+        sb.append(safeAppend(rs, "Amount", "amount"));
         sb.append(safeAppend(rs, "Units", "amount_units"));
         sb.append(safeAppend(rs, "Route", "route"));
-        sb.append(safeAppend(rs, "Frequency", "frequency/meaning"));
+        sb.append(safeAppend(rs, "Frequency", "frequency"));
         sb.append(safeAppend(rs, "Duration", "duration"));
         sb.append(safeAppend(rs, "Reason", "reason"));
         sb.append(safeAppend(rs, "Remark", "remark"));
@@ -59,7 +59,7 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
         String result = "";
         if (rs.hasColumn(fk) && rs.getObject(fk) != null) {
             String date = rs.getString(fk);
-            String time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")).format(DateTimeFormatter.ofPattern("MM-dd-yyyy H:mm"));
+            String time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")).format(DateTimeFormatter.ofPattern("MM-dd-yyyy H:mm a"));
             result = (label == null ? "" : label + ": ") + time + "\n";
         }
 

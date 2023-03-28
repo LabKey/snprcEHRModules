@@ -250,8 +250,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             Ext4.each(results, function (row) {
                 var val = row['protocol/displayName'] || ' ';
                 val += ' [' + row['protocol/inves'] + ']';
-                // val += ' [' + row['protocol/title'] + ']';
-
                 if (val)
                     values.push(val);
             }, this);
@@ -286,7 +284,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                     items: [{
                         xtype: 'displayfield',
                         fieldLabel: 'Location',
-                        //width: 420,
                         name: 'location'
                     }, {
                         xtype: 'displayfield',
@@ -460,18 +457,42 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         fieldLabel: 'Parent Information',
                         name: 'parents'
                     }
-                        /*,{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Pairing Type',
-                        name: 'pairingType'
-                    },{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Cagemates',
-                        name: 'cagemates'
-                    } */
                     ]
                 }]
             }]
+        }];
+    },
+
+    getTreatmentColumns: function(){
+        return [{
+            name: 'code',
+            label: 'Medication',
+        },{
+            name: 'frequency',
+            label: 'Frequency',
+        },{
+            name: 'amountAndVolume',
+            label: 'Amount',
+            attrs: {
+                style: 'white-space: normal !important;'
+            }
+        },{
+            name: 'route',
+            label: 'Route',
+        },{
+            name: 'date',
+            label: 'Start Date',
+            dateFormat: 'm-d-Y',
+
+        },{
+            name: 'daysElapsed',
+            label: 'Days Elapsed',
+        },{
+            name: 'remark',
+            label: 'Remark',
+        },{
+            name: 'category',
+            label: 'Category',
         }];
     },
 
@@ -505,8 +526,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendIdHistoryResults(toSet, results.getIdHistories());
 
-        //this.appendCurrentPedigreeResults(toSet, results.getCurrentPedigree());
-
         this.appendCurrentDietResults(toSet, results.getCurrentDiet());
 
         this.appendRoommateResults(toSet, results.getCagemates(), id);
@@ -520,7 +539,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendTreatmentRecords(toSet, results.getActiveTreatments());
         this.appendCases(toSet, results.getActiveCases());
-        //this.appendCaseSummary(toSet, results.getActiveCases());
 
         this.appendFlags(toSet, results.getActiveFlags());
         this.appendTBResults(toSet, results.getTBRecord());
@@ -536,27 +554,21 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         this.getForm().setValues(toSet);
         this.afterLoad();
     }
-
-//    appendAssignments: function(toSet, results){
-//        var ret = this.callOverridden();
-//    }
-
 });
 
-// Ext4.override(EHR.panel.EnterDataPanel, {
-//
-//     getQueueSections: function () {
-//         return [{
-//             header: 'Reports',
-//             renderer: function (item) {
-//                 return item;
-//             },
-//             items: [{
-//                 xtype: 'ldk-linkbutton',
-//                 text: 'Service Request Summary',
-//                 linkCls: 'labkey-text-link',
-//                 href: LABKEY.ActionURL.buildURL('ldk', 'runNotification', null, {key: 'org.labkey.snprc_ehr.notification.RequestAdminNotification'})
-//             }]
-//         }]
-//     }
-// });
+Ext4.override(EHR.panel.SmallFormSnapshotPanel, {
+    getItems: function(){
+        var items = this.getBaseItems();
+
+        if (!this.redacted){
+            items[0].items.push({
+                name: 'treatments',
+                xtype: 'ehr-snapshotchildpanel',
+                headerLabel: 'Current Medications',
+                emptyText: 'There are no active medications'
+            });
+        }
+
+        return items;
+    }
+})
