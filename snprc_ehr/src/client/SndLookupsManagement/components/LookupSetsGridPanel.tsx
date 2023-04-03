@@ -3,54 +3,41 @@ import {
     GridPanel,
     InjectedQueryModels, isLoading, LoadingSpinner,
     LoadingState,
-    QueryModel,
     withQueryModels
 } from '@labkey/components';
 import { SCHEMAS } from '../../schemas';
 import { LookupsGridPanel } from './LookupsGridPanel';
 import { Col, Row } from 'react-bootstrap';
 import '../styles/sndLookupsManagement.scss'
-interface LookupSetProps {
-    handleStateChange?: (response: any) => any;
-}
+import { ManageButtons } from './ManageButtons';
 
-type Props = LookupSetProps & InjectedQueryModels;
-
-const LookupSetsGridPanelImpl: FC<Props> = React.memo(props => {
+const LookupSetsGridPanelImpl: FC<InjectedQueryModels> = React.memo(props => {
     const { actions, queryModels } = props;
-    const [lookupSetId, setLookupSetId] = useState<string>('2175');
+    const [lookupSetId, setLookupSetId] = useState<string>('');
 
     useEffect(() => {
         setLastSelectedLookupSetId();
         initQueryModel();
     },[]);
 
+    useEffect(() => {
+        setLastSelectedLookupSetId();
+    }, [queryModels['lookupSets']])
+
     const initQueryModel = () => {
         actions.addModel(
             {
                 id: 'lookupSets',
                 schemaQuery: SCHEMAS.SND_TABLES.LOOKUP_SETS,
-                omittedColumns: ['label', 'description', 'folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid'],
+                omittedColumns: ['label', 'description', 'Folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid'],
                 bindURL: true
             },
             true,
             true
         );
-        actions.setMaxRows('lookupSets', 200);
+        actions.setMaxRows('lookupSets', 300);
     }
 
-
-    const onRowSelectionChange = (model: QueryModel, row: any, checked: boolean): void => {
-        let selectedLookupSetId;
-        if (checked) {
-            if (row) {
-                selectedLookupSetId = row.getIn(['lookupSetId', 'value']);
-            } else if (model.hasSelections) {
-                selectedLookupSetId = getLastSelectedLookupSetId();
-            }
-        }
-        updateSelectedLookupSetId(selectedLookupSetId);
-    }
 
     const setLastSelectedLookupSetId = () => {
         const model = queryModels['lookupSets'];
@@ -62,9 +49,9 @@ const LookupSetsGridPanelImpl: FC<Props> = React.memo(props => {
     }
 
     const updateSelectedLookupSetId = (selectedLookupSetId: string) => {
-        //if (lookupSetId !== selectedLookupSetId) {
-        setLookupSetId(selectedLookupSetId);
-        //}
+        if (lookupSetId !== selectedLookupSetId) {
+            setLookupSetId(selectedLookupSetId);
+        }
     }
 
     const getLastSelectedLookupSetId = (): string => {
@@ -72,24 +59,20 @@ const LookupSetsGridPanelImpl: FC<Props> = React.memo(props => {
         return selectedLookupSetIds.size > 0 ? Array.from(selectedLookupSetIds).pop() : undefined;
     }
 
-    const reloadLookupSetsModel = () => {
-        actions.loadModel('lookupSets', true);
-    }
-
     return (
         <div>
             <Row>
-                <Col xs={10} md={4} >
+                <Col xs={10} md={4} className={"sidenav"} >
                     {!queryModels['lookupSets'] && <LoadingSpinner />}
                     {queryModels['lookupSets'] && (
                         <GridPanel actions={actions}
                                    model = {queryModels['lookupSets']}
                                    loadOnMount ={true}
-                                   title={'Lookup Sets'}
                                    highlightLastSelectedRow
                                    showPagination={false}
-                                   pageSizes={[200]}
                                    allowSelections={true}
+                                   title={"Lookup Key"}
+                                   ButtonsComponent={ManageButtons}
 
                         />
                     )}
