@@ -1,9 +1,6 @@
 .panel {
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-  border-radius: 25px;
-  padding: 20px;
+  //box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
   overflow: scroll;
-  height: 75vh;
-
-  //background: gray;
+  height: 74.5vh; width: 100%;
+  z-index: 1; top: 0; left: 0; transition: .5s ease; overflow-x: hidden;  align-items: center;
 }

@@ -1,26 +1,28 @@
 import { SCHEMAS } from '../../schemas';
-import { Actions, GridPanel, InjectedQueryModels, LoadingSpinner, withQueryModels } from '@labkey/components';
-import React, { FC, useEffect, useRef } from 'react';
+import { Actions, GridPanel} from '@labkey/components';
+import React, { FC, useEffect } from 'react';
 import { Filter } from '@labkey/api';
 import { usePrevious } from './LookupSetsGridPanel';
-import { Col, Row } from 'react-bootstrap';
 
 interface LookupsProps {
     lookupSetId: string,
     actions: Actions,
-    queryModels: any,
-    handleStateChange?: (response: any, resetSelection: boolean) => any;
+    queryModels: any
 }
 
-type Props = LookupsProps & InjectedQueryModels;
-
 export const LookupsGridPanel: FC<LookupsProps> = React.memo(props => {
-    const { actions, queryModels, lookupSetId , handleStateChange} = props;
+    const { actions, queryModels, lookupSetId } = props;
     const prevLookupSetId = usePrevious(lookupSetId);
 
     useEffect(() => {
+        initQueryModel();
+    }, []);
+
+    useEffect(() => {
         if(prevLookupSetId !== lookupSetId) {
-            initQueryModel()
+            initQueryModel();
+        } else {
+            actions.loadModel(lookupSetId);
         }
     }, [lookupSetId])
 
@@ -32,7 +34,7 @@ export const LookupsGridPanel: FC<LookupsProps> = React.memo(props => {
                 id: lookupSetId,
                 schemaQuery: SCHEMAS.SND_TABLES.LOOKUPS,
                 baseFilters,
-                omittedColumns: ['label', 'description', 'folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid'],
+                omittedColumns: ['label', 'description', 'folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder'],
                 bindURL: true
             },
             true,
@@ -43,14 +45,13 @@ export const LookupsGridPanel: FC<LookupsProps> = React.memo(props => {
 
     return (
         <>
-
-            {!queryModels[lookupSetId] && <LoadingSpinner />}
             {queryModels[lookupSetId] && (
                 <GridPanel actions={actions}
                            model = {queryModels[lookupSetId]}
                            loadOnMount ={true}
-                           title={lookupSetId}
-                           highlightLastSelectedRow
+                           highlightLastSelectedRow={true}
+                           showPagination={false}
+                           title={"Value"}
                 />
             )}
         </>

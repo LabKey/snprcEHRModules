@@ -341,6 +341,12 @@ public class SNPRC_EHRController extends SpringActionController
         }
     }
 
+    @RequiresPermission(ManageLookupTablesPermission.class)
+    public class SndLookupsAction extends SimpleRedirectAction {
+        @Override
+        public URLHelper getRedirectURL(Object o) { return new ActionURL(NAME, "SndLookupsManagement", getContainer()); }
+    }
+
     @RequiresPermission(SNPRCColonyAdminPermission.class)
     public class NewAnimalWizardAction extends SimpleRedirectAction
     {
