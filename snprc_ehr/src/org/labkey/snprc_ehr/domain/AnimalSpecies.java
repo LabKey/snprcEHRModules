@@ -15,7 +15,7 @@
  */
 package org.labkey.snprc_ehr.domain;
 
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.data.Entity;
 
 /**
@@ -80,6 +80,4 @@ public class AnimalSpecies extends Entity
         json.put("speciesName", this.arcSpeciesCode + " (" + this.getCommon().trim() + ")");
         return json;
     }
-
-
 }

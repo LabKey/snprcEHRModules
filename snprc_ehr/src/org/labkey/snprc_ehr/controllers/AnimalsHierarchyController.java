@@ -15,7 +15,7 @@
  */
 package org.labkey.snprc_ehr.controllers;
 
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;

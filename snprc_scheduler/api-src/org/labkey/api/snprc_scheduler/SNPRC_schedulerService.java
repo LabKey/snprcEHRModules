@@ -2,7 +2,7 @@ package org.labkey.api.snprc_scheduler;
 
 
 import org.jetbrains.annotations.Nullable;
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.query.BatchValidationException;
