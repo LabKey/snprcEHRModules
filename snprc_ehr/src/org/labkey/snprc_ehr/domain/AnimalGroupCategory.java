@@ -15,7 +15,7 @@
  */
 package org.labkey.snprc_ehr.domain;
 
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 
 /**
  * Created by lkacimi on 3/14/2017.

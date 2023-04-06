@@ -1,6 +1,6 @@
 package org.labkey.snprc_scheduler;
 
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ApiUsageException;
@@ -289,7 +289,7 @@ public class SNPRC_schedulerController extends SpringActionController
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
         {
-            JSONObject json = form.getJsonObject();
+            JSONObject json = form.getNewJsonObject();
             if (json == null)
             {
                 errors.reject(ERROR_MSG, "Missing json parameter.");
@@ -314,7 +314,7 @@ public class SNPRC_schedulerController extends SpringActionController
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
         {
             ApiSimpleResponse response = new ApiSimpleResponse();
-            JSONObject json = form.getJsonObject();
+            JSONObject json = form.getNewJsonObject();
             JSONObject responseJson = null;
 
             BatchValidationException err = new BatchValidationException();

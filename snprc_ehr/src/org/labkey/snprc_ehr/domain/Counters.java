@@ -1,7 +1,7 @@
 package org.labkey.snprc_ehr.domain;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.collections.ArrayListMap;
 import org.labkey.api.data.Container;
 import org.labkey.api.security.User;
@@ -54,7 +54,6 @@ public class Counters
     public JSONObject toJSON(Container c, User u)
     {
         JSONObject json = new JSONObject();
-
 
         if (getRowId() != null)
             json.put(COUNTERS_ROW_ID, getRowId());
