@@ -74,7 +74,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId: 1800001,
-                            subjectId: 1,
+                            subjectId: "1",
                             date: "2018-02-26T17:51:20",
                             note: "This is a test event note.",
                             projectIdRev: '60|0',
@@ -107,7 +107,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId: 1800001,
-                            subjectId: 1,
+                            subjectId: "1",
                             date: "2018-02-26T17:51:20",
                             note: "This is a test event note.",
                             projectIdRev: '60|0',
@@ -141,7 +141,7 @@
                         url: LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData :{
                             eventId: 1800001,
-                            subjectId: 2,
+                            subjectId: "2",
                             date: "2018-02-26T17:51:20",
                             note: "Note for event attribute data sample JSON",
                             projectIdRev: '61|0',
@@ -220,7 +220,7 @@
                         url: LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData :{
                             eventId: 1800001,
-                            subjectId: 2,
+                            subjectId: "2",
                             date: "2018-02-26T17:51:20",
                             note: "Note for event attribute data sample JSON",
                             projectIdRev: '61|0',
@@ -303,7 +303,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId: 1800002,
-                            subjectId: 1,
+                            subjectId: "1",
                             date: "2018-02-26T17:51:20",
                             note: "This is a test event note.",
                             projectIdRev: '60|0',
@@ -365,7 +365,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId: "1800001-1",
-                            subjectId : 1,
+                            subjectId : "1",
                             date: "2018-02-26T17:51:20",
                             note: "This is a test event note.",
                             projectIdRev: '60|0',
@@ -400,7 +400,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId: 1800001,
-                            subjectId:1,
+                            subjectId: "1",
                             date: "2018-02-26T17:51:20",
                             note: "Note for Save Event with Missing Project ID",
                             qcState: 'Completed',
@@ -435,7 +435,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId : 1800002,
-                            subjectId : 1,
+                            subjectId : "1",
                             date : "2018-03-03T17:21:22",
                             projectIdRev : "61",
                             note : "Note for Save Event with Missing Revision number for project Id",
@@ -470,7 +470,7 @@
                         url:LABKEY.SND_TEST_URLS.SAVE_EVENT_URL,
                         jsonData:{
                             eventId : 1800002,
-                            subjectId : 1,
+                            subjectId : "1",
                             date : "2018-03-03T17:21:22",
                             projectIdRev : "64|0",
                             note : "Note for Save Event with Invalid project Id",
@@ -507,7 +507,7 @@
                         jsonData: {
                             eventId: 1700007,
                             date: "xx",
-                            subjectId: 1,
+                            subjectId: "1",
                             projectIdRev: "60|0",
                             note: "Note for Save Event with Invalid date",
                             qcState: 'Completed',

@@ -17,7 +17,7 @@ package org.labkey.api.snd;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.data.Container;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
 import org.labkey.api.query.ValidationException;
@@ -127,7 +127,9 @@ public class AttributeData
         if (getPropertyDescriptor() != null)
             json.put(ATTRIBUTE_DATA_PROPERTY_DESCRIPTOR, SNDService.get().convertPropertyDescriptorToJson(c, u, getPropertyDescriptor(), true));
 
-        json.put(ATTRIBUTE_DATA_VALUE, getValue());
+        // We want to ensure the attribute is returned even if null
+        json.put(ATTRIBUTE_DATA_VALUE, getValue() == null ? JSONObject.NULL : getValue());
+
         if (_exception != null)
         {
             JSONObject jsonException = new JSONObject();

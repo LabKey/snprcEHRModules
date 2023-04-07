@@ -517,7 +517,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         "       callback(e.exception); },                           \n" +
         "   jsonData: {                                             \n" +
         "       eventId: 1812345,                                   \n" +
-        "       subjectId: 1,                                       \n" +
+        "       subjectId: '1',                                     \n" +
         "       qcState: 'Completed',                               \n" +
         "       note: 'This is a test event note.',                 \n" +
         "       projectIdRev: '" + PKG_TEST_PROJECT_ID + "|0',      \n" +

@@ -464,7 +464,7 @@
                 name: 'Valid Save Event: Use Property Names',
                 jsonData: {
                     eventId: 1800000,
-                    subjectId: 1,
+                    subjectId: "1",
                     date: "2018-02-26T17:51:20",
                     note: "This is a test event note.",
                     projectIdRev: '60|0',
@@ -563,7 +563,7 @@
                     'org.labkey.snd.security.roles.SNDBasicSubmitterRole'],
                 jsonData: {
                     eventId: 1800001,
-                    subjectId: 2,
+                    subjectId: "2",
                     date: "2018-02-26T17:51:20",
                     note: "Note for event attribute data sample JSON",
                     projectIdRev: '61|0',
@@ -577,7 +577,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 100
+                                        value: "100"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'units')['propertyId'],
                                         value: "mEq/L"
@@ -591,7 +591,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 200
+                                        value: "200"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'units')['propertyId'],
                                         value: "mEq/L"
@@ -605,7 +605,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 300
+                                        value: "300"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'units')['propertyId'],
                                         value: "mEq/L"
@@ -619,7 +619,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 400
+                                        value: "400"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'units')['propertyId'],
                                         value: "mg/dL"
@@ -711,7 +711,7 @@
                 },
                 jsonData: {
                     eventId: 1800003,
-                    subjectId: 2,
+                    subjectId: "2",
                     date: "2018-02-26T17:51:20",
                     note: "Note for narrative generation sample JSON",
                     projectIdRev: '61|0',
@@ -725,7 +725,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 100
+                                        value: "100"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['810'][0]['attributes'], 'units')['propertyId'],
                                         value: "mEq/L"
@@ -739,7 +739,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 200
+                                        value: "200"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['811'][0]['attributes'], 'units')['propertyId'],
                                         value: "mEq/L"
@@ -753,7 +753,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 300
+                                        value: "300"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['812'][0]['attributes'], 'units')['propertyId'],
                                         value: "mEq/L"
@@ -767,7 +767,7 @@
                                 attributes: [
                                     {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'amount')['propertyId'],
-                                        value: 400
+                                        value: "400"
                                     }, {
                                         propertyId: LABKEY.getAttributeByName(LABKEY.SND_PKG_CACHE['813'][0]['attributes'], 'units')['propertyId'],
                                         value: "mg/dL"
@@ -883,7 +883,7 @@
                 name: 'Valid Save Event: Fill in empty packages',
                 jsonData: {
                     eventId: 1800009,
-                    subjectId: 1,
+                    subjectId: "1",
                     date: "2018-02-26T17:51:20",
                     note: "Fill in empty packages and attributes",
                     projectIdRev: '60|0',
@@ -910,7 +910,7 @@
                                     superPkgId: LABKEY.SND_PKG_CACHE['816'][1]['superPkgId'],
                                     attributes: [{
                                         propertyName: 'amount',
-                                        value: 90
+                                        value: "90"
                                     }, {
                                         propertyName: 'units',
                                         value: "mg/dL"
@@ -1089,7 +1089,7 @@
                 name: 'Failed Save Event: Trigger error on unit check',
                 jsonData: {
                     eventId: 1800002,
-                    subjectId: 2,
+                    subjectId: "2",
                     date: "2018-02-26T17:51:20",
                     note: "Note for Save Event: Out of range attribute",
                     projectIdRev: '61|0',
@@ -1103,7 +1103,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 200
+                                        value: "200"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1117,7 +1117,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 200
+                                        value: "200"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1131,7 +1131,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 300
+                                        value: "300"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1145,7 +1145,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 112
+                                        value: "112"
                                     }, {
                                         propertyName: 'units',
                                         value: "L"
@@ -1361,7 +1361,7 @@
                 name: 'Failed Save Event: Out of range value',
                 jsonData: {
                     eventId: 1800004,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event: Out of range attribute",
                     projectIdRev: '61|0',
@@ -1375,7 +1375,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 600
+                                        value: "600"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1389,7 +1389,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 200
+                                        value: "200"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1403,7 +1403,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 300
+                                        value: "300"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1417,7 +1417,7 @@
                                 attributes: [
                                     {
                                         propertyName: 'amount',
-                                        value: 112
+                                        value: "112"
                                     }, {
                                         propertyName: 'units',
                                         value: "mEq/L"
@@ -1512,7 +1512,7 @@
                 name: 'Failed Save Event: Trigger warning',
                 jsonData: {
                     eventId: 1800005,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event: Trigger warning",
                     projectIdRev: '61|0',
@@ -1522,7 +1522,7 @@
                             superPkgId: LABKEY.SND_PKG_CACHE['816'][0]['superPkgId'],
                             attributes: [{
                                 propertyName: 'amount',
-                                value: 401
+                                value: "401"
 
                             }, {
                                 propertyName: 'units',
@@ -1572,7 +1572,7 @@
                 name: 'Failed Save Event: Missing attribute. EventData error',
                 jsonData: {
                     eventId: 1800006,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event: Missing attribute. EventData warning",
                     projectIdRev: '61|0',
@@ -1625,7 +1625,7 @@
                 name: 'Failed Save Event: Trigger info',
                 jsonData: {
                     eventId: 1800007,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event: Trigger info",
                     projectIdRev: '61|0',
@@ -1635,7 +1635,7 @@
                             superPkgId: LABKEY.SND_PKG_CACHE['816'][0]['superPkgId'],
                             attributes: [{
                                 propertyName: 'amount',
-                                value: 99
+                                value: "99"
 
                             }, {
                                 propertyName: 'units',
@@ -1688,7 +1688,7 @@
                     'org.labkey.snd.security.roles.SNDReaderRole'],
                 jsonData: {
                     eventId: 1800007,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event",
                     projectIdRev: '61|0',
@@ -1698,7 +1698,7 @@
                             superPkgId: LABKEY.SND_PKG_CACHE['816'][0]['superPkgId'],
                             attributes: [{
                                 propertyName: 'amount',
-                                value: 99
+                                value: "99"
 
                             }, {
                                 propertyName: 'units',
@@ -1725,7 +1725,7 @@
                     'org.labkey.snd.security.roles.SNDBasicSubmitterRole'],
                 jsonData: {
                     eventId: 1800008,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event",
                     projectIdRev: '61|0',
@@ -1735,7 +1735,7 @@
                             superPkgId: LABKEY.SND_PKG_CACHE['816'][0]['superPkgId'],
                             attributes: [{
                                 propertyName: 'amount',
-                                value: 99
+                                value: "99"
 
                             }, {
                                 propertyName: 'units',
@@ -1762,7 +1762,7 @@
                     'org.labkey.snd.security.roles.SNDDataReviewerRole'],
                 jsonData: {
                     eventId: 1800008,
-                    subjectId: 25,
+                    subjectId: "25",
                     date: "2017-05-25T17:51:20",
                     note: "Note for Save Event",
                     projectIdRev: '61|0',
@@ -1772,7 +1772,7 @@
                             superPkgId: LABKEY.SND_PKG_CACHE['816'][0]['superPkgId'],
                             attributes: [{
                                 propertyName: 'amount',
-                                value: 99
+                                value: "99"
 
                             }, {
                                 propertyName: 'units',

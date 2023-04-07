@@ -16,8 +16,8 @@
 
 package org.labkey.snd;
 
-import org.json.old.JSONArray;
-import org.json.old.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.FormHandlerAction;
@@ -48,6 +48,7 @@ import org.labkey.api.snd.SNDService;
 import org.labkey.api.snd.SuperPackage;
 import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.GUID;
+import org.labkey.api.util.JsonUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
@@ -116,7 +117,7 @@ public class SNDController extends SpringActionController
         private GWTPropertyDescriptor convertJsonToPropertyDescriptor(JSONObject json, BindException errors) throws IOException
         {
             String rangeUri = json.getString("rangeURI");
-            String format = json.getString("format");
+            String format = json.optString("format", null);
 
             if (rangeUri.equals(SNDManager.RANGE_PARTICIPANTID))
             {
@@ -148,7 +149,7 @@ public class SNDController extends SpringActionController
             json.put("rangeURI", "http://www.w3.org/2001/XMLSchema#" + rangeUri);
             json.put("defaultTypeValue", DefaultValueType.FIXED_EDITABLE.toString());
 
-            String defaultValue = (String) json.get("defaultValue");
+            String defaultValue = json.optString("defaultValue", null);
             json.put("defaultValue", defaultValue);
 
             return SNDServiceImpl.jsonToPropertyDescriptor(json);
@@ -160,8 +161,8 @@ public class SNDController extends SpringActionController
             JSONObject json = form.getJsonObject();
             Package pkg = new Package();
             boolean cloneFlag = json.optBoolean("clone");
-            Integer testIdNumberStart = json.optInt("testIdNumberStart", -1);
-            Integer pkgId = json.optInt("id", -1);
+            int testIdNumberStart = json.optInt("testIdNumberStart", -1);
+            int pkgId = json.optInt("id", -1);
             pkg.setPkgId(pkgId);
 
             pkg.setDescription(json.getString("description"));
@@ -201,10 +202,9 @@ public class SNDController extends SpringActionController
             if (null != attribs)
             {
                 List<GWTPropertyDescriptor> pds = new ArrayList<>();
-                String name;
-                for (int i = 0; i < attribs.length(); i++)
+                for (JSONObject attrib : JsonUtil.toJSONObjectList(attribs))
                 {
-                    name = attribs.getJSONObject(i).getString("name");
+                    String name = attrib.getString("name");
                     if (attNames.contains(name))
                     {
                         errors.reject(ERROR_MSG, "Attributes must have unique names within a package.");
@@ -213,7 +213,7 @@ public class SNDController extends SpringActionController
                     attNames.add(name);
                     try
                     {
-                        pds.add(convertJsonToPropertyDescriptor(attribs.getJSONObject(i), errors));
+                        pds.add(convertJsonToPropertyDescriptor(attrib, errors));
                     }
                     catch (IOException e)
                     {
@@ -260,9 +260,8 @@ public class SNDController extends SpringActionController
 
                 if (null != jsonSubPackages && jsonSubPackages.length() > 0)
                 {
-                    for (int i = 0; i < jsonSubPackages.length(); i++)
+                    for (JSONObject jsonSubPackage : JsonUtil.toJSONObjectList(jsonSubPackages))
                     {
-                        JSONObject jsonSubPackage = jsonSubPackages.getJSONObject(i);
                         Integer superPkgId = jsonSubPackage.getInt("superPkgId");
 
                         if (SNDManager.get().isDescendent(getContainer(), getUser(), superPkgId, pkgId))
@@ -403,8 +402,7 @@ public class SNDController extends SpringActionController
                         }
 
                         // now that both steps are complete, set subPackages to be all the new or modified super packages and save
-                        ArrayList<SuperPackage> subSuperPackages = new ArrayList<>();
-                        subSuperPackages.addAll(topLevelChildSuperPackages);
+                        ArrayList<SuperPackage> subSuperPackages = new ArrayList<>(topLevelChildSuperPackages);
                         if (regularChildSuperPackages != null)
                             subSuperPackages.addAll(regularChildSuperPackages);
                         pkg.setSubpackages(subSuperPackages);
@@ -629,12 +627,12 @@ public class SNDController extends SpringActionController
                 }
             }
 
-            if (json.has("endDate") && (json.getString("endDate") == null || json.getString("endDate").equals("")))
+            if (json.has("endDate") && (json.isNull("endDate") || json.getString("endDate").equals("")))
             {
                 json.remove("endDate");
             }
 
-            if (json.has("endDate") && json.getString("endDate") != null)
+            if (json.has("endDate") && !json.isNull("endDate"))
             {
                 SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
                 try
@@ -651,7 +649,7 @@ public class SNDController extends SpringActionController
                 }
             }
 
-            form.bindProperties(json);
+            form.bindJson(json);
         }
 
         @Override
@@ -983,8 +981,8 @@ public class SNDController extends SpringActionController
             JSONObject json = form.getJsonObject();
             Integer eventId = json.has("eventId") ? json.getInt("eventId") : null;
             String subjectId = json.getString("subjectId");
-            String dateString = json.getString("date");
-            Boolean validateOnly = (Boolean) json.get("validateOnly");
+            String dateString = json.optString("date", null);
+            Boolean validateOnly = json.optBoolean("validateOnly");
             String qcStateString = json.getString("qcState");
             int qcState = SNDService.get().getQCStateId(getContainer(), getUser(), QCStateEnum.getByName(qcStateString));
             String objectId = json.has("objectId") ? json.getString("objectId") : GUID.makeGUID();
@@ -1146,7 +1144,7 @@ public class SNDController extends SpringActionController
         public Object execute(SimpleApiJsonForm form, BindException errors)
         {
             JSONObject json = form.getJsonObject();
-            Boolean unregister = (json != null && json.has("unregister") && json.getBoolean("unregister"));
+            boolean unregister = (json != null && json.has("unregister") && json.getBoolean("unregister"));
 
             Module sndModule = null;
             for (Module module : getViewContext().getContainer().getActiveModules())
