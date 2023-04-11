@@ -25,6 +25,7 @@ GO
 --
 -- Changes:
 -- NOTE: Replaces p_load_hl7_data.sql - 1/31/2023 Terry
+-- 04/07/2023: changed corrected date from observation date to status change date
 -- =================================================================
 DROP PROCEDURE IF EXISTS [dbo].[p_load_hl7_data]
 GO
@@ -813,7 +814,7 @@ BEGIN
                                     cbr.OBJECT_ID,
                                     a.SET_ID   AS SET_ID,
                                     cbr.SET_ID AS OBR_SET_ID,
-                                    'Corrected: ' + CAST(dbo.f_format_hl7_date(a.OBSERVATION_DATE_TM) AS VARCHAR(50)),
+                                    'Corrected: ' + CAST(dbo.f_format_hl7_date(a.STATUS_CHANGE_DATE_TM) AS VARCHAR(50)),
                                     @container as Container
                                 FROM (SELECT OBR.MessageID,
                                             OBR.IDX        AS OBR_IDX,
@@ -821,7 +822,8 @@ BEGIN
                                             OBR.OBR_F25_C1 AS RESULT_STATUS,
                                             OBR.OBR_F3_C1  AS SPECIMEN_NUM,
                                             OBR.OBR_F4_C1  AS PROCEDURE_ID,
-                                            OBR.OBR_F7_C1  AS OBSERVATION_DATE_TM
+                                            OBR.OBR_F7_C1  AS OBSERVATION_DATE_TM,
+											OBR.OBR_F22_C1  AS STATUS_CHANGE_DATE_TM
                                     FROM [Orchard_hl7_staging].[dbo].[ORC_Segment_OBR_A] AS OBR
                                     WHERE OBR.MessageID = @MessageId) a
                                         INNER JOIN labkey.snprc_ehr.HL7_OBR AS cbr
