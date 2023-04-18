@@ -3,6 +3,7 @@ import { Actions, GridPanel} from '@labkey/components';
 import React, { FC, useEffect } from 'react';
 import { Filter } from '@labkey/api';
 import { usePrevious } from './LookupSetsGridPanel';
+import { ManageButtons } from './ManageButtons';
 
 interface LookupsProps {
     lookupSetId: string,
@@ -52,6 +53,7 @@ export const LookupsGridPanel: FC<LookupsProps> = React.memo(props => {
                            highlightLastSelectedRow={true}
                            showPagination={false}
                            title={"Value"}
+                           ButtonsComponent={ManageButtons}
                 />
             )}
         </>
