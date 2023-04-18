@@ -430,19 +430,19 @@ public class AnimalGroupsController extends SpringActionController
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
-            Map<String, Object> props = new HashMap<String, Object>();
-            JSONObject json = simpleApiJsonForm.getNewJsonObject();
+            Map<String, Object> props = new HashMap<>();
+            JSONObject json = simpleApiJsonForm.getJsonObject();
 
             JSONArray rows;
 
             try
             {
-                rows = (JSONArray) json.get("rows");
+                rows = json.getJSONArray("rows");
             }
             catch (Exception exp)
             {
                 rows = new JSONArray();
-                rows.put(0, (JSONObject) json.get("rows"));
+                rows.put(0, json.get("rows"));
             }
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "snprc_ehr");
             TableInfo table = schema.getTable("animal_groups", null, true, false);
@@ -574,16 +574,16 @@ public class AnimalGroupsController extends SpringActionController
         {
 
             Map<String, Object> props = new HashMap<>();
-            JSONObject json = simpleApiJsonForm.getNewJsonObject();
+            JSONObject json = simpleApiJsonForm.getJsonObject();
             JSONArray rows;
             try
             {
-                rows = (JSONArray) json.get("rows");
+                rows = json.getJSONArray("rows");
             }
             catch (Exception exp)
             {
                 rows = new JSONArray();
-                rows.put(0, (JSONObject) json.get("rows"));
+                rows.put(0, json.get("rows"));
             }
 
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());

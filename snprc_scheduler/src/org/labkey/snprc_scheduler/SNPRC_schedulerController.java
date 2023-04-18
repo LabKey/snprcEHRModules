@@ -289,7 +289,7 @@ public class SNPRC_schedulerController extends SpringActionController
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)
         {
-            JSONObject json = form.getNewJsonObject();
+            JSONObject json = form.getJsonObject();
             if (json == null)
             {
                 errors.reject(ERROR_MSG, "Missing json parameter.");
@@ -314,7 +314,7 @@ public class SNPRC_schedulerController extends SpringActionController
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
         {
             ApiSimpleResponse response = new ApiSimpleResponse();
-            JSONObject json = form.getNewJsonObject();
+            JSONObject json = form.getJsonObject();
             JSONObject responseJson = null;
 
             BatchValidationException err = new BatchValidationException();
