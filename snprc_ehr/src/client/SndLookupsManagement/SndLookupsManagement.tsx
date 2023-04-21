@@ -1,14 +1,13 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import './styles/sndLookupsManagement.scss'
 
 import {
     InjectedQueryModels,
-    isLoading,
     withQueryModels
 } from '@labkey/components';
 import { Col, Row } from 'react-bootstrap';
 import { TableGridPanel } from './components/TableGridPanel';
-import { SCHEMAS } from '../schemas';
+import { SCHEMAS } from './schemas';
 import { Filter } from '@labkey/api';
 
 export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(props => {
@@ -27,11 +26,12 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
         }
     }
     return (
+
         <div>
             <Row>
                 <Col xs={10} md={4} className={"sidenav"} >
                     <TableGridPanel table={"lookupSets"}
-                                    rowIdName={"lookupSetId"}
+                                    rowIdName={"LookupSetId"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'Folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
                                     queryModels={queryModels}
@@ -43,8 +43,10 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     filters={[]}/>
                 </Col>
                 <Col xs={10} md={7}>
+                    {lookupSetId && (
+
                     <TableGridPanel table={"lookups"}
-                                    rowIdName={"lookupId"}
+                                    rowIdName={"LookupId"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder']}
                                     queryModels={queryModels}
@@ -55,6 +57,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     onCreate={onSuccess}
                                     filters={[Filter.create('lookupSetId', lookupSetId)] }
                                      />
+                    )}
                 </Col>
             </Row>
         </div>

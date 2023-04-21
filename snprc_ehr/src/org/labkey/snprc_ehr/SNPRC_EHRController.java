@@ -16,12 +16,15 @@
 
 package org.labkey.snprc_ehr;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.json.old.JSONObject;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ReadOnlyApiAction;
+import org.labkey.api.action.ReturnUrlForm;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleRedirectAction;
 import org.labkey.api.action.SimpleViewAction;
@@ -523,7 +526,8 @@ public class SNPRC_EHRController extends SpringActionController
                         props.put("success", true);
                         return new ApiSimpleResponse(props);
                     }
-                    catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException | SQLException e)
+                    catch (InvalidKeyException | BatchValidationException | QueryUpdateServiceException |
+                           SQLException e)
                     {
                         props.put("success", false);
                         props.put("message", e.getMessage());
@@ -545,6 +549,5 @@ public class SNPRC_EHRController extends SpringActionController
             return new ApiSimpleResponse(props);
         }
     }
-
 
 }
