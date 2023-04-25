@@ -2,16 +2,16 @@ import { Query } from '@labkey/api';
 
 export const createTableRow = (schemaName: string, queryName: string, name: string, parentId?: number) => {
     let rows = [];
-
     if (parentId) {
         rows.push(
-            {LookupSetId: parentId},
-            {Value: name},
-            {Displayable: true});
+            {
+                LookupSetId: parentId,
+                Value: name,
+                Displayable: true
+            });
     } else {
         rows.push({SetName: name});
     }
-
     return new Promise((resolve, reject) => {
         Query.insertRows({
             schemaName,
@@ -27,21 +27,12 @@ export const createTableRow = (schemaName: string, queryName: string, name: stri
     });
 };
 
-export const updateTableRow = (schemaName: string, queryName: string, id: number, name: string, parentId?: number) => {
+export const updateTableRow = (schemaName: string, queryName: string, row: any, updatedRow?: any[]) => {
     let rows = [];
-
-    if (parentId) {
-        rows.push(
-            {LookupSetId: parentId},
-            {LookupId: id},
-            {Value: name},
-            {Displayable: true});
-    } else {
-        rows.push(
-            {LookupSetId: id},
-            {SetName: name});
-    }
-
+    updatedRow.map(column => {
+        row[column[0]] = column[1];
+    });
+    rows.push(row);
     return new Promise((resolve, reject) => {
         Query.updateRows({
             schemaName,
@@ -57,13 +48,9 @@ export const updateTableRow = (schemaName: string, queryName: string, id: number
     });
 };
 
-export const deleteTableRow = (schemaName: string, queryName: string, id: number, parentId?: number) => {
+export const deleteTableRow = (schemaName: string, queryName: string, row: any) => {
     let rows = [];
-    if (parentId) {
-        rows.push({LookupId: id});
-        id = parentId;
-    }
-    rows.push({LookupSetId: id});
+    rows.push(row);
     return new Promise((resolve, reject) => {
         Query.deleteRows({
             schemaName,
@@ -83,14 +70,12 @@ export const getTableRow = (schemaName: string, queryName: string, id: number, p
     let parameters: Array<{ [key: string]: any }> = [];
     let columns = [];
     if (parentId) {
-        parameters.push({LookupId: id},
-            {LookupSetId: parentId});
-        columns.push('lookupSetId', 'lookupId', 'value', 'displayable', 'sortOrder');
+        parameters.push({LookupId: id});
+        columns.push('lookupId', 'LookupSetId', 'value', 'displayable', 'sortOrder');
     } else {
         parameters.push({LookupSetId: id});
         columns.push('lookupSetId', 'description', 'label', 'setName');
     }
-    console.log(parameters);
     return new Promise((resolve, reject) => {
         return Query.selectRows({
             columns,

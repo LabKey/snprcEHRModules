@@ -19,18 +19,15 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
     }
 
     const onSuccess = (response: any) => {
-        let message, error;
-        if (response) {
-            let count = 0;
 
-        }
     }
+
     return (
 
         <div>
             <Row>
                 <Col xs={10} md={4} className={"sidenav"} >
-                    <TableGridPanel table={"lookupSets"}
+                    <TableGridPanel table={"LookupSets"}
                                     rowIdName={"LookupSetId"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'Folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
@@ -45,7 +42,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                 <Col xs={10} md={7}>
                     {lookupSetId && (
 
-                    <TableGridPanel table={"lookups"}
+                    <TableGridPanel table={"Lookups"}
                                     rowIdName={"LookupId"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder']}
@@ -53,6 +50,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUPS}
                                     title={"Lookup Value"}
                                     parentId={lookupSetId}
+                                    parentIdName={"LookupSetId"}
                                     onChange={onSuccess}
                                     onCreate={onSuccess}
                                     filters={[Filter.create('lookupSetId', lookupSetId)] }
