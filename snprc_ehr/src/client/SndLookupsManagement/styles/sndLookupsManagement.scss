@@ -1,11 +1,20 @@
-
-.grid-panel__grid {
-  //box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-  height: 50vh; width: 100%;
+.grid-panel__grid .table-responsive {
   overflow: scroll;
-  z-index: 1; top: 0; left: 0; transition: .5s ease; overflow-x: hidden;  align-items: center;
+  height: 50vh; width: 100%;
+  z-index: 1; top: 0; left: 0; transition: .5s ease; align-items: center;
 }
-thead {
+.grid-panel__grid .table-responsive thead {
   position: sticky;
-  top: 0;
+  top: -1px;
+  z-index: 2;
+}
+.grid-panel__grid .table-responsive thead th {
+  background-color: #fff;
+  padding: 0;
+  /* fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
+  background-clip: padding-box;
+}
+.grid-panel__grid .table-responsive thead th#__selection__,
+.grid-panel__grid .table-responsive thead th .grid-header-cell__body {
+  padding: 5px;
 }

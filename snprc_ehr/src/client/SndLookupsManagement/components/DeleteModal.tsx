@@ -3,24 +3,26 @@ import { Alert, ConfirmModal, resolveErrorMessage, SchemaQuery } from '@labkey/c
 import { deleteTableRow } from '../actions';
 
 interface Props {
-    onCancel: () => any;
-    onComplete: (response: any) => any;
-    id: number;
-    table: string;
-    schemaQuery: SchemaQuery;
-    parentId?: number;
+    onCancel: () => any,
+    onComplete: (response: any) => any,
+    id: number,
+    rowIdName: string,
+    table: string,
+    schemaQuery: SchemaQuery,
 }
 
 export const DeleteModal: FC<Props> = memo((props: Props) => {
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [name, setName] = useState<string>('');
-    const {onCancel, onComplete, id, table, schemaQuery, parentId} = props;
 
-    const onConfirm = () => {
+    const {onCancel, onComplete, id, table, schemaQuery, rowIdName} = props;
 
+    const onConfirm = async () => {
         setIsSubmitting(true);
-        return deleteTableRow(schemaQuery.schemaName, schemaQuery.queryName, id, parentId)
+        let deleteRow = {};
+        deleteRow[rowIdName] = id;
+
+        return deleteTableRow(schemaQuery.schemaName, schemaQuery.queryName, deleteRow)
             .then(onComplete)
             .catch(error => {
                 console.error(error);
@@ -32,7 +34,7 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
 
     return (
         <ConfirmModal
-            title={'Delete ' + table + '?'}
+            title={'Delete ' + table + ' \'' + id + '\'?'}
             onConfirm={onConfirm}
             onCancel={onCancel}
             confirmVariant={'danger'}
@@ -40,7 +42,7 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
             cancelButtonText={'Cancel'}
             submitting={isSubmitting}
         >
-            <p>{table} will be deleted. Do you want to proceed?</p>
+            {<p>{table} '{id}' will be deleted. Do you want to proceed?</p>}
             {error && <Alert>{error}</Alert>}
         </ConfirmModal>
     );
