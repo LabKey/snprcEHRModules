@@ -1,7 +1,7 @@
-import React, { FC, memo, ReactNode, useState } from 'react';
+import React, { FC, memo, ReactNode, useEffect, useState } from 'react';
 import { Alert, resolveErrorMessage, SchemaQuery, WizardNavButtons } from '@labkey/components';
 import { Modal } from 'react-bootstrap';
-import { updateTableRow } from '../actions';
+import { getTableRow, updateTableRow } from '../actions';
 import { UpdateForm } from './UpdateForm';
 
 interface Props {
@@ -12,21 +12,35 @@ interface Props {
     table: string,
     rowIdName: string,
     schemaQuery: SchemaQuery,
-    parentId?: number
+    parentId?: number,
+    parentIdName?: string
 }
 
 export const UpdateModal: FC<Props> = memo((props: Props) => {
-    const {onCancel, onComplete, id, table, show, schemaQuery, parentId, rowIdName} = props;
+    const {onCancel, onComplete, id, table, show, schemaQuery, parentId, rowIdName, parentIdName} = props;
 
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [name, setName] = useState<string>('');
+    const [row, setRow] = useState<any>([]);
+    const [updateRow, setUpdateRow] = useState<any>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getRow();
+        };
+        fetchData();
+    }, []);
+
+    const getRow = async () => {
+        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, id, parentId);
+        setRow(tableRow['rows'].find(row => row[rowIdName] === id));
+    };
 
     const update = () => {
         setIsSubmitting(true);
         setError(undefined);
 
-        return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, id, name, parentId)
+        return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
             .then(onComplete)
             .catch(error => {
                 console.error(error);
@@ -35,24 +49,22 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
             });
     };
 
-    const handleUpdate = (evt: any): void => {
-        //const nameText = evt.target.value;
-        //setName(nameText);
+    const handleUpdate = (newRow: any): void => {
+        setUpdateRow(newRow);
+        console.log(updateRow);
     };
 
     return (
         <Modal show={show} onHide={onCancel}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit {table} {name}</Modal.Title>
+                <Modal.Title>Edit {table} '{(parentId ? row['Value'] : row['SetName'])}'</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <UpdateForm
-                    table={table}
-                    schemaQuery={schemaQuery}
-                    id={id}
+                    handleUpdate={handleUpdate}
+                    row={row}
                     rowIdName={rowIdName}
-                    parentId={parentId}
-                    onChange={handleUpdate}
+                    parentIdName={parentIdName}
                 />
                 {error && <Alert style={{marginTop: '10px'}}>{error}</Alert>}
             </Modal.Body>
@@ -60,7 +72,6 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                 <WizardNavButtons containerClassName={''}
                                   cancel={onCancel}
                                   finish={true}
-                    //canFinish={valid}
                                   finishText={`Update ${table}`}
                                   isFinishing={isSubmitting}
                                   isFinishingText={`Updating ${table}s`}

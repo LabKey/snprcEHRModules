@@ -1,50 +1,54 @@
-import { getTableRow } from '../actions';
-import { SchemaQuery } from '@labkey/components';
-import React, { FC, memo, ReactNode, useEffect, useState } from 'react';
-import { FormControl } from 'react-bootstrap';
+import React, { FC, memo, useState } from 'react';
+import { Checkbox, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 
 interface Props {
-    table: string,
-    onChange: (evt: any) => void,
-    schemaQuery: SchemaQuery,
-    id?: number,
+    handleUpdate: (newRow: any) => void,
     rowIdName: string,
-    parentId?: number
+    parentIdName?: string,
+    row: any
 }
 
 export const UpdateForm: FC<Props> = memo((props: Props) => {
 
-    const {schemaQuery, id, parentId, rowIdName, onChange} = props;
-    const [row, setRow] = useState<any>([]);
+    const {handleUpdate, row, rowIdName, parentIdName} = props;
+    const [newRow, setNewRow] = useState<any>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await getRow();
-        };
-        fetchData();
-    }, []);
-
-    const getRow = async () => {
-        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, id, parentId);
-        setRow(tableRow['rows'].find(row => row[rowIdName] === id));
-        console.log(row);
+    const onRowUpdate = (evt: any, column: string) => {
+        let thisRow = newRow;
+        thisRow[column] = evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
+        setNewRow(thisRow);
+        handleUpdate(newRow);
     };
 
-    return (
-        <div>
-            {(Object.entries(row).map((row) => {
-                return (<div className="edit-users-label-bottom">
-                    {row[0]}:
-                    <FormControl
-                        componentClass={'textarea'}
-                        className={'form'}
-                        id={'edit-name-input'}
-                        rows={1}
-                        value={row[1] as string || ''}
-                        onChange={onChange}
-                    />
-                </div>);
 
+    return (
+        <div className={'update-users-label-bottom'}>
+            {(Object.entries(row).map(column => {
+                return (<>
+                        <FormGroup className={'mb-3'} controlId={`form-${column[0]}-field}`}>
+                            {!column[0].startsWith('_labkeyurl_') && (
+                                <>
+                                    <ControlLabel>{column[0]}</ControlLabel>
+                                    {(typeof column[1] !== 'boolean') && (
+                                        <FormControl
+                                            type={'textarea'}
+                                            placeholder={`Enter ${column[0]}`}
+                                            defaultValue={column[1] as string}
+                                            onBlur={column[0] === rowIdName || column[0] === parentIdName ? (e) => (e) : (e) => onRowUpdate(e, column[0])}
+                                            readOnly={column[0] === rowIdName || column[0] === parentIdName}
+                                        />
+                                    )}
+                                    {typeof column[1] === 'boolean' && (
+                                        <Checkbox defaultChecked={column[1] as boolean}
+                                                  label={column[0]}
+                                                  onChange={(e) => onRowUpdate(e, column[0])}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </FormGroup>
+                    </>
+                );
             }))}
         </div>
     );

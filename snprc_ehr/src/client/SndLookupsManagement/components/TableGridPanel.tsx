@@ -16,6 +16,7 @@ interface TableProps {
     table: string,
     parentId?: string,
     rowIdName: string,
+    parentIdName?: string,
     actions: Actions,
     omittedColumns: string[],
     queryModels: any,
@@ -33,6 +34,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         queryModels,
         parentId,
         rowIdName,
+        parentIdName,
         omittedColumns,
         table,
         schemaQuery,
@@ -55,7 +57,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
 
     useEffect(() => {
         setLastSelectedId();
-    }, [queryModels[table]]);
+    }, [queryModels[modelId]]);
 
     useEffect(() => {
         if (parentId) {
@@ -190,6 +192,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                          table={title}
                          schemaQuery={schemaQuery}
                          parentId={+parentId}/>
+            {showDialog === 'update' && (
             <UpdateModal onCancel={closeDialog}
                          onComplete={onChangeComplete}
                          show={showDialog === 'update'}
@@ -197,13 +200,17 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                          table={title}
                          schemaQuery={schemaQuery}
                          parentId={+parentId}
-                         rowIdName={rowIdName}/>
+                         rowIdName={rowIdName}
+            parentIdName={parentIdName}/>
+            )}
             {showDialog === 'delete' && (
                 <DeleteModal onCancel={closeDialog}
                              onComplete={onChangeComplete}
                              id={+selectedId}
+                             rowIdName={rowIdName}
                              table={title}
                              schemaQuery={schemaQuery}/>
+
             )}
         </>
 

@@ -1,5 +1,5 @@
 import React, { FC, memo, ReactNode, useState } from 'react';
-import { Form, FormControl, Modal } from 'react-bootstrap';
+import { FormControl, FormGroup, Modal } from 'react-bootstrap';
 import { Alert, resolveErrorMessage, SchemaQuery, WizardNavButtons } from '@labkey/components';
 import { createTableRow } from '../actions';
 
@@ -9,7 +9,7 @@ interface Props {
     show: boolean,
     table: string,
     schemaQuery: SchemaQuery,
-    parentId?: number
+    parentId?: number,
 }
 
 export const CreateModal: FC<Props> = memo((props: Props) => {
@@ -41,13 +41,10 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
             <>
                 <div className="create-users-label-bottom">
                     {table} Name:
-                    <FormControl
-                        componentClass={'textarea'}
-                        className={'form'}
-                        id={'create-name-input'}
-                        rows={1}
-                        value={name || ''}
-                        onChange={handleCreate}/>
+                    <FormGroup className={'mb-3'} controlId={'formNameField'}>
+                        <FormControl type={'text'} placeholder={`Enter ${table} Name`}
+                                     onChange={handleCreate}></FormControl>
+                    </FormGroup>
                 </div>
 
             </>
@@ -67,7 +64,6 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
                 <WizardNavButtons containerClassName={''}
                                   cancel={onCancel}
                                   finish={true}
-                    //canFinish={valid}
                                   finishText={`Create ${table}`}
                                   isFinishing={isSubmitting}
                                   isFinishingText={`Creating ${table}s`}
