@@ -11,6 +11,7 @@ import { Button } from 'react-bootstrap';
 import { CreateModal } from './CreateModal';
 import { UpdateModal } from './UpdateModal';
 import { DeleteModal } from './DeleteModal';
+import { getTableRow } from '../actions';
 
 interface TableProps {
     table: string,
@@ -46,6 +47,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
     const [modelId, setModelId] = useState<string>('');
     const [selectedId, setSelectedId] = useState<string>('');
     const [showDialog, setShowDialog] = useState<string>('');
+    const [row, setRow] = useState<any>([]);
     const prevParentId = usePrevious(parentId);
 
     useEffect(() => {
@@ -53,10 +55,12 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
             initQueryModel();
             setLastSelectedId();
         }
+
     }, []);
 
     useEffect(() => {
         setLastSelectedId();
+
     }, [queryModels[modelId]]);
 
     useEffect(() => {
@@ -68,6 +72,19 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
             }
         }
     }, [parentId]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getRow();
+        };
+        fetchData();
+
+    }, [selectedId]);
+
+    const getRow = async () => {
+        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, +selectedId, +parentId);
+        setRow(tableRow['rows'].find(row => row[rowIdName] === +selectedId));
+    };
 
     const initQueryModel = () => {
         const baseFilters = filters;
@@ -97,11 +114,18 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         if (model.selectionsLoadingState === LoadingState.LOADED) {
             updateLastSelectedId(getLastSelectedId());
 
+
         }
+
     };
 
     const updateLastSelectedId = (id: string) => {
         if (selectedId !== id) {
+            if (id === undefined) {
+                actions.clearSelections(modelId);
+            } else {
+                actions.replaceSelections(modelId, [id]);
+            }
             setSelectedId(id);
             if (handleSelectedParentRow) {
                 handleSelectedParentRow(id);
@@ -128,47 +152,49 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
 
     const onCreateComplete = (response: any): void => {
         closeDialog();
-        onRowSelectionChange(queryModels[modelId], undefined, false);
         reloadModel();
+        onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true);
     };
 
     const onChangeComplete = (response: any, resetSelection = true): void => {
         closeDialog();
         if (resetSelection) {
-            onRowSelectionChange(queryModels[modelId], undefined, false);
+            onRowSelectionChange(queryModels[modelId], undefined, response.id);
         }
         onChange(response);
         reloadModel();
+
     };
 
     const reloadModel = (): void => {
         actions.loadModel(modelId, true);
     };
 
-    const onRowSelectionChange = (model: QueryModel, row: any, checked: boolean): void => {
-        let selectedId;
+    const onRowSelectionChange = (model: QueryModel, newId: any, checked: boolean): void => {
+        let id;
 
         if (checked) {
-            if (row) {
-                selectedId = row.getIn([rowIdName, 'value']);
+            if (newId) {
+                id = newId;
             } else if (model.hasSelections) {
-                selectedId = getLastSelectedId();
+                id = getLastSelectedId();
             }
         }
-        updateLastSelectedId(selectedId);
+        updateLastSelectedId(id);
     };
 
     const renderButtons = () => {
         const model = queryModels[modelId];
         return (
-            <div className="btn-group">
+            <div className="manage-buttons">
                 {<Button bsStyle={'success'} onClick={() => toggleDialog('create')}>Create</Button>}
-                <ManageDropdownButton id={table}>
+                <ManageDropdownButton  id={table}>
                     <SelectionMenuItem id={'delete-menu-item'} text={'Delete'} queryModel={model}
                                        onClick={() => toggleDialog('delete')}/>
                     <SelectionMenuItem id={'edit-menu-item'} text={'Edit'} queryModel={model}
                                        onClick={() => toggleDialog('update')}/>
                 </ManageDropdownButton>
+
             </div>
         );
     };
@@ -182,16 +208,21 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                            highlightLastSelectedRow={true}
                            showPagination={false}
                            allowSelections={true}
+                           allowFiltering={false}
+                           allowSorting={true}
                            title={title}
                            ButtonsComponent={renderButtons}
                 />
             )}
+            {showDialog === 'create' && (
             <CreateModal onCancel={closeDialog}
                          onComplete={onCreateComplete}
                          show={showDialog === 'create'}
                          table={title}
                          schemaQuery={schemaQuery}
-                         parentId={+parentId}/>
+                         parentId={+parentId}
+                         row={row}/>
+            )}
             {showDialog === 'update' && (
             <UpdateModal onCancel={closeDialog}
                          onComplete={onChangeComplete}
@@ -201,6 +232,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                          schemaQuery={schemaQuery}
                          parentId={+parentId}
                          rowIdName={rowIdName}
+                         row={row}
             parentIdName={parentIdName}/>
             )}
             {showDialog === 'delete' && (
@@ -208,6 +240,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                              onComplete={onChangeComplete}
                              id={+selectedId}
                              rowIdName={rowIdName}
+                             row={row}
                              table={title}
                              schemaQuery={schemaQuery}/>
 
@@ -225,3 +258,9 @@ const usePrevious = (value) => {
     }, [value]);
     return ref.current;
 };
+
+const toCamelCase = (str: string) => {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, '');
+}

@@ -1,3 +1,5 @@
+@import '@labkey/components/dist/assets/scss/variables';
+
 .grid-panel__grid .table-responsive {
   overflow: scroll;
   height: 50vh; width: 100%;
@@ -9,12 +11,63 @@
   z-index: 2;
 }
 .grid-panel__grid .table-responsive thead th {
-  background-color: #fff;
-  padding: 0;
+  background-color: $page-header-border-color;
   /* fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
   background-clip: padding-box;
 }
 .grid-panel__grid .table-responsive thead th#__selection__,
 .grid-panel__grid .table-responsive thead th .grid-header-cell__body {
   padding: 5px;
+}
+
+.manage-buttons {
+  display: inline-block;
+}
+
+.manage-buttons .dropdown-menu {
+  position: absolute;
+}
+
+.dropdown-menu {
+  position: fixed;
+}
+
+.form-group-create-update {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.form-group-create-update .control-label {
+  float: left;
+  width: 15%;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.form-group-create-update .form-control {
+  float: left;
+  text-align: left;
+  width: 50%;
+  margin-top: 5px;
+}
+
+.form-group-create-update .checkbox {
+  float: left;
+  width: 25%;
+  margin-top: 12px;
+  margin-bottom: -12px;
+}
+
+.grid-panel__input-group {
+  display: inline-block;
+  margin: 5px;
+}
+
+.button-bar__section {
+  float: left;
+}
+
+.grid-panel__info {
+  margin-top: 40px;
 }

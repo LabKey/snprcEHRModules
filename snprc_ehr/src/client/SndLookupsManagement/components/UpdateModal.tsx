@@ -12,36 +12,24 @@ interface Props {
     table: string,
     rowIdName: string,
     schemaQuery: SchemaQuery,
+    row: any,
     parentId?: number,
     parentIdName?: string
 }
 
 export const UpdateModal: FC<Props> = memo((props: Props) => {
-    const {onCancel, onComplete, id, table, show, schemaQuery, parentId, rowIdName, parentIdName} = props;
+    const {onCancel, onComplete, id, table, show, schemaQuery, parentId, rowIdName, parentIdName, row} = props;
 
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [row, setRow] = useState<any>([]);
     const [updateRow, setUpdateRow] = useState<any>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await getRow();
-        };
-        fetchData();
-    }, []);
-
-    const getRow = async () => {
-        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, id, parentId);
-        setRow(tableRow['rows'].find(row => row[rowIdName] === id));
-    };
-
-    const update = () => {
+    const handleUpdate = () => {
         setIsSubmitting(true);
         setError(undefined);
 
         return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
-            .then(onComplete)
+            .then(onComplete({id: row[rowIdName]}))
             .catch(error => {
                 console.error(error);
                 setError(resolveErrorMessage(error));
@@ -49,10 +37,6 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
             });
     };
 
-    const handleUpdate = (newRow: any): void => {
-        setUpdateRow(newRow);
-        console.log(updateRow);
-    };
 
     return (
         <Modal show={show} onHide={onCancel}>
@@ -62,6 +46,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
             <Modal.Body>
                 <UpdateForm
                     handleUpdate={handleUpdate}
+                    handleSetUpdateRow={e => setUpdateRow(e)}
                     row={row}
                     rowIdName={rowIdName}
                     parentIdName={parentIdName}
@@ -75,7 +60,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                                   finishText={`Update ${table}`}
                                   isFinishing={isSubmitting}
                                   isFinishingText={`Updating ${table}s`}
-                                  nextStep={update}
+                                  nextStep={handleUpdate}
                 />
             </Modal.Footer>
         </Modal>
