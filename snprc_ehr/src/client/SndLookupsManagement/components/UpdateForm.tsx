@@ -2,7 +2,8 @@ import React, { FC, memo, useState } from 'react';
 import { Checkbox, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 
 interface Props {
-    handleUpdate: (newRow: any) => void,
+    handleUpdate: () => void,
+    handleSetUpdateRow: (newRow: any) => void,
     rowIdName: string,
     parentIdName?: string,
     row: any
@@ -10,25 +11,25 @@ interface Props {
 
 export const UpdateForm: FC<Props> = memo((props: Props) => {
 
-    const {handleUpdate, row, rowIdName, parentIdName} = props;
+    const {handleUpdate, handleSetUpdateRow, row, rowIdName, parentIdName} = props;
     const [newRow, setNewRow] = useState<any>([]);
 
     const onRowUpdate = (evt: any, column: string) => {
         let thisRow = newRow;
         thisRow[column] = evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
         setNewRow(thisRow);
-        handleUpdate(newRow);
+        handleSetUpdateRow(newRow);
     };
 
 
     return (
         <div className={'update-users-label-bottom'}>
             {(Object.entries(row).map(column => {
-                return (<>
-                        <FormGroup className={'mb-3'} controlId={`form-${column[0]}-field}`}>
+                return (<form onSubmit={handleUpdate}>
+                        <FormGroup className={'form-group-create-update'} controlId={`form-${column[0]}-field}`}>
                             {!column[0].startsWith('_labkeyurl_') && (
                                 <>
-                                    <ControlLabel>{column[0]}</ControlLabel>
+                                    <ControlLabel>{column[0]}:</ControlLabel>
                                     {(typeof column[1] !== 'boolean') && (
                                         <FormControl
                                             type={'textarea'}
@@ -47,7 +48,7 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
                                 </>
                             )}
                         </FormGroup>
-                    </>
+                    </form>
                 );
             }))}
         </div>

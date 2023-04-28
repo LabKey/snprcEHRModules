@@ -30,7 +30,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                     <TableGridPanel table={"LookupSets"}
                                     rowIdName={"LookupSetId"}
                                     actions={actions}
-                                    omittedColumns={['label', 'description', 'Folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
+                                    omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
                                     queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUP_SETS}
                                     title={"Lookup Key"}
@@ -45,7 +45,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                     <TableGridPanel table={"Lookups"}
                                     rowIdName={"LookupId"}
                                     actions={actions}
-                                    omittedColumns={['label', 'description', 'folder', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder']}
+                                    omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder']}
                                     queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUPS}
                                     title={"Lookup Value"}
@@ -63,3 +63,4 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
 });
 
 export const SndLookupsManagement = withQueryModels<{}>(SndLookupsManagementImpl);
+
