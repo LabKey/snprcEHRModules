@@ -593,7 +593,7 @@ public class AnimalGroupsController extends SpringActionController
             TableInfo studyTable = ss.getTable("animal_group_members", null, true, false);
 
             SimpleFilter filter = new SimpleFilter();
-            filter.addCondition(FieldKey.fromString("groupid"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromString("groupid"), rows.getJSONObject(0).getInt("code"), CompareType.EQUAL);
 
             TableSelector tableSelector = new TableSelector(studyTable, filter, null);
             List<GroupMember> members = tableSelector.getArrayList(GroupMember.class);
@@ -607,7 +607,7 @@ public class AnimalGroupsController extends SpringActionController
             else
             {
                 SimpleFilter codeFilter = new SimpleFilter();
-                codeFilter.addCondition(FieldKey.fromString("code"), ((JSONObject) rows.get(0)).getInt("code"), CompareType.EQUAL);
+                codeFilter.addCondition(FieldKey.fromString("code"), rows.getJSONObject(0).getInt("code"), CompareType.EQUAL);
                 Map<String, String> animalGroup = new TableSelector(groupsTable, codeFilter, null).getObject(Map.class);
 
                 List<Map<String, Object>> keys = new ArrayList<>();
