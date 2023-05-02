@@ -27,8 +27,7 @@ interface TableProps {
     title: string,
     filters: any[],
     handleSelectedParentRow?: (id: string, name: string) => void,
-    onChange: (response: any) => void,
-    onCreate: (response: any) => any
+    onChange: (response: any) => void
 }
 
 export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
@@ -58,6 +57,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         (async () => {
             if (!parentId) {
                 await initQueryModel();
+                //await setLastSelectedId();
             }
         })()
     }, []);
@@ -163,16 +163,23 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         await closeDialog();
         await reloadModel();
         await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true);
+        onChange(response);
     };
 
-    const onChangeComplete = async (response: any, resetSelection = true) => {
+    const onChangeComplete = async (response: any) => {
         await closeDialog();
-        if (resetSelection) {
-            await onRowSelectionChange(queryModels[modelId], undefined, response.id);
+        let id: number;
+        let checked: boolean;
+        if (response.command === 'delete') {
+            id = undefined;
+            checked = false;
+        } else {
+            id = response.rows[0][toCamelCase(rowIdName)]
+            checked = true
         }
-        onChange(response);
+        await onRowSelectionChange(queryModels[modelId], id, checked);
         await reloadModel();
-
+        onChange(response);
     };
 
     const reloadModel = async () => {
@@ -223,6 +230,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                            allowSelections={true}
                            allowFiltering={false}
                            allowSorting={true}
+                           showExport={false}
                            title={title + "s" + (parentName ? " for \'" + parentName + "\'" : "")}
                            ButtonsComponent={renderButtons}
                 />

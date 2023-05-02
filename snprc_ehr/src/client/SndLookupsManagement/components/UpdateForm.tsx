@@ -2,7 +2,7 @@ import React, { FC, memo, useState } from 'react';
 import { Checkbox, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 
 interface Props {
-    handleUpdate: () => void,
+    handleUpdate: (evt: any) => any,
     handleSetUpdateRow: (newRow: any) => void,
     rowIdName: string,
     parentIdName?: string,

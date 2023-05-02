@@ -24,12 +24,13 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [updateRow, setUpdateRow] = useState<any>([]);
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (evt: any) => {
+        evt.preventDefault();
         setIsSubmitting(true);
         setError(undefined);
 
         return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
-            .then(onComplete({id: row[rowIdName]}))
+            .then(onComplete)
             .catch(error => {
                 console.error(error);
                 setError(resolveErrorMessage(error));
