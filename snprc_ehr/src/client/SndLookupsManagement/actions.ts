@@ -1,6 +1,7 @@
-import { Query } from '@labkey/api';
+import { Filter, Query } from '@labkey/api';
+import { IFilter } from '@labkey/api/dist/labkey/filter/Filter';
 
-export const createTableRow = (schemaName: string, queryName: string, name: string, parentId?: number) => {
+export const createTableRow = async (schemaName: string, queryName: string, name: string, parentId?: number) => {
     let rows = [];
     if (parentId) {
         rows.push(
@@ -27,7 +28,7 @@ export const createTableRow = (schemaName: string, queryName: string, name: stri
     });
 };
 
-export const updateTableRow = (schemaName: string, queryName: string, row: any, updatedRow?: any[]) => {
+export const updateTableRow = async (schemaName: string, queryName: string, row: any, updatedRow?: any[]) => {
     let rows = [];
     updatedRow.map(column => {
         row[column[0]] = column[1];
@@ -48,7 +49,7 @@ export const updateTableRow = (schemaName: string, queryName: string, row: any, 
     });
 };
 
-export const deleteTableRow = (schemaName: string, queryName: string, row: any) => {
+export const deleteTableRow = async (schemaName: string, queryName: string, row: any) => {
     let rows = [];
     rows.push(row);
     return new Promise((resolve, reject) => {
@@ -66,22 +67,21 @@ export const deleteTableRow = (schemaName: string, queryName: string, row: any) 
     });
 };
 
-export const getTableRow = (schemaName: string, queryName: string, id: number, parentId?: number) => {
-    let parameters: Array<{ [key: string]: any }> = [];
+export const getTableRow = async (schemaName: string, queryName: string, rowIdName: string, id: number, parentId?: number) => {
     let columns = [];
     if (parentId) {
-        parameters.push({LookupId: id});
         columns.push('lookupId', 'LookupSetId', 'value', 'displayable', 'sortOrder');
     } else {
-        parameters.push({LookupSetId: id});
         columns.push('lookupSetId', 'description', 'label', 'setName');
     }
+    const filterArray: IFilter[] = [Filter.create(rowIdName, id, Filter.Types.EQUALS)];
+
     return new Promise((resolve, reject) => {
         return Query.selectRows({
             columns,
             schemaName,
             queryName,
-            parameters,
+            filterArray: filterArray,
             success: (data: any) => {
                 resolve(data);
             },

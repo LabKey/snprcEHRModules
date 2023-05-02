@@ -12,10 +12,12 @@ import { Filter } from '@labkey/api';
 
 export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(props => {
     const [lookupSetId, setLookupSetId] = useState<string>('');
+    const [row, setRow] = useState<any>(undefined);
     const { actions, queryModels } = props;
 
-    const handleSelectedParentRow = (id: string): void => {
+    const handleSelectedParentRow = async (id: string, row: any) => {
         setLookupSetId(id);
+        setRow(row);
     }
 
     const onSuccess = (response: any) => {
@@ -29,11 +31,12 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                 <Col xs={10} md={4} className={"sidenav"} >
                     <TableGridPanel table={"LookupSets"}
                                     rowIdName={"LookupSetId"}
+                                    rowNameField={"SetName"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
                                     queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUP_SETS}
-                                    title={"Lookup Key"}
+                                    title={"Lookup Set"}
                                     handleSelectedParentRow={handleSelectedParentRow}
                                     onChange={onSuccess}
                                     onCreate={onSuccess}
@@ -44,13 +47,15 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
 
                     <TableGridPanel table={"Lookups"}
                                     rowIdName={"LookupId"}
+                                    rowNameField={"Value"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder']}
                                     queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUPS}
-                                    title={"Lookup Value"}
+                                    title={"Lookup"}
                                     parentId={lookupSetId}
                                     parentIdName={"LookupSetId"}
+                                    parentName={row["SetName"]}
                                     onChange={onSuccess}
                                     onCreate={onSuccess}
                                     filters={[Filter.create('lookupSetId', lookupSetId)] }
