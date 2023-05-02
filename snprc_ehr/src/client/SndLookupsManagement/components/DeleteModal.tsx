@@ -7,16 +7,16 @@ interface Props {
     onComplete: (response: any) => any,
     id: number,
     rowIdName: string,
+    rowNameField: string,
     table: string,
     schemaQuery: SchemaQuery,
     row: any
 }
 
 export const DeleteModal: FC<Props> = memo((props: Props) => {
+    const {onCancel, onComplete, id, table, schemaQuery, rowIdName, rowNameField, row} = props;
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-    const {onCancel, onComplete, id, table, schemaQuery, rowIdName, row} = props;
 
     const handleDelete = async () => {
         setIsSubmitting(true);
@@ -30,22 +30,20 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
                 setError(resolveErrorMessage(error, table, table + 's', 'delete'));
                 setIsSubmitting(false);
             });
-
     };
 
     return (
         <ConfirmModal
-            title={'Delete ' + table + ' \'' + (row['Value'] ? row['Value'] : row['SetName']) + '\'?'}
+            title={'Delete ' + table + ' \'' + (row[rowNameField] ?? "") + '\'?'}
             onConfirm={handleDelete}
             onCancel={onCancel}
             confirmVariant={'danger'}
             confirmButtonText={'Yes, Permanently Delete'}
             cancelButtonText={'Cancel'}
             submitting={isSubmitting}
-        ><form onSubmit={handleDelete} >
-            {<p>{table} '{row['Value'] ? row['Value'] : row['SetName']}' will be deleted. Do you want to proceed?</p>}
+        >
+            {<p>{table} <b>'{row[rowNameField]}'</b> will be deleted. Do you want to proceed?</p>}
             {error && <Alert>{error}</Alert>}
-        </form>
         </ConfirmModal>
     );
 });

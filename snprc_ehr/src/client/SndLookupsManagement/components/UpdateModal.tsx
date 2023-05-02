@@ -1,7 +1,7 @@
-import React, { FC, memo, ReactNode, useEffect, useState } from 'react';
+import React, { FC, memo, ReactNode, useState } from 'react';
 import { Alert, resolveErrorMessage, SchemaQuery, WizardNavButtons } from '@labkey/components';
 import { Modal } from 'react-bootstrap';
-import { getTableRow, updateTableRow } from '../actions';
+import { updateTableRow } from '../actions';
 import { UpdateForm } from './UpdateForm';
 
 interface Props {
@@ -11,20 +11,20 @@ interface Props {
     show: boolean,
     table: string,
     rowIdName: string,
+    rowNameField: string,
     schemaQuery: SchemaQuery,
     row: any,
-    parentId?: number,
     parentIdName?: string
 }
 
 export const UpdateModal: FC<Props> = memo((props: Props) => {
-    const {onCancel, onComplete, id, table, show, schemaQuery, parentId, rowIdName, parentIdName, row} = props;
+    const {onCancel, onComplete, table, show, schemaQuery, rowIdName, rowNameField, parentIdName, row} = props;
 
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [updateRow, setUpdateRow] = useState<any>([]);
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         setIsSubmitting(true);
         setError(undefined);
 
@@ -41,7 +41,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
     return (
         <Modal show={show} onHide={onCancel}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit {table} '{(parentId ? row['Value'] : row['SetName'])}'</Modal.Title>
+                <Modal.Title>Edit {table} '{row[rowNameField]}'</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <UpdateForm

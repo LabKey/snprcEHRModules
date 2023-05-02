@@ -18,13 +18,15 @@ interface TableProps {
     parentId?: string,
     rowIdName: string,
     parentIdName?: string,
+    rowNameField: string,
+    parentName?: string,
     actions: Actions,
     omittedColumns: string[],
     queryModels: any,
     schemaQuery: SchemaQuery,
     title: string,
     filters: any[],
-    handleSelectedParentRow?: (id: string) => void,
+    handleSelectedParentRow?: (id: string, name: string) => void,
     onChange: (response: any) => void,
     onCreate: (response: any) => any
 }
@@ -35,7 +37,9 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         queryModels,
         parentId,
         rowIdName,
+        rowNameField,
         parentIdName,
+        parentName,
         omittedColumns,
         table,
         schemaQuery,
@@ -51,46 +55,55 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
     const prevParentId = usePrevious(parentId);
 
     useEffect(() => {
-        if (!parentId) {
-            initQueryModel();
-            setLastSelectedId();
-        }
-
+        (async () => {
+            if (!parentId) {
+                await initQueryModel();
+            }
+        })()
     }, []);
 
     useEffect(() => {
-        setLastSelectedId();
-
+        (async () => {
+            await setLastSelectedId();
+        })()
     }, [queryModels[modelId]]);
 
     useEffect(() => {
-        if (parentId) {
-            if (prevParentId !== parentId) {
-                initQueryModel();
-            } else {
-                actions.loadModel(parentId);
+        (async () => {
+            if (parentId) {
+                if (prevParentId !== parentId) {
+                    await initQueryModel();
+                } else {
+                    actions.loadModel(parentId);
+                }
             }
-        }
+        })()
+
     }, [parentId]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            await getRow();
-        };
-        fetchData();
-
+        (async () => {
+            const currentRow = await getRow();
+            setRow(currentRow);
+        })()
     }, [selectedId]);
 
+    useEffect(() => {
+        if (handleSelectedParentRow) {
+            handleSelectedParentRow(selectedId, row);
+        }
+    }, [row]);
+
     const getRow = async () => {
-        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, +selectedId, +parentId);
-        setRow(tableRow['rows'].find(row => row[rowIdName] === +selectedId));
+        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, rowIdName, +selectedId, +parentId);
+        return tableRow['rows'][0];
     };
 
-    const initQueryModel = () => {
+    const initQueryModel = async () => {
         const baseFilters = filters;
         actions.addModel(
             {
-                id: parentId ? parentId : table,
+                id: parentId ?? table,
                 schemaQuery: schemaQuery,
                 baseFilters,
                 omittedColumns: omittedColumns,
@@ -102,24 +115,22 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         if (!parentId) {
             actions.setMaxRows(table, 300);
         }
-        setModelId(parentId ? parentId : table);
+        setModelId(parentId ?? table);
     };
 
-    const setLastSelectedId = (): void => {
+    const setLastSelectedId = async () => {
         const model = queryModels[modelId];
         if (!model || isLoading(model.selectionsLoadingState)) {
             return;
         }
 
         if (model.selectionsLoadingState === LoadingState.LOADED) {
-            updateLastSelectedId(getLastSelectedId());
-
+            await updateLastSelectedId(await getLastSelectedId());
 
         }
-
     };
 
-    const updateLastSelectedId = (id: string) => {
+    const updateLastSelectedId = async (id: string) => {
         if (selectedId !== id) {
             if (id === undefined) {
                 actions.clearSelections(modelId);
@@ -127,18 +138,16 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                 actions.replaceSelections(modelId, [id]);
             }
             setSelectedId(id);
-            if (handleSelectedParentRow) {
-                handleSelectedParentRow(id);
-            }
+
         }
     };
 
-    const getLastSelectedId = (): string => {
+    const getLastSelectedId = async () => {
         const selectedIds: Set<string> = queryModels[modelId].selections;
         return selectedIds.size > 0 ? Array.from(selectedIds).pop() : undefined;
     };
 
-    const toggleDialog = (name: string, requiresSelection = false): void => {
+    const toggleDialog = async (name: string, requiresSelection = false) => {
         if (requiresSelection && queryModels[modelId].hasSelections) {
             setShowDialog(undefined);
         } else {
@@ -146,61 +155,65 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         }
     };
 
-    const closeDialog = (): void => {
-        toggleDialog(undefined);
+    const closeDialog = async () => {
+        await toggleDialog(undefined);
     };
 
-    const onCreateComplete = (response: any): void => {
-        closeDialog();
-        reloadModel();
-        onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true);
+    const onCreateComplete = async (response: any) => {
+        await closeDialog();
+        await reloadModel();
+        await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true);
     };
 
-    const onChangeComplete = (response: any, resetSelection = true): void => {
-        closeDialog();
+    const onChangeComplete = async (response: any, resetSelection = true) => {
+        await closeDialog();
         if (resetSelection) {
-            onRowSelectionChange(queryModels[modelId], undefined, response.id);
+            await onRowSelectionChange(queryModels[modelId], undefined, response.id);
         }
         onChange(response);
-        reloadModel();
+        await reloadModel();
 
     };
 
-    const reloadModel = (): void => {
+    const reloadModel = async () => {
         actions.loadModel(modelId, true);
     };
 
-    const onRowSelectionChange = (model: QueryModel, newId: any, checked: boolean): void => {
+    const onRowSelectionChange = async (model: QueryModel, newId: any, checked: boolean) => {
         let id;
-
         if (checked) {
             if (newId) {
                 id = newId;
             } else if (model.hasSelections) {
-                id = getLastSelectedId();
+                id = await getLastSelectedId();
             }
         }
-        updateLastSelectedId(id);
+        await updateLastSelectedId(id);
     };
 
     const renderButtons = () => {
         const model = queryModels[modelId];
         return (
             <div className="manage-buttons">
-                {<Button bsStyle={'success'} onClick={() => toggleDialog('create')}>Create</Button>}
+                {<Button bsStyle={'success'} onClick={() => toggleDialog('create')}>
+                    Create
+                </Button>}
                 <ManageDropdownButton  id={table}>
-                    <SelectionMenuItem id={'delete-menu-item'} text={'Delete'} queryModel={model}
+                    <SelectionMenuItem id={'delete-menu-item'}
+                                       text={'Delete'}
+                                       queryModel={model}
                                        onClick={() => toggleDialog('delete')}/>
-                    <SelectionMenuItem id={'edit-menu-item'} text={'Edit'} queryModel={model}
+                    <SelectionMenuItem id={'edit-menu-item'}
+                                       text={'Edit'}
+                                       queryModel={model}
                                        onClick={() => toggleDialog('update')}/>
                 </ManageDropdownButton>
-
             </div>
         );
     };
 
     return (
-        <>
+        <div>
             {queryModels[modelId] && (
                 <GridPanel actions={actions}
                            model={queryModels[modelId]}
@@ -210,7 +223,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                            allowSelections={true}
                            allowFiltering={false}
                            allowSorting={true}
-                           title={title}
+                           title={title + "s" + (parentName ? " for \'" + parentName + "\'" : "")}
                            ButtonsComponent={renderButtons}
                 />
             )}
@@ -221,7 +234,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                          table={title}
                          schemaQuery={schemaQuery}
                          parentId={+parentId}
-                         row={row}/>
+            />
             )}
             {showDialog === 'update' && (
             <UpdateModal onCancel={closeDialog}
@@ -230,10 +243,11 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                          id={+selectedId}
                          table={title}
                          schemaQuery={schemaQuery}
-                         parentId={+parentId}
                          rowIdName={rowIdName}
+                         rowNameField={rowNameField}
                          row={row}
-            parentIdName={parentIdName}/>
+                         parentIdName={parentIdName}
+            />
             )}
             {showDialog === 'delete' && (
                 <DeleteModal onCancel={closeDialog}
@@ -242,10 +256,11 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                              rowIdName={rowIdName}
                              row={row}
                              table={title}
-                             schemaQuery={schemaQuery}/>
-
+                             schemaQuery={schemaQuery}
+                             rowNameField={rowNameField}
+                />
             )}
-        </>
+        </div>
 
     );
 

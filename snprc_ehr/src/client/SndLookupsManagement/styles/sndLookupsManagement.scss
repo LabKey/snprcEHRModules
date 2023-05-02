@@ -33,30 +33,24 @@
 }
 
 .form-group-create-update {
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
 .form-group-create-update .control-label {
   float: left;
-  width: 15%;
-  margin-top: 10px;
-  margin-right: 10px;
+  text-align: right;
+  width: 150px;
+  margin-top: 6px;
+  margin-right: 6px;
 }
 
 .form-group-create-update .form-control {
-  float: left;
-  text-align: left;
   width: 50%;
-  margin-top: 5px;
 }
 
 .form-group-create-update .checkbox {
-  float: left;
-  width: 25%;
-  margin-top: 12px;
-  margin-bottom: -12px;
+  padding-top: 8px;
+  margin-bottom: -10px;
 }
 
 .grid-panel__input-group {
