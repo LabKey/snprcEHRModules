@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import './styles/sndLookupsManagement.scss'
 
 import {
+    Alert,
     InjectedQueryModels,
     withQueryModels
 } from '@labkey/components';
@@ -13,6 +14,8 @@ import { Filter } from '@labkey/api';
 export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(props => {
     const [lookupSetId, setLookupSetId] = useState<string>('');
     const [row, setRow] = useState<any>(undefined);
+    const [message, setMessage] = useState<string>('');
+    const [error, setError] = useState<string>('');
     const { actions, queryModels } = props;
 
     const handleSelectedParentRow = async (id: string, row: any) => {
@@ -21,12 +24,21 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
     }
 
     const onSuccess = (response: any) => {
-
+        let responseMsg: string;
+        if (response.command == "insert") response.command = "create";
+        responseMsg = "Successfully " + response.command + "d " + response.queryName.slice(0, -1) + " \'"
+            + (response.rows[0]['setName'] ?? response.rows[0]['value']) + "\'!";
+        setMessage(responseMsg);
+        if (response['htmlErrors']?.length > 0) {
+            setError(response['htmlErrors'].join(' '));
+        }
+        window.setTimeout(() => setMessage(undefined), 60000);
     }
 
     return (
-
         <div>
+            <Alert bsStyle="success">{message}</Alert>
+            <Alert>{error}</Alert>
             <Row>
                 <Col xs={10} md={4} className={"sidenav"} >
                     <TableGridPanel table={"LookupSets"}
@@ -39,7 +51,6 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     title={"Lookup Set"}
                                     handleSelectedParentRow={handleSelectedParentRow}
                                     onChange={onSuccess}
-                                    onCreate={onSuccess}
                                     filters={[]}/>
                 </Col>
                 <Col xs={10} md={7}>
@@ -57,7 +68,6 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     parentIdName={"LookupSetId"}
                                     parentName={row["SetName"]}
                                     onChange={onSuccess}
-                                    onCreate={onSuccess}
                                     filters={[Filter.create('lookupSetId', lookupSetId)] }
                                      />
                     )}
