@@ -40,7 +40,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
 
 
     return (
-        <Modal show={show} onHide={onCancel}>
+        <Modal show={show} onHide={onCancel} className={"lookups-modal"}>
             <Modal.Header closeButton>
                 <Modal.Title>Edit {table} '{row?.[rowNameField]}'</Modal.Title>
             </Modal.Header>

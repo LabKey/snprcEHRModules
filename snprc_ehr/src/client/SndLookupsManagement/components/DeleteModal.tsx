@@ -33,16 +33,17 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
     };
 
     return (
+        <div className={"lookups-modal"}>
         <ConfirmModal
             title={'Delete ' + table + ' \'' + (row?.[rowNameField]) + '\'?'}
-            onConfirm={row['IsInUse'] === 'false' ? handleDelete : onCancel}
+            onConfirm={row['IsInUse'] === 'true' ? onCancel : handleDelete}
             onCancel={onCancel}
-            confirmVariant={row['IsInUse'] === 'false' ? 'danger' : 'primary'}
-            confirmButtonText={row['IsInUse'] === 'false' ? 'Yes, Permanently Delete' : 'Cancel'}
+            confirmVariant={row['IsInUse'] === 'true' ? 'primary' : 'danger'}
+            confirmButtonText={row['IsInUse'] === 'true' ? 'Close' : 'Yes, Permanently Delete' }
             cancelButtonText={'Cancel'}
             submitting={isSubmitting}
         >
-            {row['IsInUse'] === 'false' && (
+            {row['IsInUse'] !== 'true' && (
                 <p>{table} <b>'{row?.[rowNameField]}'</b> will be deleted. Do you want to proceed?</p>
             )
             }
@@ -52,5 +53,6 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
             }
             {error && <Alert>{error}</Alert>}
         </ConfirmModal>
+        </div>
     );
 });
