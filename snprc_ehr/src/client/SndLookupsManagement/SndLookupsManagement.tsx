@@ -12,20 +12,23 @@ import { SCHEMAS } from './schemas';
 import { Filter } from '@labkey/api';
 
 export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(props => {
+    const { actions, queryModels } = props;
+
     const [lookupSetId, setLookupSetId] = useState<string>('');
-    const [row, setRow] = useState<any>(undefined);
+    const [lookupSetName, setLookupSetName] = useState<string>('');
     const [message, setMessage] = useState<string>('');
     const [error, setError] = useState<string>('');
-    const { actions, queryModels } = props;
+
 
     const handleSelectedParentRow = async (id: string, row: any) => {
         setLookupSetId(id);
-        setRow(row);
+        setLookupSetName(row?.SetName);
     }
 
     const onSuccess = (response: any) => {
         let responseMsg: string;
         if (response.command == "insert") response.command = "create";
+
         responseMsg = "Successfully " + response.command + "d " + response.queryName.slice(0, -1) + " \'"
             + (response.rows[0]['setName'] ?? response.rows[0]['value']) + "\'!";
         setMessage(responseMsg);
@@ -37,15 +40,16 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
 
     return (
         <div>
-            <Alert bsStyle="success">{message}</Alert>
+            <Alert className={"success-alert"} bsStyle="success">{message}</Alert>
             <Alert>{error}</Alert>
-            <Row>
-                <Col xs={10} md={4} className={"sidenav"} >
+            <Row className={"snd-lookups-grid"}>
+                <Col xs={10} md={5} className={"lookupSets-grid"}>
                     <TableGridPanel table={"LookupSets"}
                                     rowIdName={"LookupSetId"}
                                     rowNameField={"SetName"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
+                                    displayColumns={['lookupSetId', 'description', 'label', 'setName', 'isInUse']}
                                     queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUP_SETS}
                                     title={"Lookup Set"}
@@ -53,7 +57,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     onChange={onSuccess}
                                     filters={[]}/>
                 </Col>
-                <Col xs={10} md={7}>
+                <Col xs={10} md={6} className={"lookups-grid"}>
                     {lookupSetId && (
 
                     <TableGridPanel table={"Lookups"}
@@ -61,12 +65,13 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     rowNameField={"Value"}
                                     actions={actions}
                                     omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid', 'sortOrder']}
+                                    displayColumns={['lookupId', 'LookupSetId', 'value', 'displayable', 'sortOrder']}
                                     queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUPS}
                                     title={"Lookup"}
                                     parentId={lookupSetId}
                                     parentIdName={"LookupSetId"}
-                                    parentName={row["SetName"]}
+                                    parentName={lookupSetName}
                                     onChange={onSuccess}
                                     filters={[Filter.create('lookupSetId', lookupSetId)] }
                                      />

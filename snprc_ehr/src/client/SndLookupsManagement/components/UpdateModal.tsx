@@ -42,9 +42,10 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
     return (
         <Modal show={show} onHide={onCancel}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit {table} '{row[rowNameField]}'</Modal.Title>
+                <Modal.Title>Edit {table} '{row?.[rowNameField]}'</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {row?.['IsInUse'] == 'true' && <Alert className={"edit-alert"}>{table} <b>'{row?.[rowNameField]}'</b> is in use by a Package and cannot be edited.</Alert>}
                 <UpdateForm
                     handleUpdate={handleUpdate}
                     handleSetUpdateRow={e => setUpdateRow(e)}
@@ -57,11 +58,11 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
             <Modal.Footer>
                 <WizardNavButtons containerClassName={''}
                                   cancel={onCancel}
-                                  finish={true}
+                                  finish={row?.['IsInUse'] == 'false'}
                                   finishText={`Update ${table}`}
                                   isFinishing={isSubmitting}
                                   isFinishingText={`Updating ${table}s`}
-                                  nextStep={handleUpdate}
+                                  nextStep={row?.['IsInUse'] == 'false' ? handleUpdate : onCancel}
                 />
             </Modal.Footer>
         </Modal>

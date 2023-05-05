@@ -22,6 +22,7 @@ interface TableProps {
     parentName?: string,
     actions: Actions,
     omittedColumns: string[],
+    displayColumns: string[],
     queryModels: any,
     schemaQuery: SchemaQuery,
     title: string,
@@ -40,6 +41,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         parentIdName,
         parentName,
         omittedColumns,
+        displayColumns,
         table,
         schemaQuery,
         title,
@@ -57,7 +59,6 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         (async () => {
             if (!parentId) {
                 await initQueryModel();
-                //await setLastSelectedId();
             }
         })()
     }, []);
@@ -83,8 +84,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
 
     useEffect(() => {
         (async () => {
-            const currentRow = await getRow();
-            setRow(currentRow);
+            await getRow();
         })()
     }, [selectedId]);
 
@@ -95,9 +95,10 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
     }, [row]);
 
     const getRow = async () => {
-        const tableRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, rowIdName, +selectedId, +parentId);
-        return tableRow['rows'][0];
+        const currentRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, rowIdName, +selectedId, displayColumns);
+        setRow(currentRow['rows'][0]);
     };
+
 
     const initQueryModel = async () => {
         const baseFilters = filters;
@@ -228,7 +229,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                            highlightLastSelectedRow={true}
                            showPagination={false}
                            allowSelections={true}
-                           allowFiltering={false}
+                           allowFiltering={true}
                            allowSorting={true}
                            showExport={false}
                            title={title + "s" + (parentName ? " for \'" + parentName + "\'" : "")}
