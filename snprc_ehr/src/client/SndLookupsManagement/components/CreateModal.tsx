@@ -52,7 +52,7 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
     };
 
     return (
-        <Modal show={show} onHide={onCancel}>
+        <Modal show={show} onHide={onCancel} className={"lookups-modal"}>
             <Modal.Header closeButton>
                 <Modal.Title>Create New {table}</Modal.Title>
             </Modal.Header>

@@ -9,7 +9,7 @@
   position: relative;
   left: 10%;
   width: 85%;
-  transform: translate(0, 5%)
+  transform: translate(0, 5%);
 }
 .success-alert {
   position: relative;
@@ -18,6 +18,10 @@
   transform: translate(0, 50%)
 }
 
+.lookups-modal {
+  position: fixed;
+  transform: translate(0, 6%)
+}
 .edit-alert {
   position: relative;
   left: 7%;
@@ -27,7 +31,7 @@
 
 .grid-panel__grid .table-responsive {
   overflow: scroll;
-  height: 53vh; width: 100%;
+  height: 51vh; width: 100%;
   z-index: 1; top: 0; left: 0; transition: .5s ease; align-items: center;
 }
 .grid-panel__grid .table-responsive thead {
