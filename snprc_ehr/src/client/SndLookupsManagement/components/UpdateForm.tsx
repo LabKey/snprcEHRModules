@@ -24,9 +24,10 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
     return (
         <div className={'update-users-label-bottom'}>
             {(Object.entries(row).map(column => {
-                return (<form onSubmit={handleUpdate}>
+                return (
+                    <form onSubmit={handleUpdate}>
                         <FormGroup className={'form-group-create-update'} controlId={`form-${column[0]}-field}`}>
-                            {!column[0].startsWith('_labkeyurl_') && (
+                            {!column[0].startsWith('_labkeyurl_') && !(column[0] === "IsInUse") && (
                                 <div>
                                     <ControlLabel>{column[0]}:</ControlLabel>
                                     {(typeof column[1] !== 'boolean') && (
@@ -37,7 +38,7 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
                                             onBlur={column[0] === rowIdName || column[0] === parentIdName ?
                                                 (e) => (e) :
                                                 (e) => onRowUpdate(e, column[0])}
-                                            readOnly={column[0] === rowIdName || column[0] === parentIdName}
+                                            readOnly={row?.['IsInUse'] == 'true' || column[0] === rowIdName || column[0] === parentIdName}
                                         />
                                     )}
                                     {typeof column[1] === 'boolean' && (

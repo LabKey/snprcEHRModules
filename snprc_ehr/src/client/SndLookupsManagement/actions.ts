@@ -28,17 +28,15 @@ export const createTableRow = async (schemaName: string, queryName: string, name
     });
 };
 
-export const updateTableRow = async (schemaName: string, queryName: string, row: any, updatedRow?: any[]) => {
-    let rows = [];
-    updatedRow.map(column => {
+export const updateTableRow = async (schemaName: string, queryName: string, row: any, updatedColumns?: any[]) => {
+    updatedColumns.map(column => {
         row[column[0]] = column[1];
     });
-    rows.push(row);
     return new Promise((resolve, reject) => {
         Query.updateRows({
             schemaName,
             queryName,
-            rows,
+            rows:[row],
             success: (data: any) => {
                 resolve(data);
             },
@@ -50,13 +48,11 @@ export const updateTableRow = async (schemaName: string, queryName: string, row:
 };
 
 export const deleteTableRow = async (schemaName: string, queryName: string, row: any) => {
-    let rows = [];
-    rows.push(row);
     return new Promise((resolve, reject) => {
         Query.deleteRows({
             schemaName,
             queryName,
-            rows,
+            rows:[row],
             success: (data: any) => {
                 resolve(data);
             },
@@ -67,15 +63,8 @@ export const deleteTableRow = async (schemaName: string, queryName: string, row:
     });
 };
 
-export const getTableRow = async (schemaName: string, queryName: string, rowIdName: string, id: number, parentId?: number) => {
-    let columns = [];
-    if (parentId) {
-        columns.push('lookupId', 'LookupSetId', 'value', 'displayable', 'sortOrder');
-    } else {
-        columns.push('lookupSetId', 'description', 'label', 'setName');
-    }
-    const filterArray: IFilter[] = [Filter.create(rowIdName, id, Filter.Types.EQUALS)];
-
+export const getTableRow = async (schemaName: string, queryName: string, filterColumn: string, filterValue: number, columns: string[]) => {
+    const filterArray: IFilter[] = [Filter.create(filterColumn, filterValue, Filter.Types.EQUALS)];
     return new Promise((resolve, reject) => {
         return Query.selectRows({
             columns,
@@ -83,11 +72,10 @@ export const getTableRow = async (schemaName: string, queryName: string, rowIdNa
             queryName,
             filterArray: filterArray,
             success: (data: any) => {
-                resolve(data);
-            },
+                resolve(data);},
             failure: (data) => {
                 reject(data);
             }
         });
     });
-};
+}

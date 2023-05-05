@@ -34,15 +34,22 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
 
     return (
         <ConfirmModal
-            title={'Delete ' + table + ' \'' + (row[rowNameField] ?? "") + '\'?'}
-            onConfirm={handleDelete}
+            title={'Delete ' + table + ' \'' + (row?.[rowNameField]) + '\'?'}
+            onConfirm={row['IsInUse'] === 'false' ? handleDelete : onCancel}
             onCancel={onCancel}
-            confirmVariant={'danger'}
-            confirmButtonText={'Yes, Permanently Delete'}
+            confirmVariant={row['IsInUse'] === 'false' ? 'danger' : 'primary'}
+            confirmButtonText={row['IsInUse'] === 'false' ? 'Yes, Permanently Delete' : 'Cancel'}
             cancelButtonText={'Cancel'}
             submitting={isSubmitting}
         >
-            {<p>{table} <b>'{row[rowNameField]}'</b> will be deleted. Do you want to proceed?</p>}
+            {row['IsInUse'] === 'false' && (
+                <p>{table} <b>'{row?.[rowNameField]}'</b> will be deleted. Do you want to proceed?</p>
+            )
+            }
+            {row['IsInUse'] === 'true' &&
+                <Alert>{table} <b>'{row?.[rowNameField]}'</b> is in use by a Package and cannot be deleted.</Alert>
+
+            }
             {error && <Alert>{error}</Alert>}
         </ConfirmModal>
     );

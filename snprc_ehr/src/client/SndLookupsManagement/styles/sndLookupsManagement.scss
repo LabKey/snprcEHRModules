@@ -1,8 +1,33 @@
 @import '@labkey/components/dist/assets/scss/variables';
 
+.lk-body-title {
+  position: relative;
+  left: 10%;
+  transform: translate(0, 90%)
+}
+.snd-lookups-grid {
+  position: relative;
+  left: 10%;
+  width: 85%;
+  transform: translate(0, 5%)
+}
+.success-alert {
+  position: relative;
+  left: 10%;
+  width: 85%;
+  transform: translate(0, 50%)
+}
+
+.edit-alert {
+  position: relative;
+  left: 7%;
+  width: 85%;
+  transform: translate(0, 10%)
+}
+
 .grid-panel__grid .table-responsive {
   overflow: scroll;
-  height: 50vh; width: 100%;
+  height: 53vh; width: 100%;
   z-index: 1; top: 0; left: 0; transition: .5s ease; align-items: center;
 }
 .grid-panel__grid .table-responsive thead {
@@ -20,16 +45,38 @@
   padding: 5px;
 }
 
+.button-bar__section {
+  display: flex;
+  float: left;
+}
+
+.grid-panel__search-form {
+  margin-top: -4px;
+  margin-left: 4px;
+}
+
+.grid-panel__input-group {
+  display: inline-flex;
+  margin: 5px;
+}
+
+//.grid-panel__info {
+//  margin-top: 5px;
+//}
+
+.grid-panel .grid-header-cell .dropdown-menu {
+  position: fixed;
+  top: auto;
+  left: auto;
+  right: auto;
+}
+
 .manage-buttons {
   display: inline-block;
 }
 
 .manage-buttons .dropdown-menu {
   position: absolute;
-}
-
-.dropdown-menu {
-  position: fixed;
 }
 
 .form-group-create-update {
@@ -53,15 +100,5 @@
   margin-bottom: -10px;
 }
 
-.grid-panel__input-group {
-  display: inline-block;
-  margin: 5px;
-}
 
-.button-bar__section {
-  float: left;
-}
 
-.grid-panel__info {
-  margin-top: 40px;
-}
