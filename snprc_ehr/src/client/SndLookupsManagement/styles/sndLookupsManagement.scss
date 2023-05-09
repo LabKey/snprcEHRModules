@@ -1,21 +1,21 @@
 @import '@labkey/components/dist/assets/scss/variables';
 
 .lk-body-title {
-  position: relative;
-  left: 10%;
-  transform: translate(0, 90%)
+  position: fixed;
+  left: 11.3%;
+  transform: translate(0, 20%);
 }
 .snd-lookups-grid {
-  position: relative;
-  left: 10%;
+  position: fixed;
+  left: 12%;
   width: 85%;
-  transform: translate(0, 5%);
+  transform: translate(0, 10%);
 }
 .success-alert {
   position: relative;
-  left: 10%;
-  width: 85%;
-  transform: translate(0, 50%)
+  left: 11.1%;
+  width: 75%;
+  transform: translate(0, 100%)
 }
 
 .lookups-modal {

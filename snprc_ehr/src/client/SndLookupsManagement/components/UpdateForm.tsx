@@ -38,7 +38,7 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
                                             onBlur={column[0] === rowIdName || column[0] === parentIdName ?
                                                 (e) => (e) :
                                                 (e) => onRowUpdate(e, column[0])}
-                                            readOnly={row?.['IsInUse'] == 'true' || column[0] === rowIdName || column[0] === parentIdName}
+                                            readOnly={(row?.['IsInUse'] == 'true' && column[0] != 'SortOrder') || column[0] === rowIdName || column[0] === parentIdName}
                                         />
                                     )}
                                     {typeof column[1] === 'boolean' && (
