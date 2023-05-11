@@ -1,7 +1,7 @@
-import React, { FC, memo, ReactNode, useState } from 'react';
+import React, { FC, memo, ReactNode, useEffect, useState } from 'react';
 import { Alert, resolveErrorMessage, SchemaQuery, WizardNavButtons } from '@labkey/components';
 import { Modal } from 'react-bootstrap';
-import { updateTableRow } from '../actions';
+import { getTableRow, updateTableRow } from '../actions';
 import { UpdateForm } from './UpdateForm';
 
 interface Props {
@@ -14,15 +14,24 @@ interface Props {
     rowNameField: string,
     schemaQuery: SchemaQuery,
     row: any,
-    parentIdName?: string
+    parentIdName?: string,
+    parentId?: number
 }
 
 export const UpdateModal: FC<Props> = memo((props: Props) => {
-    const {onCancel, onComplete, table, show, schemaQuery, rowIdName, rowNameField, parentIdName, row} = props;
+    const {onCancel, onComplete, table, show, schemaQuery, rowIdName, rowNameField, parentIdName, parentId, row} = props;
 
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [updateRow, setUpdateRow] = useState<any>([]);
+    const [rowCount, setRowCount] = useState<number>();
+
+    useEffect(() => {
+        (async () => {
+            if(parentId)
+                await getRowCount();
+        })()
+    },[]);
 
     const handleUpdate = async (evt: any) => {
         evt.preventDefault();
@@ -38,6 +47,11 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
             });
     };
 
+    const getRowCount = async () => {
+        const rows = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, parentIdName, parentId, ['LookupSetId']);
+        console.log(rows);
+        setRowCount(Object.entries(rows['rows']).length);
+    }
 
     return (
         <Modal show={show} onHide={onCancel} className={"lookups-modal"}>
@@ -52,6 +66,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                     row={row}
                     rowIdName={rowIdName}
                     parentIdName={parentIdName}
+                    rowCount={rowCount}
                 />
                 {error && <Alert style={{marginTop: '10px'}}>{error}</Alert>}
             </Modal.Body>

@@ -256,6 +256,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                          rowNameField={rowNameField}
                          row={row}
                          parentIdName={parentIdName}
+                         parentId={+parentId}
             />
             )}
             {showDialog === 'delete' && (
