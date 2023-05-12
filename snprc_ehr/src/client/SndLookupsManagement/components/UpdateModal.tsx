@@ -38,6 +38,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
         setIsSubmitting(true);
         setError(undefined);
 
+        console.log(updateRow)
         return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
             .then(onComplete)
             .catch(error => {
@@ -49,7 +50,6 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
 
     const getRowCount = async () => {
         const rows = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, parentIdName, parentId, ['LookupSetId']);
-        console.log(rows);
         setRowCount(Object.entries(rows['rows']).length);
     }
 
@@ -59,7 +59,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                 <Modal.Title>Edit {table} '{row?.[rowNameField]}'</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {row?.['IsInUse'] == 'true' && <Alert className={"edit-alert"}>{table} <b>'{row?.[rowNameField]}'</b> is in use by a Package. Some fields may not be changed.</Alert>}
+                {row?.['IsInUse'] == 'true' && <Alert className={"edit-alert"}>{table} <b>'{row?.[rowNameField]}'</b> is in use by a{parentId ? 'n Event' : ' Package'}. Some fields may not be changed.</Alert>}
                 <UpdateForm
                     handleUpdate={handleUpdate}
                     handleSetUpdateRow={e => setUpdateRow(e)}

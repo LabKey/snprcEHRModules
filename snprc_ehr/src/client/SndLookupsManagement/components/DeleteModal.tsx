@@ -48,7 +48,7 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
             )
             }
             {row['IsInUse'] === 'true' &&
-                <Alert>{table} <b>'{row?.[rowNameField]}'</b> is in use by a Package and cannot be deleted.</Alert>
+                <Alert>{table} <b>'{row?.[rowNameField]}'</b> is in use by a{table == "Lookup" ? 'n Event' : ' Package'} and cannot be deleted.</Alert>
 
             }
             {error && <Alert>{error}</Alert>}

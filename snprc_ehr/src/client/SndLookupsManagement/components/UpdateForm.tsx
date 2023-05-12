@@ -20,9 +20,10 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
 
     const onRowUpdate = async (evt: any, column: string) => {
         let thisRow = newRow;
-        if (evt.value) {
-            thisRow[column] = evt.value as number;
-            setValue(evt.value);
+        console.log(evt)
+        if (evt.value || evt.key === 0) {
+            thisRow[column] = evt.value;
+            setValue(evt.value ?? null);
         } else {
             thisRow[column] = evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
         }
@@ -32,9 +33,9 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
 
     const renderList = (): any => {
         let numbers = [...new Array(rowCount).keys()].map(num => {
-            return {label: num + 1, value: num + 1};
+            return {label: num + 1, value: num + 1, key: num + 1};
         });
-        numbers.unshift({label: null, value: null});
+        numbers.unshift({label: null, value: null, key: 0});
         return numbers;
     }
 
@@ -62,9 +63,9 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
                                         <Select
                                             className={"select-dropdown"}
                                             value={value ?? column[1]}
-                                            placeholder={value ?? column[1]}
+                                            placeholder={value ?? column[1] ?? "Select..."}
                                             options={renderList()}
-                                            onChange={e => onRowUpdate(e, column[0])}
+                                            onChange={e => { onRowUpdate(e, column[0]); column[1] = undefined; }}
                                             />
                                     )}
                                     {typeof column[1] === 'boolean' && (
