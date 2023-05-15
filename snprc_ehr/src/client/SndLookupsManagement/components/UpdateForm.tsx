@@ -16,14 +16,13 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
 
     const {handleUpdate, handleSetUpdateRow, row, rowIdName, parentIdName, rowCount} = props;
     const [newRow, setNewRow] = useState<any>([]);
-    const [value, setValue] = useState<any>();
+    const [sortOrderDisplayValue, setSortOrderDisplayValue] = useState<any>(undefined);
 
     const onRowUpdate = async (evt: any, column: string) => {
         let thisRow = newRow;
-        console.log(evt)
         if (evt.value || evt.key === 0) {
             thisRow[column] = evt.value;
-            setValue(evt.value ?? null);
+            setSortOrderDisplayValue(evt.value ?? null);
         } else {
             thisRow[column] = evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
         }
@@ -37,6 +36,13 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
         });
         numbers.unshift({label: null, value: null, key: 0});
         return numbers;
+    }
+
+    const getSortOrderDisplayValue = (sortOrder: any): any => {
+        if (sortOrder == null) {
+            sortOrder = "Select...";
+        }
+        return sortOrderDisplayValue === undefined ? sortOrder : sortOrderDisplayValue;
     }
 
     return (
@@ -62,10 +68,10 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
                                     {(column[0] === 'SortOrder') && (
                                         <Select
                                             className={"select-dropdown"}
-                                            value={value ?? column[1]}
-                                            placeholder={value ?? column[1] ?? "Select..."}
+                                            value={getSortOrderDisplayValue(column[1])}
+                                            placeholder={getSortOrderDisplayValue(column[1])}
                                             options={renderList()}
-                                            onChange={e => { onRowUpdate(e, column[0]); column[1] = undefined; }}
+                                            onChange={e => onRowUpdate(e, column[0])}
                                             />
                                     )}
                                     {typeof column[1] === 'boolean' && (

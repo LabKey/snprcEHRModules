@@ -37,8 +37,6 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
         evt.preventDefault();
         setIsSubmitting(true);
         setError(undefined);
-
-        console.log(updateRow)
         return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
             .then(onComplete)
             .catch(error => {
