@@ -18,6 +18,9 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+    /**
+     * Callback for handling the delete operation when the button is pressed in the modal
+     */
     const handleDelete = async () => {
         setIsSubmitting(true);
         let deleteRow = {};

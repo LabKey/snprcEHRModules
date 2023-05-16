@@ -24,15 +24,11 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [updateRow, setUpdateRow] = useState<any>([]);
-    const [rowCount, setRowCount] = useState<number>();
 
-    useEffect(() => {
-        (async () => {
-            if(parentId)
-                await getRowCount();
-        })()
-    },[]);
-
+    /**
+     * Callback for handling the update operation performed with the form data in the modal when the confirm button is pressed
+     * @param evt
+     */
     const handleUpdate = async (evt: any) => {
         evt.preventDefault();
         setIsSubmitting(true);
@@ -45,11 +41,6 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                 setIsSubmitting(false);
             });
     };
-
-    const getRowCount = async () => {
-        const rows = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, parentIdName, parentId, ['LookupSetId']);
-        setRowCount(Object.entries(rows['rows']).length);
-    }
 
     return (
         <Modal show={show} onHide={onCancel} className={"lookups-modal"}>
@@ -64,7 +55,6 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                     row={row}
                     rowIdName={rowIdName}
                     parentIdName={parentIdName}
-                    rowCount={rowCount}
                 />
                 {error && <Alert style={{marginTop: '10px'}}>{error}</Alert>}
             </Modal.Body>
