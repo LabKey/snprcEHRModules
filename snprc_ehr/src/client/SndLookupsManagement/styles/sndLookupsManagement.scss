@@ -1,27 +1,25 @@
 @import '@labkey/components/dist/assets/scss/variables';
 
 .lk-body-title {
-  position: fixed;
-  left: 11.3%;
-  transform: translate(0, 20%);
+  width: 60%;
+  transform: translate(13.7%, 40%);
 }
 .snd-lookups-grid {
-  position: fixed;
-  left: 12%;
+  margin: auto;
   width: 85%;
-  transform: translate(0, 10%);
 }
 .success-alert {
   position: relative;
-  left: 11.1%;
-  width: 75%;
-  transform: translate(0, 100%)
+  margin: auto;
+  width: 76.6%;
+  transform: translate(-4.5%, -10%)
 }
 
 .lookups-modal {
   position: fixed;
   transform: translate(0, 6%)
 }
+
 .edit-alert {
   position: relative;
   left: 7%;
@@ -64,16 +62,8 @@
   margin: 5px;
 }
 
-//.grid-panel__info {
-//  margin-top: 5px;
-//}
-
 .grid-panel .grid-header-cell .dropdown-menu {
   position: fixed;
-  top: auto;
-  left: auto;
-  right: auto;
-  transform: translate(-120%, -115%);
 }
 
 .manage-buttons {
