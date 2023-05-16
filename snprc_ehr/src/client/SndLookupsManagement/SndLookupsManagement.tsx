@@ -19,12 +19,20 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
     const [message, setMessage] = useState<string>('');
     const [error, setError] = useState<string>('');
 
-
+    /**
+     * Callback for setting state when new row is selected
+     * @param id
+     * @param row
+     */
     const handleSelectedParentRow = async (id: string, row: any) => {
         setLookupSetId(id);
         setLookupSetName(row?.SetName);
     }
 
+    /**
+     * Callback for displaying a message upon successful database change
+     * @param response
+     */
     const onSuccess = (response: any) => {
         let responseMsg: string;
         if (response.command == "insert") response.command = "create";

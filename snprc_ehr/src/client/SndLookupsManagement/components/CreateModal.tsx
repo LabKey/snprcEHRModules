@@ -18,6 +18,10 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
     const [error, setError] = useState<string>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+    /**
+     * Callback for handling the create operation from the forms in the modal when the button is pressed
+     * @param evt
+     */
     const handleCreate = async (evt: any) => {
         evt.preventDefault();
         setIsSubmitting(true);
@@ -32,6 +36,9 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
             });
     }
 
+    /**
+     * Render the form that will be used for the create operation, using just the name value on the table
+     */
     const renderForm = () => {
         return (
                 <div>
