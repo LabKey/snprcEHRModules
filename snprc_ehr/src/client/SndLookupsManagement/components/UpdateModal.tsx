@@ -1,7 +1,7 @@
 import React, { FC, memo, ReactNode, useEffect, useState } from 'react';
 import { Alert, resolveErrorMessage, SchemaQuery, WizardNavButtons } from '@labkey/components';
 import { Modal } from 'react-bootstrap';
-import { getTableRow, updateTableRow } from '../actions';
+import { updateTableRow } from '../actions';
 import { UpdateForm } from './UpdateForm';
 
 interface Props {
