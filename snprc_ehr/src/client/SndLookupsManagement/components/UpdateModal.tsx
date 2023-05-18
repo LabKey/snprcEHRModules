@@ -1,4 +1,4 @@
-import React, { FC, memo, ReactNode, useEffect, useState } from 'react';
+import React, { FC, memo, ReactNode, useState } from 'react';
 import { Alert, resolveErrorMessage, SchemaQuery, WizardNavButtons } from '@labkey/components';
 import { Modal } from 'react-bootstrap';
 import { updateTableRow } from '../actions';
@@ -19,7 +19,18 @@ interface Props {
 }
 
 export const UpdateModal: FC<Props> = memo((props: Props) => {
-    const {onCancel, onComplete, table, show, schemaQuery, rowIdName, rowNameField, parentIdName, parentId, row} = props;
+    const {
+        onCancel,
+        onComplete,
+        table,
+        show,
+        schemaQuery,
+        rowIdName,
+        rowNameField,
+        parentIdName,
+        parentId,
+        row
+    } = props;
 
     const [error, setError] = useState<ReactNode>(undefined);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -43,12 +54,14 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
     };
 
     return (
-        <Modal show={show} onHide={onCancel} className={"lookups-modal"}>
+        <Modal show={show} onHide={onCancel} className={'lookups-modal'}>
             <Modal.Header closeButton>
                 <Modal.Title>Edit {table} '{row?.[rowNameField]}'</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {row?.['IsInUse'] == 'true' && <Alert className={"edit-alert"}>{table} <b>'{row?.[rowNameField]}'</b> is in use by a{parentId ? 'n Event' : ' Package'}. Some fields may not be changed.</Alert>}
+                {row?.['IsInUse'] == 'true' &&
+                        <Alert className={'edit-alert'}>{table} <b>'{row?.[rowNameField]}'</b> is in use by
+                            a{parentId ? 'n Event' : ' Package'}. Some fields may not be changed.</Alert>}
                 <UpdateForm
                     handleUpdate={handleUpdate}
                     handleSetUpdateRow={e => setUpdateRow(e)}
@@ -65,7 +78,7 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
                                   finishText={`Update ${table}`}
                                   isFinishing={isSubmitting}
                                   isFinishingText={`Updating ${table}s`}
-                                  nextStep={table == "Lookup" || row?.['IsInUse'] == 'false' ? handleUpdate : onCancel}
+                                  nextStep={table == 'Lookup' || row?.['IsInUse'] == 'false' ? handleUpdate : onCancel}
                 />
             </Modal.Footer>
         </Modal>

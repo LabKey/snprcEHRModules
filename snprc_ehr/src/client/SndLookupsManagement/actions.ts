@@ -51,7 +51,7 @@ export const updateTableRow = async (schemaName: string, queryName: string, row:
         Query.updateRows({
             schemaName,
             queryName,
-            rows:[row],
+            rows: [row],
             success: (data: any) => {
                 resolve(data);
             },
@@ -73,7 +73,7 @@ export const deleteTableRow = async (schemaName: string, queryName: string, row:
         Query.deleteRows({
             schemaName,
             queryName,
-            rows:[row],
+            rows: [row],
             success: (data: any) => {
                 resolve(data);
             },
@@ -101,10 +101,11 @@ export const getTableRow = async (schemaName: string, queryName: string, filterC
             queryName,
             filterArray: filterArray,
             success: (data: any) => {
-                resolve(data);},
+                resolve(data);
+            },
             failure: (data) => {
                 reject(data);
             }
         });
     });
-}
+};

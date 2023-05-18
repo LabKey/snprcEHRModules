@@ -63,7 +63,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
             if (!parentId) {
                 await initQueryModel();
             }
-        })()
+        })();
     }, []);
 
     /**
@@ -72,7 +72,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
     useEffect(() => {
         (async () => {
             await setLastSelectedId();
-        })()
+        })();
     }, [queryModels[modelId]]);
 
     /**
@@ -87,7 +87,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                     actions.loadModel(parentId);
                 }
             }
-        })()
+        })();
 
     }, [parentId]);
 
@@ -97,7 +97,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
     useEffect(() => {
         (async () => {
             await getRow();
-        })()
+        })();
     }, [selectedId]);
 
     /**
@@ -221,8 +221,8 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
             id = undefined;
             checked = false;
         } else {
-            id = response.rows[0][toCamelCase(rowIdName)]
-            checked = true
+            id = response.rows[0][toCamelCase(rowIdName)];
+            checked = true;
         }
         await onRowSelectionChange(queryModels[modelId], id, checked);
         await reloadModel();
@@ -264,7 +264,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                 {<Button bsStyle={'success'} onClick={() => toggleDialog('create')}>
                     Create
                 </Button>}
-                <ManageDropdownButton  id={table}>
+                <ManageDropdownButton id={table}>
                     <SelectionMenuItem id={'delete-menu-item'}
                                        text={'Delete'}
                                        queryModel={model}
@@ -290,32 +290,32 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
                            allowFiltering={true}
                            allowSorting={true}
                            showExport={false}
-                           title={title + "s" + (parentName ? " for \'" + parentName + "\'" : "")}
+                           title={title + 's' + (parentName ? ' for \'' + parentName + '\'' : '')}
                            ButtonsComponent={renderButtons}
                 />
             )}
             {showDialog === 'create' && (
-            <CreateModal onCancel={closeDialog}
-                         onComplete={onCreateComplete}
-                         show={showDialog === 'create'}
-                         table={title}
-                         schemaQuery={schemaQuery}
-                         parentId={+parentId}
-            />
+                <CreateModal onCancel={closeDialog}
+                             onComplete={onCreateComplete}
+                             show={showDialog === 'create'}
+                             table={title}
+                             schemaQuery={schemaQuery}
+                             parentId={+parentId}
+                />
             )}
             {showDialog === 'update' && (
-            <UpdateModal onCancel={closeDialog}
-                         onComplete={onChangeComplete}
-                         show={showDialog === 'update'}
-                         id={+selectedId}
-                         table={title}
-                         schemaQuery={schemaQuery}
-                         rowIdName={rowIdName}
-                         rowNameField={rowNameField}
-                         row={row}
-                         parentIdName={parentIdName}
-                         parentId={+parentId}
-            />
+                <UpdateModal onCancel={closeDialog}
+                             onComplete={onChangeComplete}
+                             show={showDialog === 'update'}
+                             id={+selectedId}
+                             table={title}
+                             schemaQuery={schemaQuery}
+                             rowIdName={rowIdName}
+                             rowNameField={rowNameField}
+                             row={row}
+                             parentIdName={parentIdName}
+                             parentId={+parentId}
+                />
             )}
             {showDialog === 'delete' && (
                 <DeleteModal onCancel={closeDialog}
@@ -354,4 +354,4 @@ const toCamelCase = (str: string) => {
     return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
         return index === 0 ? word.toLowerCase() : word.toUpperCase();
     }).replace(/\s+/g, '');
-}
+};
