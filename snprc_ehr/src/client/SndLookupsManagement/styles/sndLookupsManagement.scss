@@ -9,10 +9,12 @@
   width: 60%;
   transform: translate(13.7%, 40%);
 }
+
 .snd-lookups-grid {
   margin: auto;
   width: 85%;
 }
+
 .success-alert {
   position: relative;
   margin: auto;
@@ -34,19 +36,27 @@
 
 .grid-panel__grid .table-responsive {
   overflow: scroll;
-  height: 60vh; width: 100%;
-  z-index: 1; top: 0; left: 0; transition: .5s ease; align-items: center;
+  height: 60vh;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  transition: .5s ease;
+  align-items: center;
 }
+
 .grid-panel__grid .table-responsive thead {
   position: sticky;
   top: -1px;
   z-index: 2;
 }
+
 .grid-panel__grid .table-responsive thead th {
   background-color: $page-header-border-color;
   /* fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
   background-clip: padding-box;
 }
+
 .grid-panel__grid .table-responsive thead th#__selection__,
 .grid-panel__grid .table-responsive thead th .grid-header-cell__body {
   padding: 5px;

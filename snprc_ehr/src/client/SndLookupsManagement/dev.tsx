@@ -1,21 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 
-import { SndLookupsManagement } from './SndLookupsManagement'
+import { SndLookupsManagement } from './SndLookupsManagement';
 
 const render = () => {
     ReactDOM.render(
         <AppContainer>
-            <SndLookupsManagement />
+            <SndLookupsManagement/>
         </AppContainer>,
         document.getElementById('app')
-    )
-}
+    );
+};
 declare const module: any;
 
 if (module.hot) {
-    module.hot.accept()
+    module.hot.accept();
 }
 
-render()
+render();

@@ -36,26 +36,27 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
     };
 
     return (
-        <div className={"lookups-modal"}>
-        <ConfirmModal
-            title={'Delete ' + table + ' \'' + (row?.[rowNameField]) + '\'?'}
-            onConfirm={row['IsInUse'] === 'true' ? onCancel : handleDelete}
-            onCancel={onCancel}
-            confirmVariant={row['IsInUse'] === 'true' ? 'primary' : 'danger'}
-            confirmButtonText={row['IsInUse'] === 'true' ? 'Close' : 'Yes, Permanently Delete' }
-            cancelButtonText={'Cancel'}
-            submitting={isSubmitting}
-        >
-            {row['IsInUse'] !== 'true' && (
-                <p>{table} <b>'{row?.[rowNameField]}'</b> will be deleted. Do you want to proceed?</p>
-            )
-            }
-            {row['IsInUse'] === 'true' &&
-                <Alert>{table} <b>'{row?.[rowNameField]}'</b> is in use by a{table == "Lookup" ? 'n Event' : ' Package'} and cannot be deleted.</Alert>
+        <div className={'lookups-modal'}>
+            <ConfirmModal
+                title={'Delete ' + table + ' \'' + (row?.[rowNameField]) + '\'?'}
+                onConfirm={row['IsInUse'] === 'true' ? onCancel : handleDelete}
+                onCancel={onCancel}
+                confirmVariant={row['IsInUse'] === 'true' ? 'primary' : 'danger'}
+                confirmButtonText={row['IsInUse'] === 'true' ? 'Close' : 'Yes, Permanently Delete'}
+                cancelButtonText={'Cancel'}
+                submitting={isSubmitting}
+            >
+                {row['IsInUse'] !== 'true' && (
+                    <p>{table} <b>'{row?.[rowNameField]}'</b> will be deleted. Do you want to proceed?</p>
+                )
+                }
+                {row['IsInUse'] === 'true' &&
+                        <Alert>{table} <b>'{row?.[rowNameField]}'</b> is in use by
+                            a{table == 'Lookup' ? 'n Event' : ' Package'} and cannot be deleted.</Alert>
 
-            }
-            {error && <Alert>{error}</Alert>}
-        </ConfirmModal>
+                }
+                {error && <Alert>{error}</Alert>}
+            </ConfirmModal>
         </div>
     );
 });

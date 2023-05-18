@@ -34,16 +34,16 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
                 setError(resolveErrorMessage(error));
                 setIsSubmitting(false);
             });
-    }
+    };
 
     /**
      * Render the form that will be used for the create operation, using just the name value on the table
      */
     const renderForm = () => {
         return (
-                <div>
-                    <form onSubmit={handleCreate}>
-                    <FormGroup className={"form-group-create-update"} htmlFor={'formNameField'}>
+            <div>
+                <form onSubmit={handleCreate}>
+                    <FormGroup className={'form-group-create-update'} htmlFor={'formNameField'}>
                         <ControlLabel>Name: </ControlLabel>
                         <FormControl id={'create-form'}
                                      name={'formNameField'}
@@ -53,13 +53,13 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
                                      onChange={(e: any) => setName(e.target.value)}
                         />
                     </FormGroup>
-                    </form>
-                </div>
+                </form>
+            </div>
         );
     };
 
     return (
-        <Modal show={show} onHide={onCancel} className={"lookups-modal"}>
+        <Modal show={show} onHide={onCancel} className={'lookups-modal'}>
             <Modal.Header closeButton>
                 <Modal.Title>Create New {table}</Modal.Title>
             </Modal.Header>
