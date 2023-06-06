@@ -460,7 +460,8 @@ BEGIN
                             obr.OBR_F1_C1,                         -- Set_ID
                             obr.OBR_F3_C1,                         --Filler Order Number
                             obr.OBR_F4_C1,                         -- Procedure ID
-                            obr.OBR_F4_C2,                         -- Procedure Name
+                            REPLACE(REPLACE(REPLACE(REPLACE(obr.OBR_F4_C2, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
+                                   '~'),                            -- Procedure Name
                             obr.OBR_F5_C1,                         -- Priority
                             LTRIM(RTRIM(obr.OBR_F25_C1)),          -- Result status
                             obr.OBR_F34_C1,                        -- Technician last name
@@ -554,9 +555,11 @@ BEGIN
                                 cte.SET_ID, -- OBR SET ID
                                 obx.OBX_F2_C1,
                                 obx.OBX_F3_C1,
-                                obx.OBX_F3_C2,
+                                REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F3_C2, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
+                                       '~'),  -- TEST_ID
                                 lp.ObjectId,
-                                obx.OBX_RESULTDATA,
+                                REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_RESULTDATA, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
+                                    '~') as OBX_RESULTDATA,
                                 CASE
                                     WHEN obx.OBX_F2_C1 = 'NM'
                                         AND labkey.snprc_ehr.f_isNumeric(obx.OBX_RESULTDATA) = 1 THEN
@@ -697,8 +700,9 @@ BEGIN
 									   @obr_object_id AS obr_object_id,
 									   cte.SET_ID ,					
                                        obx.OBX_F2_C1 AS VALUE_TYPE , 
-                                       obx.OBX_F3_C1 AS TEST_ID ,	
-                                       obx.OBX_F3_C2 AS TEST_NAME ,	
+                                       obx.OBX_F3_C1 AS TEST_ID ,
+                                       REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F3_C2, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
+                                        '~')  AS TEST_NAME ,
 									   lp.ObjectId AS serviceTestId,
 									   CASE
 											WHEN obx.OBX_F11_C1 = 'D' THEN
@@ -714,7 +718,8 @@ BEGIN
 											WHEN obx.OBX_F11_C1 = 'D' THEN
 												'RESULT DELETED'
 										ELSE
-												obx.OBX_RESULTDATA
+												REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_RESULTDATA, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\',
+                                                    '~')
 										END AS QUALITATIVE_RESULT,
 										REPLACE(REPLACE(REPLACE(REPLACE(obx.OBX_F6_C1, '\T\', '&'), '\S\', '^'), '\F\', '|'), '\R\', '~') AS UNITS,
 										obx.OBX_F7_C1 AS REFERENCE_RANGE ,
