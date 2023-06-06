@@ -124,7 +124,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         const baseFilters = filters;
         actions.addModel(
             {
-                id: parentId ?? table,
+                id: table,
                 schemaQuery: schemaQuery,
                 baseFilters,
                 omittedColumns: omittedColumns,
@@ -136,7 +136,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         if (!parentId) {
             actions.setMaxRows(table, 300);
         }
-        setModelId(parentId ?? table);
+        setModelId(table);
     };
 
     /**

@@ -3,11 +3,12 @@
 .lk-header-ct {
   position: sticky;
   top: 0;
+  z-index: 1000;
 }
 
 .lk-body-title {
   width: 60%;
-  transform: translate(13.7%, 40%);
+  transform: translate(15%, 0%);
 }
 
 .snd-lookups-grid {
@@ -18,8 +19,9 @@
 .success-alert {
   position: relative;
   margin: auto;
-  width: 76.6%;
-  transform: translate(-4.5%, -10%)
+  width: 75%;
+  border-radius: 5px;
+  transform: translate(-5%, -20%)
 }
 
 .lookups-modal {
@@ -27,15 +29,9 @@
   transform: translate(0, 10%)
 }
 
-.edit-alert {
-  position: relative;
-  left: 7%;
-  width: 85%;
-  transform: translate(0, 10%)
-}
 
 .grid-panel__grid .table-responsive {
-  overflow: scroll;
+  overflow-y: scroll;
   height: 60vh;
   width: 100%;
   z-index: 1;
@@ -43,6 +39,7 @@
   left: 0;
   transition: .5s ease;
   align-items: center;
+  border-radius: 4px;
 }
 
 .grid-panel__grid .table-responsive thead {
@@ -55,6 +52,7 @@
   background-color: $page-header-border-color;
   /* fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
   background-clip: padding-box;
+  font-weight: bold;
 }
 
 .grid-panel__grid .table-responsive thead th#__selection__,
@@ -67,9 +65,14 @@
   float: left;
 }
 
-.grid-panel__search-form {
-  margin-top: -4px;
-  margin-left: 4px;
+.grid-panel__search-form .form-group {
+  margin-top: -5px;
+  margin-left: 3px;
+  display: flex;
+}
+
+.grid-panel__search-icon {
+  margin-top: 11px;
 }
 
 .grid-panel__input-group {
@@ -81,10 +84,71 @@
   position: fixed;
 }
 
-.manage-buttons {
-  display: inline-block;
+.grid-panel {
+  border-color: #ddd;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 
+.grid-panel__body {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.panel-default .panel-heading {
+  background-color: #fff;
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  //color: #333;
+  line-height: 1.428571429;
+  border-bottom: 1px solid #ddd;
+  margin: 15px 15px 0 15px;
+  padding: 0px 0px 10px;
+}
+
+.manage-buttons {
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.modal-content {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  position: relative;
+  left: 7%;
+  width: 85%;
+  border-radius: 5px;
+  transform: translate(0, 10%)
+}
+
+.modal-header {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.btn {
+  touch-action: manipulation;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.form-control {
+  border-radius: 5px;
+}
+.dropdown-menu {
+  border-radius: 5px;
+}
+
+.selection-status__count, .selection-status__select-all {
+  display: none;
+}
+
+.selection-status__clear-all {
+  display: flex;
+  padding-top: 3px;
+}
 .manage-buttons .dropdown-menu {
   position: absolute;
 }
