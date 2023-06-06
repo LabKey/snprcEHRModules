@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
-import { SndLookupsManagement } from './SndLookupsManagement';
+import SndLookupsManagement from './SndLookupsManagement';
 
 const render = () => {
     ReactDOM.render(

@@ -92,5 +92,6 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
     );
 });
 
-export const SndLookupsManagement = withQueryModels<{}>(SndLookupsManagementImpl);
+const SndLookupsManagement = withQueryModels<{}>(SndLookupsManagementImpl);
+export default SndLookupsManagement;
 
