@@ -1,4 +1,3 @@
-@import '@labkey/components/dist/assets/scss/variables';
 
 .lk-header-ct {
   position: sticky;
@@ -49,7 +48,7 @@
 }
 
 .grid-panel__grid .table-responsive thead th {
-  background-color: $page-header-border-color;
+  background-color: #FFFFFF;
   /* fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
   background-clip: padding-box;
   font-weight: bold;
@@ -99,8 +98,7 @@
   background-color: #fff;
   font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 18px;
-  font-weight: bold;
-  //color: #333;
+  color: #333;
   line-height: 1.428571429;
   border-bottom: 1px solid #ddd;
   margin: 15px 15px 0 15px;
