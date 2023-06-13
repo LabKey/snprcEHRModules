@@ -5,7 +5,7 @@ select Id,
     COMMENT,
     TestName,
     MAX(ABNORMAL_FLAGS) as ABNORMAL_FLAGS,
-    COALESCE(MAX(RESULT), MAX(QUALITATIVE_RESULT)) as RESULT
+    COALESCE(MAX(RESULT), GROUP_CONCAT(QUALITATIVE_RESULT)) as RESULT
 from snprc_ehr.HL7SurveillancePivotInner
 
 GROUP BY id, date, PROCEDURE_NAME,  PROCEDURE_NAME, PROCEDURE_ID, COMMENT, TestName
@@ -13,6 +13,6 @@ GROUP BY id, date, PROCEDURE_NAME,  PROCEDURE_NAME, PROCEDURE_ID, COMMENT, TestN
 
     IN
     (
-    select TestName from snprc_ehr.labwork_panels t
+    select DISTINCT TestName from snprc_ehr.labwork_panels t
     where t.includeInPanel = true AND t.ServiceId.Dataset='Surveillance'
     )
