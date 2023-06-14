@@ -2158,6 +2158,7 @@
                     <fkDbSchema>snprc_ehr</fkDbSchema>
                     <fkTable>labwork_services</fkTable>
                     <fkColumnName>ServiceId</fkColumnName>
+                    <fkDisplayColumnName>useRawValue</fkDisplayColumnName>
                 </fk>
             </column>
             <column columnName="PROCEDURE_NAME"/>

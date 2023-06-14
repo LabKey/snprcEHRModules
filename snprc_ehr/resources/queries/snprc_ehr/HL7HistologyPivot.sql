@@ -6,7 +6,7 @@ SELECT obr.ANIMAL_ID as id,
     nte.COMMENT,
     COALESCE (lp.TestName, obx.TEST_NAME) as TestName,
     MAX(obx.ABNORMAL_FLAGS) AS ABNORMAL_FLAGS,
-    COALESCE(MAX(obx.RESULT), MAX(obx.QUALITATIVE_RESULT)) as RESULT
+    COALESCE(MAX(obx.RESULT), GROUP_CONCAT(obx.QUALITATIVE_RESULT)) as RESULT
 
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
@@ -19,6 +19,6 @@ GROUP BY obr.ANIMAL_ID, obr.OBSERVATION_DATE_TM, obr.MESSAGE_ID, obr.PROCEDURE_N
 
     IN
     (
-    select TestName from snprc_ehr.labwork_panels t
+    select DISTINCT TestName from snprc_ehr.labwork_panels t
     where t.includeInPanel = true AND t.ServiceId.Dataset='Histology'
     )

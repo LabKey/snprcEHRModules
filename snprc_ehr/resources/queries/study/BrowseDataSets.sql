@@ -23,15 +23,15 @@ from study.datasets
 UNION
   select 'study' as schema, 'ClinPath' as CategoryId,'Clinpath Runs' as Label, 'clinpathRunsAll' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-  select 'study' as schema, 'ClinPath' as CategoryId,'Surveillance Results' as Label, 'surveillancePivot' as Name,  true as ShowByDefault, true as isAnimal
+  select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Surveillance Results' as Label, 'Hl7SurveillancePivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Hematology Results' as Label, 'hematologyPivot' as Name,  true as ShowByDefault, true as isAnimal
+select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Hematology Results' as Label, 'HL7HematologyPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Biochemistry Results' as Label, 'chemPivot' as Name,  true as ShowByDefault, true as isAnimalisAnimal
+select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Biochemistry Results' as Label, 'HL7BiochemistryPivot' as Name,  true as ShowByDefault, true as isAnimalisAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Culture and susceptibility Results' as Label, 'CulturePivot' as Name,  true as ShowByDefault, true as isAnimal
+select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Culture and susceptibility Results' as Label, 'HL7CulturePivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Misc Lab Results' as Label, 'miscPivot' as Name,  true as ShowByDefault, true as isAnimal
+select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Misc Lab Results' as Label, 'HL7MiscPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'study' as schema, 'ClinPath' as CategoryId,'SNPRC Labwork Results' as Label, 'labworkResultsAll' as Name,  true as ShowByDefault, true as isAnimal
 UNION
@@ -55,9 +55,7 @@ select 'study' as schema, 'Clinical' as CategoryId,'Vaccine' as Label, 'Vaccine'
 UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Blood Type' as Label, 'BloodType' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Parasitology (Non O&P)' as Label, 'ParasitologyPivot' as Name,  true as ShowByDefault, true as isAnimal
-UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Parasitology O&P' as Label, 'ParasitologyPivotOP' as Name,  true as ShowByDefault, true as isAnimal
+select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Parasitology' as Label, 'HL7ParasitologyPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'snprc_ehr' as schema, 'Misc' as CategoryId,'Location Temperature' as Label, 'LocationTemperature' as Name,  true as ShowByDefault, false as isAnimal
 UNION
@@ -67,4 +65,4 @@ select 'study' as schema, 'Behavior' as CategoryId,'Abnormal Behavior' as Label,
 UNION
 select 'study' as schema, 'Clinical' as CategoryId,'Body Condition Scores' as Label, 'BodyConditionScores' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'ClinPath' as CategoryId,'Urinalysis Results' as Label, 'urinalysisPivot' as Name,  true as ShowByDefault, true as isAnimalisAnimal
+select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Urinalysis Results' as Label, 'HL7UrinalysisPivot' as Name,  true as ShowByDefault, true as isAnimalisAnimal
