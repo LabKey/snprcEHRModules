@@ -50,10 +50,15 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
 
     return (
         <div>
-            <Alert className={'success-alert'} bsStyle="success">{message}</Alert>
-            <Alert>{error}</Alert>
+            <Row>
+                <Col xs={10} md={12} lg={11}>
+                    <Alert className={'success-alert'} bsStyle="success">{message}</Alert>
+                    <Alert>{error}</Alert>
+                </Col>
+            </Row>
+
             <Row className={'snd-lookups-grid'}>
-                <Col xs={10} md={5} className={'lookupSets-grid'}>
+                <Col xs={10} md={5} lg={4} className={'lookupSets-grid'}>
                     <TableGridPanel table={'LookupSets'}
                                     rowIdName={'LookupSetId'}
                                     rowNameField={'SetName'}
@@ -67,7 +72,7 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                                     onChange={onSuccess}
                                     filters={[]}/>
                 </Col>
-                <Col xs={10} md={6} className={'lookups-grid'}>
+                <Col xs={10} md={7} lg={7} className={'lookups-grid'}>
                     {lookupSetId && (
 
                         <TableGridPanel table={'Lookups'}

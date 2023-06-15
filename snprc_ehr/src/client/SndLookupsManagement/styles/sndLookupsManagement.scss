@@ -1,4 +1,3 @@
-
 .lk-header-ct {
   position: sticky;
   top: 0;
@@ -12,15 +11,15 @@
 
 .snd-lookups-grid {
   margin: auto;
-  width: 85%;
 }
 
 .success-alert {
   position: relative;
   margin: auto;
-  width: 75%;
   border-radius: 5px;
-  transform: translate(-5%, -20%)
+  transform: translate(0, -20%);
+  width: 82%;
+  left: .8%;
 }
 
 .lookups-modal {
@@ -31,7 +30,6 @@
 
 .grid-panel__grid .table-responsive {
   overflow-y: scroll;
-  height: 60vh;
   width: 100%;
   z-index: 1;
   top: 0;
@@ -144,7 +142,7 @@
 }
 
 .selection-status__clear-all {
-  display: flex;
+  display: none;
   padding-top: 3px;
 }
 .manage-buttons .dropdown-menu {
@@ -157,14 +155,13 @@
 
 .form-group-create-update .control-label {
   float: left;
-  text-align: right;
-  width: 150px;
-  margin-top: 6px;
+  width: 80px;
+  margin-top: 5px;
   margin-right: 6px;
 }
 
 .form-group-create-update .form-control {
-  width: 50%;
+  width: 70%;
 }
 
 .form-group-create-update .checkbox {
@@ -176,3 +173,42 @@
   width: 60%;
 }
 
+@media screen and (max-width: 540px) {
+  .snd-lookups-grid {
+    width: 90%;
+  }
+
+  .grid-panel__grid .table-responsive {
+    height: 28vh;
+  }
+}
+
+@media screen and (min-width: 540px) and(max-width: 1280px) {
+  .snd-lookups-grid {
+    width: 86%;
+  }
+
+  .grid-panel__grid .table-responsive {
+    height: 38vh;
+  }
+}
+
+@media screen and (min-width: 1280px) and(max-width: 1920px) {
+  .snd-lookups-grid {
+    width: 85%;
+  }
+
+  .grid-panel__grid .table-responsive {
+    height: 48vh;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .snd-lookups-grid {
+    width: 84%;
+  }
+
+  .grid-panel__grid .table-responsive {
+    height: 58vh;
+  }
+}
