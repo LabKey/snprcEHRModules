@@ -6,7 +6,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const constants = require('./constants');
-const entryPoints = require('./entryPoints');
+const entryPoints = require('../src/client/entryPoints');
 
 let entries = {};
 let plugins = [];
