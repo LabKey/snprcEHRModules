@@ -4,7 +4,7 @@ SELECT
     Value as VALUE,
     CASE
         WHEN l.Displayable = 0 THEN 'Y'
-        WHEN l.Displayable = 1 THEN ''
+        WHEN l.Displayable = 1 THEN 'N'
     END as IS_HIDDEN,
     l.SortOrder as ORDER_NUM,
     l.ObjectId as OBJECT_ID,

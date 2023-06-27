@@ -14,7 +14,7 @@
         </transform>
     </transforms>
     <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="ENTRY_DATE_TM">
-        <deletedRowsSource schemaName="snd" queryName="DeleteLookups" timestampColumnName="modified" deletedSourceKeyColumnName="objectId" targetKeyColumnName="object_id"/>
+        <deletedRowsSource schemaName="snd" queryName="DeletedLookups" timestampColumnName="modified" deletedSourceKeyColumnName="objectId" targetKeyColumnName="object_id"/>
     </incrementalFilter>
     <schedule>
         <poll interval="60m" />
