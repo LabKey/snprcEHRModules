@@ -8,7 +8,7 @@
             <source schemaName="snprc_ehr" queryName="ExportSndLookups" />
             <destination schemaName="animalExport" queryName="LOOKUP_TABLE" bulkLoad="true" targetOption="merge">
                 <alternateKeys>
-                    <column name="LOOKUP_ID" />
+                    <column name="OBJECT_ID" />
                 </alternateKeys>
             </destination>
         </transform>
