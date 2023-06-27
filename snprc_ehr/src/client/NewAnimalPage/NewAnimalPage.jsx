@@ -35,8 +35,8 @@ import { uploadAnimalData } from './api/updateAnimalData'
 import { getReportPath } from './services/printToPDF'
 import { isNonPrimate } from './services/utils'
 
-export default class NewAnimalPage extends React.Component {
-  state = new NewAnimalState();
+export class NewAnimalPage extends React.Component {
+  state = NewAnimalState();
 debug = constants.debug;
 numPanels = constants.numPanels;
 selectedSpecies = undefined;
