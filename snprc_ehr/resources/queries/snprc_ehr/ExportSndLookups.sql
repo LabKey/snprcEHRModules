@@ -9,10 +9,10 @@ SELECT
     l.SortOrder as ORDER_NUM,
     l.ObjectId as OBJECT_ID,
     'N' as DEFAULT_FLAG,
-    LEFT(p.Name,
-	CASE WHEN charindex('@', p.Name) = 0
-	THEN LEN(p.Name)
-	ELSE (charindex('@', p.Name) - 1) END) as USER_NAME,
+    LEFT(s.Email,
+	CASE WHEN charindex('@', s.Email) = 0
+	THEN LEN(s.Email)
+	ELSE (charindex('@', s.Email) - 1) END) as USER_NAME,
     l.Modified as ENTRY_DATE_TM
 FROM
     snd.Lookups l
@@ -21,6 +21,6 @@ INNER JOIN
 ON
     l.LookupSetId = ls.LookupSetId
 INNER JOIN
-    core.Principals p
+    core.SiteUsers s
 ON
-    l.modifiedBy = p.UserId
+    l.modifiedBy = s.UserId

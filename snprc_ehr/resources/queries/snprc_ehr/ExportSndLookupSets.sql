@@ -1,14 +1,14 @@
 SELECT
     SetName as LOOKUP_KEY,
     ObjectId as OBJECT_ID,
-    LEFT(p.Name,
-    CASE WHEN charindex('@', p.Name) = 0
-    THEN LEN(p.Name)
-    ELSE (charindex('@', p.Name) - 1) END) as USER_NAME,
-    Modified as ENTRY_DATE_TM
+    LEFT(s.Email,
+    CASE WHEN charindex('@', s.Email) = 0
+    THEN LEN(s.Email)
+    ELSE (charindex('@', s.Email) - 1) END) as USER_NAME,
+    ls.Modified as ENTRY_DATE_TM
 FROM
     snd.LookupSets ls
     INNER JOIN
-    core.Principals p
+    core.SiteUsers s
 ON
-    ls.ModifiedBy = p.UserId
+    ls.ModifiedBy = s.UserId
