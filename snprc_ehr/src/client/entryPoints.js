@@ -8,40 +8,34 @@ module.exports = {
         name: 'NewAnimalPage',
         title: 'New Animal Wizard',
         permission: 'read',
-        path: './src/client/NewAnimalPage',
-        scriptType: 'jsx'
+        path: './src/client/NewAnimalPage'
     }, {
         name: 'BirthRecordReport',
         title: 'Birth Record Report',
         permission: 'read',
-        path: './src/client/BirthRecordReport',
-        scriptType: 'jsx'
+        path: './src/client/BirthRecordReport'
     }, {
         name: 'ChipReader',
         title: 'Chip Reader',
         permission: 'read',
-        path: './src/client/ChipReader',
-        scriptType: 'jsx'
+        path: './src/client/ChipReader'
     },
         {
             name: 'SndEventsViewer',
             title: 'SND Events Viewer',
             permission: 'read',
-            path: './src/client/SndEventsViewer',
-            scriptType: 'jsx'
+            path: './src/client/SndEventsViewer'
         },
         {
             name: 'SsrsReporting',
             title: 'PDF Reports',
             permission: 'read',
-            path: './src/client/SsrsReporting',
-            scriptType: 'tsx'
+            path: './src/client/SsrsReporting'
         },
         {
             name: 'SndLookupsManagement',
             title: 'SND Lookups Management',
             permission: 'read',
-            path: './src/client/SndLookupsManagement',
-            scriptType: 'tsx'
+            path: './src/client/SndLookupsManagement'
         }]
 };
