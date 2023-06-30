@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Export SND LookupSets to Animal PKG_ATTRIB_LOOKUPS</name>
+    <description>Transform Lookup Sets for SND module to Animal PKG_ATTRIB_LOOKUPS data</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Merge to target</description>
+            <source schemaName="snprc_ehr" queryName="ExportSndLookupSets" />
+            <destination schemaName="animalExport" queryName="PKG_ATTRIB_LOOKUPS" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="OBJECT_ID" />
+                </alternateKeys>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="ENTRY_DATE_TM">
+        <deletedRowsSource schemaName="snd" queryName="DeletedLookupSets" timestampColumnName="modified" deletedSourceKeyColumnName="objectId" targetKeyColumnName="object_id"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>
