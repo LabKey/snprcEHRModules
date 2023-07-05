@@ -68,8 +68,8 @@
   display: flex;
 }
 
-.grid-panel__search-icon {
-  margin-top: 11px;
+.input-group-addon {
+  display: none;
 }
 
 .grid-panel__input-group {
@@ -171,6 +171,10 @@
 
 .select-dropdown {
   width: 60%;
+}
+
+.view-menu {
+  display: none;
 }
 
 @media screen and (max-width: 540px) {

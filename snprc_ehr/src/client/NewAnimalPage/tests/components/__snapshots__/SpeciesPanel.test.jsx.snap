@@ -67,14 +67,14 @@ exports[`Should render the SpeciesPanel 1`] = `
         isLoading={false}
         onChange={[Function]}
         options={
-          Array [
-            Object {
+          [
+            {
               "arcSpeciesCode": "PC",
               "id": 10,
               "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
               "value": "PCA",
             },
-            Object {
+            {
               "arcSpeciesCode": "MM",
               "id": 11,
               "label": "MML (MM) - Macaca mulatta/Rhesus",

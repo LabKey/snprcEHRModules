@@ -3,16 +3,13 @@ import './styles/sndLookupsManagement.scss';
 
 import {
     Alert,
-    InjectedQueryModels,
-    withQueryModels
 } from '@labkey/components';
 import { Col, Row } from 'react-bootstrap';
 import { TableGridPanel } from './components/TableGridPanel';
 import { SCHEMAS } from './schemas';
 import { Filter } from '@labkey/api';
 
-export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(props => {
-    const {actions, queryModels} = props;
+export const SndLookupsManagement: FC = React.memo(props => {
 
     const [lookupSetId, setLookupSetId] = useState<string>('');
     const [lookupSetName, setLookupSetName] = useState<string>('');
@@ -62,10 +59,8 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                     <TableGridPanel table={'LookupSets'}
                                     rowIdName={'LookupSetId'}
                                     rowNameField={'SetName'}
-                                    actions={actions}
                                     omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
                                     displayColumns={['lookupSetId', 'description', 'label', 'setName', 'isInUse']}
-                                    queryModels={queryModels}
                                     schemaQuery={SCHEMAS.SND_TABLES.LOOKUP_SETS}
                                     title={'Lookup Set'}
                                     handleSelectedParentRow={handleSelectedParentRow}
@@ -78,10 +73,8 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
                         <TableGridPanel table={'Lookups'}
                                         rowIdName={'LookupId'}
                                         rowNameField={'Value'}
-                                        actions={actions}
                                         omittedColumns={['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid']}
                                         displayColumns={['lookupId', 'LookupSetId', 'value', 'displayable', 'sortOrder', 'isInUse']}
-                                        queryModels={queryModels}
                                         schemaQuery={SCHEMAS.SND_TABLES.LOOKUPS}
                                         title={'Lookup'}
                                         parentId={lookupSetId}
@@ -97,6 +90,5 @@ export const SndLookupsManagementImpl: FC<InjectedQueryModels> = React.memo(prop
     );
 });
 
-const SndLookupsManagement = withQueryModels<{}>(SndLookupsManagementImpl);
 export default SndLookupsManagement;
 

@@ -21,12 +21,6 @@ module.exports = {
         path: './src/client/ChipReader'
     },
         {
-            name: 'SndEventsViewer',
-            title: 'SND Events Viewer',
-            permission: 'read',
-            path: './src/client/SndEventsViewer'
-        },
-        {
             name: 'SsrsReporting',
             title: 'PDF Reports',
             permission: 'read',

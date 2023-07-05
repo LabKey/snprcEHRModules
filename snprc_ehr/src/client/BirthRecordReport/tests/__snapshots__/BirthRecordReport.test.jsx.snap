@@ -20,8 +20,8 @@ exports[`BirthRecordReport tests Should render AnimalSelectionPanel. 1`] = `
       >
         <AnimalSelectionPanel
           animalList={
-            Array [
-              Object {
+            [
+              {
                 "AcqDate": "2020-07-08 15:04:40.000",
                 "AcquisitionType": 1,
                 "AnimalAccount": "0060-014-00",
@@ -43,7 +43,7 @@ exports[`BirthRecordReport tests Should render AnimalSelectionPanel. 1`] = `
                 "species": "MML",
                 "value": "310",
               },
-              Object {
+              {
                 "AcqDate": "2020-07-09 09:13:35.000",
                 "AcquisitionType": 1,
                 "AnimalAccount": "0060-014-00",
@@ -71,8 +71,8 @@ exports[`BirthRecordReport tests Should render AnimalSelectionPanel. 1`] = `
         />
         <InfoPanel
           infoMessages={
-            Array [
-              Object {
+            [
+              {
                 "key": 1,
                 "value": "Select an animal and press the print button to generate the Birth Record Report.",
               },
@@ -95,7 +95,7 @@ exports[`BirthRecordReport tests Should render AnimalSelectionPanel. 1`] = `
         className="wizard-right"
       >
         <SummaryGridPanel
-          summaryData={Array []}
+          summaryData={[]}
         />
       </div>
     </div>
@@ -158,8 +158,8 @@ exports[`BirthRecordReport tests Should render selected Animal. 1`] = `
       >
         <AnimalSelectionPanel
           animalList={
-            Array [
-              Object {
+            [
+              {
                 "AcqDate": "2020-07-08 15:04:40.000",
                 "AcquisitionType": 1,
                 "AnimalAccount": "0060-014-00",
@@ -181,7 +181,7 @@ exports[`BirthRecordReport tests Should render selected Animal. 1`] = `
                 "species": "MML",
                 "value": "310",
               },
-              Object {
+              {
                 "AcqDate": "2020-07-09 09:13:35.000",
                 "AcquisitionType": 1,
                 "AnimalAccount": "0060-014-00",
@@ -207,7 +207,7 @@ exports[`BirthRecordReport tests Should render selected Animal. 1`] = `
           }
           handleChange={[Function]}
           selectedAnimal={
-            Object {
+            {
               "AcqDate": "2020-07-08 15:04:40.000",
               "AcquisitionType": 1,
               "AnimalAccount": "0060-014-00",
@@ -233,8 +233,8 @@ exports[`BirthRecordReport tests Should render selected Animal. 1`] = `
         />
         <InfoPanel
           infoMessages={
-            Array [
-              Object {
+            [
+              {
                 "key": 1,
                 "value": "Select an animal and press the print button to generate the Birth Record Report.",
               },
@@ -257,7 +257,7 @@ exports[`BirthRecordReport tests Should render selected Animal. 1`] = `
         className="wizard-right"
       >
         <SummaryGridPanel
-          summaryData={Array []}
+          summaryData={[]}
         />
       </div>
     </div>

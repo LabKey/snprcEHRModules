@@ -4,6 +4,10 @@ import SaveModal from '../../components/SaveModal'
 import CancelChangeModal from '../../components/CancelChangeModal'
 import NewAnimalState from '../../constants/NewAnimalState'
 
+jest.mock('moment', () => {
+    return () => jest.requireActual('moment')('2023-01-01T00:00:00.000Z');
+});
+
 describe('Modal tests', () => {
     test('Should render the SaveModal', () => {
         const { newAnimalData } = new NewAnimalState()

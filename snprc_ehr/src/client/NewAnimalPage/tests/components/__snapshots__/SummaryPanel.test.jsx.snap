@@ -26,12 +26,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Acquisition Date"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -39,7 +39,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input"
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -62,7 +62,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -97,12 +97,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Birthdate"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -110,11 +110,11 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input"
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             style={
-              Object {
+              {
                 "width": "15rem",
               }
             }
@@ -138,7 +138,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -174,12 +174,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Move Date"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -187,7 +187,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input"
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -210,7 +210,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -241,7 +241,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -282,7 +282,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -312,7 +312,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -343,7 +343,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -380,7 +380,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           }
           placement="right"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -413,7 +413,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -450,12 +450,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Diet Date"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -463,7 +463,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input "
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
           />
@@ -485,7 +485,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -503,12 +503,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
     <InfoPanel
       includeBullets={true}
       infoMessages={
-        Array [
-          Object {
+        [
+          {
             "key": 1,
             "value": "Please review data before saving.",
           },
-          Object {
+          {
             "key": 2,
             "value": "Hover cursor over fields for full text.",
           },
@@ -545,12 +545,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Acquisition Date"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -558,7 +558,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input"
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -581,7 +581,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -612,7 +612,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -648,12 +648,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Birthdate"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -661,11 +661,11 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input"
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             style={
-              Object {
+              {
                 "width": "15rem",
               }
             }
@@ -689,7 +689,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -725,12 +725,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Move Date"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -738,7 +738,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input"
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -761,7 +761,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -792,7 +792,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -833,7 +833,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -863,7 +863,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -894,7 +894,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -931,7 +931,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           }
           placement="right"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -964,7 +964,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           }
           placement="left"
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -1001,12 +1001,12 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="01/01/1970 12:00 AM"
+              message="12/31/2022 4:00 PM"
               title="Diet Date"
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -1014,7 +1014,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input "
-            defaultValue="01/01/1970 12:00 AM"
+            defaultValue="12/31/2022 4:00 PM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
           />
@@ -1036,7 +1036,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
             />
           }
           trigger={
-            Array [
+            [
               "hover",
               "focus",
             ]
@@ -1054,16 +1054,16 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
     <InfoPanel
       includeBullets={true}
       infoMessages={
-        Array [
-          Object {
+        [
+          {
             "key": 1,
             "value": "Multiple animals are being addeded!",
           },
-          Object {
+          {
             "key": 2,
             "value": "Please review data before saving.",
           },
-          Object {
+          {
             "key": 3,
             "value": "Hover cursor over fields for full text.",
           },

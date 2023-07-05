@@ -1,12 +1,18 @@
+import React, { FC, memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
-    Actions,
     GridPanel,
-    isLoading, LoadingState,
-    ManageDropdownButton, QueryModel,
+    InjectedQueryModels,
+    isLoading,
+    LoadingState,
+    ManageDropdownButton,
+    QueryConfigMap,
+    QueryModel,
     SchemaQuery,
-    SelectionMenuItem
+    SelectionMenuItem,
+    withQueryModels
 } from '@labkey/components';
-import React, { FC, memo, useEffect, useRef, useState } from 'react';
+
+
 import { Button } from 'react-bootstrap';
 import { CreateModal } from './CreateModal';
 import { UpdateModal } from './UpdateModal';
@@ -20,10 +26,8 @@ interface TableProps {
     parentIdName?: string,
     rowNameField: string,
     parentName?: string,
-    actions: Actions,
     omittedColumns: string[],
     displayColumns: string[],
-    queryModels: any,
     schemaQuery: SchemaQuery,
     title: string,
     filters: any[],
@@ -31,7 +35,7 @@ interface TableProps {
     onChange: (response: any) => void
 }
 
-export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
+export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & InjectedQueryModels) => {
     const {
         actions,
         queryModels,
@@ -49,22 +53,11 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
         handleSelectedParentRow,
         onChange
     } = props;
-    const [modelId, setModelId] = useState<string>('');
+    const [modelId, setModelId] = useState<string>(table);
     const [selectedId, setSelectedId] = useState<string>('');
     const [showDialog, setShowDialog] = useState<string>('');
     const [row, setRow] = useState<any>([]);
     const prevParentId = usePrevious(parentId);
-
-    /**
-     * Create initial queryModel for parent (lookupSet) table grid
-     */
-    useEffect(() => {
-        (async () => {
-            if (!parentId) {
-                await initQueryModel();
-            }
-        })();
-    }, []);
 
     /**
      * Set state for selected row id on table when new row is selected
@@ -133,9 +126,9 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
             true,
             true
         );
-        if (!parentId) {
-            actions.setMaxRows(table, 300);
-        }
+        // if (!parentId) {
+        //     actions.setMaxRows(table, 300);
+        // }
         setModelId(table);
     };
 
@@ -194,9 +187,19 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
     /**
      * Update the state of toggleDialog to null when a CRUD modal is closed
      */
-    const closeDialog = async () => {
-        await toggleDialog(undefined);
-    };
+    const closeDialog = () =>
+    {
+        const close = async () => {
+            await toggleDialog(undefined);
+        };
+
+        try {
+            close();
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
 
     /**
      * Callback for completion of a create operation on a table
@@ -280,7 +283,7 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
 
     return (
         <div>
-            {queryModels[modelId] && (
+            {queryModels[modelId] && queryModels[modelId].queryInfo && (
                 <GridPanel actions={actions}
                            model={queryModels[modelId]}
                            loadOnMount={true}
@@ -332,6 +335,24 @@ export const TableGridPanel: FC<TableProps> = memo((props: TableProps) => {
 
     );
 
+});
+
+const TableGridPanelWithQueryModels = withQueryModels<TableProps>(TableGridPanelImpl);
+
+export const TableGridPanel: FC<TableProps> = memo(( props ) => {
+    const { schemaQuery, table } = props;
+
+    const queryConfigs = useMemo<QueryConfigMap>(
+        () => ({
+            [table]: {
+                schemaQuery, maxRows: 300
+            },
+        }),
+        [schemaQuery]
+    );
+
+    // providing "key" to allow for reload on lsid change
+    return <TableGridPanelWithQueryModels autoLoad queryConfigs={queryConfigs} { ...props } />;
 });
 
 /**

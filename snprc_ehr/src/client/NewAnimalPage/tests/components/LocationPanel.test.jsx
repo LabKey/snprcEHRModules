@@ -4,6 +4,10 @@ import LocationPanel from '../../components/LocationPanel'
 import NewAnimalState from '../../constants/NewAnimalState'
 import lists from '../fixtures/lists'
 
+jest.mock('moment', () => {
+    return () => jest.requireActual('moment')('2023-01-01T00:00:00.000Z');
+});
+
 test('Should render the LocationPanel', () => {
     const { newAnimalData } = new NewAnimalState()
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
+import { NewAnimalPage } from "./NewAnimalPage";
 
-import NewAnimalPage from './NewAnimalPage'
 
 const render = () => {
     ReactDOM.render(
@@ -14,6 +14,7 @@ const render = () => {
 }
 
 declare const module: any;
+
 if (module.hot) {
     module.hot.accept()
 }

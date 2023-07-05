@@ -16,10 +16,10 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel 1`] = `
           disabled={false}
           id="acquisition-datepicker"
           label="Acquisition Date"
-          maxDate={1970-01-01T00:00:00.000Z}
+          maxDate={2023-01-01T00:00:00.000Z}
           onChange={[Function]}
           onSelect={[Function]}
-          selected={1970-01-01T00:00:00.000Z}
+          selected={2023-01-01T00:00:00.000Z}
           showTimeSelect={true}
           timeFormat="p"
           timeIntervals={30}
@@ -51,15 +51,15 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel 1`] = `
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "Category": "Birth",
                 "SortOrder": 1,
                 "id": 0,
                 "label": "1 - Colony-born, Vaginal delivery (at TBRI)",
                 "value": "1",
               },
-              Object {
+              {
                 "Category": "Birth",
                 "SortOrder": 2,
                 "id": 1,
@@ -76,8 +76,8 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel 1`] = `
   </div>
   <InfoPanel
     messages={
-      Array [
-        Object {
+      [
+        {
           "colName": "Acquisition Code",
           "propTest": true,
         },
@@ -103,10 +103,10 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
           disabled={false}
           id="acquisition-datepicker"
           label="Acquisition Date"
-          maxDate={1970-01-01T00:00:00.000Z}
+          maxDate={2023-01-01T00:00:00.000Z}
           onChange={[Function]}
           onSelect={[Function]}
-          selected={1970-01-01T00:00:00.000Z}
+          selected={2023-01-01T00:00:00.000Z}
           showTimeSelect={true}
           timeFormat="p"
           timeIntervals={30}
@@ -138,15 +138,15 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "Category": "Birth",
                 "SortOrder": 1,
                 "id": 0,
                 "label": "1 - Colony-born, Vaginal delivery (at TBRI)",
                 "value": "1",
               },
-              Object {
+              {
                 "Category": "Birth",
                 "SortOrder": 2,
                 "id": 1,
@@ -187,8 +187,8 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
   </div>
   <InfoPanel
     infoMessages={
-      Array [
-        Object {
+      [
+        {
           "key": 1,
           "value": "Non-primates can be acquired in bulk; however, when added in bulk you must ensure all animals:
         1) are the same sex
@@ -199,8 +199,8 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
       ]
     }
     messages={
-      Array [
-        Object {
+      [
+        {
           "colName": "Acquisition Code",
           "propTest": true,
         },

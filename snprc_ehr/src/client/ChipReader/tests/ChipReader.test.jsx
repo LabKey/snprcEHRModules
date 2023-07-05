@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import moment from 'moment'
 import ChipReader from '../ChipReader'
-import { executeSql } from '../../Shared/api/api'
+
+require("setimmediate")
 
 jest.mock('../../Shared/api/api')
 

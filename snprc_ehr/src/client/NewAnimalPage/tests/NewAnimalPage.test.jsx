@@ -4,11 +4,17 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Select from 'react-select'
 import moment from 'moment'
-import NewAnimalPage from '../NewAnimalPage'
+import { NewAnimalPage } from '../NewAnimalPage'
 import { request } from '../../Shared/api/api'
 import data from './fixtures/testData'
 
+require("setimmediate");
+
 jest.mock('../../Shared/api/api')
+
+jest.mock('moment', () => {
+    return () => jest.requireActual('moment')('2023-01-01T00:00:00.000Z');
+});
 
 beforeAll(() => {
     // global.fetch = jest.fn();
