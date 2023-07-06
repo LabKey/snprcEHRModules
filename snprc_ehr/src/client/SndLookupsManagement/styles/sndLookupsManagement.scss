@@ -64,7 +64,7 @@
 
 .grid-panel__search-form .form-group {
   margin-top: -5px;
-  margin-left: 3px;
+  //margin-left: 3px;
   display: flex;
 }
 
@@ -183,7 +183,7 @@
   }
 
   .grid-panel__grid .table-responsive {
-    height: 28vh;
+    height: 28vh !important;
   }
 }
 
@@ -193,7 +193,7 @@
   }
 
   .grid-panel__grid .table-responsive {
-    height: 38vh;
+    height: 38vh !important;
   }
 }
 
@@ -203,7 +203,7 @@
   }
 
   .grid-panel__grid .table-responsive {
-    height: 48vh;
+    height: 48vh !important;
   }
 }
 
@@ -213,6 +213,6 @@
   }
 
   .grid-panel__grid .table-responsive {
-    height: 58vh;
+    height: 58vh !important;
   }
 }
