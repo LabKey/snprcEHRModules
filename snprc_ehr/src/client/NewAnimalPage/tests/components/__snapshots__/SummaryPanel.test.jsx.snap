@@ -26,7 +26,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Acquisition Date"
             />
           }
@@ -39,7 +39,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input"
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -97,7 +97,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Birthdate"
             />
           }
@@ -110,7 +110,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input"
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             style={
@@ -174,7 +174,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Move Date"
             />
           }
@@ -187,7 +187,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input"
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -450,7 +450,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Diet Date"
             />
           }
@@ -463,7 +463,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel 1`] = `
         >
           <input
             className="summary-date-input "
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
           />
@@ -545,7 +545,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Acquisition Date"
             />
           }
@@ -558,7 +558,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input"
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -648,7 +648,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Birthdate"
             />
           }
@@ -661,7 +661,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input"
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             style={
@@ -725,7 +725,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Move Date"
             />
           }
@@ -738,7 +738,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input"
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
             type="text"
@@ -1001,7 +1001,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
           defaultOverlayShown={false}
           overlay={
             <SummaryPopover
-              message="12/31/2022 4:00 PM"
+              message="01/01/2023 12:00 AM"
               title="Diet Date"
             />
           }
@@ -1014,7 +1014,7 @@ exports[`AcquisitionPanel tests Should render the SummaryPanel for multiple acqu
         >
           <input
             className="summary-date-input "
-            defaultValue="12/31/2022 4:00 PM"
+            defaultValue="01/01/2023 12:00 AM"
             onKeyPress={[Function]}
             onPasteCapture={[Function]}
           />
