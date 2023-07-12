@@ -55,7 +55,7 @@ export const SndLookupsManagement: FC = React.memo(props => {
             </Row>
 
             <Row className={'snd-lookups-grid'}>
-                <Col xs={10} md={5} lg={4} className={'lookupSets-grid'}>
+                <Col xs={10} md={5} lg={4} className={'lookupSets-grid'} data-testid={'lookup-sets'}>
                     <TableGridPanel table={'LookupSets'}
                                     rowIdName={'LookupSetId'}
                                     rowNameField={'SetName'}
@@ -67,7 +67,7 @@ export const SndLookupsManagement: FC = React.memo(props => {
                                     onChange={onSuccess}
                                     filters={[]}/>
                 </Col>
-                <Col xs={10} md={7} lg={7} className={'lookups-grid'}>
+                <Col xs={10} md={7} lg={7} className={'lookups-grid'} data-testid={'lookups'}>
                     {lookupSetId && (
 
                         <TableGridPanel table={'Lookups'}

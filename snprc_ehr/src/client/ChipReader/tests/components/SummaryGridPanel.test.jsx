@@ -6,7 +6,7 @@ import moment from 'moment'
 import SummaryGridPanel from '../../components/SummaryGridPanel'
 import { summaryData } from '../fixtures/apiTestData'
 
-require('setImmediate')
+require('setimmediate')
 
 function flushPromises() {
     return new Promise(resolve => setImmediate(resolve))

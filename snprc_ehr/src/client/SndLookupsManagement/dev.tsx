@@ -7,7 +7,7 @@ import SndLookupsManagement from './SndLookupsManagement';
 const render = () => {
     ReactDOM.render(
         <AppContainer>
-            <SndLookupsManagement/>
+            <SndLookupsManagement />
         </AppContainer>,
         document.getElementById('app')
     );
