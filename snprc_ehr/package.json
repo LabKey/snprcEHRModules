@@ -66,6 +66,7 @@
       "js",
       "jsx"
     ],
+    "preset": "ts-jest",
     "setupFilesAfterEnv": [
       "<rootDir>/test/jest.setup.ts"
     ],
@@ -73,7 +74,7 @@
       "\\.(scss)$": "<rootDir>/test/styleMock.ts"
     },
     "testEnvironment": "jsdom",
-    "testRegex": "(\\.(test|spec))\\.([jt]sx?)$",
+    "testRegex": "(\\.(test|spec))\\.(ts|tsx?)$",
     "testResultsProcessor": "jest-teamcity-reporter",
     "transform": {
       "^.+\\.tsx?$": "ts-jest",
