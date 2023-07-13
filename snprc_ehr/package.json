@@ -12,6 +12,7 @@
     "start-link": "cross-env LINK=true npm run start",
     "test": "cross-env NODE_ENV=test jest",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest --runInBand",
+    "teamcity": "cross-env NODE_ENV=test jest",
     "lint": "eslint --ext .jsx,.js src/client/",
     "lint-fix": "eslint --ext .jsx,.js --fix src/client/"
   },
