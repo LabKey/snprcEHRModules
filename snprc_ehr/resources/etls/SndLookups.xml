@@ -13,7 +13,6 @@
                 <columnTransforms>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                     <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
-                    <column source="ORDER_NUM" target="SortOrder"/>
                 </columnTransforms>
             </destination>
         </transform>
