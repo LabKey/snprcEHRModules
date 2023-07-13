@@ -12,7 +12,6 @@
     "start-link": "cross-env LINK=true npm run start",
     "test": "cross-env NODE_ENV=test jest",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest --runInBand",
-    "teamcity": "cross-env NODE_ENV=test jest --testResultsProcessor=jest-teamcity-reporter",
     "lint": "eslint --ext .jsx,.js src/client/",
     "lint-fix": "eslint --ext .jsx,.js --fix src/client/"
   },
@@ -74,6 +73,7 @@
     },
     "testEnvironment": "jsdom",
     "testRegex": "(\\.(test|spec))\\.([jt]sx?)$",
+    "testResultsProcessor": "jest-teamcity-reporter",
     "transform": {
       "^.+\\.tsx?$": "ts-jest",
       "^.+\\.jsx?$": "babel-jest"
