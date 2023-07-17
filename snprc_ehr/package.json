@@ -74,7 +74,7 @@
       "\\.(scss)$": "<rootDir>/test/styleMock.ts"
     },
     "testEnvironment": "jsdom",
-    "testRegex": "(\\.(test|spec))\\.(ts|tsx?)$",
+    "testRegex": "(\\.(test|spec))\\.([jt]sx?)$",
     "testResultsProcessor": "jest-teamcity-reporter",
     "transform": {
       "^.+\\.tsx?$": [
