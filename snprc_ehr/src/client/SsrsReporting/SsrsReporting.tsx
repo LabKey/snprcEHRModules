@@ -6,7 +6,7 @@ import "./styles/ssrsReporting.scss";
 import { Button } from "react-bootstrap";
 import ReportSelectionPanel from "./components/ReportSelectionPanel";
 import InfoPanel from "../Shared/components/InfoPanel";
-import { OptionsType } from 'react-select';
+import { OptionsType } from "react-select";
 import { ReportItem } from "./api/ReportItem";
 import { fetchReportList } from "./api/fetchReportList";
 import ReportParmsPanel from "./components/ReportParmsPanel";
