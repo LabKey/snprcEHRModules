@@ -8,6 +8,7 @@
     "build-prod": "npm run build",
     "build-style": "better-npm-run build:style",
     "clean": "better-npm-run clean",
+    "setup": "npm ci --legacy-peer-deps",
     "start": "better-npm-run build:style && better-npm-run build:watch",
     "teamcity": "better-npm-run build:jest-teamcity",
     "test": "better-npm-run build:jest-test"
