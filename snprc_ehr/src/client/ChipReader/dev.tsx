@@ -2,16 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import SndEventsViewer from './SndEventsViewer'
+import { ChipReader } from './ChipReader.jsx'
 
 const render = () => {
     ReactDOM.render(
       <AppContainer>
-        <SndEventsViewer />
+        <ChipReader />
       </AppContainer>,
         document.getElementById('app')
     )
 }
+
+declare const module: any;
 
 if (module.hot) {
     module.hot.accept()

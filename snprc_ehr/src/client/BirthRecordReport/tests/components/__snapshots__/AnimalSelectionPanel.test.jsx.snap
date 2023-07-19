@@ -28,8 +28,8 @@ exports[`Should render the AnimalSelectionPanel 1`] = `
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "AcqDate": "2020-06-11 15:00:00.000",
                 "AcquisitionType": 1,
                 "AnimalAccount": "0",

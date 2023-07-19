@@ -11,8 +11,8 @@ exports[`ChipReader tests Should render the landing page with no serial support 
 <div>
   <InfoPanel
     errorMessages={
-      Array [
-        Object {
+      [
+        {
           "colName": "Sorry, Serial.API is not supported on this device, make sure you're
     running Chrome 78 or later and have enabled the #enable-experimental-web-platform-features flag in
     chrome://flags",
@@ -44,7 +44,7 @@ exports[`ChipReader tests Should render the landing page without error message. 
       >
         <ChipDataPanel
           chipData={
-            Object {
+            {
               "animalId": undefined,
               "chipId": undefined,
               "temperature": undefined,
@@ -55,7 +55,7 @@ exports[`ChipReader tests Should render the landing page without error message. 
           handleErrorMessage={[Function]}
           handleSetConnection={[Function]}
           serialOptions={
-            Object {
+            {
               "baudRate": 19200,
               "bufferSize": 255,
               "dataBits": 8,
@@ -82,7 +82,7 @@ exports[`ChipReader tests Should render the landing page without error message. 
           className="wizard-right"
         >
           <SummaryGridPanel
-            summaryData={Array []}
+            summaryData={[]}
           />
         </div>
       </div>

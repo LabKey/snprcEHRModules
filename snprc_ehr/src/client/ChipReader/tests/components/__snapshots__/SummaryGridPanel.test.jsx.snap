@@ -36,8 +36,8 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
         <SummaryGridItem
           key="3C45433F.5000 "
           row={
-            Object {
-              "animalId": Object {
+            {
+              "animalId": {
                 "location": "2.00-42",
                 "time": "2020-08-18T16:49:56.729Z",
                 "url": "/labkey/ehr/SNPRC/participantView.view?participantId=22222",
@@ -51,8 +51,8 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
         <SummaryGridItem
           key="2C45433F.5000 "
           row={
-            Object {
-              "animalId": Object {
+            {
+              "animalId": {
                 "location": "2.00-42",
                 "time": "2020-08-18T16:48:53.150Z",
                 "url": "/labkey/ehr/SNPRC/participantView.view?participantId=11111",
@@ -66,8 +66,8 @@ exports[`SummaryGridPanel tests Should render empty SummaryGridPanel. 1`] = `
         <SummaryGridItem
           key="1C45433F.5000 "
           row={
-            Object {
-              "animalId": Object {
+            {
+              "animalId": {
                 "location": "2.00-42",
                 "time": "2020-08-18T16:47:44.704Z",
                 "url": "/labkey/ehr/SNPRC/participantView.view?participantId=12345",
