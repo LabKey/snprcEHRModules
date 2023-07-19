@@ -1,5 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
 import { TableGridPanelImpl } from '../components/TableGridPanel';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -185,6 +184,6 @@ describe('TableGridPanel Tests', () => {
 
     })
     it('successfully submits delete on Lookup', () => {
-        
+
     })
 })
