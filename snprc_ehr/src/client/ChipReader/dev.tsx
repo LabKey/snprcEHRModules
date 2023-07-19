@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import ChipReader from './ChipReader.jsx'
+import { ChipReader } from './ChipReader.jsx'
 
 const render = () => {
     ReactDOM.render(
