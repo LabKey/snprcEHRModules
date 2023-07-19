@@ -1,6 +1,6 @@
 {
   "name": "snprc_ehr",
-  "version": "0.0.1",
+  "version": "0.23.3",
   "private": true,
   "scripts": {
     "setup": "npm ci --legacy-peer-deps",
