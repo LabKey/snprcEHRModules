@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import ChipReader from '../ChipReader'
+import { ChipReader } from '../ChipReader'
 
 require("setimmediate")
 
