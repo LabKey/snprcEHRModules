@@ -136,7 +136,11 @@
                             name: 'Packages and Projects',
                             url: '<%=contextPath%>/snd' + ctx['EHRStudyContainer'] + '/app.view?'
                         },
-                        { name: 'Manage SND Lookups', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/editSndLookups.view' }
+                        //{ name: 'Manage SND Lookups', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/editSndLookups.view' }
+                        {
+                            name: 'SND Lookups Management',
+                            url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/SndLookupsManagement.view?'
+                        }
                     ]
                 })
             }
