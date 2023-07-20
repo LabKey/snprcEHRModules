@@ -1,14 +1,49 @@
 import React from 'react'
-import { TableGridPanel } from '../../components/TableGridPanel';
+import { TableGridPanel, TableGridPanelImpl } from '../../components/TableGridPanel';
 import { render, screen } from '@testing-library/react';
-import { initQueryGridState, makeTestActions, makeTestQueryModel, QueryInfo } from '@labkey/components';
+import {
+    initQueryGridState,
+    makeTestActions,
+    makeTestQueryModel,
+    mountWithServerContext,
+    QueryInfo, User
+} from '@labkey/components';
+import { PermissionTypes } from '@labkey/api'
 import { SCHEMAS } from '../../schemas';
 
 /**
  *  TODO: Add actual renders to tests so that they properly check the components. Holding off on writing tests
  *  until there is a better established way to test the GridPanel components with RTL
  **/
-
+const TEST_USER_EDITOR = new User({
+    id: 1100,
+    canDelete: true,
+    canDeleteOwn: true,
+    canInsert: true,
+    canUpdate: true,
+    canUpdateOwn: true,
+    displayName: 'EditorDisplayName',
+    isAdmin: false,
+    isAnalyst: false,
+    isDeveloper: false,
+    isGuest: false,
+    isRootAdmin: false,
+    isSignedIn: true,
+    isSystemAdmin: false,
+    isTrusted: false,
+    permissionsList: [
+        PermissionTypes.Delete,
+        PermissionTypes.Read,
+        PermissionTypes.Insert,
+        PermissionTypes.Update,
+        PermissionTypes.ManagePicklists,
+        PermissionTypes.ManageSampleWorkflows,
+        PermissionTypes.ReadNotebooks,
+        PermissionTypes.ReadDataClass,
+        PermissionTypes.ReadAssay,
+        PermissionTypes.ReadMedia,
+    ],
+});
 const PARENT_PROPS  = {
     table: 'LookupSets',
     rowIdName: 'LookupSetId',
@@ -62,7 +97,8 @@ beforeAll(() => {
 
 describe('TableGridPanel Tests', () => {
     it ('renders the LookupSets GridPanel', () => {
-        //render(<TableGridPanel {...PARENT_PROPS} />);
+        //render(<TableGridPanelImpl {...PARENT_PROPS} />);
+        mountWithServerContext(<TableGridPanelImpl {...PARENT_PROPS}/>, { user: TEST_USER_EDITOR })
     })
     it('renders the Lookups GridPanel on row selection', () => {
         //render(<TableGridPanel {...CHILD_PROPS} />);
