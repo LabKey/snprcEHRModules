@@ -13,12 +13,12 @@ exports[`Modal tests Should render the CancelChangeModal 1`] = `
   manager={
     ModalManager {
       "add": [Function],
-      "containers": Array [],
-      "data": Array [],
+      "containers": [],
+      "data": [],
       "handleContainerOverflow": true,
       "hideSiblingNodes": true,
       "isTopModal": [Function],
-      "modals": Array [],
+      "modals": [],
       "remove": [Function],
     }
   }
@@ -88,12 +88,12 @@ exports[`Modal tests Should render the SaveModal 1`] = `
   manager={
     ModalManager {
       "add": [Function],
-      "containers": Array [],
-      "data": Array [],
+      "containers": [],
+      "data": [],
       "handleContainerOverflow": true,
       "hideSiblingNodes": true,
       "isTopModal": [Function],
-      "modals": Array [],
+      "modals": [],
       "remove": [Function],
     }
   }
@@ -121,29 +121,29 @@ exports[`Modal tests Should render the SaveModal 1`] = `
   >
     <SummaryPanel
       infoMessages={
-        Array [
-          Object {
+        [
+          {
             "key": 2,
             "value": "Please review data before saving.",
           },
-          Object {
+          {
             "key": 3,
             "value": "Hover cursor over fields for full text.",
           },
         ]
       }
       newAnimalData={
-        Object {
-          "acqDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+        {
+          "acqDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
           "bdStatus": undefined,
-          "birthDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+          "birthDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
-          "cage": Object {
+          "cage": {
             "value": undefined,
           },
           "colony": undefined,
@@ -153,13 +153,13 @@ exports[`Modal tests Should render the SaveModal 1`] = `
           "iacuc": undefined,
           "id": undefined,
           "isNonPrimate": undefined,
-          "ownerInstitution": Object {
+          "ownerInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "pedigree": undefined,
-          "responsibleInstitution": Object {
+          "responsibleInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,

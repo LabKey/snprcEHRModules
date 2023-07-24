@@ -137,15 +137,15 @@ export function createAction(type, payload) {
 export function handleErrors(baseMsg, error) {
     return (dispatch) => {
         dispatch(hideLoading());
-        if (error.exception) {
+        if (error && error.exception) {
             dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.exception}));
             console.warn('save project error', error.exception);
         }
-        else if (error.errors) {
+        else if (error && error.errors) {
             dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.errors[0].msg}));
             console.warn('save project error', error.errors[0].msg);
         }
-        else if (error.message) {
+        else if (error && error.message) {
             dispatch(showAlertBanner({show: true, variant: 'danger', msg: baseMsg + ": " + error.message}));
             console.warn('save project error', error.message);
         }
@@ -210,8 +210,8 @@ function fetchProjects_SND() {
                                         })[0]));
                                     }
                                     else {
-                                        console.error("Retrieving projects failed", error.exception);
-                                        dispatch(handleErrors("Retrieving projects failed", error.exception));
+                                        console.error("Retrieving projects failed.", data.message);
+                                        dispatch(handleErrors("Retrieving projects failed.", data.message));
                                     }
                                 })
                     }

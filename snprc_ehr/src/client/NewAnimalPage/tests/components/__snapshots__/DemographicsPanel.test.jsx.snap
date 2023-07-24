@@ -15,10 +15,10 @@ exports[`Should render the DemographicsPanel 1`] = `
           dateFormat="Pp"
           disabled={false}
           label="Birthdate"
-          maxDate={1970-01-01T00:00:00.000Z}
+          maxDate={2023-01-01T00:00:00.000Z}
           onChange={[Function]}
           onSelect={[Function]}
-          selected={1970-01-01T00:00:00.000Z}
+          selected={2023-01-01T00:00:00.000Z}
           showTimeSelect={true}
           timeFormat="p"
           timeIntervals={30}
@@ -50,13 +50,13 @@ exports[`Should render the DemographicsPanel 1`] = `
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "id": 0,
                 "label": "Day/Month/Year OK",
                 "value": 0,
               },
-              Object {
+              {
                 "id": 1,
                 "label": "Month/Year OK",
                 "value": 1,
@@ -89,16 +89,16 @@ exports[`Should render the DemographicsPanel 1`] = `
           isDisabled={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Female",
                 "value": "F",
               },
-              Object {
+              {
                 "label": "Male",
                 "value": "M",
               },
-              Object {
+              {
                 "label": "Unknown",
                 "value": "U",
               },
@@ -131,15 +131,15 @@ exports[`Should render the DemographicsPanel 1`] = `
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "Age": 24.7,
                 "ArcSpeciesCode": "PC",
                 "id": 0,
                 "label": "12924",
                 "value": "12924",
               },
-              Object {
+              {
                 "Age": 21.8,
                 "ArcSpeciesCode": "PC",
                 "id": 1,
@@ -175,15 +175,15 @@ exports[`Should render the DemographicsPanel 1`] = `
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "Age": 22.8,
                 "ArcSpeciesCode": "PC",
                 "id": 0,
                 "label": "14022",
                 "value": "14022",
               },
-              Object {
+              {
                 "Age": 19.8,
                 "ArcSpeciesCode": "PC",
                 "id": 1,
@@ -199,12 +199,12 @@ exports[`Should render the DemographicsPanel 1`] = `
   </div>
   <InfoPanel
     messages={
-      Array [
-        Object {
+      [
+        {
           "colName": "Birthdate Status",
           "propTest": true,
         },
-        Object {
+        {
           "colName": "Gender",
           "propTest": true,
         },

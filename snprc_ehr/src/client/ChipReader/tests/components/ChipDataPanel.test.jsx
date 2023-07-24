@@ -6,6 +6,8 @@ import moment from 'moment'
 import ChipDataPanel from '../../components/ChipDataPanel'
 import constants from '../../constants'
 
+require('setimmediate')
+
 jest.mock('../../services/serialService')
 
 let wrapper

@@ -1,4 +1,4 @@
-import { OptionsType } from 'react-select'
+import { OptionsType } from 'react-select';
 import { ReportItem } from '../ReportItem'
 
 // API test data
