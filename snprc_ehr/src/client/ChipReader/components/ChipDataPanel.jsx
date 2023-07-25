@@ -23,7 +23,7 @@ onConnectClick = () => {
             })
         }
     }
-flushPromises = () => { return new Promise(resolve => setImmediate(resolve)) }
+flushPromises = () => { return new Promise(resolve => setTimeout(resolve)) }
 onStartClick = async () => {
         if (this.state.connection && !this.state.isReading) {
             this.setState(prevState => (
