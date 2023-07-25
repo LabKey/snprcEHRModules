@@ -125,12 +125,10 @@ const CHILD_PROPS = {
     }
 };
 
-
-
-beforeEach(() => {
+beforeEach(async () => {
     initQueryGridState();
     initUnitTests();
-    render(<TableGridPanelImpl {...PARENT_PROPS} />);
+    await render(<TableGridPanelImpl {...PARENT_PROPS} />);
 })
 
 afterEach(() => {
@@ -143,18 +141,17 @@ describe('TableGridPanel Tests', () => {
     it('renders the Lookups GridPanel on row selection', () => {
         //render(<TableGridPanel {...CHILD_PROPS} />);
     })
-    it('renders the Create Modal with row selected on Create button clicked for LookupSet', () => {
+    it('renders the Create Modal with row selected on Create button clicked for LookupSet',  () => {
         fireEvent.click(screen.getByRole('button', {name: 'Create'}));
         expect(screen.getByRole('document')).toBeInTheDocument();
     })
-    it('creates a new LookupSet on Modal confirm', async () => {
+    it('creates a new LookupSet on Modal confirm', () => {
         fireEvent.click(screen.getByRole('button', {name: 'Create'}));
         fireEvent.change(screen.getByRole('textbox'), {target: {value: 'testSet'}})
         expect(screen.getByRole('textbox').value).toBe('testSet')
-        screen.debug(screen.getByRole('button', {name: 'Create Lookup Set'}))
+        //screen.debug(screen.getByRole('button', {name: 'Create Lookup Set'}))
         fireEvent.click(screen.getByRole('button', {name: 'Create Lookup Set'}))
         expect(screen.getByRole('button', {name: 'Creating Lookup Set'})).toBeInTheDocument();
-
     })
     it('renders the LookupSet Edit Modal', () => {
 
