@@ -1,15 +1,47 @@
 import React from 'react'
-import { TableGridPanel, TableGridPanelImpl } from '../../components/TableGridPanel';
+import { TableGridPanelImpl } from '../../components/TableGridPanel';
 import { render, screen } from '@testing-library/react';
 import {
     initQueryGridState,
     makeTestActions,
     makeTestQueryModel,
-    mountWithServerContext,
-    QueryInfo, User
+    QueryInfo,
+    User
 } from '@labkey/components';
-import { PermissionTypes } from '@labkey/api'
+import { PermissionTypes, LabKey } from '@labkey/api'
 import { SCHEMAS } from '../../schemas';
+import { mount } from "enzyme";
+
+/******************************************************
+ * Necessary helper functions to set server context. These will be exported from @labkey/components in a later version.
+ */
+import { Map } from 'immutable';
+
+declare let LABKEY: LabKey;
+
+export function initMockServerContext(context: Partial<LabKey>): void {
+    Object.assign(LABKEY, context);
+}
+
+export const initUnitTests = (metadata?: Map<string, any>, columnRenderers?: Map<string, any>): void => {
+    initMockServerContext({
+        container: {
+            id: 'testContainerEntityId',
+            title: 'Test Container',
+            path: '/testContainer',
+            formats: {
+                dateFormat: 'yyyy-MM-dd',
+                dateTimeFormat: 'yyyy-MM-dd HH:mm',
+                numberFormat: null,
+            },
+            activeModules: ['Core', 'Query'], // add in the Ontology module if you want to test the Field Editor integrations
+        },
+        contextPath: '/labkey',
+        user: TEST_USER_EDITOR
+    });
+    initQueryGridState(metadata, columnRenderers);
+};
+
 
 /**
  *  TODO: Add actual renders to tests so that they properly check the components. Holding off on writing tests
@@ -93,12 +125,13 @@ const CHILD_PROPS = {
 
 beforeAll(() => {
     initQueryGridState();
+    initUnitTests();
 })
 
 describe('TableGridPanel Tests', () => {
     it ('renders the LookupSets GridPanel', () => {
         //render(<TableGridPanelImpl {...PARENT_PROPS} />);
-        mountWithServerContext(<TableGridPanelImpl {...PARENT_PROPS}/>, { user: TEST_USER_EDITOR })
+        mount(<TableGridPanelImpl {...PARENT_PROPS}/>);
     })
     it('renders the Lookups GridPanel on row selection', () => {
         //render(<TableGridPanel {...CHILD_PROPS} />);
