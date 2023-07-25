@@ -11,8 +11,8 @@ import SummaryGridPanel from './components/SummaryGridPanel'
 import fetchAnimalId from './api/fetchAnimalId'
 import { close } from './services/serialService'
 
-export default class ChipReader extends React.Component {
-    state = new ChipReaderState();
+export class ChipReader extends React.Component {
+    state = ChipReaderState();
     notSupportedMessage = constants.notSupportedMessage
     debug = constants.debug;
     isSerialSupported = ('serial' in navigator) || this.props.debug

@@ -540,5 +540,4 @@ public class SNPRC_EHRController extends SpringActionController
         }
     }
 
-
 }

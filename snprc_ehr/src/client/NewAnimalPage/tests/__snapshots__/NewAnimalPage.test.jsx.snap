@@ -25,17 +25,17 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           handleAcquisitionOptionChange={[Function]}
           handleSpeciesChange={[Function]}
           newAnimalData={
-            Object {
-              "acqDate": Object {
-                "date": "1970-01-01T00:00:00.000Z",
+            {
+              "acqDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
               "bdStatus": undefined,
-              "birthDate": Object {
-                "date": "1970-01-01T00:00:00.000Z",
+              "birthDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
-              "cage": Object {
+              "cage": {
                 "value": undefined,
               },
               "colony": undefined,
@@ -45,13 +45,13 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
               "iacuc": undefined,
               "id": undefined,
               "isNonPrimate": undefined,
-              "ownerInstitution": Object {
+              "ownerInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
               "pedigree": undefined,
-              "responsibleInstitution": Object {
+              "responsibleInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
@@ -64,20 +64,20 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
             }
           }
           speciesList={
-            Array [
-              Object {
+            [
+              {
                 "arcSpeciesCode": "CJ",
                 "id": 0,
                 "label": "CTJ (CJ) - Callithrix spp./Marmoset",
                 "value": "CTJ",
               },
-              Object {
+              {
                 "arcSpeciesCode": "MM",
                 "id": 1,
                 "label": "MML (MM) - Macaca mulatta/Rhesus",
                 "value": "MML",
               },
-              Object {
+              {
                 "arcSpeciesCode": "PC",
                 "id": 2,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -103,23 +103,23 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           disabled={true}
         >
           <AcquisitionPanel
-            acquisitionTypeList={Array []}
+            acquisitionTypeList={[]}
             debug={true}
             disabled={true}
             handleDataChange={[Function]}
             handleNumAnimalChange={[Function]}
             newAnimalData={
-              Object {
-                "acqDate": Object {
-                  "date": "1970-01-01T00:00:00.000Z",
+              {
+                "acqDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
                 "acquisitionType": undefined,
                 "animalAccount": undefined,
                 "bdStatus": undefined,
-                "birthDate": Object {
-                  "date": "1970-01-01T00:00:00.000Z",
+                "birthDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
-                "cage": Object {
+                "cage": {
                   "value": undefined,
                 },
                 "colony": undefined,
@@ -129,13 +129,13 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
                 "iacuc": undefined,
                 "id": undefined,
                 "isNonPrimate": undefined,
-                "ownerInstitution": Object {
+                "ownerInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
                 "pedigree": undefined,
-                "responsibleInstitution": Object {
+                "responsibleInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
@@ -149,20 +149,20 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
             }
             preventNext={[Function]}
             sourceLocationList={
-              Array [
-                Object {
+              [
+                {
                   "id": 0,
                   "label": "1001 - New Iberia Research Center U of LA at Lafayette, Lafayette, LA, USA",
                   "rowId": 1593,
                   "value": 1001,
                 },
-                Object {
+                {
                   "id": 1,
                   "label": "1009 - Chimp Haven, Keithville, LA, USA",
                   "rowId": 1601,
                   "value": 1009,
                 },
-                Object {
+                {
                   "id": 2,
                   "label": "1010 - SNBL USA Ltd., Everett, WA, USA",
                   "rowId": 1602,
@@ -221,7 +221,7 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
         >
           <SummaryGridPanel
             print={[Function]}
-            summaryData={Array []}
+            summaryData={[]}
           />
         </div>
       </div>
@@ -230,17 +230,17 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
   <div>
     <SaveModal
       newAnimalData={
-        Object {
-          "acqDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+        {
+          "acqDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
           "bdStatus": undefined,
-          "birthDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+          "birthDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
-          "cage": Object {
+          "cage": {
             "value": undefined,
           },
           "colony": undefined,
@@ -250,13 +250,13 @@ exports[`NewAnimalPage tests Should render Species/Acquisition page after lists 
           "iacuc": undefined,
           "id": undefined,
           "isNonPrimate": undefined,
-          "ownerInstitution": Object {
+          "ownerInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "pedigree": undefined,
-          "responsibleInstitution": Object {
+          "responsibleInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
@@ -322,25 +322,25 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
           handleAcquisitionOptionChange={[Function]}
           handleSpeciesChange={[Function]}
           newAnimalData={
-            Object {
-              "acqDate": Object {
-                "date": "2020-06-09T20:00:00.000Z",
+            {
+              "acqDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
-              "bdStatus": Object {
+              "bdStatus": {
                 "id": 0,
                 "label": "Day/Month/Year OK",
                 "value": 0,
               },
-              "birthDate": Object {
-                "date": "2020-06-09T20:00:00.000Z",
+              "birthDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
-              "cage": Object {
+              "cage": {
                 "value": undefined,
               },
               "colony": undefined,
-              "dam": Object {
+              "dam": {
                 "Age": 24.7,
                 "ArcSpeciesCode": "PC",
                 "id": 0,
@@ -348,27 +348,27 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 "value": "12924",
               },
               "diet": undefined,
-              "gender": Object {
+              "gender": {
                 "label": "Female",
                 "value": "F",
               },
               "iacuc": undefined,
               "id": undefined,
               "isNonPrimate": false,
-              "ownerInstitution": Object {
+              "ownerInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
               "pedigree": undefined,
-              "responsibleInstitution": Object {
+              "responsibleInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
               "room": undefined,
               "selectedOption": undefined,
-              "sire": Object {
+              "sire": {
                 "Age": 22.8,
                 "ArcSpeciesCode": "PC",
                 "id": 0,
@@ -376,7 +376,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                 "value": "14022",
               },
               "sourceLocation": undefined,
-              "species": Object {
+              "species": {
                 "arcSpeciesCode": "PC",
                 "id": 10,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -385,20 +385,20 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             }
           }
           speciesList={
-            Array [
-              Object {
+            [
+              {
                 "arcSpeciesCode": "CJ",
                 "id": 0,
                 "label": "CTJ (CJ) - Callithrix spp./Marmoset",
                 "value": "CTJ",
               },
-              Object {
+              {
                 "arcSpeciesCode": "MM",
                 "id": 1,
                 "label": "MML (MM) - Macaca mulatta/Rhesus",
                 "value": "MML",
               },
-              Object {
+              {
                 "arcSpeciesCode": "PC",
                 "id": 2,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -425,18 +425,18 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
         >
           <DemographicsPanel
             bdStatusList={
-              Array [
-                Object {
+              [
+                {
                   "id": 0,
                   "label": "Day/Month/Year OK",
                   "value": 0,
                 },
-                Object {
+                {
                   "id": 1,
                   "label": "Month/Year OK",
                   "value": 1,
                 },
-                Object {
+                {
                   "id": 2,
                   "label": "Year OK",
                   "value": 2,
@@ -447,25 +447,25 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             disabled={false}
             handleDataChange={[Function]}
             newAnimalData={
-              Object {
-                "acqDate": Object {
-                  "date": "2020-06-09T20:00:00.000Z",
+              {
+                "acqDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
                 "acquisitionType": undefined,
                 "animalAccount": undefined,
-                "bdStatus": Object {
+                "bdStatus": {
                   "id": 0,
                   "label": "Day/Month/Year OK",
                   "value": 0,
                 },
-                "birthDate": Object {
-                  "date": "2020-06-09T20:00:00.000Z",
+                "birthDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
-                "cage": Object {
+                "cage": {
                   "value": undefined,
                 },
                 "colony": undefined,
-                "dam": Object {
+                "dam": {
                   "Age": 24.7,
                   "ArcSpeciesCode": "PC",
                   "id": 0,
@@ -473,27 +473,27 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                   "value": "12924",
                 },
                 "diet": undefined,
-                "gender": Object {
+                "gender": {
                   "label": "Female",
                   "value": "F",
                 },
                 "iacuc": undefined,
                 "id": undefined,
                 "isNonPrimate": false,
-                "ownerInstitution": Object {
+                "ownerInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
                 "pedigree": undefined,
-                "responsibleInstitution": Object {
+                "responsibleInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
                 "room": undefined,
                 "selectedOption": undefined,
-                "sire": Object {
+                "sire": {
                   "Age": 22.8,
                   "ArcSpeciesCode": "PC",
                   "id": 0,
@@ -501,7 +501,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
                   "value": "14022",
                 },
                 "sourceLocation": undefined,
-                "species": Object {
+                "species": {
                   "arcSpeciesCode": "PC",
                   "id": 10,
                   "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -510,22 +510,22 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               }
             }
             potentialDamList={
-              Array [
-                Object {
+              [
+                {
                   "Age": 24.7,
                   "ArcSpeciesCode": "PC",
                   "id": 0,
                   "label": "12924",
                   "value": "12924",
                 },
-                Object {
+                {
                   "Age": 20.3,
                   "ArcSpeciesCode": "PC",
                   "id": 1,
                   "label": "16006",
                   "value": "16006",
                 },
-                Object {
+                {
                   "Age": 19.8,
                   "ArcSpeciesCode": "PC",
                   "id": 2,
@@ -535,22 +535,22 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
               ]
             }
             potentialSireList={
-              Array [
-                Object {
+              [
+                {
                   "Age": 22.8,
                   "ArcSpeciesCode": "PC",
                   "id": 0,
                   "label": "14022",
                   "value": "14022",
                 },
-                Object {
+                {
                   "Age": 21.5,
                   "ArcSpeciesCode": "PC",
                   "id": 1,
                   "label": "15009",
                   "value": "15009",
                 },
-                Object {
+                {
                   "Age": 20.4,
                   "ArcSpeciesCode": "PC",
                   "id": 2,
@@ -612,7 +612,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
         >
           <SummaryGridPanel
             print={[Function]}
-            summaryData={Array []}
+            summaryData={[]}
           />
         </div>
       </div>
@@ -621,25 +621,25 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
   <div>
     <SaveModal
       newAnimalData={
-        Object {
-          "acqDate": Object {
-            "date": "2020-06-09T20:00:00.000Z",
+        {
+          "acqDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
-          "bdStatus": Object {
+          "bdStatus": {
             "id": 0,
             "label": "Day/Month/Year OK",
             "value": 0,
           },
-          "birthDate": Object {
-            "date": "2020-06-09T20:00:00.000Z",
+          "birthDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
-          "cage": Object {
+          "cage": {
             "value": undefined,
           },
           "colony": undefined,
-          "dam": Object {
+          "dam": {
             "Age": 24.7,
             "ArcSpeciesCode": "PC",
             "id": 0,
@@ -647,27 +647,27 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             "value": "12924",
           },
           "diet": undefined,
-          "gender": Object {
+          "gender": {
             "label": "Female",
             "value": "F",
           },
           "iacuc": undefined,
           "id": undefined,
           "isNonPrimate": false,
-          "ownerInstitution": Object {
+          "ownerInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "pedigree": undefined,
-          "responsibleInstitution": Object {
+          "responsibleInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "room": undefined,
           "selectedOption": undefined,
-          "sire": Object {
+          "sire": {
             "Age": 22.8,
             "ArcSpeciesCode": "PC",
             "id": 0,
@@ -675,7 +675,7 @@ exports[`NewAnimalPage tests Should render demographics page 1`] = `
             "value": "14022",
           },
           "sourceLocation": undefined,
-          "species": Object {
+          "species": {
             "arcSpeciesCode": "PC",
             "id": 10,
             "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -730,17 +730,17 @@ exports[`Should render Account page 1`] = `
           handleAcquisitionOptionChange={[Function]}
           handleSpeciesChange={[Function]}
           newAnimalData={
-            Object {
-              "acqDate": Object {
-                "date": "2020-06-09T20:00:00.000Z",
+            {
+              "acqDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
               "bdStatus": undefined,
-              "birthDate": Object {
-                "date": "1970-01-01T00:00:00.000Z",
+              "birthDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
-              "cage": Object {
+              "cage": {
                 "value": undefined,
               },
               "colony": undefined,
@@ -750,13 +750,13 @@ exports[`Should render Account page 1`] = `
               "iacuc": undefined,
               "id": undefined,
               "isNonPrimate": false,
-              "ownerInstitution": Object {
+              "ownerInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
               "pedigree": undefined,
-              "responsibleInstitution": Object {
+              "responsibleInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
@@ -765,7 +765,7 @@ exports[`Should render Account page 1`] = `
               "selectedOption": undefined,
               "sire": undefined,
               "sourceLocation": undefined,
-              "species": Object {
+              "species": {
                 "arcSpeciesCode": "PC",
                 "id": 10,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -774,20 +774,20 @@ exports[`Should render Account page 1`] = `
             }
           }
           speciesList={
-            Array [
-              Object {
+            [
+              {
                 "arcSpeciesCode": "CJ",
                 "id": 0,
                 "label": "CTJ (CJ) - Callithrix spp./Marmoset",
                 "value": "CTJ",
               },
-              Object {
+              {
                 "arcSpeciesCode": "MM",
                 "id": 1,
                 "label": "MML (MM) - Macaca mulatta/Rhesus",
                 "value": "MML",
               },
-              Object {
+              {
                 "arcSpeciesCode": "PC",
                 "id": 2,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -814,18 +814,18 @@ exports[`Should render Account page 1`] = `
         >
           <AccountPanel
             accountList={
-              Array [
-                Object {
+              [
+                {
                   "id": 0,
                   "label": "0060-014-00 - Giavedoni 1497PC, Natural resistance of baboon cells to SIV infection",
                   "value": "0060-014-00",
                 },
-                Object {
+                {
                   "id": 1,
                   "label": "0063-010-50 - Lanford 1295PT, Combination therapy for HCV",
                   "value": "0063-010-50",
                 },
-                Object {
+                {
                   "id": 2,
                   "label": "0063-010-51 - Tardif 1243SM, Tamarin Breeding and Production Colony, Lanford animals",
                   "value": "0063-010-51",
@@ -833,22 +833,22 @@ exports[`Should render Account page 1`] = `
               ]
             }
             colonyList={
-              Array [
-                Object {
+              [
+                {
                   "Category": 7,
                   "id": 0,
                   "label": "pc_Conv",
                   "species": "PC",
                   "value": 214,
                 },
-                Object {
+                {
                   "Category": 7,
                   "id": 1,
                   "label": "pc_SPF",
                   "species": "PC",
                   "value": 213,
                 },
-                Object {
+                {
                   "Category": 42,
                   "id": 2,
                   "label": "pc_Whatever",
@@ -860,22 +860,22 @@ exports[`Should render Account page 1`] = `
             disabled={false}
             handleDataChange={[Function]}
             iacucList={
-              Array [
-                Object {
+              [
+                {
                   "id": 0,
                   "label": "1134PC - Nathanielsz, P. -Maternal Nutrient Restriction:  Placental and Fetal Brain and Kidney Outcomes",
                   "maxAnimals": 0,
                   "species": "PC",
                   "value": "1134PC",
                 },
-                Object {
+                {
                   "id": 1,
                   "label": "1272PC - Chen, Christopher -Baboon Model of Liver Cancer",
                   "maxAnimals": 8,
                   "species": "PC",
                   "value": "1272PC",
                 },
-                Object {
+                {
                   "id": 2,
                   "label": "1497PC - Giavedoni, L. -Natural Resistance of baboon cells to SIV infection",
                   "maxAnimals": 60,
@@ -885,18 +885,18 @@ exports[`Should render Account page 1`] = `
               ]
             }
             institutionList={
-              Array [
-                Object {
+              [
+                {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
-                Object {
+                {
                   "id": 1,
                   "label": "NHLBI - National Heart, Lung, Blood Institute",
                   "value": 2,
                 },
-                Object {
+                {
                   "id": 2,
                   "label": "ISIS - International Species Information System",
                   "value": 3,
@@ -904,17 +904,17 @@ exports[`Should render Account page 1`] = `
               ]
             }
             newAnimalData={
-              Object {
-                "acqDate": Object {
-                  "date": "2020-06-09T20:00:00.000Z",
+              {
+                "acqDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
                 "acquisitionType": undefined,
                 "animalAccount": undefined,
                 "bdStatus": undefined,
-                "birthDate": Object {
-                  "date": "1970-01-01T00:00:00.000Z",
+                "birthDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
-                "cage": Object {
+                "cage": {
                   "value": undefined,
                 },
                 "colony": undefined,
@@ -924,13 +924,13 @@ exports[`Should render Account page 1`] = `
                 "iacuc": undefined,
                 "id": undefined,
                 "isNonPrimate": false,
-                "ownerInstitution": Object {
+                "ownerInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
                 "pedigree": undefined,
-                "responsibleInstitution": Object {
+                "responsibleInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
@@ -939,7 +939,7 @@ exports[`Should render Account page 1`] = `
                 "selectedOption": undefined,
                 "sire": undefined,
                 "sourceLocation": undefined,
-                "species": Object {
+                "species": {
                   "arcSpeciesCode": "PC",
                   "id": 10,
                   "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -948,22 +948,22 @@ exports[`Should render Account page 1`] = `
               }
             }
             pedigreeList={
-              Array [
-                Object {
+              [
+                {
                   "Category": 2,
                   "id": 0,
                   "label": "baboon1",
                   "species": "PC",
                   "value": 31,
                 },
-                Object {
+                {
                   "Category": 2,
                   "id": 1,
                   "label": "baboon2",
                   "species": "PC",
                   "value": 32,
                 },
-                Object {
+                {
                   "Category": 2,
                   "id": 2,
                   "label": "baboon3",
@@ -1024,7 +1024,7 @@ exports[`Should render Account page 1`] = `
         >
           <SummaryGridPanel
             print={[Function]}
-            summaryData={Array []}
+            summaryData={[]}
           />
         </div>
       </div>
@@ -1033,17 +1033,17 @@ exports[`Should render Account page 1`] = `
   <div>
     <SaveModal
       newAnimalData={
-        Object {
-          "acqDate": Object {
-            "date": "2020-06-09T20:00:00.000Z",
+        {
+          "acqDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
           "bdStatus": undefined,
-          "birthDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+          "birthDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
-          "cage": Object {
+          "cage": {
             "value": undefined,
           },
           "colony": undefined,
@@ -1053,13 +1053,13 @@ exports[`Should render Account page 1`] = `
           "iacuc": undefined,
           "id": undefined,
           "isNonPrimate": false,
-          "ownerInstitution": Object {
+          "ownerInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "pedigree": undefined,
-          "responsibleInstitution": Object {
+          "responsibleInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
@@ -1068,7 +1068,7 @@ exports[`Should render Account page 1`] = `
           "selectedOption": undefined,
           "sire": undefined,
           "sourceLocation": undefined,
-          "species": Object {
+          "species": {
             "arcSpeciesCode": "PC",
             "id": 10,
             "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1123,17 +1123,17 @@ exports[`Should render Diet page 1`] = `
           handleAcquisitionOptionChange={[Function]}
           handleSpeciesChange={[Function]}
           newAnimalData={
-            Object {
-              "acqDate": Object {
-                "date": "2020-06-09T20:00:00.000Z",
+            {
+              "acqDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
               "bdStatus": undefined,
-              "birthDate": Object {
-                "date": "1970-01-01T00:00:00.000Z",
+              "birthDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
-              "cage": Object {
+              "cage": {
                 "value": undefined,
               },
               "colony": undefined,
@@ -1143,13 +1143,13 @@ exports[`Should render Diet page 1`] = `
               "iacuc": undefined,
               "id": undefined,
               "isNonPrimate": false,
-              "ownerInstitution": Object {
+              "ownerInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
               "pedigree": undefined,
-              "responsibleInstitution": Object {
+              "responsibleInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
@@ -1158,7 +1158,7 @@ exports[`Should render Diet page 1`] = `
               "selectedOption": undefined,
               "sire": undefined,
               "sourceLocation": undefined,
-              "species": Object {
+              "species": {
                 "arcSpeciesCode": "PC",
                 "id": 10,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1167,20 +1167,20 @@ exports[`Should render Diet page 1`] = `
             }
           }
           speciesList={
-            Array [
-              Object {
+            [
+              {
                 "arcSpeciesCode": "CJ",
                 "id": 0,
                 "label": "CTJ (CJ) - Callithrix spp./Marmoset",
                 "value": "CTJ",
               },
-              Object {
+              {
                 "arcSpeciesCode": "MM",
                 "id": 1,
                 "label": "MML (MM) - Macaca mulatta/Rhesus",
                 "value": "MML",
               },
-              Object {
+              {
                 "arcSpeciesCode": "PC",
                 "id": 2,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1207,20 +1207,20 @@ exports[`Should render Diet page 1`] = `
         >
           <DietPanel
             dietList={
-              Array [
-                Object {
+              [
+                {
                   "id": 0,
                   "label": "AQUA",
                   "species": null,
                   "value": 3,
                 },
-                Object {
+                {
                   "id": 1,
                   "label": "AQUA/GREEN",
                   "species": null,
                   "value": 4,
                 },
-                Object {
+                {
                   "id": 2,
                   "label": "BLACK",
                   "species": null,
@@ -1231,17 +1231,17 @@ exports[`Should render Diet page 1`] = `
             disabled={false}
             handleDataChange={[Function]}
             newAnimalData={
-              Object {
-                "acqDate": Object {
-                  "date": "2020-06-09T20:00:00.000Z",
+              {
+                "acqDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
                 "acquisitionType": undefined,
                 "animalAccount": undefined,
                 "bdStatus": undefined,
-                "birthDate": Object {
-                  "date": "1970-01-01T00:00:00.000Z",
+                "birthDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
-                "cage": Object {
+                "cage": {
                   "value": undefined,
                 },
                 "colony": undefined,
@@ -1251,13 +1251,13 @@ exports[`Should render Diet page 1`] = `
                 "iacuc": undefined,
                 "id": undefined,
                 "isNonPrimate": false,
-                "ownerInstitution": Object {
+                "ownerInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
                 "pedigree": undefined,
-                "responsibleInstitution": Object {
+                "responsibleInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
@@ -1266,7 +1266,7 @@ exports[`Should render Diet page 1`] = `
                 "selectedOption": undefined,
                 "sire": undefined,
                 "sourceLocation": undefined,
-                "species": Object {
+                "species": {
                   "arcSpeciesCode": "PC",
                   "id": 10,
                   "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1326,7 +1326,7 @@ exports[`Should render Diet page 1`] = `
         >
           <SummaryGridPanel
             print={[Function]}
-            summaryData={Array []}
+            summaryData={[]}
           />
         </div>
       </div>
@@ -1335,17 +1335,17 @@ exports[`Should render Diet page 1`] = `
   <div>
     <SaveModal
       newAnimalData={
-        Object {
-          "acqDate": Object {
-            "date": "2020-06-09T20:00:00.000Z",
+        {
+          "acqDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
           "bdStatus": undefined,
-          "birthDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+          "birthDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
-          "cage": Object {
+          "cage": {
             "value": undefined,
           },
           "colony": undefined,
@@ -1355,13 +1355,13 @@ exports[`Should render Diet page 1`] = `
           "iacuc": undefined,
           "id": undefined,
           "isNonPrimate": false,
-          "ownerInstitution": Object {
+          "ownerInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "pedigree": undefined,
-          "responsibleInstitution": Object {
+          "responsibleInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
@@ -1370,7 +1370,7 @@ exports[`Should render Diet page 1`] = `
           "selectedOption": undefined,
           "sire": undefined,
           "sourceLocation": undefined,
-          "species": Object {
+          "species": {
             "arcSpeciesCode": "PC",
             "id": 10,
             "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1425,17 +1425,17 @@ exports[`Should render Location page 1`] = `
           handleAcquisitionOptionChange={[Function]}
           handleSpeciesChange={[Function]}
           newAnimalData={
-            Object {
-              "acqDate": Object {
-                "date": "2020-06-09T20:00:00.000Z",
+            {
+              "acqDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
               "acquisitionType": undefined,
               "animalAccount": undefined,
               "bdStatus": undefined,
-              "birthDate": Object {
-                "date": "1970-01-01T00:00:00.000Z",
+              "birthDate": {
+                "date": "2023-01-01T00:00:00.000Z",
               },
-              "cage": Object {
+              "cage": {
                 "value": undefined,
               },
               "colony": undefined,
@@ -1445,13 +1445,13 @@ exports[`Should render Location page 1`] = `
               "iacuc": undefined,
               "id": undefined,
               "isNonPrimate": false,
-              "ownerInstitution": Object {
+              "ownerInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
               "pedigree": undefined,
-              "responsibleInstitution": Object {
+              "responsibleInstitution": {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
@@ -1460,7 +1460,7 @@ exports[`Should render Location page 1`] = `
               "selectedOption": undefined,
               "sire": undefined,
               "sourceLocation": undefined,
-              "species": Object {
+              "species": {
                 "arcSpeciesCode": "PC",
                 "id": 10,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1469,20 +1469,20 @@ exports[`Should render Location page 1`] = `
             }
           }
           speciesList={
-            Array [
-              Object {
+            [
+              {
                 "arcSpeciesCode": "CJ",
                 "id": 0,
                 "label": "CTJ (CJ) - Callithrix spp./Marmoset",
                 "value": "CTJ",
               },
-              Object {
+              {
                 "arcSpeciesCode": "MM",
                 "id": 1,
                 "label": "MML (MM) - Macaca mulatta/Rhesus",
                 "value": "MML",
               },
-              Object {
+              {
                 "arcSpeciesCode": "PC",
                 "id": 2,
                 "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1512,8 +1512,8 @@ exports[`Should render Location page 1`] = `
             handleDataChange={[Function]}
             handleError={[Function]}
             locationList={
-              Array [
-                Object {
+              [
+                {
                   "arcSpeciesCode": "PC",
                   "id": 0,
                   "label": "1.01 - Test location 1",
@@ -1521,7 +1521,7 @@ exports[`Should render Location page 1`] = `
                   "rowId": 4201,
                   "value": "1.01",
                 },
-                Object {
+                {
                   "arcSpeciesCode": "PC",
                   "id": 1,
                   "label": "2.00 - Test location 2",
@@ -1529,7 +1529,7 @@ exports[`Should render Location page 1`] = `
                   "rowId": 4202,
                   "value": "2.00",
                 },
-                Object {
+                {
                   "arcSpeciesCode": "PC",
                   "id": 2,
                   "label": "6.06 - Test location 3",
@@ -1540,17 +1540,17 @@ exports[`Should render Location page 1`] = `
               ]
             }
             newAnimalData={
-              Object {
-                "acqDate": Object {
-                  "date": "2020-06-09T20:00:00.000Z",
+              {
+                "acqDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
                 "acquisitionType": undefined,
                 "animalAccount": undefined,
                 "bdStatus": undefined,
-                "birthDate": Object {
-                  "date": "1970-01-01T00:00:00.000Z",
+                "birthDate": {
+                  "date": "2023-01-01T00:00:00.000Z",
                 },
-                "cage": Object {
+                "cage": {
                   "value": undefined,
                 },
                 "colony": undefined,
@@ -1560,13 +1560,13 @@ exports[`Should render Location page 1`] = `
                 "iacuc": undefined,
                 "id": undefined,
                 "isNonPrimate": false,
-                "ownerInstitution": Object {
+                "ownerInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
                 },
                 "pedigree": undefined,
-                "responsibleInstitution": Object {
+                "responsibleInstitution": {
                   "id": 0,
                   "label": "TxBiomed - Texas Biomedical Research Institute",
                   "value": 1,
@@ -1575,7 +1575,7 @@ exports[`Should render Location page 1`] = `
                 "selectedOption": undefined,
                 "sire": undefined,
                 "sourceLocation": undefined,
-                "species": Object {
+                "species": {
                   "arcSpeciesCode": "PC",
                   "id": 10,
                   "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
@@ -1635,7 +1635,7 @@ exports[`Should render Location page 1`] = `
         >
           <SummaryGridPanel
             print={[Function]}
-            summaryData={Array []}
+            summaryData={[]}
           />
         </div>
       </div>
@@ -1644,17 +1644,17 @@ exports[`Should render Location page 1`] = `
   <div>
     <SaveModal
       newAnimalData={
-        Object {
-          "acqDate": Object {
-            "date": "2020-06-09T20:00:00.000Z",
+        {
+          "acqDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
           "acquisitionType": undefined,
           "animalAccount": undefined,
           "bdStatus": undefined,
-          "birthDate": Object {
-            "date": "1970-01-01T00:00:00.000Z",
+          "birthDate": {
+            "date": "2023-01-01T00:00:00.000Z",
           },
-          "cage": Object {
+          "cage": {
             "value": undefined,
           },
           "colony": undefined,
@@ -1664,13 +1664,13 @@ exports[`Should render Location page 1`] = `
           "iacuc": undefined,
           "id": undefined,
           "isNonPrimate": false,
-          "ownerInstitution": Object {
+          "ownerInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
           },
           "pedigree": undefined,
-          "responsibleInstitution": Object {
+          "responsibleInstitution": {
             "id": 0,
             "label": "TxBiomed - Texas Biomedical Research Institute",
             "value": 1,
@@ -1679,7 +1679,7 @@ exports[`Should render Location page 1`] = `
           "selectedOption": undefined,
           "sire": undefined,
           "sourceLocation": undefined,
-          "species": Object {
+          "species": {
             "arcSpeciesCode": "PC",
             "id": 10,
             "label": "PCA (PC) - Papio hamadryas anubis/Baboon",
