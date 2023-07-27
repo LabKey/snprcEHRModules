@@ -125,10 +125,10 @@ const CHILD_PROPS = {
     }
 };
 
-beforeEach(async () => {
+beforeEach( () => {
     initQueryGridState();
     initUnitTests();
-    await render(<TableGridPanelImpl {...PARENT_PROPS} />);
+    render(<TableGridPanelImpl {...PARENT_PROPS} />);
 })
 
 afterEach(() => {
