@@ -16,13 +16,10 @@ exports[`Should render the AnimalSelectionPanel 1`] = `
         >
           Animal
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="animal-select"
           isClearable={true}
           isLoading={false}

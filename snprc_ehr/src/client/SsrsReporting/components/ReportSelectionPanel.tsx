@@ -1,10 +1,10 @@
 import { ReportItem } from '../api/ReportItem'
 import React from 'react'
-import Select, { OptionsType } from 'react-select'
+import Select, { Options } from 'react-select'
 
 interface Props {
     handleChange(selectedReport: ReportItem): void;
-    reportList: OptionsType<ReportItem>;
+    reportList: Options<ReportItem>;
     selectedReport: ReportItem;
 }
 

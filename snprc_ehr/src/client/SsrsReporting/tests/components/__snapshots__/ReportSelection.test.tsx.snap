@@ -7,13 +7,10 @@ exports[`SelectionReportPanel tests Should render the SelectionReportPanel with 
   >
     Select Report
   </label>
-  <StateManager
+  <ForwardRef
     autoFocus={true}
     className="shared-dropdown"
     classNamePrefix="shared-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
     id="report-select"
     isLoading={false}
     onChange={[Function]}

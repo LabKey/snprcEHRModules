@@ -40,13 +40,10 @@ exports[`Should render the LocationPanel 1`] = `
         >
           Location
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="location-select"
           isDisabled={false}
           isLoading={false}
