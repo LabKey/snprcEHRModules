@@ -38,13 +38,10 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel 1`] = `
         >
           Acquisition Code
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="acquisition-select"
           isClearable={true}
           isDisabled={false}
@@ -125,13 +122,10 @@ exports[`AcquisitionPanel tests Should render the AcquisitionPanel for multiple 
         >
           Acquisition Code
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="acquisition-select"
           isClearable={true}
           isDisabled={false}

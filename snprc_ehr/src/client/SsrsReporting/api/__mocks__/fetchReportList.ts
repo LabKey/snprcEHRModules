@@ -1,10 +1,10 @@
-import { OptionsType } from 'react-select';
+import { Options } from 'react-select';
 import { ReportItem } from '../ReportItem'
 
 // API test data
 //Report server docs: https://docs.microsoft.com/en-us/sql/reporting-services/url-access-parameter-reference?view=sql-server-ver15
 export const fetchReportList = () => {  
-    return new Promise<OptionsType<ReportItem>> ( (resolve, reject) => {
+    return new Promise<Options<ReportItem>> ( (resolve, reject) => {
         resolve(
             [
                 {id: 1, label: 'Long Term Clinic Admissions', value: 'LabkeyReports/LongTermClinic', description: 'Clinical admissions over 21 days',  parameters:'', rsParameters:'&rs:Command=Render' },
