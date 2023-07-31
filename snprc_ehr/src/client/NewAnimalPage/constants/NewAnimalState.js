@@ -56,4 +56,4 @@ const NewAnimalState = () => {
     })
 }
 
-export default NewAnimalState
+export default NewAnimalState;

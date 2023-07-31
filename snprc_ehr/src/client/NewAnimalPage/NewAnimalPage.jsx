@@ -36,7 +36,7 @@ import { getReportPath } from './services/printToPDF'
 import { isNonPrimate } from './services/utils'
 
 export class NewAnimalPage extends React.Component {
-  state = NewAnimalState();
+    state = NewAnimalState();
 debug = constants.debug;
 numPanels = constants.numPanels;
 selectedSpecies = undefined;
@@ -422,7 +422,7 @@ handleSaveReset = () => {
     window.history.back()
   };
 onSpeciesChangeClick = () => {
-    const initialState = new NewAnimalState()
+    const initialState = NewAnimalState()
     let nonPrimate = isNonPrimate(this.selectedSpecies)
     this.setState(
       prevState => ({
