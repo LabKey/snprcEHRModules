@@ -28,15 +28,15 @@ public class TimelineScripts
                 "    method: 'POST',\n" +
                 "    url: LABKEY.ActionURL.buildURL('snprc_scheduler', 'updateTimeline.api'),\n" +
                 "    success: function(data){\n" +
-                "       var response = JSON.parse(data.response);\n" +
+                "       var response = JSON.parse(data.response)\n" +
                 "       if (response.success) {\n" +
-                "             callback('Success!');\n" +
+                "             callback('Success!')\n" +
                 "       }\n" +
                 "       else {\n" +
-                "             callback(response.responseText);\n" +
+                "             callback(response.responseText)\n" +
                 "       }\n" +
                 "    },\n" +
-                "    failure: function(e){ callback(e.responseText); },\n" +
+                "    failure: function(e){ callback(e.responseText) },\n" +
                 "    jsonData: {\n";
 
         // if timelineObject id is not null then an update was requested
@@ -268,15 +268,15 @@ public class TimelineScripts
                 "    method: 'POST',\n" +
                 "    url: LABKEY.ActionURL.buildURL('snprc_scheduler', 'updateTimeline.api'),\n" +
                 "    success: function(data){\n" +
-                "       var response = JSON.parse(data.response);\n" +
+                "       var response = JSON.parse(data.response)\n" +
                 "       if (response.success) {\n" +
-                "             callback('Success!');\n" +
+                "             callback('Success!')\n" +
                 "       }\n" +
                 "       else {\n" +
-                "             callback('Failure!');\n" +
+                "             callback('Failure!')\n" +
                 "       }\n" +
                 "    },\n" +
-                "    failure: function(e){ callback(e.responseText); },\n" +
+                "    failure: function(e){ callback(e.responseText) },\n" +
                 "    jsonData: {\n" +
                 "        'TimelineId'  : " + TIMELINE_ID + ",\n" +
                 "        'RevisionNum'  : " + REVISION_NUM + ",\n" +
@@ -311,19 +311,19 @@ public class TimelineScripts
                 "    params: {\n" +
                 "        'projectObjectId' : '" + projectObjectId + "'\n" +
                 "   },\n" +
-                "   failure: function(e){ callback(e.responseText); },\n" +
+                "   failure: function(e){ callback(e.responseText) },\n" +
                 "   success: function(data) {\n" +
-                "       var rows = JSON.parse(data.response).rows;\n" +
+                "       var rows = JSON.parse(data.response).rows\n" +
                 "       if (typeof rows !== undefined && typeof rows[0] !== undefined && rows[0].ObjectId === '" + timelineObjectId + "')\n" +
                 "       {\n" +
-                "           callback('Success!');\n" +
+                "           callback('Success!')\n" +
                 "       }\n" +
                 "       else\n" +
                 "       {\n" +
-                "           callback('Failure');\n" +
+                "           callback('Failure')\n" +
                 "       }\n" +
                 "  }\n" +
-                "});\n";
+                "})\n";
         return timelineScript;
     }
 
