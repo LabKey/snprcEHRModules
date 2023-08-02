@@ -422,7 +422,7 @@ handleSaveReset = () => {
     window.history.back()
   };
 onSpeciesChangeClick = () => {
-    const initialState = new NewAnimalState()
+    const initialState = NewAnimalState()
     let nonPrimate = isNonPrimate(this.selectedSpecies)
     this.setState(
       prevState => ({

@@ -33,7 +33,7 @@
 .shared-select__input-container {
   height: 28px;
   padding-bottom: 0px !important;
-  //margin-top: -10px !important;
+  margin: 0 !important;
 }
 
 .shared-select__single-value {
@@ -49,5 +49,5 @@
   padding: .4rem !important;
 }
   .shared-select__single-value, .shared-select__placeholder, .shared-select__input {
-    margin-top: -10px !important;
+    margin-top: -5px !important;
   }
