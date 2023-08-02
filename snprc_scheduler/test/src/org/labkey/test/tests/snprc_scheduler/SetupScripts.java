@@ -26,8 +26,8 @@ public class SetupScripts
     public static final String ADD_PKG1 = "LABKEY.Ajax.request({\n" +
             "    method: 'POST',\n" +
             "    url: LABKEY.ActionURL.buildURL('snd', 'savePackage.api'),\n" +
-            "    success: function(){ callback('Success!') },\n" +
-            "    failure: function(e){ callback(e.responseText) },\n" +
+            "    success: function(){ callback('Success!'); },\n" +
+            "    failure: function(e){ callback(e.responseText); },\n" +
             "    jsonData: {\n" +
             "        'id' : '" + PKG_ID1 + "',\n" +
             "		 'testIdNumberStart': '" + SUPER_PKG_ID_START + "',\n" +
@@ -44,8 +44,8 @@ public class SetupScripts
     public static final String ADD_PKG2 = "LABKEY.Ajax.request({\n" +
             "    method: 'POST',\n" +
             "    url: LABKEY.ActionURL.buildURL('snd', 'savePackage.api'),\n" +
-            "    success: function(){ callback('Success!') },\n" +
-            "    failure: function(e){ callback(e.responseText) },\n" +
+            "    success: function(){ callback('Success!'); },\n" +
+            "    failure: function(e){ callback(e.responseText); },\n" +
             "    jsonData: {\n" +
             "        'id' : '" + (PKG_ID2) + "',\n" +
             "		 'testIdNumberStart': '" + SUPER_PKG_ID_START + "',\n" +
@@ -63,8 +63,8 @@ public class SetupScripts
     public static final String ADD_PKG3 = "LABKEY.Ajax.request({\n" +
             "    method: 'POST',\n" +
             "    url: LABKEY.ActionURL.buildURL('snd', 'savePackage.api'),\n" +
-            "    success: function(){ callback('Success!') },\n" +
-            "    failure: function(e){ callback(e.responseText) },\n" +
+            "    success: function(){ callback('Success!'); },\n" +
+            "    failure: function(e){ callback(e.responseText); },\n" +
             "    jsonData: {\n" +
             "        'id' : '" + (PKG_ID3) + "',\n" +
             "		 'testIdNumberStart': '" + SUPER_PKG_ID_START + "',\n" +
@@ -83,8 +83,8 @@ public class SetupScripts
     public static String ADD_PROJECT1 = "LABKEY.Ajax.request({\n" +
             "  method: 'POST',\n" +
             "  url: LABKEY.ActionURL.buildURL('snd', 'saveProject.api'),\n" +
-            "  success: function(){ callback('Success!') },\n" +
-            "  failure: function(e){ callback('Failed') },\n" +
+            "  success: function(){ callback('Success!'); },\n" +
+            "  failure: function(e){ callback('Failed'); },\n" +
             "  jsonData: {\n" +
             "       \"projectId\": '" + PROJECT_ID + "',\n" +
             "       \"revisionNum\": '" + REVISION_NUM + "',\n" +
@@ -102,7 +102,7 @@ public class SetupScripts
             "           {\"superPkgId\":" + SUPER_PKG_ID2 + ", \"active\":true},\n" +
             "           {\"superPkgId\":" + SUPER_PKG_ID3 + ", \"active\":true}]\n" +
             "       }\n" +
-            "})\n";
+            "});\n";
 
     public static final String CREATE_EHR_DOMAINS ="LABKEY.Domain.create({\n" +
             "   domainGroup: 'test',        \n" +
@@ -111,15 +111,15 @@ public class SetupScripts
             "   importData: false,          \n" +
             "   success: onSuccess,         \n" +
             "   failure: onFailure          \n" +
-            "})                            \n" +
+            "});                            \n" +
             "function onFailure(e)          \n" +
             "{                              \n" +
-            "   callback(e.exception)      \n" +
+            "   callback(e.exception);      \n" +
             "}                              \n" +
             "                               \n" +
             "function onSuccess()           \n" +
             "{                              \n" +
-            "   callback('Success!')       \n" +
+            "   callback('Success!');       \n" +
             "}                              \n";
     public SetupScripts()
     {

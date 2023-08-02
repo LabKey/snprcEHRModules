@@ -8,7 +8,7 @@ public class TimelineScripts
 
     public static final Integer TIMELINE_ID = 101;
     public static final Integer REVISION_NUM = 0;
-    
+
     public String saveTimelineScript(String testTimelineObjectId, String testProjectObjectId,
                                      ArrayList<Map<String, Object>> projectItems, ArrayList<Map<String, Object>> timelineItems,
                                      ArrayList<Map<String, Object>> studyDayNotes)
