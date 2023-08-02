@@ -18,13 +18,10 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Account
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="account-select"
           isClearable={true}
           isDisabled={false}
@@ -60,12 +57,9 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Colony
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="colony-select"
           isClearable={true}
           isDisabled={false}
@@ -105,12 +99,9 @@ exports[`Should render the AccountPanel 1`] = `
         >
           IACUC
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="iacuc-select"
           isClearable={true}
           isDisabled={false}
@@ -150,12 +141,9 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Pedigree
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="pedigree-select"
           isClearable={true}
           isDisabled={false}
@@ -195,12 +183,9 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Owner
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="owner-select"
           isClearable={true}
           isDisabled={false}
@@ -243,12 +228,9 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Responsible Institution
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="responsible-institution-select"
           isClearable={true}
           isDisabled={false}

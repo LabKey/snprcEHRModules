@@ -56,12 +56,9 @@ exports[`Should render the SpeciesPanel 1`] = `
       >
         Species
       </label>
-      <StateManager
+      <ForwardRef
         className="shared-dropdown shared-dropdown__species_width"
         classNamePrefix="shared-select"
-        defaultInputValue=""
-        defaultMenuIsOpen={false}
-        defaultValue={null}
         id="species-select"
         isDisabled={false}
         isLoading={false}

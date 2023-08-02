@@ -37,13 +37,10 @@ exports[`Should render the DemographicsPanel 1`] = `
         >
           Birthdate Status
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="bdStatus-select"
           isClearable={true}
           isDisabled={false}
@@ -78,12 +75,9 @@ exports[`Should render the DemographicsPanel 1`] = `
         >
           Gender
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="gender-select"
           isClearable={true}
           isDisabled={false}
@@ -119,12 +113,9 @@ exports[`Should render the DemographicsPanel 1`] = `
         >
           Dam
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="dam-select"
           isClearable={true}
           isDisabled={false}
@@ -163,12 +154,9 @@ exports[`Should render the DemographicsPanel 1`] = `
         >
           Sire
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="sire-select"
           isClearable={true}
           isDisabled={false}
