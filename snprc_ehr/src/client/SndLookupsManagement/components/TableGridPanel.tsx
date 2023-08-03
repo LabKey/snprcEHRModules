@@ -64,7 +64,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      */
     useEffect(() => {
         (async () => {
-            await setLastSelectedId();
+            await setLastSelectedId()//.catch(error => console.error(error));
         })();
     }, [queryModels[modelId]]);
 
@@ -75,7 +75,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         (async () => {
             if (parentId) {
                 if (prevParentId !== parentId) {
-                    await initQueryModel();
+                    await initQueryModel()//.catch(error => console.error(error));
                 } else {
                     actions.loadModel(parentId);
                 }
@@ -89,7 +89,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      */
     useEffect(() => {
         (async () => {
-            await getRow();
+            await getRow()//.catch(error => console.error(error));
         })();
     }, [selectedId]);
 
