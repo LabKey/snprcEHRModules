@@ -1,23 +1,22 @@
 import React from 'react'
 import { TableGridPanelImpl } from '../components/TableGridPanel';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
     initQueryGridState,
     makeTestActions,
     makeTestQueryModel,
     QueryInfo,
+    SchemaQuery,
     User
 } from '@labkey/components';
 import { PermissionTypes, LabKey } from '@labkey/api'
 import { SCHEMAS } from '../schemas';
-import {createTableRow, getTableRow, updateTableRow, deleteTableRow } from '../actions';
 
 /******************************************************
  * Necessary helper functions to set server context. These will be exported from @labkey/components in a later version.
  */
 import { Map } from 'immutable';
-import SndLookupsManagement from '../SndLookupsManagement';
 
 declare let LABKEY: LabKey;
 
@@ -78,13 +77,15 @@ const TEST_USER_EDITOR = new User({
         PermissionTypes.ReadMedia,
     ],
 });
+const LOOKUP_SETS_SCHEMA_QUERY = new SchemaQuery(SCHEMAS.SND_TABLES.LOOKUP_SETS.schemaName, SCHEMAS.SND_TABLES.LOOKUP_SETS.queryName, 'test_view');
+
 const PARENT_PROPS  = {
     table: 'LookupSets',
     rowIdName: 'LookupSetId',
     rowNameField: 'SetName',
     omittedColumns: ['label', 'description', 'container', 'createdby', 'created', 'modifiedby', 'modified', 'objectid'],
     displayColumns: ['lookupSetId', 'description', 'label', 'setName', 'isInUse'],
-    schemaQuery: SCHEMAS.SND_TABLES.LOOKUP_SETS,
+    schemaQuery: LOOKUP_SETS_SCHEMA_QUERY,
     title: 'Lookup Set',
     handleSelectedParentRow: jest.fn(),
     onChange: jest.fn(),
@@ -92,8 +93,15 @@ const PARENT_PROPS  = {
     actions: makeTestActions(),
     queryModels: {
         'LookupSets': makeTestQueryModel(
-            SCHEMAS.SND_TABLES.LOOKUP_SETS,
-            new QueryInfo(),
+            LOOKUP_SETS_SCHEMA_QUERY,
+            QueryInfo.fromJsonForTests(
+                {
+                    name: SCHEMAS.SND_TABLES.LOOKUP_SETS.queryName,
+                    schemaName: SCHEMAS.SND_TABLES.LOOKUP_SETS.schemaName,
+                    views: [{name: 'test_view'}]
+                },
+                true
+            ),
             {},
             [],
             0,
@@ -136,7 +144,7 @@ afterEach(() => {
 })
 describe('TableGridPanel Tests', () => {
     it ('renders the LookupSets GridPanel', () => {
-        expect(screen.getByText('Lookup Sets')).toBeInTheDocument();
+        expect(screen.getByText('Lookup Sets - test_view')).toBeInTheDocument();
     })
     it('renders the Lookups GridPanel on row selection', () => {
         //render(<TableGridPanel {...CHILD_PROPS} />);
