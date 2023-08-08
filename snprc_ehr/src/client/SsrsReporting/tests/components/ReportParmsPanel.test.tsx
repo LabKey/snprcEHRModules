@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import moment from 'moment'
 import ReportParmsPanel from '../../components/ReportSelectionPanel'
 import { fetchReportList } from '../../api/fetchReportList'
-import { OptionsType } from 'react-select'
+import { Options } from 'react-select'
 import { ReportItem } from '../../api/ReportItem'
 
 jest.mock('../../api/fetchReportList')
@@ -14,7 +14,7 @@ let wrapper
 
 beforeEach( async () => {
     
-    let reportList: OptionsType<ReportItem> =[]
+    let reportList: Options<ReportItem> =[]
     await fetchReportList().then ( (response) => {
         ( reportList = response)
     })
