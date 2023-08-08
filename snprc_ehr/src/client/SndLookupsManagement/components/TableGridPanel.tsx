@@ -57,6 +57,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     const [selectedId, setSelectedId] = useState<string>('');
     const [showDialog, setShowDialog] = useState<string>('');
     const [row, setRow] = useState<any>([]);
+    const [isScrolling, setIsScrolling] = useState<boolean>(false);
     const prevParentId = usePrevious(parentId);
 
     /**
@@ -90,6 +91,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await getRow().catch(error => console.error(error));
+
         })();
     }, [selectedId]);
 
@@ -97,10 +99,18 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      * Invoke callback to set the page state when new row is selected and data retrieved
      */
     useEffect(() => {
-        if (handleSelectedParentRow) {
-            handleSelectedParentRow(selectedId, row);
-        }
+        (async () => {
+            if (handleSelectedParentRow) {
+                handleSelectedParentRow(selectedId, row);
+            }
+            if (isScrolling) {
+                await scroll();
+                setIsScrolling(false);
+            }
+        })();
+
     }, [row]);
+
 
     /**
      * Get data for current row in state
@@ -253,6 +263,15 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             }
         }
         await updateLastSelectedId(id).catch(error => console.error(error));
+        setIsScrolling(true);
+    };
+
+    const scroll = () => {
+        const value = row['SetName'] ?? row['Value'];
+        const elements = [...document.querySelectorAll(".ws-pre-wrap") as any]
+        const index = elements.findIndex(a => a.textContent == value);
+        const element = elements[index - 9]
+        element.scrollIntoView();
     };
 
     /**
