@@ -27,6 +27,19 @@
   transform: translate(0, 10%)
 }
 
+.modal-lg {
+  position: relative;
+}
+
+.labkey-wizard-pills {
+  overflow: scroll;
+  height: 40vh;
+}
+
+.form-check {
+  display: inline-flex;
+}
+
 .grid-panel__grid .table-responsive {
   overflow-y: scroll;
   width: 100%;
@@ -63,7 +76,7 @@
 }
 
 .input-group-addon {
-  width: 12%;
+  width: 30px !important;
   border-radius: 5px;
 }
 
@@ -178,7 +191,7 @@
 
 @media screen and (max-width: 540px) {
   .snd-lookups-grid {
-    width: 90%;
+    width: 90vw;
   }
 
   .grid-panel__grid .table-responsive {
@@ -188,30 +201,41 @@
 
 @media screen and (min-width: 540px) and (max-width: 1280px) {
   .snd-lookups-grid {
-    width: 86%;
+    width: 80vw;
   }
 
   .grid-panel__grid .table-responsive {
     height: 38vh !important;
   }
+  .grid-panel__search-input {
+    width: 75% !important;
+  }
+
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1920px) {
+@media screen and (min-width: 1280px) and (max-width: 1919px) {
   .snd-lookups-grid {
-    width: 85%;
+    width: 81vw;
   }
 
   .grid-panel__grid .table-responsive {
     height: 48vh !important;
   }
+
+  .grid-panel__search-input {
+    width: 75% !important;
+  }
 }
 
 @media screen and (min-width: 1920px) {
   .snd-lookups-grid {
-    width: 84%;
+    width: 81vw;
   }
 
   .grid-panel__grid .table-responsive {
     height: 58vh !important;
+  }
+  .grid-panel__search-input {
+    width: 75% !important;
   }
 }
