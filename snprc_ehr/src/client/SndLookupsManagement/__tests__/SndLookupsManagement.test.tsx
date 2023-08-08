@@ -171,6 +171,7 @@ describe('TableGridPanel Tests', () => {
         await waitFor(() => {
             expect(screen.getByRole('button', {name: 'Creating Lookup Set'})).toBeInTheDocument();
         });
+        screen.debug();
     })
     it('renders the LookupSet Edit Modal', () => {
 
