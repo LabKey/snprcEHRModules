@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableGridPanelImpl } from '../components/TableGridPanel';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
     initQueryGridState,
@@ -43,7 +43,7 @@ export const initUnitTests = (metadata?: Map<string, any>, columnRenderers?: Map
     initQueryGridState(metadata, columnRenderers);
 };
 
-
+jest.mock('../actions');
 /**
  *  TODO: Add actual renders to tests so that they properly check the components. Holding off on writing tests
  *  until there is a better established way to test the GridPanel components with RTL
@@ -133,33 +133,45 @@ const CHILD_PROPS = {
     }
 };
 
-beforeEach( () => {
+beforeEach( async () => {
     initQueryGridState();
     initUnitTests();
-    render(<TableGridPanelImpl {...PARENT_PROPS} />);
+    await waitFor (() => {
+        render(<TableGridPanelImpl {...PARENT_PROPS} />);
+    })
 })
 
 afterEach(() => {
     cleanup();
 })
 describe('TableGridPanel Tests', () => {
-    it ('renders the LookupSets GridPanel', () => {
-        expect(screen.getByText('Lookup Sets - test_view')).toBeInTheDocument();
+    it ('renders the LookupSets GridPanel', async () => {
+        await waitFor(() => {
+            expect(screen.getByText('Lookup Sets - test_view')).toBeInTheDocument();
+        });
     })
-    it('renders the Lookups GridPanel on row selection', () => {
+    it('renders the Lookups GridPanel on row selection', async () => {
         //render(<TableGridPanel {...CHILD_PROPS} />);
     })
-    it('renders the Create Modal with row selected on Create button clicked for LookupSet',  () => {
+    it('renders the Create Modal with row selected on Create button clicked for LookupSet',  async () => {
         fireEvent.click(screen.getByRole('button', {name: 'Create'}));
-        expect(screen.getByRole('document')).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByRole('document')).toBeInTheDocument();
+        });
+
     })
-    it('creates a new LookupSet on Modal confirm', () => {
+    it('creates a new LookupSet on Modal confirm', async () => {
         fireEvent.click(screen.getByRole('button', {name: 'Create'}));
         fireEvent.change(screen.getByRole('textbox'), {target: {value: 'testSet'}})
-        expect(screen.getByRole('textbox').value).toBe('testSet')
+        await waitFor(() => {
+            expect(screen.getByRole('textbox').value).toBe('testSet')
+        });
+
         //screen.debug(screen.getByRole('button', {name: 'Create Lookup Set'}))
         fireEvent.click(screen.getByRole('button', {name: 'Create Lookup Set'}))
-        expect(screen.getByRole('button', {name: 'Creating Lookup Set'})).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByRole('button', {name: 'Creating Lookup Set'})).toBeInTheDocument();
+        });
     })
     it('renders the LookupSet Edit Modal', () => {
 

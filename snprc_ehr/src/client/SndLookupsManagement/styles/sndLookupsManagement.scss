@@ -27,7 +27,6 @@
   transform: translate(0, 10%)
 }
 
-
 .grid-panel__grid .table-responsive {
   overflow-y: scroll;
   width: 100%;
@@ -60,21 +59,17 @@
 .button-bar__section {
   display: flex;
   float: left;
-}
-
-.grid-panel__search-form .form-group {
-  margin-top: -5px;
-  //margin-left: 3px;
-  display: flex;
+  margin-bottom: 5px;
 }
 
 .input-group-addon {
-  display: none;
+  width: 12%;
+  border-radius: 5px;
 }
 
 .grid-panel__input-group {
   display: inline-flex;
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .grid-panel .grid-header-cell .dropdown-menu {
@@ -141,10 +136,14 @@
   display: none;
 }
 
+.grid-panel__loading {
+  display: none;
+}
+
 .selection-status__clear-all {
   display: none;
-  padding-top: 3px;
 }
+
 .manage-buttons .dropdown-menu {
   position: absolute;
 }
