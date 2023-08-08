@@ -21,7 +21,7 @@ export const SndLookupsManagement: FC = React.memo(props => {
      * @param id
      * @param row
      */
-    const handleSelectedParentRow = async (id: string, row: any) => {
+    const handleSelectedParentRow = (id: string, row: any) => {
         setLookupSetId(id);
         setLookupSetName(row?.SetName);
     };

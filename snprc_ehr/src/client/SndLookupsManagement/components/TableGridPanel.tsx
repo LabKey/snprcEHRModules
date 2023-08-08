@@ -64,7 +64,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      */
     useEffect(() => {
         (async () => {
-            await setLastSelectedId();
+            await setLastSelectedId().catch(error => console.error(error));
         })();
     }, [queryModels[modelId]]);
 
@@ -75,7 +75,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         (async () => {
             if (parentId) {
                 if (prevParentId !== parentId) {
-                    await initQueryModel();
+                    await initQueryModel().catch(error => console.error(error));
                 } else {
                     actions.loadModel(parentId);
                 }
@@ -89,7 +89,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      */
     useEffect(() => {
         (async () => {
-            await getRow();
+            await getRow().catch(error => console.error(error));
         })();
     }, [selectedId]);
 
@@ -106,7 +106,8 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      * Get data for current row in state
      */
     const getRow = async () => {
-        const currentRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName, rowIdName, +selectedId, displayColumns);
+        const currentRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName,
+            rowIdName, +selectedId, displayColumns);
         setRow(currentRow['rows'][0]);
     };
 
@@ -126,9 +127,6 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             true,
             true
         );
-        // if (!parentId) {
-        //     actions.setMaxRows(table, 300);
-        // }
         setModelId(table);
     };
 
@@ -142,7 +140,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         }
 
         if (model.selectionsLoadingState === LoadingState.LOADED) {
-            await updateLastSelectedId(await getLastSelectedId());
+            await updateLastSelectedId(await getLastSelectedId()).catch(error => console.error(error));
 
         }
     };
@@ -206,9 +204,9 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      * @param response
      */
     const onCreateComplete = async (response: any) => {
-        await closeDialog();
-        await reloadModel();
-        await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true);
+        closeDialog();
+        await reloadModel().catch(error => console.error(error));
+        await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true).catch(error => console.error(error));
         onChange(response);
     };
 
@@ -227,8 +225,8 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             id = response.rows[0][toCamelCase(rowIdName)];
             checked = true;
         }
-        await onRowSelectionChange(queryModels[modelId], id, checked);
-        await reloadModel();
+        await onRowSelectionChange(queryModels[modelId], id, checked).catch(error => console.error(error));
+        await reloadModel().catch(error => console.error(error));
         onChange(response);
     };
 
@@ -251,10 +249,10 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             if (newId) {
                 id = newId;
             } else if (model.hasSelections) {
-                id = await getLastSelectedId();
+                id = await getLastSelectedId().catch(error => console.error(error));
             }
         }
-        await updateLastSelectedId(id);
+        await updateLastSelectedId(id).catch(error => console.error(error));
     };
 
     /**
