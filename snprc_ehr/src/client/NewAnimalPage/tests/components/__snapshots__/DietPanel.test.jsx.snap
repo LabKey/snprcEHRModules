@@ -40,13 +40,10 @@ exports[`Should render the DietPanel 1`] = `
         >
           Diet
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           isClearable={true}
           isDisabled={false}
           isLoading={false}
