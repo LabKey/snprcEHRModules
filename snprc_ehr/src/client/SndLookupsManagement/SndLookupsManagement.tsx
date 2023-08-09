@@ -46,7 +46,7 @@ export const SndLookupsManagement: FC = React.memo(props => {
     };
 
     return (
-        <div>
+        <div className='lookups-management'>
             <Row>
                 <Col xs={10} md={12} lg={11}>
                     <Alert className={'success-alert'} bsStyle="success">{message}</Alert>
