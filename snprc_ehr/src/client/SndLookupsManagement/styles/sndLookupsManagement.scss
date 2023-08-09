@@ -17,7 +17,7 @@
     top: 50%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -800%)
   }
   .grid-panel__grid .table-responsive {
     height: 54vh !important;
@@ -55,7 +55,6 @@
   color: #555;
   display: flex;
   position: absolute;
-
 }
 
 // Div for alert above grids
@@ -128,9 +127,11 @@
 .grid-panel__grid .table-responsive thead th .grid-header-cell__body {
   padding: 5px;
 }
-.grid-header-cell__dropdown-menu {
-  position: fixed;
+
+.grid-header-cell__dropdown-menu .dropdown-menu {
+  position: absolute;
 }
+
 .grid-panel {
   border-color: #ddd;
   border-radius: 5px;
