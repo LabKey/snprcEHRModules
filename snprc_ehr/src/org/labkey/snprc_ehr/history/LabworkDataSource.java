@@ -82,6 +82,7 @@ public class LabworkDataSource extends AbstractDataSource
         if (rs.hasColumn(FieldKey.fromString("tissue")) && rs.getObject("tissue") != null)
             sb.append("Sample/Tissue: ").append(snomedToString(rs, FieldKey.fromString("tissue"), FieldKey.fromString("tissue/meaning")));
 
+        sb.append(safeAppend(rs, "Speicmen Id", "sampleId"));
         sb.append(safeAppendTimeFromDate(rs, "Time", "date"));
         sb.append(safeAppend(rs, "Remark", "remark"));
 
@@ -115,7 +116,7 @@ public class LabworkDataSource extends AbstractDataSource
     protected Set<String> getColumnNames()
     {
         //Modified: 5-17-2017  R.Blasa
-        return PageFlowUtil.set("Id", "date", "enddate", "objectid", "type", "performedby", "sampletype", "tissue/meaning", "tissue", "collectionmethod", "method", "servicerequested", "createdby/DisplayName","remark");
+        return PageFlowUtil.set("Id", "date", "sampleId", "enddate", "objectid", "type", "performedby", "sampletype", "tissue/meaning", "tissue", "collectionmethod", "method", "servicerequested", "createdby/DisplayName","remark");
     }
 
     @Override
