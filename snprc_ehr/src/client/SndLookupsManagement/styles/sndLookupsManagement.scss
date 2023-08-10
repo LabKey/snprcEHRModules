@@ -291,6 +291,7 @@
 }
 
 // Removing labkey objects don't need to be displayed
-.selection-status__count, .selection-status__select-all, .grid-panel__loading, .selection-status__clear-all, .view-menu {
+.selection-status__count, .selection-status__select-all, .grid-panel__loading, .selection-status__clear-all,
+.view-menu, .alert-info, .button-left-spacing, .panel-heading .btn-success {
   display: none;
 }
