@@ -164,6 +164,14 @@
 }
 .ws-pre-wrap {
   color: #555;
+  cursor: default;
+}
+.grid-panel__row-checkbox {
+  cursor: pointer;
+}
+.grid-header-cell {
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 // Customize button bar on grid
