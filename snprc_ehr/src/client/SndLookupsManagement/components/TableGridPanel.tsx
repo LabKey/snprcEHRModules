@@ -216,7 +216,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     const onCreateComplete = async (response: any) => {
         closeDialog();
         await reloadModel().catch(error => console.error(error));
-        await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true).catch(error => console.error(error));
+        await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true, response).catch(error => console.error(error));
         onChange(response);
     };
 
@@ -235,7 +235,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             id = response.rows[0][toCamelCase(rowIdName)];
             checked = true;
         }
-        await onRowSelectionChange(queryModels[modelId], id, checked).catch(error => console.error(error));
+        await onRowSelectionChange(queryModels[modelId], id, checked, response).catch(error => console.error(error));
         await reloadModel().catch(error => console.error(error));
         onChange(response);
     };
@@ -253,7 +253,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      * @param newId
      * @param checked
      */
-    const onRowSelectionChange = async (model: QueryModel, newId: any, checked: boolean) => {
+    const onRowSelectionChange = async (model: QueryModel, newId: any, checked: boolean, response: any) => {
         let id;
         if (checked) {
             if (newId) {
@@ -263,7 +263,9 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             }
         }
         await updateLastSelectedId(id).catch(error => console.error(error));
-        setIsScrolling(true);
+        if (response.command !== 'delete') {
+            setIsScrolling(true);
+        }
     };
 
     const scroll = () => {

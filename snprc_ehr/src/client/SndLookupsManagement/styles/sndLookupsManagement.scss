@@ -4,7 +4,6 @@
     width: 85%;
     padding-bottom: 3%;
   }
-
 }
 
 @media screen and (min-width: 992px) and (max-width: 1200px) {
@@ -16,12 +15,6 @@
   }
 }
 
-//@media screen and (min-width: 1200px) and (max-width: 1700px) {
-//  .button-bar__section {
-//    display: block !important;
-//  }
-//}
-// When screen is medium-large
 @media screen and (min-width: 1200px) {
   .snd-lookups-grid {
     display: flex;
@@ -29,23 +22,17 @@
   .lookups-grid {
     flex: 1 !important;
   }
-
   .lookupSets-grid {
     flex: 0 0 500px;
     overflow: hidden;
     white-space: nowrap;
   }
-
   .lookups-placeholder {
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%)
   }
-
-  //.grid-panel__search-input {
-  //  width: 75% !important;
-  //}
 }
 
 // Make header sticky
@@ -85,8 +72,8 @@
   margin: auto;
   border-radius: 5px;
   transform: translate(0, -20%);
-  width: 78%;
-  left: .8%;
+  width: 85%;
+  left: 4.6%;
 }
 
 // Div for component modals
@@ -150,11 +137,10 @@
 .grid-panel__grid .table-responsive thead th .grid-header-cell__body {
   padding: 5px;
 }
-.grid-panel__grid .table-responsive {
 
-}
-.grid-header-cell__dropdown-menu .dropdown-menu {
-  position: absolute;
+.dropdown-menu.grid-header-cell__dropdown-menu {
+  display: block;
+  position: fixed;
 }
 
 .grid-panel {
@@ -243,7 +229,7 @@
   position: relative;
 }
 .labkey-wizard-pills {
-  overflow: scroll;
+  overflow-y: scroll;
   height: 40vh;
 }
 .form-check {
