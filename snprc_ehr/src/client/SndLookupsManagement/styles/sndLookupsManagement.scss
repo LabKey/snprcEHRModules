@@ -16,6 +16,11 @@
   }
 }
 
+@media screen and (min-width: 1200px) and (max-width: 1700px) {
+  .button-bar__section {
+    display: block !important;
+  }
+}
 // When screen is medium-large
 @media screen and (min-width: 1200px) {
   .snd-lookups-grid {
