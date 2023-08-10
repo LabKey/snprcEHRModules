@@ -8,6 +8,11 @@
   }
 }
 
+@media screen and (min-width: 1200px) and (max-width: 1700px) {
+  .button-bar__section {
+    display: block !important;
+  }
+}
 // When screen is medium-large
 @media screen and (min-width: 540px) {
   .snd-lookups-grid {
@@ -17,7 +22,7 @@
     top: 50%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -800%)
+    transform: translate(-50%, -500%)
   }
   .grid-panel__grid .table-responsive {
     height: 54vh !important;
