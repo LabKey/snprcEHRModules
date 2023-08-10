@@ -30,7 +30,7 @@ export const UpdateForm: FC<Props> = memo((props: Props) => {
         <div className={'update-users-label-bottom'}>
             {(Object.entries(row).map(column => {
                 return (
-                    <div>
+                    <div key={column[0]}>
                         <form onSubmit={handleUpdate}>
                             <FormGroup className={'form-group-create-update'} htmlFor={`form-${column[0]}-field`}>
                                 {!column[0].startsWith('_labkeyurl_') && !(column[0] === 'IsInUse') && (
