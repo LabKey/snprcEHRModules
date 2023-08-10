@@ -208,6 +208,19 @@
   margin-left: 5px;
 }
 
+.input-group-btn {
+  border-radius: 5px;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.grid-panel__filter-status {
+  display: block;
+  white-space: pre-wrap;
+  padding-top: 40px;
+}
+
 // Labkey modal customization
 .modal-content {
   font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
