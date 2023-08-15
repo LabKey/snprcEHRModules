@@ -66,7 +66,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await setLastSelectedId().catch(error => console.error(error));
-            await getRow().catch(error => console.error(error));
+
         })();
     }, [queryModels[modelId]]);
 
@@ -92,6 +92,10 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await getRow().catch(error => console.error(error));
+            if (isScrolling) {
+                scroll();
+                setIsScrolling(false);
+            }
         })();
     }, [selectedId]);
 
@@ -99,15 +103,9 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      * Invoke callback to set the page state when new row is selected and data retrieved
      */
     useEffect(() => {
-        (async () => {
-            if (handleSelectedParentRow) {
-                handleSelectedParentRow(selectedId, row);
-            }
-            if (isScrolling) {
-                await scroll();
-                setIsScrolling(false);
-            }
-        })();
+        if (handleSelectedParentRow) {
+            handleSelectedParentRow(selectedId, row);
+        }
     }, [row]);
 
 
