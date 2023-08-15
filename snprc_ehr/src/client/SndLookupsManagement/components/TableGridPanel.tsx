@@ -91,7 +91,6 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await getRow().catch(error => console.error(error));
-
         })();
     }, [selectedId]);
 
@@ -153,7 +152,6 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
 
         if (model.selectionsLoadingState === LoadingState.LOADED) {
             await updateLastSelectedId(await getLastSelectedId()).catch(error => console.error(error));
-
         }
     };
 
@@ -300,7 +298,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         );
         const gridElement = grids[gridIndex];
 
-        if (gridElement.scrollHeight > gridElement.clientHeight) {
+        if (rowIndex != -1 && gridElement.scrollHeight > gridElement.clientHeight) {
             rowElement.scrollIntoView();
         }
     };

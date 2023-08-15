@@ -40,11 +40,11 @@ export const UpdateModal: FC<Props> = memo((props: Props) => {
      * Callback for handling the update operation performed with the form data in the modal when the confirm button is pressed
      * @param evt
      */
-    const handleUpdate = async (evt: any) => {
+    const handleUpdate = (evt: any) => {
         evt.preventDefault();
         setIsSubmitting(true);
         setError(undefined);
-        return updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
+        updateTableRow(schemaQuery.schemaName, schemaQuery.queryName, row, Object.entries(updateRow))
             .then(onComplete)
             .catch(error => {
                 console.error(error);
