@@ -66,6 +66,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await setLastSelectedId().catch(error => console.error(error));
+            await getRow().catch(error => console.error(error));
         })();
     }, [queryModels[modelId]]);
 
