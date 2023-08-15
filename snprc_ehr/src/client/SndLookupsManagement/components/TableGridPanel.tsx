@@ -284,8 +284,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
 
         const rows = [...document.querySelectorAll('.ws-pre-wrap') as any];
         const rowIndex = rows.findIndex(a => a.textContent == value);
-        const scrollIndex = rowIndex > 9 ? rowIndex - 9 : rowIndex;
-        const rowElement = rows[scrollIndex];
+        const rowElement = rows[rowIndex];
 
         const grids = [...document.querySelectorAll('.table-responsive') as any];
         const gridIndex = grids.findIndex(a => a.parentElement
@@ -299,7 +298,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         const gridElement = grids[gridIndex];
 
         if (gridElement.scrollHeight > gridElement.clientHeight) {
-            rowElement.scrollIntoView();
+            rowElement.scrollIntoView({block: 'center'});
         }
     };
 
