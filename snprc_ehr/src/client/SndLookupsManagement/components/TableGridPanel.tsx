@@ -282,7 +282,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     /**
      * Scroll to the newly selected element on a grid on create or update
      */
-    const scroll = async () => {
+    const scroll = () => {
         const value = row['SetName'] ?? row['Value'];
 
         const rows = [...document.querySelectorAll('.ws-pre-wrap') as any];

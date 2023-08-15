@@ -124,7 +124,7 @@ const CHILD_PROPS = {
     queryModels: {
         'Lookups': makeTestQueryModel(
             SCHEMAS.SND_TABLES.LOOKUP_SETS,
-            new QueryInfo(),
+            new QueryInfo({}),
             {},
             [],
             0,
