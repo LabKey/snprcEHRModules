@@ -21,12 +21,12 @@ export const DeleteModal: FC<Props> = memo((props: Props) => {
     /**
      * Callback for handling the delete operation when the button is pressed in the modal
      */
-    const handleDelete = async () => {
+    const handleDelete = () => {
         setIsSubmitting(true);
         let deleteRow = {};
         deleteRow[rowIdName] = id;
 
-        return deleteTableRow(schemaQuery.schemaName, schemaQuery.queryName, deleteRow)
+        deleteTableRow(schemaQuery.schemaName, schemaQuery.queryName, deleteRow)
             .then(onComplete)
             .catch(error => {
                 console.error(error);
