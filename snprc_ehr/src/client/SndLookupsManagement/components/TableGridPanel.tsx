@@ -58,7 +58,16 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     const [showDialog, setShowDialog] = useState<string>('');
     const [row, setRow] = useState<any>([]);
     const [isScrolling, setIsScrolling] = useState<boolean>(false);
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const prevParentId = usePrevious(parentId);
+
+    useEffect(() => {
+        if (queryModels[modelId].queryInfoLoadingState === 'LOADED' && !isInitialized) {
+            actions.clearSelections(modelId);
+            setIsInitialized(true);
+        }
+    }, [queryModels[modelId].queryInfoLoadingState]);
+
 
     /**
      * Set state for selected row id on table when new row is selected
@@ -66,7 +75,6 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await setLastSelectedId().catch(error => console.error(error));
-
         })();
     }, [queryModels[modelId]]);
 
