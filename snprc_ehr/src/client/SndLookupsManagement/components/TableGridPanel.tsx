@@ -66,6 +66,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     useEffect(() => {
         (async () => {
             await setLastSelectedId().catch(error => console.error(error));
+            await getRow().catch(error => console.error(error));
         })();
     }, [queryModels[modelId]]);
 
@@ -84,17 +85,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         })();
 
     }, [parentId]);
-
-    /**
-     * Get the row data on new selected row on table
-     */
-    useEffect(() => {
-        (async () => {
-            await getRow().catch(error => console.error(error));
-
-        })();
-    }, [selectedId]);
-
+    
     /**
      * Invoke callback to set the page state when new row is selected and data retrieved
      */

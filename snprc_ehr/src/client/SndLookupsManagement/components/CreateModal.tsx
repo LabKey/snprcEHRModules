@@ -22,12 +22,12 @@ export const CreateModal: FC<Props> = memo((props: Props) => {
      * Callback for handling the create operation from the forms in the modal when the button is pressed
      * @param evt
      */
-    const handleCreate = async (evt: any) => {
+    const handleCreate = (evt: any) => {
         evt.preventDefault();
         setIsSubmitting(true);
         setError(undefined);
 
-        return createTableRow(schemaQuery.schemaName, schemaQuery.queryName, name, parentId)
+        createTableRow(schemaQuery.schemaName, schemaQuery.queryName, name, parentId)
             .then(onComplete)
             .catch(error => {
                 console.error(error);
