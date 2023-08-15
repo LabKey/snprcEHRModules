@@ -284,7 +284,8 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
 
         const rows = [...document.querySelectorAll('.ws-pre-wrap') as any];
         const rowIndex = rows.findIndex(a => a.textContent == value);
-        const rowElement = rows[rowIndex - 9];
+        const scrollIndex = rowIndex > 9 ? rowIndex - 9 : rowIndex;
+        const rowElement = rows[scrollIndex];
 
         const grids = [...document.querySelectorAll('.table-responsive') as any];
         const gridIndex = grids.findIndex(a => a.parentElement
