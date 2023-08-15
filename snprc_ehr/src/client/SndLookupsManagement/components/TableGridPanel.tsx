@@ -108,7 +108,6 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
                 setIsScrolling(false);
             }
         })();
-
     }, [row]);
 
 
@@ -117,8 +116,10 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      */
     const getRow = async () => {
         const currentRow = await getTableRow(schemaQuery.schemaName, schemaQuery.queryName,
-            rowIdName, +selectedId, displayColumns);
-        setRow(currentRow['rows'][0]);
+            rowIdName, +selectedId, displayColumns).catch(error => console.error(error));
+        if (currentRow) {
+            setRow(currentRow['rows'][0]);
+        }
     };
 
     /**
@@ -138,6 +139,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             true
         );
         setModelId(table);
+        actions.setMaxRows(table, 300);
     };
 
     /**
@@ -195,8 +197,7 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     /**
      * Update the state of toggleDialog to null when a CRUD modal is closed
      */
-    const closeDialog = () =>
-    {
+    const closeDialog = () => {
         const close = async () => {
             await toggleDialog(undefined);
         };
@@ -204,10 +205,10 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         try {
             close();
         }
-        catch(e) {
+        catch (e) {
             console.log(e);
         }
-    }
+    };
 
     /**
      * Callback for completion of a create operation on a table
@@ -215,9 +216,14 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
      */
     const onCreateComplete = async (response: any) => {
         closeDialog();
-        await reloadModel().catch(error => console.error(error));
-        await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true, response).catch(error => console.error(error));
-        onChange(response);
+        try {
+            await reloadModel();
+            await onRowSelectionChange(queryModels[modelId], response.rows[0][toCamelCase(rowIdName)], true, response);
+            onChange(response);
+        }
+        catch (error) {
+            console.error(error);
+        }
     };
 
     /**
@@ -235,9 +241,14 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
             id = response.rows[0][toCamelCase(rowIdName)];
             checked = true;
         }
-        await onRowSelectionChange(queryModels[modelId], id, checked, response).catch(error => console.error(error));
-        await reloadModel().catch(error => console.error(error));
-        onChange(response);
+        try {
+            await onRowSelectionChange(queryModels[modelId], id, checked, response);
+            await reloadModel();
+            onChange(response);
+        }
+        catch (error) {
+            console.error(error);
+        }
     };
 
     /**
@@ -268,12 +279,30 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
         }
     };
 
-    const scroll = () => {
+    /**
+     * Scroll to the newly selected element on a grid when
+     */
+    const scroll = async () => {
         const value = row['SetName'] ?? row['Value'];
-        const elements = [...document.querySelectorAll(".ws-pre-wrap") as any]
-        const index = elements.findIndex(a => a.textContent == value);
-        const element = elements[index - 9]
-        element.scrollIntoView();
+
+        const rows = [...document.querySelectorAll('.ws-pre-wrap') as any];
+        const rowIndex = rows.findIndex(a => a.textContent == value);
+        const rowElement = rows[rowIndex - 9];
+
+        const grids = [...document.querySelectorAll('.table-responsive') as any];
+        const gridIndex = grids.findIndex(a => a.parentElement
+            .parentElement
+            .parentElement
+            .parentElement
+            .parentElement
+            .className
+            .startsWith((row['SetName']) ? 'lookupSets-grid' : 'lookups-grid')
+        );
+        const gridElement = grids[gridIndex];
+
+        if (gridElement.scrollHeight > gridElement.clientHeight) {
+            rowElement.scrollIntoView();
+        }
     };
 
     /**
@@ -358,8 +387,8 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
 
 const TableGridPanelWithQueryModels = withQueryModels<TableProps>(TableGridPanelImpl);
 
-export const TableGridPanel: FC<TableProps> = memo(( props ) => {
-    const { schemaQuery, table } = props;
+export const TableGridPanel: FC<TableProps> = memo((props) => {
+    const {schemaQuery, table} = props;
 
     const queryConfigs = useMemo<QueryConfigMap>(
         () => ({
@@ -371,7 +400,7 @@ export const TableGridPanel: FC<TableProps> = memo(( props ) => {
     );
 
     // providing "key" to allow for reload on lsid change
-    return <TableGridPanelWithQueryModels autoLoad queryConfigs={queryConfigs} { ...props } />;
+    return <TableGridPanelWithQueryModels autoLoad queryConfigs={queryConfigs} {...props} />;
 });
 
 /**
