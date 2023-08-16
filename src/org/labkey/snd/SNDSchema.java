@@ -112,10 +112,7 @@ public class SNDSchema
         return getSchema().getTable(LOOKUPS_TABLE_NAME);
     }
 
-    public TableInfo getTableInfoLookupSets()
-    {
-        return getSchema().getTable(LOOKUPSETS_TABLE_NAME);
-    }
+    public TableInfo getTableInfoLookupSets() { return getSchema().getTable(LOOKUPSETS_TABLE_NAME); }
 
     public TableInfo getTableInfoEventsCache()
     {
