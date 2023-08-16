@@ -1006,7 +1006,7 @@ public class SNDController extends SpringActionController
             if (!errors.hasErrors())
             {
                 String projectIdrev = json.getString("projectIdRev");
-                String note = json.getString("note");
+                String note = json.has("note") ? json.getString("note") : null;
 
                 List<EventData> eventData = null;
                 JSONArray eventDataJson = json.has("eventData") ? json.getJSONArray("eventData") : null;
