@@ -4,7 +4,6 @@
     width: 85%;
     padding-bottom: 3%;
   }
-
 }
 
 @media screen and (min-width: 992px) and (max-width: 1200px) {
@@ -16,12 +15,6 @@
   }
 }
 
-@media screen and (min-width: 1200px) and (max-width: 1700px) {
-  .button-bar__section {
-    display: block !important;
-  }
-}
-// When screen is medium-large
 @media screen and (min-width: 1200px) {
   .snd-lookups-grid {
     display: flex;
@@ -29,13 +22,11 @@
   .lookups-grid {
     flex: 1 !important;
   }
-
   .lookupSets-grid {
     flex: 0 0 500px;
     overflow: hidden;
     white-space: nowrap;
   }
-
   .lookups-placeholder {
     top: 50%;
     left: 50%;
@@ -73,7 +64,6 @@
   color: #555;
   display: flex;
   position: absolute;
-
 }
 
 // Div for alert above grids
@@ -82,8 +72,8 @@
   margin: auto;
   border-radius: 5px;
   transform: translate(0, -20%);
-  width: 78%;
-  left: .8%;
+  width: 85%;
+  left: 4.6%;
 }
 
 // Div for component modals
@@ -109,7 +99,7 @@
 .form-group-create-update .control-label {
   float: left;
   width: 80px;
-  margin-top: 5px;
+  margin-top: 7px;
   margin-right: 6px;
 }
 .form-group-create-update .form-control {
@@ -147,17 +137,12 @@
 .grid-panel__grid .table-responsive thead th .grid-header-cell__body {
   padding: 5px;
 }
-<<<<<<< HEAD
-.grid-header-cell__dropdown-menu {
-  position: fixed;
-=======
-.grid-panel__grid .table-responsive {
 
+.dropdown-menu.grid-header-cell__dropdown-menu {
+  display: block;
+  position: fixed;
 }
-.grid-header-cell__dropdown-menu .dropdown-menu {
-  position: absolute;
->>>>>>> fixed search bar
-}
+
 .grid-panel {
   border-color: #ddd;
   border-radius: 5px;
@@ -179,6 +164,14 @@
 }
 .ws-pre-wrap {
   color: #555;
+  cursor: default;
+}
+.grid-panel__row-checkbox {
+  cursor: pointer;
+}
+.grid-header-cell {
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 // Customize button bar on grid
@@ -209,6 +202,19 @@
   margin-left: 5px;
 }
 
+.input-group-btn {
+  border-radius: 5px;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.grid-panel__filter-status {
+  display: block;
+  white-space: pre-wrap;
+  padding-top: 40px;
+}
+
 // Labkey modal customization
 .modal-content {
   font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -231,7 +237,7 @@
   position: relative;
 }
 .labkey-wizard-pills {
-  overflow: scroll;
+  overflow-y: scroll;
   height: 40vh;
 }
 .form-check {
@@ -285,6 +291,7 @@
 }
 
 // Removing labkey objects don't need to be displayed
-.selection-status__count, .selection-status__select-all, .grid-panel__loading, .selection-status__clear-all, .view-menu {
+.selection-status__count, .selection-status__select-all, .grid-panel__loading, .selection-status__clear-all,
+.view-menu, .alert-info, .button-left-spacing, .panel-heading .btn-success {
   display: none;
 }

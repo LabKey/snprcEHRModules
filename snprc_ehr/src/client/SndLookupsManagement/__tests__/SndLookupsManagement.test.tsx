@@ -124,7 +124,7 @@ const CHILD_PROPS = {
     queryModels: {
         'Lookups': makeTestQueryModel(
             SCHEMAS.SND_TABLES.LOOKUP_SETS,
-            new QueryInfo(),
+            new QueryInfo({}),
             {},
             [],
             0,
@@ -166,12 +166,12 @@ describe('TableGridPanel Tests', () => {
         await waitFor(() => {
             expect(screen.getByRole('textbox').value).toBe('testSet')
         });
+
         //screen.debug(screen.getByRole('button', {name: 'Create Lookup Set'}))
         fireEvent.click(screen.getByRole('button', {name: 'Create Lookup Set'}))
         await waitFor(() => {
             expect(screen.getByRole('button', {name: 'Creating Lookup Set'})).toBeInTheDocument();
         });
-        screen.debug();
     })
     it('renders the LookupSet Edit Modal', () => {
 
