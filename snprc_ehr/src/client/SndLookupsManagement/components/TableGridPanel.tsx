@@ -61,6 +61,9 @@ export const TableGridPanelImpl: FC<TableProps> = memo((props: TableProps & Inje
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const prevParentId = usePrevious(parentId);
 
+    /**
+     * Clear selections on initial render
+     */
     useEffect(() => {
         if (queryModels[modelId].queryInfoLoadingState === 'LOADED' && !isInitialized) {
             actions.clearSelections(modelId);
