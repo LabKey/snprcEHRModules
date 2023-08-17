@@ -84,7 +84,7 @@ export const SndLookupsManagement: FC = React.memo(props => {
                                         filters={[Filter.create('lookupSetId', lookupSetId)]}
                         />
                     ) || (
-                        <h3 className="lookups-placeholder">Select a Lookup Set ☑ to display Lookups</h3>
+                        <h3 className="lookups-placeholder">☑ Select a Lookup Set to display Lookup items.</h3>
                     )
                     }
                 </Col>
