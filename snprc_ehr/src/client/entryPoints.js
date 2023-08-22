@@ -25,5 +25,11 @@ module.exports = {
             title: 'PDF Reports',
             permission: 'read',
             path: './src/client/SsrsReporting'
+        },
+        {
+            name: 'SndLookupsManagement',
+            title: 'SND Lookups Management',
+            permission: 'read',
+            path: './src/client/SndLookupsManagement'
         }]
 };
