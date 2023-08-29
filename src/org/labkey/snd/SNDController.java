@@ -1284,7 +1284,7 @@ public class SNDController extends SpringActionController
         public Object execute(SimpleApiJsonForm form, BindException errors)
         {
             JSONObject json = form.getJsonObject();
-            Integer categoryId = json.getInt("categoryId");
+            int categoryId = json.getInt("categoryId");
             String groupName = json.getString("groupName");
             String roleName = json.getString("roleName");
 

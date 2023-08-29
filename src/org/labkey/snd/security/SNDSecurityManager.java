@@ -70,7 +70,7 @@ public class SNDSecurityManager
 
         List<Category> categories = SNDManager.get().getCategories(c, u, categoryIds);
         Category category;
-        if (categories != null && categories.size() > 0)
+        if (categories != null && !categories.isEmpty())
         {
             category = categories.get(0);
             Group group = SecurityManager.getGroup(SecurityManager.getGroupId(c, groupName));
@@ -95,20 +95,14 @@ public class SNDSecurityManager
                 }
 
                 // Clear role first
-                if (role != null || roleName.equals("None"))
-                {
-                    policy.clearAssignedRoles(group);
-                }
+                policy.clearAssignedRoles(group);
 
                 if (role != null)
                 {
                     policy.addRoleAssignment(group, role);
                 }
 
-                if (role != null || roleName.equals("None"))
-                {
-                    SecurityPolicyManager.savePolicy(policy);
-                }
+                SecurityPolicyManager.savePolicy(policy, u);
             }
             else
             {
@@ -194,7 +188,7 @@ public class SNDSecurityManager
         // save all policies
         for (MutableSecurityPolicy savedPolicy : policyMap.values())
         {
-            SecurityPolicyManager.savePolicy(savedPolicy);
+            SecurityPolicyManager.savePolicy(savedPolicy, u);
         }
     }
 

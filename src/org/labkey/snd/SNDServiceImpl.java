@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
@@ -80,6 +81,7 @@ public class SNDServiceImpl implements SNDService
 
     private SNDServiceImpl()
     {
+        ContainerManager.addSecurableResourceProvider((c, u) -> getAllCategories(c, u).values());
     }
 
     private static void configureObjectMapper(ObjectMapper om)

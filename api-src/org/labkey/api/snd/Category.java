@@ -25,6 +25,7 @@ import org.labkey.api.security.SecurableResource;
 import org.labkey.api.security.User;
 import org.labkey.api.util.GUID;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Category implements SecurableResource, HasPermission
@@ -124,7 +125,7 @@ public class Category implements SecurableResource, HasPermission
     @Override
     public @NotNull List<SecurableResource> getChildResources(User user)
     {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
