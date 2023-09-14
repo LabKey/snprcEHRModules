@@ -523,6 +523,7 @@ public class SNDTest extends BaseWebDriverTest implements SqlserverOnlyTest
         "       projectIdRev: '" + PKG_TEST_PROJECT_ID + "|0',      \n" +
         "       eventData: [{                                       \n" +
         "           superPkgId: " + TEST_SUPER_PKG_START_ID5 + ",   \n" +
+        "           sortOrder: 1,                                   \n" +
         "           extraFields: [],                                \n" +
         "           attributes: []                                  \n" +
         "       }]                                                  \n" +

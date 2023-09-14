@@ -239,6 +239,7 @@
             <column columnName="EventId"/>
             <column columnName="SuperPkgId"/>
             <column columnName="ParentEventDataId"/>
+            <column columnName="SortOrder"/>
             <column columnName="ObjectURI"/>
             <column columnName="Container"/>
             <column columnName="Lsid">
