@@ -42,6 +42,7 @@ public class EventData
     private int _superPkgId;
     private int _eventId;
     private Integer _parentEventDataId;
+    private Integer _sortOrder;
     private String _narrativeTemplate;
     private String _objectURI;
     private List<EventData> _subPackages;
@@ -57,22 +58,26 @@ public class EventData
     public static final String EVENT_DATA_OBJECTURI = "objectURI";
     public static final String EVENT_DATA_EVENTID = "eventId";
     public static final String EVENT_DATA_PARENT_EVENTDATAID = "parentEventDataId";
+    public static final String EVENT_DATA_SORT_ORDER = "sortOrder";
     public static final String EVENT_DATA_CONTAINER = "Container";
-
     public static final String EVENT_DATA_CSS_CLASS = "snd-event-data";
-
+    public static final String EVENT_DATA_EXTRA_FIELDS = "extraFields";
 
     public EventData(@Nullable Integer eventDataId, int superPkgId, @Nullable String narrative, @Nullable List<EventData> subPackages, @NotNull List<AttributeData> attributes)
+    {
+          this(eventDataId, superPkgId, narrative, subPackages, attributes, null);
+    }
+    public EventData(@Nullable Integer eventDataId, int superPkgId, @Nullable String narrative, @Nullable List<EventData> subPackages, @NotNull List<AttributeData> attributes , @Nullable Integer sortOrder)
     {
         _eventDataId = eventDataId;
         _superPkgId = superPkgId;
         _narrativeTemplate = narrative;
         _subPackages = subPackages;
+        _sortOrder = sortOrder;
 
         if (attributes != null)
             _attributes = attributes;
     }
-
     public EventData() {}
 
     @Nullable
@@ -150,6 +155,16 @@ public class EventData
         event.updateExceptionCount(exception);
     }
 
+    public Integer getSortOrder()
+    {
+        return _sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder)
+    {
+        _sortOrder = sortOrder;
+    }
+
     @Nullable
     public List<EventData> getSubPackages()
     {
@@ -193,6 +208,7 @@ public class EventData
         eventDataValues.put(EVENT_DATA_EVENTID, getEventId());
         eventDataValues.put(EVENT_DATA_PARENT_EVENTDATAID, getParentEventDataId());
         eventDataValues.put(EVENT_DATA_CONTAINER, c);
+        eventDataValues.put(EVENT_DATA_SORT_ORDER, getSortOrder());
 
         Map<GWTPropertyDescriptor, Object> extras = getExtraFields();
         for (GWTPropertyDescriptor gpd : extras.keySet())
@@ -210,6 +226,7 @@ public class EventData
         json.put(EVENT_DATA_ID, getEventDataId());
         json.put(EVENT_DATA_SUPER_PACKAGE_ID, getSuperPkgId());
         json.put(EVENT_DATA_NARRATIVE_TEMPLATE, getNarrativeTemplate());
+        json.put(EVENT_DATA_SORT_ORDER, getSortOrder());
 
         JSONArray subPackagesJson = new JSONArray();
         if (getSubPackages() != null)

@@ -122,7 +122,7 @@ public class PackageAttributeTable extends FilteredTable<SNDUserSchema>
 
     private MutableColumnInfo getDefaultColumnInfo()
     {
-        ExprColumn defaultCol = new ExprColumn(this, "defaultValue", new SQLFragment(ExprColumn.STR_TABLE_ALIAS + ".pkgId"), JdbcType.INTEGER);
+        ExprColumn defaultCol = new ExprColumn(this, "defaultValue", new SQLFragment(ExprColumn.STR_TABLE_ALIAS + ".pkgId"), JdbcType.VARCHAR);
         defaultCol.setDisplayColumnFactory(new DisplayColumnFactory()
         {
             @Override
