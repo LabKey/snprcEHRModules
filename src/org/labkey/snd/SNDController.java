@@ -95,7 +95,7 @@ public class SNDController extends SpringActionController
         for (int e = 0; e < jsonExtras.length(); e++)
         {
             extra = jsonExtras.getJSONObject(e);
-            extras.put(SNDServiceImpl.jsonToPropertyDescriptor(extra), extra.get("value"));
+            extras.put(SNDServiceImpl.jsonToPropertyDescriptor(extra), extra.optString("value", null));
         }
 
         return extras;
