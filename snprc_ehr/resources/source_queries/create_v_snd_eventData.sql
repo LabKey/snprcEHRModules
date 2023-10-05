@@ -1,4 +1,4 @@
-/*
+//*
  * Copyright (c) 2018 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,16 +20,17 @@ AS
     -- Create date: 2/23/2018
     -- Description:	View provides the datasource for event data with attribute/values
     -- Changes: 4/12/2018 Added permissions
+    --  9/13/2023 Added view_order. tjh
     --
     -- ==========================================================================================
-
     SELECT
             cp.ANIMAL_EVENT_ID                AS EventId,
             sp.PKG_ID                         AS PkgId,
             cp.PROC_ID                        AS EventDataId,
             cp.PARENT_PROC_ID                 AS ParentEventDataId,
             sp.SUPER_PKG_ID                   AS SuperPkgId,
-			      cp.timestamp					            AS timestamp
+            cp.view_order                     AS SortOrder,
+			cp.timestamp					  AS timestamp
 
     FROM dbo.CODED_PROCS AS cp
 	    INNER JOIN dbo.ANIMAL_EVENTS AS ae ON cp.ANIMAL_EVENT_ID = ae.ANIMAL_EVENT_ID

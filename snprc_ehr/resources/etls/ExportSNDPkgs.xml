@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Export SND Packages</name>
+    <description>Export SND PKGS from TAC to CAMP PKGS</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprc_ehr" queryName="ExportPackages" />
+            <destination schemaName="animalExport" queryName="Pkgs" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="PKG_ID"/>
+                </alternateKeys>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="Entry_date_tm">
+        <deletedRowsSource schemaName="snd" queryName="DeletedPkgs" timestampColumnName="modified" deletedSourceKeyColumnName="ObjectId" targetKeyColumnName="OBJECT_ID"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>

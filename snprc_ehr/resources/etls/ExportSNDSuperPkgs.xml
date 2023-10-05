@@ -1,0 +1,21 @@
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Export SND SuperPkgs</name>
+    <description>Push SuperPackage Data to CAMP</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprc_ehr" queryName="ExportSNDSuperPkgs" />
+            <destination schemaName="animalExport" queryName="SUPER_PKGS" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="SUPER_PKG_ID"/>
+                </alternateKeys>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="Entry_date_tm">
+        <deletedRowsSource schemaName="snd" queryName="DeletedSNDSuperPkgs" timestampColumnName="modified" deletedSourceKeyColumnName="superPkgId" targetKeyColumnName="SUPER_PKG_ID"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>
