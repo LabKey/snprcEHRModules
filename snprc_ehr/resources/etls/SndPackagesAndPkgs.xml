@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>__SND Packages and SuperPkgs</name>
+    <description>Import SND Packages and SuperPackages</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to Staging table</description>
+            <source schemaName="snprcSrc" queryName="v_packages" />
+            <destination schemaName="snprc_ehr" queryName="packageStaging" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="ObjectId"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
+            </destination>
+        </transform>
+        <transform id="step2" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to Staging table</description>
+            <source schemaName="snprcSrc" queryName="v_packageAttributes" />
+            <destination schemaName="snprc_ehr" queryName="packageAttributeStaging" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="ObjectId"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
+            </destination>
+        </transform>
+        <transform id="step3" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to Staging table</description>
+            <source schemaName="snprcSrc" queryName="f_getAllSuperPkgs" />
+            <destination schemaName="snprc_ehr" queryName="SuperPackageStaging" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="ObjectId"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
+            </destination>
+        </transform>
+<!--        <transform id="step4" type="TaskRefTransformStep">-->
+<!--            <taskref ref="org.labkey.snprc_ehr.steps.PackageLoadTask">-->
+<!--                <settings>-->
+<!--                    <setting name="setting1" value="anything"/>-->
+<!--                </settings>-->
+<!--            </taskref>-->
+<!--        </transform>-->
+<!--        <transform id="step5" type="TaskRefTransformStep">-->
+<!--        <taskref ref="org.labkey.snprc_ehr.steps.superPackageLoadTask">-->
+<!--            <settings>-->
+<!--                <setting name="setting1" value="anything"/>-->
+<!--            </settings>-->
+<!--        </taskref>-->
+<!--    </transform>-->
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="Modified">
+        <deletedRowsSource schemaName="snprcSrc" queryName="v_delete_snd" timestampColumnName="audit_date_tm" deletedSourceKeyColumnName="ObjectId" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="365d" />
+    </schedule>
+</etl>
