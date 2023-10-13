@@ -60,7 +60,7 @@ public class PackageLoadTask extends TaskRefTaskImpl
             for (Map<String, Object> row : rows) {
                 // build package
                 Package pkg = buildPackage(row, job);
-                job.getLogger().info("Processing Package: " + pkg.getPkgId() + "-" + pkg.getDescription());
+                job.getLogger().info("Processing Package: " + pkg.getPkgId());
                 // add attributes to package
                 List<GWTPropertyDescriptor> attributeDataList = getAttributes(pkg.getPkgId(), job);
                 if (attributeDataList != null && !attributeDataList.isEmpty())
@@ -68,9 +68,9 @@ public class PackageLoadTask extends TaskRefTaskImpl
                     pkg.setAttributes(attributeDataList);
                 }
                 // save package
+                job.getLogger().info("Saving Package: " + pkg.getPkgId() + "-" + pkg.getDescription());
                 SNDService.get().savePackage(job.getContainer(), job.getUser(), pkg, null, false, true);
             }
-
         }
         catch (Exception e) {
             job.getLogger().error ("Error reading package table: " + e.getMessage());

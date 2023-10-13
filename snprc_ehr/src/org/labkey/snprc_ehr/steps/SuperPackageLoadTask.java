@@ -67,12 +67,13 @@ public class SuperPackageLoadTask extends TaskRefTaskImpl
                 job.getLogger().info("No new super packages found in " + SNPRC_EHRSchema.TABLE_SND_SUPER_PACKAGE_STAGING);
                 return;
             }
-            job.getLogger().info("Number of packages: " + superPackages.size());
 
             LinkedHashMap<Integer, List<SuperPackage>> hierarchicalPackages = new LinkedHashMap<>();
             // group super packages ordered by top level package id
             Map<Integer, List<SuperPackage>> superPackagesByTopLevelPkgId = superPackages.stream()
                     .collect(Collectors.groupingBy(SuperPackage::getTopLevelPkgId, LinkedHashMap::new, Collectors.toList()));
+
+            job.getLogger().info("Number of super packages: " + superPackagesByTopLevelPkgId.size());
 
             superPackagesByTopLevelPkgId.forEach((topLevelPkgId, sp) -> {
                 job.getLogger().info("Processing Super Package: " + topLevelPkgId);
@@ -92,7 +93,7 @@ public class SuperPackageLoadTask extends TaskRefTaskImpl
             });
 
             hierarchicalPackages.forEach((topLevelPkgId, sp) -> {
-                job.getLogger().info("Saving Super Package: " + topLevelPkgId);
+                job.getLogger().info("Saving Super Package: " + topLevelPkgId + "-" + sp.get(0).getDescription());
                 SNDService.get().saveSuperPackages(job.getContainer(), job.getUser(), sp);
             });
         }
