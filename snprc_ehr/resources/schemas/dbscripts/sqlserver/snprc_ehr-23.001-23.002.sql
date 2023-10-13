@@ -1,13 +1,13 @@
-EXEC core.fn_dropifexists 'SuperPackageStaging', 'snprc_ehr', 'TABLE';
+EXEC core.fn_dropifexists 'SndSuperPackageStaging', 'snprc_ehr', 'TABLE';
 GO
 
-EXEC core.fn_dropifexists 'PackageStaging', 'snprc_ehr', 'TABLE';
+EXEC core.fn_dropifexists 'SndPackageStaging', 'snprc_ehr', 'TABLE';
 GO
 
-EXEC core.fn_dropifexists 'packageAttributeStaging', 'snprc_ehr', 'TABLE';
+EXEC core.fn_dropifexists 'SndPackageAttributeStaging', 'snprc_ehr', 'TABLE';
 GO
 
-CREATE TABLE snprc_ehr.SuperPackageStaging
+CREATE TABLE snprc_ehr.SndSuperPackageStaging
 (
     TopLevelPkgId INTEGER NOT NULL,
     SuperPkgId INTEGER NOT NULL,
@@ -26,14 +26,15 @@ CREATE TABLE snprc_ehr.SuperPackageStaging
     CreatedBy USERID NOT NULL,
     Modified DATETIME NOT NULL,
     ModifiedBy USERID NOT NULL,
+    diModified DATETIME NOT NULL,
     ObjectId UNIQUEIDENTIFIER NOT NULL
 
-    CONSTRAINT PK_SuperPackageStaging
+    CONSTRAINT PK_SndSuperPackageStaging
         PRIMARY KEY CLUSTERED ( TopLevelPkgId, SuperPkgId)
 );
 GO
 
-CREATE TABLE snprc_ehr.PackageStaging
+CREATE TABLE snprc_ehr.SndPackageStaging
 (
     PkgId INTEGER NOT NULL,
     Description NVARCHAR(4000) NOT NULL,
@@ -45,14 +46,15 @@ CREATE TABLE snprc_ehr.PackageStaging
     Created DATETIME NOT NULL,
     ModifiedBy USERID NOT NULL,
     Modified DATETIME NOT NULL,
+    diModified DATETIME NOT NULL,
     ObjectId UNIQUEIDENTIFIER NOT NULL
 
-    CONSTRAINT PK_PackageStaging
+    CONSTRAINT PK_SndPackageStaging
         PRIMARY KEY CLUSTERED (PkgId)
 );
 GO
 
-CREATE TABLE snprc_ehr.packageAttributeStaging
+CREATE TABLE snprc_ehr.SndPackageAttributeStaging
 (
     PkgId INTEGER NOT NULL,
     AttributeId INTEGER NOT NULL,
@@ -72,7 +74,7 @@ CREATE TABLE snprc_ehr.packageAttributeStaging
     ModifiedBy USERID NOT NULL,
     ObjectId UNIQUEIDENTIFIER NOT NULL
 
-    CONSTRAINT pk_packagesAttributeStaging
+    CONSTRAINT pk_SndPackagesAttributeStaging
         PRIMARY KEY CLUSTERED (AttributeId)
 );
 GO

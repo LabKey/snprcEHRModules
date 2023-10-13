@@ -1,11 +1,11 @@
-/****** Object:  View [dbo].[v_superPackageParents]    Script Date: 10/6/2023 10:17:56 AM ******/
+/****** Object:  View [dbo].[v_sndSuperPackageParents]    Script Date: 10/6/2023 10:17:56 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER VIEW [dbo].[v_superPackageParents]
+ALTER VIEW [dbo].[v_sndSuperPackageParents]
 AS
 SELECT DISTINCT p.PKG_ID, sp.PARENT_PKG_ID, p.DESCRIPTION, sp.SUPER_PKG_ID, sp2.SUPER_PKG_ID AS PARENT_SUPER_PKG_ID
 FROM dbo.SUPER_PKGS AS sp

@@ -1,4 +1,4 @@
-ALTER VIEW [labkey_etl].[v_packages] AS
+ALTER VIEW [labkey_etl].[v_sndPackages] AS
 (
 SELECT p.PKG_ID AS pkgId,
 	   p.DESCRIPTION AS Description,
@@ -16,5 +16,5 @@ INNER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = p.OBJECT_ID
 );
 GO
 
-GRANT SELECT ON Labkey_etl.v_packages TO z_labkey
+GRANT SELECT ON Labkey_etl.v_sndPackages TO z_labkey
 GO

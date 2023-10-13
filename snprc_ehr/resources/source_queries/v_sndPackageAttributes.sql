@@ -1,14 +1,15 @@
-ALTER VIEW [labkey_etl].[v_packageAttributes] AS
+ALTER VIEW [labkey_etl].[v_sndPackageAttributes] AS
 (
 SELECT pa.PKG_ID AS pkgId,
        pa.ATTRIB_ID AS AttributeId,
        pa.ATTRIB_KEY AS AttributeName,
-	   'snd' AS LookupSchema,
+	   CASE WHEN pa.LOOKUP_KEY IS NOT NULL THEN 'snd' ELSE NULL END AS LookupSchema,
        pa.LOOKUP_KEY AS LookupQuery,
-	   CASE WHEN pa.DATA_TYPE = 'String' THEN 'http://www.w3.org/2001/XMLSchema#string' 
-			WHEN pa.DATA_TYPE = 'Numeric' THEN 'http://www.w3.org/2001/XMLSchema#int' 
-			ELSE 'http://www.w3.org/2001/XMLSchema#double' END AS RangerURI,
-       COALESCE(pa.LABEL,pa.ATTRIB_KEY) AS Label,
+	   CASE WHEN pa.LOOKUP_KEY IS NOT NULL THEN 'http://www.w3.org/2001/XMLSchema#int' -- lookups use rowid in LK
+            WHEN pa.DATA_TYPE = 'string' THEN 'http://www.w3.org/2001/XMLSchema#string'
+			WHEN pa.DATA_TYPE = 'numeric' THEN 'http://www.w3.org/2001/XMLSchema#int'
+			ELSE 'http://www.w3.org/2001/XMLSchema#double' END AS RangeURI,
+       CASE WHEN LTRIM(RTRIM(pa.LABEL)) = ''  or pa.Label IS NULL THEN pa.ATTRIB_KEY ELSE pa.LABEL END AS Label,
 	   CASE WHEN (pa.[MAX] IS NOT NULL AND pa.[MIN] IS NOT NULL) THEN '~lte='+LTRIM(RTRIM(pa.[MAX]))+'&~gte='+LTRIM(RTRIM(pa.[MIN]))
 	        WHEN (pa.[MAX] IS NOT NULL AND pa.[MIN] IS NULL) THEN '~lte='+LTRIM(RTRIM(pa.[MAX]))
 			WHEN (pa.[MIN] IS NOT NULL AND pa.[MAX] IS NULL) THEN '~gte='+LTRIM(RTRIM(pa.[MIN]))
@@ -28,5 +29,5 @@ INNER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = pa.OBJECT_ID
 )
 GO 
 
-GRANT SELECT ON Labkey_etl.v_packageAttributes TO z_labkey
+GRANT SELECT ON Labkey_etl.v_sndPackageAttributes TO z_labkey
 GO

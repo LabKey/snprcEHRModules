@@ -2372,7 +2372,7 @@
             <column columnName="Container"/>
         </columns>
     </table>
-    <table tableName="SuperPackageStaging" tableDbType="TABLE" useColumnOrder="true">
+    <table tableName="SndSuperPackageStaging" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Super PackageStaging</tableTitle>
         <pkColumnName>TopLevelPkgId, SuperPkgId</pkColumnName>
         <columns>
@@ -2393,10 +2393,15 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
             <column columnName="ObjectId"/>
         </columns>
     </table>
-    <table tableName="PackageStaging" tableDbType="TABLE" useColumnOrder="true">
+    <table tableName="SndPackageStaging" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Package Staging</tableTitle>
         <pkColumnName>PkgId</pkColumnName>
         <columns>
@@ -2410,10 +2415,15 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
+            <column columnName="diModified">
+                <isUserEditable>false</isUserEditable>
+                <nullable>true</nullable>
+                <isHidden>true</isHidden>
+            </column>
             <column columnName="ObjectId"/>
         </columns>
     </table>
-    <table tableName="PackageAttributeStaging" tableDbType="TABLE" useColumnOrder="true">
+    <table tableName="SndPackageAttributeStaging" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Super PackageStaging</tableTitle>
         <pkColumnName>AttributeId</pkColumnName>
         <columns>

@@ -1,5 +1,3 @@
-USE animal
-GO
 /****** Object:  UserDefinedFunction snd.fGetSuperPkg    Script Date: 10/5/2023 4:58:55 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -37,7 +35,7 @@ RETURN
 							sp.OBJECT_ID AS ObjectId
                    FROM     dbo.Super_Pkgs sp
 				   INNER JOIN dbo.PKGS AS p ON p.PKG_ID = sp.PKG_ID
-                   INNER JOIN dbo.v_superPackageParents AS spp ON sp.SUPER_PKG_ID = spp.SUPER_PKG_ID
+                   INNER JOIN dbo.v_sndSuperPackageParents AS spp ON sp.SUPER_PKG_ID = spp.SUPER_PKG_ID
 				   LEFT JOIN dbo.TAC_COLUMNS AS tc ON sp.OBJECT_ID = tc.object_id
                    WHERE    sp.Pkg_Id = @TopLevelPkgId
                             AND sp.PARENT_PKG_ID IS NULL
@@ -60,13 +58,13 @@ RETURN
 							c.createdby AS CreatedBy,
 							c.Modified AS Modified,
 							c.ModifiedBy AS ModifiedBy,
-							c.ObjectId
+							sp.Object_Id AS ObjectId
                    FROM     dbo.SUPER_PKGS AS sp
 				   INNER JOIN dbo.PKGS AS p ON sp.Pkg_Id = p.Pkg_Id
-				   INNER JOIN dbo.v_superPackageParents AS spp ON sp.SUPER_PKG_ID = spp.SUPER_PKG_ID
+				   INNER JOIN dbo.v_sndSuperPackageParents AS spp ON sp.SUPER_PKG_ID = spp.SUPER_PKG_ID
                    INNER JOIN CTE1 AS c ON spp.PARENT_SUPER_PKG_ID = c.SuperPkgId
 						  OR EXISTS (SELECT  1
-							FROM dbo.v_superPackageParents AS spp2
+							FROM dbo.v_sndSuperPackageParents AS spp2
 							WHERE c.PkgId = spp2.Pkg_Id AND spp2.PARENT_SUPER_PKG_ID IS NULL
 							AND spp.PARENT_SUPER_PKG_ID = spp.SUPER_PKG_ID
 							)
@@ -92,3 +90,7 @@ RETURN
     FROM    CTE1 c
 
 );
+GO
+
+GRANT SELECT ON Labkey_etl.v_getAllSuperPkgs TO z_labkey
+GO
