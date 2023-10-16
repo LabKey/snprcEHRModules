@@ -250,7 +250,7 @@ EHR.reports.currentBlood = function(panel, tab){
 
     tab.add({
         html: 'This report summarizes the blood available for the animals below.  ' +
-       '<br><br>If there have been recent blood draws for the animal, a graph will show the available blood over time.  On the graph, dots indicate dates when either blood was drawn or a previous blood draw fell off.  The horizontal lines indicate the maximum allowable blood that can be drawn on that date.',
+                '<br><br>If there have been recent blood draws for the animal, a graph will show the available blood over time.  On the graph, dots indicate dates when either blood was drawn or a previous blood draw fell off.  The horizontal lines indicate the maximum allowable blood that can be drawn on that date.',
         border: false,
         style: 'padding-bottom: 20px;'
     });
@@ -312,14 +312,11 @@ EHR.reports.FileRepository =  function(panel,tab) {
         LABKEY.requiresExt3ClientAPI(function() {
             Ext.onReady(function() {
                 var containerPath = LABKEY.container.path + '/FileRepository';
-                var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath});
+                var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath + '/@files/' + animalIds + '/'});
                 var location = {id: animalIds};
-                //animalFolder.listFiles({success:function(){console.log("success",arguments)},failure:function(){console.log("failed",arguments)},forceReload:true,path:"/@files/animalPortal/"});
                 console.log("Id of animal  " + animalIds);
 
-
                 var panel = tab.add({id: 'filesDiv', style: 'margin-bottom:20px'});
-                //toAdd.push({id: 'filesDiv', style: 'margin-bottom:20px'});
 
                 var handler = function (location) {
                     var webPart = new LABKEY.WebPart({
@@ -341,7 +338,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                         console.log("success", arguments);
                         handler(location.id);
                     },
-                    path: "/@files/" + animalIds + "/",
+                    path: "/",
                     failure: function () {
                         LABKEY.Security.getUserPermissions({
                             containerPath: containerPath,
@@ -356,7 +353,6 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                     panel.add({
                                         xtype: 'ldk-webpartpanel',
                                         title: 'File Repository for ' + animalIds,
-                                        //text:  'No directory found for this animal',
                                         items: [
                                             {
                                                 xtype: 'label',
@@ -402,14 +398,14 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                                         }
                                                                     },
                                                                     failure: function (error) {
-                                                                        console.log("failed to create " + folder + " folder" + error.status)
+                                                                        console.error("failed to create " + folder + " folder" + error.status)
                                                                     }
                                                                 })
                                                             }),
                                                                     console.log("folder created for " + animalIds);
                                                         },
                                                         failure: function (error) {
-                                                            console.log("failed to created folder" + error.status)
+                                                            console.error("failed to created folder" + error.status)
                                                         }
                                                     })
 
