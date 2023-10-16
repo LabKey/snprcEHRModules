@@ -314,9 +314,9 @@ EHR.reports.FileRepository =  function(panel,tab) {
                 var containerPath = LABKEY.container.path + '/FileRepository';
                 var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath + '/@files/' + animalIds + '/'});
                 var location = {id: animalIds};
+                console.log("Id of animal  " + animalIds);
 
                 var panel = tab.add({id: 'filesDiv', style: 'margin-bottom:20px'});
-                //toAdd.push({id: 'filesDiv', style: 'margin-bottom:20px'});
 
                 var handler = function (location) {
                     var webPart = new LABKEY.WebPart({
@@ -353,7 +353,6 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                     panel.add({
                                         xtype: 'ldk-webpartpanel',
                                         title: 'File Repository for ' + animalIds,
-                                        //text:  'No directory found for this animal',
                                         items: [
                                             {
                                                 xtype: 'label',
@@ -399,14 +398,14 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                                         }
                                                                     },
                                                                     failure: function (error) {
-                                                                        console.log("failed to create " + folder + " folder" + error.status)
+                                                                        console.error("failed to create " + folder + " folder" + error.status)
                                                                     }
                                                                 })
                                                             }),
                                                                     console.log("folder created for " + animalIds);
                                                         },
                                                         failure: function (error) {
-                                                            console.log("failed to created folder" + error.status)
+                                                            console.error("failed to created folder" + error.status)
                                                         }
                                                     })
 
