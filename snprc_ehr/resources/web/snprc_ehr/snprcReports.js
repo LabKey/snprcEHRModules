@@ -312,11 +312,8 @@ EHR.reports.FileRepository =  function(panel,tab) {
         LABKEY.requiresExt3ClientAPI(function() {
             Ext.onReady(function() {
                 var containerPath = LABKEY.container.path + '/FileRepository';
-                var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath});
+                var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath + '/@files/' + animalIds + '/'});
                 var location = {id: animalIds};
-                //animalFolder.listFiles({success:function(){console.log("success",arguments)},failure:function(){console.log("failed",arguments)},forceReload:true,path:"/@files/animalPortal/"});
-                console.log("Id of animal  " + animalIds);
-
 
                 var panel = tab.add({id: 'filesDiv', style: 'margin-bottom:20px'});
                 //toAdd.push({id: 'filesDiv', style: 'margin-bottom:20px'});
@@ -341,7 +338,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                         console.log("success", arguments);
                         handler(location.id);
                     },
-                    path: "/@files/" + animalIds + "/",
+                    path: "/",
                     failure: function () {
                         LABKEY.Security.getUserPermissions({
                             containerPath: containerPath,
