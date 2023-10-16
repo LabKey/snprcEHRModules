@@ -1,24 +1,40 @@
-const path = require('path');
-const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+
+const devServer = {
+    client: {
+        overlay: true,
+    },
+    host: 'localhost',
+    port: 3000,
+    hot: 'only',
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
+};
+
+const devServerURL = 'http://' + devServer.host + ':' + devServer.port;
 
 module.exports = {
     context: path.resolve(__dirname, '..'),
 
-    mode: 'production',
+    mode: 'development',
 
-    devtool: 'source-map',
+    devServer: devServer,
 
     entry: {
         app: [
+            'react-hot-loader/patch',
             './src/client/app.js',
-            './src/client/styles/style.js'
+            './src/client/styles/style.js',
         ]
     },
 
     output: {
         path: path.resolve(__dirname, '../resources/web/snprc_scheduler/gen/app/'),
-        publicPath: './', // allows context path to resolve in both js/css
+        publicPath: devServerURL + '/',
         filename: "[name].js"
     },
     module: {
@@ -30,19 +46,19 @@ module.exports = {
                     cacheDirectory: true,
                 }
             }]
-        },
-        {
+        },{
             test: /\.css$/,
             use: [MiniCssExtractPlugin.loader, 'css-loader']
         }]
+    },
+    optimization: {
+        // do not emit compiled assets that include errors
+        emitOnErrors: false,
     },
     resolve: {
         extensions: [ '.jsx', '.js' ]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"production"'
-        }),
         new MiniCssExtractPlugin({
             filename: '[name].css'
         })

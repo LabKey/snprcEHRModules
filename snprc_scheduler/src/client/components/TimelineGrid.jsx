@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDataGrid from "react-data-grid";
 import {Button, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
-import DraggableContainer from "./dnd/DraggableContainer";
+// import DraggableContainer from "./dnd/DraggableContainer";
 import Moment from 'react-moment';
 import {
     addTimelineItem,
@@ -778,9 +778,7 @@ class TimelineGrid extends React.Component {
                         <div className='col-sm-10' />
                     </div>
                     <div className='col-sm-12 zero-side-padding'>
-                        <DraggableContainer
-                                onHeaderDrop={this.onHeaderDrop}
-                        >
+                        {/*<DraggableContainer onHeaderDrop={this.onHeaderDrop}>*/}
                             <ReactDataGrid
                                     columns={columns}
                                     rowGetter={i => rows[i]}
@@ -793,7 +791,7 @@ class TimelineGrid extends React.Component {
                                     onRowClick={this.onRowClick}
                                     emptyRowsView={this.EmptyRowsView}
                             />
-                        </DraggableContainer>
+                        {/*</DraggableContainer>*/}
                     </div>
                 </div>
         );
