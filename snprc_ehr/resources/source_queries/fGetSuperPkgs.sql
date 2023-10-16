@@ -92,5 +92,5 @@ RETURN
 );
 GO
 
-GRANT SELECT ON Labkey_etl.v_getAllSuperPkgs TO z_labkey
+GRANT SELECT ON Labkey_etl.fGetSuperPkg TO z_labkey
 GO
