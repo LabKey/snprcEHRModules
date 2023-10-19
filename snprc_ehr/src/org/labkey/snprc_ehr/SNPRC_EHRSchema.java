@@ -31,6 +31,9 @@ public class SNPRC_EHRSchema
     public static final String TABLE_VALID_DEATH_CODES = "valid_death_code";
     public static final String TABLE_GROUP_CATEGORIES = "animal_group_categories";
     public static final String TABLE_ANIMAL_GROUPS = "animal_groups";
+    public static final String TABLE_SND_PACKAGE_STAGING = "SndPackageStaging";
+    public static final String TABLE_SND_PACKAGE_ATTRIBUTES_STAGING = "SndPackageAttributeStaging";
+    public static final String TABLE_SND_SUPER_PACKAGE_STAGING = "SndSuperPackageStaging";
 
 
     private SNPRC_EHRSchema()
