@@ -26,6 +26,7 @@ import org.labkey.api.security.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static org.labkey.api.snd.Package.PKG_ATTRIBUTES;
 
@@ -41,7 +42,9 @@ public class SuperPackage
     private Integer _pkgId;
     private Package _pkg;
     private String _superPkgPath;
+    private String _treePath;
     private Integer _parentSuperPkgId;
+    private Integer _topLevelPkgId;
     private String _description; // From referenced package
     private String _narrative; // From referenced package
     private Integer _sortOrder;
@@ -51,13 +54,16 @@ public class SuperPackage
 
     public static final String SUPERPKG_ID = "superPkgId";
     public static final String SUPERPKG_PARENTID = "parentSuperPkgId";
+    public static final String SUPERPKG_TOP_LEVEL_PKGID = "topLevelPkgId";
     public static final String SUPERPKG_PKGID = "pkgId";
     public static final String SUPERPKG_DESCRIPTION = "description";
     public static final String SUPERPKG_NARRATIVE = "narrative";
     public static final String SUPERPKG_ORDER = "sortOrder";
     public static final String SUPERPKG_REPEATABLE = "repeatable";
     public static final String SUPERPKG_PATH = "superPkgPath";
+    public static final String SUPERPKG_TREEPATH = "treePath";
     public static final String SUPERPKG_REQUIRED = "required";
+    public static final String SUPERPKG_PKGID_CSS_CLASS = "snd-superpkg-pkg-id";
 
     public SuperPackage()
     {
@@ -95,6 +101,11 @@ public class SuperPackage
     {
         _parentSuperPkgId = parentSuperPkgId;
     }
+
+    @Nullable
+    public Integer getTopLevelPkgId() { return _topLevelPkgId; }
+
+    public void setTopLevelPkgId(Integer topLevelPkgId) { _topLevelPkgId = topLevelPkgId; }
 
     @Nullable
     public List<SuperPackage> getChildPackages()
@@ -157,6 +168,11 @@ public class SuperPackage
     }
 
     @Nullable
+    public String getTreePath() { return _treePath; }
+
+    public void setTreePath(String treePath) { _treePath = treePath; }
+
+    @Nullable
     public Integer getSuperPkgId()
     {
         return _superPkgId;
@@ -211,6 +227,8 @@ public class SuperPackage
         superPkgValues.put("container", c);
         superPkgValues.put(SUPERPKG_PATH, getSuperPkgPath());
         superPkgValues.put(SUPERPKG_REQUIRED, getRequired());
+        superPkgValues.put(SUPERPKG_TREEPATH, getTreePath());
+        superPkgValues.put(SUPERPKG_TOP_LEVEL_PKGID, getTopLevelPkgId());
 
         return superPkgValues;
     }

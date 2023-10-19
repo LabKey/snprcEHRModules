@@ -79,6 +79,7 @@ public class Event
 
     public static final String SND_EVENT_DATE_CSS_CLASS = "snd-event-date";
     public static final String SND_EVENT_SUBJECT_CSS_CLASS = "snd-event-subject";
+    public static final String SND_EVENT_NOTE_CSS_CLASS = "snd-event-note";
 
     public static final String SND_EXCEPTION_MSG_JSON = "message";
     public static final String SND_EXCEPTION_SEVERITY_JSON = "severity";

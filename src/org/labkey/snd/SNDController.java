@@ -1123,9 +1123,9 @@ public class SNDController extends SpringActionController
                     }
                     else
                     {
-                        propertyId = attributeJson.getInt("propertyId");
+                        propertyId = attributeJson.optInt("propertyId");
                     }
-                    String value = attributeJson.getString("value");
+                    String value = attributeJson.optString("value");
 
                     // propertyDescriptor not used for saving, so make it null
                     if (propertyName != null)
