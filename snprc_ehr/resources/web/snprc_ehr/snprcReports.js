@@ -370,7 +370,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                 text: 'Create Folders',
                                                 handler: function () {
                                                     animalFolder.createDirectory({
-                                                        path: "/@files/" + animalIds + "/",
+                                                        path: "/",
                                                         success: function () {
                                                             const folders = [
                                                                 "Surgery Sheets",
@@ -389,7 +389,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
 
                                                             folders.forEach(function (folder) {
                                                                 animalFolder.createDirectory({
-                                                                    path: "/@files/" + animalIds + "/" + folder,
+                                                                    path: "/" + folder,
                                                                     success: function () {
                                                                         console.log("created " + folder + " folder for " + animalIds);
                                                                         createdCount++;
