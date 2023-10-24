@@ -786,36 +786,28 @@
                     note: "Note for narrative generation sample JSON",
                     projectIdRev: '61|0',
                     qcState: 'Completed',
-                    textNarrative: "2018-02-26 17:51\nSubject Id: 2\n\n" +
-                                    "Electrolytes\n\tPotassium: 200 mEq/L measured using Potassium Detection Kit\n\t" +
-                                    "Sodium: 100 mEq/L measured using Sodium Colorimetric Detection Kit\n\t" +
-                                    "Bicarbonate: 300 mEq/L measured using Carbon Dioxide (CO2) Colorimetric Detection Kit\n\t" +
-                                    "Chloride: 112 mEq/L measured using Chloride Blood Detection Kit",
-                    redactedHtmlNarrative: "<div class='snd-event-date'>2018-02-26 17:51</div>\n<div class='snd-event-subject'>" +
-                                            "Subject Id: 2</div>\n<br><div class='snd-event-data'>Electrolytes<div class='snd-event-data'>" +
-                                            "Potassium: <span class='snd-attribute-data'>Redacted Value</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                            "<span class='snd-attribute-data'>Potassium Detection Kit</span></div>\n<div class='snd-event-data'>" +
-                                            "Sodium: <span class='snd-attribute-data'>100</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                            "<span class='snd-attribute-data'>Sodium Colorimetric Detection Kit</span></div>\n<div class='snd-event-data'>" +
-                                            "Bicarbonate: <span class='snd-attribute-data'>300</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                            "<span class='snd-attribute-data'>Carbon Dioxide (CO2) Colorimetric Detection Kit</span></div>\n<div class='snd-event-data'>" +
-                                            "Chloride: <span class='snd-attribute-data'>112</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                            "<span class='snd-attribute-data'>Chloride Blood Detection Kit</span></div>\n</div>\n",
-                    redactedTextNarrative: "2018-02-26 17:51\nSubject Id: 2\n\nElectrolytes\n\t" +
-                                            "Potassium: Redacted Value mEq/L measured using Potassium Detection Kit\n\t" +
-                                            "Sodium: 100 mEq/L measured using Sodium Colorimetric Detection Kit\n\t" +
-                                            "Bicarbonate: 300 mEq/L measured using Carbon Dioxide (CO2) Colorimetric Detection Kit\n\t" +
-                                            "Chloride: 112 mEq/L measured using Chloride Blood Detection Kit",
-                    htmlNarrative: "<div class='snd-event-date'>2018-02-26 17:51</div>\n<div class='snd-event-subject'>" +
-                                        "Subject Id: 2</div>\n<br><div class='snd-event-data'>Electrolytes<div class='snd-event-data'>" +
-                                        "Sodium: <span class='snd-attribute-data'>100</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                        "<span class='snd-attribute-data'>Sodium Colorimetric Detection Kit</span></div>\n<div class='snd-event-data'>" +
-                                        "Potassium: <span class='snd-attribute-data'>200</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                        "<span class='snd-attribute-data'>Potassium Detection Kit</span></div>\n<div class='snd-event-data'>" +
-                                        "Bicarbonate: <span class='snd-attribute-data'>300</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                        "<span class='snd-attribute-data'>Carbon Dioxide (CO2) Colorimetric Detection Kit</span></div>\n<div class='snd-event-data'>" +
-                                        "Chloride: <span class='snd-attribute-data'>112.67605633802818</span> <span class='snd-attribute-data'>mEq/L</span> measured using " +
-                                        "<span class='snd-attribute-data'>Chloride Blood Detection Kit</span></div>\n</div>",
+                    textNarrative: "2018-02-26 17:51\n" +
+                            "Subject Id: 2\n" +
+                            "** Electrolytes-- Potassium: 200 mEq/L measured using Potassium Detection Kit-- Sodium: 100 mEq/L measured using Sodium Colorimetric Detection Kit-- Bicarbonate: 300 mEq/L measured using Carbon Dioxide (CO2) Colorimetric Detection Kit-- Chloride: 112 mEq/L measured using Chloride Blood Detection KitProcedure Note: Note for narrative generation sample JSON\n",
+                    redactedHtmlNarrative: "<div class='snd-event-date'>2018-02-26 17:51</div>\n" +
+                            "<div class='snd-event-subject'>Subject Id: 2</div>\n" +
+                            "<div class='snd-event-data'>** &emsp;Electrolytes<span class='snd-superpkg-pkg-id'> (814) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Potassium: <span class='snd-attribute-data'>Redacted Value</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Potassium Detection Kit</span><span class='snd-superpkg-pkg-id'> (811) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Sodium: <span class='snd-attribute-data'>100</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Sodium Colorimetric Detection Kit</span><span class='snd-superpkg-pkg-id'> (810) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Bicarbonate: <span class='snd-attribute-data'>300</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Carbon Dioxide (CO2) Colorimetric Detection Kit</span><span class='snd-superpkg-pkg-id'> (812) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Chloride: <span class='snd-attribute-data'>112</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Chloride Blood Detection Kit</span><span class='snd-superpkg-pkg-id'> (813) </span></div>\n" +
+                            "<br><div class='snd-event-note'>Procedure Note: <br>Note for narrative generation sample JSON</div>\n",
+                    redactedTextNarrative: "2018-02-26 17:51\n" +
+                            "Subject Id: 2\n" +
+                            "** Electrolytes-- Potassium: Redacted Value mEq/L measured using Potassium Detection Kit-- Sodium: 100 mEq/L measured using Sodium Colorimetric Detection Kit-- Bicarbonate: 300 mEq/L measured using Carbon Dioxide (CO2) Colorimetric Detection Kit-- Chloride: 112 mEq/L measured using Chloride Blood Detection KitProcedure Note: Note for narrative generation sample JSON\n",
+                    htmlNarrative: "<div class='snd-event-date'>2018-02-26 17:51</div>\n" +
+                            "<div class='snd-event-subject'>Subject Id: 2</div>\n" +
+                            "<div class='snd-event-data'>** &emsp;Electrolytes<span class='snd-superpkg-pkg-id'> (814) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Sodium: <span class='snd-attribute-data'>100</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Sodium Colorimetric Detection Kit</span><span class='snd-superpkg-pkg-id'> (810) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Potassium: <span class='snd-attribute-data'>200</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Potassium Detection Kit</span><span class='snd-superpkg-pkg-id'> (811) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Bicarbonate: <span class='snd-attribute-data'>300</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Carbon Dioxide (CO2) Colorimetric Detection Kit</span><span class='snd-superpkg-pkg-id'> (812) </span></div>\n" +
+                            "<div class='snd-event-data'>-- &emsp;&emsp;Chloride: <span class='snd-attribute-data'>112.67605633802818</span> <span class='snd-attribute-data'>mEq/L</span> measured using <span class='snd-attribute-data'>Chloride Blood Detection Kit</span><span class='snd-superpkg-pkg-id'> (813) </span></div>\n" +
+                            "<br><div class='snd-event-note'>Procedure Note: <br>Note for narrative generation sample JSON</div>",
                     eventData: [
                         {
                             superPkgId: LABKEY.SND_PKG_CACHE['814'][0]['superPkgId'],

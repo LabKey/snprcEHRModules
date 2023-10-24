@@ -53,6 +53,7 @@ public class PlainTextNarrativeDisplayColumn extends DataColumn
            textNarrative = htmlNarrative.replace("<br>", "\n");
            textNarrative = textNarrative.replace("<div class='" + EventData.EVENT_DATA_CSS_CLASS +  "'>", "\n");
            textNarrative = textNarrative.replace("<div class='" + Event.SND_EVENT_SUBJECT_CSS_CLASS + "'>", "\n");
+           textNarrative = textNarrative.replace("&emsp;", "\s\s\s\s");
            // then crudely remove all other HTML open/close tags, or things that look like them
            textNarrative = textNarrative.replaceAll("\\<.*?\\>", "");
        }

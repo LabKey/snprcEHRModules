@@ -543,7 +543,7 @@ public class SNDServiceImpl implements SNDService
     }
 
     @Override
-    public void populateNarrativeCache(Container c, User u, List<Map<String, Object>> eventIds, Logger logger)
+    public void populateNarrativeCache(Container c, User u, List<Integer> eventIds, Logger logger)
     {
         BatchValidationException errors = new BatchValidationException();
 
