@@ -5,7 +5,7 @@ import { App } from '@labkey/api';
 
 import { SndEventsWidget } from "../SndEventsWidget";
 
-App.registerApp<any>('sndEventsWidgetWebpart', (target: string) => {
+App.registerApp<any>('SndEventsWidgetWebpart', (target: string) => {
     ReactDOM.render(
         <AppContainer>
             <SndEventsWidget />

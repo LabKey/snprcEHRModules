@@ -91,7 +91,7 @@
 
 <div id="fake-root">
     <div id="snprc-inputs">
-        <label for="event-id">Event ID: <input id="event-id" type="text" value="1"> </label>
+        <label for="event-id">Event ID: <input id="event-id" type="text" value="1512572"> </label>
         <button id="update-report">Update Report</button>
     </div>
 
@@ -101,18 +101,18 @@
 
 <script>
   const updateReportButton = document.getElementById('update-report')
-  const subjectIDElement = document.getElementById('event-id')
+  const eventIDElement = document.getElementById('event-id')
   const ProcedureEntryWidget = document.getElementById('procedure-entry-widget')
 
-  ProcedureEntryWidget.setAttribute('data-event-id', subjectIDElement.value)
+  ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
 
   updateReportButton.onclick = () => {
-    ProcedureEntryWidget.setAttribute('data-event-id', subjectIDElement.value)
+    ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
   }
 
-  subjectIDElement.onkeydown = event => {
+  eventIDElement.onkeydown = event => {
     if (event.keyCode === 13) {
-      ProcedureEntryWidget.setAttribute('data-event-id', subjectIDElement.value)
+      ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
     }
   }
 </script>
