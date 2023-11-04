@@ -1,4 +1,5 @@
 SELECT
+    e.EventId,
     e.Date,
     c.HtmlNarrative,
     p.ReferenceId as ChargeId,

@@ -1,141 +1,73 @@
 import React, { FC, memo, useEffect, useMemo, useState } from 'react';
-import { Button } from 'react-bootstrap';
 import {
     ExtendedMap,
     GridPanel,
-    InjectedQueryModels, isLoading, LoadingState,
-    ManageDropdownButton, QueryColumn, QueryConfigMap, QueryInfo, QueryModel,
-    SelectionMenuItem,
+    InjectedQueryModels,
+    QueryColumn, QueryConfigMap, QueryInfo, QueryModel,
     withQueryModels
 } from '@labkey/components';
 import { Filter } from '@labkey/api';
 import { SCHEMAS } from '../schemas';
 import { produce } from 'immer';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { ProcedureEntryModal } from './ProcedureEntryModal';
+import { getTableRow } from '../actions';
 
 interface EventListingProps {
     subjectID: string
-}
-
-const htmlRenderer = (data) => {
-    return (
-        <div dangerouslySetInnerHTML={{__html: data.get('value')}} />
-    );
-}
-
-const handleClick = (value) => {
-    // Code to run when the button is clicked
-    alert('Button clicked for eventId: ' + value);
-};
-
-const editButtonRenderer = (data) => {
-    return (
-        <button onClick={function() { handleClick(data.get('value')) }}>Edit</button>
-    );
 }
 
 export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: EventListingProps & InjectedQueryModels) => {
     const { subjectID, actions, queryModels } = props;
 
     const [showDialog, setShowDialog] = useState<string>('');
-    const [selectedId, setSelectedId] = useState<string>('');
+    const [eventID, setEventID] = useState<string>('');
+    const [admitEventId, setAdmitEventID] = useState<string>('');
+    const [displayInfo, setDisplayInfo] = useState<string[]>([]);
     const [queryModel, setQueryModel] = useState<QueryModel>(queryModels[subjectID]);
+
 
     useEffect(() => {
         (async () => {
-            await setLastSelectedId().catch(error => console.error(error));
-        })();
-        console.log('queryModels', queryModels[subjectID]);
-        if (queryModels?.[subjectID] && !queryModels[subjectID].isLoading) {
-            const {queryInfo} = queryModels[subjectID];
+            if (queryModels?.[subjectID] && !queryModels[subjectID].isLoading) {
+                const {queryInfo} = queryModels[subjectID];
+                if (queryInfo) {
+                    const queryCols = new ExtendedMap<string, QueryColumn>();
+                    queryInfo.columns.forEach( (column, key) => {
+                        if ((column.name === 'HTMLNarrative')) {
+                            const htmlCol = new QueryColumn({...column, ...{"cell": htmlRenderer}});
+                            queryCols.set(key, htmlCol);
+                        } else if ((column.name === 'EventId')) {
+                            const editCol = new QueryColumn({...column, ...{"cell": editButtonRenderer}});
+                            queryCols.set(key, editCol);
+                        } else if ((column.name === 'AdmitChargeId')) {
+                            const admitCol = new QueryColumn({...column, ...{"cell": admitChargeIdPopoverRenderer}});
+                            queryCols.set(key, admitCol);
+                        } else {
+                            queryCols.set(key, column);
+                        }
+                    });
 
-            if (queryInfo) {
-                const queryCols = new ExtendedMap<string, QueryColumn>();
-                queryInfo.columns.forEach((column, key) => {
-                    if ((column.name === 'HtmlNarrative')) {
-                        const htmlCol = new QueryColumn({...column, ...{"cell": htmlRenderer}});
-                        queryCols.set(key, htmlCol);
-                    }
-                    else if ((column.name === 'EventId')) {
-                        const editCol = new QueryColumn({...column, ...{"cell": editButtonRenderer}});
-                        queryCols.set(key, editCol);
-                    } else {
-                        queryCols.set(key, column);
-                    }
-                });
+                    const newQueryInfo = new QueryInfo({...queryInfo, ...{"columns": queryCols}});
 
-                const newQueryInfo = new QueryInfo({...queryInfo, ...{"columns": queryCols}});
-
-                // Update QueryModel with new QueryInfo
-                setQueryModel(
-                    produce<QueryModel>(draft => {
-                        Object.assign(draft, {...queryModels[subjectID], ...{'queryInfo': newQueryInfo}});
-                    })
-                );
+                    // Update QueryModel with new QueryInfo
+                    setQueryModel(
+                        produce<QueryModel>(draft => {
+                            Object.assign(draft, {...queryModels[subjectID], ...{'queryInfo': newQueryInfo}});
+                        })
+                    );
+                }
             }
-        }
+        })()
 
     }, [queryModels[subjectID]]);
 
-    console.log(queryModels[subjectID])
-
-    // useEffect(() => {
-    //     (async () => {
-    //         await setLastSelectedId().catch(error => console.error(error));
-    //     })();
-    // }, [queryModels[subjectID]]);
-
-    // const initQueryModel = () => {
-    //     const baseFilters = [Filter.create('SubjectId', subjectID)];
-    //     actions.addModel(
-    //         {
-    //             id: subjectID,
-    //             baseFilters,
-    //             schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
-    //             bindURL: true
-    //         },
-    //         true,
-    //         true
-    //     );
-    // };
-
-    /**
-     * Set the last selected id for the queryModel
-     */
-    const setLastSelectedId = async () => {
-        const model = queryModels[subjectID];
-        if (!model || isLoading(model.selectionsLoadingState)) {
-            return;
-        }
-
-        if (model.selectionsLoadingState === LoadingState.LOADED) {
-            await updateLastSelectedId(await getLastSelectedId()).catch(error => console.error(error));
-        }
-    };
-
-    /**
-     * Update the state for the last selected row id in the queryModel
-     * @param id
-     */
-    const updateLastSelectedId = async (id: string) => {
-        if (selectedId !== id) {
-            if (id === undefined) {
-                actions.clearSelections(subjectID);
-            } else {
-                actions.replaceSelections(subjectID, [id]);
-            }
-            setSelectedId(id);
-
-        }
-    };
-
-    /**
-     * Get the row id of the most recently selected row in the queryModel
-     */
-    const getLastSelectedId = async () => {
-        const selectedIds: Set<string> = queryModels[subjectID].selections;
-        return selectedIds.size > 0 ? Array.from(selectedIds).pop() : undefined;
-    };
+    useEffect(() => {
+        (async() => {
+            console.log(admitEventId)
+            await getAdmitData();
+        })();
+    }, [admitEventId]);
 
     const toggleDialog = async (name: string, requiresSelection = false) => {
         if (requiresSelection && queryModels[subjectID].hasSelections) {
@@ -158,42 +90,100 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         }
     };
 
-    const renderButtons = () => {
-        const model = queryModels[subjectID];
-        return(
-            <div>
-                <ManageDropdownButton id={''}>
-                    <SelectionMenuItem id={'edit-menu-item'}
-                                       text={'Edit'}
-                                       queryModel={model}
-                                       onClick={() => toggleDialog('edit')}/>
-                </ManageDropdownButton>
-            </div>
+    const htmlRenderer = (data) => {
+        return (
+            <div dangerouslySetInnerHTML={{__html: data.get('value')}} />
         );
     }
 
+    const handleClick = (value) => {
+        // Code to run when the button is clicked
+        setEventID(value.toString());
+        toggleDialog('edit');
+    };
+
+    const editButtonRenderer = (data) => {
+        return (
+            <button onClick={function() { handleClick(data.get('value')) }}>Edit</button>
+        );
+    }
+
+    const admitChargeIdPopoverRenderer = (data, row) => {
+        const handleEnter = async () => {
+            const id = row.get('EventId').get('value');
+            setAdmitEventID(id);
+            //await getAdmitData(id);
+        }
+        return (
+            <OverlayTrigger placement="left" overlay={renderPopover} onEnter={handleEnter} shouldUpdatePosition={true}>
+                <span>{data.get('value')}</span>
+            </OverlayTrigger>
+        )
+    }
+
+    const getAdmitData = async () => {
+        const info = (await getTableRow('snd', 'AdmitChargeIdProtocolInfo', 'EventId', admitEventId, []))['rows'][0];
+        console.log(info)
+        let display: string[] = [];
+        if (info['AdmitId'] != null) {
+            display.push('Admit ID: ' + info['AdmitId'],
+                'Diagnosis: ' + info['Diagnosis'],
+                'Admitting complaint: ' + info['AdmittingComplaint'],
+                'Admission date: ' + info['AdmitDate']);
+
+            if (info['ReleaseDate'] != null) {
+                display.push('Release date: ' + info['ReleaseDate'])
+            }
+            if (info['Resolution'] != null) {
+                display.push('Resolution ' + info['Resolution'])
+            }
+        } else {
+            display.push('Charge ID: ' + info['ChargeId'])
+            if (info['Protocol'] != null) {
+                display.push('IACUC #: ' + info['Protocol'],
+                    'IACUC Description: ' + info['Description'],
+                    //'IACUC Assignment Date: ' + info['AssignmentDate'],
+                    'Supervising Vet: ' + info['Veterinarian']);
+            } else {
+                display.push('Description: ' + info['Title'])
+            }
+        }
+        setDisplayInfo(display);
+    }
+
+    const renderPopover = (
+        <Popover className={"charge-id-popover"} id={"charge-id-popover"} >
+            <div>
+                <h4>Admission Information</h4>
+                {displayInfo.map((d, i) => {
+                    return <div key={i}>{d}</div>
+                })}
+            </div>
+        </Popover>
+    )
+
     return (
         <div>
-            {queryModel?.queryInfo && && (
+            {queryModel?.queryInfo && (
                 <GridPanel model={queryModel}
+                           title={"Events for Animal " + subjectID}
                            actions={actions}
                            highlightLastSelectedRow={true}
                            showPagination={false}
                            loadOnMount={true}
-                           allowSelections={true}
-                           allowFiltering={false}
+                           allowSelections={false}
+                           allowFiltering={true}
                            allowSorting={true}
                            allowViewCustomization={false}
-                           showSearchInput={false}
+                           showSearchInput={true}
                            showExport={false}
-                           ButtonsComponent={renderButtons}
                 />
             )}
             {showDialog === 'edit' && (
                 <ProcedureEntryModal onCancel={closeDialog}
-                                     eventId={selectedId}
+                                     eventId={eventID}
                                      show={showDialog === 'edit'}
-                    />
+                />
             )}
 
         </div>
@@ -211,7 +201,8 @@ export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventLi
                 id: subjectID,
                 baseFilters: [Filter.create('SubjectId', subjectID)],
                 schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
-                bindURL: true
+                bindURL: true,
+                maxRows: 1000
             },
         }),
         [subjectID]
