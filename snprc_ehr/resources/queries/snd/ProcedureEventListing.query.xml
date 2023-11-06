@@ -3,7 +3,12 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="ProcedureEventListing" tableDbType="NOT_IN_DB">
                 <tableTitle>Procedure Event Listing</tableTitle>
+                <pkColumnName>EventId</pkColumnName>
                 <columns>
+                    <column columnName="EventId">
+                        <isKeyField>true</isKeyField>
+                        <isHidden>true</isHidden>
+                    </column>
                     <column columnName="SubjectId">
                         <isHidden>true</isHidden>
                     </column>
