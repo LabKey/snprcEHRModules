@@ -1,18 +1,37 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import {
+    ExtendedMap,
     GridPanel,
     InjectedQueryModels, isLoading, LoadingState,
-    ManageDropdownButton,
+    ManageDropdownButton, QueryColumn, QueryConfigMap, QueryInfo, QueryModel,
     SelectionMenuItem,
     withQueryModels
 } from '@labkey/components';
 import { Filter } from '@labkey/api';
 import { SCHEMAS } from '../schemas';
+import { produce } from 'immer';
 import { ProcedureEntryModal } from './ProcedureEntryModal';
 
 interface EventListingProps {
     subjectID: string
+}
+
+const htmlRenderer = (data) => {
+    return (
+        <div dangerouslySetInnerHTML={{__html: data.get('value')}} />
+    );
+}
+
+const handleClick = (value) => {
+    // Code to run when the button is clicked
+    alert('Button clicked for eventId: ' + value);
+};
+
+const editButtonRenderer = (data) => {
+    return (
+        <button onClick={function() { handleClick(data.get('value')) }}>Edit</button>
+    );
 }
 
 export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: EventListingProps & InjectedQueryModels) => {
@@ -20,30 +39,65 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
 
     const [showDialog, setShowDialog] = useState<string>('');
     const [selectedId, setSelectedId] = useState<string>('');
-
-    useEffect(() => {
-        initQueryModel();
-    }, []);
+    const [queryModel, setQueryModel] = useState<QueryModel>(queryModels[subjectID]);
 
     useEffect(() => {
         (async () => {
             await setLastSelectedId().catch(error => console.error(error));
         })();
+        console.log('queryModels', queryModels[subjectID]);
+        if (queryModels?.[subjectID] && !queryModels[subjectID].isLoading) {
+            const {queryInfo} = queryModels[subjectID];
+
+            if (queryInfo) {
+                const queryCols = new ExtendedMap<string, QueryColumn>();
+                queryInfo.columns.forEach((column, key) => {
+                    if ((column.name === 'HtmlNarrative')) {
+                        const htmlCol = new QueryColumn({...column, ...{"cell": htmlRenderer}});
+                        queryCols.set(key, htmlCol);
+                    }
+                    else if ((column.name === 'EventId')) {
+                        const editCol = new QueryColumn({...column, ...{"cell": editButtonRenderer}});
+                        queryCols.set(key, editCol);
+                    } else {
+                        queryCols.set(key, column);
+                    }
+                });
+
+                const newQueryInfo = new QueryInfo({...queryInfo, ...{"columns": queryCols}});
+
+                // Update QueryModel with new QueryInfo
+                setQueryModel(
+                    produce<QueryModel>(draft => {
+                        Object.assign(draft, {...queryModels[subjectID], ...{'queryInfo': newQueryInfo}});
+                    })
+                );
+            }
+        }
+
     }, [queryModels[subjectID]]);
 
-    const initQueryModel = () => {
-        const baseFilters = [Filter.create('SubjectId', subjectID)];
-        actions.addModel(
-            {
-                id: subjectID,
-                baseFilters,
-                schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
-                bindURL: true
-            },
-            true,
-            true
-        );
-    };
+    console.log(queryModels[subjectID])
+
+    // useEffect(() => {
+    //     (async () => {
+    //         await setLastSelectedId().catch(error => console.error(error));
+    //     })();
+    // }, [queryModels[subjectID]]);
+
+    // const initQueryModel = () => {
+    //     const baseFilters = [Filter.create('SubjectId', subjectID)];
+    //     actions.addModel(
+    //         {
+    //             id: subjectID,
+    //             baseFilters,
+    //             schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
+    //             bindURL: true
+    //         },
+    //         true,
+    //         true
+    //     );
+    // };
 
     /**
      * Set the last selected id for the queryModel
@@ -120,8 +174,8 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
 
     return (
         <div>
-            {queryModels[subjectID] && (
-                <GridPanel model={queryModels[subjectID]}
+            {queryModel?.queryInfo && && (
+                <GridPanel model={queryModel}
                            actions={actions}
                            highlightLastSelectedRow={true}
                            showPagination={false}
@@ -146,4 +200,22 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
     )
 });
 
-export const EventListingGridPanel = withQueryModels<EventListingProps>(EventListingGridPanelImpl);
+const EventListingGridPanelWithModels = withQueryModels<EventListingProps>(EventListingGridPanelImpl);
+
+export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventListingProps ) => {
+    const { subjectID } = props;
+
+    const queryConfigs: QueryConfigMap = useMemo(
+        () => ({
+            [subjectID]: {
+                id: subjectID,
+                baseFilters: [Filter.create('SubjectId', subjectID)],
+                schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
+                bindURL: true
+            },
+        }),
+        [subjectID]
+    );
+
+    return <EventListingGridPanelWithModels autoLoad key={subjectID} queryConfigs={queryConfigs} {...props}/>;
+});
