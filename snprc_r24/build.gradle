@@ -1,4 +1,5 @@
 import org.labkey.gradle.util.GroupNames
+import org.labkey.gradle.util.BuildUtils
 
 sourceSets {
     transform {
@@ -33,7 +34,7 @@ project.tasks.register("transformJar", Jar)
             jar.archiveBaseName.set("MicrobiomeTransform")
             jar.archiveClassifier.set("transform")
             jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-            jar.destinationDirectory = new File(project.buildDir, "artifacts/snprc")
+            jar.destinationDirectory.set(BuildUtils.getBuildDirFile(project, "artifacts/snprc"))
             jar.manifest {
                 attributes "Main-Class": "MicrobiomeTransform"
             }
