@@ -53,7 +53,7 @@
         <a id="snd_populate_qc" class="labkey-button snd-button">Populate QC States</a><span id="snd_populate_qc_msg">&nbsp<i class="fa fa-spinner fa-spin">&nbsp</i> Populating QC states...</span>
     </div>
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
         (function($) {
 
