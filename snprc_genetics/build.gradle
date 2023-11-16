@@ -36,7 +36,7 @@ project.tasks.register("transformJar", Jar)
         jar.from { configurations.transformJars.collect { it.isDirectory() ? it : zipTree(it) }}
         jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
         jar.archiveBaseName.set("GeneticsTransform")
-        jar.destinationDirectory = new File(project.buildDir, "artifacts/snprc")
+        jar.destinationDirectory.set(project.layout.buildDirectory.file("artifacts/snprc").get().asFile)
     }
 
 project.tasks.named('module').configure { dependsOn(project.tasks.transformJar) }
