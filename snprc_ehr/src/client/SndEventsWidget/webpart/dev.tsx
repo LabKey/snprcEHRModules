@@ -5,10 +5,13 @@ import { App } from '@labkey/api';
 
 import { SndEventsWidget } from "../SndEventsWidget";
 
-App.registerApp<any>('SndEventsWidgetWebpart', (target: string) => {
+App.registerApp<any>('SndEventsWidgetWebpart', (target: string, ctx) => {
+    const config = {
+        subjectID: ctx.subjectID ? JSON.parse(ctx.subjectID) : undefined
+    }
     ReactDOM.render(
         <AppContainer>
-            <SndEventsWidget />
+            <SndEventsWidget {...config}/>
         </AppContainer>,
         document.getElementById(target)
     );

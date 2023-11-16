@@ -1,10 +1,13 @@
 import React, { FC, memo, useState } from 'react';
 import { EventListingGridPanel } from './components/EventListingGridPanel';
+import './styles/sndEventsWidget.scss'
 
-export const SndEventsWidget: FC = memo(props => {
+interface Props {
+    subjectID: string
+}
 
-    const [subjectID, setSubjectID] = useState<string>('42409');
-
+export const SndEventsWidget: FC<Props> = memo((props: Props) => {
+    const {subjectID} = props;
     return (
         <div>
             <EventListingGridPanel subjectID={subjectID} />

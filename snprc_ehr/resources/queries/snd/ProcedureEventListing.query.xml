@@ -7,7 +7,13 @@
                 <columns>
                     <column columnName="EventId">
                         <isKeyField>true</isKeyField>
-                        <isHidden>true</isHidden>
+                        <columnTitle>Event</columnTitle>
+                    </column>
+                    <column columnName="HTMLNarrative">
+                        <columnTitle>Narrative</columnTitle>
+                    </column>
+                    <column columnName="AdmitChargeId">
+                        <columnTitle>Admit / Charge ID</columnTitle>
                     </column>
                     <column columnName="SubjectId">
                         <isHidden>true</isHidden>

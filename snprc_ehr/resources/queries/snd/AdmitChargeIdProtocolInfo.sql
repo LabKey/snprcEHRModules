@@ -1,0 +1,15 @@
+SELECT e.EventId,
+       e.AdmitId,
+       c.problem as Diagnosis,
+       c.admitcomplaint as AdmittingComplaint,
+       c.date as AdmitDate,
+       c.enddate as ReleaseDate,
+       c.AssignedVet,
+       c.Resolution,
+       e.ParentObjectId.ReferenceId as ChargeId,
+       e.ParentObjectId.ReferenceId.protocol as Protocol,
+       e.ParentObjectId.ReferenceId.protocol.description as Description,
+       e.ParentObjectId.ReferenceId.protocol.title as Title,
+       e.ParentObjectId.ReferenceId.protocol.veterinarian as Veterinarian,
+
+FROM Events e left outer join study.cases c on e.AdmitId = c.caseid
