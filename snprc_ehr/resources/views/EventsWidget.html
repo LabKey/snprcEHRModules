@@ -90,29 +90,29 @@
 </style>
 
 <div id="fake-root">
-    <div id="snprc-inputs">
-        <label for="event-id">Event ID: <input id="event-id" type="text" value="1512572"> </label>
-        <button id="update-report">Update Report</button>
-    </div>
+<!--    <div id="snprc-inputs">-->
+<!--        <label for="event-id">Event ID: <input id="event-id" type="text" value="1512572"> </label>-->
+<!--        <button id="update-report">Update Report</button>-->
+<!--    </div>-->
 
     <div id="procedure-entry-widget"></div>
 </div>
 
 
 <script>
-  const updateReportButton = document.getElementById('update-report')
-  const eventIDElement = document.getElementById('event-id')
+  // const updateReportButton = document.getElementById('update-report')
+  // const eventIDElement = document.getElementById('event-id')
   const ProcedureEntryWidget = document.getElementById('procedure-entry-widget')
 
-  ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
+  ProcedureEntryWidget.setAttribute('data-event-id', '1438467')
 
-  updateReportButton.onclick = () => {
-    ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
-  }
-
-  eventIDElement.onkeydown = event => {
-    if (event.keyCode === 13) {
-      ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
-    }
-  }
+  // updateReportButton.onclick = () => {
+  //   ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
+  // }
+  //
+  // eventIDElement.onkeydown = event => {
+  //   if (event.keyCode === 13) {
+  //     ProcedureEntryWidget.setAttribute('data-event-id', eventIDElement.value)
+  //   }
+  // }
 </script>

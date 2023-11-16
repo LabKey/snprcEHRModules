@@ -1,0 +1,127 @@
+.snd-event-date {
+  display: none;
+}
+
+.snd-event-subject {
+  display: none;
+}
+
+.snd-event-note {
+  white-space: normal;
+}
+
+.snd-event-data {
+  white-space: normal;
+}
+
+.snd-attribute-data {
+  color: #d75bc0;
+}
+
+.snd-superpkg-pkgid {
+}
+
+#procedure-entry-widget {
+  height: 600px;
+  width: 100%;
+  border-radius: 4px;
+  background-color: #fff;
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #555;
+  line-height: 1.428571429;
+  /*border-bottom: 1px solid #555;*/
+  margin: 15px 15px 0 15px;
+  padding: 0px 0px 10px;
+}
+
+.widget-modal-body {
+  width: 100%;
+  height: 100%;
+}
+
+.widget-modal {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  border-radius: 5px;
+  transform: translate(0, 10%);
+  overflow: hidden;
+
+}
+
+.modal-dialog {
+  width: 60%;
+}
+
+.widget-modal .modal-content {
+  //width: 210%;
+}
+
+.grid-panel__grid .table-responsive {
+  overflow-y: scroll;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  transition: .5s ease;
+  align-items: center;
+  border-radius: 4px;
+  height: 54vh !important;
+}
+.grid-panel__grid .table-responsive thead {
+  position: sticky;
+  top: -1px;
+  z-index: 2;
+}
+.grid-panel__grid .table-responsive thead th {
+  background-color: #FFFFFF;
+  /* fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
+  background-clip: padding-box;
+  font-weight: bold;
+}
+.grid-panel__grid .table-responsive thead th#__selection__,
+.grid-panel__grid .table-responsive thead th .grid-header-cell__body {
+  padding: 5px;
+}
+
+.dropdown-menu.grid-header-cell__dropdown-menu {
+  display: block;
+  position: fixed;
+}
+
+.grid-panel {
+  border-color: #ddd;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.grid-panel__body {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.panel-default .panel-heading {
+  background-color: #fff;
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  color: #555;
+  line-height: 1.428571429;
+  border-bottom: 1px solid #ddd;
+  margin: 15px 15px 0 15px;
+  padding: 0px 0px 10px;
+}
+.ws-pre-wrap {
+  color: #555;
+  cursor: default;
+}
+.grid-panel__row-checkbox {
+  cursor: pointer;
+}
+.grid-header-cell {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.panel-portal .panel-heading {
+  display: none;
+}
+
+.charge-id-popover {
+  white-space: pre-wrap;
+}

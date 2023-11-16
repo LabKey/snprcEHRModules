@@ -4,9 +4,10 @@ import { AppContainer } from 'react-hot-loader';
 import {SndEventsWidget} from "./SndEventsWidget";
 
 const render = () => {
+    const config = {subjectID: '31415'}
     ReactDOM.render(
         <AppContainer>
-            <SndEventsWidget />
+            <SndEventsWidget {...config}/>
         </AppContainer>,
         document.getElementById('app')
     )

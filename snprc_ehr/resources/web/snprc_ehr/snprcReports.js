@@ -544,3 +544,35 @@ EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeA
         }
     }
 };
+
+EHR.reports.ProcedureEvents = function (panel, tab) {
+    if (tab.filters.subjects) {
+        var subjectIds = tab.filters.subjects[0];
+    }
+
+    let config = {
+        subjectID: subjectIds
+    }
+
+    let target = tab.add({xtype: 'ldk-contentresizingpanel'});
+
+    try {
+        // according to the DOM spec, the mutation observer should be GC'd if/when the target node is removed
+        let observer = new MutationObserver(target.fireEvent.bind(target, 'contentsizechange'));
+        observer.observe(target.getEl().dom, {childList: true, subtree: true});
+
+    }
+    catch (e) {
+        console.warn("Could not attach mutation observer. Resizing will rely on older APIs, may not work right");
+    }
+
+    const wp = new LABKEY.WebPart({
+        partConfig: config,
+        partName: 'SND Events Widget Webpart',
+        renderTo: target.renderTarget,
+        style: 'margin-bottom: 20px;'
+    })
+
+    wp.render()
+
+}
