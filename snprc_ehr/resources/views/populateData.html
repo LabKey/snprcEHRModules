@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=scriptNonce%>">
 
     // NOTE: Unofficial API to import a file.  Eventually, move this to LABKEY.Query or support importing files directly in LABKEY.Query.importRows().
     function importFile(config) {
@@ -595,7 +595,7 @@
                 var count = data ? (data.affectedRows || data.deletedRows) : '?';
                 console.log('success deleting ' + count + ' rows: ' + (data ? data.queryName : ' no query'));
                 this.pendingDeletes--;
-                if (this.pendingDeletes == 0) {
+                if (this.pendingDeletes === 0) {
                     document.getElementById('msgbox').innerHTML += '<div>Delete Complete</div>';
                 }
             },
@@ -859,7 +859,7 @@
                     var queryName = result.queryName || config.queryName || config.jsonData.queryName;
                     console.log('Success ' + (result.rowCount !== undefined ? result.rowCount + ' rows: ' : ': ') + queryName);
 
-                    if (this.pendingInserts == 0) {
+                    if (this.pendingInserts === 0) {
                         document.getElementById('msgbox').innerHTML += '<div>Populate Complete</div>';
                     }
                 }
@@ -874,7 +874,7 @@
 
                 document.getElementById('msgbox').innerHTML += '<div class="labkey-error">ERROR: ' + queryName + ': ' + result.exception + '</div>';
 
-                if (this.pendingInserts == 0) {
+                if (this.pendingInserts === 0) {
                     document.getElementById('msgbox').innerHTML += '<div>Populate Complete</div>';
                 }
             }
