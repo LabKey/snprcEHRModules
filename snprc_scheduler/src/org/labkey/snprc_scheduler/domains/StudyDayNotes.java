@@ -37,12 +37,12 @@ public class StudyDayNotes
     {
         try
         {
-            this.setTimelineObjectId(json.has(STUDYDAY_TIMELINE_OBJECT_ID) && !json.isNull(STUDYDAY_TIMELINE_OBJECT_ID) ? json.getString(STUDYDAY_TIMELINE_OBJECT_ID) : null);
-            this.setStudyDay(json.has(STUDYDAY_STUDY_DAY) && !json.isNull(STUDYDAY_STUDY_DAY) ? json.getInt(STUDYDAY_STUDY_DAY) : null);
-            this.setStudyDayNote(json.has(STUDYDAY_STUDY_DAY_NOTE) && !json.isNull(STUDYDAY_STUDY_DAY_NOTE) ? json.getString(STUDYDAY_STUDY_DAY_NOTE) : null);
-            this.setObjectId(json.has(STUDYDAY_OBJECT_ID) && !json.isNull(STUDYDAY_OBJECT_ID) ? json.getString(STUDYDAY_OBJECT_ID) : null);
-            this.setDeleted(json.has(STUDYDAY_IS_DELETED) && !json.isNull(STUDYDAY_IS_DELETED) && json.getBoolean(STUDYDAY_IS_DELETED));
-            this.setDirty(json.has(STUDYDAY_IS_DIRTY) && !json.isNull(STUDYDAY_IS_DIRTY) && json.getBoolean(STUDYDAY_IS_DIRTY));
+            this.setTimelineObjectId(json.optString(STUDYDAY_TIMELINE_OBJECT_ID, null));
+            this.setStudyDay(json.isNull(STUDYDAY_STUDY_DAY) ? null : json.getInt(STUDYDAY_STUDY_DAY));
+            this.setStudyDayNote(json.optString(STUDYDAY_STUDY_DAY_NOTE, null));
+            this.setObjectId(json.optString(STUDYDAY_OBJECT_ID, null));
+            this.setDeleted(!json.isNull(STUDYDAY_IS_DELETED) && json.getBoolean(STUDYDAY_IS_DELETED));
+            this.setDirty(!json.isNull(STUDYDAY_IS_DIRTY) && json.getBoolean(STUDYDAY_IS_DIRTY));
         }
         catch (Exception e)
         {
