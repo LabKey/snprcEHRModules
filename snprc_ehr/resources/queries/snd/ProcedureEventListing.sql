@@ -1,9 +1,9 @@
 SELECT
     e.EventId,
+    e.SubjectId,
     e.Date,
     c.HtmlNarrative,
     COALESCE(e.AdmitId, e.ParentObjectId.ReferenceId) AS AdmitChargeId,
-    e.SubjectId
 
 FROM snd.Events e
          left outer join snd.Projects p

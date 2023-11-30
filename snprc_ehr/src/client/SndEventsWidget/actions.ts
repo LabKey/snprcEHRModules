@@ -26,3 +26,21 @@ export const getTableRow = async (schemaName: string, queryName: string, filterC
         });
     });
 };
+
+export const getMultiRow = async (schemaName: string, queryName: string, filterColumn: string, filterValues: string[], columns: string[]) => {
+    const filterArray: IFilter[] = [Filter.create(filterColumn, filterValues, Filter.Types.IN)];
+    return new Promise((resolve, reject) => {
+        return Query.selectRows({
+            //columns,
+            schemaName,
+            queryName,
+            filterArray: filterArray,
+            success: (data: any) => {
+                resolve(data);
+            },
+            failure: (data) => {
+                reject(data);
+            }
+        });
+    });
+};
