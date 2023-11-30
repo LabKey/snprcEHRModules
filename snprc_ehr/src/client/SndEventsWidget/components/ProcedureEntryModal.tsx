@@ -1,6 +1,5 @@
-import React, { FC, memo, useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { Alert, WizardNavButtons } from '@labkey/components';
+import React, { FC, memo, useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
 
 interface Props {
     show: boolean,
@@ -9,7 +8,6 @@ interface Props {
 }
 export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
     const { show, onCancel, eventId } = props;
-    //const [children, setChildren] = useState<any>();
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -19,7 +17,6 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
         script.onload = () => {
             const ProcedureEntryWidget = document.getElementById('procedure-entry-widget')
             ProcedureEntryWidget.setAttribute('data-event-id', eventId)
-            //setChildren(ProcedureEntryWidget.children)
         }
         document.getElementById("modal-body").insertBefore(script, document.getElementById("modal-body").firstChild)
 
@@ -28,12 +25,6 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
         };
 
     }, [])
-
-    // useEffect(() => {
-    //     if(children[0].hasOwnProperty('children')) {
-    //         console.log(children[0].children)
-    //     }
-    // }, [children])
 
     return (
         <Modal id="widget-modal" className="widget-modal" show={show} onHide={onCancel} >

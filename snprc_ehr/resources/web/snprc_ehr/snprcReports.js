@@ -547,11 +547,17 @@ EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeA
 
 EHR.reports.ProcedureEvents = function (panel, tab) {
     if (tab.filters.subjects) {
-        var subjectIds = tab.filters.subjects[0];
+        var subjectIds = tab.filters.subjects;
+    }
+
+    if (tab.filters.room) {
+        var room = tab.filters.room;
     }
 
     let config = {
-        subjectID: subjectIds
+        filterConfig: JSON.stringify({
+            filters: tab.filters
+        })
     }
 
     let target = tab.add({xtype: 'ldk-contentresizingpanel'});

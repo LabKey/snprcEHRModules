@@ -8,6 +8,13 @@
                     <column columnName="EventId">
                         <isKeyField>true</isKeyField>
                         <columnTitle>Event</columnTitle>
+                        <isHidden>true</isHidden>
+                        <fk>
+                            <fkDbSchema>snd</fkDbSchema>
+                            <fkTable>Events</fkTable>
+                            <fkColumnName>EventId</fkColumnName>
+                            <fkDisplayColumnName>eventId</fkDisplayColumnName>
+                        </fk>
                     </column>
                     <column columnName="HTMLNarrative">
                         <columnTitle>Narrative</columnTitle>
@@ -16,7 +23,13 @@
                         <columnTitle>Admit / Charge ID</columnTitle>
                     </column>
                     <column columnName="SubjectId">
-                        <isHidden>true</isHidden>
+                        <columnTitle>ID</columnTitle>
+                        <fk>
+                            <fkDbSchema>study</fkDbSchema>
+                            <fkTable>Animal</fkTable>
+                            <fkColumnName>Id</fkColumnName>
+                            <fkDisplayColumnName>ID</fkDisplayColumnName>
+                        </fk>
                     </column>
                 </columns>
             </table>

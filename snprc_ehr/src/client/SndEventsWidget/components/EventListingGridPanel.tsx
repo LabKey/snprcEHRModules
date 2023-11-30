@@ -9,35 +9,31 @@ import {
 import { Filter } from '@labkey/api';
 import { SCHEMAS } from '../schemas';
 import { produce } from 'immer';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { ProcedureEntryModal } from './ProcedureEntryModal';
-import { getTableRow } from '../actions';
+import { AdmissionInfoPopover } from './AdmissionInfoPopover';
 
 interface EventListingProps {
-    subjectID: string
+    subjectIDs: string[]
 }
 
 export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: EventListingProps & InjectedQueryModels) => {
-    const { subjectID, actions, queryModels } = props;
+    const { subjectIDs, actions, queryModels } = props;
 
     const [showDialog, setShowDialog] = useState<string>('');
     const [eventID, setEventID] = useState<string>('');
-    const [admitEventId, setAdmitEventID] = useState<string>('');
-    const [displayInfo, setDisplayInfo] = useState<string[]>([]);
-    const [queryModel, setQueryModel] = useState<QueryModel>(queryModels[subjectID]);
-
+    const [queryModel, setQueryModel] = useState<QueryModel>(queryModels[subjectIDs[0]]);
 
     useEffect(() => {
         (async () => {
-            if (queryModels?.[subjectID] && !queryModels[subjectID].isLoading) {
-                const {queryInfo} = queryModels[subjectID];
+            if (queryModels?.[subjectIDs[0]] && !queryModels[subjectIDs[0]].isLoading) {
+                const {queryInfo} = queryModels[subjectIDs[0]];
                 if (queryInfo) {
                     const queryCols = new ExtendedMap<string, QueryColumn>();
                     queryInfo.columns.forEach( (column, key) => {
                         if ((column.name === 'HTMLNarrative')) {
                             const htmlCol = new QueryColumn({...column, ...{"cell": htmlRenderer}});
                             queryCols.set(key, htmlCol);
-                        } else if ((column.name === 'EventId')) {
+                        } else if ((column.name === 'SubjectId')) {
                             const editCol = new QueryColumn({...column, ...{"cell": editButtonRenderer}});
                             queryCols.set(key, editCol);
                         } else if ((column.name === 'AdmitChargeId')) {
@@ -53,24 +49,18 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                     // Update QueryModel with new QueryInfo
                     setQueryModel(
                         produce<QueryModel>(draft => {
-                            Object.assign(draft, {...queryModels[subjectID], ...{'queryInfo': newQueryInfo}});
+                            Object.assign(draft, {...queryModels[subjectIDs[0]], ...{'queryInfo': newQueryInfo}});
                         })
                     );
                 }
             }
         })()
 
-    }, [queryModels[subjectID]]);
+    }, [queryModels[subjectIDs[0]]]);
 
-    useEffect(() => {
-        (async() => {
-            console.log(admitEventId)
-            await getAdmitData();
-        })();
-    }, [admitEventId]);
 
     const toggleDialog = async (name: string, requiresSelection = false) => {
-        if (requiresSelection && queryModels[subjectID].hasSelections) {
+        if (requiresSelection && queryModels[subjectIDs[0]].hasSelections) {
             setShowDialog(undefined);
         } else {
             setShowDialog(name);
@@ -102,81 +92,42 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         toggleDialog('edit');
     };
 
-    const editButtonRenderer = (data) => {
+    const editButtonRenderer = (data, row) => {
         return (
-            <button onClick={function() { handleClick(data.get('value')) }}>Edit</button>
+            <div>
+            <span>{data.get('value')} </span>
+            <button className={"pencil-btn"} onClick={function() { handleClick(row.get('EventId').get('value')) }}>
+                <i className={"fa fa-pencil"}></i>
+            </button>
+            </div>
         );
     }
 
     const admitChargeIdPopoverRenderer = (data, row) => {
-        const handleEnter = async () => {
-            const id = row.get('EventId').get('value');
-            setAdmitEventID(id);
-            //await getAdmitData(id);
-        }
+        const admitChargeId = data.get('value');
+        const eventId = row.get('EventId').get('value');
         return (
-            <OverlayTrigger placement="left" overlay={renderPopover} onEnter={handleEnter} shouldUpdatePosition={true}>
-                <span>{data.get('value')}</span>
-            </OverlayTrigger>
+            <AdmissionInfoPopover admitChargeId={admitChargeId} eventId={eventId} />
         )
     }
-
-    const getAdmitData = async () => {
-        const info = (await getTableRow('snd', 'AdmitChargeIdProtocolInfo', 'EventId', admitEventId, []))['rows'][0];
-        console.log(info)
-        let display: string[] = [];
-        if (info['AdmitId'] != null) {
-            display.push('Admit ID: ' + info['AdmitId'],
-                'Diagnosis: ' + info['Diagnosis'],
-                'Admitting complaint: ' + info['AdmittingComplaint'],
-                'Admission date: ' + info['AdmitDate']);
-
-            if (info['ReleaseDate'] != null) {
-                display.push('Release date: ' + info['ReleaseDate'])
-            }
-            if (info['Resolution'] != null) {
-                display.push('Resolution ' + info['Resolution'])
-            }
-        } else {
-            display.push('Charge ID: ' + info['ChargeId'])
-            if (info['Protocol'] != null) {
-                display.push('IACUC #: ' + info['Protocol'],
-                    'IACUC Description: ' + info['Description'],
-                    //'IACUC Assignment Date: ' + info['AssignmentDate'],
-                    'Supervising Vet: ' + info['Veterinarian']);
-            } else {
-                display.push('Description: ' + info['Title'])
-            }
-        }
-        setDisplayInfo(display);
-    }
-
-    const renderPopover = (
-        <Popover className={"charge-id-popover"} id={"charge-id-popover"} >
-            <div>
-                <h4>Admission Information</h4>
-                {displayInfo.map((d, i) => {
-                    return <div key={i}>{d}</div>
-                })}
-            </div>
-        </Popover>
-    )
 
     return (
         <div>
             {queryModel?.queryInfo && (
                 <GridPanel model={queryModel}
-                           title={"Events for Animal " + subjectID}
+                           title={"Events for Animal(s) " + subjectIDs.join(', ')}
                            actions={actions}
                            highlightLastSelectedRow={true}
                            showPagination={false}
+                           //showButtonBar={true}
+                           //showChartMenu={true}
                            loadOnMount={true}
                            allowSelections={false}
                            allowFiltering={true}
                            allowSorting={true}
-                           allowViewCustomization={false}
+                           allowViewCustomization={true}
                            showSearchInput={true}
-                           showExport={false}
+                           showExport={true}
                 />
             )}
             {showDialog === 'edit' && (
@@ -193,20 +144,21 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
 const EventListingGridPanelWithModels = withQueryModels<EventListingProps>(EventListingGridPanelImpl);
 
 export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventListingProps ) => {
-    const { subjectID } = props;
+    const { subjectIDs } = props;
 
     const queryConfigs: QueryConfigMap = useMemo(
         () => ({
-            [subjectID]: {
-                id: subjectID,
-                baseFilters: [Filter.create('SubjectId', subjectID)],
+            [subjectIDs[0]]: {
+                id: subjectIDs[0],
+                baseFilters: [Filter.create('SubjectId', subjectIDs, Filter.Types.IN)],
                 schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
                 bindURL: true,
-                maxRows: 1000
+                maxRows: 10000
             },
         }),
-        [subjectID]
+        [subjectIDs]
     );
 
-    return <EventListingGridPanelWithModels autoLoad key={subjectID} queryConfigs={queryConfigs} {...props}/>;
+    return <EventListingGridPanelWithModels autoLoad key={subjectIDs[0]} queryConfigs={queryConfigs} {...props}/>;
 });
+

@@ -4,10 +4,12 @@ import { AppContainer } from 'react-hot-loader';
 import { App } from '@labkey/api';
 
 import { SndEventsWidget } from "../SndEventsWidget";
+import { configProps } from './config';
 
 App.registerApp<any>('SndEventsWidgetWebpart', (target: string, ctx) => {
-    const config = {
-        subjectID: ctx.subjectID ? JSON.parse(ctx.subjectID) : undefined
+    const config: configProps = {
+        ...ctx,
+        filterConfig: ctx.filterConfig ? JSON.parse(ctx.filterConfig) : undefined
     }
     ReactDOM.render(
         <AppContainer>
