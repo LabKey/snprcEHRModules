@@ -1,5 +1,6 @@
-import React, { FC, memo, useEffect } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import { Alert } from '@labkey/components';
 
 interface Props {
     show: boolean,
@@ -18,6 +19,7 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
             const ProcedureEntryWidget = document.getElementById('procedure-entry-widget')
             ProcedureEntryWidget.setAttribute('data-event-id', eventId)
         }
+
         document.getElementById("modal-body").insertBefore(script, document.getElementById("modal-body").firstChild)
 
         return () => {
@@ -25,6 +27,8 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
         };
 
     }, [])
+
+
 
     return (
         <Modal id="widget-modal" className="widget-modal" show={show} onHide={onCancel} >
