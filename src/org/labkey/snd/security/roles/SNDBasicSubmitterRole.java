@@ -21,6 +21,10 @@ import org.labkey.api.security.SecurityPolicy;
 import org.labkey.api.security.roles.AbstractModuleScopedRole;
 import org.labkey.api.snd.Category;
 import org.labkey.snd.SNDModule;
+import org.labkey.snd.security.permissions.SNDCompletedDeletePermission;
+import org.labkey.snd.security.permissions.SNDCompletedInsertPermission;
+import org.labkey.snd.security.permissions.SNDCompletedReadPermission;
+import org.labkey.snd.security.permissions.SNDCompletedUpdatePermission;
 import org.labkey.snd.security.permissions.SNDInProgressDeletePermission;
 import org.labkey.snd.security.permissions.SNDInProgressInsertPermission;
 import org.labkey.snd.security.permissions.SNDInProgressReadPermission;
@@ -42,7 +46,11 @@ public class SNDBasicSubmitterRole extends AbstractModuleScopedRole
                 SNDInProgressUpdatePermission.class, SNDInProgressDeletePermission.class,
                 SNDReviewRequiredReadPermission.class, SNDReviewRequiredInsertPermission.class,
                 SNDReviewRequiredUpdatePermission.class, SNDReviewRequiredDeletePermission.class,
-                SNDRejectedReadPermission.class, SNDRejectedDeletePermission.class);
+                SNDRejectedReadPermission.class, SNDRejectedDeletePermission.class,
+                // allow basic submitters to read, update, insert, and delete completed data
+                // This is needed uptil SNPRC releases the new QC workflow
+                SNDCompletedInsertPermission.class, SNDCompletedDeletePermission.class,
+                SNDCompletedReadPermission.class, SNDCompletedUpdatePermission.class);
     }
 
     @Override
