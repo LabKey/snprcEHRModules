@@ -118,9 +118,9 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                            title={"Events for Animal(s) " + subjectIDs.join(', ')}
                            actions={actions}
                            highlightLastSelectedRow={true}
-                           showPagination={false}
-                           //showButtonBar={true}
-                           //showChartMenu={true}
+                           showPagination={true}
+                           // showButtonBar={true}
+                           // showChartMenu={true}
                            loadOnMount={true}
                            allowSelections={false}
                            allowFiltering={true}
@@ -153,7 +153,8 @@ export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventLi
                 baseFilters: [Filter.create('SubjectId', subjectIDs, Filter.Types.IN)],
                 schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
                 bindURL: true,
-                maxRows: 10000
+                maxRows: 10000,
+                includeTotalCount: true,
             },
         }),
         [subjectIDs]
