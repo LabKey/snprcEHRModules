@@ -5,10 +5,11 @@ import { Alert } from '@labkey/components';
 interface Props {
     show: boolean,
     onCancel: () => any,
-    eventId: string
+    eventId?: string,
+    subjectIds?: string[]
 }
 export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
-    const { show, onCancel, eventId } = props;
+    const { show, onCancel, eventId, subjectIds } = props;
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -17,7 +18,11 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
 
         script.onload = () => {
             const ProcedureEntryWidget = document.getElementById('procedure-entry-widget')
-            ProcedureEntryWidget.setAttribute('data-event-id', eventId)
+            if (eventId) {
+                ProcedureEntryWidget.setAttribute('data-event-id', eventId)
+            } else if (subjectIds) {
+                ProcedureEntryWidget.setAttribute('data-subject-id', subjectIds.join(','))
+            }
         }
 
         document.getElementById("modal-body").insertBefore(script, document.getElementById("modal-body").firstChild)
@@ -33,7 +38,12 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
     return (
         <Modal id="widget-modal" className="widget-modal" show={show} onHide={onCancel} >
             <Modal.Body id="modal-body" className="widget-modal-body">
-                <div id="procedure-entry-widget" data-event-id={eventId}></div>
+                {eventId && (
+                    <div id="procedure-entry-widget" data-event-id={eventId}></div>
+                )}
+                {!eventId && (
+                    <div id="procedure-entry-widget" data-subject-id={subjectIds.join(",")}></div>
+                )}
             </Modal.Body>
         </Modal>
     )

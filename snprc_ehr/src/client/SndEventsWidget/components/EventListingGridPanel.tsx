@@ -6,6 +6,7 @@ import {
     QueryColumn, QueryConfigMap, QueryInfo, QueryModel,
     withQueryModels
 } from '@labkey/components';
+import { Button } from 'react-bootstrap';
 import { Filter } from '@labkey/api';
 import { SCHEMAS } from '../schemas';
 import { produce } from 'immer';
@@ -111,6 +112,19 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         )
     }
 
+    /**
+     * Render the custom buttons that will be displayed on the grid
+     */
+    const renderButtons = () => {
+        return (
+            <div className="manage-buttons">
+                {<Button bsStyle={'success'} onClick={() => toggleDialog('create')}>
+                    Create
+                </Button>}
+            </div>
+        );
+    };
+
     return (
         <div>
             {queryModel?.queryInfo && (
@@ -118,9 +132,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                            title={"Events for Animal(s) " + subjectIDs.join(', ')}
                            actions={actions}
                            highlightLastSelectedRow={true}
-                           showPagination={false}
-                           //showButtonBar={true}
-                           //showChartMenu={true}
+                           showPagination={true}
                            loadOnMount={true}
                            allowSelections={false}
                            allowFiltering={true}
@@ -128,6 +140,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                            allowViewCustomization={true}
                            showSearchInput={true}
                            showExport={true}
+                           ButtonsComponent={renderButtons}
                 />
             )}
             {showDialog === 'edit' && (
@@ -135,6 +148,9 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                                      eventId={eventID}
                                      show={showDialog === 'edit'}
                 />
+            )}
+            {showDialog === 'create' && (
+                <ProcedureEntryModal show={showDialog === 'create'} onCancel={closeDialog} subjectIds={subjectIDs}/>
             )}
 
         </div>
@@ -153,7 +169,8 @@ export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventLi
                 baseFilters: [Filter.create('SubjectId', subjectIDs, Filter.Types.IN)],
                 schemaQuery: SCHEMAS.SND_QUERIES.PROCEDURES,
                 bindURL: true,
-                maxRows: 10000
+                maxRows: 100,
+                includeTotalCount: true,
             },
         }),
         [subjectIDs]

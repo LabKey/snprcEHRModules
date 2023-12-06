@@ -1,3 +1,5 @@
+@import "@labkey/components-scss";
+
 .snd-event-date {
   display: none;
 }
@@ -39,14 +41,15 @@
 .grid-panel__grid .table-responsive {
   //overflow-y: scroll;
   width: 100%;
-  z-index: 1;
+  //z-index: 1;
   top: 0;
   left: 0;
   transition: .5s ease;
   align-items: center;
   border-radius: 4px;
-  height: 100%;
 }
+
+
 .grid-panel__grid .table-responsive thead {
   position: sticky;
   top: -1px;
@@ -76,6 +79,7 @@
 }
 .grid-panel__body {
   font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  overflow: unset;
 }
 .panel-default .panel-heading {
   background-color: #fff;
@@ -203,4 +207,10 @@
 
 .field-name {
   margin: 0 5px 0 5px;
+}
+
+.lk-header-ct {
+  position: sticky;
+  top: 0;
+  z-index: 3;
 }
