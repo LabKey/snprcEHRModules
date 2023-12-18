@@ -6,10 +6,10 @@ interface Props {
     show: boolean,
     onCancel: () => any,
     eventId?: string,
-    subjectIds?: string[]
+    subjectId?: string
 }
 export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
-    const { show, onCancel, eventId, subjectIds } = props;
+    const { show, onCancel, eventId, subjectId } = props;
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -20,8 +20,8 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
             const ProcedureEntryWidget = document.getElementById('procedure-entry-widget')
             if (eventId) {
                 ProcedureEntryWidget.setAttribute('data-event-id', eventId)
-            } else if (subjectIds) {
-                ProcedureEntryWidget.setAttribute('data-subject-id', subjectIds.join(','))
+            } else if (subjectId) {
+                ProcedureEntryWidget.setAttribute('data-subject-id', subjectId)
             }
         }
 
@@ -41,8 +41,8 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
                 {eventId && (
                     <div id="procedure-entry-widget" data-event-id={eventId}></div>
                 )}
-                {!eventId && (
-                    <div id="procedure-entry-widget" data-subject-id={subjectIds.join(",")}></div>
+                {!eventId && subjectId && (
+                    <div id="procedure-entry-widget" data-subject-id={subjectId}></div>
                 )}
             </Modal.Body>
         </Modal>

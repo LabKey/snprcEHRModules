@@ -118,8 +118,8 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
     const renderButtons = () => {
         return (
             <div className="manage-buttons">
-                {<Button bsStyle={'success'} onClick={() => toggleDialog('create')}>
-                    Create
+                {<Button disabled={subjectIDs.length != 1} bsStyle={'success'} onClick={() => toggleDialog('create')} >
+                    New
                 </Button>}
             </div>
         );
@@ -150,7 +150,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                 />
             )}
             {showDialog === 'create' && (
-                <ProcedureEntryModal show={showDialog === 'create'} onCancel={closeDialog} subjectIds={subjectIDs}/>
+                <ProcedureEntryModal show={showDialog === 'create'} onCancel={closeDialog} subjectId={subjectIDs[0]}/>
             )}
 
         </div>
