@@ -18,9 +18,7 @@
   },
   "test:debug-notes": "See https://jestjs.io/docs/en/asynchronous before running test:debug - in chrome navigate to chrome://inspect",
   "dependencies": {
-    "@labkey/components": "2.349.6",
-    "postscribe": "^2.0.8",
-    "snprc-mobile": "../../../localModules/snprc_mobile"
+    "@labkey/components": "2.349.6"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.11.5",
