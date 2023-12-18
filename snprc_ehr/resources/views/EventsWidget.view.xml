@@ -1,5 +1,0 @@
-<view xmlns="http://labkey.org/data/xml/view" title="EventsWidget" frame="portal">
-    <permissions>
-        <permission name="login"/>
-    </permissions>
-</view>
