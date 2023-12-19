@@ -545,7 +545,7 @@ EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeA
     }
 };
 
-EHR.reports.ProcedureEvents = function (panel, tab) {
+EHR.reports.SndEvents = function (panel, tab) {
 
     var containerPath = LABKEY.container.path;
 

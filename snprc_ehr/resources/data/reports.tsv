@@ -70,4 +70,4 @@ Research Treatments	Exposures	query	Research Treatments	true		study	ExpResearchT
 Abnormal Behavior	Behavior	query	Abnormal Behavior	true		study	BehaviorAbnormalSummary			Date	false	false		qcstate/publicdata	Abnormal behavoir detail data
 Vaccines	Exposures	query	Vaccines	true		study	ExpVaccines			Date	false	false		qcstate/publicdata	Exposure vaccines data
 Body Condition Score	Clinical	query	Body Condition Score	true		study	BodyConditionScores
-SndEventsWidget	Clinical	js	Procedure Events	true		study	ProcedureEvents	SndEventsWidgetWebpart		date	false	false		qcstate/publicdata
+SndEventsWidget	Clinical	js	SND Events	true		study	SndEvents	SndEventsWidgetWebpart		date	false	false		qcstate/publicdata
