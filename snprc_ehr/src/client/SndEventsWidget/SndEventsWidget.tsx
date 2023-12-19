@@ -6,16 +6,17 @@ import { getMultiRow } from './actions';
 import { Alert } from '@labkey/components';
 
 interface Props {
-    filterConfig: any
+    filterConfig: any,
+    hasPermission?: boolean
 }
 
 export const SndEventsWidget: FC<Props> = memo((props: Props) => {
-    const {filterConfig} = props;
+    const {filterConfig, hasPermission} = props;
     const [subjectIds, setSubjectIds] = useState<string[]>(['']);
 
     useEffect(() => {
         (async () => {
-            if (filterConfig !== undefined && filterConfig.length != 0) {
+            if (hasPermission && filterConfig !== undefined && filterConfig.length != 0) {
                 await getSubjectIdsFromFilters(filterConfig, setSubjectIds);
             }
         })();
@@ -47,17 +48,20 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
 
     return (
         <div>
-            {(filterConfig === undefined || filterConfig.length == 0) && (
+            {!hasPermission && (
+                <Alert>User Does not have permission to view this panel</Alert>
+            )}
+            {hasPermission && (filterConfig === undefined || filterConfig.length == 0) && (
                 form()
             )
             }
-            {(filterConfig !== undefined && filterConfig.length != 0 && filterConfig?.filters.inputType === 'none') && (
+            {hasPermission && (filterConfig !== undefined && filterConfig.length != 0 && filterConfig?.filters.inputType === 'none') && (
                 <Alert>'Entire Database' filter is not supported for this query.</Alert>
             )}
-            {subjectIds[0] === 'none' && (
+            {hasPermission && subjectIds[0] === 'none' && (
                 <Alert>No animals were found for filter selections</Alert>
             )}
-            {subjectIds && (
+            {hasPermission && subjectIds && (
                 <EventListingGridPanel subjectIDs={subjectIds} />
             )}
 

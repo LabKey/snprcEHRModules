@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import {SndEventsWidget} from "./SndEventsWidget";
 
 const render = () => {
-    const config = {filterConfig: []}
+    const config = {filterConfig: [], hasPermission: true}
     ReactDOM.render(
         <AppContainer>
             <SndEventsWidget {...config}/>

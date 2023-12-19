@@ -546,19 +546,8 @@ EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeA
 };
 
 EHR.reports.ProcedureEvents = function (panel, tab) {
-    if (tab.filters.subjects) {
-        var subjectIds = tab.filters.subjects;
-    }
 
-    if (tab.filters.room) {
-        var room = tab.filters.room;
-    }
-
-    let config = {
-        filterConfig: JSON.stringify({
-            filters: tab.filters
-        })
-    }
+    var containerPath = LABKEY.container.path;
 
     let target = tab.add({xtype: 'ldk-contentresizingpanel'});
 
@@ -572,13 +561,24 @@ EHR.reports.ProcedureEvents = function (panel, tab) {
         console.warn("Could not attach mutation observer. Resizing will rely on older APIs, may not work right");
     }
 
-    const wp = new LABKEY.WebPart({
-        partConfig: config,
-        partName: 'SND Events Widget Webpart',
-        renderTo: target.renderTarget,
-        style: 'margin-bottom: 20px;'
-    })
+    LABKEY.Security.getUserPermissions({
+            containerPath: containerPath,
+            success: (userPermsInfo) => {
+                let config = {
+                    filterConfig: JSON.stringify({
+                        filters: tab.filters
+                    }),
+                    hasPermission: userPermsInfo.container.effectivePermissions.includes('org.labkey.api.security.permissions.AdminPermission')
+                }
 
-    wp.render()
+                const wp = new LABKEY.WebPart({
+                    partConfig: config,
+                    partName: 'SND Events Widget Webpart',
+                    renderTo: target.renderTarget
+                })
+
+                wp.render()
+            }
+    })
 
 }

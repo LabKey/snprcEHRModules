@@ -9,7 +9,8 @@ import { configProps } from './config';
 App.registerApp<any>('SndEventsWidgetWebpart', (target, ctx) => {
     const config: configProps = {
         ...ctx,
-        filterConfig: ctx.filterConfig ? JSON.parse(ctx.filterConfig) : undefined
+        filterConfig: ctx.filterConfig ? JSON.parse(ctx.filterConfig) : undefined,
+        hasPermission: ctx.hasPermission ? JSON.parse(ctx.hasPermission) : undefined
     }
     ReactDOM.render(<SndEventsWidget {...config} />, document.getElementById(target));
 });
