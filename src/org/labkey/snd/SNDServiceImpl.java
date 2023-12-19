@@ -63,6 +63,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -560,11 +561,17 @@ public class SNDServiceImpl implements SNDService
     }
 
     @Override
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly) {
-        return SNDManager.get().getActiveProjects(c, u, filters, activeProjectItemsOnly);
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly, Date eventDate) {
+        return SNDManager.get().getActiveProjects(c, u, filters, activeProjectItemsOnly, eventDate);
     }
+
+    @Override
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly) {
+        return SNDManager.get().getActiveProjects(c, u, filters, activeProjectItemsOnly, null);
+    }
+
     @Override
     public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters) {
-        return SNDManager.get().getActiveProjects(c, u, filters, true);
+        return SNDManager.get().getActiveProjects(c, u, filters, true, null);
     }
 }

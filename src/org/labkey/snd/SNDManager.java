@@ -3322,7 +3322,7 @@ public class SNDManager
      * Returns a list of active projects with a list of project items
      */
 
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly)
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItemsOnly, Date eventDate)
     {
         List<Map<String, Object>> projectList = new ArrayList<>();
 
@@ -3330,8 +3330,12 @@ public class SNDManager
         TableInfo projectsTable = getTableInfo(schema, SNDSchema.PROJECTS_TABLE_NAME);
 
         // Get from projects table
-        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("Active"), true, CompareType.EQUAL);
-        filter.addCondition(FieldKey.fromParts("enddate"), new Date(), CompareType.DATE_GTE);
+        SimpleFilter filter = new SimpleFilter();
+        if (eventDate == null)
+        {
+            filter.addCondition(FieldKey.fromParts("Active"), true, CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromParts("enddate"), new Date(), CompareType.DATE_GTE);
+        }
 
         // apply filters that are passed as an argument
         if (filters != null) {
@@ -3398,8 +3402,13 @@ public class SNDManager
                 }
             }
 
+            boolean isActive = activeProjectItemsOnly;
+            if (eventDate != null && !eventDate.before(project.getStartDate()) && !eventDate.after(project.getEndDate())) {
+                isActive = false;
+            }
+
             // add projectItems
-            List<Map<String, Object>> pItems = getProjectItemsList(c, u, project.getProjectId(), project.getRevisionNum(), activeProjectItemsOnly);
+            List<Map<String, Object>> pItems = getProjectItemsList(c, u, project.getProjectId(), project.getRevisionNum(), isActive);
 
             if (pItems.size() > 0)
             {
