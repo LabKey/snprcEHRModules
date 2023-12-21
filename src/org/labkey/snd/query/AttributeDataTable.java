@@ -118,7 +118,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         sql.append(OntologyManager.getTinfoObject(), "o");
         sql.append(" ON x.ObjectId = o.ObjectId AND ");
         // Apply the container filter
-        sql.append(getContainerFilter().getSQLFragment(getSchema(), new SQLFragment("o.Container"), getContainer()));
+        sql.append(getContainerFilter().getSQLFragment(getSchema(), new SQLFragment("o.Container")));
         sql.append(" INNER JOIN ");
         sql.append(OntologyManager.getTinfoPropertyDescriptor(), "pd");
         // Filter to include only properties associated with packages
