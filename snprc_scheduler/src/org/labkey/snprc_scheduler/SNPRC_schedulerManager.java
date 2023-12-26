@@ -1,5 +1,6 @@
 package org.labkey.snprc_scheduler;
 
+import jakarta.validation.constraints.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.CompareType;
@@ -32,7 +33,6 @@ import org.labkey.snprc_scheduler.domains.TimelineProjectItem;
 import org.labkey.snprc_scheduler.query.TimelineTable;
 import org.labkey.snprc_scheduler.security.QCStateEnum;
 
-import javax.validation.constraints.NotNull;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
