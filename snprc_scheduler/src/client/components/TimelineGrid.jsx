@@ -282,7 +282,8 @@ class TimelineGrid extends React.Component {
             })
 
             this.setState(Object.assign({}, this.state, {
-                rows: newRows
+                rows: newRows,
+                key: this.getGridKey()
             }));
 
             this.props.selectedTimeline.forceReload = false;
@@ -494,6 +495,7 @@ class TimelineGrid extends React.Component {
                 stateCopy.showProcNote = false;
                 stateCopy.procNoteName = "";
                 stateCopy.rows = newRows;
+                stateCopy.key = this.getGridKey();
 
                 this.setState(stateCopy);
 
