@@ -45,14 +45,14 @@ public class TimelineProjectItem
     {
         try
         {
-            this.setProjectItemId(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID) ? json.getInt(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID) : null);
-            this.setTimelineObjectId(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID) : null);
-            this.setSortOrder(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_SORT_ORDER) ? json.getInt(TimelineProjectItem.TIMELINE_PROJECT_ITEM_SORT_ORDER) : null);
-            this.setObjectId(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_OBJECTID) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_OBJECTID) : null);
-            this.setTimelineFootNotes(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES) ? json.getString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES) : null);
-            this.setDeleted(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DELETED) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DELETED) );
-            this.setDirty(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DIRTY) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DIRTY) );
-            this.setActive(json.has(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE) );
+            this.setProjectItemId(json.isNull(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID) ? null : json.getInt(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID));
+            this.setTimelineObjectId(json.optString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID, null));
+            this.setSortOrder(json.isNull(TimelineProjectItem.TIMELINE_PROJECT_ITEM_SORT_ORDER) ? null : json.getInt(TimelineProjectItem.TIMELINE_PROJECT_ITEM_SORT_ORDER));
+            this.setObjectId(json.optString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_OBJECTID, null));
+            this.setTimelineFootNotes(json.optString(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_FOOT_NOTES, null));
+            this.setDeleted(!json.isNull(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DELETED) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DELETED) );
+            this.setDirty(!json.isNull(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DIRTY) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_DIRTY) );
+            this.setActive(!json.isNull(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE) && json.getBoolean(TimelineProjectItem.TIMELINE_PROJECT_ITEM_IS_ACTIVE) );
 
         }
         catch (Exception e)
