@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDataGrid from "react-data-grid";
-import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { DraggableContainer } from "./dnd/DraggableContainer";
+import {Button, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+// import DraggableContainer from "./dnd/DraggableContainer";
 import Moment from 'react-moment';
 import {
     addTimelineItem,
@@ -89,14 +89,9 @@ class TimelineGrid extends React.Component {
             procNote: "",
             rowId: undefined,
             revisionNum: undefined,
-            day0: "",
-            key: 0
+            day0: ""
         }
     }
-
-    getGridKey = () => {
-        return Math.random();
-    };
 
     CheckBoxFormatter = (colKey) => {
 
@@ -282,8 +277,7 @@ class TimelineGrid extends React.Component {
             })
 
             this.setState(Object.assign({}, this.state, {
-                rows: newRows,
-                key: this.getGridKey()
+                rows: newRows
             }));
 
             this.props.selectedTimeline.forceReload = false;
@@ -418,7 +412,6 @@ class TimelineGrid extends React.Component {
             allRows = newState.rows;
 
             newState.columns = sortedCols;
-            newState.key = this.getGridKey();
             this.setState(Object.assign({}, this.state, newState));
         }
 
@@ -495,7 +488,6 @@ class TimelineGrid extends React.Component {
                 stateCopy.showProcNote = false;
                 stateCopy.procNoteName = "";
                 stateCopy.rows = newRows;
-                stateCopy.key = this.getGridKey();
 
                 this.setState(stateCopy);
 
@@ -532,7 +524,6 @@ class TimelineGrid extends React.Component {
 
             this.setState(state => {
                 state.rows = filteredRows;
-                state.key = this.getGridKey();
                 return state;
             });
 
@@ -572,9 +563,8 @@ class TimelineGrid extends React.Component {
             }
 
             state.rows = newRows;
-            state.key = this.getGridKey();
             return state;
-        });
+        })
 
         this.props.onAssignTimelineProcedure({
             Value: rowCopy[column.key],
@@ -600,7 +590,7 @@ class TimelineGrid extends React.Component {
             this.props.onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true, true);
         }
 
-        const stateCopy = {rows: [...rows], key: this.getGridKey()};
+        const stateCopy = {rows: [...rows]};
         this.setState(stateCopy);
     };
 
@@ -624,7 +614,6 @@ class TimelineGrid extends React.Component {
             this.props.onAddTimelineItem(newRow);
 
             stateCopy.rows.push(newRow);
-            stateCopy.key = this.getGridKey();
 
             this.setState(stateCopy);
 
@@ -656,8 +645,7 @@ class TimelineGrid extends React.Component {
         this.setState(emptyColumns);
 
         const reorderedColumns = Object.assign({}, this.state, {
-            columns: stateCopy.columns,
-            key: this.getGridKey()
+            columns: stateCopy.columns
         });
         this.setState(reorderedColumns);
 
@@ -680,7 +668,7 @@ class TimelineGrid extends React.Component {
     };
 
     setSort = (sortColumn, sortDirection) => {
-        this.sortRows(this.state.rows, sortColumn, undefined, sortDirection, true);
+        this.sortRows(this.state.rows, sortColumn, sortDirection, true);
     };
 
     sortRows = (initialRows, sortColumn, sortMinorColumn, sortDirection, setState) => {
@@ -736,8 +724,7 @@ class TimelineGrid extends React.Component {
             this.setState(Object.assign({}, this.state, {
                 rows: sortedRows,
                 sortDirection: sortDirection,
-                sortColumn: sortColumn,
-                key: this.getGridKey()
+                sortColumn: sortColumn
             }));
         }
 
@@ -791,7 +778,7 @@ class TimelineGrid extends React.Component {
                         <div className='col-sm-10' />
                     </div>
                     <div className='col-sm-12 zero-side-padding'>
-                        <DraggableContainer onHeaderDrop={this.onHeaderDrop} key={this.state.key}>
+                        {/*<DraggableContainer onHeaderDrop={this.onHeaderDrop}>*/}
                             <ReactDataGrid
                                     columns={columns}
                                     rowGetter={i => rows[i]}
@@ -804,7 +791,7 @@ class TimelineGrid extends React.Component {
                                     onRowClick={this.onRowClick}
                                     emptyRowsView={this.EmptyRowsView}
                             />
-                        </DraggableContainer>
+                        {/*</DraggableContainer>*/}
                     </div>
                 </div>
         );

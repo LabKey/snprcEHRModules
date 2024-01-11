@@ -1,6 +1,0 @@
-<webpart xmlns="http://labkey.org/data/xml/webpart" title="SND Events Widget Webpart">
-    <view name="sndEventsWidgetWebpart"/>
-    <locations>
-        <location name="body"/>
-    </locations>
-</webpart>

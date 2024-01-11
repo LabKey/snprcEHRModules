@@ -10,13 +10,15 @@
 */
 import React from 'react';
 import PropTypes from 'prop-types'
+import ReactDataGrid from 'react-data-grid';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import {
     selectProject,
     filterProjects,
-    selectTimeline,
-    TAB_PROJECTS,
-    setForceRerender
+    sortProjects,
+    createAction,
+    PROJECT_SELECTED,
+    selectTimeline, TAB_TIMELINES, TAB_PROJECTS, setForceRerender
 } from '../actions/dataActions';
 import connect from "react-redux/es/connect/connect";
 import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";

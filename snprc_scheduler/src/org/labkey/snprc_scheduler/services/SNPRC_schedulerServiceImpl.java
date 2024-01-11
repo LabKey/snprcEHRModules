@@ -43,10 +43,10 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     }
 
     @Override
-    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItems, Date eventDate)
+    public List<Map<String, Object>> getActiveProjects(Container c, User u, ArrayList<SimpleFilter> filters, Boolean activeProjectItems)
     {
 
-        return SNDService.get().getActiveProjects(c, u, filters, activeProjectItems, eventDate);
+        return SNDService.get().getActiveProjects(c, u, filters, activeProjectItems);
 
     }
 

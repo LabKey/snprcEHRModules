@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { html5DragDropContext } from './html5DragDropContext';
+import html5DragDropContext from './html5DragDropContext';
 import DraggableHeaderCell from './DraggableHeaderCell';
 
-class DraggableContainerImpl extends React.Component {
-
-    child = React.Children.only(this.props.children);
-
+class DraggableContainer extends React.Component {
     render() {
-        return (
-            <>
-                {React.cloneElement(this.child, {...this.props, draggableHeaderCell: DraggableHeaderCell})}
-            </>
-        )
+        return React.cloneElement(
+                React.Children.only(this.props.children), {
+                        ...this.props,
+                draggableHeaderCell: DraggableHeaderCell
+    }
+    );
     }
 }
 
-DraggableContainerImpl.propTypes = {
+DraggableContainer.propTypes = {
     children: PropTypes.element.isRequired
 };
 
-export const DraggableContainer = (props) => {
-    return html5DragDropContext(<DraggableContainerImpl {...props}/>);
-}
+export default html5DragDropContext(DraggableContainer);

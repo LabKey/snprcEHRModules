@@ -53,16 +53,17 @@ public class TimelineItem
         try
         {
 
-            this.setTimelineItemId(json.isNull(TIMELINEITEM_TIMELINE_ITEM_ID) ? null : json.getInt(TIMELINEITEM_TIMELINE_ITEM_ID));
-            this.setTimelineObjectId(json.optString(TIMELINEITEM_TIMELINE_OBJECT_ID, null));
-            this.setStudyDay(json.isNull(TIMELINEITEM_STUDY_DAY) ? null : json.getInt(TIMELINEITEM_STUDY_DAY));
-            this.setProjectItemId(json.isNull(TIMELINEITEM_PROJECT_ITEM_ID) ? null : json.getInt(TIMELINEITEM_PROJECT_ITEM_ID));
-            this.setObjectId(json.optString(TIMELINEITEM_OBJECT_ID, null));
-            this.setDeleted(!json.isNull(TIMELINEITEM_IS_DELETED) && json.getBoolean(TIMELINEITEM_IS_DELETED));
-            this.setDirty(!json.isNull(TIMELINEITEM_IS_DIRTY) && json.getBoolean(TIMELINEITEM_IS_DIRTY));
-            this.setPkgId(json.isNull(TIMELINEITEM_PKG_ID) ? null : json.getInt(TIMELINEITEM_PKG_ID));
+            this.setTimelineItemId(json.has(TIMELINEITEM_TIMELINE_ITEM_ID) && !json.isNull(TIMELINEITEM_TIMELINE_ITEM_ID) ? json.getInt(TIMELINEITEM_TIMELINE_ITEM_ID) : null);
+            this.setTimelineObjectId(json.has(TIMELINEITEM_TIMELINE_OBJECT_ID) && !json.isNull(TIMELINEITEM_TIMELINE_OBJECT_ID)? json.getString(TIMELINEITEM_TIMELINE_OBJECT_ID) : null);
+            this.setStudyDay(json.has(TIMELINEITEM_STUDY_DAY) && !json.isNull(TIMELINEITEM_STUDY_DAY) ? json.getInt(TIMELINEITEM_STUDY_DAY) : null);
+            this.setProjectItemId(json.has(TIMELINEITEM_PROJECT_ITEM_ID) && !json.isNull(TIMELINEITEM_PROJECT_ITEM_ID)
+                        ? json.getInt(TIMELINEITEM_PROJECT_ITEM_ID) : null);
+            this.setObjectId(json.has(TIMELINEITEM_OBJECT_ID) && !json.isNull(TIMELINEITEM_OBJECT_ID) ? json.getString(TIMELINEITEM_OBJECT_ID) : null);
+            this.setDeleted(json.has(TIMELINEITEM_IS_DELETED) && !json.isNull(TIMELINEITEM_IS_DELETED) && json.getBoolean(TIMELINEITEM_IS_DELETED));
+            this.setDirty(json.has(TIMELINEITEM_IS_DIRTY) && !json.isNull(TIMELINEITEM_IS_DIRTY) && json.getBoolean(TIMELINEITEM_IS_DIRTY));
+            this.setPkgId(json.has(TIMELINEITEM_PKG_ID) && !json.isNull(TIMELINEITEM_PKG_ID) ? json.getInt(TIMELINEITEM_PKG_ID) : null);
 
-            String scheduleDateString = json.optString(TIMELINEITEM_SCHEDULE_DATE, null);
+            String scheduleDateString = json.has(TIMELINEITEM_SCHEDULE_DATE) && !json.isNull(TIMELINEITEM_SCHEDULE_DATE) ? json.getString(TIMELINEITEM_SCHEDULE_DATE) : null;
 
             try
             {
@@ -90,7 +91,7 @@ public class TimelineItem
             // Find studyDay and projectItemId and parse as ints
             // Allow null value for projectItemId
             json.getInt(TIMELINEITEM_STUDY_DAY);
-            if (!json.isNull(TIMELINEITEM_PROJECT_ITEM_ID))
+            if (json.has(TIMELINEITEM_PROJECT_ITEM_ID) && !json.isNull(TIMELINEITEM_PROJECT_ITEM_ID))
                 json.getInt(TIMELINEITEM_PROJECT_ITEM_ID);
         }
         catch (Exception e)

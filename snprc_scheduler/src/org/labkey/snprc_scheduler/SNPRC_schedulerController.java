@@ -32,7 +32,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
 import java.text.ParseException;
-import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -189,9 +188,6 @@ public class SNPRC_schedulerController extends SpringActionController
             String projectType;
             String species;  // two-character species code (referenceId.species.species.code)
             String parentObjectId;
-            String eventDateString;
-
-            Date eventDate = new Date();
 
             try
             {
@@ -205,7 +201,6 @@ public class SNPRC_schedulerController extends SpringActionController
                     projectId = pv.contains("ProjectId") ? pv.getPropertyValue("ProjectId").getValue().toString() : null;
                     revisionNum = pv.contains("RevisionNum") ?pv.getPropertyValue("RevisionNum").getValue().toString() : null;
                     parentObjectId = pv.contains("ParentObjectId") ?pv.getPropertyValue("ParentObjectId").getValue().toString() : null;
-                    eventDateString = pv.contains("EventDate") ?pv.getPropertyValue("EventDate").getValue().toString() : null;
 
                     if (projectType != null && "Maintenance Behavior Clinical".contains(projectType) && species != null)
                     {
@@ -238,17 +233,9 @@ public class SNPRC_schedulerController extends SpringActionController
                         // add filters to return all research projects
                         filters.add(new SimpleFilter(FieldKey.fromParts("ProjectType","Description"), "Research", CompareType.EQUAL));
                     }
-
-                    if (eventDateString != null) {
-                        try {
-                            eventDate = DateUtil.parseDateTime(eventDateString, Timeline.TIMELINE_DATE_FORMAT);
-                        } catch (ParseException pe) {
-                            throw new ValidationException("EventDate must be a valid Date");
-                        }
-                    }
                 }
 
-                List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters, true, eventDate);
+                List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters, true);
 
                 if (projects.size() > 0)
                 {

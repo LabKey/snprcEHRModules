@@ -57,20 +57,20 @@ public class TimelineAnimalJunction
         try
         {
             // TODO: Update or remove commented out lines once we get to animal assignment
-            this.setRowId(json.isNull(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) ? null : json.getInt(TIMELINE_ANIMAL_JUNCTION_ROW_ID));
-            this.setTimelineObjectId(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID, null));
-            this.setAnimalId(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID, null));
-            this.setAssignmentStatus(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS, null));
-            this.setGender(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_GENDER, null));
-            this.setAge(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE, null));
-            this.setLocation(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_LOCATION, null));
-            this.setCage(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_CAGE, null));
-            this.setWeight(json.isNull(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) ? null : json.getDouble(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT));
-            this.setObjectId(json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID, null));
-            this.setDeleted(!json.isNull(TIMELINE_ANIMAL_JUNCTION_IS_DELETED)  && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED));
-            this.setDirty(!json.isNull(TIMELINE_ANIMAL_JUNCTION_IS_DIRTY)  && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY));
+            this.setRowId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_ROW_ID)  ? json.getInt(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID) : null);
+            this.setTimelineObjectId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_TIMELINE_OBJECT_ID) : null);
+            this.setAnimalId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ANIMAL_ID) : null);
+            this.setAssignmentStatus(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ASSIGNMENT_STATUS) : null);
+            this.setGender(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_GENDER) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_GENDER)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_GENDER) : null);
+            this.setAge(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_AGE)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_AGE) : null);
+            this.setLocation(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_LOCATION) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_LOCATION)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_LOCATION) : null);
+            this.setCage(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_CAGE) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_CAGE)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_CAGE) : null);
+            this.setWeight(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_WEIGHT)  ? json.getDouble(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_WEIGHT) : null);
+            this.setObjectId(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_OBJECT_ID)  ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID) : null);
+            this.setDeleted(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_IS_DELETED)  && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DELETED));
+            this.setDirty(json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_IS_DIRTY)  && json.getBoolean(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_IS_DIRTY));
 
-            String endDateString = json.optString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE, null);
+            String endDateString = json.has(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) && !json.isNull(TIMELINE_ANIMAL_JUNCTION_END_DATE) ? json.getString(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_END_DATE) : null;
             try
             {
                 this.setEndDate(endDateString == null ? null : DateUtil.parseDateTime(endDateString, Timeline.TIMELINE_DATE_FORMAT));

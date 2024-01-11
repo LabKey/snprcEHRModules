@@ -107,34 +107,34 @@ public class Timeline //extends Entity
     {
         try
         {
-            this.setTimelineId(json.isNull(TIMELINE_ID) ? null : json.getInt(TIMELINE_ID));
-            this.setRevisionNum(json.isNull(TIMELINE_REVISION_NUM) ? null : json.getInt(TIMELINE_REVISION_NUM));
-            this.setLeadTech(json.optString(TIMELINE_LEAD_TECHS, null));
-            this.setNotes(json.optString(TIMELINE_NOTES, null));
-            this.setSchedulerNotes(json.optString(TIMELINE_SCHEDULER_NOTES, null));
-            this.setObjectId(json.optString(TIMELINE_OBJECTID, null));
-            this.setCreatedBy(c, u, json.isNull(TIMELINE_CREATED_BY) ? null : json.getInt(TIMELINE_CREATED_BY));
-            this.setModifiedBy(c, u, json.isNull(TIMELINE_MODIFIED_BY) ? null : json.getInt(TIMELINE_MODIFIED_BY));
-            this.setCreatedByName(json.optString(TIMELINE_CREATED_BY_NAME, null));
-            this.setModifiedByName(json.optString(TIMELINE_MODIFIED_BY_NAME, null));
-            this.setDescription(json.optString(TIMELINE_DESCRIPTION, null));
-            this.setQcState(json.isNull(TIMELINE_QCSTATE) ? null : json.getInt(TIMELINE_QCSTATE));
-            this.setProjectObjectId(json.optString(TIMELINE_PROJECT_OBJECT_ID, null));
-            this.setProjectId(json.isNull(TIMELINE_PROJECT_ID) ? null : json.getInt(TIMELINE_PROJECT_ID));
-            this.setProjectRevisionNum(json.isNull(TIMELINE_PROJECT_REVISION_NUM) ? null : json.getInt(TIMELINE_PROJECT_REVISION_NUM));
-            this.setDeleted(!json.isNull(TIMELINE_IS_DELETED) && json.getBoolean(TIMELINE_IS_DELETED));
-            this.setDirty(!json.isNull(TIMELINE_IS_DIRTY) && json.getBoolean(TIMELINE_IS_DIRTY));
-            this.setInUse(!json.isNull(TIMELINE_IS_IN_USE) && json.getBoolean(TIMELINE_IS_IN_USE));
-            this.setRc(json.optString(TIMELINE_RC, null));
-            this.setSpecies(json.optString(TIMELINE_SPECIES, null));
-            this.setProtocol(json.optString(TIMELINE_PROTOCOL, null));
-            this.setChargeId(json.isNull(TIMELINE_CHARGE_ID) ? null : json.getInt(TIMELINE_CHARGE_ID));
-            this.setAnimalAccount(json.optString(TIMELINE_ANIMAL_ACCOUNT, null));
+            this.setTimelineId(json.has(TIMELINE_ID) && !json.isNull(TIMELINE_ID) ? json.getInt(TIMELINE_ID) : null);
+            this.setRevisionNum(json.has(TIMELINE_REVISION_NUM) && !json.isNull(TIMELINE_REVISION_NUM) ? json.getInt(TIMELINE_REVISION_NUM) : null);
+            this.setLeadTech(json.has(TIMELINE_LEAD_TECHS) && !json.isNull(TIMELINE_LEAD_TECHS) ? json.getString(TIMELINE_LEAD_TECHS) : null);
+            this.setNotes(json.has(TIMELINE_NOTES) && !json.isNull(TIMELINE_NOTES) ? json.getString(TIMELINE_NOTES) : null);
+            this.setSchedulerNotes(json.has(TIMELINE_SCHEDULER_NOTES) && !json.isNull(TIMELINE_SCHEDULER_NOTES) ? json.getString(TIMELINE_SCHEDULER_NOTES) : null);
+            this.setObjectId(json.has(TIMELINE_OBJECTID) && !json.isNull(TIMELINE_OBJECTID) ? json.getString(TIMELINE_OBJECTID) : null);
+            this.setCreatedBy(c, u, json.has(TIMELINE_CREATED_BY) && !json.isNull(TIMELINE_CREATED_BY) ? json.getInt(TIMELINE_CREATED_BY): null);
+            this.setModifiedBy(c, u, json.has(TIMELINE_MODIFIED_BY) && !json.isNull(TIMELINE_MODIFIED_BY) ? json.getInt(TIMELINE_MODIFIED_BY): null);
+            this.setCreatedByName(json.has(TIMELINE_CREATED_BY_NAME) && !json.isNull(TIMELINE_CREATED_BY_NAME) ? json.getString(TIMELINE_CREATED_BY_NAME): null);
+            this.setModifiedByName(json.has(TIMELINE_MODIFIED_BY_NAME) && !json.isNull(TIMELINE_MODIFIED_BY_NAME) ? json.getString(TIMELINE_MODIFIED_BY_NAME): null);
+            this.setDescription(json.has(TIMELINE_DESCRIPTION) && !json.isNull(TIMELINE_DESCRIPTION) ? json.getString(TIMELINE_DESCRIPTION) : null);
+            this.setQcState(json.has(TIMELINE_QCSTATE) && !json.isNull(TIMELINE_QCSTATE) ? json.getInt(TIMELINE_QCSTATE) : null);
+            this.setProjectObjectId(json.has(TIMELINE_PROJECT_OBJECT_ID) && !json.isNull(TIMELINE_PROJECT_OBJECT_ID) ? json.getString(TIMELINE_PROJECT_OBJECT_ID) : null);
+            this.setProjectId(json.has(TIMELINE_PROJECT_ID) && !json.isNull(TIMELINE_PROJECT_ID) ? json.getInt(TIMELINE_PROJECT_ID) : null);
+            this.setProjectRevisionNum(json.has(TIMELINE_PROJECT_REVISION_NUM) && !json.isNull(TIMELINE_PROJECT_REVISION_NUM) ? json.getInt(TIMELINE_PROJECT_REVISION_NUM) : null);
+            this.setDeleted(json.has(TIMELINE_IS_DELETED) && !json.isNull(TIMELINE_IS_DELETED) && json.getBoolean(TIMELINE_IS_DELETED));
+            this.setDirty(json.has(TIMELINE_IS_DIRTY) && !json.isNull(TIMELINE_IS_DIRTY) && json.getBoolean(TIMELINE_IS_DIRTY));
+            this.setInUse(json.has(TIMELINE_IS_IN_USE) && !json.isNull(TIMELINE_IS_IN_USE) && json.getBoolean(TIMELINE_IS_IN_USE));
+            this.setRc(json.has(TIMELINE_RC) && !json.isNull(TIMELINE_RC) ? json.getString(TIMELINE_RC) : null);
+            this.setSpecies(json.has(TIMELINE_SPECIES) && !json.isNull(TIMELINE_SPECIES) ? json.getString(TIMELINE_SPECIES) : null);
+            this.setProtocol(json.has(TIMELINE_PROTOCOL) && !json.isNull(TIMELINE_PROTOCOL) ? json.getString(TIMELINE_PROTOCOL) : null);
+            this.setChargeId(json.has(TIMELINE_CHARGE_ID) && !json.isNull(TIMELINE_CHARGE_ID) ? json.getInt(TIMELINE_CHARGE_ID) : null);
+            this.setAnimalAccount(json.has(TIMELINE_ANIMAL_ACCOUNT) && !json.isNull(TIMELINE_ANIMAL_ACCOUNT) ? json.getString(TIMELINE_ANIMAL_ACCOUNT) : null);
 
-            String startDateString = json.optString(TIMELINE_STARTDATE, null);
-            String endDateString = json.optString(TIMELINE_ENDDATE, null);
-            String createdDateString = json.optString(TIMELINE_DATE_CREATED, null);
-            String modifiedDateString = json.optString(TIMELINE_DATE_MODIFIED, null);
+            String startDateString = json.has(TIMELINE_STARTDATE) && !json.isNull(TIMELINE_STARTDATE) ? json.getString(TIMELINE_STARTDATE) : null;
+            String endDateString = json.has(TIMELINE_ENDDATE) && !json.isNull(TIMELINE_ENDDATE) ? json.getString(TIMELINE_ENDDATE) : null;
+            String createdDateString = json.has(TIMELINE_DATE_CREATED) && !json.isNull(TIMELINE_DATE_CREATED) ? json.getString(TIMELINE_DATE_CREATED) : null;
+            String modifiedDateString = json.has(TIMELINE_DATE_MODIFIED) && !json.isNull(TIMELINE_DATE_MODIFIED) ? json.getString(TIMELINE_DATE_MODIFIED) : null;
 
             try
             {

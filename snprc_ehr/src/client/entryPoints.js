@@ -31,19 +31,5 @@ module.exports = {
             title: 'SND Lookups Management',
             permission: 'read',
             path: './src/client/SndLookupsManagement'
-        },
-        {
-            name: 'SndEventsWidget',
-            title: 'Animal Events',
-            permission: 'read',
-            path: './src/client/SndEventsWidget'
-        },
-        {
-            name: 'SndEventsWidgetWebpart',
-            title: 'Animal Events Webpart',
-            permission: 'read',
-            path: './src/client/SndEventsWidget/webpart',
-            generateLib: true
-        }
-    ]
+        }]
 };
