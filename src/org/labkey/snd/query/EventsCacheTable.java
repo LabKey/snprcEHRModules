@@ -25,7 +25,7 @@ import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.Permission;
 import org.labkey.snd.SNDUserSchema;
-import org.labkey.snd.table.PlainTextNarrativeDisplayColumn;
+import org.labkey.api.snd.PlainTextNarrativeDisplayColumn;
 
 import java.util.ArrayList;
 import java.util.List;

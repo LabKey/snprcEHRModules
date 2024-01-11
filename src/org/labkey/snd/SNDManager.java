@@ -86,7 +86,7 @@ import org.labkey.api.util.PageFlowUtil;
 import org.labkey.snd.query.PackagesTable;
 import org.labkey.snd.security.QCStateActionEnum;
 import org.labkey.snd.security.SNDSecurityManager;
-import org.labkey.snd.table.PlainTextNarrativeDisplayColumn;
+import org.labkey.api.snd.PlainTextNarrativeDisplayColumn;
 import org.labkey.snd.trigger.SNDTriggerManager;
 
 import java.sql.SQLException;
