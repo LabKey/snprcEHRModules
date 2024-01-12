@@ -18,6 +18,9 @@
                     </column>
                     <column columnName="HTMLNarrative">
                         <columnTitle>Narrative</columnTitle>
+                        <displayColumnFactory>
+                            <className>org.labkey.snprc_ehr.table.EventNarrativeDisplayColumnFactory</className>
+                        </displayColumnFactory>
                     </column>
                     <column columnName="AdmitChargeId">
                         <columnTitle>Admit / Charge ID</columnTitle>
