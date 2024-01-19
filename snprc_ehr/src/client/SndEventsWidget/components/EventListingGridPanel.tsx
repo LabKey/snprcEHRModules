@@ -119,7 +119,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         return (
             <div className="manage-buttons">
                 {/*{<Button disabled={subjectIDs.length != 1} bsStyle={'success'} onClick={() => toggleDialog('create')} >*/}
-                {<Button disabled={true} bsStyle={'success'} onClick={() => toggleDialog('create')} >
+                {<Button disabled={false} bsStyle={'success'} onClick={() => toggleDialog('create')} >
                     New
                 </Button>}
             </div>
