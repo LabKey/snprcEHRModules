@@ -3402,13 +3402,8 @@ public class SNDManager
                 }
             }
 
-            boolean isActive = activeProjectItemsOnly;
-            if (eventDate != null && !eventDate.before(project.getStartDate()) && !eventDate.after(project.getEndDate())) {
-                isActive = false;
-            }
-
             // add projectItems
-            List<Map<String, Object>> pItems = getProjectItemsList(c, u, project.getProjectId(), project.getRevisionNum(), isActive);
+            List<Map<String, Object>> pItems = getProjectItemsList(c, u, project.getProjectId(), project.getRevisionNum(), eventDate == null ? activeProjectItemsOnly : false);
 
             if (pItems.size() > 0)
             {
