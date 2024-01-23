@@ -191,7 +191,7 @@ public class SNPRC_schedulerController extends SpringActionController
             String parentObjectId;
             String eventDateString;
 
-            Date eventDate = new Date();
+            Date eventDate = null;
 
             try
             {
