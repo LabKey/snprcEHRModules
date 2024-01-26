@@ -457,7 +457,7 @@ public class SNPRC_schedulerManager
                 timeline.setRevisionNum(getNextRevisionNum(timeline.getTimelineId()));
                 timeline.setObjectId(new GUID().toString());
                 // add default QcState
-                if (timeline.getQcState() == null) timeline.setQcState(QCStateEnum.IN_PROGRESS.getValue());
+                if (timeline.getQcState() == null) timeline.setQcState(QCStateEnum.getValueByName(c,u, QCStateEnum.IN_PROGRESS));
 
                 timelineRows.add(timeline.toMap(c, u));
 
