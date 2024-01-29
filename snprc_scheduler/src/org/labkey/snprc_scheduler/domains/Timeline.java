@@ -9,6 +9,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.security.User;
 import org.labkey.api.util.DateUtil;
 import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
+import org.labkey.snprc_scheduler.security.QCStateEnum;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class Timeline //extends Entity
     public static final String TIMELINE_CREATED_BY_NAME = "CreatedByName";
     public static final String TIMELINE_MODIFIED_BY_NAME = "ModifiedByName";
     public static final String TIMELINE_QCSTATE = "QcState";
+    public static final String TIMELINE_QCSTATE_LABEL = "QcStateLabel";
     public static final String TIMELINE_TIMELINE_ITEMS = "TimelineItems";
     public static final String TIMELINE_TIMELINE_PROJECT_ITEMS = "TimelineProjectItems";
     public static final String TIMELINE_PROJECT_OBJECT_ID = "ProjectObjectId";
@@ -118,7 +120,8 @@ public class Timeline //extends Entity
             this.setCreatedByName(json.optString(TIMELINE_CREATED_BY_NAME, null));
             this.setModifiedByName(json.optString(TIMELINE_MODIFIED_BY_NAME, null));
             this.setDescription(json.optString(TIMELINE_DESCRIPTION, null));
-            this.setQcState(json.isNull(TIMELINE_QCSTATE) ? null : json.getInt(TIMELINE_QCSTATE));
+            // update QCState from the QCStateLabel field
+            this.setQcState(json.isNull(TIMELINE_QCSTATE_LABEL) ? null : QCStateEnum.getQCStateEnumId(c, u, QCStateEnum.getQCStateEnumByName(json.optString(TIMELINE_QCSTATE_LABEL))));
             this.setProjectObjectId(json.optString(TIMELINE_PROJECT_OBJECT_ID, null));
             this.setProjectId(json.isNull(TIMELINE_PROJECT_ID) ? null : json.getInt(TIMELINE_PROJECT_ID));
             this.setProjectRevisionNum(json.isNull(TIMELINE_PROJECT_REVISION_NUM) ? null : json.getInt(TIMELINE_PROJECT_REVISION_NUM));
@@ -540,6 +543,7 @@ public class Timeline //extends Entity
         values.put(TIMELINE_MODIFIED_BY, getModifiedBy());
         values.put(TIMELINE_CREATED_BY_NAME, getCreatedByName());
         values.put(TIMELINE_MODIFIED_BY_NAME, getModifiedByName());
+        values.put(TIMELINE_QCSTATE_LABEL, QCStateEnum.getQCStateEnumById(c, u, getQcState()).getName());
         values.put(TIMELINE_QCSTATE, getQcState());
         values.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
         values.put(TIMELINE_IS_DELETED, getDeleted());
@@ -620,6 +624,7 @@ public class Timeline //extends Entity
         json.put(TIMELINE_MODIFIED_BY, getModifiedBy());
         json.put(TIMELINE_CREATED_BY_NAME, getCreatedByName());
         json.put(TIMELINE_MODIFIED_BY_NAME, getModifiedByName());
+        json.put(TIMELINE_QCSTATE_LABEL, QCStateEnum.getQCStateEnumById(c, u, getQcState()).getName());        //getQcState());
         json.put(TIMELINE_QCSTATE, getQcState());
         json.put(TIMELINE_PROJECT_OBJECT_ID, getProjectObjectId());
         json.put(TIMELINE_IS_DELETED, getDeleted());
