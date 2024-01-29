@@ -67,7 +67,7 @@ public enum QCStateEnum
         _publicData = publicData;
     }
 
-    public static Integer getValueByName (Container c, User u, QCStateEnum qcStateEnum)
+    public static Integer getQCStateEnumId(Container c, User u, QCStateEnum qcStateEnum)
     {
         if (qcStateEnum == null) { return null; }
         TableInfo qcStateTable = CoreSchema.getInstance().getTableInfoDataStates();
@@ -76,18 +76,18 @@ public enum QCStateEnum
         TableSelector qcStateTs = new TableSelector(qcStateTable, cols, qcFilter, null);
         return qcStateTs.getObject(Integer.class);
     }
-    public static QCStateEnum getQCState(Container c, User u, int qcStateId)
+    public static QCStateEnum getQCStateEnumById(Container c, User u, int qcStateId)
     {
         TableInfo qcStateTable = CoreSchema.getInstance().getTableInfoDataStates();
         SimpleFilter qcFilter = SimpleFilter.createContainerFilter(c).addCondition(FieldKey.fromParts("RowId"), qcStateId, CompareType.EQUAL);
         Set<String> cols = Collections.singleton("Label");
         TableSelector qcStateTs = new TableSelector(qcStateTable, cols, qcFilter, null);
         String qcStateName = qcStateTs.getObject(String.class);
-        return QCStateEnum.getByName(qcStateName);
+        return QCStateEnum.getQCStateEnumByName(qcStateName);
     }
 
     @Nullable
-    public static QCStateEnum getByName(String name)
+    public static QCStateEnum getQCStateEnumByName(String name)
     {
         for (QCStateEnum qcStateEnum : QCStateEnum.values())
         {
