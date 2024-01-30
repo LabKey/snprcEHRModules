@@ -36,7 +36,7 @@ const cloneTimeline = (source, revision) => {
         RowId: revision ? source.RowId : 0,
         RevisionNum: revision,
         Description: source.Description + (revision ? '': ' Clone'),
-        QcState: 4,
+        QcStateLabel: "In Progress",
         IsDirty: true,
         ObjectId: undefined,
         CreatedByName: undefined,
@@ -101,7 +101,7 @@ export default (state = { }, action) => {
             // Add rowid, timelineitems, timelineprojectitems and timelineanimalitems for UI
             for (const tl of nextState.timelines) {
                 tl.RowId = tl.TimelineId;
-                tl.savedDraft = (tl.QcState === 4);
+                tl.savedDraft = (tl.QcStateLabel === "In Progress");
 
 
                 if (!tl.TimelineItems) {
@@ -139,7 +139,7 @@ export default (state = { }, action) => {
                 Description: "New Timeline",
                 IsDeleted: false,
                 IsDirty: true,
-                QcState: 4,
+                QcStateLabel: "In Progress",
                 TimelineAnimalItems: [],
                 StudyDayNotes: [],
                 TimelineItems: [{RowIdx: 1, StudyDay: 0, ScheduleDate: null, IsDirty: true, IsDeleted: false}]
@@ -218,7 +218,7 @@ export default (state = { }, action) => {
             // Set rowid for UI display
             action.payload.RowId = action.payload.TimelineId;
             action.payload.IsDirty = false;
-            action.payload.savedDraft = (action.payload.QcState === 4);
+            action.payload.savedDraft = (action.payload.QcStateLabel === "In Progress");
 
             // Update list of timelines
             let timelines = nextState.timelines.map((timeline) => {
