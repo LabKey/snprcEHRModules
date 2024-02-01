@@ -70,7 +70,7 @@ public class TimelineScripts
                 "        'RC' : 'Mouse, Mikey',\n" +
                 "        'Notes' : 'Dont take any wooden nickels.',\n" +
                 "        'AnimalAccount' : '4815162342',\n" +
-                "        'QcState' : 4,\n" +                        // In-Progress
+                "        'QcStateLabel' : 'In Progress',\n" +
         /*
                 Add TimelineItems
          */

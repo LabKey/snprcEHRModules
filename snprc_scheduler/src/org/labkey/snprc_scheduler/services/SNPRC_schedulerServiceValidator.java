@@ -113,7 +113,7 @@ public class SNPRC_schedulerServiceValidator
         {
             // All New Timeline, check json draft state (and other such checks here)
             //
-            if (timeline.getQcState() != null && !timeline.getQcState().equals(QCStateEnum.IN_PROGRESS.getValue()))
+            if (timeline.getQcState() != null && !timeline.getQcState().equals(QCStateEnum.getQCStateEnumId(c,u, QCStateEnum.IN_PROGRESS)))
             {
                 errors.addRowError(new ValidationException("Timeline must be created in editable Draft state")); //tested
                 throw errors;
@@ -191,7 +191,7 @@ public class SNPRC_schedulerServiceValidator
                    throw errors;
                 }
 
-                else if (!timelineRow.get(Timeline.TIMELINE_QCSTATE ).equals(QCStateEnum.IN_PROGRESS.getValue()))
+                else if (!timelineRow.get(Timeline.TIMELINE_QCSTATE ).equals(QCStateEnum.getQCStateEnumId(c,u, QCStateEnum.IN_PROGRESS)))
                 {
                     // only admins and reviewers can change QCState
                     if (!c.hasPermission(u, SNPRC_schedulerReviewersPermission.class) && !c.hasPermission(u, SNPRC_schedulerAdminPermission.class))

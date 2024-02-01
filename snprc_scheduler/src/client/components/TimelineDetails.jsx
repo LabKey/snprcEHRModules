@@ -24,7 +24,7 @@ class TimelineDetails extends React.Component {
 
     handleDraftCheck = (e) => {
         this.props.onUpdateSelectedTimeline({
-            [e.target.id]: e.target.checked === true ? 4 : 1,
+            [e.target.id]: e.target.checked === true ? "In Progress" : "Completed",
             IsDirty: true
         }, true)
     };
@@ -133,8 +133,8 @@ class TimelineDetails extends React.Component {
                                 </div>
                                 <div className='col-sm-6 zero-side-padding'>
                                     <div className='col-sm-5  zero-side-padding'><ControlLabel ref='timeline-draft-state'>Draft</ControlLabel></div>
-                                    <div className='col-sm-7 zero-side-padding'><FormControl type='checkbox' id='QcState' style={{width: '20px', height: '20px'}}
-                                                                           checked={timeline.QcState ? (timeline.QcState === 4) : false}
+                                    <div className='col-sm-7 zero-side-padding'><FormControl type='checkbox' id='QcStateLabel' style={{width: '20px', height: '20px'}}
+                                                                           checked={timeline.QcStateLabel ? (timeline.QcStateLabel === "In Progress") : "Completed"}
                                                                            onChange={this.handleDraftCheck}
                                                                            disabled={!timeline.RowId || timeline.IsInUse}
                                     /></div>
