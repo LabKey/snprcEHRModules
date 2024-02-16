@@ -181,7 +181,7 @@ function fetchProjects_LABKEY() {
 }
 
 function fetchProjects_SND() {
-    const API_ENDPOINT = LABKEY.ActionURL.getBaseURL() + LABKEY.ActionURL.getContainer() + '/SNPRC_Scheduler-getActiveProjects.view?';
+    const API_ENDPOINT = LABKEY.ActionURL.getBaseURL() + LABKEY.ActionURL.getContainer() + '/SNPRC_Scheduler-getActiveProjects.view';
     return (dispatch) => {
         dispatch(showLoading());
         dispatch(createAction(PROJECT_LIST_REQUESTED));

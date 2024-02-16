@@ -190,7 +190,7 @@
 </style>
 
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
     var tabLabel;
     document.querySelector('.tab-page-table').addEventListener('click', function () {
         var selector;
