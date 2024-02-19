@@ -13,7 +13,7 @@
             <list>
                 <bean class="org.labkey.api.pipeline.file.FileAnalysisTaskPipelineSettings">
                     <constructor-arg value="sndPipeline"/>
-                    <property name="analyzeURL" value="/snd/importPackages.view?"/>
+                    <property name="analyzeURL" value="/snd-importPackages.view"/>
                     <property name="description" value="SND document import"/>
                     <property name="protocolObjectId" value="snd.documentImport"/>
                     <property name="protocolName" value="SND document import"/>

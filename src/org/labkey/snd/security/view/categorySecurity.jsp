@@ -150,7 +150,7 @@
     }
 </style>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
     function setRole(group, category, role) {
         document.getElementById(group + '_' + category).value = role;
