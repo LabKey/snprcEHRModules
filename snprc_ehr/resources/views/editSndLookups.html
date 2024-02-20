@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=scriptNonce%>">
 
     Ext4.onReady(function (){
 
@@ -10,8 +10,8 @@
             sections:  [{
                 header: 'SND Lookups (Coded Procs)',
                 items: [
-                    {name: 'Lookup Sets', url: '<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName=snd&query.queryName=LookupSets' },
-                    {name: 'Lookup Set Items', url: '<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName=snd&query.queryName=Lookups' }
+                    {name: 'Lookup Sets', url: '<%=contextPath%><%=containerPath%>/ehr-updateTable.view?schemaName=snd&query.queryName=LookupSets' },
+                    {name: 'Lookup Set Items', url: '<%=contextPath%><%=containerPath%>/ehr-updateTable.view?schemaName=snd&query.queryName=Lookups' }
                  ]
              }]
         })
