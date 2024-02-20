@@ -35,7 +35,7 @@
 
 <div id="ehr-lookuptables"></div>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
     section = document.getElementById("ehr-lookuptables");
 
@@ -71,7 +71,7 @@
                 colWidth: 330,
                 renderer: function(item){
                     var cfg = {
-                        html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
+                        html: '<a href="<%=contextPath%><%=containerPath%>/ehr-updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
                         style: 'padding-left:5px;padding-bottom:8px'
                     };
 
@@ -124,7 +124,7 @@
                 colWidth: 330,
                 renderer: function(item){
                     var cfg = {
-                        html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
+                        html: '<a href="<%=contextPath%><%=containerPath%>/ehr-updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
                         style: 'padding-left:5px;padding-bottom:8px'
                     };
 
@@ -166,7 +166,7 @@
                 colWidth: 340,
                 renderer: function(item){
                     var cfg = {
-                        html: '<a href="<%=contextPath%>/ehr<%=containerPath%>/updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
+                        html: '<a href="<%=contextPath%><%=containerPath%>/ehr-updateTable.view?schemaName='+item.schemaName+'&query.queryName='+item.queryName+'">'+item.title+'</a>',
                         style: 'padding-left:5px;padding-bottom:8px'
                     };
 

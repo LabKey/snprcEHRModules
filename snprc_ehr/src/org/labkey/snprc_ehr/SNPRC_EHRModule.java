@@ -62,11 +62,11 @@ import org.labkey.snprc_ehr.demographics.ActiveCasesDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ActiveFlagsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.BirthDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.LastBcsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.LastBcsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.LastHousingDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.MhcSummaryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.ParentsDemographicsProvider;
@@ -83,8 +83,8 @@ import org.labkey.snprc_ehr.history.DefaultDepartureDataSource;
 import org.labkey.snprc_ehr.history.DefaultPregnanciesDataSource;
 import org.labkey.snprc_ehr.history.DefaultTreatmentOrdersDataSource;
 import org.labkey.snprc_ehr.history.DietDataSource;
-import org.labkey.snprc_ehr.history.LabworkType;
 import org.labkey.snprc_ehr.history.LabworkDataSource;
+import org.labkey.snprc_ehr.history.LabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
@@ -201,28 +201,28 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerDemographicsProvider(new LastHousingDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new LastBcsDemographicsProvider(this));
 
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Commonly Used Queries");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Population Summary By Species, Gender and Age", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=colonyPopulationByAge"), "Other Searches");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Find Animals Housed At The Center Over A Date Range", this, DetailsURL.fromString("/ehr/housingOverlaps.view?groupById=1"), "Other Searches");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.protocol, "View All Active Protocols", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Protocol&query.viewName=Active Protocols"), "Quick Links");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.protocol, "View All Protocols With Active Assignments", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Protocol&query.viewName=Protocols With Active Assignments"), "Quick Links");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr-housingOverlaps.view?groupById=1"), "Commonly Used Queries");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Population Summary By Species, Gender and Age", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=colonyPopulationByAge"), "Other Searches");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Find Animals Housed At The Center Over A Date Range", this, DetailsURL.fromString("/ehr-housingOverlaps.view?groupById=1"), "Other Searches");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.protocol, "View All Active Protocols", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=ehr&query.queryName=Protocol&query.viewName=Active Protocols"), "Quick Links");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.protocol, "View All Protocols With Active Assignments", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=ehr&query.queryName=Protocol&query.viewName=Protocols With Active Assignments"), "Quick Links");
 
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.project, "View Active Projects", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=ehr&query.queryName=Project&query.viewName=Active Projects"), "Quick Links");
 
         // Add to moreReports here
-        //EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
-        //EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Due/Overdue TB Report", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=overdueTb"), "Colony Management");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Search Apath History", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=apathHistoryReport"), "Pathololgy");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Overall Behavior Report", this, DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=BehaviorReport"), "Behavior");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Birth Record Report", this, DetailsURL.fromString("/snprc_ehr/BirthReport.view?"), "Colony Management");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi New Positives Report",this,DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=ReportTcruziNewPositives"),"Surveillance");
-        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi Summary Report",this,DetailsURL.fromString("/query/executeQuery.view?schemaName=study&query.queryName=ReportTcruziSummaryAll"),"Surveillance");
+        //EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Listing of Cages", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=ehr_lookups&query.queryName=cage"), "Colony Management");
+        //EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Mature Female Exposed To Fertile Male", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=ehr&query.queryName=animalExposure"), "Colony Management");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Due/Overdue TB Report", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=overdueTb"), "Colony Management");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Search Apath History", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=apathHistoryReport"), "Pathololgy");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Overall Behavior Report", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=BehaviorReport"), "Behavior");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Birth Record Report", this, DetailsURL.fromString("/snprc_ehr-BirthReport.view"), "Colony Management");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi New Positives Report",this,DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=ReportTcruziNewPositives"),"Surveillance");
+        EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "T cruzi Summary Report",this,DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=ReportTcruziSummaryAll"),"Surveillance");
 
         // Add the current date to the chimp observation report
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
         String date = format.format( new Date());
-        String reportString = "/query/executeQuery.view?schemaName=study&query.queryName=DailyObs&query.viewName=DailyChimpObs&query.date~dateeq=" + date;
+        String reportString = "/query-executeQuery.view?schemaName=study&query.queryName=DailyObs&query.viewName=DailyChimpObs&query.date~dateeq=" + date;
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.moreReports, "Chimp Observation Report", this,
                 DetailsURL.fromString( reportString), "Clinical");
 
