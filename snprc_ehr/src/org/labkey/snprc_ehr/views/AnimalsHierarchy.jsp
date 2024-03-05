@@ -32,7 +32,7 @@
     HtmlString contextPath = getContextPath();
 %>
 
-<script>
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
     Date.prototype.format = function (format) {
         if (Date.formatFunctions[format] == null) {
@@ -116,7 +116,7 @@
 </style>
 
 <div id="app-js-container"></div>
-<script>
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
     Ext4.onReady(function () {
         Ext4.tip.QuickTipManager.init();
