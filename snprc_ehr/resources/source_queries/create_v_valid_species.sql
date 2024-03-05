@@ -23,13 +23,14 @@ AS
 --
 -- 2/1/2016 Added blood draw related columns. tjh
 -- 11/14/2016  added modified, modifiedby, created, and createdby columns + code cleanup tjh
+-- 2/19/2024 trimmed white space from common name and scientific name fields. SysAid Incident #16419
 -- ==========================================================================================
 
 SELECT
   vs.tid                           AS rowid,
   vs.species_code,
-  vs.common_name                   AS common,
-  vs.scientific_name,
+  ltrim(rtrim(vs.common_name))     AS common,
+  ltrim(rtrim(vs.scientific_name)) AS scientific_name,
   vs.arc_species_code,
   avs.primate,
   avs.common_name                  AS arc_common_name,
