@@ -13,6 +13,7 @@ interface Props {
 export const SndEventsWidget: FC<Props> = memo((props: Props) => {
     const {filterConfig, hasPermission} = props;
     const [subjectIds, setSubjectIds] = useState<string[]>(['']);
+    const [successMessage, setSuccessMessage] = useState<string>(undefined);
 
     useEffect(() => {
         (async () => {
@@ -25,6 +26,11 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
 
     const handleEnter = (e) => {
         setSubjectIds(e.target.value.split(";"))
+    }
+
+    const handleUpdateSuccess = (message: string) => {
+        setSuccessMessage(message);
+        window.setTimeout(() => setSuccessMessage(undefined), 10000);
     }
 
     const form = () => {
@@ -61,8 +67,11 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
             {hasPermission && subjectIds[0] === 'none' && (
                 <Alert>No animals were found for filter selections</Alert>
             )}
+            {successMessage && (
+                <Alert bsStyle="success" >{successMessage}</Alert>
+            )}
             {hasPermission && subjectIds && (
-                <EventListingGridPanel subjectIDs={subjectIds} />
+                <EventListingGridPanel subjectIDs={subjectIds} onChange={handleUpdateSuccess}/>
             )}
 
         </div>

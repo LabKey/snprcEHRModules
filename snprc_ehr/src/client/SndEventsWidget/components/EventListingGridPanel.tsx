@@ -14,11 +14,12 @@ import { ProcedureEntryModal } from './ProcedureEntryModal';
 import { AdmissionInfoPopover } from './AdmissionInfoPopover';
 
 interface EventListingProps {
-    subjectIDs: string[]
+    subjectIDs: string[],
+    onChange: (message: string) => any
 }
 
 export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: EventListingProps & InjectedQueryModels) => {
-    const { subjectIDs, actions, queryModels } = props;
+    const { subjectIDs, actions, queryModels, onChange } = props;
 
     const [showDialog, setShowDialog] = useState<string>('');
     const [eventID, setEventID] = useState<string>('');
@@ -93,6 +94,16 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         toggleDialog('edit');
     };
 
+    const handleCloseUpdateModal = (message?: string) => {
+        if (message) {
+            actions.loadModel(subjectIDs[0])
+            closeDialog();
+            onChange(message);
+        } else {
+            closeDialog();
+        }
+    }
+
     const editButtonRenderer = (data, row) => {
         return (
             <div>
@@ -118,8 +129,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
     const renderButtons = () => {
         return (
             <div className="manage-buttons">
-                {/*{<Button disabled={subjectIDs.length != 1} bsStyle={'success'} onClick={() => toggleDialog('create')} >*/}
-                {<Button disabled={true} bsStyle={'success'} onClick={() => toggleDialog('create')} >
+                {<Button disabled={true /*subjectIDs.length != 1*/} bsStyle={'success'} onClick={() => toggleDialog('create')} >
                     New
                 </Button>}
             </div>
@@ -145,13 +155,14 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                 />
             )}
             {showDialog === 'edit' && (
-                <ProcedureEntryModal onCancel={closeDialog}
+                <ProcedureEntryModal onCancel={handleCloseUpdateModal}
+                                     onSuccess={handleCloseUpdateModal}
                                      eventId={eventID}
                                      show={showDialog === 'edit'}
                 />
             )}
             {showDialog === 'create' && (
-                <ProcedureEntryModal show={showDialog === 'create'} onCancel={closeDialog} subjectId={subjectIDs[0]}/>
+                <ProcedureEntryModal show={showDialog === 'create'} onCancel={closeDialog} onSuccess={handleCloseUpdateModal} subjectId={subjectIDs[0]}/>
             )}
 
         </div>
