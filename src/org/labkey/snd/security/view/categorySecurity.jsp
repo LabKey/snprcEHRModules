@@ -28,6 +28,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.Objects" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
@@ -76,7 +77,7 @@
         {
             policy = SecurityPolicyManager.getPolicy(category);
             policyRoles = policy.getAssignedRoles(gr);
-            if (policyRoles.size() > 0)
+            if (!policyRoles.isEmpty())
             {
                 currentRoleName = null;
                 for (Role policyRole : policyRoles)
@@ -88,14 +89,7 @@
                     }
                 }
 
-                if (currentRoleName != null)
-                {
-                    roleNameMap.put(gr.getUserId(), currentRoleName);
-                }
-                else
-                {
-                    roleNameMap.put(gr.getUserId(), "None");
-                }
+                roleNameMap.put(gr.getUserId(), Objects.requireNonNullElse(currentRoleName, "None"));
             }
             else
             {
@@ -198,6 +192,7 @@
             <tbody>
                 <td class="category-title">All Categories</td>
                 <%
+                    int id = 1;
                     for (Group g : validGroups)
                     {
                 %>
@@ -207,11 +202,13 @@
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a onclick="return setAllInGroup(<%=g.getUserId()%>, 'None')">None</a>
+                                        <% addHandler("setAllInGroup" + id, "click", "return setAllInGroup(" + g.getUserId() + ", 'None')"); %>
+                                        <a id='setAllInGroup<%=id++%>'>None</a>
                                     </li>
                                     <% for (Role role : roles.values()) {
+                                        addHandler("setAllInGroup" + id, "click", "return setAllInGroup(" + g.getUserId() + ", " + q(role.getName()) + ")");
                                     %><li>
-                                        <a onclick="return setAllInGroup(<%=g.getUserId()%>, '<%=h(role.getName())%>')"><%=h(role.getName())%></a>
+                                        <a id='setAllInGroup<%=id++%>'><%=h(role.getName())%></a>
                                 </li><%
                                 }
                             %></ul></div></td>
@@ -232,11 +229,13 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a onclick="return setRole(<%=group.getUserId()%>, <%=category.getCategoryId()%>, 'None')">None</a>
+                                        <% addHandler("setRole" + id, "click", "return setRole(" + group.getUserId() + ", " + category.getCategoryId() + ", 'None')"); %>
+                                        <a id='setRole<%=id++%>'>None</a>
                                     </li>
                                 <% for (Role role : roles.values()) {
+                                    addHandler("setRole" + id, "click", "return setRole(" + group.getUserId() + ", " + category.getCategoryId() + ", " + q(role.getName()) + ")");
                                     %><li>
-                                        <a onclick="return setRole(<%=group.getUserId()%>, <%=category.getCategoryId()%>, '<%=h(role.getName())%>')"><%=h(role.getName())%></a>
+                                        <a id='setRole<%=id++%>'><%=h(role.getName())%></a>
                                     </li><%
                                 }
                                 %></ul></div></td><%
@@ -252,6 +251,5 @@
         <%= button("Cancel").href(urlFor(AdminAction.class)) %>
 
     </labkey:form>
-
 
 </labkey:panel>
