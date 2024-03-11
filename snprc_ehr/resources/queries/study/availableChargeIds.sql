@@ -6,14 +6,15 @@ PARAMETERS (
 -- Research Charge IDs
 SELECT
     CAST(p.project AS VARCHAR(40)) AS admitProjectId,
-    p.project AS projectId,
-    sp.projectType AS projectType,
+    p.project AS ehrProjectId,
+    sp.projectType AS sndProjectType,
+    sp.ObjectId AS sndProjectObjectId,
     0 AS admitId,
     sp.description AS projectText,
     GREATEST (p.startDate, aaa.date, sp.startDate) AS startDate,
     LEAST (p.endDate, TIMESTAMPADD('SQL_TSI_DAY', 1, aaa.endDate), TIMESTAMPADD('SQL_TSI_DAY', 1, sp.endDate), NOW()) AS endDate,
-    sp.projectId AS projectId,
-    sp.revisionNum AS revisionNum
+    sp.projectId AS sndProjectId,
+    sp.revisionNum AS sndRevisionNum
 FROM ehr.project AS p
          INNER JOIN snd.projects AS sp ON p.project = sp.referenceId
          INNER JOIN study.assignment aaa ON p.protocol = aaa.protocol AND aaa.assignmentStatus IN ( 'A', 'S')
@@ -24,14 +25,15 @@ WHERE aaa.id = ANIMAL_ID
 UNION
 SELECT DISTINCT
     CAST(p.project AS varchar(40)) AS admitProjectId,
-    p.project AS projectId,
-    sp.projectType AS projectType,
+    p.project AS ehrProjectId,
+    sp.projectType AS sndProjectType,
+    sp.ObjectId AS sndProjectObjectId,
     0 AS admitId,
     sp.description AS projectText,
     GREATEST (p.startDate, sp.startDate) AS startDate,
     LEAST (p.endDate, TIMESTAMPADD('SQL_TSI_DAY', 1, sp.endDate), NOW()) AS endDate,
-    sp.projectId AS projectId,
-    sp.revisionNum AS revisionNum
+    sp.projectId AS sndProjectId,
+    sp.revisionNum AS sndRevisionNum
 FROM snprc_ehr.validChargeBySpecies AS vcbs
          INNER JOIN ehr.project AS p ON p.project = vcbs.project
          INNER JOIN study.demographics AS d ON d.id = ANIMAL_ID
@@ -43,14 +45,15 @@ WHERE d.id = ANIMAL_ID AND vcbs.species = d.species.arc_species_code
 UNION
 SELECT DISTINCT
     CAST(c.caseid AS varchar(40)) AS admitProjectId,
-    p.project AS projectId,
-    sp.projectType AS projectType,
+    p.project AS ehrProjectId,
+    sp.projectType AS sndProjectType,
+    sp.ObjectId AS sndProjectObjectId,
     c.caseid AS admitId,
     c.problem + '/' + c.admitcomplaint AS projectText,
     GREATEST (c.date, sp.startDate) AS startDate,
     LEAST (c.enddate, TIMESTAMPADD('SQL_TSI_DAY', 1, sp.endDate), NOW()) AS endDate,
-    sp.projectId AS projectId,
-    sp.revisionNum AS revisionNum
+    sp.projectId AS sndProjectId,
+    sp.revisionNum AS sndRevisionNum
 FROM study.cases AS c
          INNER JOIN study.demographics AS d ON c.id = ANIMAL_ID
          INNER JOIN snprc_ehr.validChargeBySpecies AS vcbs ON c.id = ANIMAL_ID AND vcbs.species = d.species.arc_species_code
