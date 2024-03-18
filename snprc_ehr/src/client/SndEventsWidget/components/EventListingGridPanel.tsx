@@ -111,10 +111,10 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
     const editButtonRenderer = (data, row) => {
         return (
             <div>
-            <span>{data.get('value')} </span>
-            <button className={"pencil-btn"} onClick={function() { handleClick(row.get('EventId').get('value')) }}>
-                <i className={"fa fa-pencil"}></i>
-            </button>
+                <span>{data.get('value')} </span>
+                <button className={"pencil-btn"} onClick={function() { handleClick(row.get('EventId').get('value')) }}>
+                    <i className={"fa fa-pencil"}></i>
+                </button>
             </div>
         );
     }
