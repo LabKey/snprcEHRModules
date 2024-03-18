@@ -5,12 +5,13 @@ import { Alert } from '@labkey/components';
 interface Props {
     show: boolean,
     onCancel: () => any,
-    onSuccess: (message) => any,
+    onComplete: (message, status) => any,
+    onError: (message) => any,
     eventId?: string,
     subjectId?: string
 }
 export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
-    const { show, onCancel, onSuccess, eventId, subjectId } = props;
+    const { show, onCancel, onComplete, onError, eventId, subjectId } = props;
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -24,8 +25,8 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
             } else if (subjectId) {
                 ProcedureEntryWidget.setAttribute('data-subject-id', subjectId)
             }
-            window.addEventListener('saveEventSuccess', handleSaveEventSuccess);
-
+            window.addEventListener('saveEventComplete', handleSaveEventComplete);
+            window.addEventListener('widgetDataError', handleWidgetDataError);
         }
 
         const handleBodyClick = (event: Event) => {
@@ -35,8 +36,12 @@ export const ProcedureEntryModal: FC<Props> = memo((props: Props) => {
             }
         };
 
-        const handleSaveEventSuccess = (event) => {
-            onSuccess(event.detail.message);
+        const handleSaveEventComplete = (event) => {
+            onComplete(event.detail.message, event.detail.status);
+        }
+
+        const handleWidgetDataError = (event) => {
+            onError(event.detail.message);
         }
 
         document.body.addEventListener('click', handleBodyClick);

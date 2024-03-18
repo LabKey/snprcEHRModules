@@ -13,7 +13,8 @@ interface Props {
 export const SndEventsWidget: FC<Props> = memo((props: Props) => {
     const {filterConfig, hasPermission} = props;
     const [subjectIds, setSubjectIds] = useState<string[]>(['']);
-    const [successMessage, setSuccessMessage] = useState<string>(undefined);
+    const [message, setMessage] = useState<string>(undefined);
+    const [status, setStatus] = useState<string>(undefined);
 
     useEffect(() => {
         (async () => {
@@ -28,9 +29,15 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
         setSubjectIds(e.target.value.split(";"))
     }
 
-    const handleUpdateSuccess = (message: string) => {
-        setSuccessMessage(message);
-        window.setTimeout(() => setSuccessMessage(undefined), 10000);
+    const handleError = (message: string) => {
+        setMessage(message);
+        window.setTimeout(() => setMessage(undefined), 30000);
+    }
+
+    const handleUpdateResponse = (message: string, status: string) => {
+        setMessage(message);
+        setStatus(status)
+        window.setTimeout(() => setMessage(undefined), 30000);
     }
 
     const form = () => {
@@ -67,11 +74,11 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
             {hasPermission && subjectIds[0] === 'none' && (
                 <Alert>No animals were found for filter selections</Alert>
             )}
-            {successMessage && (
-                <Alert bsStyle="success" >{successMessage}</Alert>
+            {message && (
+                <Alert bsStyle={status} >{message}</Alert>
             )}
             {hasPermission && subjectIds && (
-                <EventListingGridPanel subjectIDs={subjectIds} onChange={handleUpdateSuccess}/>
+                <EventListingGridPanel subjectIDs={subjectIds} onChange={handleUpdateResponse} onError={handleError}/>
             )}
 
         </div>
