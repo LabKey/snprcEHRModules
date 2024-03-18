@@ -20,7 +20,7 @@ interface EventListingProps {
 }
 
 export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: EventListingProps & InjectedQueryModels) => {
-    const { subjectIDs, actions, queryModels, onChange, onError } = props;
+    const {subjectIDs, actions, queryModels, onChange, onError} = props;
 
     const [showDialog, setShowDialog] = useState<string>('');
     const [eventID, setEventID] = useState<string>('');
@@ -32,22 +32,22 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                 const {queryInfo} = queryModels[subjectIDs[0]];
                 if (queryInfo) {
                     const queryCols = new ExtendedMap<string, QueryColumn>();
-                    queryInfo.columns.forEach( (column, key) => {
+                    queryInfo.columns.forEach((column, key) => {
                         if ((column.name === 'HTMLNarrative')) {
-                            const htmlCol = new QueryColumn({...column, ...{"cell": htmlRenderer}});
+                            const htmlCol = new QueryColumn({...column, ...{'cell': htmlRenderer}});
                             queryCols.set(key, htmlCol);
                         } else if ((column.name === 'SubjectId')) {
-                            const editCol = new QueryColumn({...column, ...{"cell": editButtonRenderer}});
+                            const editCol = new QueryColumn({...column, ...{'cell': editButtonRenderer}});
                             queryCols.set(key, editCol);
                         } else if ((column.name === 'AdmitChargeId')) {
-                            const admitCol = new QueryColumn({...column, ...{"cell": admitChargeIdPopoverRenderer}});
+                            const admitCol = new QueryColumn({...column, ...{'cell': admitChargeIdPopoverRenderer}});
                             queryCols.set(key, admitCol);
                         } else {
                             queryCols.set(key, column);
                         }
                     });
 
-                    const newQueryInfo = new QueryInfo({...queryInfo, ...{"columns": queryCols}});
+                    const newQueryInfo = new QueryInfo({...queryInfo, ...{'columns': queryCols}});
 
                     // Update QueryModel with new QueryInfo
                     setQueryModel(
@@ -57,7 +57,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                     );
                 }
             }
-        })()
+        })();
 
     }, [queryModels[subjectIDs[0]]]);
 
@@ -85,9 +85,9 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
 
     const htmlRenderer = (data) => {
         return (
-            <div dangerouslySetInnerHTML={{__html: data.get('value')}} />
+            <div dangerouslySetInnerHTML={{__html: data.get('value')}}/>
         );
-    }
+    };
 
     const handleClick = (value) => {
         // Code to run when the button is clicked
@@ -97,7 +97,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
 
     const handleCloseUpdateModal = (message?: string, status?: string) => {
         if (message && status) {
-            actions.loadModel(subjectIDs[0])
+            actions.loadModel(subjectIDs[0]);
             closeDialog();
             onChange(message, status);
         } else if (message) {
@@ -106,26 +106,28 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         } else {
             closeDialog();
         }
-    }
+    };
 
     const editButtonRenderer = (data, row) => {
         return (
             <div>
                 <span>{data.get('value')} </span>
-                <button className={"pencil-btn"} onClick={function() { handleClick(row.get('EventId').get('value')) }}>
-                    <i className={"fa fa-pencil"}></i>
+                <button className={'pencil-btn'} onClick={function () {
+                    handleClick(row.get('EventId').get('value'));
+                }}>
+                    <i className={'fa fa-pencil'}></i>
                 </button>
             </div>
         );
-    }
+    };
 
     const admitChargeIdPopoverRenderer = (data, row) => {
         const admitChargeId = data.get('value');
         const eventId = row.get('EventId').get('value');
         return (
-            <AdmissionInfoPopover admitChargeId={admitChargeId} eventId={eventId} />
-        )
-    }
+            <AdmissionInfoPopover admitChargeId={admitChargeId} eventId={eventId}/>
+        );
+    };
 
     /**
      * Render the custom buttons that will be displayed on the grid
@@ -133,7 +135,8 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
     const renderButtons = () => {
         return (
             <div className="manage-buttons">
-                {<Button disabled={subjectIDs.length != 1} bsStyle={'success'} onClick={() => toggleDialog('create')} >
+                {<Button disabled={true /*subjectIDs.length != 1*/} bsStyle={'success'}
+                         onClick={() => toggleDialog('create')}>
                     New
                 </Button>}
             </div>
@@ -144,7 +147,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         <div>
             {queryModel?.queryInfo && (
                 <GridPanel model={queryModel}
-                           title={"Events for Animal(s) " + subjectIDs.join(', ')}
+                           title={'Events for Animal(s) ' + subjectIDs.join(', ')}
                            actions={actions}
                            highlightLastSelectedRow={true}
                            showPagination={true}
@@ -175,13 +178,13 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
             )}
 
         </div>
-    )
+    );
 });
 
 const EventListingGridPanelWithModels = withQueryModels<EventListingProps>(EventListingGridPanelImpl);
 
-export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventListingProps ) => {
-    const { subjectIDs } = props;
+export const EventListingGridPanel: FC<EventListingProps> = memo((props: EventListingProps) => {
+    const {subjectIDs} = props;
 
     const queryConfigs: QueryConfigMap = useMemo(
         () => ({
