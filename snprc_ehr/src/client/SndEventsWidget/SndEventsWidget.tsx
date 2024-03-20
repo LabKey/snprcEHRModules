@@ -31,6 +31,7 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
 
     const handleError = (message: string) => {
         setMessage(message);
+        setStatus("danger");
         window.setTimeout(() => setMessage(undefined), 30000);
     };
 
