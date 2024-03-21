@@ -2300,14 +2300,13 @@ public class SNDManager
 
         for (AttributeData attributeData : eventData.getAttributes())
         {
-            if (attributeData.getPropertyName() != null)
+            propertyDescriptor = OntologyManager.getPropertyDescriptor(attributeData.getPropertyId());
+
+            if (propertyDescriptor == null)
             {
-                propertyDescriptor = OntologyManager.getPropertyDescriptor(PackageDomainKind.getDomainURI(
-                        SNDSchema.NAME, PackageDomainKind.getPackageKindName(), c, u) + "-" + pkgId + "#" + attributeData.getPropertyName(), c);
-            }
-            else
-            {
-                propertyDescriptor = OntologyManager.getPropertyDescriptor(attributeData.getPropertyId());
+               propertyDescriptor = OntologyManager.getPropertyDescriptor(PackageDomainKind.getDomainURI(
+                        SNDSchema.NAME, PackageDomainKind.getPackageKindName(), c, u) + "-" + pkgId + "#" +
+                        attributeData.getPropertyName().replaceAll("\\s", "+"), c);
             }
 
             if (propertyDescriptor != null)
@@ -2326,6 +2325,11 @@ public class SNDManager
                 {
                     OntologyManager.insertProperties(c, u, null, objectProperty);
                 }
+            }
+            else
+            {
+                // property descriptor not found
+                throw new ValidationException("Property descriptor not found for attribute: " + attributeData.getPropertyName());
             }
         }
 
