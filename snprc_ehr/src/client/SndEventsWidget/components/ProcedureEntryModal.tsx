@@ -1,6 +1,5 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Alert } from '@labkey/components';
 
 interface Props {
     show: boolean,

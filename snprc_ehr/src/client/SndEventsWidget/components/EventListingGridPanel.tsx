@@ -103,8 +103,6 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         } else if (message) {
             closeDialog();
             onError(message);
-        } else {
-            closeDialog();
         }
     };
 
@@ -162,7 +160,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                 />
             )}
             {showDialog === 'edit' && (
-                <ProcedureEntryModal onCancel={handleCloseUpdateModal}
+                <ProcedureEntryModal onCancel={closeDialog}
                                      onError={handleCloseUpdateModal}
                                      onComplete={handleCloseUpdateModal}
                                      eventId={eventID}
