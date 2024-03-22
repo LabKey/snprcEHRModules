@@ -2306,7 +2306,7 @@ public class SNDManager
             {
                propertyDescriptor = OntologyManager.getPropertyDescriptor(PackageDomainKind.getDomainURI(
                         SNDSchema.NAME, PackageDomainKind.getPackageKindName(), c, u) + "-" + pkgId + "#" +
-                        attributeData.getPropertyName().replaceAll("\\s", "+"), c);
+                        Lsid.encodePart(attributeData.getPropertyName()), c);
             }
 
             if (propertyDescriptor != null)
