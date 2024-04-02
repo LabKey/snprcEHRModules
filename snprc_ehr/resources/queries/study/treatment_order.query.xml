@@ -61,7 +61,8 @@
                         <fk>
                             <fkDbSchema>ehr_lookups</fkDbSchema>
                             <fkTable>treatment_frequency</fkTable>
-                            <fkColumnName>short_name</fkColumnName>
+                            <fkColumnName>rowid</fkColumnName>
+                            <fkDisplayColumnName>shortname</fkDisplayColumnName>
                         </fk>
                     </column>
                     <column columnName="route">
