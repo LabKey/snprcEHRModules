@@ -48,6 +48,59 @@ LDK.Utils.splitIds = function (subjects, unsorted) {
 
 
 Ext4.override(EHR.panel.SnapshotPanel, {
+    initComponent: function(){
+        Ext4.apply(this, {
+            defaults: {
+                border: false
+            },
+            items: this.getItems()
+        });
+
+        this.callParent();
+
+        let anmId;
+
+        if (this.subjectId){
+            anmId = this.subjectId;
+            this.isLoading = true;
+            this.setLoading(true);
+            this.loadData();
+        }
+
+        this.on('afterrender', function() {
+
+            var mhcSummaryDisplayField = this.down('#mhcSummary');
+            if (mhcSummaryDisplayField && mhcSummaryDisplayField.getEl()) {
+
+                var mhcAnchor = mhcSummaryDisplayField.getEl('mhcSummaryLink');
+
+                if (mhcAnchor) {
+                    Ext4.get(mhcAnchor).on('click', function(e) {
+                        e.preventDefault();
+                        if (anmId) {
+                            SNPRC_EHR.Utils.showMhcPopup(anmId, this);
+                        }
+                    });
+                }
+            }
+            var flagsDisplayField = this.down('#flags');
+            if (mhcSummaryDisplayField && mhcSummaryDisplayField.getEl()) {
+
+                var flagsAnchor = mhcSummaryDisplayField.getEl('flagsLink');
+
+                if (flagsAnchor) {
+                    Ext4.get(flagsAnchor).on('click', function(e) {
+                        e.preventDefault();
+                        if (anmId) {
+                            SNPRC_EHR.Utils.showFlagPopup(anmId, this);
+                        }
+                    });
+                }
+            }
+
+        }, this);
+    },
+
     appendParentageResults: function (toSet, results) {
 
         if (results) {
@@ -342,7 +395,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                     items: [{
                         xtype: 'displayfield',
                         fieldLabel: 'Flags',
-                        name: 'flags'
+                        name: 'flags',
+                        itemId: 'flags'
                     }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Last TB Date',
@@ -366,7 +420,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
     },
     appendMhcSummary: function (toSet, results) {
         if (results) {
-            toSet['mhcSummary'] = '<a onclick="SNPRC_EHR.Utils.showMhcPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
+            toSet['mhcSummary'] = '<a id="mhcSummaryLink">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
         }
         else {
             toSet['mhcSummary'] = ''
@@ -403,7 +457,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }
         }
 
-        toSet['flags'] = values.length ? '<a onclick="SNPRC_EHR.Utils.showFlagPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' + values.join('<br>') + '</div>' : null;
+        toSet['flags'] = values.length ? '<a id="flagsLink">' + values.join('<br>') + '</div>' : null;
     },
 
     getExtendedItems: function () {
@@ -436,7 +490,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         width: 350,
                         fieldLabel: 'MHC Summary',
-                        name: 'mhcSummary'
+                        name: 'mhcSummary',
+                        itemId: 'mhcSummary'
                     }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Birth',
