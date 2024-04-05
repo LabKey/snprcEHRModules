@@ -2450,7 +2450,9 @@
         <tableTitle>Medication Frequencies</tableTitle>
         <pkColumnName>RowId</pkColumnName>
         <columns>
-            <column columnName="RowID"/>
+            <column columnName="RowID">
+                <nullable>true</nullable>
+            </column>
             <column columnName="frequency"/>
             <column columnName="description"/>
             <column columnName="isActive"/>
@@ -2459,14 +2461,18 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+            </column>
         </columns>
     </table>
     <table tableName="therapy_resolutions" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Therapy Resolutions</tableTitle>
         <pkColumnName>RowId</pkColumnName>
         <columns>
-            <column columnName="RowID"/>
+            <column columnName="RowID">
+                <nullable>true</nullable>
+            </column>
             <column columnName="resolution"/>
             <column columnName="isActive"/>
             <column columnName="Container"/>
@@ -2474,14 +2480,18 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+            </column>
         </columns>
     </table>
     <table tableName="therapy_routes" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Medication Routes</tableTitle>
         <pkColumnName>RowId</pkColumnName>
         <columns>
-            <column columnName="RowID"/>
+            <column columnName="RowID">
+                <nullable>true</nullable>
+            </column>
             <column columnName="route"/>
             <column columnName="description"/>
             <column columnName="isActive"/>
@@ -2490,14 +2500,18 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+            </column>
         </columns>
     </table>
     <table tableName="therapy_units" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Medication Units</tableTitle>
         <pkColumnName>RowId</pkColumnName>
         <columns>
-            <column columnName="RowID"/>
+            <column columnName="RowID">
+                <nullable>true</nullable>
+            </column>
             <column columnName="units"/>
             <column columnName="description"/>
             <column columnName="isActive"/>
@@ -2506,14 +2520,18 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+            </column>
         </columns>
     </table>
     <table tableName="therapy_formulary" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Valid Drug List</tableTitle>
         <pkColumnName>RowId</pkColumnName>
         <columns>
-            <column columnName="RowID"/>
+            <column columnName="RowID">
+                <nullable>true</nullable>
+            </column>
             <column columnName="drug"/>
             <column columnName="dose"/>
             <column columnName="route">
@@ -2548,7 +2566,9 @@
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
             <column columnName="ModifiedBy"/>
-            <column columnName="ObjectId"/>
+            <column columnName="ObjectId">
+                <nullable>true</nullable>
+            </column>
         </columns>
     </table>
 </tables>
