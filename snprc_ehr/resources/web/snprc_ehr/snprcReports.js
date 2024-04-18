@@ -568,7 +568,8 @@ EHR.reports.SndEvents = function (panel, tab) {
                     filterConfig: JSON.stringify({
                         filters: tab.filters
                     }),
-                    hasPermission: userPermsInfo.container.effectivePermissions.includes('org.labkey.api.security.permissions.AdminPermission')
+                    hasReadPermission: userPermsInfo.container.effectivePermissions.includes('org.labkey.snd.security.permissions.SNDViewerPermission'),
+                    hasWritePermission: userPermsInfo.container.effectivePermissions.includes('org.labkey.snd.security.permissions.SNDEditorPermission')
                 }
 
                 const wp = new LABKEY.WebPart({

@@ -1,6 +1,6 @@
 import React, { FC, memo, useRef, useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
-import { getTableRow } from '../actions';
+import { getTableRow } from '../actions/actions';
 
 interface Props {
     admitChargeId: string,
