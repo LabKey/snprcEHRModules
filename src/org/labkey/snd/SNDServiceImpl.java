@@ -336,7 +336,7 @@ public class SNDServiceImpl implements SNDService
     {
         BatchValidationException errors = new BatchValidationException();
 
-        Event event = SNDManager.get().getEvent(c, u, eventId, narrativeOptions, null, false, errors);
+        Event event = SNDManager.get().getEvent(c, u, eventId, narrativeOptions, false, errors);
 
         if (errors.hasErrors())
             throw new ApiUsageException(errors);
