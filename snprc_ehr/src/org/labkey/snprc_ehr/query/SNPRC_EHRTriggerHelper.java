@@ -49,6 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class SNPRC_EHRTriggerHelper
@@ -336,6 +337,31 @@ public class SNPRC_EHRTriggerHelper
                 throw new RuntimeSQLException(e);
             }
         }
+    }
+
+    /**
+     * Auto-generate the next RowId for therapy related tables in the snprc_ehr schema
+     *
+     * @return int
+     */
+    public int getNextTherapyId(String tableName)
+    {
+        Set<String> validTableNames
+                = Set.of("therapy_formulary", "therapy_frequency", "therapy_resolutions", "therapy_routes", "therapy_units");
+
+        if (!validTableNames.contains(tableName)) {
+            return -1;
+        }
+
+        DbSchema schema = SNPRC_EHRSchema.getInstance().getSchema();
+        SQLFragment sql = new SQLFragment("SELECT MAX(tn.RowId) AS maxRowId  FROM ");
+        sql.append(getTableInfo("snprc_ehr", tableName), "tn");
+        SqlSelector sqlSelector = new SqlSelector(schema, sql);
+
+        Integer rowId = sqlSelector.getObject(Integer.class);
+
+        // if table has been truncated - reseed the RowId to 1
+        return (rowId == null) ? 1 : rowId + 1;
     }
 
 }
