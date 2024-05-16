@@ -23,6 +23,7 @@ ALTER VIEW [labkey_etl].[V_VALID_ACCOUNTS] AS
 -- Create date: 3/3/2016
 -- Changes:
 -- 11/14/2016  added modified, modifiedby, created, and createdby columns tjh
+-- 5/16/2016   check for blanks in description column tjh
 -- ==========================================================================================
 
 SELECT
@@ -30,7 +31,7 @@ SELECT
   va.status                        AS accountStatus,
   va.ori_date                      AS date,
   va.close_date                    AS enddate,
-  CASE WHEN va.description IS NULL
+  CASE WHEN va.description IS NULL OR LTRIM(va.description) = ''
     THEN 'Description is missing'
   ELSE va.description END          AS description,
   CASE WHEN va.account_group IS NULL
@@ -46,7 +47,6 @@ FROM dbo.valid_accounts AS va
   LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = va.object_id
 
 GO
-
 
 GRANT SELECT ON labkey_etl.V_VALID_ACCOUNTS TO z_labkey
 
