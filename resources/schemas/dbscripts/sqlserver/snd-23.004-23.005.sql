@@ -1,7 +1,7 @@
 EXEC core.fn_dropifexists 'fGetAllSuperPkgs', 'snd', 'function';
 go
 
-CREATE FUNCTION [snd].[fGetAllSuperPkgs]
+CREATE FUNCTION snd.fGetAllSuperPkgs
 ()
 RETURNS @expandedSuperPackages TABLE
 (
@@ -77,3 +77,4 @@ DEALLOCATE @loopCursor;
 
        RETURN;
 END;
+GO
