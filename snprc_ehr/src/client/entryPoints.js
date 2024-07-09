@@ -41,7 +41,6 @@ module.exports = {
         {
             name: 'SndEventsWidgetWebpart',
             title: 'Animal Events Webpart',
-            permission: 'read',
             path: './src/client/SndEventsWidget/webpart',
             generateLib: true
         }
