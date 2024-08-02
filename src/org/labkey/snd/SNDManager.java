@@ -4044,14 +4044,12 @@ public class SNDManager
 
             addExtraFieldsToEventData(eventData, eventDataExtraFields, extraFields);
 
-            boolean isEmptyEventDataAndHasChildPackages =
+            boolean hasEmptySubpackages =
                     includeEmptySubPackages
-                    &&
-                    !originalEventDataIds.contains(eventData.getEventDataId())
                     &&
                     !superPackagesByEventDataId.get(eventData.getEventDataId()).getChildPackages().isEmpty();
 
-            Map<Integer, Map<Integer, SuperPackage>> nextLevelSuperPkgs = getNextLevelEventDataSuperPkgs(eventData, childEventData, currentLevelSuperPkgs, includeEmptySubPackages, isEmptyEventDataAndHasChildPackages);
+            Map<Integer, Map<Integer, SuperPackage>> nextLevelSuperPkgs = getNextLevelEventDataSuperPkgs(eventData, childEventData, currentLevelSuperPkgs, includeEmptySubPackages, hasEmptySubpackages);
 
             if (nextLevelSuperPkgs != null && !nextLevelSuperPkgs.isEmpty()) {
                 // Recursion for next child level of sub packages
