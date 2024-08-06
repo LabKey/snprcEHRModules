@@ -3658,7 +3658,7 @@ public class SNDManager
     {
         UserSchema schema = getSndUserSchema(c, u);
 
-        SQLFragment sql = new SQLFragment("SELECT pi.ProjectItemId, pi.superPkgId, p.pkgId, p.description, p.modified, p.narrative FROM ");
+        SQLFragment sql = new SQLFragment("SELECT pi.ProjectItemId, pi.superPkgId, pi.Active, p.pkgId, p.description, p.modified, p.narrative FROM ");
         sql.append(schema.getTable(SNDSchema.PROJECTITEMS_TABLE_NAME, null, true, false), "pi");
         sql.append(" JOIN ");
         sql.append(schema.getTable(SNDSchema.PROJECTS_TABLE_NAME, null, true, false), "pr");
@@ -4044,14 +4044,12 @@ public class SNDManager
 
             addExtraFieldsToEventData(eventData, eventDataExtraFields, extraFields);
 
-            boolean isEmptyEventDataAndHasChildPackages =
+            boolean hasEmptySubpackages =
                     includeEmptySubPackages
-                    &&
-                    !originalEventDataIds.contains(eventData.getEventDataId())
                     &&
                     !superPackagesByEventDataId.get(eventData.getEventDataId()).getChildPackages().isEmpty();
 
-            Map<Integer, Map<Integer, SuperPackage>> nextLevelSuperPkgs = getNextLevelEventDataSuperPkgs(eventData, childEventData, currentLevelSuperPkgs, includeEmptySubPackages, isEmptyEventDataAndHasChildPackages);
+            Map<Integer, Map<Integer, SuperPackage>> nextLevelSuperPkgs = getNextLevelEventDataSuperPkgs(eventData, childEventData, currentLevelSuperPkgs, includeEmptySubPackages, hasEmptySubpackages);
 
             if (nextLevelSuperPkgs != null && !nextLevelSuperPkgs.isEmpty()) {
                 // Recursion for next child level of sub packages
@@ -4187,7 +4185,7 @@ public class SNDManager
             eventDataSuperPkgIds = new ArrayList<>();
         }
 
-        AtomicInteger emptyEventDataId = new AtomicInteger(0);
+        AtomicInteger emptyEventDataId = new AtomicInteger(0); 
 
         if (includeEmptySubPackages && nextLevelEventDataSuperPkgs.containsKey(eventData.getEventId())) {
             childSuperPkgs.values().stream()
