@@ -1113,6 +1113,9 @@
                                 else if (LABKEY.Utils.isObject(result)) {
                                     finish(undefined, result);
                                 }
+                                else if (json?.event?.exception?.message) {
+                                    finish('Test "' + test.name + '" failed. ' + json.event.exception.message);
+                                }
                                 else {
                                     finish('Test "' + test.name + '" failed. Test should specify a reason for failure or return true.');
                                 }
