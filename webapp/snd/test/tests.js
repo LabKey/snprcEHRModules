@@ -692,7 +692,8 @@
             name: 'Delete Event: Correct permission. Data admin role.',
             roles: ['org.labkey.api.security.roles.ReaderRole',
                 'org.labkey.api.security.roles.EditorRole',
-                'org.labkey.snd.security.roles.SNDDataAdminRole'],
+                'org.labkey.snd.security.roles.SNDDataAdminRole',
+                'org.labkey.snd.security.roles.SNDViewerRole'],
             run : function()
             {
                 return{

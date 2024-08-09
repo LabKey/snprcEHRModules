@@ -29,7 +29,6 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
-import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.roles.Role;
 import org.labkey.snd.query.AttributeDataTable;
 import org.labkey.snd.query.CategoriesTable;
@@ -44,6 +43,7 @@ import org.labkey.snd.query.PackageAttributeTable;
 import org.labkey.snd.query.PackagesTable;
 import org.labkey.snd.query.ProjectsTable;
 import org.labkey.snd.query.SuperPackagesTable;
+import org.labkey.snd.security.permissions.SNDViewerPermission;
 
 import java.util.Collections;
 import java.util.Map;
@@ -136,7 +136,11 @@ public class SNDUserSchema extends SimpleUserSchema implements UserSchema.HasCon
                     @Override
                     public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        return new EventsTable(schema, SNDSchema.getInstance().getTableInfoEvents(), cf).init();
+                        if (schema.getContainer().hasPermission(schema.getUser(), SNDViewerPermission.class, schema.getContextualRoles()))
+                        {
+                            return new EventsTable(schema, SNDSchema.getInstance().getTableInfoEvents(), cf).init();
+                        }
+                        return null;
                     }
                 },
         EventNotes
@@ -144,7 +148,7 @@ public class SNDUserSchema extends SimpleUserSchema implements UserSchema.HasCon
                     @Override
                     public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        if (schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class, schema.getContextualRoles()))
+                        if (schema.getContainer().hasPermission(schema.getUser(), SNDViewerPermission.class, schema.getContextualRoles()))
                         {
                             return new EventNotesTable(schema, SNDSchema.getInstance().getTableInfoEventNotes(), cf).init();
                         }
@@ -157,7 +161,7 @@ public class SNDUserSchema extends SimpleUserSchema implements UserSchema.HasCon
                     @Override
                     public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        if (schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class, schema.getContextualRoles()))
+                        if (schema.getContainer().hasPermission(schema.getUser(), SNDViewerPermission.class, schema.getContextualRoles()))
                         {
                             return new EventDataTable(schema, SNDSchema.getInstance().getTableInfoEventData(), cf).init();
                         }
@@ -170,7 +174,7 @@ public class SNDUserSchema extends SimpleUserSchema implements UserSchema.HasCon
                     @Override
                     public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        if (schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class, schema.getContextualRoles()))
+                        if (schema.getContainer().hasPermission(schema.getUser(), SNDViewerPermission.class, schema.getContextualRoles()))
                         {
                             return new AttributeDataTable(schema, cf);
                         }
@@ -183,7 +187,7 @@ public class SNDUserSchema extends SimpleUserSchema implements UserSchema.HasCon
                     @Override
                     public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        if (schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class, schema.getContextualRoles()))
+                        if (schema.getContainer().hasPermission(schema.getUser(), SNDViewerPermission.class, schema.getContextualRoles()))
                         {
                             return new PackageAttributeTable(schema, cf);
                         }
@@ -212,7 +216,7 @@ public class SNDUserSchema extends SimpleUserSchema implements UserSchema.HasCon
                     @Override
                     public TableInfo createTable(SNDUserSchema schema, ContainerFilter cf)
                     {
-                        if (schema.getContainer().hasPermission(schema.getUser(), AdminPermission.class, schema.getContextualRoles()))
+                        if (schema.getContainer().hasPermission(schema.getUser(), SNDViewerPermission.class, schema.getContextualRoles()))
                         {
                             return new EventsCacheTable(schema, SNDSchema.getInstance().getTableInfoEventsCache(), cf).init();
                         }

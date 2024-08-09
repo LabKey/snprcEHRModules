@@ -42,11 +42,13 @@ import org.labkey.snd.pipeline.SNDDataHandler;
 import org.labkey.snd.security.roles.SNDBasicSubmitterRole;
 import org.labkey.snd.security.roles.SNDDataAdminRole;
 import org.labkey.snd.security.roles.SNDDataReviewerRole;
+import org.labkey.snd.security.roles.SNDEditorRole;
 import org.labkey.snd.security.roles.SNDPackageEditorRole;
 import org.labkey.snd.security.roles.SNDPackageViewerRole;
 import org.labkey.snd.security.roles.SNDProjectEditorRole;
 import org.labkey.snd.security.roles.SNDProjectViewerRole;
 import org.labkey.snd.security.roles.SNDReaderRole;
+import org.labkey.snd.security.roles.SNDViewerRole;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -97,6 +99,8 @@ public class SNDModule extends SpringModule
         RoleManager.registerRole(new SNDPackageEditorRole(), true);
         RoleManager.registerRole(new SNDProjectViewerRole(), true);
         RoleManager.registerRole(new SNDProjectEditorRole(), true);
+        RoleManager.registerRole(new SNDViewerRole(), true);
+        RoleManager.registerRole(new SNDEditorRole(), true);
 
     }
 

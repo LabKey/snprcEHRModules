@@ -560,7 +560,8 @@
                 name: 'Valid Save Event with super package and trigger unit type conversion',
                 roles: ['org.labkey.api.security.roles.ReaderRole',
                     'org.labkey.api.security.roles.EditorRole',
-                    'org.labkey.snd.security.roles.SNDBasicSubmitterRole'],
+                    'org.labkey.snd.security.roles.SNDBasicSubmitterRole',
+                    'org.labkey.snd.security.roles.SNDEditorRole'],
                 jsonData: {
                     eventId: 1800001,
                     subjectId: "2",
@@ -1677,7 +1678,8 @@
                 name: 'Failed Insert Event: Wrong permissions. Reader inserting Completed event.',
                 roles: ['org.labkey.api.security.roles.ReaderRole',
                     'org.labkey.api.security.roles.EditorRole',
-                    'org.labkey.snd.security.roles.SNDReaderRole'],
+                    'org.labkey.snd.security.roles.SNDReaderRole',
+                    'org.labkey.snd.security.roles.SNDEditorRole'],
                 jsonData: {
                     eventId: 1800007,
                     subjectId: "25",
@@ -1714,7 +1716,8 @@
                 name: 'Failed Update Event: Wrong permission. Basic submitter updating to rejected',
                 roles: ['org.labkey.api.security.roles.ReaderRole',
                     'org.labkey.api.security.roles.EditorRole',
-                    'org.labkey.snd.security.roles.SNDBasicSubmitterRole'],
+                    'org.labkey.snd.security.roles.SNDBasicSubmitterRole',
+                    'org.labkey.snd.security.roles.SNDEditorRole'],
                 jsonData: {
                     eventId: 1800008,
                     subjectId: "25",
@@ -1751,7 +1754,8 @@
                 name: 'Failed Insert Event: Wrong permission. Reviewer inserting In Progress data.',
                 roles: ['org.labkey.api.security.roles.ReaderRole',
                     'org.labkey.api.security.roles.EditorRole',
-                    'org.labkey.snd.security.roles.SNDDataReviewerRole'],
+                    'org.labkey.snd.security.roles.SNDDataReviewerRole',
+                    'org.labkey.snd.security.roles.SNDEditorRole'],
                 jsonData: {
                     eventId: 1800008,
                     subjectId: "25",
