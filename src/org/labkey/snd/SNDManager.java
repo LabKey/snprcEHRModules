@@ -2941,6 +2941,52 @@ public class SNDManager
         }
     }
 
+    public Event deleteEvent(Container c, User u, Event event) {
+
+        if (!event.hasErrors()) {
+            UserSchema schema = getSndUserSchemaAdminRole(c, u);
+            TableInfo eventTable = getTableInfo(schema, SNDSchema.EVENTS_TABLE_NAME);
+            QueryUpdateService eventQus = getQueryUpdateService(eventTable);
+
+            BatchValidationException errors = new BatchValidationException();
+
+            try (DbScope.Transaction tx = eventTable.getSchema().getScope().ensureTransaction())
+            {
+                deleteEventDatas(c, u, event.getEventId());
+                deleteEventNotes(c, u, event.getEventId());
+                deleteEventsCache(c, u, event.getEventId());
+                NarrativeAuditProvider.addAuditEntry(c, u, event.getEventId(), event.getSubjectId(), event.getDate(), "", event.getQcState(), "Delete event");
+
+                Map<String, Object> row;
+                List<Map<String, Object>> rows = new ArrayList<>();
+                row = new HashMap<>();
+                row.put("EventId", event.getEventId());
+                rows.add(row);
+                eventQus.deleteRows(u, c, rows, null, null);
+
+                tx.commit();
+
+            } catch (QueryUpdateServiceException | BatchValidationException | SQLException | InvalidKeyException e) {
+
+                event.setException(new ValidationException(e.getMessage(), ValidationException.SEVERITY.ERROR));
+
+            } finally
+            {
+                if (errors.hasErrors())
+                {
+                    event.addBatchValidationExceptions(errors);
+                }
+                // Errors, warnings and info are embedded in the event so don't override
+                else if (!event.hasErrorsWarningsOrInfo())
+                {
+                    event = getEvent(c, u, event.getEventId(), null, null, true, errors);
+                }
+            }
+        }
+
+        return event;
+    }
+
     /**
      * Called from SNDService.saveEvent to update an existing event.
      */
