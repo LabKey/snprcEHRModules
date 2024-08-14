@@ -348,7 +348,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, name + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, name + " - Stack Trace");
                         return false;
                     }
                 }
@@ -563,7 +563,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, name + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, name + " - Stack Trace");
                         return false;
                     }
                 }
@@ -586,7 +586,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, name + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, name + " - Stack Trace");
                         return false;
                     }
                 }
@@ -630,7 +630,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, name + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, name + " - Stack Trace");
                         return false;
                     }
                 }
@@ -655,7 +655,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, name + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, name + " - Stack Trace");
                         return false;
                     }
                 }
@@ -692,7 +692,8 @@
             name: 'Delete Event: Correct permission. Data admin role.',
             roles: ['org.labkey.api.security.roles.ReaderRole',
                 'org.labkey.api.security.roles.EditorRole',
-                'org.labkey.snd.security.roles.SNDDataAdminRole'],
+                'org.labkey.snd.security.roles.SNDDataAdminRole',
+                'org.labkey.snd.security.roles.SNDViewerRole'],
             run : function()
             {
                 return{
@@ -713,7 +714,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, name + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, name + " - Stack Trace");
                         return false;
                     }
                 }
@@ -782,7 +783,7 @@
                             return true;
                         }
 
-                        LABKEY.handleFailure(response, test + " - Stack Trace");
+                        LABKEY.handleSndFailure(response, test + " - Stack Trace");
                         return false;
                     }
                 };

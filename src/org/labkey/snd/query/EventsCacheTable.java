@@ -22,10 +22,10 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.UserPrincipal;
-import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.Permission;
 import org.labkey.snd.SNDUserSchema;
 import org.labkey.api.snd.PlainTextNarrativeDisplayColumn;
+import org.labkey.snd.security.permissions.SNDViewerPermission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class EventsCacheTable extends SimpleUserSchema.SimpleTable<SNDUserSchema
     @Override
     public boolean hasPermission(@NotNull UserPrincipal user, @NotNull Class<? extends Permission> perm)
     {
-        return getContainer().hasPermission(user, AdminPermission.class, getUserSchema().getContextualRoles());
+       return getContainer().hasPermission(user, SNDViewerPermission.class, getUserSchema().getContextualRoles());
     }
 
     @Override
