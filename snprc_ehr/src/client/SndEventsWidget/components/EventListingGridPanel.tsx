@@ -12,15 +12,17 @@ import { SCHEMAS } from '../schemas';
 import { produce } from 'immer';
 import { ProcedureEntryModal } from './ProcedureEntryModal';
 import { AdmissionInfoPopover } from './AdmissionInfoPopover';
+import { DeleteModal } from './DeleteModal';
 
 interface EventListingProps {
     subjectIDs: string[],
     onChange: (message: string, status: string) => any,
-    onError: (message: string) => any
+    onError: (message: string) => any,
+    hasWritePermission: boolean
 }
 
 export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: EventListingProps & InjectedQueryModels) => {
-    const {subjectIDs, actions, queryModels, onChange, onError} = props;
+    const {subjectIDs, actions, queryModels, onChange, onError, hasWritePermission} = props;
 
     const [showDialog, setShowDialog] = useState<string>('');
     const [eventID, setEventID] = useState<string>('');
@@ -89,10 +91,14 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         );
     };
 
-    const handleClick = (value) => {
+    const handleClick = (value, isDelete: boolean) => {
         // Code to run when the button is clicked
         setEventID(value.toString());
-        toggleDialog('edit');
+        if (isDelete) {
+            toggleDialog('delete');
+        } else {
+            toggleDialog('edit');
+        }
     };
 
     const handleCloseUpdateModal = (message?: string, status?: string) => {
@@ -110,11 +116,20 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
         return (
             <div>
                 <span>{data.get('value')} </span>
-                <button className={'pencil-btn'} onClick={function () {
-                    handleClick(row.get('EventId').get('value'));
-                }}>
-                    <i className={'fa fa-pencil'}></i>
-                </button>
+                {hasWritePermission && (
+                    <button className={'pencil-btn'} title="Edit" onClick={function () {
+                        handleClick(row.get('EventId').get('value'), false);
+                    }}>
+                        <i className={'fa fa-pencil'}></i>
+                    </button>
+                )}
+                {hasWritePermission && (
+                    <button className={'trash-btn'} title="Delete" onClick={function () {
+                        handleClick(row.get('EventId').get('value'), true);
+                    }}>
+                        <i className={'fa fa-trash'}></i>
+                    </button>
+                )}
             </div>
         );
     };
@@ -133,7 +148,7 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
     const renderButtons = () => {
         return (
             <div className="manage-buttons">
-                {<Button disabled={true /*subjectIDs.length != 1*/} bsStyle={'success'}
+                {<Button disabled={!hasWritePermission || subjectIDs.length != 1 || subjectIDs[0] == ""} bsStyle={'success'}
                          onClick={() => toggleDialog('create')}>
                     New
                 </Button>}
@@ -173,6 +188,12 @@ export const EventListingGridPanelImpl: FC<EventListingProps> = memo((props: Eve
                                      onError={handleCloseUpdateModal}
                                      onComplete={handleCloseUpdateModal}
                                      subjectId={subjectIDs[0]}/>
+            )}
+            {showDialog === 'delete' && (
+                <DeleteModal onCancel={closeDialog}
+                             onComplete={handleCloseUpdateModal}
+                             onError={handleCloseUpdateModal}
+                             eventId={eventID}/>
             )}
 
         </div>
