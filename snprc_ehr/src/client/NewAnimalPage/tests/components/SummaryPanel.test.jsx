@@ -3,6 +3,11 @@ import { shallow } from 'enzyme'
 import SummaryPanel from '../../components/SummaryPanel'
 import NewAnimalState from '../../constants/NewAnimalState'
 
+jest.mock('moment', () => {
+  const moment = jest.requireActual('moment')('2023-01-01T00:00:00.000Z');
+  return () => moment.utc(0);
+});
+
 describe('AcquisitionPanel tests', () => {
   test('Should render the SummaryPanel', () => {
     const { newAnimalData } = new NewAnimalState()
@@ -22,6 +27,7 @@ describe('AcquisitionPanel tests', () => {
   test('Should render the SummaryPanel for multiple acquisitions', () => {
     const newAnimalData = {
       ...(NewAnimalState().newAnimalData),
+      isNonPrimate: true,
       species: { value: 'HAM', arcSpeciesCode: 'MA' }
     }
 

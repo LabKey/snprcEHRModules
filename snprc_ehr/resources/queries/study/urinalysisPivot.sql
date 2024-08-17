@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 SELECT
-  b.Id,
-  b.date,
-  b.runId,
-  b.panelName,
-  b.TestName,
-  MAX(b.result) as results
+    b.Id,
+    b.date,
+    b.panelName,
+    b.TestName,
+    b.remark,
+    MAX(b.result) as results,
+    GROUP_CONCAT(b.abnormal_flags) as abnormal_flags
 
 FROM urinalysisPivotInner b
 
-GROUP BY b.runid,b.id, b.date, b.TestName, b.panelName
+GROUP BY b.id, b.date, b.TestName, b.panelName, b.remark
 
-PIVOT results BY TestName IN
+    PIVOT results, abnormal_flags BY TestName IN
 (select TestName from snprc_ehr.labwork_panels t
 where t.includeInPanel = true AND t.ServiceId.Dataset='Urinalysis'
 )

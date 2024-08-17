@@ -15,15 +15,22 @@
  */
 package org.labkey.snprc_ehr.notification;
 
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.util.ByteArrayDataSource;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.util.IOUtils;
@@ -40,13 +47,6 @@ import org.labkey.api.util.MailHelper;
 import org.labkey.api.util.UnexpectedException;
 import org.labkey.snprc_ehr.SNPRC_EHRModule;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -160,51 +160,51 @@ public abstract class AbstractSSRSNotification implements Notification
             String authHeader = "Basic " + new String(encodedAuth, "ISO-8859-1");
             request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
 
-            HttpClient client = HttpClientBuilder.create().build();
-            HttpResponse resp = client.execute(request);
-
-            if( null == resp )
-                throw new IOException("No response from SSRS server.");
-
-            if( resp.getStatusLine().getStatusCode() != HttpStatus.SC_OK )
-                throw new IOException("Server response: " + resp.getStatusLine().getStatusCode());
-
-            Header contentTypeHeader = resp.getFirstHeader("Content-Type");
-            if( null == contentTypeHeader || !contentTypeHeader.getValue().equals(_format.getMimeType()))
-                throw new IOException("Content-Type not found or incorrect. Expecting '" + _format.getMimeType() + "' but was '" + (contentTypeHeader == null ? "null" : contentTypeHeader.getValue()) + "'.");
-
-            HttpEntity entity = resp.getEntity();
-
-            try(InputStream is = entity.getContent())
+            try (CloseableHttpClient client = HttpClientBuilder.create().build(); CloseableHttpResponse resp = client.execute(request))
             {
-                byte[] data = IOUtils.toByteArray(is);
+                if (null == resp)
+                    throw new IOException("No response from SSRS server.");
 
-                if(data.length == 0)
-                    throw new IOException("Empty report received from SSRS, URL was " + ssrsReportURL);
+                if (resp.getCode() != HttpStatus.SC_OK)
+                    throw new IOException("Server response: " + resp.getCode());
 
-                // Text body part
-                MimeBodyPart textBodyPart = new MimeBodyPart();
-                textBodyPart.setText(getMessageBodyHTML(c, u), null, "html");
+                Header contentTypeHeader = resp.getFirstHeader("Content-Type");
+                if (null == contentTypeHeader || !contentTypeHeader.getValue().equals(_format.getMimeType()))
+                    throw new IOException("Content-Type not found or incorrect. Expecting '" + _format.getMimeType() + "' but was '" + (contentTypeHeader == null ? "null" : contentTypeHeader.getValue()) + "'.");
 
-                // PDF body part
-                DataSource dataSource = new ByteArrayDataSource(data, _format.getMimeType());
-                MimeBodyPart pdfBodyPart = new MimeBodyPart();
-                pdfBodyPart.setDataHandler(new DataHandler(dataSource));
-                pdfBodyPart.setFileName(FileUtil.makeFileNameWithTimestamp(_subject, _format.getExtension()));
+                HttpEntity entity = resp.getEntity();
 
-                // Mime multi part
-                MimeMultipart mimeMultipart = new MimeMultipart();
-                mimeMultipart.addBodyPart(textBodyPart);
-                mimeMultipart.addBodyPart(pdfBodyPart);
+                try (InputStream is = entity.getContent())
+                {
+                    byte[] data = IOUtils.toByteArray(is);
 
-                // Construct message
-                MailHelper.MultipartMessage message = MailHelper.createMultipartMessage();
-                message.setContent(mimeMultipart);
-                return message;
-            }
-            catch (MessagingException e)
-            {
-                throw new UnexpectedException(e);
+                    if (data.length == 0)
+                        throw new IOException("Empty report received from SSRS, URL was " + ssrsReportURL);
+
+                    // Text body part
+                    MimeBodyPart textBodyPart = new MimeBodyPart();
+                    textBodyPart.setText(getMessageBodyHTML(c, u), null, "html");
+
+                    // PDF body part
+                    DataSource dataSource = new ByteArrayDataSource(data, _format.getMimeType());
+                    MimeBodyPart pdfBodyPart = new MimeBodyPart();
+                    pdfBodyPart.setDataHandler(new DataHandler(dataSource));
+                    pdfBodyPart.setFileName(FileUtil.makeFileNameWithTimestamp(_subject, _format.getExtension()));
+
+                    // Mime multi part
+                    MimeMultipart mimeMultipart = new MimeMultipart();
+                    mimeMultipart.addBodyPart(textBodyPart);
+                    mimeMultipart.addBodyPart(pdfBodyPart);
+
+                    // Construct message
+                    MailHelper.MultipartMessage message = MailHelper.createMultipartMessage();
+                    message.setContent(mimeMultipart);
+                    return message;
+                }
+                catch (MessagingException e)
+                {
+                    throw new UnexpectedException(e);
+                }
             }
         }
         catch (URISyntaxException | IOException e)

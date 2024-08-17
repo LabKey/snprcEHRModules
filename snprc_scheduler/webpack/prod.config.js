@@ -1,16 +1,16 @@
-const path = require("path");
-const webpack = require("webpack");
+const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, '..'),
 
-    mode: "production",
+    mode: 'production',
 
     devtool: 'source-map',
 
     entry: {
-        'app': [
+        app: [
             './src/client/app.js',
             './src/client/styles/style.js'
         ]
@@ -24,30 +24,16 @@ module.exports = {
     module: {
         rules: [{
             test: /\.jsx?$/,
-            loaders: [{
+            use: [{
                 loader: 'babel-loader',
                 options: {
-                    cacheDirectory: true
+                    cacheDirectory: true,
                 }
             }]
         },
         {
             test: /\.css$/,
-            use: [
-                {
-                    loader: MiniCssExtractPlugin.loader
-                },
-                'css-loader'
-            ]
-        },
-        {
-            test: /style.js/,
-            loaders: [{
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true
-                }
-            }]
+            use: [MiniCssExtractPlugin.loader, 'css-loader']
         }]
     },
     resolve: {

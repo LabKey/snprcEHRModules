@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml" standalone="true">
+    <name>_SNPRC HL7 Demographics</name>
+    <description>Demographics data used by HL7 processes</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="study" queryName="DemographicsHL7" />
+            <destination schemaName="snprc_ehr" queryName="HL7_demographics" bulkLoad="true" batchSize="5000" targetOption="merge">
+                <alternateKeys>
+                    <column name="objectid"/>
+                </alternateKeys>
+            </destination>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified">
+        <deletedRowsSource schemaName="study" queryName="DemographicsHL7DeleteSource" timestampColumnName="modified" deletedSourceKeyColumnName="objectId" targetKeyColumnName="objectid"/>
+    </incrementalFilter>
+    <schedule>
+        <poll interval="60m" />
+    </schedule>
+</etl>

@@ -23,9 +23,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
-
 ALTER VIEW [labkey_etl].[v_snd_attributeData]
 AS
 -- ==========================================================================================
@@ -38,26 +35,26 @@ AS
 -- 05/13/19  Added a REPLACE to numeric/decimal CAST
 --           Purpose is to handle numeric data with commas (',') ~line 59  srr
 -- 03/23/2021 Recent changes to dataintegration require the Key column to have the underscore prefix. tjh
+-- 04/23/2024 Lookup values need to be string values by default. tjh
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
-  cp.ANIMAL_EVENT_ID               AS EventId,
-  sp.PKG_ID                        AS PkgId,
-  -- snd.EventData columns
-  cp.PROC_ID                       AS EventDataId,
-  sp.SUPER_PKG_ID                  AS SuperPkgId,
-  pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
-  cpa.value AS value,
+    cp.ANIMAL_EVENT_ID               AS EventId,
+        sp.PKG_ID                        AS PkgId,
+       -- snd.EventData columns
+       cp.PROC_ID                       AS EventDataId,
+       sp.SUPER_PKG_ID                  AS SuperPkgId,
+       pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
+       cpa.value AS value,
   -- exp.ObjectProperty columns
-  ltrim(rtrim(cpa.ATTRIB_KEY)) AS [_KEY],
+  LTRIM(RTRIM(cpa.ATTRIB_KEY)) AS [_KEY],
 
-  CASE WHEN (LOWER(pa.DATA_TYPE) = 'numeric' OR
-    LOWER(pa.DATA_TYPE) = 'decimal')
+  CASE WHEN ( (LOWER(pa.DATA_TYPE) = 'numeric' OR LOWER(pa.DATA_TYPE) = 'decimal') ) AND pa.LOOKUP_KEY IS NULL
     THEN CAST (REPLACE(cpa.value,',','') AS FLOAT ) ELSE NULL END AS FloatValue,
 
-  CASE WHEN LOWER(pa.DATA_TYPE) = 'string'
+  CASE WHEN LOWER(pa.DATA_TYPE) = 'string' OR pa.LOOKUP_KEY IS NOT NULL
     THEN cpa.value ELSE NULL END AS StringValue,
 
-  CASE WHEN (LOWER(pa.DATA_TYPE)) = 'string' THEN 's' ELSE 'f' END AS TypeTag,
+  CASE WHEN ( (LOWER(pa.DATA_TYPE)) = 'string' OR pa.LOOKUP_KEY IS NOT NULL) THEN 's' ELSE 'f' END AS TypeTag,
 
 cp.OBJECT_ID AS objectId,
 ( SELECT MAX(v) FROM ( VALUES (cp.timestamp), (cpa.timestamp)) AS VALUE (v)) AS TIMESTAMP
@@ -72,13 +69,11 @@ INNER JOIN dbo.SUPER_PKGS AS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 INNER JOIN dbo.PKGS AS p ON p.PKG_ID = sp.PKG_ID
 INNER JOIN dbo.PKG_ATTRIBS AS pa ON pa.PKG_ID = p.PKG_ID AND pa.ATTRIB_KEY = cpa.ATTRIB_KEY
 
-
 -- select primates only from the TxBiomed colony
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID
 WHERE LTRIM(RTRIM(cpa.VALUE)) <> '' AND  cpa.VALUE IS NOT NULL
 
 ORDER BY EventDataId
-
 GO
 
 GRANT SELECT ON Labkey_etl.v_snd_attributeData TO z_labkey

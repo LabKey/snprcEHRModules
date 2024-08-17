@@ -9,12 +9,14 @@ pregnancyHistory	Reproductive Management	query	Pregnancy History	true		study	pre
 CycleDaily	Reproductive Management	query	Cycle History	true		study	CycleDaily			date	false	false			Contains daily estrous cycle readings
 activeAssignments	Assignments and Groups	query	Active Assignments	true		study	Assignment	Active Assignments		date	false	false		qcstate/publicdata	This report shows the active assignments for each animal
 assignmentHistory	Assignments and Groups	query	Assignment History	true		study	Assignment			date	false	false		qcstate/publicdata	This report shows all assignments records for the animals
-biochemistry	Lab Results	query	Biochemistry	true		study	chemPivot			date	false	false			Contains results of chemistry panels.  Can be displayed either by panel, or showing reference ranges
+biochemistry	Lab Results	query	Biochemistry	true		snprc_ehr	HL7BiochemistryPivot			date	false	false			Contains results of chemistry panels.  Can be displayed either by panel, or showing reference ranges
 clinPathRuns	Lab Results	query	Requests	true		study	clinpathRunsALL			date	false	false		qcstate/publicdata	Contains all clinpath requests
-hematology	Lab Results	query	Hematology	true		study	hematologyPivot			date	false	false			Contains hematology data showing cell subsets
-surveillance	Lab Results	query	Surveillance	true		study	surveillancePivot			date	false	false			Contains surveillance data
-urinalysis	Lab Results	query	Urinalysis	true		study	urinalysisPivot			date	false	false			Contains urinalysis results
-miscTests	Lab Results	query	Misc Tests	true		study	miscPivot			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
+hematology	Lab Results	query	Hematology	true		snprc_ehr	Hl7hematologyPivot			date	false	false			Contains hematology data showing cell subsets
+surveillance	Lab Results	query	Surveillance	true		snprc_ehr	HL7surveillancePivot			date	false	false			Contains surveillance data
+urinalysis	Lab Results	query	Urinalysis	true		snprc_ehr	HL7urinalysisPivot			date	false	false			Contains urinalysis results
+miscTests	Lab Results	query	Misc Tests	true		snprc_ehr	HL7MiscPivot			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
+ParasitologyPivot	Lab Results	query	Parasitology	true		snprc_ehr	HL7ParasitologyPivot			date	false	false			Parasitology data.
+CulturePivot	Lab Results	query	Cultures	true		snprc_ehr	Hl7CulturePivot			date	false	false			Culture data.
 surgery	Surgery	js	Surgeries	true		study	underDevelopment	Surgeries		date	false	false		qcstate/publicdata	This report contains one record for each encounter with each animal, including surgeries, exams, procedures, etc.
 Animal events	Clinical	query	Animal Events	true		study	encounters	encountersHistory		date	false	false		qcstate/publicdata
 Admission History	Clinical	query	Adm History	true		study	cases	admHistory		date	false	false		qcstate/publicdata
@@ -31,8 +33,8 @@ drug	Behavior	js	Behavior Treatments	true		study	underDevelopment	Behavior Treat
 treatments	Clinical	query	Therapies	true		study	Treatment Orders	Therapies		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 diets	General	query	Diet History	true		study	dietHistory	DietHistory		date	false	false		qcstate/publicdata	Contains a list of all orders for treatments
 weight	Colony Management	js	Weights	true		study	weightGraph			date	false	false		qcstate/publicdata	This report contains a summary of the animal\'s weight, including a graph
-clinicalHistory	Clinical	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
-clinicalHistory2	General	js	Clinical History	true		study	clinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory	Clinical	js	Clinical History	true		study	snprcClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
+clinicalHistory2	General	js	Clinical History	true		study	snprcClinicalHistory			date	false	false		qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 fullClinicalHistory	Pathology	js	Clinical History - Full	true		study	fullClinicalHistory			date	false	false	2	qcstate/publicdata	This report contains an overview of the animal\'s clinical history
 birth	Colony Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
 birth2	Reproductive Management	query	Birth Records	true		study	birth				false	false		qcstate/publicdata	Birth records
@@ -53,14 +55,10 @@ idHistory	General	query	ID History	true		study	idHistory			id_date	false	false		
 generalTb	General	query	TB Test Results	true		study	tb			date	false	false			TB Test results
 demographics	General	query	Demographics	true		study	demographics	By Location			false	false		qcstate/publicdata	This report displays the demographics data about each animal including species, gender and birth
 reproSummary	Reproductive Management	js	Reproductive Summary	true		study	underDevelopment			date	false	false		qcstate/publicdata
-menses	Reproductive Management	js	Menses	true		study	underDevelopment			date	false	false		qcstate/publicdata
 freezerworks	General	query	Freezer/Sample Data	true		study	Freezerworks			date	false	false		qcstate/publicdata
 currentBlood	General	js	Current Blood	true		study	currentBlood			date	false	false			This report contains a summary of the current available blood for each animal
 Obscan	Reproductive Management	query	Obscan	true		study	ObScan			date	false	false		qcstate/publicdata
 blood Type	General	query	Blood Type	true		study	BloodType			date	false	false			Contains blood type.
-ParasitologyPivot	Lab Results	query	Parasitology (Non O&P)	true		study	ParasitologyPivot			date	false	false			Parasitology data.
-ParasitologyPivot2	Lab Results	query	Parasitology O&P	true		study	ParasitologyPivotOP			date	false	false			O&P Parasitology data.
-CulturePivot	Lab Results	query	Cultures	true		study	CulturePivot			date	false	false			Culture data.
 Notes	General	query	Notes	true		study	Notes			date	false	false			Contains Misc. Notes
 Flags	Colony Management	query	Animal Attributes (flags)	true		study	flags			StartDate	false	false		qcstate/publicdata	Animal attribute flags
 FileRepository	General	js	File Repository	true		study	FileRepository				false	false		qcstate/publicdata	File Repository for uploading and viewing animal related files
@@ -72,4 +70,5 @@ Research Treatments	Exposures	query	Research Treatments	true		study	ExpResearchT
 Abnormal Behavior	Behavior	query	Abnormal Behavior	true		study	BehaviorAbnormalSummary			Date	false	false		qcstate/publicdata	Abnormal behavoir detail data
 Vaccines	Exposures	query	Vaccines	true		study	ExpVaccines			Date	false	false		qcstate/publicdata	Exposure vaccines data
 Body Condition Score	Clinical	query	Body Condition Score	true		study	BodyConditionScores
+SndEventsWidget	Clinical	js	SND Events	true		study	SndEvents	SndEventsWidgetWebpart		date	false	false		qcstate/publicdata
 Vitals	Clinical	query	Vitals	true		study	vitals			Date	false	false		qcstate/publicdata	Vital signs

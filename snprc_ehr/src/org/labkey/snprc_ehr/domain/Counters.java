@@ -55,7 +55,6 @@ public class Counters
     {
         JSONObject json = new JSONObject();
 
-
         if (getRowId() != null)
             json.put(COUNTERS_ROW_ID, getRowId());
         if (getObjectId() != null)

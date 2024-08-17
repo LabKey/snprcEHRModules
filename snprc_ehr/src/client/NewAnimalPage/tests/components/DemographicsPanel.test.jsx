@@ -4,6 +4,11 @@ import DemographicsPanel from '../../components/DemographicsPanel'
 import NewAnimalState from '../../constants/NewAnimalState'
 import lists from '../fixtures/lists'
 
+jest.mock('moment', () => {
+    const moment = jest.requireActual('moment')('2023-01-01T00:00:00.000Z');
+    return () => moment.utc(0);
+});
+
 test('Should render the DemographicsPanel', () => {
     const { newAnimalData } = new NewAnimalState()
 

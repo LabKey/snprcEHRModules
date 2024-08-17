@@ -313,7 +313,6 @@ public class FeeScheduleExcelParser
             {
                 throw new PipelineJobException("File IO error when closing: " + _importFile.getName(), e);
             }
-
         }
     }
 
@@ -337,7 +336,6 @@ public class FeeScheduleExcelParser
 
         try (DbScope.Transaction trans = scope.ensureTransaction())
         {
-
             for (FeeScheduleDataRow fsi : _feeScheduleMap.values())
             {
                 o.clear();
@@ -352,7 +350,6 @@ public class FeeScheduleExcelParser
                 o.put("VersionLabel", fsi.getVersionLabel());
                 o.put("Created", new Date());
                 o.put("CreatedBy", _user);
-
 
                 for (Map.Entry<String, Double> entry : fsi.getCost().entrySet())
                 {
@@ -373,5 +370,4 @@ public class FeeScheduleExcelParser
             throw new PipelineJobException("Unable to insert into Fee Schedule table. Error: " + e.getMessage());
         }
     }
-
 }

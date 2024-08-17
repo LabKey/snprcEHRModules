@@ -135,8 +135,11 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         defineQCStates();
         setup_sndData();
 
+        // TODO: Removing this as it is not being used. If it is needed when more tests are developed, an LSID will
+        // have to be generated for each row.
+        // (ex. urn:lsid:labkey.com:ExtensibleTable-ehr-protocol.Folder-37:dbe561b9-b00a-102d-8c2a-9926f351b1ae)
         // add ehr extensible columns
-        runScript(SetupScripts.CREATE_EHR_DOMAINS);
+//        runScript(SetupScripts.CREATE_EHR_DOMAINS);
 
         try
         {

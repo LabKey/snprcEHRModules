@@ -243,7 +243,7 @@ class TimelineList extends React.Component {
                     }
                 })
             }
-            else if (selectedTimeline.QcState !== 4) {
+            else if (selectedTimeline.QcStateLabel !== "In Progress") {
                 showAlert({
                     title: 'Delete Error',
                     msg: 'Cannot delete ' + selectedTimeline.Description + ', ' + selectedTimeline.RevisionNum + ', it is not in draft state. ' +
@@ -477,7 +477,7 @@ class TimelineList extends React.Component {
 
                                     // Add keys for any rows not selected
                                     for (const row of revTable.state.data) {
-                                        if (selections.length < 1 || selections[0] !== row.RevisionNum || me.props.selectedTimeline.QcState !== 4) {
+                                        if (selections.length < 1 || selections[0] !== row.RevisionNum || me.props.selectedTimeline.QcStateLabel !== "In Progress") {
                                             nonEdit.push(row.RevisionNum)
                                         }
                                     }

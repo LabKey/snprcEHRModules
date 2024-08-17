@@ -80,6 +80,4 @@ public class AnimalSpecies extends Entity
         json.put("speciesName", this.arcSpeciesCode + " (" + this.getCommon().trim() + ")");
         return json;
     }
-
-
 }

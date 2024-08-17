@@ -7,7 +7,7 @@ exports[`Should render the WrappedDatePicker 1`] = `
   >
     Acquisition Date
   </label>
-  <o
+  <r
     allowSameDay={false}
     customInput={<DatePickerInput />}
     customTimeInput={null}
@@ -18,11 +18,13 @@ exports[`Should render the WrappedDatePicker 1`] = `
     dropdownMode="select"
     enableTabLoop={true}
     excludeScrollbar={true}
+    focusSelectedMonth={false}
     id="date-picker"
-    inlineFocusSelectedMonth={false}
-    maxDate={1970-01-01T00:00:00.000Z}
+    maxDate={2023-01-01T00:00:00.000Z}
     monthsShown={1}
+    nextMonthAriaLabel="Next Month"
     nextMonthButtonLabel="Next Month"
+    nextYearAriaLabel="Next Year"
     nextYearButtonLabel="Next Year"
     onBlur={[Function]}
     onCalendarClose={[Function]}
@@ -38,12 +40,16 @@ exports[`Should render the WrappedDatePicker 1`] = `
     onYearChange={[Function]}
     popperPlacement="bottom"
     preventOpenOnFocus={false}
+    previousMonthAriaLabel="Previous Month"
     previousMonthButtonLabel="Previous Month"
+    previousYearAriaLabel="Previous Year"
     previousYearButtonLabel="Previous Year"
     readOnly={false}
     renderDayContents={[Function]}
-    selected={1970-01-01T00:00:00.000Z}
+    selected={2023-01-01T00:00:00.000Z}
+    selectsDisabledDaysInRange={false}
     shouldCloseOnSelect={true}
+    showFourColumnMonthYearPicker={false}
     showFullMonthYearPicker={false}
     showMonthDropdown={true}
     showMonthYearPicker={false}
@@ -52,6 +58,7 @@ exports[`Should render the WrappedDatePicker 1`] = `
     showQuarterYearPicker={false}
     showTimeInput={false}
     showTimeSelect={true}
+    showTwoColumnMonthYearPicker={false}
     showYearDropdown={true}
     showYearPicker={false}
     strictParsing={false}
@@ -61,6 +68,7 @@ exports[`Should render the WrappedDatePicker 1`] = `
     timeIntervals={30}
     todayButton="Today"
     withPortal={false}
+    yearItemNumber={12}
   />
 </Fragment>
 `;

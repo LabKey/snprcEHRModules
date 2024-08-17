@@ -28,7 +28,8 @@ const NewAnimalState = () => {
             diet: undefined,
             pedigree: undefined,
             iacuc: undefined,
-            sourceLocation: undefined
+            sourceLocation: undefined,
+            isNonPrimate: undefined
         },
         summaryData: [],
         speciesList: [],

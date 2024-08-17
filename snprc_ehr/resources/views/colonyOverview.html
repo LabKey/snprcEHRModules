@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=scriptNonce%>">
 
     Ext4.onReady(function(){
         var webpart = <%=webpartContext%>;
@@ -19,6 +19,20 @@
                     items: [{
                         xtype: 'snprc-colonyusagepanel',
                         filterArray: [LABKEY.Filter.create('species_code', 'PC', LABKEY.Filter.Types.EQUALS)]
+                    }]
+                },{
+                    title: 'Rhesus Colony',
+                    itemId: 'rhesusMonkey',
+                    items: [{
+                        xtype: 'snprc-colonyusagepanel',
+                        filterArray: [LABKEY.Filter.create('species_code', 'MM', LABKEY.Filter.Types.EQUALS)]
+                    }]
+                },{
+                    title: 'Marmoset Colony',
+                    itemId: 'marmoset',
+                    items: [{
+                        xtype: 'snprc-colonyusagepanel',
+                        filterArray: [LABKEY.Filter.create('species_code', 'CJ', LABKEY.Filter.Types.EQUALS)]
                     }]
                 }];
             }

@@ -7,6 +7,8 @@ import BirthRecordReport from '../BirthRecordReport'
 import { request } from '../../Shared/api/api'
 import data from './fixtures/testData'
 
+require("setimmediate")
+
 jest.mock('../../Shared/api/api')
 
 let wrapper

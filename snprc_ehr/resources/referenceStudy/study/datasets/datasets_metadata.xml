@@ -1374,7 +1374,7 @@
                 <datatype>timestamp</datatype>
             </column>
         </columns>
-        <tableTitle>Assignment</tableTitle>
+        <tableTitle>IACUC Assignment</tableTitle>
     </table>
     <table tableName="animal_group_members" tableDbType="TABLE">
         <columns>
@@ -2290,12 +2290,12 @@
                 <isHidden>true</isHidden>
             </column>
             <column columnName="serviceTestId">
-                <datatype>integer</datatype>
+                <datatype>entityid</datatype>
                 <fk>
                     <fkDbSchema>snprc_ehr</fkDbSchema>
                     <fkTable>labwork_panels</fkTable>
-                    <fkColumnName>RowId</fkColumnName>
-                    <fkDisplayColumnName>TestName</fkDisplayColumnName>
+                    <fkColumnName>ObjectId</fkColumnName>
+                    <fkDisplayColumnName>TestId</fkDisplayColumnName>
                 </fk>
             </column>
             <column columnName="testid">
@@ -3103,11 +3103,6 @@
             </column>
             <column columnName="STLV1">
                 <datatype>varchar</datatype>
-            </column>
-            <column columnName="objectid">
-                <datatype>entityid</datatype>
-                <isKeyField>false</isKeyField>
-                <nullable>true</nullable>
             </column>
         </columns>
     </table>

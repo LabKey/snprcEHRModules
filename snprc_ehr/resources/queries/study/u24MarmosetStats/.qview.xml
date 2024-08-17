@@ -1,0 +1,16 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="ageClass"/>
+        <column name="u24_status"/>
+        <column name="available_to_transfer"/>
+        <column name="current_housing_status"/>
+        <column name="infant_history"/>
+        <column name="fertility_status"/>
+        <column name="medical_history"/>
+        <column name="Date"/>
+    </columns>
+    <sorts>
+        <sort column="Id" descending="true" />
+    </sorts>
+</customView>

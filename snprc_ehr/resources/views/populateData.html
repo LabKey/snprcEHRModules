@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=scriptNonce%>">
 
     // NOTE: Unofficial API to import a file.  Eventually, move this to LABKEY.Query or support importing files directly in LABKEY.Query.importRows().
     function importFile(config) {
@@ -390,6 +390,42 @@
                 schemaName: 'ehr_lookups',
                 queryName: 'obscan_reason',
                 pk: 'value'
+            }, {
+                label: 'U24 Status',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'u24_status',
+                pk: 'value'
+            }, {
+                label: 'U24 Current Housing Status',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'u24_current_housing_status',
+                pk: 'value'
+            }, {
+                label: 'U24 Infant History',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'u24_infant_history',
+                pk: 'value'
+            }, {
+                label: 'U24 medical history',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'u24_medical_history',
+                pk: 'value'
+            }, {
+                label: 'U24 Fertility Status',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'u24_fertility_status',
+                pk: 'value'
+            }, {
+                label: 'U24 Available to Transfer',
+                populateFn: 'populateFromFile',
+                schemaName: 'ehr_lookups',
+                queryName: 'u24_available_to_transfer',
+                pk: 'value'
             }
 
         ];
@@ -559,7 +595,7 @@
                 var count = data ? (data.affectedRows || data.deletedRows) : '?';
                 console.log('success deleting ' + count + ' rows: ' + (data ? data.queryName : ' no query'));
                 this.pendingDeletes--;
-                if (this.pendingDeletes == 0) {
+                if (this.pendingDeletes === 0) {
                     document.getElementById('msgbox').innerHTML += '<div>Delete Complete</div>';
                 }
             },
@@ -823,7 +859,7 @@
                     var queryName = result.queryName || config.queryName || config.jsonData.queryName;
                     console.log('Success ' + (result.rowCount !== undefined ? result.rowCount + ' rows: ' : ': ') + queryName);
 
-                    if (this.pendingInserts == 0) {
+                    if (this.pendingInserts === 0) {
                         document.getElementById('msgbox').innerHTML += '<div>Populate Complete</div>';
                     }
                 }
@@ -838,7 +874,7 @@
 
                 document.getElementById('msgbox').innerHTML += '<div class="labkey-error">ERROR: ' + queryName + ': ' + result.exception + '</div>';
 
-                if (this.pendingInserts == 0) {
+                if (this.pendingInserts === 0) {
                     document.getElementById('msgbox').innerHTML += '<div>Populate Complete</div>';
                 }
             }

@@ -250,7 +250,7 @@ EHR.reports.currentBlood = function(panel, tab){
 
     tab.add({
         html: 'This report summarizes the blood available for the animals below.  ' +
-       '<br><br>If there have been recent blood draws for the animal, a graph will show the available blood over time.  On the graph, dots indicate dates when either blood was drawn or a previous blood draw fell off.  The horizontal lines indicate the maximum allowable blood that can be drawn on that date.',
+                '<br><br>If there have been recent blood draws for the animal, a graph will show the available blood over time.  On the graph, dots indicate dates when either blood was drawn or a previous blood draw fell off.  The horizontal lines indicate the maximum allowable blood that can be drawn on that date.',
         border: false,
         style: 'padding-bottom: 20px;'
     });
@@ -312,14 +312,11 @@ EHR.reports.FileRepository =  function(panel,tab) {
         LABKEY.requiresExt3ClientAPI(function() {
             Ext.onReady(function() {
                 var containerPath = LABKEY.container.path + '/FileRepository';
-                var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath});
+                var animalFolder = new LABKEY.FileSystem.WebdavFileSystem({baseUrl: LABKEY.ActionURL.getBaseURL() + '_webdav' + containerPath + '/@files/' + animalIds + '/'});
                 var location = {id: animalIds};
-                //animalFolder.listFiles({success:function(){console.log("success",arguments)},failure:function(){console.log("failed",arguments)},forceReload:true,path:"/@files/animalPortal/"});
                 console.log("Id of animal  " + animalIds);
 
-
                 var panel = tab.add({id: 'filesDiv', style: 'margin-bottom:20px'});
-                //toAdd.push({id: 'filesDiv', style: 'margin-bottom:20px'});
 
                 var handler = function (location) {
                     var webPart = new LABKEY.WebPart({
@@ -341,7 +338,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                         console.log("success", arguments);
                         handler(location.id);
                     },
-                    path: "/@files/" + animalIds + "/",
+                    path: "/",
                     failure: function () {
                         LABKEY.Security.getUserPermissions({
                             containerPath: containerPath,
@@ -356,7 +353,6 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                     panel.add({
                                         xtype: 'ldk-webpartpanel',
                                         title: 'File Repository for ' + animalIds,
-                                        //text:  'No directory found for this animal',
                                         items: [
                                             {
                                                 xtype: 'label',
@@ -374,7 +370,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                 text: 'Create Folders',
                                                 handler: function () {
                                                     animalFolder.createDirectory({
-                                                        path: "/@files/" + animalIds + "/",
+                                                        path: "/",
                                                         success: function () {
                                                             const folders = [
                                                                 "Surgery Sheets",
@@ -393,7 +389,7 @@ EHR.reports.FileRepository =  function(panel,tab) {
 
                                                             folders.forEach(function (folder) {
                                                                 animalFolder.createDirectory({
-                                                                    path: "/@files/" + animalIds + "/" + folder,
+                                                                    path: "/" + folder,
                                                                     success: function () {
                                                                         console.log("created " + folder + " folder for " + animalIds);
                                                                         createdCount++;
@@ -402,14 +398,14 @@ EHR.reports.FileRepository =  function(panel,tab) {
                                                                         }
                                                                     },
                                                                     failure: function (error) {
-                                                                        console.log("failed to create " + folder + " folder" + error.status)
+                                                                        console.error("failed to create " + folder + " folder" + error.status)
                                                                     }
                                                                 })
                                                             }),
                                                                     console.log("folder created for " + animalIds);
                                                         },
                                                         failure: function (error) {
-                                                            console.log("failed to created folder" + error.status)
+                                                            console.error("failed to created folder" + error.status)
                                                         }
                                                     })
 
@@ -464,5 +460,125 @@ EHR.reports.FileRepository =  function(panel,tab) {
             });
         }, this);
     }
-
 };
+
+EHR.reports.snprcClinicalHistory = function(panel, tab, showActionsBtn, includeAll) {
+    if (tab.filters.subjects) {
+        renderSubjects(tab.filters.subjects, tab);
+    } else {
+        panel.resolveSubjectsFromHousing(tab, renderSubjects, this);
+    }
+
+    function renderSubjects(subjects, tab) {
+        if (subjects.length > 10) {
+            tab.add({
+                html: 'Because more than 10 subjects were selected, the condensed report is being shown.  Note that you can click the animal ID to open this same report in a different tab, showing that animal in more detail or click the link labeled \'Show Hx\'.',
+                style: 'padding-bottom: 20px;',
+                border: false
+            })
+            var filterArray = panel.getFilterArray(tab);
+            var title = panel.getTitleSuffix();
+            tab.add({
+                xtype: 'ldk-querycmp',
+                style: 'margin-bottom:20px',
+                queryConfig: {
+                    title: 'Overview' + title,
+                    schemaName: 'study',
+                    queryName: 'demographics',
+                    viewName: 'Snapshot',
+                    filterArray: filterArray.removable.concat(filterArray.nonRemovable)
+                }
+            });
+            return;
+        }
+
+        if(!subjects.length) {
+            tab.add({
+                html: 'No animals were found.',
+                border: false
+            });
+            return;
+        }
+        tab.addCls('ehr-snapshotsubpanel');
+        var currentDate = new Date();
+        var minDate = includeAll ? null : Ext4.Date.add(currentDate, Ext4.Date.DAY, -30);
+        var toAdd = [];
+        Ext4.each(subjects, function(s){
+            toAdd.push({
+                html: '<span style="font-size: large;"><b>Animal: ' + s + '</b></span>',
+                style: 'padding-bottom: 20px;',
+                border: false
+            });
+
+            toAdd.push({
+                xtype: EHR.reports.clinicalHistoryPanelXtype,
+                showActionsButton: !!showActionsBtn,
+                hrefTarget: '_blank',
+                border: false,
+                subjectId: s
+            });
+
+            toAdd.push({
+                html: '<b>Chronological History:</b><hr>',
+                style: 'padding-top: 5px;',
+                border: false
+            });
+
+
+            toAdd.push({
+                xtype: 'snprc-clinicalhistorypanel',
+                border: true,
+                subjectId: s,
+                autoLoadRecords: true,
+                minDate: minDate,
+                //maxGridHeight: 1000,
+                hrefTarget: '_blank',
+                style: 'margin-bottom: 20px;'
+            });
+
+
+        }, this);
+
+        if (toAdd.length) {
+            tab.add(toAdd);
+        }
+    }
+};
+
+EHR.reports.SndEvents = function (panel, tab) {
+
+    var containerPath = LABKEY.container.path;
+
+    let target = tab.add({xtype: 'ldk-contentresizingpanel'});
+
+    try {
+        // according to the DOM spec, the mutation observer should be GC'd if/when the target node is removed
+        let observer = new MutationObserver(target.fireEvent.bind(target, 'contentsizechange'));
+        observer.observe(target.getEl().dom, {childList: true, subtree: true});
+
+    }
+    catch (e) {
+        console.warn("Could not attach mutation observer. Resizing will rely on older APIs, may not work right");
+    }
+
+    LABKEY.Security.getUserPermissions({
+            containerPath: containerPath,
+            success: (userPermsInfo) => {
+                let config = {
+                    filterConfig: JSON.stringify({
+                        filters: tab.filters
+                    }),
+                    hasPermission: userPermsInfo.container.effectivePermissions.includes('org.labkey.api.security.permissions.AdminPermission')
+                }
+
+                const wp = new LABKEY.WebPart({
+                    partConfig: config,
+                    partName: 'SND Events Widget Webpart',
+                    renderTo: target.renderTarget
+                })
+
+                wp.render()
+            }
+    })
+
+}

@@ -13,7 +13,7 @@
         <dataset name="flags" id="5019" category="Colony Management" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="parentage" id="5025" category="Colony Management" type="Standard">
+        <dataset name="parentage" id="5025" category="Colony Management" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="miscTests" id="5013" category="ClinPath" type="Standard" showByDefault="false">
@@ -37,10 +37,10 @@
         <dataset name="procedure" id="1069" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="clinical_observations" id="5006" showByDefault="true" category="Clinical" type="Standard">
+        <dataset name="clinical_observations" id="5006" showByDefault="false" category="Clinical" type="Standard">
             <tags/>
         </dataset>
-        <dataset name="clinremarks" id="1047" category="Clinical" type="Standard">
+        <dataset name="clinremarks" id="1047" showByDefault="false" category="Clinical" type="Standard">
             <tags/>
         </dataset>
         <dataset name="drug" id="1014" category="Clinical" type="Standard" showByDefault="false">
@@ -67,7 +67,7 @@
         <dataset name="parasitologyResults" id="1052" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
-        <dataset name="urinalysisResults" id="1081" category="ClinPath" type="Standard">
+        <dataset name="urinalysisResults" id="1081" category="ClinPath" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="arrival" id="1001" category="Colony Management" type="Standard">
@@ -143,9 +143,6 @@
             <tags/>
         </dataset>
         <dataset name="DailyObservations" id="5043" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
-            <tags/>
-        </dataset>
-        <dataset name="Cycle" id="5044" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
             <tags/>
         </dataset>
         <dataset name="CycleDaily" id="5045" demographicData="false" category="Clinical" type="Standard" showByDefault="false">

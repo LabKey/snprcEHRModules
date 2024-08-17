@@ -32,7 +32,7 @@
     HtmlString contextPath = getContextPath();
 %>
 
-<script>
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
     Date.prototype.format = function (format) {
         if (Date.formatFunctions[format] == null) {
@@ -71,6 +71,7 @@
 <script src="<%= contextPath %>/LDK/panel/MultiRecordDetailsPanel.js"></script>
 <script src="<%= contextPath %>/ehr/panel/BloodSummaryPanel.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/Panel/BloodSummaryPanel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/Panel/ClinicalHistoryPanel.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/DemographicsRecord.js"></script>
 <script src="<%= contextPath %>/snprc_ehr/snprcOverrides.js"></script>
 
@@ -115,7 +116,7 @@
 </style>
 
 <div id="app-js-container"></div>
-<script>
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
 
     Ext4.onReady(function () {
         Ext4.tip.QuickTipManager.init();

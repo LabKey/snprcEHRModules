@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 SELECT
-b.Id,
-b.date,
-b.runid,
-b.panelName,
-b.TestName,
-MAX(b.result) as results
+    b.Id,
+    b.date,
+    b.panelName,
+    b.TestName,
+    b.remark,
+    MAX(b.result) as results,
 
 FROM surveillancePivotInner b
 
-GROUP BY b.runid, b.panelName, b.id, b.date, b.TestName
+GROUP BY b.id, b.date, b.TestName, b.panelName, b.remark
 
-PIVOT results BY TestName IN
+    PIVOT results BY TestName IN
 (select TestName from snprc_ehr.labwork_panels t
- where t.includeInPanel = true AND t.ServiceId.Dataset='Surveillance')
-
+where t.includeInPanel = true AND t.ServiceId.Dataset='Surveillance'
+)

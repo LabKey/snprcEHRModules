@@ -13,6 +13,7 @@ app
 *.iml
 *packageExport*.snd.xml
 snprc_ehr/.gradle
+snprc_ehr/resources/web/gen
 snprc_ehr/resources/views/gen
 snprc_ehr/resources/views/HelloApp*.*
 snprc_ehr/resources/views/helloWorld*.*
@@ -32,3 +33,10 @@ snprc_ehr/.editorconfig
 snprc_ehr/resources/referenceStudy/LoadTaqmanData
 snprc_ehr/resources/referenceStudy/datasetImport/LoadTaqmanData
 snprc_scheduler/.gradle
+snprc_ehr/resources/credits
+*/resources/credits/dependencies.txt
+*/resources/credits/jars.txt
+
+# generated artifacts
+resources/web/gen
+resources/views/gen

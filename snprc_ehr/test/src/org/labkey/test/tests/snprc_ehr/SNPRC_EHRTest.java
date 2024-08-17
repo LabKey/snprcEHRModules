@@ -109,7 +109,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
     private static final String FOLDER_NAME = "SNPRC";
-    private static final String ANIMAL_HISTORY_URL = "/ehr/" + PROJECT_NAME + "/animalHistory.view?";
+    private static final String ANIMAL_HISTORY_URL = "/" + PROJECT_NAME + "/ehr-animalHistory.view";
     private static final String SNPRC_ROOM_ID = "S824778";
     private static final String SNPRC_ROOM_ID2 = "S043365";
 
@@ -1168,16 +1168,16 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         WebElement colonyOverview = Locator.tagWithText("a", "Colony Overview").findElement(frontPage);
 
         Crawler.ControllerActionId actionId = new Crawler.ControllerActionId(browseData.getAttribute("href"));
-        assertEquals("Wrong controller for 'Browse Data", "snprc_ehr", actionId.getController());
-        assertEquals("Wrong action for 'Browse Data", "animalHistory", actionId.getAction());
+        assertEquals("Wrong controller for 'Browse Data'", "snprc_ehr", actionId.getController());
+        assertEquals("Wrong action for 'Browse Data'", "animalHistory", actionId.getAction());
 
         actionId = new Crawler.ControllerActionId(enterData.getAttribute("href"));
-        assertEquals("Wrong controller for 'Enter Data", "ehr", actionId.getController());
-        assertEquals("Wrong action for 'Enter Data", "enterData", actionId.getAction());
+        assertEquals("Wrong controller for 'Enter Data'", "ehr", actionId.getController());
+        assertEquals("Wrong action for 'Enter Data'", "enterData", actionId.getAction());
 
         actionId = new Crawler.ControllerActionId(colonyOverview.getAttribute("href"));
-        assertEquals("Wrong controller for 'Colony Overview", "ehr", actionId.getController());
-        assertEquals("Wrong action for 'Colony Overview", "colonyOverview", actionId.getAction());
+        assertEquals("Wrong controller for 'Colony Overview'", "ehr", actionId.getController());
+        assertEquals("Wrong action for 'Colony Overview'", "colonyOverview", actionId.getAction());
     }
 
     @Test
@@ -1253,17 +1253,17 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         historyPage.clickReportTab("Kinship");
 
         DataRegionTable tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 14);
+        assertEquals(tbl.getDataRowCount(), 20);
 
         _ext4Helper.checkCheckbox(Locator.ehrCheckboxIdContaining("limitRawDataToSelection"));
 
         tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 1);
+        assertEquals(tbl.getDataRowCount(), 2);
 
         String[] idCols = {"Id", "Id2", "Coefficient"};
         List<List<String>> rows = tbl.getRows(idCols);
         List<List<String>> expectedRows = Arrays.asList(
-                Arrays.asList(animal1, animal2, "0.375"));
+                Arrays.asList(animal1, animal2, "0.375"), Arrays.asList(animal2, animal1, "0.375"));
         assertEquals(String.join(", ", Arrays.asList(idCols)), expectedRows, rows);
 
         _ext4Helper.clickExt4Tab("Matrix");
@@ -1282,25 +1282,20 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         openClinicalHistoryForAnimal("TEST1020148");
 
         Ext4FieldRef.getForLabel(this, "Min Date").setValue("09/01/2015");
-        clickButtonContainingText("Reload", "Hematology");
+        clickButtonContainingText("Reload", "Labwork");
 
         List<String> expectedLabels = new ArrayList<>(
                 Arrays.asList(
                         "Accounts",
                         "Assignments",
-                        "Chemistry",
                         "Diet",
                         "Housing Transfers",
-                        "Labwork Results",
                         "Offspring",
                         "TB",
-                        "Virology",
                         "Weights",
-
                         "Arrival/Departure",
                         "Blood Draws",
                         "Clinical",
-                        "Hematology",
                         "Labwork",
                         "Notes",
                         "Pregnancy",
@@ -1331,11 +1326,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         assertTextPresent(new TextSearcher(activeReport::getText), entries.toArray(new String[]{}));
 
-        // Deselect weight, blood and housing
+        // Deselect weight, blood and housing - checkbox count starts at 0, count down the first column and then down the next
         waitAndClick(Locator.linkWithText("Show/Hide Types"));
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(4).click();
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click();
-        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11).click();
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(3).click(); // Housing
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(7).click(); // weight
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(9).click(); // blood
         findButton("Submit").click();
 
         animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
@@ -1356,6 +1351,27 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         assertTextPresent(entries);
 
+        // ensure deselecting labwork from show/hide types removes labwork panels from clinical history
+        // Deselect labwork
+        waitAndClick(Locator.linkWithText("Show/Hide Types"));
+        Locator.css("input[id^=checkboxfield]").findElements(getDriver()).get(11).click(); // labwork
+        findButton("Submit").click();
+
+        animalHistoryPage = new SNPRCAnimalHistoryPage(getDriver());
+        activeReport = animalHistoryPage.getActiveReportPanel();
+
+        assertTextNotPresent(new TextSearcher(activeReport::getText), "Service/Panel: X VIRUS", "Service/Panel: FULL PANEL CULTURE", "Service/Panel: URINE CHEM");
+
+        entries = new ArrayList<>(
+                Arrays.asList(
+                        "TEST1020148 (2016-03-28)",
+                        "TEST1020148 (2016-03-07)",
+                        "Protocol: protocol101",
+                        "Status: Holding"
+                )
+        );
+
+        assertTextPresent(entries);
     }
 
     @Test

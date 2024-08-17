@@ -1,6 +1,5 @@
 import org.labkey.gradle.util.BuildUtils
 import org.labkey.gradle.util.GroupNames
-import org.gradle.api.tasks.bundling.Jar
 
 sourceSets {
     transform {
@@ -29,17 +28,15 @@ configurations {
     }
 }
 
-project.task("transformJar",
-    group: GroupNames.BUILD,
-    type: Jar,
-    description: "Create the genetics transform jar file",
+project.tasks.register("transformJar", Jar)
     {Jar jar ->
+        jar.group = GroupNames.BUILD
+        jar.description = "Create the genetics transform jar file"
         jar.from project.sourceSets.transform.output
         jar.from { configurations.transformJars.collect { it.isDirectory() ? it : zipTree(it) }}
         jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
         jar.archiveBaseName.set("GeneticsTransform")
-        jar.destinationDirectory = new File(project.buildDir, "artifacts/snprc")
+        jar.destinationDirectory.set(project.layout.buildDirectory.file("artifacts/snprc").get().asFile)
     }
-)
 
-project.tasks.module.dependsOn(project.tasks.transformJar)
+project.tasks.named('module').configure { dependsOn(project.tasks.transformJar) }

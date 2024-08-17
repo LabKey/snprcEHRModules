@@ -7,19 +7,16 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
   >
     Select Report
   </label>
-  <StateManager
+  <ForwardRef
     autoFocus={true}
     className="shared-dropdown"
     classNamePrefix="shared-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
     id="report-select"
     isLoading={false}
     onChange={[Function]}
     options={
-      Array [
-        Object {
+      [
+        {
           "description": "Clinical admissions over 21 days",
           "id": 1,
           "label": "Long Term Clinic Admissions",
@@ -27,7 +24,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rs:Command=Render",
           "value": "LabkeyReports/LongTermClinic",
         },
-        Object {
+        {
           "description": "Last TB test and physical exams that are over 180 days",
           "id": 2,
           "label": "Overdue TB and Physical",
@@ -35,7 +32,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rs:Command=Render",
           "value": "CenterReports/Routine%20Health/OverduePhyTB",
         },
-        Object {
+        {
           "description": "Baboon infants that are ready to be weaned",
           "id": 3,
           "label": "Baboon weaning",
@@ -43,7 +40,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rs:Command=Render",
           "value": "ColonyReports/Boon_weaning",
         },
-        Object {
+        {
           "description": "Rhesus infants that are ready to be weaned",
           "id": 4,
           "label": "Rhesus SPF weaning",
@@ -51,7 +48,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rs:Command=Render",
           "value": "ColonyReports/rh2_weaning",
         },
-        Object {
+        {
           "description": "Colony census as of today",
           "id": 5,
           "label": "Colony Census (current)",
@@ -59,7 +56,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rs:Command=Render",
           "value": "testReport1",
         },
-        Object {
+        {
           "description": "Colony census on a specific date",
           "id": 6,
           "label": "Colony Census (select date)",
@@ -67,7 +64,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rs:Command=Render",
           "value": "testReport2",
         },
-        Object {
+        {
           "description": "Birth certificate for animal",
           "id": 7,
           "label": "Birth record report",
@@ -75,7 +72,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rc:Parameters=Collapsed",
           "value": "Development/BirthRecord",
         },
-        Object {
+        {
           "description": "Target Date is used to determine 3yr period.",
           "id": 8,
           "label": "IACUC 3yr Rollover (Standard)",
@@ -83,7 +80,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rc:Parameters=Collapsed",
           "value": "CenterReports/IACUC/3YrRollover&Mode=1",
         },
-        Object {
+        {
           "description": "Target Date sets the end date.  Start date is 3 years before target date.",
           "id": 8,
           "label": "IACUC 3yr Rollover (Backdate)",
@@ -91,7 +88,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
           "rsParameters": "&rc:Parameters=Collapsed",
           "value": "CenterReports/IACUC/3YrRollover&Mode=2",
         },
-        Object {
+        {
           "description": "Target date sets the end date.  Start date is the start date before the target date. Could result in more or less than 3 yrs.",
           "id": 10,
           "label": "IACUC 3yr Rollover (Harddate)",
@@ -103,7 +100,7 @@ exports[`SelectionParmsPanel tests Should render the ReportParmsPanel with selec
     }
     placeholder="Select Report"
     value={
-      Object {
+      {
         "description": "Clinical admissions over 21 days",
         "id": 1,
         "label": "Long Term Clinic Admissions",

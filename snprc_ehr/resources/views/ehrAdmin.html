@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=scriptNonce%>">
 
 Ext4.onReady(function (){
     var webpart = <%=webpartContext%>;
@@ -9,34 +9,34 @@ Ext4.onReady(function (){
         sections: [{
             header: 'Admin',
             items: [
-                {name: 'ETL Admin', url: '<%=contextPath%>/dataintegration<%=containerPath%>/begin.view?'},
-                {name: 'Genetics Calculations', url: '<%=contextPath%>/ehr<%=containerPath%>/geneticCalculationSettings.view?'},
-                {name: 'Manage EHR Study', url: '<%=contextPath%>/study<%=containerPath%>/manageStudy.view?'},
-                {name: 'Populate Initial Data', url: '<%=contextPath%>/SNPRC_EHR<%=containerPath%>/populateData.view?'},
-                {name: 'SND Settings', url: '<%=contextPath%>/SNPRC_EHR<%=containerPath%>/SNDSettings.view?'},
-                {name: 'Add EHR extensible columns', url: '<%=contextPath%>/SNPRC_EHR<%=containerPath%>/EhrColumns.view?'},
-                {name: 'Record Delete Settings', url: '<%=contextPath%>/ehr<%=containerPath%>/recordDeleteSettings.view?'},
-                {name: 'Run Custom SQL', url: '<%=contextPath%>/ldk<%=containerPath%>/runCustomSql.view?schemaName=study'},
-                {name: 'Set EHR Module Properties', url: '<%=contextPath%>/core<%=containerPath%>/modulePropertyAdmin.view?moduleName=EHR'},
-                {name: 'Configure SSRS Properties', url: '<%=contextPath%>/snprc_ehr<%=containerPath%>/ssrsConfig.view'},
-                {name: 'Update Study QCStates', url: '<%=contextPath%>/ehr<%=containerPath%>/ensureQCStates.view?'},
-                {name: 'Verify Dataset Resources', url: '<%=contextPath%>/ehr<%=containerPath%>/verifyDatasetResources.view?'},
-                {name: 'Verify Dataset Columns', url: '<%=contextPath%>/snprc_ehr<%=containerPath%>/validateDataSetCols.view?'},
-                {name: 'Verify EHR Schema Indexes Are Compressed', url: '<%=contextPath%>/ehr<%=containerPath%>/ensureEHRSchemaIndexes.view?'},
-                {name: 'Cache Demographics On All Living Animals', url: '<%=contextPath%>/ehr<%=containerPath%>/cacheLivingAnimals.view?'},
-                {name: 'Cache Demographics On All Animals', url: '<%=contextPath%>/ehr<%=containerPath%>/cacheLivingAnimals.view?includeAll=true'},
-                {name: 'Prime/Refresh Data Entry Cache', url: '<%=contextPath%>/ehr<%=containerPath%>/primeDataEntryCache.view?'}
+                {name: 'ETL Admin', url: '<%=contextPath%><%=containerPath%>/dataintegration-begin.view'},
+                {name: 'Genetics Calculations', url: '<%=contextPath%><%=containerPath%>/ehr-geneticCalculationSettings.view'},
+                {name: 'Manage EHR Study', url: '<%=contextPath%><%=containerPath%>/study-manageStudy.view'},
+                {name: 'Populate Initial Data', url: '<%=contextPath%><%=containerPath%>/SNPRC_EHR-populateData.view'},
+                {name: 'SND Settings', url: '<%=contextPath%><%=containerPath%>/SNPRC_EHR-SNDSettings.view'},
+                {name: 'Add EHR extensible columns', url: '<%=contextPath%><%=containerPath%>/SNPRC_EHR-EhrColumns.view'},
+                {name: 'Record Delete Settings', url: '<%=contextPath%><%=containerPath%>/ehr-recordDeleteSettings.view'},
+                {name: 'Run Custom SQL', url: '<%=contextPath%><%=containerPath%>/ldk-runCustomSql.view?schemaName=study'},
+                {name: 'Set EHR Module Properties', url: '<%=contextPath%><%=containerPath%>/core-modulePropertyAdmin.view?moduleName=EHR'},
+                {name: 'Configure SSRS Properties', url: '<%=contextPath%><%=containerPath%>/snprc_ehr-ssrsConfig.view'},
+                {name: 'Update Study QCStates', url: '<%=contextPath%><%=containerPath%>/ehr-ensureQCStates.view'},
+                {name: 'Verify Dataset Resources', url: '<%=contextPath%><%=containerPath%>/ehr-verifyDatasetResources.view}'},
+                {name: 'Verify Dataset Columns', url: '<%=contextPath%><%=containerPath%>/snprc_ehr-validateDataSetCols.view'},
+                {name: 'Verify EHR Schema Indexes Are Compressed', url: '<%=contextPath%><%=containerPath%>/ehr-ensureEHRSchemaIndexes.view'},
+                {name: 'Cache Demographics On All Living Animals', url: '<%=contextPath%><%=containerPath%>/ehr-cacheLivingAnimals.view'},
+                {name: 'Cache Demographics On All Animals', url: '<%=contextPath%><%=containerPath%>/ehr-cacheLivingAnimals.view?includeAll=true'},
+                {name: 'Prime/Refresh Data Entry Cache', url: '<%=contextPath%><%=containerPath%>/ehr-primeDataEntryCache.view'}
             ]
         },{
             header: 'Logs',
             items: [
-                {name: 'Labkey.log', url: '<%=contextPath%>/admin/showPrimaryLog.view'},
-                {name: 'Labkey-errors.log', url: '<%=contextPath%>/admin/showAllErrors.view'}
+                {name: 'Labkey.log', url: '<%=contextPath%>' + '/admin-showPrimaryLog.view'},
+                {name: 'Labkey-errors.log', url: '<%=contextPath%>' + '/admin-showAllErrors.view'}
             ]
         },{
             header: 'Notifications',
             items: [
-                {name: 'Notification Admin', url: '<%=contextPath%>/ldk<%=containerPath%>/notificationAdmin.view?'}
+                {name: 'Notification Admin', url: '<%=contextPath%><%=containerPath%>/ldk-notificationAdmin.view'}
             ]
         }]
     });

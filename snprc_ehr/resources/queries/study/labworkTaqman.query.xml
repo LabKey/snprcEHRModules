@@ -25,7 +25,7 @@
                         <fk>
                             <fkDbSchema>snprc_ehr</fkDbSchema>
                             <fkTable>labwork_panels</fkTable>
-                            <fkColumnName>RowId</fkColumnName>
+                            <fkColumnName>objectId</fkColumnName>
                             <fkDisplayColumnName>TestName</fkDisplayColumnName>
                         </fk>
                     </column>

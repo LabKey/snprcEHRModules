@@ -22,7 +22,14 @@
             <column columnName="LeadTech"/>
             <column columnName="Notes"/>
             <column columnName="SchedulerNotes"/>
-            <column columnName="QcState"/>
+            <column columnName="QcState">
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>DataStates</fkTable>
+                    <fkColumnName>RowId</fkColumnName>
+                    <fkDisplayColumnName>Label</fkDisplayColumnName>
+                </fk>
+            </column>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>
@@ -124,7 +131,6 @@
             <column columnName="StudyDayNote">
                 <nullable>false</nullable>
             </column>
-            <column columnName="QcState"/>
             <column columnName="Created"/>
             <column columnName="CreatedBy"/>
             <column columnName="Modified"/>

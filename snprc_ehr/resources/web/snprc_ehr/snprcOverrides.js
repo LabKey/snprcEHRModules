@@ -48,6 +48,59 @@ LDK.Utils.splitIds = function (subjects, unsorted) {
 
 
 Ext4.override(EHR.panel.SnapshotPanel, {
+    initComponent: function(){
+        Ext4.apply(this, {
+            defaults: {
+                border: false
+            },
+            items: this.getItems()
+        });
+
+        this.callParent();
+
+        let anmId;
+
+        if (this.subjectId){
+            anmId = this.subjectId;
+            this.isLoading = true;
+            this.setLoading(true);
+            this.loadData();
+        }
+
+        this.on('afterrender', function() {
+
+            var mhcSummaryDisplayField = this.down('#mhcSummary');
+            if (mhcSummaryDisplayField && mhcSummaryDisplayField.getEl()) {
+
+                var mhcAnchor = mhcSummaryDisplayField.getEl('mhcSummaryLink');
+
+                if (mhcAnchor) {
+                    Ext4.get(mhcAnchor).on('click', function(e) {
+                        e.preventDefault();
+                        if (anmId) {
+                            SNPRC_EHR.Utils.showMhcPopup(anmId, this);
+                        }
+                    });
+                }
+            }
+            var flagsDisplayField = this.down('#flags');
+            if (mhcSummaryDisplayField && mhcSummaryDisplayField.getEl()) {
+
+                var flagsAnchor = mhcSummaryDisplayField.getEl('flagsLink');
+
+                if (flagsAnchor) {
+                    Ext4.get(flagsAnchor).on('click', function(e) {
+                        e.preventDefault();
+                        if (anmId) {
+                            SNPRC_EHR.Utils.showFlagPopup(anmId, this);
+                        }
+                    });
+                }
+            }
+
+        }, this);
+    },
+
     appendParentageResults: function (toSet, results) {
 
         if (results) {
@@ -205,7 +258,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             Ext4.each(results, function (row) {
                 var newRow = {
                     diet_date: row['date'],
-                    diet: row['code/meaning'],
+                    diet: row['code/Diet'],
                 };
                 rows.push(newRow);
             }, this);
@@ -250,8 +303,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             Ext4.each(results, function (row) {
                 var val = row['protocol/displayName'] || ' ';
                 val += ' [' + row['protocol/inves'] + ']';
-                // val += ' [' + row['protocol/title'] + ']';
-
                 if (val)
                     values.push(val);
             }, this);
@@ -286,7 +337,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                     items: [{
                         xtype: 'displayfield',
                         fieldLabel: 'Location',
-                        //width: 420,
                         name: 'location'
                     }, {
                         xtype: 'displayfield',
@@ -345,7 +395,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                     items: [{
                         xtype: 'displayfield',
                         fieldLabel: 'Flags',
-                        name: 'flags'
+                        name: 'flags',
+                        itemId: 'flags'
                     }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Last TB Date',
@@ -369,7 +420,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
     },
     appendMhcSummary: function (toSet, results) {
         if (results) {
-            toSet['mhcSummary'] = '<a onclick="SNPRC_EHR.Utils.showMhcPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
+            toSet['mhcSummary'] = '<a id="mhcSummaryLink">' +  LABKEY.Utils.encodeHtml(results[0].mhcSummary)
         }
         else {
             toSet['mhcSummary'] = ''
@@ -406,7 +457,7 @@ Ext4.override(EHR.panel.SnapshotPanel, {
             }
         }
 
-        toSet['flags'] = values.length ? '<a onclick="SNPRC_EHR.Utils.showFlagPopup(\'' + LABKEY.Utils.encodeHtml(this.subjectId) + '\', this);">' + values.join('<br>') + '</div>' : null;
+        toSet['flags'] = values.length ? '<a id="flagsLink">' + values.join('<br>') + '</div>' : null;
     },
 
     getExtendedItems: function () {
@@ -439,7 +490,8 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         xtype: 'displayfield',
                         width: 350,
                         fieldLabel: 'MHC Summary',
-                        name: 'mhcSummary'
+                        name: 'mhcSummary',
+                        itemId: 'mhcSummary'
                     }, {
                         xtype: 'displayfield',
                         fieldLabel: 'Birth',
@@ -460,18 +512,42 @@ Ext4.override(EHR.panel.SnapshotPanel, {
                         fieldLabel: 'Parent Information',
                         name: 'parents'
                     }
-                        /*,{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Pairing Type',
-                        name: 'pairingType'
-                    },{
-                        xtype: 'displayfield',
-                        fieldLabel: 'Cagemates',
-                        name: 'cagemates'
-                    } */
                     ]
                 }]
             }]
+        }];
+    },
+
+    getTreatmentColumns: function(){
+        return [{
+            name: 'code',
+            label: 'Medication',
+        },{
+            name: 'frequency',
+            label: 'Frequency',
+        },{
+            name: 'amountAndVolume',
+            label: 'Amount',
+            attrs: {
+                style: 'white-space: normal !important;'
+            }
+        },{
+            name: 'route',
+            label: 'Route',
+        },{
+            name: 'date',
+            label: 'Start Date',
+            dateFormat: 'm-d-Y',
+
+        },{
+            name: 'daysElapsed',
+            label: 'Days Elapsed',
+        },{
+            name: 'remark',
+            label: 'Remark',
+        },{
+            name: 'category',
+            label: 'Category',
         }];
     },
 
@@ -505,8 +581,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendIdHistoryResults(toSet, results.getIdHistories());
 
-        //this.appendCurrentPedigreeResults(toSet, results.getCurrentPedigree());
-
         this.appendCurrentDietResults(toSet, results.getCurrentDiet());
 
         this.appendRoommateResults(toSet, results.getCagemates(), id);
@@ -520,7 +594,6 @@ Ext4.override(EHR.panel.SnapshotPanel, {
 
         this.appendTreatmentRecords(toSet, results.getActiveTreatments());
         this.appendCases(toSet, results.getActiveCases());
-        //this.appendCaseSummary(toSet, results.getActiveCases());
 
         this.appendFlags(toSet, results.getActiveFlags());
         this.appendTBResults(toSet, results.getTBRecord());
@@ -536,27 +609,21 @@ Ext4.override(EHR.panel.SnapshotPanel, {
         this.getForm().setValues(toSet);
         this.afterLoad();
     }
-
-//    appendAssignments: function(toSet, results){
-//        var ret = this.callOverridden();
-//    }
-
 });
 
-// Ext4.override(EHR.panel.EnterDataPanel, {
-//
-//     getQueueSections: function () {
-//         return [{
-//             header: 'Reports',
-//             renderer: function (item) {
-//                 return item;
-//             },
-//             items: [{
-//                 xtype: 'ldk-linkbutton',
-//                 text: 'Service Request Summary',
-//                 linkCls: 'labkey-text-link',
-//                 href: LABKEY.ActionURL.buildURL('ldk', 'runNotification', null, {key: 'org.labkey.snprc_ehr.notification.RequestAdminNotification'})
-//             }]
-//         }]
-//     }
-// });
+Ext4.override(EHR.panel.SmallFormSnapshotPanel, {
+    getItems: function(){
+        var items = this.getBaseItems();
+
+        if (!this.redacted){
+            items[0].items.push({
+                name: 'treatments',
+                xtype: 'ehr-snapshotchildpanel',
+                headerLabel: 'Current Medications',
+                emptyText: 'There are no active medications'
+            });
+        }
+
+        return items;
+    }
+})

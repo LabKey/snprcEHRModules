@@ -1,4 +1,5 @@
 import org.labkey.gradle.util.BuildUtils
+import org.labkey.gradle.util.ExternalDependency
 
 dependencies
         {
@@ -12,5 +13,22 @@ dependencies
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:dataintegration", depProjectConfig: "published", depExtension: "module")
+            BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:premium", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:snd", depProjectConfig: "published", depExtension: "module")
+
+            compileOnly "org.projectlombok:lombok:${lombokVersion}"
+            annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+            BuildUtils.addExternalDependency(
+                project,
+                new ExternalDependency(
+                    "org.apache.commons:commons-text:${commonsTextVersion}",
+                    "Commons Text",
+                    "Apache",
+                    "https://commons.apache.org/proper/commons-text/",
+                    ExternalDependency.APACHE_2_LICENSE_NAME,
+                    ExternalDependency.APACHE_2_LICENSE_URL,
+                    "String algorithms",
+                )
+            )
         }

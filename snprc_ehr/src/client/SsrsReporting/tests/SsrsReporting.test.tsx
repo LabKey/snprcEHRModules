@@ -7,6 +7,7 @@ import SsrsReporting from '../SsrsReporting'
 import { fetchReportList } from '../api/fetchReportList'
 jest.mock('../api/fetchReportList')
 
+require('setimmediate')
 
 beforeAll(() => {
     // global.fetch = jest.fn();

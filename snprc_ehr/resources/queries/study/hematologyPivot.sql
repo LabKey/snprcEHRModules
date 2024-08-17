@@ -16,17 +16,17 @@
 SELECT
 b.Id,
 b.date,
-b.runid,
 b.panelName,
 b.TestName,
-MAX(b.result) as results
+b.remark,
+MAX(b.result) as results,
+GROUP_CONCAT(b.abnormal_flags) as abnormal_flags
 
 FROM hematologyPivotInner b
 
-GROUP BY b.runid, b.panelName, b.id, b.date, b.TestName
+GROUP BY b.panelName, b.id, b.date, b.TestName, b.remark
 
-PIVOT results BY TestName IN
+PIVOT results, abnormal_flags BY TestName IN
 (select TestName from snprc_ehr.labwork_panels t
  where t.includeInPanel = true AND t.ServiceId.Dataset='Hematology'
 )
-

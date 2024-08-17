@@ -1,0 +1,8 @@
+<view xmlns="http://labkey.org/data/xml/view" title="SND Events Widget">
+    <permissionClasses>
+        <permissionClass name="org.labkey.api.security.permissions.ReadPermission"/>
+    </permissionClasses>
+    <dependencies>
+        <dependency path="gen/SndEventsWidgetWebpart"/>
+    </dependencies>
+</view>

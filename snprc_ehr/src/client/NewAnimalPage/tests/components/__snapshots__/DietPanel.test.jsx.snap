@@ -23,7 +23,7 @@ exports[`Should render the DietPanel 1`] = `
             onChangeRaw={[Function]}
             onSelect={[Function]}
             readOnly={true}
-            selected={1970-01-01T00:00:00.000Z}
+            selected={2023-01-01T00:00:00.000Z}
             todayButton="Today"
           />
         </div>
@@ -40,26 +40,23 @@ exports[`Should render the DietPanel 1`] = `
         >
           Diet
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "id": 0,
                 "label": "Regular chow",
                 "species": null,
                 "value": 1,
               },
-              Object {
+              {
                 "id": 1,
                 "label": "Corn feed",
                 "species": null,
@@ -74,8 +71,8 @@ exports[`Should render the DietPanel 1`] = `
   </div>
   <InfoPanel
     messages={
-      Array [
-        Object {
+      [
+        {
           "colName": "Diet",
           "propTest": true,
         },

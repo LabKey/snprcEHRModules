@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=scriptNonce%>">
 
     let webpart = <%=webpartContext%>;
     let ctx = EHR.Utils.getEHRContext(webpart.wrapperDivId);
@@ -64,8 +64,8 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    { name: 'Animal History', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view?' },
-                    { name: 'Animal Search', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/animalSearch.view?' }
+                    { name: 'Animal History', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-animalHistory.view' },
+                    { name: 'Animal Search', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-animalSearch.view' }
                 ]
             }, {
                 header: 'By Dataset',
@@ -74,9 +74,9 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    { name: 'Browse All Datasets', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/datasets.view?' },
-                    { name: 'Housing Queries', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/housingQueries.view?' },
-                    { name: 'Protocol and Project Queries', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/projectQueries.view?' }
+                    { name: 'Browse All Datasets', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-datasets.view' },
+                    { name: 'Housing Queries', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-housingQueries.view' },
+                    { name: 'Protocol and Project Queries', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-projectQueries.view' }
                 ]
             }, {
                 header: 'By Location',
@@ -85,10 +85,10 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    { name: 'Search By Area or Room', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/animalHistory.view#inputType:roomCage' },
+                    { name: 'Search By Area or Room', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-animalHistory.view#inputType:roomCage' },
                     {
                         name: 'Animal Tree View Navigation',
-                        url: '<%=contextPath%>/AnimalsHierarchy' + ctx['EHRStudyContainer'] + '/getView.view'
+                        url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/AnimalsHierarchy-getView.view'
                     }
                 ]
             }]
@@ -104,11 +104,11 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    //{name: 'Animal Groups', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr&query.queryName=animal_groups&query.viewName=Active Groups'},
-                    { name: 'Colony Overview', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/colonyOverview.view?' },
-                    { name: 'Room Utilization', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=roomUtilization' },
-                    { name: 'More Reports', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/moreReports.view?' },
-                    { name: 'PDF Reports', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/SsrsReporting.view?' }
+                    //{name: 'Animal Groups', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/query-executeQuery.view?schemaName=ehr&query.queryName=animal_groups&query.viewName=Active Groups'},
+                    { name: 'Colony Overview', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-colonyOverview.view' },
+                    { name: 'Room Utilization', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/query-executeQuery.view?schemaName=ehr_lookups&query.queryName=roomUtilization' },
+                    { name: 'More Reports', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-moreReports.view' },
+                    { name: 'PDF Reports', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-SsrsReporting.view' }
                 ]
             }, {
                 ...(currentUserGroups.find(o => (o.name === 'SNPRC Colony Admins')) && {
@@ -120,7 +120,7 @@
                     items: [
                         {
                             name: 'New Animal Wizard',
-                            url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/NewAnimalWizard.view?'
+                            url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-NewAnimalWizard.view'
                         }
                     ]
                 })
@@ -134,9 +134,13 @@
                     items: [
                         {
                             name: 'Packages and Projects',
-                            url: '<%=contextPath%>/snd' + ctx['EHRStudyContainer'] + '/app.view?'
+                            url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snd-app.view'
                         },
-                        { name: 'Manage SND Lookups', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/editSndLookups.view' }
+                        //{ name: 'Manage SND Lookups', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-editSndLookups.view' }
+                        {
+                            name: 'SND Lookups Management',
+                            url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-SndLookupsManagement.view'
+                        }
                     ]
                 })
             }
@@ -153,12 +157,12 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    { name: 'Compare Lists of Animals', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/utilities.view?' },
-                    {name: 'Chip Reader',url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/ChipReader.view?'}
-                    //{name: 'Drug Formulary', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=drug_defaults'},
-                    //{name: 'Procedure List', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=procedures&query.viewName=Active Procedures'},
-                    //{name: 'Search Center SNOMED Codes', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr_lookups&query.queryName=snomed'},
-                    //{name: 'Mature Female Exposed To Fertile Male', url: '<%=contextPath%>/query' + ctx['EHRStudyContainer'] + '/executeQuery.view?schemaName=ehr&query.queryName=animalExposure&query.viewName=Mature Female Exposed To Fertile Male'}
+                    { name: 'Compare Lists of Animals', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-utilities.view' },
+                    {name: 'Chip Reader',url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-ChipReader.view'}
+                    //{name: 'Drug Formulary', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/query-executeQuery.view?schemaName=ehr_lookups&query.queryName=drug_defaults'},
+                    //{name: 'Procedure List', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/query-executeQuery.view?schemaName=ehr_lookups&query.queryName=procedures&query.viewName=Active Procedures'},
+                    //{name: 'Search Center SNOMED Codes', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/query-executeQuery.view?schemaName=ehr_lookups&query.queryName=snomed'},
+                    //{name: 'Mature Female Exposed To Fertile Male', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/query-executeQuery.view?schemaName=ehr&query.queryName=animalExposure&query.viewName=Mature Female Exposed To Fertile Male'}
                 ]
             }, {
                 header: 'Data Entry',
@@ -167,7 +171,7 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    { name: 'Enter Data', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/enterData.view' },
+                    { name: 'Enter Data', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-enterData.view' },
                 ]
 
             }
@@ -182,11 +186,10 @@
                     style: 'font-weight: bold;'
                 },
                 items: [
-                    { name: 'EHR Admin Page', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/ehrAdmin.view' },
-                    { name: 'Manage EHR Study', url: '<%=contextPath%>/study' + ctx['EHRStudyContainer'] + '/manageStudy.view?' },
-                    { name: 'Manage Lookup Tables', url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/editLookupTables.view' },
-                    { name: 'Enter Data', url: '<%=contextPath%>/ehr' + ctx['EHRStudyContainer'] + '/dataEntry.view' },
-                    { name: 'SND Events Viewer',url: '<%=contextPath%>/snprc_ehr' + ctx['EHRStudyContainer'] + '/SndEventView.view?'}
+                    { name: 'EHR Admin Page', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-ehrAdmin.view' },
+                    { name: 'Manage EHR Study', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/study-manageStudy.view' },
+                    { name: 'Manage Lookup Tables', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-editLookupTables.view' },
+                    { name: 'Enter Data', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-dataEntry.view' },
                 ]
             });
         }

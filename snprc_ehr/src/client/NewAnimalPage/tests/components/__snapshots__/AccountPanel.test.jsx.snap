@@ -18,26 +18,23 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Account
         </label>
-        <StateManager
+        <ForwardRef
           autoFocus={true}
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="account-select"
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "id": 1,
                 "label": "0063-010-99 - TEST Blah, Combination therapy for Blah",
                 "value": "0063-010-99",
               },
-              Object {
+              {
                 "id": 0,
                 "label": "0060-014-99 - TEST PC, Natural resistance of baboon cells to Blah infection",
                 "value": "0060-014-00",
@@ -60,27 +57,24 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Colony
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="colony-select"
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "category": 0,
                 "id": 0,
                 "label": "test Colony 1",
                 "species": "PC",
                 "value": 1,
               },
-              Object {
+              {
                 "category": 0,
                 "id": 1,
                 "label": "test Colony 2",
@@ -105,27 +99,24 @@ exports[`Should render the AccountPanel 1`] = `
         >
           IACUC
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="iacuc-select"
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "id": 0,
                 "label": "111PC - Test",
                 "maxAnimals": 0,
                 "species": "PC",
                 "value": "111PC",
               },
-              Object {
+              {
                 "id": 1,
                 "label": "222PC - Test",
                 "maxAnimals": 0,
@@ -150,27 +141,24 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Pedigree
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="pedigree-select"
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "category": 2,
                 "id": 0,
                 "label": "Baboon 1",
                 "species": "PC",
                 "value": 31,
               },
-              Object {
+              {
                 "category": 2,
                 "id": 1,
                 "label": "Baboon 2",
@@ -195,25 +183,22 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Owner
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="owner-select"
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
-              Object {
+              {
                 "id": 1,
                 "label": "Mexico Biomed- Mexico Biomedical Research Institute",
                 "value": 2,
@@ -222,7 +207,7 @@ exports[`Should render the AccountPanel 1`] = `
           }
           placeholder="Select Owner"
           value={
-            Object {
+            {
               "id": 0,
               "label": "TxBiomed - Texas Biomedical Research Institute",
               "value": 1,
@@ -243,25 +228,22 @@ exports[`Should render the AccountPanel 1`] = `
         >
           Responsible Institution
         </label>
-        <StateManager
+        <ForwardRef
           className="shared-dropdown"
           classNamePrefix="shared-select"
-          defaultInputValue=""
-          defaultMenuIsOpen={false}
-          defaultValue={null}
           id="responsible-institution-select"
           isClearable={true}
           isDisabled={false}
           isLoading={false}
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "id": 0,
                 "label": "TxBiomed - Texas Biomedical Research Institute",
                 "value": 1,
               },
-              Object {
+              {
                 "id": 1,
                 "label": "Mexico Biomed- Mexico Biomedical Research Institute",
                 "value": 2,
@@ -270,7 +252,7 @@ exports[`Should render the AccountPanel 1`] = `
           }
           placeholder="Select Responsible Institution"
           value={
-            Object {
+            {
               "id": 0,
               "label": "TxBiomed - Texas Biomedical Research Institute",
               "value": 1,
@@ -282,28 +264,28 @@ exports[`Should render the AccountPanel 1`] = `
   </div>
   <InfoPanel
     messages={
-      Array [
-        Object {
+      [
+        {
           "colName": "Account",
           "propTest": true,
         },
-        Object {
+        {
           "colName": "Colony",
           "propTest": true,
         },
-        Object {
+        {
           "colName": "IACUC",
           "propTest": true,
         },
-        Object {
+        {
           "colName": "Pedigree",
           "propTest": true,
         },
-        Object {
+        {
           "colName": "Owner",
           "propTest": false,
         },
-        Object {
+        {
           "colName": "Responsible Institution",
           "propTest": false,
         },
