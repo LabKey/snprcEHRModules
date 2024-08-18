@@ -20,7 +20,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -30,7 +30,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.CommandResponse;
 import org.labkey.remoteapi.Connection;
-import org.labkey.remoteapi.PostCommand;
+import org.labkey.remoteapi.SimplePostCommand;
 import org.labkey.remoteapi.query.Filter;
 import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.SaveRowsResponse;
@@ -64,7 +64,6 @@ import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.ehr.EHRClientAPIHelper;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
-import org.labkey.test.util.external.labModules.LabModuleHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -351,7 +350,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         clickProject(PROJECT_NAME);
 
         Connection remoteApiConnection = WebTestHelper.getRemoteApiConnection();
-        PostCommand<CommandResponse> command = new PostCommand<>("snd", "saveProject");
+        SimplePostCommand command = new SimplePostCommand("snd", "saveProject");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -429,7 +428,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
 
         Connection remoteApiConnection = WebTestHelper.getRemoteApiConnection();
-        PostCommand<CommandResponse> command = new PostCommand<>("snd", "saveEvent");
+        SimplePostCommand command = new SimplePostCommand("snd", "saveEvent");
 
         JSONArray attributesArray = new JSONArray();
         for (Map<String, Object> attribute : attributes)
@@ -547,7 +546,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         String[] fields;
         Object[][] data;
-        PostCommand insertCommand;
+        SimplePostCommand insertCommand;
 
         //insert into demographics
         log("Creating test subjects");
@@ -1500,7 +1499,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         //test insert
         insertData[0][Arrays.asList(fields).indexOf(FIELD_OBJECTID)] = null;
         insertData[0][Arrays.asList(fields).indexOf(FIELD_LSID)] = null;
-        PostCommand insertCommand = getApiHelper().prepareInsertCommand("study", "diet", FIELD_LSID, fields, insertData);
+        SimplePostCommand insertCommand = getApiHelper().prepareInsertCommand("study", "diet", FIELD_LSID, fields, insertData);
 
         for (EHRQCState qc : EHRQCState.values())
         {
@@ -1524,7 +1523,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
             originalData[0][Arrays.asList(fields).indexOf(FIELD_QCSTATELABEL)] = originalQc.label;
             extraContext.put("targetQC", originalQc.label);
             originalData[0][Arrays.asList(fields).indexOf(FIELD_OBJECTID)] = objectId.toString();
-            PostCommand initialInsertCommand = getApiHelper().prepareInsertCommand("study", "diet", FIELD_LSID, fields, originalData);
+            SimplePostCommand initialInsertCommand = getApiHelper().prepareInsertCommand("study", "diet", FIELD_LSID, fields, originalData);
             log("Inserting initial record for update test, with initial QCState of: " + originalQc.label);
             response = getApiHelper().doSaveRows(DATA_ADMIN.getEmail(), initialInsertCommand, extraContext);
 
@@ -1537,7 +1536,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                 boolean successExpected = originalQc.equals(qc) ? successExpected(user.getRole(), originalQc, "update") : successExpected(user.getRole(), originalQc, "update") && successExpected(user.getRole(), qc, "insert");
                 log("Testing role: " + user.getRole().name() + " with update from QCState " + originalQc.label + " to: " + qc.label);
                 originalData[0][Arrays.asList(fields).indexOf(FIELD_QCSTATELABEL)] = qc.label;
-                PostCommand updateCommand = getApiHelper().prepareUpdateCommand("study", "diet", FIELD_LSID, fields, originalData, null);
+                SimplePostCommand updateCommand = getApiHelper().prepareUpdateCommand("study", "diet", FIELD_LSID, fields, originalData, null);
                 extraContext.put("targetQC", qc.label);
                 if (!successExpected)
                     getApiHelper().doSaveRowsExpectingError(user.getEmail(), updateCommand, extraContext);
