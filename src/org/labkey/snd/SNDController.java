@@ -1040,14 +1040,19 @@ public class SNDController extends SpringActionController
                 }
 
                 Event savedEvent = SNDService.get().saveEvent(getContainer(), getUser(), event, validateOnly);
-                response.put("event", savedEvent.toJSON(getContainer(), getUser()));
 
-                if (savedEvent.hasErrors())
-                {
-                    response.put("success", false);
-                }
-                else
-                {
+                if (savedEvent != null) {
+                    response.put("event", savedEvent.toJSON(getContainer(), getUser()));
+                    if (savedEvent.hasErrors())
+                    {
+                        response.put("success", false);
+                    }
+                    else
+                    {
+                        response.put("success", true);
+                    }
+                } else {
+                    response.put("event", null);
                     response.put("success", true);
                 }
             }
