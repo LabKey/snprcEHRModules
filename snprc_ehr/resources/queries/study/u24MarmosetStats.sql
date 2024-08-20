@@ -103,11 +103,11 @@ FROM
                ac.label AS ageClass,
                CASE WHEN aa.account IN('4876-001-00', '3508-402-12') THEN 1 ELSE 0 END AS U24_Status,
                CASE WHEN aa.account = '3508-402-12' AND ac.label = 'Adult' THEN 1 ELSE 0 END AS available_to_transfer,
-               CASE WHEN do.HousingStatus.Description IN ('Single', 'Grooming Contact', 'Visual Contact') THEN 0 --single housed
-                    WHEN do.HousingStatus.Description IN ('Group', 'with Dam', 'with Infant') AND va.accountGroup <> 'Breeder' THEN 1 -- natal family unit
+               CASE WHEN do.HousingStatus.Description = 'Single' THEN 0 --single housed
+                    WHEN do.HousingStatus.Description = 'Group' AND va.accountGroup <> 'Breeder' THEN 1 -- natal family unit
                     WHEN do.HousingStatus.Description IN ('Paired', 'Group') AND va.accountGroup = 'Breeder' THEN 2 -- active breeding
                     WHEN do.HousingStatus.Description = 'Paired' AND va.accountGroup <> 'Breeder' THEN 3 -- social non breeding
-                    WHEN do.HousingStatus IS NULL AND ac.label = 'Infant' THEN 1 -- *Asumption* we don't yet have observation data and animal is an infant - assume it is with its dam
+                    WHEN do.HousingStatus IS NULL and ac.label = 'Infant' THEN 1 -- *Asumption* we don't yet have observation data and animal is an infant - assume it is with its dam
                     ELSE NULL END AS current_housing_status
         FROM study.animalaccounts AS aa
         INNER JOIN study.demographics AS d ON aa.id = d.id AND d.calculated_status = 'Alive' AND d.species = 'CTJ'
