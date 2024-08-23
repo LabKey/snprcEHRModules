@@ -68,3 +68,5 @@ UNION
 select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Urinalysis Results' as Label, 'HL7UrinalysisPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'ehr' as schema, 'Colony Management' as CategoryId,'Kinship' as Label, 'kinship' as Name,  true as ShowByDefault, true as isAnimal
+UNION
+select 'ehr' as schema, 'Colony Management' as CategoryId,'Project' as Label, 'project' as Name,  true as ShowByDefault, false as isAnimal
