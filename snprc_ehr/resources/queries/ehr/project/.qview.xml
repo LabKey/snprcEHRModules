@@ -5,9 +5,10 @@
         <column name="speedkey"/>
         <column name="cost_account"/>
         <column name="protocol"/>
-        <column name="inves"/>
+        <column name="research"/>
         <column name="startdate"/>
         <column name="enddate"/>
+        <column name="displayName"/>
     </columns>
     <sorts>
         <sort column="startdate" descending="true" />
