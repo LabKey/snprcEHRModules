@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="Biomarkers" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="Fit" tableDbType="TABLE" useColumnOrder="true">
                 <columns>
                     <column columnName="AnimalId">
                         <columnTitle>Animal Id</columnTitle>

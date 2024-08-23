@@ -2,23 +2,24 @@ import React, { FC, memo, useState, useEffect } from 'react';
 import { EventListingGridPanel } from './components/EventListingGridPanel';
 import './styles/sndEventsWidget.scss';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-import { getMultiRow } from './actions';
+import { getMultiRow } from './actions/actions';
 import { Alert } from '@labkey/components';
 
 interface Props {
     filterConfig: any,
-    hasPermission?: boolean
+    hasReadPermission: boolean,
+    hasWritePermission: boolean
 }
 
 export const SndEventsWidget: FC<Props> = memo((props: Props) => {
-    const {filterConfig, hasPermission} = props;
+    const {filterConfig, hasReadPermission, hasWritePermission} = props;
     const [subjectIds, setSubjectIds] = useState<string[]>(['']);
     const [message, setMessage] = useState<string>(undefined);
     const [status, setStatus] = useState<string>(undefined);
 
     useEffect(() => {
         (async () => {
-            if (hasPermission && filterConfig !== undefined && filterConfig.length != 0) {
+            if (hasReadPermission && filterConfig !== undefined && filterConfig.length != 0) {
                 await getSubjectIdsFromFilters(filterConfig, setSubjectIds);
             }
         })();
@@ -62,24 +63,24 @@ export const SndEventsWidget: FC<Props> = memo((props: Props) => {
 
     return (
         <div>
-            {!hasPermission && (
+            {!hasReadPermission && (
                 <Alert>User Does not have permission to view this panel</Alert>
             )}
-            {hasPermission && (filterConfig === undefined || filterConfig.length == 0) && (
+            {hasReadPermission && (filterConfig === undefined || filterConfig.length == 0) && (
                 form()
             )
             }
-            {hasPermission && (filterConfig !== undefined && filterConfig.length != 0 && filterConfig?.filters.inputType === 'none') && (
+            {hasReadPermission && (filterConfig !== undefined && filterConfig.length != 0 && filterConfig?.filters.inputType === 'none') && (
                 <Alert>'Entire Database' filter is not supported for this query.</Alert>
             )}
-            {hasPermission && subjectIds[0] === 'none' && (
+            {hasReadPermission && subjectIds[0] === 'none' && (
                 <Alert>No animals were found for filter selections</Alert>
             )}
             {message && (
                 <Alert bsStyle={status}>{message}</Alert>
             )}
-            {hasPermission && subjectIds && (
-                <EventListingGridPanel subjectIDs={subjectIds} onChange={handleUpdateResponse} onError={handleError}/>
+            {hasReadPermission && subjectIds && (
+                <EventListingGridPanel subjectIDs={subjectIds} onChange={handleUpdateResponse} onError={handleError} hasWritePermission={hasWritePermission}/>
             )}
 
         </div>
