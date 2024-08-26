@@ -10,7 +10,8 @@ App.registerApp<any>('SndEventsWidgetWebpart', (target: string, ctx) => {
     const config: configProps = {
         ...ctx,
         filterConfig: ctx.filterConfig ? JSON.parse(ctx.filterConfig) : undefined,
-        hasPermission: ctx.hasPermission ? ctx.hasPermission : undefined
+        hasReadPermission: ctx.hasReadPermission ? ctx.hasReadPermission : undefined,
+        hasWritePermission: ctx.hasWritePermission ? ctx.hasWritePermission : undefined
     }
     ReactDOM.render(
         <AppContainer>
