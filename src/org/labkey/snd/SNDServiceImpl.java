@@ -351,7 +351,17 @@ public class SNDServiceImpl implements SNDService
         {
             if (event.getEventId() != null && SNDManager.get().eventExists(c, u, event.getEventId()))
             {
-                event = SNDManager.get().updateEvent(c, u, event, validateOnly);
+                if ((event.getEventData() == null || event.getEventData().isEmpty()) &&
+                        (!event.getEventNotesRow(c).containsKey("note") ||
+                                event.getEventNotesRow(c).get("note") == null ||
+                                event.getEventNotesRow(c).get("note").toString().trim().length() == 0))
+                {
+                    event = SNDManager.get().deleteEvent(c, u, event);
+                }
+                else
+                {
+                    event = SNDManager.get().updateEvent(c, u, event, validateOnly);
+                }
             }
             else
             {
