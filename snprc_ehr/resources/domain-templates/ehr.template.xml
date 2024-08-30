@@ -22,6 +22,14 @@
                     <dat:rangeURI>string</dat:rangeURI>
                     <dat:scale>2</dat:scale>
                 </dat:column>
+                <dat:column columnName="cost_account">
+                    <dat:columnTitle>Cost Account</dat:columnTitle>
+                    <dat:rangeURI>string</dat:rangeURI>
+                </dat:column>
+                <dat:column columnName="speedkey">
+                    <dat:columnTitle>Speedkey</dat:columnTitle>
+                    <dat:rangeURI>string</dat:rangeURI>
+                </dat:column>
             </dat:columns>
         </table>
     </template>
