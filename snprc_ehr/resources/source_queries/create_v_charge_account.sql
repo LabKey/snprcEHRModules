@@ -30,7 +30,9 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
   SELECT
     ca.charge_id                     AS project,
 	CASE WHEN vcs.charge_id IS NULL THEN 'True' ELSE 'False' END AS research,
-    ca.cost_account                  AS account,
+    ca.cost_account                  AS cost_account,
+    ca.account_id                    AS account,
+    pca.speedkey                     AS speedkey,
     ca.working_iacuc                 AS protocol,
 	coalesce(right(ca.working_iacuc, 2), vcs.arc_species_code) as species,
     ca.start_date                    AS startdate,
@@ -46,6 +48,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
   FROM dbo.charge_account AS ca
     LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ca.object_id
 	LEFT OUTER JOIN dbo.valid_charge_by_species AS vcs ON ca.charge_id = vcs.charge_id
+    LEFT OUTER JOIN dbo.prd_cost_account AS pca on pca.account_id = ca.account_id
 
 
 GO
