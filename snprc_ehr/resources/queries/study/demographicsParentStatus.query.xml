@@ -9,11 +9,7 @@
                     </column>
                     <column columnName="Parent_id">
                         <columnTitle>Parent Id</columnTitle>
-                        <fk>
-                            <fkDbSchema>study</fkDbSchema>
-                            <fkTable>animal</fkTable>
-                            <fkColumnName>id</fkColumnName>
-                        </fk>
+                        <url>ehr/participantView.view?participantId=${Parent_id}</url>
                     </column>
                     <column columnName="calculated_status">
                         <columnTitle>Status</columnTitle>
