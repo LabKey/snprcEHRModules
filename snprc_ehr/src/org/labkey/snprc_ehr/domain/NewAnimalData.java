@@ -220,25 +220,25 @@ public class NewAnimalData
     @Nullable
     public String birthDateToString()
     {
-        return DateUtil.formatDateISO8601(getBirthDate());
+        return DateUtil.formatIsoDate(getBirthDate());
     }
 
     @Nullable
     public String acqDateToString()
     {
-        return DateUtil.formatDateISO8601(getAcqDate());
+        return DateUtil.formatIsoDate(getAcqDate());
     }
 
     @Nullable
     public String modifiedDateToString()
     {
-        return DateUtil.formatDateISO8601(getModified());
+        return DateUtil.formatIsoDate(getModified());
     }
 
     @Nullable
     public String createdDateToString()
     {
-        return DateUtil.formatDateISO8601(getCreated());
+        return DateUtil.formatIsoDate(getCreated());
     }
 
     public String getId()
