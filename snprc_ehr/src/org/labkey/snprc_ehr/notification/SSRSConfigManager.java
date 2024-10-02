@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
+import org.labkey.api.data.PropertyManager.WritablePropertyMap;
 import org.labkey.api.data.PropertyStore;
 
 import java.net.MalformedURLException;
@@ -81,7 +82,7 @@ public class SSRSConfigManager
         new URL(baseURL);
 
         PropertyStore store = PropertyManager.getEncryptedStore();
-        PropertyManager.PropertyMap map = store.getWritableProperties(c, SSRS_PROPERTY_CATEGORY, true);
+        WritablePropertyMap map = store.getWritableProperties(c, SSRS_PROPERTY_CATEGORY, true);
         map.put(SSRS_USER_NAME_PROPERTY, user);
         map.put(SSRS_PASSWORD_PROPERTY, password);
         map.put(SSRS_BASE_URL, baseURL);
