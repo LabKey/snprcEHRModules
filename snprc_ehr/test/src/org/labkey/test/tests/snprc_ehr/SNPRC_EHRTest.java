@@ -1055,7 +1055,9 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         goToProjectSettings(PROJECT_NAME);
 
+        uncheckCheckbox(Locator.name("defaultDateFormatInherited"));
         setFormElement(Locator.name("defaultDateFormat"), dateFormat);
+        uncheckCheckbox(Locator.name("defaultDateTimeFormatInherited"));
         setFormElement(Locator.name("defaultDateTimeFormat"), dateTimeFormat);
         clickAndWait(Locator.lkButton("Save"));
     }
