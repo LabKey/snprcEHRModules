@@ -1000,27 +1000,27 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Test
-    public void testDateFormat(){
+    public void testDateAndTimeFormats(){
 
         String dateFormat = "dd-MMM-yyyy";
-        String dateTimeFormat = dateFormat + "HH:mm:ss.SSS";
+        String timeFormat = "HH:mm:ss.SSS";
         String expectedDate = "01-Jun-2016";
         String expectedTime = "08:58:00.000";
 
-        testDateFormat(dateFormat, dateTimeFormat, expectedDate, expectedTime);
+        testDateAndTimeFormats(dateFormat, timeFormat, expectedDate, expectedTime);
 
         dateFormat = "yyyy-MM-dd";
-        dateTimeFormat = dateFormat + " HH:mm";
+        timeFormat = "HH:mm";
         expectedDate = "2016-06-01";
         expectedTime = "08:58";
 
-        testDateFormat(dateFormat, dateTimeFormat, expectedDate, expectedTime);
+        testDateAndTimeFormats(dateFormat, timeFormat, expectedDate, expectedTime);
 
     }
 
-    private void testDateFormat(String dateFormat, String dateTimeFormat, String expectedDate, String expectedTime)
+    private void testDateAndTimeFormats(String dateFormat, String timeFormat, String expectedDate, String expectedTime)
     {
-        setProjectDateFormat(dateFormat,dateTimeFormat);
+        setProjectDateAndTimeFormats(dateFormat, timeFormat);
 
         confirmJavascriptDrivenDateFormat(expectedDate);
 
@@ -1051,14 +1051,15 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         assertTextPresentCaseInsensitive(expectedDate);
     }
 
-    private void setProjectDateFormat(String dateFormat, String dateTimeFormat)
+    private void setProjectDateAndTimeFormats(String dateFormat, String timeFormat)
     {
         goToProjectSettings(PROJECT_NAME);
 
         uncheckCheckbox(Locator.name("defaultDateFormatInherited"));
         setFormElement(Locator.name("defaultDateFormat"), dateFormat);
         uncheckCheckbox(Locator.name("defaultDateTimeFormatInherited"));
-        setFormElement(Locator.name("defaultDateTimeFormat"), dateTimeFormat);
+        setFormElement(Locator.name("dateSelect"), dateFormat);
+        setFormElement(Locator.name("timeSelect"), timeFormat);
         clickAndWait(Locator.lkButton("Save"));
     }
 
