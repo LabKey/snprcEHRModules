@@ -8,11 +8,11 @@ dependencies
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiJarFile")
             implementation "com.sun.mail:jakarta.mail:${javaMailVersion}"
             implementation "commons-lang:commons-lang:${commonsLangVersion}"
-            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:dataintegration", depProjectConfig: "apiJarFile")
+            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:premiumModules:dataintegration", depProjectConfig: "apiJarFile")
 
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "published", depExtension: "module")
-            BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:dataintegration", depProjectConfig: "published", depExtension: "module")
+            BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:dataintegration", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:premium", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:snd", depProjectConfig: "published", depExtension: "module")
 
