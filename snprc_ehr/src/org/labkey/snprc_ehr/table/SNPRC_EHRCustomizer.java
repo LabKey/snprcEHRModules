@@ -69,7 +69,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     }
 
     @Override
-    public void customize(TableInfo table)
+    public void customize(TableInfo table)f
     {
         if (table instanceof AbstractTableInfo)
         {
@@ -77,6 +77,23 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             doTableSpecificCustomizations((AbstractTableInfo) table);
             doCalculatedCustomizations((AbstractTableInfo) table);
             //TODO: customizeColumns((AbstractTableInfo) table);
+            if (table instanceof AbstractTableInfo ti)
+            {
+                if (matches(ti, "study", "SPF_Results"))
+                {
+                    customizeSPFResults(ti);
+
+                }
+            }
+        }
+
+    }
+    private void customizeSPFResults(AbstractTableInfo ti)
+    {
+        var date = ti.getMutableColumn("date");
+        if (date != null)
+        {
+            date.setFormat("Date");
         }
     }
 
