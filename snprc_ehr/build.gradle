@@ -6,7 +6,7 @@ dependencies
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiJarFile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:snd", depProjectConfig: "apiJarFile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiJarFile")
-            implementation "com.sun.mail:jakarta.mail:${javaMailVersion}"
+            implementation "org.eclipse.angus:angus-mail:${angusMailVersion}"
             implementation "commons-lang:commons-lang:${commonsLangVersion}"
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:premiumModules:dataintegration", depProjectConfig: "apiJarFile")
 
