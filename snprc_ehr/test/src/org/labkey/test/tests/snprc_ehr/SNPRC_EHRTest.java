@@ -621,11 +621,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         if(limitShown)
         {
-            assertElementPresent(Locator.css("rect[fill^=url]"));
+            assertElementVisible(Locator.css("rect[fill='url(#diag-pattern)']"));
         }
         else
         {
-            assertElementNotPresent(Locator.css("rect[fill^=url]"));
+            assertElementNotVisible(Locator.css("rect[fill='url(#diag-pattern)']"));
         }
     }
 
@@ -717,7 +717,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveMarmId,
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -3)),
-                        "quantity", .5,
+                        "quantity", 1.5,
                         "project", PROJECT_ID),
                 Maps.of("Id", aliveMarmId,
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -4)),
@@ -737,7 +737,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         // Verify recent blood draw values
         Map<String, List<String>> recentBloodDraws = new HashMap<>();
 
-        List<String> quantities = Arrays.asList("0.5", "1.0", "0.8");
+        List<String> quantities = Arrays.asList("1.5", "1.0", "0.8");
         recentBloodDraws.put("quantity", quantities);
 
         List<String> dates = Arrays.asList(
