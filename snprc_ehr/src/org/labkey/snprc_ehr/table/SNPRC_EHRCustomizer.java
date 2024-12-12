@@ -42,6 +42,7 @@ import org.labkey.api.query.FilteredTable;
 import org.labkey.api.query.QueryForeignKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
+import org.labkey.api.util.logging.LogHelper;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.helpers.CustomizerQueryProvider;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
@@ -56,7 +57,7 @@ import java.util.Set;
  */
 public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
-    private static final Logger _log = LogManager.getLogger(SNPRC_EHRCustomizer.class);
+    private static final Logger _log = LogHelper.getLogger(SNPRC_EHRCustomizer.class, "SNPRC_EHR Table Customizer Class");
 
     private CustomizerQueryProvider _provider;
 
@@ -69,7 +70,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     }
 
     @Override
-    public void customize(TableInfo table)f
+    public void customize(TableInfo table)
     {
         if (table instanceof AbstractTableInfo)
         {
@@ -96,44 +97,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             date.setFormat("Date");
         }
     }
-
-/*  //TODO: need to add investigator foreign key to multiple tables once the arc_valid_pi table has been ETL'd. tjh
-    // Are we using investigatorId or investigatorName???
-
-    private void customizeColumns(AbstractTableInfo ti)
-    {
-
-        // add foreign key for investigator id
-        boolean found = false;
-        for (String field : new String[]{"investigator", "investigatorId"})
-
-        {
-            if (found)
-
-                continue; //a table should never contain both of these anyway
-
-            ColumnInfo investigator = ti.getColumn(field);
-            if (investigator != null)
-            {
-                found = true;
-                investigator.setLabel("Investigator");
-
-                if (!ti.getName().equalsIgnoreCase("investigators") && investigator.getJdbcType().getJavaClass().equals(Integer.class))
-                {
-                    UserSchema us = getEHRUserSchema(ti, "snprc_ehr");
-                    if (us != null){
-                        //here:   investigator.setFk(new QueryForeignKey(us, us.getContainer(), "package", "id", "name"));
-                        //investigator.setFk(new QueryForeignKey(us, us.getContainer(), "investigators", "rowid", "lastname"));
-                    }
-                }
-                investigator.setLabel("Investigator");
-            }
-        }
-
-
-
-    }
-*/
 
     /**
      * This should contain java code that will act upon any table in the EHR, which includes
@@ -178,7 +141,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             ti.getMutableColumn("project").setLabel("Charge Id");
         }
     }
-
 
     public UserSchema getEHRUserSchema(AbstractTableInfo ds, String name)
     {

@@ -6,6 +6,7 @@
                 <columns>
                     <column columnName="Date">
                         <columnTitle>Bleed Date</columnTitle>
+                        <formatString>Date</formatString>
                     </column>
                     <column columnName="Id">
                         <fk>

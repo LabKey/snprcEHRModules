@@ -1,0 +1,41 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="id/Demographics/gender/code">
+            <properties>
+                <property name="columnTitle" value="Sex"/>
+            </properties>
+        </column>
+        <column name="ageAtTime/AgeAtTime"/>
+        <column name="id/curLocation/room">
+            <properties>
+                <property name="columnTitle" value="Current Location"/>
+            </properties>
+        </column>
+        <column name="Sample_code" />
+        <column name="SIV" />
+        <column name="SRV" />
+        <column name="STLV" />
+        <column name="BV" />
+        <column name="Measles" />
+        <column name="TCruzi" />
+        <column name="TB_ESAT6_CFP10_FP" />
+        <column name="TB_ESAT6" />
+        <column name="TB_CFP10_mag" />
+        <column name="TB_RV2875" />
+        <column name="TB_HSPX" />
+        <column name="TB_RV3881" />
+        <column name="TB_RV3841" />
+        <column name="COVID19_Spike_FL" />
+        <column name="COVID19_NP" />
+        <column name="COVID_229E" />
+        <column name="COVID_OC43" />
+        <column name="COVID_HKU1" />
+        <column name="COVID_NL63" />
+    </columns>
+    <sorts>
+        <sort column="Id" descending="false" />
+        <sort column="date" descending="true" />
+    </sorts>
+</customView>

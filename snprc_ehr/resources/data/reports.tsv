@@ -14,6 +14,7 @@ clinPathRuns	Lab Results	query	Requests	true		study	clinpathRunsALL			date	false
 hematology	Lab Results	query	Hematology	true		snprc_ehr	Hl7hematologyPivot			date	false	false			Contains hematology data showing cell subsets
 surveillance	Lab Results	query	Surveillance	true		snprc_ehr	HL7surveillancePivot			date	false	false			Contains surveillance data
 urinalysis	Lab Results	query	Urinalysis	true		snprc_ehr	HL7urinalysisPivot			date	false	false			Contains urinalysis results
+Luminex Surveillance	Lab Results	query	Luminex Surveillance	true		study	spf_results			date	false	false			Contains spf results
 miscTests	Lab Results	query	Misc Tests	true		snprc_ehr	HL7MiscPivot			date	false	false		qcstate/publicdata	This report contains the misc lab results not represented in the other reports
 ParasitologyPivot	Lab Results	query	Parasitology	true		snprc_ehr	HL7ParasitologyPivot			date	false	false			Parasitology data.
 CulturePivot	Lab Results	query	Cultures	true		snprc_ehr	Hl7CulturePivot			date	false	false			Culture data.
