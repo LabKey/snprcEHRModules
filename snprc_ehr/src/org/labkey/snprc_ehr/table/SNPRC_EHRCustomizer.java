@@ -77,26 +77,10 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             doSharedCustomization((AbstractTableInfo) table);
             doTableSpecificCustomizations((AbstractTableInfo) table);
             doCalculatedCustomizations((AbstractTableInfo) table);
-            //TODO: customizeColumns((AbstractTableInfo) table);
-            if (table instanceof AbstractTableInfo ti)
-            {
-                if (matches(ti, "study", "SPF_Results"))
-                {
-                    customizeSPFResults(ti);
-
-                }
-            }
         }
 
     }
-    private void customizeSPFResults(AbstractTableInfo ti)
-    {
-        var date = ti.getMutableColumn("date");
-        if (date != null)
-        {
-            date.setFormat("Date");
-        }
-    }
+
 
     /**
      * This should contain java code that will act upon any table in the EHR, which includes
