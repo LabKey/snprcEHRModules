@@ -10,7 +10,7 @@
         <column name="ageAtTime/AgeAtTime"/>
         <column name="id/curLocation/room">
             <properties>
-                <property name="columnTitle" value="Current Location"/>
+                <property name="columnTitle" value="Cur Loc"/>
             </properties>
         </column>
         <column name="Sample_code" />
