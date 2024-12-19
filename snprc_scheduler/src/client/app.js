@@ -45,6 +45,8 @@ const render = () => {
 store.dispatch(fetchProjects());
 
 // render the application
-render();
+window.addEventListener('DOMContentLoaded', (event) => {
+    render();
+});
 
 
