@@ -208,5 +208,8 @@
         <dataset name="TaqmanResults" id="5060" demographicData="false" category="ClinPath"  type="Standard" showByDefault="true">
             <tags/>
         </dataset>
+        <dataset name="SPF_Results" id="5061" demographicData="false" category="ClinPath"  type="Standard" showByDefault="true">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>

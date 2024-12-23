@@ -3295,4 +3295,84 @@
             </column>
         </columns>
     </table>
+    <table tableName="SPF_Results" tableDbType="TABLE">
+        <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>Animal_id</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Date">
+                <datatype>timestamp</datatype>
+                <importAliases>
+                    <importAlias>Bleed_date</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="Sample_Number">
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="Sample_code">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="SIV">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="SRV">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="STLV">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="BV">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="Measles">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TCruzi">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_ESAT6_CFP10_FP">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_ESAT6">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_CFP10_mag">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_RV2875">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_HSPX">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_RV3881">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="TB_RV3841">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COVID19_Spike_FL">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COVID19_NP">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COVID_229E">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COVID_OC43">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COVID_HKU1">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="COVID_NL63">
+                <datatype>varchar</datatype>
+            </column>
+        </columns>
+    </table>
 </tables>
