@@ -11,21 +11,10 @@
                         <formatString>MM-dd-yy</formatString>
                     </column>
                     <column columnName="location">
-                        <displayWidth>40</displayWidth>
-                        <!--<fk>
-                          <fkDbSchema>ehr_lookups</fkDbSchema>
-                          <fkTable>cage</fkTable>
-                          <fkColumnName>location</fkColumnName>
-                        </fk>
-                        -->
+                        <displayWidth>85</displayWidth>
                     </column>
                     <column columnName="room">
-                        <displayWidth>40</displayWidth>
-                        <!--<fk>-->
-                          <!--<fkDbSchema>ehr_lookups</fkDbSchema>-->
-                          <!--<fkTable>rooms</fkTable>-->
-                          <!--<fkColumnName>room</fkColumnName>-->
-                        <!--</fk>-->
+                        <displayWidth>60</displayWidth>
                     </column>
                     <column columnName="cage">
                         <displayWidth>40</displayWidth>
