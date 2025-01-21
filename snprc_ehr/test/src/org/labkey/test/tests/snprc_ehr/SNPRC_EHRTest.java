@@ -615,18 +615,17 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         page.clickCategoryTab("General");
         page.clickReportTab("Current Blood");
-        sleep(2000);
 
         WebElement svg = Locator.css("div[id^=snprc-bloodsummarypanel-] svg").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT);
         assertEquals("Wrong number of data points", dataPoints, svg.findElements(By.cssSelector("a.point")).size());
 
         if(limitShown)
         {
-            assertElementVisible(Locator.css("rect[fill='url(#diag-pattern)']"));
+            assertTrue("Below limit plot section is not visible.", Locator.css("rect[fill='url(#diag-pattern)']").findElement(getDriver()).getSize().getHeight() > 0);
         }
         else
         {
-            assertElementNotVisible(Locator.css("rect[fill='url(#diag-pattern)']"));
+            assertEquals("Below limit plot section is visible.", 0, Locator.css("rect[fill='url(#diag-pattern)']").findElement(getDriver()).getSize().getHeight());
         }
     }
 
@@ -733,7 +732,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         // Test upper weight limit
         participantViewPage = ParticipantViewPage.beginAt(this, aliveMarmId);
         setupBloodValues(aliveMarmId, weightLimit, null);
-        sleep(2000);
         verifyBloodPlotValues(participantViewPage, 6, false);
 
         // Verify recent blood draw values
