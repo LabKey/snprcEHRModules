@@ -621,11 +621,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         if(limitShown)
         {
-            assertElementVisible(Locator.css("rect[fill='url(#diag-pattern)']"));
+            assertTrue("Below limit plot section is not visible.", Locator.css("rect[fill='url(#diag-pattern)']").findElement(getDriver()).getSize().getHeight() > 1);
         }
         else
         {
-            assertElementNotVisible(Locator.css("rect[fill='url(#diag-pattern)']"));
+            assertTrue("Below limit plot section is visible.", Locator.css("rect[fill='url(#diag-pattern)']").findElement(getDriver()).getSize().getHeight() < 1);
         }
     }
 
