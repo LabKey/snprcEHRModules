@@ -92,7 +92,7 @@
                             <fkTable>blood_sample_type</fkTable>
                             <fkColumnName>value</fkColumnName>
                         </fk>
-                    </column>>
+                    </column>
                 </columns>
             </table>
         </tables>
