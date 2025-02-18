@@ -14,4 +14,6 @@ SELECT e.EventId,
        e.ParentObjectId.ReferenceId.protocol.veterinarian as Veterinarian,
 
 FROM Events e left outer join study.cases c on e.AdmitId = c.caseid
-left join study.assignment a on a.protocol = e.ParentObjectId.ReferenceId.protocol and e.Date between a.date and coalesce(a.enddate, curdate()) and a.id = e.subjectID
+left join study.assignment a on a.protocol = e.ParentObjectId.ReferenceId.protocol
+                and cast(e.Date as date) between a.date and coalesce(a.enddate, curdate())
+                and a.id = e.subjectID
