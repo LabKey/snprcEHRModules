@@ -3185,5 +3185,6 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
+        <tableTitle>Serology</tableTitle>
     </table>
 </tables>
