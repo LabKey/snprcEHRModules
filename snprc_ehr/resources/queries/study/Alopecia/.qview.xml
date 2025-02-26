@@ -3,10 +3,13 @@
         <column name="Id"/>
         <column name="date"/>
         <column name="AlopeciaScore"/>
-        <column name="history" />
+        <column name="Scorer"/>
+        <column name="project"/>
+        <column name="modifiedBy"/>
+        <column name="modified"/>
+        <column name="history"/>
     </columns>
     <sorts>
-        <sort column="Id" descending="false" />
         <sort column="date" descending="true" />
     </sorts>
 </customView>

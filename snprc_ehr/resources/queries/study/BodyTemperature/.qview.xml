@@ -2,14 +2,13 @@
     <columns>
         <column name="Id"/>
         <column name="date"/>
-        <column name="weight"/>
+        <column name="Temp"/>
         <column name="project"/>
         <column name="modifiedBy"/>
         <column name="modified"/>
         <column name="history"/>
     </columns>
     <sorts>
-        <sort column="Date" descending="true" />
+        <sort column="date" descending="true" />
     </sorts>
 </customView>
-
