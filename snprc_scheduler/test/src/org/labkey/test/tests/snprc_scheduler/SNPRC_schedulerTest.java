@@ -17,7 +17,9 @@ import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.Sort;
 import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
+import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
@@ -153,6 +155,30 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     protected boolean skipStudyImportQueryValidation()
     {
         return true;
+    }
+
+    @Override
+    protected void importFolderFromPath(int jobCount)
+    {
+        File path = TestFileUtils.getSampleData("study/referenceStudy");
+        setPipelineRoot(path.getPath());
+
+        beginAt(WebTestHelper.getBaseURL() + "/" + getContainerPath() + "/pipeline-status-begin.view");
+        clickButton("Process and Import Data", defaultWaitForPage);
+
+        _fileBrowserHelper.expandFileBrowserRootNode();
+        _fileBrowserHelper.checkFileBrowserFileCheckbox("folder.xml");
+        _fileBrowserHelper.selectImportDataAction("Import Folder");
+
+        if (skipStudyImportQueryValidation())
+        {
+            Locator cb = Locator.checkboxByName("validateQueries");
+            waitForElement(cb);
+            uncheckCheckbox(cb);
+        }
+
+        clickButton("Start Import"); // Validate queries page
+        waitForPipelineJobsToComplete(jobCount, "Folder import", false, MAX_WAIT_SECONDS * 2500);
     }
 
     @Override
