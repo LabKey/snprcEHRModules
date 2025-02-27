@@ -63,8 +63,6 @@ select 'study' as schema, 'Misc' as CategoryId,'Animals with Genetic data' as La
 UNION
 select 'study' as schema, 'Behavior' as CategoryId,'Abnormal Behavior' as Label, 'BehaviorAbnormalAll' as Name,  true as ShowByDefault, true as isAnimal
 UNION
-select 'study' as schema, 'Clinical' as CategoryId,'Body Condition Scores' as Label, 'BodyConditionScores' as Name,  true as ShowByDefault, true as isAnimal
-UNION
 select 'snprc_ehr' as schema, 'ClinPath' as CategoryId,'Urinalysis Results' as Label, 'HL7UrinalysisPivot' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'ehr' as schema, 'Colony Management' as CategoryId,'Kinship' as Label, 'kinship' as Name,  true as ShowByDefault, true as isAnimal

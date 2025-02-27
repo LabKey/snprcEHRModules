@@ -1,0 +1,30 @@
+SELECT
+    v.LSID as _key,
+    v.SubjectId as participantid,
+    v.date,
+    v.temp,
+    null as taskid,
+    null as requestid,
+    null as performedby,
+    null as description,
+    null as remark,
+    p.ReferenceId as project,
+    v.QcState,
+    v.SequenceNum,
+    v.ObjectId,
+    v.EventDataId,
+    v.EventId,
+    v.SuperPkgId,
+    v.ObjectURI,
+    v.Container,
+    v.ParentEventDataId,
+    v.SortOrder,
+    v.USDACode,
+    v.LSID,
+    e.CreatedBy,
+    e.Created,
+    e.ModifiedBy,
+    e.Modified
+FROM SND.Categories."Vitals Temperature" as v
+         INNER JOIN SND.Events as e on v.EventId = e.EventId
+         INNER JOIN SND.Projects as p on e.ParentObjectId = p.objectId

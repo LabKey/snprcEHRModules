@@ -6,7 +6,9 @@
         <column name="reason"/>
         <column name="quantity"/>
         <column name="remark"/>
-        <column name="datefinalized"/>
+        <column name="project"/>
+        <column name="modifiedBy"/>
+        <column name="modified"/>
         <column name="history"/>
     </columns>
     <sorts>

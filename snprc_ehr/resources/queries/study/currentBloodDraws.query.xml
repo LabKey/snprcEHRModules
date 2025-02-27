@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="currentBloodDraws" tableDbType="TABLE">
+            <table tableName="currentBloodDraws" tableDbType="NOT_IN_DB">
                 <tableTitle>Current Blood Draws</tableTitle>
                 <columns>
                     <column columnName="mostRecentWeight">

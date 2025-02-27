@@ -1,7 +1,8 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="vitals" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="BodyTemperature" tableDbType="TABLE">
+                <tableTitle>Body Temperature</tableTitle>
                 <insertUrl />
                 <importUrl />
                 <updateUrl />
@@ -9,6 +10,10 @@
                 <columns>
                     <column columnName="Id"/>
                     <column columnName="Date"/>
+                    <column columnName="Temp">
+                        <columnTitle>Temperature</columnTitle>
+                        <measure>true</measure>
+                    </column>
                 </columns>
             </table>
         </tables>

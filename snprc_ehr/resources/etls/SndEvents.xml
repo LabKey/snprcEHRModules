@@ -6,7 +6,7 @@
         <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
             <description>Copy to target</description>
             <source schemaName="snprcSrc" queryName="v_snd_events" />
-            <destination schemaName="snd" queryName="Events" bulkLoad="true" batchSize="5000" targetOption="merge">
+            <destination schemaName="snd" queryName="Events" bulkLoad="true" batchSize="1000" targetOption="merge">
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>
