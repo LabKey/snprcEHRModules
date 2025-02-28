@@ -3121,6 +3121,11 @@
                     <importAlias>Bleed_date</importAlias>
                 </importAliases>
             </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <propertyURI>urn:ehr.labkey.org/#ObjectId</propertyURI>
+                <isKeyField>true</isKeyField>
+            </column>
             <column columnName="Sample_Number">
                 <datatype>integer</datatype>
             </column>
