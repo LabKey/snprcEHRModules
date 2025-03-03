@@ -89,8 +89,8 @@ public class SNPRC_schedulerModule extends DefaultModule
 
         // There are two versions of bootstrap in the main app for this module so the css for bootstrap 3.3.7 is brought in via CDN instead of NPM.
         // Register the external CDN sources for CSP filters.
-        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Style, "bs_3_3_7_style", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css");
-        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Font, "bs_3_3_7_font", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/fonts/");
+        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Style, "bs_style", "https://maxcdn.bootstrapcdn.com/bootstrap/");
+        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Font, "bs_font", "https://maxcdn.bootstrapcdn.com/bootstrap/");
     }
 
     @Override
