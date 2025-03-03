@@ -1,7 +1,10 @@
-
+/*
+These CDNs are pulling in older versions of bootstrap css than what is being used in package.json.
+TODO: Use consistent version of bootstrap throughout app.
+ */
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css");
-@import url("https://npmcdn.com/react-bootstrap-table/dist/react-bootstrap-table-all.min.css");
+@import url("~react-bootstrap-table/dist/react-bootstrap-table-all.min.css");
 
 .scheduler-bs-accordion {
     margin-left: 17px;
