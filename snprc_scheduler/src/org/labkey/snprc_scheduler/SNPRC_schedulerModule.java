@@ -11,6 +11,7 @@ import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.resource.Resource;
+import org.labkey.api.security.Directive;
 import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.services.ServiceRegistry;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
@@ -19,6 +20,7 @@ import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
+import org.labkey.filters.ContentSecurityPolicyFilter;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerAdminRole;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerEditorsRole;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerReadersRole;
@@ -84,6 +86,11 @@ public class SNPRC_schedulerModule extends DefaultModule
         RoleManager.registerRole(new SNPRC_schedulerEditorsRole(), false);
         RoleManager.registerRole(new SNPRC_schedulerReviewersRole(), false);
         RoleManager.registerRole(new SNPRC_schedulerAdminRole(), false);
+
+        // There are two versions of bootstrap in the main app for this module so the css for bootstrap 3.3.7 is brought in via CDN instead of NPM.
+        // Register the external CDN sources for CSP filters.
+        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Style, "bs_style", "https://maxcdn.bootstrapcdn.com/bootstrap/");
+        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Font, "bs_font", "https://maxcdn.bootstrapcdn.com/bootstrap/");
     }
 
     @Override
