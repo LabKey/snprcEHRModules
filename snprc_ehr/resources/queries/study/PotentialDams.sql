@@ -47,7 +47,7 @@ WHERE d.gender = 'F'
 -- age at conception is greater or equal to minimum adult age and less than or equal to maximum adult age
   -- LK has trouble matching parameters correctly using the code below, so minConceptionDate was added to the y result set
   --AND x.minAdultAge <= ROUND(CAST(age_in_months(d.birth, timestampadd('SQL_TSI_DAY', -y.gestation, coalesce(birthdateParm, curdate()) ) ) AS DOUBLE) / 12.0, 1)
-  AND ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) between x.minAdultAge and x.maxAdultAge
+  AND ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) between (x.minAdultAge * .95) and x.maxAdultAge
 -- ensure animal was at txbiomed on date of conception for birth type acquisitions
   AND (timestampadd('SQL_TSI_DAY', -y.gestation, birthdateParm) BETWEEN ad.acq_date AND COALESCE(ad.disp_date, birthdateParm) OR selectedOptionParm = 'Acquisition')
 -- make sure animal was alive (at center) on conception date for birth type acquisitions
