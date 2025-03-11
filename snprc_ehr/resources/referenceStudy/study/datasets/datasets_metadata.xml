@@ -3121,11 +3121,19 @@
                     <importAlias>Bleed_date</importAlias>
                 </importAliases>
             </column>
+            <column columnName="Plate_number">
+                <datatype>varchar</datatype>
+            </column>
+            <column columnName="objectid">
+                <datatype>entityid</datatype>
+                <isKeyField>false</isKeyField>
+            </column>
             <column columnName="Sample_Number">
                 <datatype>integer</datatype>
             </column>
             <column columnName="Sample_code">
                 <datatype>varchar</datatype>
+                <isKeyField>true</isKeyField>
             </column>
             <column columnName="SIV">
                 <datatype>varchar</datatype>
