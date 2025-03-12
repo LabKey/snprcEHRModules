@@ -13,6 +13,7 @@
                 <property name="columnTitle" value="Cur Loc"/>
             </properties>
         </column>
+        <column name="Plate_number" />
         <column name="Sample_code" />
         <column name="SIV" />
         <column name="SRV" />
