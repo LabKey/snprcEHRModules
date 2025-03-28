@@ -2,7 +2,6 @@ package org.labkey.snprc_scheduler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.module.DefaultModule;
@@ -19,7 +18,6 @@ import org.labkey.api.view.BaseWebPartFactory;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
-import org.labkey.api.view.WebPartView;
 import org.labkey.filters.ContentSecurityPolicyFilter;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerAdminRole;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerEditorsRole;
@@ -63,7 +61,7 @@ public class SNPRC_schedulerModule extends DefaultModule
         webPartFactories.add(new BaseWebPartFactory("SNPRC Scheduler", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
         {
             @Override
-            public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
+            public SchedulerWebPart getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
                 return new SchedulerWebPart();
             }
@@ -89,8 +87,8 @@ public class SNPRC_schedulerModule extends DefaultModule
 
         // There are two versions of bootstrap in the main app for this module so the css for bootstrap 3.3.7 is brought in via CDN instead of NPM.
         // Register the external CDN sources for CSP filters.
-        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Style, "bs_style", "https://maxcdn.bootstrapcdn.com/bootstrap/");
-        ContentSecurityPolicyFilter.registerAllowedSources(Directive.Font, "bs_font", "https://maxcdn.bootstrapcdn.com/bootstrap/");
+        ContentSecurityPolicyFilter.registerAllowedSources("bs_style", Directive.Style, "https://maxcdn.bootstrapcdn.com/bootstrap/");
+        ContentSecurityPolicyFilter.registerAllowedSources("bs_font", Directive.Font, "https://maxcdn.bootstrapcdn.com/bootstrap/");
     }
 
     @Override
@@ -125,16 +123,6 @@ public class SNPRC_schedulerModule extends DefaultModule
 //                }
 //            });
 //        }
-    }
-
-
-
-
-    @Override
-    @NotNull
-    public Collection<String> getSummary(Container c)
-    {
-        return Collections.emptyList();
     }
 
     @Override
