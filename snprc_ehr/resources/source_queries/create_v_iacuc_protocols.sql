@@ -80,7 +80,8 @@ FROM dbo.arc_master AS am
                         AND ad.arc_num_amendment = (SELECT MAX(ad.arc_num_amendment)
                                                     FROM arc_detail AS ad
                                                     WHERE ad.arc_num_seq = am.arc_num_seq
-                                                      AND ad.arc_num_genus = am.arc_num_genus)
+                                                      AND ad.arc_num_genus = am.arc_num_genus
+                                                      AND ad.application_status = 'A')
                         AND ad.application_status = 'A'
          LEFT OUTER JOIN dbo.valid_colony_maintenance_iacuc AS M
                          ON am.working_iacuc = m.working_iacuc
