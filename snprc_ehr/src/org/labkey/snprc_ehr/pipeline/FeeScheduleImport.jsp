@@ -30,7 +30,7 @@
     }
 %>
 <%
-    JspView<FeeScheduleImportForm> me = (JspView<FeeScheduleImportForm>) HttpView.currentView();
+    JspView<FeeScheduleImportForm> me = HttpView.currentView();
     FeeScheduleImportForm bean = me.getModelBean();
     String importFormId = "FeeScheduleImportForm";
 %>
