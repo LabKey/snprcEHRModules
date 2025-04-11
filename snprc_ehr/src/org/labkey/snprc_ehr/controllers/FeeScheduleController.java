@@ -29,6 +29,8 @@ import org.labkey.api.pipeline.browse.PipelinePathForm;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.util.Path;
+import org.labkey.api.util.URIUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
@@ -43,6 +45,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -111,7 +114,7 @@ public class FeeScheduleController extends SpringActionController
             FeeScheduleExcelParser fsep;
             if (form.getFilePath() != null)
             {
-                //file path here is constructed from the pipeline, and contains pipeline root + actual file.
+                //file path here is constructed from the pipeline, and contains pipeline root + file.
                 fileToVerify = new File(form.getFilePath());
 
                 PipeRoot pipeRoot = PipelineService.get().findPipelineRoot(getContainer());
@@ -119,10 +122,22 @@ public class FeeScheduleController extends SpringActionController
                 {
                     throw new PipelineJobException("Could not find a pipeline root for '" + getContainer().getPath() + "'");
                 }
-                FileLike rootFileLike = pipeRoot.getRootFileLike();
-                if (rootFileLike.isDescendant(fileToVerify.toURI()))
+
+                FileLike allowedRoot = pipeRoot.getRootFileLike();
+                URI relativeURI = URIUtil.relativize(allowedRoot.toURI(), fileToVerify.toURI()); // if root = /a/b/c/ and file = /a/b/c/d/e/f.xlsx, relativeURI = d/e/f.xlsx
+
+                if (relativeURI == null)
                 {
-                    file = FileSystemLike.toFile(rootFileLike.resolveChild(fileToVerify.getName()));
+                    throw new IllegalArgumentException("File '" + fileToVerify.toURI().getPath() + "' is outside the allowed root '" + allowedRoot.toURI().getPath() + "'");
+                }
+
+                if (allowedRoot.isDescendant(fileToVerify.toURI())) // if root = /a/b/c/ and file = /a/b/c/d/e/f.xlsx - among other things, this essentially checks if '/a/b/c/d/e/f.xlsx' starts with '/a/b/c/'
+                {
+                    file = FileSystemLike.toFile(allowedRoot.resolveFile(new Path(relativeURI.getPath())));
+                }
+                else
+                {
+                    throw new IllegalArgumentException("File '" + relativeURI.getPath() + "' is not a descendent of '" + allowedRoot.toURI().getPath() + "'");
                 }
             }
             if (file != null && file.exists())
