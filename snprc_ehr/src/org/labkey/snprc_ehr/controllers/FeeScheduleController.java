@@ -36,6 +36,8 @@ import org.labkey.api.view.NavTree;
 import org.labkey.snprc_ehr.pipeline.FeeScheduleExcelParser;
 import org.labkey.snprc_ehr.pipeline.FeeScheduleImportForm;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineJob;
+import org.labkey.vfs.FileLike;
+import org.labkey.vfs.FileSystemLike;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -101,6 +103,7 @@ public class FeeScheduleController extends SpringActionController
         {
             String fileSize;
             String dateString;
+            File fileToVerify = null;
             File file = null;
             SimpleDateFormat formatString = new SimpleDateFormat("MM/dd/yyyy hh:mm");
 
@@ -108,7 +111,19 @@ public class FeeScheduleController extends SpringActionController
             FeeScheduleExcelParser fsep;
             if (form.getFilePath() != null)
             {
-                file = new File(form.getFilePath());
+                //file path here is constructed from the pipeline, and contains pipeline root + actual file.
+                fileToVerify = new File(form.getFilePath());
+
+                PipeRoot pipeRoot = PipelineService.get().findPipelineRoot(getContainer());
+                if (pipeRoot == null)
+                {
+                    throw new PipelineJobException("Could not find a pipeline root for '" + getContainer().getPath() + "'");
+                }
+                FileLike rootFileLike = pipeRoot.getRootFileLike();
+                if (rootFileLike.isDescendant(fileToVerify.toURI()))
+                {
+                    file = FileSystemLike.toFile(rootFileLike.resolveChild(fileToVerify.getName()));
+                }
             }
             if (file != null && file.exists())
             {
