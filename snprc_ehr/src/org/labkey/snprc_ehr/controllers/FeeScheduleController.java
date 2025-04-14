@@ -35,6 +35,7 @@ import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
+import org.labkey.api.view.NotFoundException;
 import org.labkey.snprc_ehr.pipeline.FeeScheduleExcelParser;
 import org.labkey.snprc_ehr.pipeline.FeeScheduleImportForm;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineJob;
@@ -106,7 +107,6 @@ public class FeeScheduleController extends SpringActionController
         {
             String fileSize;
             String dateString;
-            File fileToVerify = null;
             File file = null;
             SimpleDateFormat formatString = new SimpleDateFormat("MM/dd/yyyy hh:mm");
 
@@ -115,30 +115,7 @@ public class FeeScheduleController extends SpringActionController
             if (form.getFilePath() != null)
             {
                 //file path here is constructed from the pipeline, and contains pipeline root + file.
-                fileToVerify = new File(form.getFilePath());
-
-                PipeRoot pipeRoot = PipelineService.get().findPipelineRoot(getContainer());
-                if (pipeRoot == null)
-                {
-                    throw new PipelineJobException("Could not find a pipeline root for '" + getContainer().getPath() + "'");
-                }
-
-                FileLike allowedRoot = pipeRoot.getRootFileLike();
-                URI relativeURI = URIUtil.relativize(allowedRoot.toURI(), fileToVerify.toURI()); // if root = /a/b/c/ and file = /a/b/c/d/e/f.xlsx, relativeURI = d/e/f.xlsx
-
-                if (relativeURI == null)
-                {
-                    throw new IllegalArgumentException("File '" + fileToVerify.toURI().getPath() + "' is outside the allowed root '" + allowedRoot.toURI().getPath() + "'");
-                }
-
-                if (allowedRoot.isDescendant(fileToVerify.toURI())) // if root = /a/b/c/ and file = /a/b/c/d/e/f.xlsx - among other things, this essentially checks if '/a/b/c/d/e/f.xlsx' starts with '/a/b/c/'
-                {
-                    file = FileSystemLike.toFile(allowedRoot.resolveFile(new Path(relativeURI.getPath())));
-                }
-                else
-                {
-                    throw new IllegalArgumentException("File '" + relativeURI.getPath() + "' is not a descendent of '" + allowedRoot.toURI().getPath() + "'");
-                }
+                file = getVerifiedFile(form.getFilePath());
             }
             if (file != null && file.exists())
             {
@@ -176,16 +153,45 @@ public class FeeScheduleController extends SpringActionController
             return new JspView<>("/org/labkey/snprc_ehr/pipeline/FeeScheduleImport.jsp", form, errors);
         }
 
+        private File getVerifiedFile(String filePath)
+        {
+            File fileToVerify = new File(filePath);
+
+            PipeRoot pipeRoot = PipelineService.get().findPipelineRoot(getContainer());
+            if (pipeRoot == null)
+            {
+                throw new NotFoundException("Could not find a pipeline root for '" + getContainer().getPath() + "'");
+            }
+
+            FileLike allowedRoot = pipeRoot.getRootFileLike();
+            URI relativeURI = URIUtil.relativize(allowedRoot.toURI(), fileToVerify.toURI()); // if root = /a/b/c/ and file = /a/b/c/d/e/f.xlsx, relativeURI = d/e/f.xlsx
+
+            if (relativeURI == null)
+            {
+                throw new IllegalArgumentException("File '" + fileToVerify.toURI().getPath() + "' is outside the allowed root '" + allowedRoot.toURI().getPath() + "'");
+            }
+
+            if (allowedRoot.isDescendant(fileToVerify.toURI())) // if root = /a/b/c/ and file = /a/b/c/d/e/f.xlsx - among other things, this essentially checks if '/a/b/c/d/e/f.xlsx' starts with '/a/b/c/'
+            {
+                return FileSystemLike.toFile(allowedRoot.resolveFile(new Path(relativeURI.getPath())));
+            }
+            else
+            {
+                throw new IllegalArgumentException("File '" + relativeURI.getPath() + "' is not a descendent of '" + allowedRoot.toURI().getPath() + "'");
+            }
+        }
+
         @Override
         public void validateCommand(FeeScheduleImportForm form, Errors errors)
         {
-            _fsFile = new File(form.getFilePath());
+            _fsFile = getVerifiedFile(form.getFilePath());
             // Be sure that the referenced file exists
-            if (_fsFile == null || !_fsFile.exists())
+            if (!_fsFile.exists())
             {
                 errors.reject(ERROR_MSG, "Could not find file at path: " + form.getFilePath());
             }
         }
+
         @Override
         public boolean handlePost(FeeScheduleImportForm form, BindException errors)
         {
@@ -193,7 +199,7 @@ public class FeeScheduleController extends SpringActionController
             try
             {
                 PipeRoot pipelineRoot = PipelineService.get().findPipelineRoot(getContainer());
-                PipelineService.get().queueJob(new FeeSchedulePipelineJob(getContainer(), getUser(), getViewContext().getActionURL(), pipelineRoot, _fsFile, form));
+                PipelineService.get().queueJob(new FeeSchedulePipelineJob(getContainer(), getUser(), getViewContext().getActionURL(), pipelineRoot, getVerifiedFile(_fsFile.getAbsolutePath()), form));
 
                 _url = PageFlowUtil.urlProvider(PipelineStatusUrls.class).urlBegin(getContainer().getProject());
                 _url.addParameter("StatusFiles.containerFilterName", ContainerFilter.Type.CurrentAndSubfolders.name());
