@@ -12,10 +12,10 @@ public class EventNarrativeDisplayColumnFactory implements DisplayColumnFactory
     @Override
     public DisplayColumn createRenderer(ColumnInfo colInfo)
     {
-        return new EventNarrativeDisplayColumnFactory.EventNarrativeDisplayColumn(colInfo);
+        return new EventNarrativeDisplayColumn(colInfo);
     }
 
-    public class EventNarrativeDisplayColumn extends DataColumn
+    public static class EventNarrativeDisplayColumn extends DataColumn
     {
         public EventNarrativeDisplayColumn(ColumnInfo col)
         {

@@ -95,7 +95,7 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GroupCategoriesAction extends SimpleViewAction<AnimalGroupCategory>
+    public static class GroupCategoriesAction extends SimpleViewAction<AnimalGroupCategory>
     {
         @Override
         public void addNavTrail(NavTree root)
@@ -114,13 +114,13 @@ public class AnimalGroupsController extends SpringActionController
      * Get all defined categories
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetCategoriesAction extends ReadOnlyApiAction<AnimalGroupCategory>
+    public static class GetCategoriesAction extends ReadOnlyApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory o, BindException errors)
         {
 
-            Map<String, Object> props = new HashMap<String, Object>();
+            Map<String, Object> props = new HashMap<>();
 
             Sort sort = SortFilterHelper.getSort(o.getSort(), true);
 
@@ -149,7 +149,7 @@ public class AnimalGroupsController extends SpringActionController
      * Update/Add category
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class UpdateCategoriesAction extends MutatingApiAction<AnimalGroupCategory>
+    public static class UpdateCategoriesAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory o, BindException errors)
@@ -225,12 +225,12 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
+    public static class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors)
         {
-                Map<String, Object> props = new HashMap<String, Object>();
+                Map<String, Object> props = new HashMap<>();
             try
             {
                 UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
@@ -249,7 +249,7 @@ public class AnimalGroupsController extends SpringActionController
                     categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
                     Map<String, Object> animalGroupsCategory = new TableSelector(categoriesTable, categoriesFilter, null).getObject(Map.class);
 
-                    List<Map<String, Object>> keys = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> keys = new ArrayList<>();
 
                     Map<String, Object> idMap = new HashMap<>();
                     idMap.put("category_code", animalGroupsCategory.get("category_code"));
@@ -289,13 +289,13 @@ public class AnimalGroupsController extends SpringActionController
      * Get all defined species, needed when editing categories
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetSpeciesAction extends ReadOnlyApiAction<AnimalSpecies>
+    public static class GetSpeciesAction extends ReadOnlyApiAction<AnimalSpecies>
     {
         @Override
         public ApiResponse execute(AnimalSpecies o, BindException errors)
         {
             List<JSONObject> jsonRows = new ArrayList<>();
-            Map<String, Object> props = new HashMap<String, Object>();
+            Map<String, Object> props = new HashMap<>();
 
             try
             {
@@ -334,12 +334,12 @@ public class AnimalGroupsController extends SpringActionController
      * Given a category, get all its groups
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetGroupsByCategoryAction extends ReadOnlyApiAction<AnimalGroup>
+    public static class GetGroupsByCategoryAction extends ReadOnlyApiAction<AnimalGroup>
     {
         @Override
         public ApiResponse execute(AnimalGroup animalGroup, BindException errors)
         {
-            Map<String, Object> props = new HashMap<String, Object>();
+            Map<String, Object> props = new HashMap<>();
             UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
 
             ArrayList<AnimalGroup> rows = new TableSelector(us.getTable("animal_groups", null, true, false),
@@ -359,7 +359,7 @@ public class AnimalGroupsController extends SpringActionController
      * Given a group, load all animals that are assigned to it
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetAnimalsByGroupAction extends ReadOnlyApiAction<GroupMember>
+    public static class GetAnimalsByGroupAction extends ReadOnlyApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
@@ -385,7 +385,7 @@ public class AnimalGroupsController extends SpringActionController
                 animals.add(member.toJSON());
             }
 
-            Map<String, Object> props = new HashMap<String, Object>();
+            Map<String, Object> props = new HashMap<>();
             props.put("animals", animals);
             props.put("success", true);
             return new ApiSimpleResponse(props);
@@ -396,7 +396,7 @@ public class AnimalGroupsController extends SpringActionController
      * Get Animals by name (animal id) - defined to present a list of valid animals to the user
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class GetAnimalsByNameAction extends ReadOnlyApiAction<GroupMember>
+    public static class GetAnimalsByNameAction extends ReadOnlyApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
@@ -425,7 +425,7 @@ public class AnimalGroupsController extends SpringActionController
      * validation of the data takes place in the animal_groups.js trigger script
      */
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
+    public static class UpdateGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -506,9 +506,6 @@ public class AnimalGroupsController extends SpringActionController
         /**
          * Get a group code to be assigned to a new group
          *
-         * @param categoryCode
-         * @param ignoreCategory - if true, this will return the next code regardless of the category the group belongs to
-         * @return
          */
         private Integer getNextGroupCode(int categoryCode, boolean ignoreCategory)
         {
@@ -524,7 +521,6 @@ public class AnimalGroupsController extends SpringActionController
         /**
          * Get a group code to be assigned to a new group
          *
-         * @param categoryCode
          * @return next code to be used for insert
          */
         private Integer getNextGroupCode(int categoryCode)
@@ -567,7 +563,7 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class DeleteGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
+    public static class DeleteGroupsAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -637,7 +633,7 @@ public class AnimalGroupsController extends SpringActionController
      * Assigns animals to a group using an instance of  {@link AnimalsGroupAssignor}
      */
     @RequiresPermission(ManageGroupMembersPermission.class)
-    public class UpdateGroupMembersAction extends MutatingApiAction<GroupMember>
+    public static class UpdateGroupMembersAction extends MutatingApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
@@ -655,7 +651,7 @@ public class AnimalGroupsController extends SpringActionController
 
             AnimalsGroupAssignor animalsGroupAssignor = new AnimalsGroupAssignor(this.getViewContext(), groupMember.getGroupid());
 
-            List<GroupMember> groupMembers = new ArrayList<GroupMember>();
+            List<GroupMember> groupMembers = new ArrayList<>();
             for (String animal : groupMember.getId().split("\n"))
             {
                 GroupMember animalForm = new GroupMember();
@@ -687,7 +683,7 @@ public class AnimalGroupsController extends SpringActionController
     }
 
     @RequiresPermission(ManageGroupMembersPermission.class)
-    public class DeleteGroupMembersAction extends MutatingApiAction<GroupMember>
+    public static class DeleteGroupMembersAction extends MutatingApiAction<GroupMember>
     {
         @Override
         public ApiResponse execute(GroupMember groupMember, BindException errors)
@@ -707,7 +703,7 @@ public class AnimalGroupsController extends SpringActionController
             filter.addCondition(FieldKey.fromString("date"), groupMember.getDate(), CompareType.EQUAL);
             TableSelector tableSelector = new TableSelector(table, filter, null);
 
-            List<Map<String, Object>> keys = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> keys = new ArrayList<>();
             List<GroupMember> members = tableSelector.getArrayList(GroupMember.class);
             for (GroupMember member : members)
             {

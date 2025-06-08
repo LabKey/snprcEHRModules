@@ -141,7 +141,7 @@ public class BloodDrawTrigger implements EventTrigger
 
         // Currently this queries study.blood. This is still pending tying SND with SNPRC study queries
         TableInfo ti = TriggerHelper.getTableInfo(c, u,"study", "Blood Draws", errors);
-        if (ti == null || errors.size() > 0)
+        if (ti == null || !errors.isEmpty())
         {
             // if ti is null, there will be an error in errors
             return;
@@ -195,7 +195,7 @@ public class BloodDrawTrigger implements EventTrigger
     {
         TableInfo ti = TriggerHelper.getTableInfo(c, u,"snprc_ehr", "species", errors);
         Map<String, Object> speciesBlood = null;
-        if (errors.size() == 0 && ti != null)
+        if (errors.isEmpty() && ti != null)
         {
             // Cols to retrieve
             Set<String> cols = new HashSet<>();
@@ -269,7 +269,7 @@ public class BloodDrawTrigger implements EventTrigger
 
         List<ValidationException> errors = new ArrayList<>();
         Map<String, Object> bloodBySpecies = getBloodInfoForSpecies(c, u, species, errors);
-        if (errors.size() > 0)
+        if (!errors.isEmpty())
         {
             eventData.setException(event, errors.get(0));
             return;

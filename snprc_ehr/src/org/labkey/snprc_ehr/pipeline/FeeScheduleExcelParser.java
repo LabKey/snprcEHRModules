@@ -55,8 +55,8 @@ public class FeeScheduleExcelParser
     private boolean _parsed;
     private String _feeScheduleSheetName; // = "Capped Fee Schedule"; //"Actual Cost Fee Schedule";
     private final int _numberOfSkipHeaderRows = 2;
-    private Map<Integer, FeeScheduleDataRow> _feeScheduleMap = new LinkedHashMap<>();
-    private Map<Integer, String> _columnNameMap = new LinkedHashMap<>();
+    private final Map<Integer, FeeScheduleDataRow> _feeScheduleMap = new LinkedHashMap<>();
+    private final Map<Integer, String> _columnNameMap = new LinkedHashMap<>();
     private String _yearPublished;
     private Container _container;
     private User _user;
@@ -125,7 +125,7 @@ public class FeeScheduleExcelParser
                     }
                 }
             }
-            if (tabPageNames.size() == 0)
+            if (tabPageNames.isEmpty())
             {
                 throw new PipelineJobException("No Fee Schedule found in workbook.");
             }
@@ -156,8 +156,8 @@ public class FeeScheduleExcelParser
         // tab page selected in jsp
         int rowIdx;
         String value;
-        Double doubleValue;
-        boolean hasData = false;
+        double doubleValue;
+        boolean hasData;
         Workbook workbook = null;
         Sheet sheet;
 
@@ -230,7 +230,7 @@ public class FeeScheduleExcelParser
                 if (row != null)
                 {
                     FeeScheduleDataRow dataRow = new FeeScheduleDataRow();
-                    Map<String, Double> costValueMap = new LinkedHashMap<String, Double>();
+                    Map<String, Double> costValueMap = new LinkedHashMap<>();
 
                     for (int col = 0; col < _columnNameMap.size(); col++) //row.getLastCellNum(); col++)
                     {
@@ -259,7 +259,7 @@ public class FeeScheduleExcelParser
                             if (ExcelFactory.isCellNumeric(cell))
                             {
                                 doubleValue = cell.getNumericCellValue();
-                                dataRow.setActivityId(doubleValue.intValue());
+                                dataRow.setActivityId((int) doubleValue);
                             }
                             else
                             {

@@ -49,10 +49,10 @@ public class TimelineProjectItemTable extends SimpleUserSchema.SimpleTable<SNPRC
     @Override
     public QueryUpdateService getUpdateService()
     {
-        return new TimelineProjectItemTable.UpdateService(this);
+        return new UpdateService(this);
     }
 
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected static class UpdateService extends SimpleQueryUpdateService
     {
         public UpdateService(SimpleUserSchema.SimpleTable ti)
         {

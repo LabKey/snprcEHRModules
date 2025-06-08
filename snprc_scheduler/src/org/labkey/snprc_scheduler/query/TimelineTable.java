@@ -38,8 +38,6 @@ public class TimelineTable extends SimpleTable<SNPRC_schedulerUserSchema>
      * <p>
      * Create the simple table.
      *
-     * @param schema
-     * @param table
      */
 
     public TimelineTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)

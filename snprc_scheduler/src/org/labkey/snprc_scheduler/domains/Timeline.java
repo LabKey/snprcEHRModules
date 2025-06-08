@@ -555,7 +555,7 @@ public class Timeline //extends Entity
         values.put(TIMELINE_PROTOCOL, getProtocol());
         values.put(TIMELINE_ANIMAL_ACCOUNT, getAnimalAccount());
 
-        if (getTimelineItems().size() > 0)
+        if (!getTimelineItems().isEmpty())
         {
             List<Map<String, Object>> listTimelineItems = new ArrayList<>();
             for (TimelineItem timelineItem : getTimelineItems())
@@ -564,7 +564,7 @@ public class Timeline //extends Entity
             }
             values.put(TIMELINE_TIMELINE_ITEMS, listTimelineItems);
         }
-        if (getTimelineProjectItems().size() > 0)
+        if (!getTimelineProjectItems().isEmpty())
         {
             List<Map<String, Object>> listTimelineProjectItems = new ArrayList<>();
             for (TimelineProjectItem timelineProjectItem : getTimelineProjectItems())
@@ -573,7 +573,7 @@ public class Timeline //extends Entity
             }
             values.put(TIMELINE_TIMELINE_PROJECT_ITEMS, listTimelineProjectItems);
         }
-        if (getTimelineAnimalItems().size() > 0)
+        if (!getTimelineAnimalItems().isEmpty())
         {
             List<Map<String, Object>> listTimelineAnimalItems = new ArrayList<>();
             for (TimelineAnimalJunction timelineAnimalItem : getTimelineAnimalItems())
@@ -582,7 +582,7 @@ public class Timeline //extends Entity
             }
             values.put(TIMELINE_ANIMAL_ITEMS, listTimelineAnimalItems);
         }
-        if (getStudyDayNotes().size() > 0)
+        if (!getStudyDayNotes().isEmpty())
         {
             List<Map<String, Object>> listStudyDayNotes = new ArrayList<>();
             for (StudyDayNotes studyDayNote : getStudyDayNotes())
@@ -636,7 +636,7 @@ public class Timeline //extends Entity
         json.put(TIMELINE_PROTOCOL, getProtocol());
         json.put(TIMELINE_ANIMAL_ACCOUNT, getAnimalAccount());
 
-        if (getTimelineItems().size() > 0)
+        if (!getTimelineItems().isEmpty())
         {
             JSONArray jsonTimelineItems = new JSONArray();
             for (TimelineItem timelineItem : getTimelineItems())
@@ -645,7 +645,7 @@ public class Timeline //extends Entity
             }
             json.put(TIMELINE_TIMELINE_ITEMS, jsonTimelineItems);
         }
-        if (getTimelineProjectItems().size() > 0)
+        if (!getTimelineProjectItems().isEmpty())
         {
             JSONArray jsonTimelineProjectItems = new JSONArray();
             for (TimelineProjectItem timelineProjectItem : getTimelineProjectItems())
@@ -654,7 +654,7 @@ public class Timeline //extends Entity
             }
             json.put(TIMELINE_TIMELINE_PROJECT_ITEMS, jsonTimelineProjectItems);
         }
-        if (getTimelineAnimalItems().size() > 0)
+        if (!getTimelineAnimalItems().isEmpty())
         {
             JSONArray jsonTimelineAnimalItems = new JSONArray();
             for (TimelineAnimalJunction timelineAnimalItem : getTimelineAnimalItems())
@@ -663,7 +663,7 @@ public class Timeline //extends Entity
             }
             json.put(TIMELINE_ANIMAL_ITEMS, jsonTimelineAnimalItems);
         }
-        if (getStudyDayNotes().size() > 0)
+        if (!getStudyDayNotes().isEmpty())
         {
             JSONArray jsonStudyDayNotes = new JSONArray();
             for (StudyDayNotes studyDayNote : getStudyDayNotes())

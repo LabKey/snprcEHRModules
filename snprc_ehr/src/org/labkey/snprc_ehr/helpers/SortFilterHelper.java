@@ -37,7 +37,7 @@ public class SortFilterHelper
     {
         Sort sort = new Sort();
 
-        if (sortBy == null || sortBy.equals(""))
+        if (sortBy == null || sortBy.isEmpty())
         {
             return sort;
         }
@@ -65,13 +65,12 @@ public class SortFilterHelper
 
     /**
      * @param filterBy json string of the form [{"property":"columnName","value":"foo"}]
-     * @return
      */
     public static SimpleFilter getFilter(String filterBy)
     {
         SimpleFilter filter = new SimpleFilter();
 
-        if (filterBy == null || filterBy.equals(""))
+        if (filterBy == null || filterBy.isEmpty())
         {
             return filter;
         }

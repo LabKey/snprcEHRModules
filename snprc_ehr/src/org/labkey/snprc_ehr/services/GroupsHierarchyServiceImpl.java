@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class GroupsHierarchyServiceImpl implements HierarchyService
 {
-    private ViewContext viewContext;
+    private final ViewContext viewContext;
 
     public GroupsHierarchyServiceImpl(ViewContext viewContext)
     {
@@ -52,7 +52,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
     @Override
     public List<Node> getRootNodes()
     {
-        List<Node> categoryNodes = new ArrayList<Node>();
+        List<Node> categoryNodes = new ArrayList<>();
         SimpleFilter displayable = new SimpleFilter();
         displayable.addCondition(FieldKey.fromString("displayable"), "Y", CompareType.EQUAL);
 
@@ -72,7 +72,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
     @Override
     public List<Node> getSubNodes(Node node)
     {
-        List<Node> categoryGroupNodes = new ArrayList<Node>();
+        List<Node> categoryGroupNodes = new ArrayList<>();
         try
         {
             Integer categoryCode = Integer.parseInt(node.getNode().replace("CATEGORY-", ""));
@@ -109,7 +109,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
     {
         if (!node.getNode().contains("GROUP"))
         {
-            return new ArrayList<Animal>();
+            return new ArrayList<>();
         }
         String[] stringParts = node.getNode().split("-");
         try
@@ -150,7 +150,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             TableInfo demographicsTable = schema.getTable("demographics");
             SimpleFilter animalFilter = new SimpleFilter();
 
-            List<String> animalIds = new ArrayList<String>();
+            List<String> animalIds = new ArrayList<>();
             for (Animal animal : animals)
             {
                 animalIds.add(animal.getText());
@@ -165,7 +165,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
                 oneAnimalDemographicsMap.put("status", a.get("calculated_status"));
                 demographicsMap.put((String) a.get("id"), oneAnimalDemographicsMap);
             }
-            List<Animal> notAliveAnimals = new ArrayList<Animal>();
+            List<Animal> notAliveAnimals = new ArrayList<>();
             for (Animal animal : animals)
             {
                 if (demographicsMap.containsKey(animal.getText()))
@@ -184,7 +184,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
         }
         catch (Exception ex)
         {
-            return new ArrayList<Animal>();
+            return new ArrayList<>();
         }
     }
 
@@ -208,7 +208,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             return null;
         }
         Node rootNode = new Node();
-        Map<String, Object> props = new HashMap<String, Object>();
+        Map<String, Object> props = new HashMap<>();
 
         UserSchema us = new SNPRC_EHRUserSchema(this.viewContext.getUser(), this.viewContext.getContainer());
         AnimalGroup group = new TableSelector(us.getTable("animal_groups"), new SimpleFilter().addCondition(FieldKey.fromString("code"),
@@ -231,7 +231,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
 
         Animal animalRecord = new TableSelector(demographicsTable, demographicsFilter, null).getObject(Animal.class);
 
-        List<Node> locationsPath = new ArrayList<Node>();
+        List<Node> locationsPath = new ArrayList<>();
 
         AnimalNodePath animalNodePath = new AnimalNodePath();
         animalNodePath.setAnimalId(animal.getParticipantid());

@@ -40,9 +40,9 @@ public class StudyDayNotesTable extends SimpleUserSchema.SimpleTable<SNPRC_sched
     @Override
     public QueryUpdateService getUpdateService()
     {
-        return new StudyDayNotesTable.UpdateService(this);
+        return new UpdateService(this);
     }
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected static class UpdateService extends SimpleQueryUpdateService
     {
         public UpdateService(SimpleUserSchema.SimpleTable ti)
         {

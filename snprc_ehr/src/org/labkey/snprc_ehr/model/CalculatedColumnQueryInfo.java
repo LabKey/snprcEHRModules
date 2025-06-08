@@ -8,7 +8,6 @@ import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.query.UserSchema;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
 
-import java.util.List;
 import java.util.Set;
 
 /**

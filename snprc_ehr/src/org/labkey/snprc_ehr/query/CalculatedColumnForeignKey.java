@@ -4,9 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.BaseColumnInfo;
-import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.ldk.table.AbstractTableCustomizer;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.LookupForeignKey;
 import org.labkey.api.query.QueryDefinition;
@@ -20,24 +18,20 @@ import org.labkey.snprc_ehr.model.CalculatedColumn;
 import org.labkey.snprc_ehr.model.CalculatedColumnQueryInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CalculatedColumnForeignKey extends LookupForeignKey
 {
     private static final Logger _log = LogManager.getLogger(CalculatedColumnForeignKey.class);
 
     /* Query info object */
-    private CalculatedColumnQueryInfo _queryInfo;
+    private final CalculatedColumnQueryInfo _queryInfo;
 
     /* SQL query to be used to calculate column values */
-    private String _queryString;
+    private final String _queryString;
 
     /**
      * Constructor
-     * @param queryInfo
-     * @param queryString
      */
     public CalculatedColumnForeignKey(CalculatedColumnQueryInfo queryInfo, String queryString) {
         _queryInfo = queryInfo;
@@ -46,7 +40,6 @@ public class CalculatedColumnForeignKey extends LookupForeignKey
 
     /**
      * Returns a table that contains the new foreign key columns that were calculated via SQL query
-     * @return
      */
     @Override
     public TableInfo getLookupTableInfo() {
@@ -63,7 +56,7 @@ public class CalculatedColumnForeignKey extends LookupForeignKey
 
         List<QueryException> errors = new ArrayList<>();
         TableInfo lookupTable = queryDefinition.getTable(errors, true);
-        if (errors.size() > 0) {
+        if (!errors.isEmpty()) {
             _log.error("Error creating lookup table for: " + schemaName + "." + queryName + " in container: " + targetSchema.getContainer().getPath());
             errors.forEach(error -> _log.error(error.getMessage(), error));
             return null;

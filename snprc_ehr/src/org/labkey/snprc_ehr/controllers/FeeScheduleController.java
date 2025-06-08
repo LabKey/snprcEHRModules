@@ -95,7 +95,7 @@ public class FeeScheduleController extends SpringActionController
      * Landing page for a Fee Schedule Import
      */
     @RequiresPermission(AdminPermission.class)
-    public class FeeScheduleImportAction extends FormViewAction<FeeScheduleImportForm>
+    public static class FeeScheduleImportAction extends FormViewAction<FeeScheduleImportForm>
     {
         private String _navTrail = "Import Fee Schedule";
         private File _fsFile;

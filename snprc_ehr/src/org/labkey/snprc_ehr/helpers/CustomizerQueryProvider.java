@@ -42,14 +42,6 @@ public class CustomizerQueryProvider
      * Checks if the passed table exists, the primary key and id columns,
      * and builds table with calculated fields from SQL query. Returns false if any checks fail and
      * true if all checks pass and the table is successfully built
-     * @param tableInfo
-     * @param columnName
-     * @param dateColumnName
-     * @param queryString
-     * @param ehrSchema
-     * @param calculatedColumns
-     * @param isRemovingDefaultCustomizerColumns
-     * @return
      */
     public AbstractTableInfo getCalculatedColumnsTable(AbstractTableInfo tableInfo, String columnName, String dateColumnName,
                                        String queryString, UserSchema ehrSchema,
@@ -85,8 +77,6 @@ public class CustomizerQueryProvider
 
     /**
      * Obtain the column info for the primary key of a given table
-     * @param tableInfo
-     * @return
      */
     private ColumnInfo getPrimaryKeyColumn(TableInfo tableInfo) {
         List<ColumnInfo> primaryKeys = tableInfo.getPkColumns();
@@ -95,13 +85,6 @@ public class CustomizerQueryProvider
 
     /**
      * Returns a new query info object to be used for calculating a column's info
-     * @param tableInfo
-     * @param primaryKeyColumn
-     * @param idColumn
-     * @param ehrSchema
-     * @param label
-     * @param calculatedColumns
-     * @return
      */
     private CalculatedColumnQueryInfo getQueryInfo(AbstractTableInfo tableInfo, ColumnInfo primaryKeyColumn,
                                                    ColumnInfo idColumn, UserSchema ehrSchema,
@@ -120,9 +103,6 @@ public class CustomizerQueryProvider
 
     /**
      * Returns a wrapped column object from a given query and it's information
-     * @param queryInfo
-     * @param queryString
-     * @return
      */
     private WrappedColumn getWrappedCalculatedColumn(CalculatedColumnQueryInfo queryInfo, String queryString) {
         WrappedColumn column = new WrappedColumn(queryInfo.getPrimaryKeyColumn(), CaseUtils.toCamelCase(queryInfo.getLabel(),
@@ -139,10 +119,6 @@ public class CustomizerQueryProvider
     /**
      * Maps values from the query object's data to the variable names within the SQL query string
      * (formatted for the Apache Commons Lang StrSubstitor where ${variableName} maps to variableName)
-     * @param queryString
-     * @param queryInfo
-     * @param dateColumnName
-     * @return
      */
     private String mapQueryStringValues(String queryString, CalculatedColumnQueryInfo queryInfo, String dateColumnName) {
         Map<String, String> queryByValues = new HashMap<>();

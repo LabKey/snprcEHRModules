@@ -57,7 +57,7 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
         return new AnimalAccountDisplayColumn(colInfo);
     }
 
-    public class AnimalAccountDisplayColumn extends DataColumn
+    public static class AnimalAccountDisplayColumn extends DataColumn
     {
 
         public AnimalAccountDisplayColumn(ColumnInfo col)
@@ -98,14 +98,13 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
             ArrayList<String> errors = new ArrayList<>();
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("<table border=1 style='border-collapse: collapse; border: 1px'><colgroup><col width='110'><col width='110'><col width='130'></colgroup>");
-            //sb.append("<th>Account</th><th>Start Date</th><th>Group</th>");
-            sb.append("<tr><td>" + PageFlowUtil.filter(dataMap.get("account")) + "</td>" );
-            sb.append("<td>" + dateFormat.format(dataMap.get("date")) + "</td>");
-            sb.append("<td>" + PageFlowUtil.filter(dataMap.get("accountGroup")) + "</td></tr></table>");
+            String sb = "<table border=1 style='border-collapse: collapse; border: 1px'><colgroup><col width='110'><col width='110'><col width='130'></colgroup>" +
+                    //sb.append("<th>Account</th><th>Start Date</th><th>Group</th>");
+                    "<tr><td>" + PageFlowUtil.filter(dataMap.get("account")) + "</td>" +
+                    "<td>" + dateFormat.format(dataMap.get("date")) + "</td>" +
+                    "<td>" + PageFlowUtil.filter(dataMap.get("accountGroup")) + "</td></tr></table>";
 
-            String html = PageFlowUtil.validateHtml(sb.toString(), errors, false);
+            String html = PageFlowUtil.validateHtml(sb, errors, false);
             if (errors.isEmpty())
                 return HtmlString.unsafe(html);
             else
@@ -127,12 +126,11 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
             ArrayList<String> errors = new ArrayList<>();
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("Account: " + dataMap.get("account") + "  " );
-            sb.append("Date: " + dateFormat.format(dataMap.get("date")) + "  ");
-            sb.append("Account Groups: " + dataMap.get("accountGroup"));
+            String sb = "Account: " + dataMap.get("account") + "  " +
+                    "Date: " + dateFormat.format(dataMap.get("date")) + "  " +
+                    "Account Groups: " + dataMap.get("accountGroup");
 
-            return sb.toString();
+            return sb;
         }
 
     }
