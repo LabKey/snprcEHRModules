@@ -123,14 +123,11 @@ public class AnimalAccountDisplayColumnFactory implements DisplayColumnFactory
             if (dataMap.isEmpty())
                 return "";
 
-            ArrayList<String> errors = new ArrayList<>();
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
-            String sb = "Account: " + dataMap.get("account") + "  " +
+            return "Account: " + dataMap.get("account") + "  " +
                     "Date: " + dateFormat.format(dataMap.get("date")) + "  " +
                     "Account Groups: " + dataMap.get("accountGroup");
-
-            return sb;
         }
 
     }

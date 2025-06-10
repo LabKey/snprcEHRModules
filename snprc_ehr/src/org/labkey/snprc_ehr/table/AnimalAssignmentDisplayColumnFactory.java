@@ -63,13 +63,10 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
 
     public static class AnimalAssignmentDisplayColumn extends DataColumn
     {
-        private final ColumnInfo col;
-
         public AnimalAssignmentDisplayColumn(ColumnInfo col)
         {
             super(col,false);
             setRequiresHtmlFiltering(false);
-            this.col = col;
         }
 
         private TableSelector getTs(RenderContext ctx)
@@ -126,7 +123,6 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
                     String date = dateFormat.format(rs.getDate("date"));
                     String assignmentStatus = PageFlowUtil.filter(rs.getString("assignmentStatus"));
                     String remark = PageFlowUtil.filter(rs.getString("remark"));
-                    //remark = (remark == null) ? "" : remark;
                     sb.append("<tr><td>" + protocol + "</td><td>" + date + "</td><td>" + assignmentStatus + "</td>");
                     sb.append("<td>" + remark + "</td>" + "<td></tr>");
                 }
