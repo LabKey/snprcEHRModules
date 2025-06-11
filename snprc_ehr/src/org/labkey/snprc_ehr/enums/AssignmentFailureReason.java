@@ -34,7 +34,7 @@ public enum AssignmentFailureReason
     INVALID_START_OR_END_DATE("End Date must be greater than Start Date."),
     END_DATE_REQUIRED("Group member must have an end date when the group has an end date.");
 
-    private String reason;
+    private final String reason;
 
     AssignmentFailureReason(String reason)
     {

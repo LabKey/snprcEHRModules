@@ -46,7 +46,7 @@ abstract public class UnsaveableTask extends TaskForm
     @Override
     protected List<String> getButtonConfigs()
     {
-        List<String> defaultButtons = new ArrayList<String>();
+        List<String> defaultButtons = new ArrayList<>();
         defaultButtons.add("SUBMIT");
 
         return defaultButtons;
@@ -55,7 +55,7 @@ abstract public class UnsaveableTask extends TaskForm
     @Override
     protected List<String> getMoreActionButtonConfigs()
     {
-        List<String> defaultButtons = new ArrayList<String>();
+        List<String> defaultButtons = new ArrayList<>();
         defaultButtons.add("VALIDATEALL");
 
         defaultButtons.add("FORCESUBMIT");

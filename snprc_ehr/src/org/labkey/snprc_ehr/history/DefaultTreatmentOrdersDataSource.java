@@ -37,22 +37,21 @@ public class DefaultTreatmentOrdersDataSource extends AbstractDataSource
     @Override
     protected String getHtml(Container c, Results rs, boolean redacted) throws SQLException
     {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(safeAppend(rs, null, "code"));
-        sb.append(safeAppend(rs, "Category", "category"));
-        sb.append(safeAppendDateAndTime(rs, "Start Date", "date"));
-        sb.append(safeAppend(rs, "Amount", "amount"));
-        sb.append(safeAppend(rs, "Units", "amount_units"));
-        sb.append(safeAppend(rs, "Route", "route"));
-        sb.append(safeAppend(rs, "Frequency", "frequency"));
-        sb.append(safeAppend(rs, "Duration", "duration"));
-        sb.append(safeAppend(rs, "Reason", "reason"));
-        sb.append(safeAppend(rs, "Remark", "remark"));
-        sb.append(safeAppend(rs, "Description", "description"));
-        sb.append(safeAppendDateAndTime(rs, "End Date", "enddate"));
+        String sb = safeAppend(rs, null, "code") +
+                safeAppend(rs, "Category", "category") +
+                safeAppendDateAndTime(rs, "Start Date", "date") +
+                safeAppend(rs, "Amount", "amount") +
+                safeAppend(rs, "Units", "amount_units") +
+                safeAppend(rs, "Route", "route") +
+                safeAppend(rs, "Frequency", "frequency") +
+                safeAppend(rs, "Duration", "duration") +
+                safeAppend(rs, "Reason", "reason") +
+                safeAppend(rs, "Remark", "remark") +
+                safeAppend(rs, "Description", "description") +
+                safeAppendDateAndTime(rs, "End Date", "enddate");
 
-        return sb.toString();
+        return sb;
     }
     protected String safeAppendDateAndTime(Results rs, String label, String field) throws SQLException {
         FieldKey fk = FieldKey.fromString(field);

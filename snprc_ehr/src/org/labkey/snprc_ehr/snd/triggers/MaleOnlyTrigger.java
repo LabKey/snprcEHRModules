@@ -40,7 +40,7 @@ public class MaleOnlyTrigger implements EventTrigger
         List<ValidationException> errors = new ArrayList<>();
         boolean genderMatches = TriggerHelper.verifyGender(c, triggerAction.getEvent().getSubjectId(), expectedGender, errors);
 
-        if (errors.size() > 0)
+        if (!errors.isEmpty())
         {
             event.setException(errors.get(0));
         }

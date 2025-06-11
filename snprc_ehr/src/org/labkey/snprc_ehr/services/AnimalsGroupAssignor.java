@@ -56,8 +56,8 @@ import java.util.Map;
 public class AnimalsGroupAssignor
 {
     ViewContext viewContext;
-    private AnimalGroup group;
-    private AnimalGroupCategory category;
+    private final AnimalGroup group;
+    private final AnimalGroupCategory category;
 
 
 
@@ -201,7 +201,7 @@ public class AnimalsGroupAssignor
                 selector = new SqlSelector(dbStudySchema, sql);
 
                 if (selector.exists())
-                    throw new ValidationException(AssignmentFailureReason.ALREADY_IN_GROUP.toString() + ": " + groupMember.getParticipantid());
+                    throw new ValidationException(AssignmentFailureReason.ALREADY_IN_GROUP + ": " + groupMember.getParticipantid());
             }
 
             // if category groups are mutually exclusive, then we need to make sure animal
@@ -232,7 +232,7 @@ public class AnimalsGroupAssignor
 
                 selector = new SqlSelector(dbStudySchema, sql);
                 if (selector.exists())
-                    throw new ValidationException(AssignmentFailureReason.ALREADY_IN_CATEGORY.toString() + ": " + groupMember.getParticipantid());
+                    throw new ValidationException(AssignmentFailureReason.ALREADY_IN_CATEGORY + ": " + groupMember.getParticipantid());
 
             }
             // if future dates are not allowed, then we need to make sure a future date is not being entered
@@ -272,7 +272,7 @@ public class AnimalsGroupAssignor
 
                 if (!animal_species.equalsIgnoreCase(category_speciesCode))
                 {
-                    throw new ValidationException(AssignmentFailureReason.NOT_APPLICABLE_SPECIES.toString() + " Id: " + groupMember.getParticipantid() + "  Species: " + animal_species);
+                    throw new ValidationException(AssignmentFailureReason.NOT_APPLICABLE_SPECIES + " Id: " + groupMember.getParticipantid() + "  Species: " + animal_species);
                 }
 
             }

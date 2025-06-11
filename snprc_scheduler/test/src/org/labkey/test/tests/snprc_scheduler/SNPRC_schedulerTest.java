@@ -88,7 +88,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     @BeforeClass
     public static void setupProject()
     {
-        SNPRC_schedulerTest init = (SNPRC_schedulerTest) getCurrentTest();
+        SNPRC_schedulerTest init = getCurrentTest();
         init.doSetup();
     }
 
@@ -152,6 +152,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         return SNPRC_EHR_PATH; // Retrieve reference study from snprc_ehr, not snprc_scheduler
     }
 
+    @Override
     protected boolean skipStudyImportQueryValidation()
     {
         return true;
@@ -338,7 +339,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
 
         String projectObjectId = "";
 
-        SelectRowsResponse response = null;
+        SelectRowsResponse response;
         try
         {
             response = selectCmd.execute(cn, getCurrentContainerPath());
@@ -372,7 +373,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
             SelectRowsResponse response = selectCmd.execute(cn, getCurrentContainerPath());
 
             Rowset rows = response.getRowset();
-            Map<String, Object> rowMap = null;
+            Map<String, Object> rowMap;
 
             for (Row row : rows)
             {
@@ -409,7 +410,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
             SelectRowsResponse response = selectCmd.execute(cn, getCurrentContainerPath());
 
             Rowset rows = response.getRowset();
-            Map<String, Object> rowMap = null;
+            Map<String, Object> rowMap;
 
             for (Row row : rows)
             {
@@ -445,7 +446,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
             SelectRowsResponse response = selectCmd.execute(cn, getCurrentContainerPath());
 
             Rowset rows = response.getRowset();
-            Map<String, Object> rowMap = null;
+            Map<String, Object> rowMap;
 
             for (Row row : rows)
             {

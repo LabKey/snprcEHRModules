@@ -149,7 +149,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @BeforeClass
     public static void setupProject() throws Exception
     {
-        SNPRC_EHRTest initTest = (SNPRC_EHRTest) getCurrentTest();
+        SNPRC_EHRTest initTest = getCurrentTest();
 
         initTest.doSetup();
     }
@@ -304,22 +304,22 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
         // Valid accounts
         List<Map<String, Object>> accountRows = Arrays.asList(
-                new HashMap<String, Object>(Maps.of("account", "1000-100-10",
+                new HashMap<>(Maps.of("account", "1000-100-10",
                         "description", "Doe, 1111MM",
                         "accountStatus", "A",
                         "accountGroup", "Doe",
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -20)))),
-                new HashMap<String, Object>(Maps.of("account", "2000-200-20",
+                new HashMap<>(Maps.of("account", "2000-200-20",
                         "description", "Smith, 2222PC",
                         "accountStatus", "A",
                         "accountGroup", "Smith 2222",
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -15)))),
-                new HashMap<String, Object>(Maps.of("account", "3000-300-30",
+                new HashMap<>(Maps.of("account", "3000-300-30",
                         "description", "Yu, Reseach 1212",
                         "accountStatus", "A",
                         "accountGroup", "Undefined",
                         "date", DATE_FORMAT.format(DateUtils.addDays(new Date(), -2)))),
-                new HashMap<String, Object>(Maps.of("account", "4000-400-40",
+                new HashMap<>(Maps.of("account", "4000-400-40",
                         "description", "General clinical",
                         "accountStatus", "I",
                         "accountGroup", "Clinical",
@@ -609,7 +609,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         //check count and links for one subject
         final WebElement overview = PortalHelper.Locators.webPart("Overview").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT);
         DataRegionTable tbl = DataRegion(getDriver()).find(overview);
-        assertEquals(tbl.getDataRowCount(), 49);
+        assertEquals(49, tbl.getDataRowCount());
         assertElementPresent(Locator.linkWithText("TEST1020148"));
         assertElementPresent(Locator.linkWithText("Male"));
         assertElementPresent(Locator.linkWithText("Alive"));
@@ -902,12 +902,12 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         historyPage.clickReportTab("Kinship");
 
         DataRegionTable tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 20);
+        assertEquals(20, tbl.getDataRowCount());
 
         _ext4Helper.checkCheckbox(Locator.ehrCheckboxIdContaining("limitRawDataToSelection"));
 
         tbl = historyPage.getActiveReportDataRegion();
-        assertEquals(tbl.getDataRowCount(), 2);
+        assertEquals(2, tbl.getDataRowCount());
 
         String[] idCols = {"Id", "Id2", "Coefficient"};
         List<List<String>> rows = tbl.getRows(idCols);

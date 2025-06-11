@@ -15,7 +15,6 @@
  */
 package org.labkey.snprc_ehr.table;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.collections.CaseInsensitiveHashSet;
@@ -59,7 +58,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 {
     private static final Logger _log = LogHelper.getLogger(SNPRC_EHRCustomizer.class, "SNPRC_EHR Table Customizer Class");
 
-    private CustomizerQueryProvider _provider;
+    private final CustomizerQueryProvider _provider;
 
     private Set<CalculatedColumn> calculatedColumns;
 
@@ -170,7 +169,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (matches(ti, "study", "housing"))
         {
-            customizeHousingTable((AbstractTableInfo) ti);
+            customizeHousingTable(ti);
         }
 //        if (matches(ti, "ehr", "project")) {
 //            customizeProjectTable((AbstractTableInfo) ti);
@@ -201,18 +200,16 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     /**
      * Performs table customizations for columns that are calculated by SQL queries
-     * @param tableInfo
      */
     public void doCalculatedCustomizations(AbstractTableInfo tableInfo) {
         if (tableInfo.getColumn(DATE_COLUMN) != null) {
-            addCalculatedColumns((AbstractTableInfo) tableInfo);
+            addCalculatedColumns(tableInfo);
         }
     }
 
 
     /**
      * Checks the user schema and whether the table is 'demographics' and performs the necessary column calculations
-     * @param table
      */
     private void addCalculatedColumns(AbstractTableInfo table)
     {
@@ -227,9 +224,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     /**
      * Checks the table and schema information and invokes provider method to build the table with the
      * IACUC Assignment Calculated columns
-     * @param ehrSchema
-     * @param tableInfo
-     * @param dateColumnName
      */
     private void appendAssignmentAtTimeColumn(UserSchema ehrSchema, AbstractTableInfo tableInfo, final String dateColumnName) {
 
@@ -249,9 +243,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     /**
      * Checks the table and schema information and invokes provider method to build the table with the
      * Age At Time calculated columns
-     * @param ehrSchema
-     * @param tableInfo
-     * @param dateColumnName
      */
     private void appendAgeAtTimeColumn(UserSchema ehrSchema, AbstractTableInfo tableInfo, String dateColumnName) {
 
@@ -277,8 +268,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     /**
      * Checks if the current table has a lookup value in the animal table
-     * @param tableInfo
-     * @return
      */
     private boolean hasAnimalLookup(AbstractTableInfo tableInfo) {
         var idCol = tableInfo.getMutableColumn(ID_COLUMN);
@@ -287,8 +276,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     /**
      * Checks if the current table is demographics
-     * @param tableInfo
-     * @return
      */
     private boolean isDemographicsTable(TableInfo tableInfo) {
         return tableInfo.getName().equalsIgnoreCase(DEMOGRAPHICS_TABLE) && tableInfo.getPublicSchemaName().equalsIgnoreCase(STUDY_SCHEMA);

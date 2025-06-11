@@ -41,9 +41,9 @@ public class TimelineAnimalJunctionTable extends SimpleUserSchema.SimpleTable<SN
     @Override
     public QueryUpdateService getUpdateService()
     {
-        return new TimelineAnimalJunctionTable.UpdateService(this);
+        return new UpdateService(this);
     }
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected static class UpdateService extends SimpleQueryUpdateService
     {
         public UpdateService(SimpleUserSchema.SimpleTable ti)
         {

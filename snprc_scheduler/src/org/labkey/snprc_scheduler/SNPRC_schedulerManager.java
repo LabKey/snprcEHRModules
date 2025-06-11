@@ -315,7 +315,7 @@ public class SNPRC_schedulerManager
             {
                 Set<String> cols;
                 SimpleFilter filter;
-                Map<String, Object> row = new HashMap<>();
+                Map<String, Object> row;
                 List<Map<String, Object>> rows = new ArrayList<>();
 
 
@@ -356,7 +356,7 @@ public class SNPRC_schedulerManager
                     row.put(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID, timelineItemId);
                     rows.add(row);
                 }
-                if (rows.size() > 0)
+                if (!rows.isEmpty())
                 {
                     qus.deleteRows(u, c, rows, null, null);
                 }
@@ -816,7 +816,7 @@ public class SNPRC_schedulerManager
                     timelineAnimalItem.setObjectId(new GUID().toString());
                     timelineAnimalItemRows.add(timelineAnimalItem.toMap(c));
 
-                    if (timelineAnimalItemRows.size() > 0 )
+                    if (!timelineAnimalItemRows.isEmpty())
                     {
                         List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineAnimalItemRows, errors, null, null);
 

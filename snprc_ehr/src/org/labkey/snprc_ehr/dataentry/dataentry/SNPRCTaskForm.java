@@ -36,7 +36,7 @@ public class SNPRCTaskForm extends TaskForm
     @Override
     protected List<String> getButtonConfigs()
     {
-        List<String> defaultButtons = new ArrayList<String>();
+        List<String> defaultButtons = new ArrayList<>();
         defaultButtons.add("SAVEDRAFT");
         defaultButtons.add("SUBMIT");
         //defaultButtons.add("REVIEW");

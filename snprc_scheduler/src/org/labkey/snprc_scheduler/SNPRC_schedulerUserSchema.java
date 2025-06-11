@@ -21,7 +21,7 @@ import org.labkey.snprc_scheduler.query.TimelineTable;
 public class SNPRC_schedulerUserSchema extends SimpleUserSchema
 {
 
-    private boolean _permissionCheck = true;
+    private final boolean _permissionCheck = true;
 
     public SNPRC_schedulerUserSchema(User user, Container container)
     {

@@ -32,7 +32,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
 import java.text.ParseException;
-import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ public class SNPRC_schedulerController extends SpringActionController
     //http://localhost:8080/labkey/snprc_scheduler/snprc/Begin.view?
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
     //@RequiresPermission(ReadPermission.class)
-    public class BeginAction extends SimpleRedirectAction
+    public static class BeginAction extends SimpleRedirectAction<Object>
     {
         @Override
         public URLHelper getRedirectURL(Object o)
@@ -66,7 +65,7 @@ public class SNPRC_schedulerController extends SpringActionController
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/getActiveTimelines.view?ProjectObjectId=55130483-F7DD-4366-8FA3-55ED58115482
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-    public class getActiveTimelinesAction extends ReadOnlyApiAction<Timeline>
+    public static class getActiveTimelinesAction extends ReadOnlyApiAction<Timeline>
     {
         @Override
         public ApiResponse execute(Timeline timeline, BindException errors)
@@ -101,7 +100,7 @@ public class SNPRC_schedulerController extends SpringActionController
     // on the specified date.
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-    public class getScheduledTimelinesForSpeciesAction extends ReadOnlyApiAction<SimpleApiJsonForm>
+    public static class getScheduledTimelinesForSpeciesAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm form, BindException errors)
@@ -176,7 +175,7 @@ public class SNPRC_schedulerController extends SpringActionController
      */
 
     @RequiresPermission(SNPRC_schedulerReadersPermission.class)
-    public class getActiveProjectsAction extends ReadOnlyApiAction<SimpleApiJsonForm>
+    public static class getActiveProjectsAction extends ReadOnlyApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -250,7 +249,7 @@ public class SNPRC_schedulerController extends SpringActionController
 
                 List<Map<String, Object>> projects = SNDService.get().getActiveProjects(getContainer(), getUser(), filters, true, eventDate);
 
-                if (projects.size() > 0)
+                if (!projects.isEmpty())
                 {
                     //   SND returned the project table data, need to add Iacuc and CostAccount fields from ehr.project table
                     UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), "ehr");
@@ -297,7 +296,7 @@ public class SNPRC_schedulerController extends SpringActionController
 
     // http://localhost:8080/labkey/snprc_scheduler/snprc/updateTimeline.view?
     @RequiresPermission(SNPRC_schedulerEditorsPermission.class)
-    public class updateTimelineAction extends MutatingApiAction<SimpleApiJsonForm>
+    public static class updateTimelineAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public void validateForm(SimpleApiJsonForm form, Errors errors)

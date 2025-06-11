@@ -63,8 +63,8 @@ public class LabworkType extends DefaultLabworkType
 
     private static String _serviceId;
     private static String _serviceType;
-    private String _testCol = "TestId";
-    private String _sortCol = "sortOrder";
+    private final String _testCol = "TestId";
+    private final String _sortCol = "sortOrder";
     private Map<String, Integer> _tests = null;
 
     public LabworkType(Module module)

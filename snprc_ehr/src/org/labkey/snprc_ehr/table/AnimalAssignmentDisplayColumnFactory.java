@@ -57,19 +57,16 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
     @Override
     public DisplayColumn createRenderer(ColumnInfo colInfo)
     {
-        return new AnimalAssignmentDisplayColumnFactory.AnimalAssignmentDisplayColumn(colInfo);
+        return new AnimalAssignmentDisplayColumn(colInfo);
     }
 
 
-    public class AnimalAssignmentDisplayColumn extends DataColumn
+    public static class AnimalAssignmentDisplayColumn extends DataColumn
     {
-        private ColumnInfo col;
-
         public AnimalAssignmentDisplayColumn(ColumnInfo col)
         {
             super(col,false);
             setRequiresHtmlFiltering(false);
-            this.col = col;
         }
 
         private TableSelector getTs(RenderContext ctx)
@@ -117,7 +114,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
             sb.append("<table border=1 style='border-collapse: collapse;border: 3px'><colgroup><col width='80'><col width='110'><col width='40'><col width='150'></colgroup>");
             //sb.append("<th>Protocol</th><th>Date</th><th>Status</th><th>Comment</th>");
 
-            ts.forEach(new Selector.ForEachBlock<ResultSet>()
+            ts.forEach(new Selector.ForEachBlock<>()
             {
                 @Override
                 public void exec(ResultSet rs) throws SQLException
@@ -126,9 +123,8 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
                     String date = dateFormat.format(rs.getDate("date"));
                     String assignmentStatus = PageFlowUtil.filter(rs.getString("assignmentStatus"));
                     String remark = PageFlowUtil.filter(rs.getString("remark"));
-                           //remark = (remark == null) ? "" : remark;
                     sb.append("<tr><td>" + protocol + "</td><td>" + date + "</td><td>" + assignmentStatus + "</td>");
-                    sb.append("<td>" + remark +  "</td>" + "<td></tr>");
+                    sb.append("<td>" + remark + "</td>" + "<td></tr>");
                 }
             });
             sb.append("</table>");
@@ -156,7 +152,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 
             StringBuilder sb = new StringBuilder();
-            ts.forEach(new Selector.ForEachBlock<ResultSet>()
+            ts.forEach(new Selector.ForEachBlock<>()
             {
                 @Override
                 public void exec(ResultSet rs) throws SQLException
