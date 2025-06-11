@@ -153,7 +153,7 @@ public class LabworkType extends DefaultLabworkType
             _tests = new CaseInsensitiveHashMap<>();
 
             TableSelector ts = new TableSelector(ti, PageFlowUtil.set(_sortCol, _testCol), new SimpleFilter(FieldKey.fromString(_serviceIdField), _serviceId), null);
-            ts.forEach(new Selector.ForEachBlock<>()
+            ts.forEach(new Selector.ForEachBlock<ResultSet>()
             {
                 @Override
                 public void exec(ResultSet rs) throws SQLException
@@ -170,7 +170,7 @@ public class LabworkType extends DefaultLabworkType
     protected Map<String, List<String>> getRows(TableSelector ts, final Collection<ColumnInfo> cols, final boolean redacted)
     {
         final Map<String, Map<Integer, List<String>>> rows = new HashMap<>();
-        ts.forEach(new Selector.ForEachBlock<>()
+        ts.forEach(new Selector.ForEachBlock<ResultSet>()
                    {
                        boolean forceRefresh = true;
 

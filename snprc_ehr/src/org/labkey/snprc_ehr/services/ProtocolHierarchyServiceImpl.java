@@ -107,7 +107,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
     @Override
     public List<Node> getSubNodes(Node node)
     {
-        return new ArrayList<>();
+        return new ArrayList<Node>();
     }
 
     @Override

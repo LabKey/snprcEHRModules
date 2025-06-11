@@ -296,7 +296,7 @@ public class SNPRC_EHRTriggerHelper
             QueryUpdateService qus = flagsTable.getUpdateService();
 
             TableSelector ts = new TableSelector(flagsTable, PageFlowUtil.set("lsid", "Id", "enddate"), filter, null);
-            ts.forEach(new Selector.ForEachBlock<>()
+            ts.forEach(new Selector.ForEachBlock<ResultSet>()
             {
                 @Override
                 public void exec(ResultSet rs) throws SQLException

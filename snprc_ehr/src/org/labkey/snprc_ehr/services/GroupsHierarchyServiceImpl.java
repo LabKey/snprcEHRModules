@@ -109,7 +109,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
     {
         if (!node.getNode().contains("GROUP"))
         {
-            return new ArrayList<>();
+            return new ArrayList<Animal>();
         }
         String[] stringParts = node.getNode().split("-");
         try
@@ -184,7 +184,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
         }
         catch (Exception ex)
         {
-            return new ArrayList<>();
+            return new ArrayList<Animal>();
         }
     }
 
