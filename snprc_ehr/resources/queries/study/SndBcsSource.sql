@@ -29,6 +29,6 @@ SELECT
 
 FROM SND.Categories.BCS as b
          INNER JOIN SND.LookupSets as ls on ls.SetName = 'BCS'
-         INNER JOIN SND.Lookups as l on l.lookupSetId = ls.lookupSetId
+         INNER JOIN SND.Lookups as l on l.lookupSetId = ls.lookupSetId AND b.bcs = l.lookupId
          INNER JOIN SND.Events as e on b.EventId = e.EventId
          INNER JOIN SND.Projects as p on e.ParentObjectId = p.objectId
