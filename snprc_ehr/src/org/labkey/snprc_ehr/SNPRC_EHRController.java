@@ -236,7 +236,7 @@ public class SNPRC_EHRController extends SpringActionController
             url.addParameter("queryName", queryName);
             url.addParameter("allowChooseQuery", false);
 
-            WebPartFactory factory = Portal.getPortalPartCaseInsensitive("Query");
+            WebPartFactory factory = Portal.getPortalPart("Query");
             Portal.WebPart part = factory.createWebPart();
             part.setProperties(url.getQueryString());
 
