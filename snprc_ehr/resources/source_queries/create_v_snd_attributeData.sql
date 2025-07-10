@@ -35,6 +35,7 @@ AS
 -- 05/13/19  Added a REPLACE to numeric/decimal CAST
 --           Purpose is to handle numeric data with commas (',') ~line 59  srr
 -- 04/23/2024 Lookup values need to be string values by default. tjh
+-- 6/26/2025 Added check for eventId in labkey Events table. tjh
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
     cp.ANIMAL_EVENT_ID               AS EventId,
@@ -71,6 +72,8 @@ INNER JOIN dbo.PKG_ATTRIBS AS pa ON pa.PKG_ID = p.PKG_ID AND pa.ATTRIB_KEY = cpa
 -- select primates only from the TxBiomed colony
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID
 WHERE LTRIM(RTRIM(cpa.VALUE)) <> '' AND  cpa.VALUE IS NOT NULL
+-- limit selection to only events that have been imported
+AND EXISTS (SELECT 1 FROM labkey.snd.Events AS e WHERE  cp.ANIMAL_EVENT_ID = e.EventId)
 
 ORDER BY EventDataId
 GO
