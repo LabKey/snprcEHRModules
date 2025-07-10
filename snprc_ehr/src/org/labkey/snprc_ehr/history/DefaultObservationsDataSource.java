@@ -20,8 +20,6 @@ import org.labkey.api.data.Results;
 import org.labkey.api.ehr.history.AbstractDataSource;
 import org.labkey.api.module.Module;
 
-import java.sql.SQLException;
-
 /**
  * Created by Marty on 12/8/2016.
  */

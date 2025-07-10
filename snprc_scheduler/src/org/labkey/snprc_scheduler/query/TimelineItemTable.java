@@ -27,8 +27,6 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
      *
      * Created by thawkins on 9/17/2018.
      * Create the simple table.
-     * @param schema
-     * @param table
      */
 
     public TimelineItemTable(SNPRC_schedulerUserSchema schema, TableInfo table, ContainerFilter cf)
@@ -56,10 +54,10 @@ public class TimelineItemTable extends SimpleUserSchema.SimpleTable<SNPRC_schedu
     @Override
     public QueryUpdateService getUpdateService()
     {
-        return new TimelineItemTable.UpdateService(this);
+        return new UpdateService(this);
     }
 
-    protected class UpdateService extends SimpleQueryUpdateService
+    protected static class UpdateService extends SimpleQueryUpdateService
     {
         public UpdateService(SimpleUserSchema.SimpleTable ti)
         {

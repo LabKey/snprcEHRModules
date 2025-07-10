@@ -12,7 +12,6 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.snprc_ehr.domain.NewAnimalData;
 
-import java.util.Date;
 import java.util.Map;
 
 public class SNPRC_EHRValidator

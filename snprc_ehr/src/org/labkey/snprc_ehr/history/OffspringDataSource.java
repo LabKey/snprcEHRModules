@@ -36,13 +36,12 @@ public class OffspringDataSource extends AbstractDataSource
     @Override
     protected String getHtml(Container c, Results rs, boolean redacted) throws SQLException
     {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(safeAppend(rs, "Offspring ID", "Offspring"));
-        sb.append(safeAppend(rs, "Sex", "sex"));
-        sb.append(safeAppend(rs, "Sire", "sire"));
-        sb.append(safeAppend(rs, "Dam", "dam"));
+        String sb = safeAppend(rs, "Offspring ID", "Offspring") +
+                safeAppend(rs, "Sex", "sex") +
+                safeAppend(rs, "Sire", "sire") +
+                safeAppend(rs, "Dam", "dam");
 
-        return sb.toString();
+        return sb;
     }
 }

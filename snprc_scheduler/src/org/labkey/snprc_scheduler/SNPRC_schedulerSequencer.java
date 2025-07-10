@@ -9,8 +9,8 @@ public enum SNPRC_schedulerSequencer
 {
     TIMELINEID ("org.labkey.snprc_scheduler.domain.Timeline", 100);
 
-    private String sequenceName;
-    private int minId;
+    private final String sequenceName;
+    private final int minId;
     SNPRC_schedulerSequencer(String name, int id)
     {
         sequenceName = name;

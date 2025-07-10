@@ -25,6 +25,7 @@ import org.labkey.api.util.FileUtil;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewBackgroundInfo;
+import org.labkey.vfs.FileLike;
 
 import java.io.File;
 
@@ -47,7 +48,8 @@ public class FeeSchedulePipelineJob extends PipelineJob
     {
         super(null, new ViewBackgroundInfo(c, user, url), pipeRoot);
         _importFile = importFile;
-        setLogFile(new File(pipeRoot.getRootPath(), FileUtil.makeFileNameWithTimestamp("FeeSchedulePipeline", "log")));
+        FileLike logFile = pipeRoot.getLogDirectoryFileLike(true).resolveChild(FileUtil.makeFileNameWithTimestamp("FeeSchedulePipeline", "log"));
+        setLogFile(logFile.toNioPathForWrite());
         _form = form;
         _container = c;
         _user = user;

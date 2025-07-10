@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class ProtocolHierarchyServiceImpl implements HierarchyService
 {
-    private ViewContext viewContext;
+    private final ViewContext viewContext;
 
     public ProtocolHierarchyServiceImpl(ViewContext viewContext)
     {
@@ -60,7 +60,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
         List<Map> maps = new TableSelector(assignmentTable, currentAssignmentsRecordsFilter, sort).getArrayList(Map.class);
 
         List<Node> rootNodes = new ArrayList<>();
-        List<Node> alreadySeenNodes = new ArrayList<Node>();
+        List<Node> alreadySeenNodes = new ArrayList<>();
 
         for (Map map : maps)
         {
@@ -129,8 +129,8 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
         sort.insertSortColumn(FieldKey.fromString("participantid"), Sort.SortDirection.ASC);
 
         List<Animal> animals = new TableSelector(assignmentTable, currentAssignmentRecordsFilter, sort).getArrayList(Animal.class);
-        List<Animal> distinctAnimals = new ArrayList<Animal>();
-        List<String> animalIds = new ArrayList<String>();
+        List<Animal> distinctAnimals = new ArrayList<>();
+        List<String> animalIds = new ArrayList<>();
 
         for (Animal animal : animals)
         {
@@ -156,7 +156,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
             oneAnimalDemographicsMap.put("status", a.get("calculated_status"));
             demographicsMap.put((String) a.get("id"), oneAnimalDemographicsMap);
         }
-        List<Animal> notAliveAnimals = new ArrayList<Animal>();
+        List<Animal> notAliveAnimals = new ArrayList<>();
         for (Animal animal : distinctAnimals)
         {
             if (demographicsMap.containsKey(animal.getText()))
@@ -206,7 +206,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
         Animal animalDemographicsRecord = new TableSelector(demographicsTable, demographicsFilter, null).getObject(Animal.class);
 
 
-        List<Node> locationsPath = new ArrayList<Node>();
+        List<Node> locationsPath = new ArrayList<>();
 
         AnimalNodePath animalNodePath = new AnimalNodePath();
         animalNodePath.setAnimalId(animal.getParticipantid());

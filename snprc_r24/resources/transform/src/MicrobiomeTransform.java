@@ -25,14 +25,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.DateUtil;
 
-import com.google.common.collect.*;
-
 public class MicrobiomeTransform extends AbstractAssayValidator
 {
     private File _errorFile;
-    private Map<String, String> _runProperties = new HashMap<>();
-    private Map<Integer, String> _colMap = new HashMap<>();
-    private Map<String, String> _dictionary = new HashMap<>();
+    private final Map<String, String> _runProperties = new HashMap<>();
+    private final Map<Integer, String> _colMap = new HashMap<>();
+    private final Map<String, String> _dictionary = new HashMap<>();
     private final int numHeaderCols = 4;
 
     public static void main(String[] args)
@@ -121,7 +119,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
                     }
                     else
                     {
-                        writeError("Encountered Invalid column header: " + getValue(cell) + " " + sb.toString(), "");
+                        writeError("Encountered Invalid column header: " + getValue(cell) + " " + sb, "");
                        //throw new IllegalArgumentException("Encountered Invalid column header: " + getValue(cell) + "\n");
                     }
 
@@ -146,7 +144,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
     // Can add more checking here
     private boolean isValid(String common)
     {
-        return !common.isEmpty() && common.trim().length() > 0;
+        return !common.isEmpty() && !common.trim().isEmpty();
     }
 
 
@@ -159,7 +157,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
         Cell cell;
 
         int i = 0;
-        Integer rowNum = 0;
+        int rowNum;
 
         for (Map.Entry<Integer, String> entry : _colMap.entrySet())
         {
@@ -179,7 +177,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
                     else
                     {
                         rowNum = row.getRowNum();
-                        writeError("Missing row identifyer informaion on row: " + rowNum.toString(), "");
+                        writeError("Missing row identifyer informaion on row: " + rowNum, "");
                     }
                 }
                 catch (IOException e)
@@ -258,7 +256,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
                             {
 
                                 sb.append(getColumns(nextRow));
-                                System.out.println(sb.toString());
+                                System.out.println(sb);
                                 first = false;
 
                             }
@@ -267,7 +265,7 @@ public class MicrobiomeTransform extends AbstractAssayValidator
                                 sb.append(processRow(nextRow));
                             }
 
-                            writer.print(sb.toString());
+                            writer.print(sb);
                         }
 
                     }

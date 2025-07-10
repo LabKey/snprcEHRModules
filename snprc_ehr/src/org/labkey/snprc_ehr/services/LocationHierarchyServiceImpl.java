@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public class LocationHierarchyServiceImpl implements HierarchyService
 {
-    private ViewContext viewContext;
+    private final ViewContext viewContext;
 
     public LocationHierarchyServiceImpl(ViewContext viewContext)
     {
@@ -73,7 +73,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
         List<Map> maps = new TableSelector(housingTable, currentHousingRecordsFilter, sort).getArrayList(Map.class);
 
         List<Node> rootNodes = new ArrayList<>();
-        List<Node> alreadySeenNodes = new ArrayList<Node>();
+        List<Node> alreadySeenNodes = new ArrayList<>();
 
         for (Map map : maps)
         {
@@ -184,7 +184,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
         TableInfo demographicsTable = userSchema.getTable("demographics");
         SimpleFilter filter = new SimpleFilter();
 
-        List<String> animalIds = new ArrayList<String>();
+        List<String> animalIds = new ArrayList<>();
         for (Animal animal : animals)
         {
             animalIds.add(animal.getId());
@@ -200,7 +200,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
             oneAnimalDemographicsMap.put("status", a.get("calculated_status"));
             demographicsMap.put((String) a.get("id"), oneAnimalDemographicsMap);
         }
-        List<Animal> notAliveAnimals = new ArrayList<Animal>();
+        List<Animal> notAliveAnimals = new ArrayList<>();
         for (Animal animal : animals)
         {
             if (demographicsMap.containsKey(animal.getId()))
@@ -221,7 +221,6 @@ public class LocationHierarchyServiceImpl implements HierarchyService
 
 
     /**
-     * @param node
      * @return true if node is a root node, false otherwise
      */
     @Override
@@ -274,7 +273,7 @@ public class LocationHierarchyServiceImpl implements HierarchyService
         AnimalNodePath animalNodePath = new AnimalNodePath();
         animalNodePath.setAnimalId(animal.getParticipantid());
 
-        List<Node> locationsPath = new ArrayList<Node>();
+        List<Node> locationsPath = new ArrayList<>();
         animalNodePath.setLocations(locationsPath);
 
         if (map == null)

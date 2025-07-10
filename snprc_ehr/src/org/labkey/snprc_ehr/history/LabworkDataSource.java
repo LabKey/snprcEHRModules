@@ -155,7 +155,7 @@ public class LabworkDataSource extends AbstractDataSource
         TableSelector ts = new TableSelector(ti, PageFlowUtil.set("parentid", "flag", "value"), filter, null);
         final Map<String, List<String>> map = new HashMap<>();
 
-        ts.forEach(new Selector.ForEachBlock<ResultSet>()
+        ts.forEach(new Selector.ForEachBlock<>()
         {
             @Override
             public void exec(ResultSet rs) throws SQLException

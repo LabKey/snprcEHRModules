@@ -36,7 +36,7 @@ import java.io.FileFilter;
     {
         public static final String NAME = "FeeSchedulePipeline";
 
-        FileFilter _fileMaskFilter = null;
+        FileFilter _fileMaskFilter;
 
         public FeeSchedulePipelineProvider(Module owningModule)
         {

@@ -62,7 +62,7 @@ public class SuperPackageLoadTask extends TaskRefTaskImpl
             TableSelector ts = new TableSelector(ti, filter, sort);
             List<SuperPackage> superPackages = ts.getArrayList(SuperPackage.class);
 
-            if (superPackages == null || superPackages.size() == 0)
+            if (superPackages == null || superPackages.isEmpty())
             {
                 job.getLogger().info("No new super packages found in " + SNPRC_EHRSchema.TABLE_SND_SUPER_PACKAGE_STAGING);
                 return;

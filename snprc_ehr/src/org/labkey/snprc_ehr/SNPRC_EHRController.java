@@ -126,7 +126,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
-    public class SSRSConfigAction extends FormViewAction<SSRSConfigForm>
+    public static class SSRSConfigAction extends FormViewAction<SSRSConfigForm>
     {
         @Override
         public void validateCommand(SSRSConfigForm target, Errors errors)
@@ -174,7 +174,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(ManageLookupTablesPermission.class)
-    public class EditLookupTablesAction extends SimpleViewAction
+    public static class EditLookupTablesAction extends SimpleViewAction<Object>
     {
 
         @Override
@@ -192,7 +192,7 @@ public class SNPRC_EHRController extends SpringActionController
 
 
     @RequiresPermission(UpdatePermission.class)
-    public class UpdateQueryAction extends SimpleViewAction<QueryForm>
+    public static class UpdateQueryAction extends SimpleViewAction<QueryForm>
     {
         private QueryForm _form;
 
@@ -236,7 +236,7 @@ public class SNPRC_EHRController extends SpringActionController
             url.addParameter("queryName", queryName);
             url.addParameter("allowChooseQuery", false);
 
-            WebPartFactory factory = Portal.getPortalPartCaseInsensitive("Query");
+            WebPartFactory factory = Portal.getPortalPart("Query");
             Portal.WebPart part = factory.createWebPart();
             part.setProperties(url.getQueryString());
 
@@ -265,7 +265,7 @@ public class SNPRC_EHRController extends SpringActionController
 
     // http://localhost:8080/labkey/snprc_ehr/snprc/getNextAnimalId
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class getNextAnimalIdAction extends MutatingApiAction<SimpleApiJsonForm>
+    public static class getNextAnimalIdAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
@@ -302,7 +302,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(SNPRCColonyAdminPermission.class)
-    public class BirthReportAction extends SimpleRedirectAction
+    public static class BirthReportAction extends SimpleRedirectAction<Object>
     {
         @Override
         public URLHelper getRedirectURL(Object o)
@@ -312,7 +312,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(SNPRCColonyAdminPermission.class)
-    public class SsrsReportsAction extends SimpleRedirectAction
+    public static class SsrsReportsAction extends SimpleRedirectAction<Object>
     {
         @Override
         public URLHelper getRedirectURL(Object o)
@@ -322,7 +322,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class IdChipReaderAction extends SimpleRedirectAction
+    public static class IdChipReaderAction extends SimpleRedirectAction
     {
         @Override
         public URLHelper getRedirectURL(Object o)
@@ -332,7 +332,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class SndEventViewAction extends SimpleRedirectAction
+    public static class SndEventViewAction extends SimpleRedirectAction<Object>
     {
         @Override
         public URLHelper getRedirectURL(Object o)
@@ -342,7 +342,7 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(SNPRCColonyAdminPermission.class)
-    public class NewAnimalWizardAction extends SimpleRedirectAction
+    public static class NewAnimalWizardAction extends SimpleRedirectAction<Object>
     {
         @Override
         public URLHelper getRedirectURL(Object o)
@@ -355,13 +355,13 @@ public class SNPRC_EHRController extends SpringActionController
      * Get all New Animals
      */
     @RequiresPermission(SNPRCColonyAdminPermission.class)
-    public class GetNewAnimalDataAction extends ReadOnlyApiAction<NewAnimalData>
+    public static class GetNewAnimalDataAction extends ReadOnlyApiAction<NewAnimalData>
     {
         @Override
         public ApiResponse execute(NewAnimalData o, BindException errors)
         {
 
-            Map<String, Object> props = new HashMap<String, Object>();
+            Map<String, Object> props = new HashMap<>();
 
 
             SimpleFilter filter = new SimpleFilter();
@@ -387,7 +387,7 @@ public class SNPRC_EHRController extends SpringActionController
      * Update/Add new animal
      */
     @RequiresPermission(SNPRCColonyAdminPermission.class)
-    public class UpdateAnimalDataAction extends MutatingApiAction<NewAnimalData>
+    public static class UpdateAnimalDataAction extends MutatingApiAction<NewAnimalData>
     {
         @Override
         public void validateForm(NewAnimalData newAnimalData, Errors errors)
@@ -480,12 +480,12 @@ public class SNPRC_EHRController extends SpringActionController
     }
 
     @RequiresPermission(EHRDataEntryPermission.class)
-    public class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
+    public static class RemoveCategoryAction extends MutatingApiAction<AnimalGroupCategory>
     {
         @Override
         public ApiResponse execute(AnimalGroupCategory animalGroupCategory, BindException errors)
         {
-            Map<String, Object> props = new HashMap<String, Object>();
+            Map<String, Object> props = new HashMap<>();
             try
             {
                 UserSchema us = new SNPRC_EHRUserSchema(getUser(), getContainer());
@@ -504,7 +504,7 @@ public class SNPRC_EHRController extends SpringActionController
                     categoriesFilter.addCondition(FieldKey.fromString("category_code"), animalGroupCategory.getCategoryCode(), CompareType.EQUAL);
                     Map<String, Object> animalGroupsCategory = new TableSelector(categoriesTable, categoriesFilter, null).getObject(Map.class);
 
-                    List<Map<String, Object>> keys = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> keys = new ArrayList<>();
 
                     Map<String, Object> idMap = new HashMap<>();
                     idMap.put("category_code", animalGroupsCategory.get("category_code"));

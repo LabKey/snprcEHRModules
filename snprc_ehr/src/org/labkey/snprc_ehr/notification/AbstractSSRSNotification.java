@@ -203,13 +203,13 @@ public abstract class AbstractSSRSNotification implements Notification
                 }
                 catch (MessagingException e)
                 {
-                    throw new UnexpectedException(e);
+                    throw UnexpectedException.wrap(e);
                 }
             }
         }
         catch (URISyntaxException | IOException e)
         {
-            throw new UnexpectedException(e);
+            throw UnexpectedException.wrap(e);
         }
     }
 

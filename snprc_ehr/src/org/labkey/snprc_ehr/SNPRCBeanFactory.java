@@ -42,8 +42,8 @@ import java.util.Map;
 public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
 {
 
-    private static Logger _log = LogManager.getLogger(BeanObjectFactory.class);
-    private Class<K> _class;
+    private static final Logger _log = LogManager.getLogger(BeanObjectFactory.class);
+    private final Class<K> _class;
 
 
     public SNPRCBeanFactory(Class<K> clss)
@@ -55,9 +55,6 @@ public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
     /**
      * Maps property fooBar to key foo_bar, in preparation for CRUD operations
      *
-     * @param bean
-     * @param m
-     * @return
      */
     @Override
     public
@@ -128,7 +125,7 @@ public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
             }
             catch (IllegalAccessException | InvocationTargetException x)
             {
-                throw new UnexpectedException(x);
+                throw UnexpectedException.wrap(x);
             }
             catch (IllegalArgumentException x)
             {

@@ -26,7 +26,6 @@ import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.Sort;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
-import org.labkey.api.ehr.dataentry.DataEntryForm;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
@@ -45,6 +44,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,16 +80,13 @@ public class AnimalsHierarchyController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetViewAction extends SimpleViewAction<ViewByForm>
+    public static class GetViewAction extends SimpleViewAction<ViewByForm>
     {
 
         @Override
         public ModelAndView getView(ViewByForm form, BindException errors)
         {
-
-            JspView<DataEntryForm> view = new JspView("/org/labkey/snprc_ehr/views/AnimalsHierarchy.jsp", this);
-            String viewBy = form.getViewBy();
-            if (viewBy == null) viewBy = "locations";
+            JspView<?> view = new JspView<>("/org/labkey/snprc_ehr/views/AnimalsHierarchy.jsp");
             view.setTitle("Animal Tree View Navigation");
             view.setHidePageTitle(true);
             view.setFrame(WebPartView.FrameType.PORTAL);
@@ -123,7 +120,7 @@ public class AnimalsHierarchyController extends SpringActionController
                     jsonRootLocations.add(node.toJSON());
                 }
 
-                Map props = new HashMap();
+                Map<String, Object> props = new HashMap<>();
 
 
                 props.put("nodes", jsonRootLocations);
@@ -151,7 +148,7 @@ public class AnimalsHierarchyController extends SpringActionController
                 jsonRootLocations.add(animal.toJSON());
             }
 
-            Map props = new HashMap();
+            Map<String, Object> props = new HashMap<>();
 
 
             props.put("nodes", jsonRootLocations);
@@ -203,12 +200,12 @@ public class AnimalsHierarchyController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetAnimals extends ReadOnlyApiAction<AnimalsBy>
+    public static class GetAnimals extends ReadOnlyApiAction<AnimalsBy>
     {
         @Override
         public Object execute(AnimalsBy animalsBy, BindException errors)
         {
-            List<Animal> animals = new ArrayList<Animal>();
+            List<Animal> animals = new ArrayList<>();
             Node node = new Node();
             switch (animalsBy.getBy().toLowerCase())
             {
@@ -266,7 +263,7 @@ public class AnimalsHierarchyController extends SpringActionController
                 jsonRootLocations.add(animal.toJSON());
             }
 
-            Map props = new HashMap();
+            Map<String, Object> props = new HashMap<>();
 
 
             props.put("animals", jsonRootLocations);
@@ -295,7 +292,7 @@ public class AnimalsHierarchyController extends SpringActionController
                 jsonLocationsPath.add(node.toJSON());
             }
 
-            Map props = new HashMap();
+            Map<String, Object> props = new HashMap<>();
 
 
             props.put("path", jsonLocationsPath);
@@ -309,26 +306,21 @@ public class AnimalsHierarchyController extends SpringActionController
 
     private HierarchyService getHierarchyService(String viewBy)
     {
-        HierarchyService hierarchyService;
         if (viewBy == null)
         {
             return new LocationHierarchyServiceImpl(this.getViewContext());
         }
-        switch (viewBy)
+        return switch (viewBy)
         {
-            case "locations":
-                return new LocationHierarchyServiceImpl(this.getViewContext());
-            case "groups":
-                return new GroupsHierarchyServiceImpl(this.getViewContext());
-            case "protocols":
-                return new ProtocolHierarchyServiceImpl(this.getViewContext());
-            default:
-                return new GroupsHierarchyServiceImpl(this.getViewContext());
-        }
+            case "locations" -> new LocationHierarchyServiceImpl(this.getViewContext());
+            case "groups" -> new GroupsHierarchyServiceImpl(this.getViewContext());
+            case "protocols" -> new ProtocolHierarchyServiceImpl(this.getViewContext());
+            default -> new GroupsHierarchyServiceImpl(this.getViewContext());
+        };
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class GetReportsAction extends ReadOnlyApiAction<Object>
+    public static class GetReportsAction extends ReadOnlyApiAction<Object>
     {
         @Override
         public Object execute(Object o, BindException errors)
@@ -344,11 +336,11 @@ public class AnimalsHierarchyController extends SpringActionController
             sort.appendSortColumn(FieldKey.fromString("sort_order"), Sort.SortDirection.ASC, false);
 
 
-            List<Map> reports = new TableSelector(reportsTable, filter, sort).getArrayList(Map.class);
+            Collection<Map<String, Object>> reports = new TableSelector(reportsTable, filter, sort).getMapCollection();
 
             JSONObject reportsJson = new JSONObject();
 
-            for (Map m : reports)
+            for (var m : reports)
             {
                 JSONObject reportObject = new JSONObject();
 
@@ -361,7 +353,7 @@ public class AnimalsHierarchyController extends SpringActionController
 
             }
 
-            Map props = new HashMap();
+            Map<String, Object> props = new HashMap<>();
             props.put("reports", reportsJson);
             return new ApiSimpleResponse(props);
         }

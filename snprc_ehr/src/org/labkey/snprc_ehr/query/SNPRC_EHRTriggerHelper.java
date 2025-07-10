@@ -55,9 +55,9 @@ import java.util.Set;
 public class SNPRC_EHRTriggerHelper
 {
     private static final Logger _log = LogManager.getLogger(SNPRC_EHRTriggerHelper.class);
-    private Container _container = null;
-    private User _user = null;
-    private Map<String, TableInfo> _cachedTables = new HashMap<>();
+    private final Container _container;
+    private final User _user;
+    private final Map<String, TableInfo> _cachedTables = new HashMap<>();
 
 
 
@@ -235,7 +235,7 @@ public class SNPRC_EHRTriggerHelper
 
     public Map<String, Object> getExtraContext()
     {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("quickValidation", true);
         map.put("generatedByServer", true);
 
@@ -313,22 +313,14 @@ public class SNPRC_EHRTriggerHelper
 
             try
             {
-                if (rows.size() > 0)
+                if (!rows.isEmpty())
                 {
                     Map<String, Object> extraContext = getExtraContext();
                     extraContext.put("skipAnnounceChangedParticipants", true);
                     qus.updateRows(getUser(), flagsTable.getUserSchema().getContainer(), rows, oldKeys, null, extraContext);
                 }
             }
-            catch (InvalidKeyException e)
-            {
-                throw new RuntimeException(e);
-            }
-            catch (BatchValidationException e)
-            {
-                throw new RuntimeException(e);
-            }
-            catch (QueryUpdateServiceException e)
+            catch (InvalidKeyException | QueryUpdateServiceException | BatchValidationException e)
             {
                 throw new RuntimeException(e);
             }
