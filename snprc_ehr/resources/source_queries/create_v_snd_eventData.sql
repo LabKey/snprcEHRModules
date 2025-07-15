@@ -20,7 +20,7 @@ AS
     -- Create date: 2/23/2018
     -- Description:	View provides the datasource for event data with attribute/values
     -- Changes: 4/12/2018 Added permissions
-    --
+    --           6/26/2025 Added check for eventId in labkey Events table. tjh
     -- ==========================================================================================
 
     SELECT
@@ -42,7 +42,9 @@ AS
         LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = cp.OBJECT_ID
 
         -- select primates only from the TxBiomed colony
-        INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.ANIMAL_ID;
+        INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.ANIMAL_ID
+	    -- limit selection to only events that have been imported
+	    WHERE EXISTS (SELECT 1 FROM labkey.snd.Events AS e WHERE  cp.ANIMAL_EVENT_ID = e.EventId)
 
 GO
 
