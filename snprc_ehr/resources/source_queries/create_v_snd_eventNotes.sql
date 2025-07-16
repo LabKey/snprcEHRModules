@@ -19,7 +19,7 @@ ALTER VIEW [labkey_etl].[v_snd_eventNotes] AS
 -- Create date: 3/23/2018
 -- Description:	View provides the datasource for event notes
 -- Changes: 3/28/2018 - Joined with v_demographics to limit the result set to the animal data being exported to LK. tjh
---
+--           6/26/2025 Added check for eventId in labkey Events table. tjh
 -- ==========================================================================================
 
 SELECT
@@ -38,6 +38,8 @@ LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = pn.object_id
 INNER JOIN dbo.animal_events AS ae ON ae.ANIMAL_EVENT_ID = pn.ANIMAL_EVENT_ID
 -- select primates only from the TxBiomed colony
 INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ae.animal_id
+-- limit selection to only events that have been imported
+WHERE EXISTS (SELECT 1 FROM labkey.snd.Events AS e WHERE  pn.ANIMAL_EVENT_ID = e.EventId)
 
 GO
 
