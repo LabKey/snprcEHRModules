@@ -44,36 +44,36 @@
 
 </script>
 
-<script src="<%= contextPath %>/LDK/Utils.js"></script>
-<script src="<%= contextPath %>/LDK/Assert.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsByNodeTreeStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByNodeTreePanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByNodeReportsContainer.js"></script>
-<script src="<%= contextPath %>/LDK/panel/ContentResizingPanel.js"></script>
-<script src="<%= contextPath %>/LDK/ConvertUtils.js"></script>
-<script src="<%= contextPath %>/LDK/QueryHelper.js"></script>
-<script src="<%= contextPath %>/LDK/SelectRowsRow.js"></script>
-<script src="<%= contextPath %>/LDK/panel/QueryPanel.js"></script>
-<script src="<%= contextPath %>/LDK/field/NumberField.js"></script>
-<script src="<%= contextPath %>/LDK/panel/WebpartPanel.js"></script>
-<script src="<%= contextPath %>/LDK/panel/GraphPanel.js"></script>
-<script src="<%= contextPath %>/ehr/data/ClinicalHistoryStore.js"></script>
-<script src="<%= contextPath %>/ehr/panel/ClinicalHistoryPanel.js"></script>
-<script src="<%= contextPath %>/ehr/panel/SnapshotPanel.js"></script>
-<script src="<%= contextPath %>/ehr/panel/SmallFormSnapshotPanel.js"></script>
+<script src="<%= contextPath %>/LDK/Utils.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/Assert.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsByNodeTreeStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByNodeTreePanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/AnimalsByNodeReportsContainer.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/panel/ContentResizingPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/ConvertUtils.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/QueryHelper.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/SelectRowsRow.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/panel/QueryPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/field/NumberField.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/panel/WebpartPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/panel/GraphPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/data/ClinicalHistoryStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/panel/ClinicalHistoryPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/panel/SnapshotPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/panel/SmallFormSnapshotPanel.js" nonce="<%=getScriptNonce()%>"></script>
 
-<script src="<%= contextPath %>/ehr/panel/WeightSummaryPanel.js"></script>
-<script src="<%= contextPath %>/ehr/panel/WeightGraphPanel.js"></script>
-<script src="<%= contextPath %>/ehr/utils.js"></script>
-<script src="<%= contextPath %>/ehr/DemographicsCache.js"></script>
-<script src="<%= contextPath %>/ehr/panel/KinShipPanel.js"></script>
-<script src="<%= contextPath %>/LDK/panel/DetailsPanel.js"></script>
-<script src="<%= contextPath %>/LDK/panel/MultiRecordDetailsPanel.js"></script>
-<script src="<%= contextPath %>/ehr/panel/BloodSummaryPanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/Panel/BloodSummaryPanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/Panel/ClinicalHistoryPanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/DemographicsRecord.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/snprcOverrides.js"></script>
+<script src="<%= contextPath %>/ehr/panel/WeightSummaryPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/panel/WeightGraphPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/utils.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/DemographicsCache.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/panel/KinShipPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/panel/DetailsPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/LDK/panel/MultiRecordDetailsPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/ehr/panel/BloodSummaryPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/Panel/BloodSummaryPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/Panel/ClinicalHistoryPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/DemographicsRecord.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/snprcOverrides.js" nonce="<%=getScriptNonce()%>"></script>
 
 <style>
     .x4-grid-tree-node-expanded .location .x4-tree-icon-parent, .location .x4-tree-icon-parent {
