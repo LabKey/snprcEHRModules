@@ -30,23 +30,23 @@
 <%
     HtmlString contextPath = getContextPath();
 %>
-<script src="<%= contextPath %>/snprc_ehr/lib/models/GroupCategoryModel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/models/GroupMemberModel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/models/GroupCategoryModel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/models/GroupMemberModel.js" nonce="<%=getScriptNonce()%>"></script>
 
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/GroupCategoriesStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/SpeciesStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalGroupsStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsComboStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/YesNoStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/GenderStore.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/stores/GroupMembersStore.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/GroupCategoriesStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/SpeciesStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalGroupsStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/AnimalsComboStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/YesNoStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/GenderStore.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/stores/GroupMembersStore.js" nonce="<%=getScriptNonce()%>"></script>
 
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupCategoriesGridPanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupCategoryFormPanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupMembersGridPanel.js"></script>
-<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupsGridPanel.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupCategoriesGridPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupCategoryFormPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupMembersGridPanel.js" nonce="<%=getScriptNonce()%>"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/panels/GroupsGridPanel.js" nonce="<%=getScriptNonce()%>"></script>
 
-<script src="<%= contextPath %>/snprc_ehr/lib/windows/AssignAnimalsToGroupWindow.js"></script>
+<script src="<%= contextPath %>/snprc_ehr/lib/windows/AssignAnimalsToGroupWindow.js" nonce="<%=getScriptNonce()%>"></script>
 <style>
     .trash-btn {
         background-image: url('<%=contextPath%>/snprc_ehr/lib/images/trash-bin.png');
