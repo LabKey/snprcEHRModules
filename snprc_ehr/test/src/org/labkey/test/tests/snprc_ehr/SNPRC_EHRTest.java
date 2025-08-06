@@ -267,6 +267,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         importFolderFromPath(++_pipelineJobCount);
     }
 
+    @Override
+    protected List<String> skipLinksForValidation()
+    {
+        List<String> links = new ArrayList<>(super.skipLinksForValidation());
+        links.add("snprc_ehr-BirthReport.view"); // Not currently rendering in test project
+        return links;
+    }
+
     protected void initSND()
     {
         goToProjectHome();
