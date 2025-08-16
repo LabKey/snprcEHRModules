@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.labkey.api.exp.api.ExperimentService.asInteger;
+
 public class SNPRC_schedulerManager
 {
     private static final SNPRC_schedulerManager _instance = new SNPRC_schedulerManager();
@@ -547,7 +549,7 @@ public class SNPRC_schedulerManager
                     if (insertedRow != null)
                     {
                         timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
-                        timelineItem.setTimelineItemId((Integer) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID));
+                        timelineItem.setTimelineItemId(asInteger(insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID)));
                         timelineItem.setDirty(false);
                     }
 
