@@ -738,7 +738,7 @@ public class SNPRC_schedulerManager
                     if (insertedRow != null)
                     {
                         timelineProjectItem.setObjectId((String) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
-                        timelineProjectItem.setProjectItemId((Integer) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID));
+                        timelineProjectItem.setProjectItemId(asInteger(insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID)));
                         timelineProjectItem.setDirty(false);
                     }
                 }
