@@ -818,17 +818,14 @@ public class SNPRC_schedulerManager
                     timelineAnimalItem.setObjectId(new GUID().toString());
                     timelineAnimalItemRows.add(timelineAnimalItem.toMap(c));
 
-                    if (!timelineAnimalItemRows.isEmpty())
-                    {
-                        List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineAnimalItemRows, errors, null, null);
+                    List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineAnimalItemRows, errors, null, null);
 
-                        // add updated values returned from db call
-                        if (insertedRow != null)
-                        {
-                            timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
-                            timelineAnimalItem.setRowId((Integer) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID));
-                            timelineAnimalItem.setDirty(false);
-                        }
+                    // add updated values returned from db call
+                    if (insertedRow != null)
+                    {
+                        timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                        timelineAnimalItem.setRowId(asInteger(insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID)));
+                        timelineAnimalItem.setDirty(false);
                     }
                 }
                 // delete existing row
