@@ -1,5 +1,6 @@
 package org.labkey.snprc_scheduler.services;
 
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiUsageException;
@@ -17,6 +18,7 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
+import org.labkey.api.util.logging.LogHelper;
 import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
 import org.labkey.snprc_scheduler.SNPRC_schedulerSchema;
 import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
@@ -36,6 +38,8 @@ import java.util.Map;
  */
 public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 {
+    private static final Logger LOG = LogHelper.getLogger(SNPRC_schedulerServiceImpl.class, "Timeline errors");
+
     public static final SNPRC_schedulerServiceImpl INSTANCE = new SNPRC_schedulerServiceImpl();
 
     private SNPRC_schedulerServiceImpl()
@@ -306,6 +310,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             }
             catch (RuntimeException e)
             {
+                LOG.error("Exception saving timeline data", e);
                 errors.addRowError(new ValidationException(e.getMessage()));
             }
         }

@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.labkey.api.exp.api.ExperimentService.asInteger;
+
 public class SNPRC_schedulerManager
 {
     private static final SNPRC_schedulerManager _instance = new SNPRC_schedulerManager();
@@ -547,7 +549,7 @@ public class SNPRC_schedulerManager
                     if (insertedRow != null)
                     {
                         timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
-                        timelineItem.setTimelineItemId((Integer) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID));
+                        timelineItem.setTimelineItemId(asInteger(insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID)));
                         timelineItem.setDirty(false);
                     }
 
@@ -736,7 +738,7 @@ public class SNPRC_schedulerManager
                     if (insertedRow != null)
                     {
                         timelineProjectItem.setObjectId((String) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
-                        timelineProjectItem.setProjectItemId((Integer) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID));
+                        timelineProjectItem.setProjectItemId(asInteger(insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID)));
                         timelineProjectItem.setDirty(false);
                     }
                 }
@@ -816,17 +818,14 @@ public class SNPRC_schedulerManager
                     timelineAnimalItem.setObjectId(new GUID().toString());
                     timelineAnimalItemRows.add(timelineAnimalItem.toMap(c));
 
-                    if (!timelineAnimalItemRows.isEmpty())
-                    {
-                        List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineAnimalItemRows, errors, null, null);
+                    List<Map<String, Object>> insertedRow = qus.insertRows(u, c, timelineAnimalItemRows, errors, null, null);
 
-                        // add updated values returned from db call
-                        if (insertedRow != null)
-                        {
-                            timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
-                            timelineAnimalItem.setRowId((Integer) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID));
-                            timelineAnimalItem.setDirty(false);
-                        }
+                    // add updated values returned from db call
+                    if (insertedRow != null)
+                    {
+                        timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                        timelineAnimalItem.setRowId(asInteger(insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID)));
+                        timelineAnimalItem.setDirty(false);
                     }
                 }
                 // delete existing row
