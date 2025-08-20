@@ -73,3 +73,4 @@ Vaccines	Exposures	query	Vaccines	true		study	ExpVaccines			Date	false	false		qc
 Body Condition Score	Clinical	query	Body Condition Score	true		study	BCS			Date	false	false		qcstate/publicdata	Body Condition Scores
 SndEventsWidget	Clinical	js	SND Events	true		study	SndEvents	SndEventsWidgetWebpart		date	false	false		qcstate/publicdata
 Body Temperature	Clinical	query	Body Temperature	true		study	BodyTemperature			Date	false	false		qcstate/publicdata	Body Temperature
+Vitals	Clinical	query	Vitals	true		study	Vitals			Date	false	false		qcstate/publicdata	Vitals
