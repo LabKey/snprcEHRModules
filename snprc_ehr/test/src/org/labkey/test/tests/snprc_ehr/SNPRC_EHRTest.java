@@ -93,6 +93,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     private static final File ANIMAL_GROUP_CATEGORIES_TSV = TestFileUtils.getSampleData("snprc/animal_group_categories.tsv");
     private static final File SPECIES_TSV = TestFileUtils.getSampleData("snprc/species.tsv");
     private static final String PROJECT_NAME = "SNPRC";
+    private static final String FILEREPOSITORY = "FileRepository";
     private static final String COREFACILITIES = "Core Facilities";
     private static final String GENETICSFOLDER = "Genetics";
     private static final String FOLDER_NAME = "SNPRC";
@@ -130,6 +131,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     protected void createProjectAndFolders(String type)
     {
         _containerHelper.createProject(getProjectName(), type);
+        _containerHelper.createSubfolder(getProjectName(), getProjectName(), FILEREPOSITORY, "File Sharing", null);
         _containerHelper.createSubfolder(getProjectName(), getProjectName(), COREFACILITIES, "Collaboration", null);
         _containerHelper.createSubfolder(getProjectName(), COREFACILITIES, GENETICSFOLDER, "Laboratory Folder", new String[]{"SNPRC_Genetics"});
     }
@@ -429,6 +431,24 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         goToProjectHome();
         waitForElement(Locator.linkWithText("Animal Search"));
         waitForElement(Locator.linkWithText("Browse All"));
+    }
+
+    @Test
+    public void testFileRepository()
+    {
+        goToAnimalHistory();
+
+        SNPRCAnimalHistoryPage historyPage = new SNPRCAnimalHistoryPage(getDriver());
+        historyPage.searchSingleAnimal("TEST3621582");
+        historyPage.clickCategoryTab("General");
+        historyPage.clickReportTab("File Repository");
+
+        waitForText("No directory found for this animal. To upload files, you must create the folders first.");
+        waitForElement(Ext4Helper.Locators.ext4Button("Create Folders"));
+        click(Ext4Helper.Locators.ext4Button("Create Folders"));
+
+        waitForText("Anesthesia Reports", "Cardiology Docs", "Dental Records", "Images", "Lab Reports", "Misc Docs", "Pathology Reports", "Procurement Docs", "Radiology Reports", "Surgery Sheets");
+
     }
 
     @Test

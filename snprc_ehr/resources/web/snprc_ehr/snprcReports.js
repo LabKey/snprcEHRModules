@@ -324,7 +324,9 @@ EHR.reports.FileRepository =  function(panel,tab) {
                         partName: 'Files',
                         renderTo: 'filesDiv-body',
                         containerPath: containerPath,
-                        partConfig: {path: location},
+                        partConfig: {
+                            fileRoot: `@files/${location}`
+                        },
                         success: function () {
                             panel.setHeight(450);
                         }
