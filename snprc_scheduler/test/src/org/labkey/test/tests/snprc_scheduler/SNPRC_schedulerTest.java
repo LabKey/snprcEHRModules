@@ -40,6 +40,8 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.remoteapi.query.Filter.Operator.EQUAL;
+import static org.labkey.test.util.PermissionsHelper.EDITOR_ROLE;
+import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 
 @Category({EHR.class, SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
@@ -115,8 +117,8 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         _permissionsHelper.addUserToProjGroup(EDITOR_USER.getEmail(), PROJECT_NAME, SecurityGroup.EDITOR.name);
 
         // set folder permission for groups
-        _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, "Reader", PermissionsHelper.MemberType.group);
-        _permissionsHelper.addMemberToRole(SecurityGroup.EDITOR.name, "Editor", PermissionsHelper.MemberType.group);
+        _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, READER_ROLE, PermissionsHelper.MemberType.group);
+        _permissionsHelper.addMemberToRole(SecurityGroup.EDITOR.name, EDITOR_ROLE, PermissionsHelper.MemberType.group);
 
         // add groups to roles
         _permissionsHelper.addMemberToRole(SecurityGroup.READER.name, SecurityRole.READER.name, PermissionsHelper.MemberType.group);
