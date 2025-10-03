@@ -350,7 +350,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         webPartFactories.add(new BaseWebPartFactory("SNPRC Animals Treeview", WebPartFactory.LOCATION_BODY, WebPartFactory.LOCATION_RIGHT)
         {
             @Override
-            public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
+            public WebPartView<?> getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
                 return new AnimalsHierarchyWebPart();
             }
