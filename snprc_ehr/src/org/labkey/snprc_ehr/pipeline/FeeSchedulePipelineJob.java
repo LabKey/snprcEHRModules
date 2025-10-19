@@ -49,7 +49,7 @@ public class FeeSchedulePipelineJob extends PipelineJob
         super(null, new ViewBackgroundInfo(c, user, url), pipeRoot);
         _importFile = importFile;
         FileLike logFile = pipeRoot.getLogDirectoryFileLike(true).resolveChild(FileUtil.makeFileNameWithTimestamp("FeeSchedulePipeline", "log"));
-        setLogFile(logFile.toNioPathForWrite());
+        setLogFile(logFile);
         _form = form;
         _container = c;
         _user = user;
