@@ -40,6 +40,7 @@ import org.labkey.api.security.User;
 import org.labkey.api.security.UserManager;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
+import org.labkey.snprc_ehr.SNPRC_EHRSequencer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -222,15 +223,7 @@ public class SNPRC_EHRTriggerHelper
      */
     public Integer getNextCaseId()
     {
-        DbSchema dbStudySchema = SNPRC_EHRSchema.getInstance().getStudySchema();
-        SQLFragment sql = new SQLFragment("SELECT MAX(c.caseid) AS MAX_CODE FROM ");
-        sql.append(getTableInfo("study", "cases"), "c");
-        SqlSelector sqlSelector = new SqlSelector(dbStudySchema, sql);
-
-        Integer caseId = sqlSelector.getObject(Integer.class);
-
-        // if table has been truncated - reseed the caseid at 1
-        return (caseId == null) ? 1 : caseId + 1;
+        return SNPRC_EHRSequencer.ADMITID.getNext(getContainer(), getUser());
     }
 
     public Map<String, Object> getExtraContext()

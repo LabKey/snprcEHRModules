@@ -394,6 +394,11 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
+        <indices>
+            <index type="unique">
+                <column>caseid</column>
+            </index>
+        </indices>
         <tableTitle>Cases</tableTitle>
     </table>
     <table tableName="matings" tableDbType="TABLE">
