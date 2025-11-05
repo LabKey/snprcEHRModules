@@ -75,7 +75,7 @@ public class FeeScheduleController extends SpringActionController
         public ActionURL getRedirectURL(PipelinePathForm form) throws Exception
         {
             Container c = getContainer();
-            File file = form.getValidatedSingleFile(c);
+            FileLike file = form.getValidatedSingleFile(c);
 
             if (!file.exists())
             {
@@ -83,7 +83,7 @@ public class FeeScheduleController extends SpringActionController
             }
 
             ActionURL url = new ActionURL(FeeScheduleImportAction.class, c);
-            url.addParameter("filePath", file.getAbsolutePath());
+            url.addParameter("filePath", file.toNioPathForRead().toFile().getAbsolutePath());
             //url.addParameter("tabPage", "");
             //form.getRequest().getSession().setAttribute("tabPage", "");
             return url;
