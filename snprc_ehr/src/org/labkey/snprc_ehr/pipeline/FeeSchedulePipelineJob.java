@@ -48,7 +48,7 @@ public class FeeSchedulePipelineJob extends PipelineJob
     {
         super(null, new ViewBackgroundInfo(c, user, url), pipeRoot);
         _importFile = importFile;
-        FileLike logFile = pipeRoot.getLogDirectoryFileLike(true).resolveChild(FileUtil.makeFileNameWithTimestamp("FeeSchedulePipeline", "log"));
+        FileLike logFile = pipeRoot.getLogDirectory(true).resolveChild(FileUtil.makeFileNameWithTimestamp("FeeSchedulePipeline", "log"));
         setLogFile(logFile);
         _form = form;
         _container = c;
