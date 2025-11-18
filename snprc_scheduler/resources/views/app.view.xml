@@ -1,7 +1,0 @@
-<view xmlns="http://labkey.org/data/xml/view" frame="none" title="Procedure scheduling">
-    <requiresLogin/>
-    <dependencies>
-        <dependency path="snprc_scheduler/gen/app/app.css"/>
-        <dependency path="snprc_scheduler/gen/app/app.js"/>
-    </dependencies>
-</view>

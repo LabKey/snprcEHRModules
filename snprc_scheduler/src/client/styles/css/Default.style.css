@@ -1,67 +1,115 @@
+.container {
+  max-width: 100% !important;  /* Override bootstrap container max-width. This is controlled by LK */
+}
+
+.alert-dismissable .close, .alert-dismissible .close {
+  right: 0 !important; /* Override bootstrap issue with LK notifications */
+}
+
+.loading-modal.fade {
+  opacity: .75 !important;
+ }
+
+.scheduler-view .fade .modal-content{
+  opacity: 1 !important;
+}
+
+.scheduler-view .fade:not(.show) {
+  opacity: 1 !important;
+}
+
+.scheduler-view .fade {
+  opacity: 1;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.margin-small-top {
+  margin-top: 10px;
+}
+
+.padding-top {
+  margin-top: 20px;
+}
+
+.btn {
+  --bs-btn-color: #000 !important;
+  color: #000 !important;
+}
+
+.scheduler-bs-accordion {
+  height: 100%
+}
+
+.scheduler-project-list {
+  flex: 1;
+}
 
 .spacer-row {
-    min-height: 57px;
+  min-height: 57px;
 }
 
 .no-border {
-    border: none;
-    border-color: #fff;
-    box-shadow: none !important;
+  border: none;
+  border-color: #fff;
+  box-shadow: none !important;
 }
 
 .search-input {
-    color: #444;
-    height: 30px !important;
+  color: #444;
+  height: 30px !important;
 }
 
 .input-group-addon-buffer {
-    width: 36px;
+  width: 36px;
 }
 
 .wrap-words {
-    word-wrap: normal;
-    overflow-wrap: normal;
-    white-space: normal;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  white-space: normal;
 }
 
 .smooth-border {
-    border: 1px solid;
-    border-color: rgb(165, 165, 165);
-    border-radius: 3px;
+  border: 1px solid;
+  border-color: rgb(165, 165, 165);
+  border-radius: 3px;
 }
 
 .input-group-left-margin {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .top-bottom-padding-8 {
-    padding-bottom: 8px;
-    padding-top: 8px;
+  padding-bottom: 8px;
+  padding-top: 8px;
 }
 
 .bottom-padding-8 {
-    padding-bottom: 8px;
+  padding-bottom: 8px;
 }
 
 .scheduler-view {
-    min-width: 1200px;
-    margin-top: -10px;
+  min-width: 1200px;
+  margin-top: -10px;
 }
 
 .input-wide {
-    width: 100% !important;
-    height: 24px !important;
+  width: 100% !important;
+  height: 24px !important;
 }
 
 .input-row {
-    padding-bottom: 5px;
-    padding-left: 0px;
-    padding-right: 0px;
+  padding-bottom: 5px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .scheduler-main-table {
-    padding-left: 0px;
-    padding-right: 30px;
+  padding-left: 0px;
+  padding-right: 30px;
 }
 
 /* React data grid styles */
@@ -128,17 +176,5 @@ textarea.form-control {
 
 .scheduler-save-cancel {
     padding-right: 15px;
-}
-
-.timeline-saving-modal .modal-content {
-    background-color: transparent;
-    border: 0px !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-}
-
-.alert-banner {
-    margin-bottom: 15px;
-    padding: 10px 15px;
 }
 

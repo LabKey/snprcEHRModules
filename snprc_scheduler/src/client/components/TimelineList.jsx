@@ -9,7 +9,7 @@
     ==================================================================================
 */
 import React from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { DataGrid, textEditor } from 'react-data-grid';
 import {
     selectTimeline,
     duplicateTimeline,
@@ -21,27 +21,28 @@ import {
     hideConfirm,
     deleteNewTimelines,
     getNextRowId,
-    setTimelineClean,
     showAlertModal,
     hideAlertModal,
     TAB_TIMELINES,
     saveTimeline,
-    hideAlertBanner,
-    showAlertBanner, fetchTimelinesByProject
+    showAlertBanner,
+    fetchTimelinesByProject
 } from '../actions/dataActions';
 import PropTypes from "prop-types";
-import connect from "react-redux/es/connect/connect";
-import {Button, OverlayTrigger, Tooltip} from "react-bootstrap";
+import { connect } from "react-redux";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCopy, faClone, faCaretDown, faCaretRight, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faClone, faCaretDown, faCaretRight, faTrash, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCopy);
 library.add(faClone);
 library.add(faCaretDown);
 library.add(faCaretRight);
 library.add(faTrash);
+library.add(faPlus);
+library.add(faPencil);
 
 const verboseOutput = false;
 
@@ -51,14 +52,10 @@ class TimelineList extends React.Component {
         super(props);
         this.state = {
             debugUI: false,
-            timelineCols: [
-                { key: 'Description', name: 'Description', editable: true, width: 400 }
-            ],
-            selectedTimeline: (this.props.selectedTimeline || null),
-            revTableCount: 0,
-            expanding: [],
+            expandedTimelineIds: new Set(),
             confirmed: false
         };
+        this.gridRef = React.createRef();
     }
 
     getTooltip = (label) => {
@@ -67,36 +64,60 @@ class TimelineList extends React.Component {
         </Tooltip>)
     }
 
-    onTimelineRowsSelected = (row, isSelected) => {
-        const { selectedTimeline, onSelectTimeline, cleanTimeline, showConfirm, hideConfirm, deleteNewTimelines } = this.props;
+    onCellClick = (args, event) => {
+        const { selectedTimeline, onSelectTimeline, showConfirm, hideConfirm, deleteNewTimelines } = this.props;
+        const row = args.row;
 
-        return ((() => {
-            if (selectedTimeline && selectedTimeline.IsDirty) {
-                showConfirm({
-                    title: 'Unsaved Data',
-                    msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline itself ' +
-                            'if it is not saved. Proceed without saving?',
-                    onConfirm: () => {
-                        deleteNewTimelines();
-                        if (isSelected) {
-                            onSelectTimeline(row);
-                        }
-                        hideConfirm();
-                        this.setExpandedTimelineId(row.RowId);
-                    },
-                    onCancel: () => {
-                        hideConfirm();
-                        this.setExpandedTimelineId(selectedTimeline.RowId);
-                    }
-                })
-            }
-            else {
-                if (isSelected) {
+        // Handle expand/collapse click on expand column
+        if (args.column.key === 'expand') {
+            this.toggleExpand(row.RowId);
+            return;
+        }
+
+        // Handle timeline selection
+        if (selectedTimeline && selectedTimeline.IsDirty && (row.RowId !== selectedTimeline.RowId || row.RevisionNum !== selectedTimeline.RevisionNum)) {
+            showConfirm({
+                title: 'Unsaved Data',
+                msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline itself ' +
+                        'if it is not saved. Proceed without saving?',
+                onConfirm: () => {
+                    deleteNewTimelines();
                     onSelectTimeline(row);
+                    hideConfirm();
+                    if (row.RevisionNum === 0) {
+                        this.expandTimeline(row.RowId);
+                    }
+                },
+                onCancel: () => {
+                    hideConfirm();
                 }
+            })
+        }
+        else {
+            onSelectTimeline(row);
+            if (row.RevisionNum === 0) {
+                this.expandTimeline(row.RowId);
             }
+        }
+    };
 
-        }).apply(this))
+    toggleExpand = (rowId) => {
+        this.setState(state => {
+            const expandedTimelineIds = new Set(state.expandedTimelineIds);
+            if (expandedTimelineIds.has(rowId)) {
+                expandedTimelineIds.delete(rowId);
+            } else {
+                expandedTimelineIds.clear(); // Only one expanding at a time
+                expandedTimelineIds.add(rowId);
+            }
+            return { expandedTimelineIds };
+        });
+    };
+
+    expandTimeline = (rowId) => {
+        this.setState({
+            expandedTimelineIds: new Set([rowId])
+        });
     };
 
     newTimelineConfirm = () => {
@@ -114,7 +135,6 @@ class TimelineList extends React.Component {
                 },
                 onCancel: () => {
                     hideConfirm();
-                    this.setExpandedTimelineId(selectedTimeline.RowId);
                 }
             })
         }
@@ -124,19 +144,32 @@ class TimelineList extends React.Component {
     }
 
     newTimeline = () => {
-        const { selectedProject, timelines, lastRowId } = this.props;
+        const { selectedProject, timelines, lastRowId, onNewTimeline } = this.props;
 
-        return ((() => {
+        let newTimeline = {
+            ProjectId: selectedProject.projectId,
+            ProjectObjectId: selectedProject.ProjectObjectId,
+        };
 
-            let newTimeline = {
-                ProjectId: selectedProject.projectId,
-                ProjectObjectId: selectedProject.ProjectObjectId,
-            };
-
-            this.props.onNewTimeline(newTimeline, selectedProject);
-            this.setExpandedTimelineId(getNextRowId(lastRowId, timelines));
-
-        }).apply(this))
+        onNewTimeline(newTimeline, selectedProject);
+        const newRowId = getNextRowId(lastRowId, timelines);
+        this.expandTimeline(newRowId);
+        
+        // Enable edit mode for the description field of the new timeline
+        // Use setTimeout to ensure the grid has rendered the new row
+        setTimeout(() => {
+            if (this.gridRef.current) {
+                const rows = this.getTimelineRows();
+                const rowIdx = rows.findIndex(r => r.RowId === newRowId && r.RevisionNum === 0);
+                if (rowIdx !== -1) {
+                    const descriptionColumnIdx = 2;
+                    this.gridRef.current.selectCell(
+                        { idx: descriptionColumnIdx, rowIdx },
+                        { enableEditor: true }
+                    );
+                }
+            }
+        }, 100);
     };
 
     cloneTimelineConfirm = () => {
@@ -155,7 +188,6 @@ class TimelineList extends React.Component {
                     },
                     onCancel: () => {
                         hideConfirm();
-                        this.setExpandedTimelineId(selectedTimeline.RowId);
                     }
                 })
             }
@@ -166,9 +198,10 @@ class TimelineList extends React.Component {
     };
 
     cloneTimeline = () => {
-        const { selectedTimeline, timelines, lastRowId } = this.props;
-        this.props.onCloneTimeline(selectedTimeline);
-        this.setExpandedTimelineId(getNextRowId(lastRowId, timelines));
+        const { selectedTimeline, timelines, lastRowId, onCloneTimeline } = this.props;
+        onCloneTimeline(selectedTimeline);
+        const newRowId = getNextRowId(lastRowId, timelines);
+        this.expandTimeline(newRowId);
     };
 
     reviseTimelineConfirm = () => {
@@ -196,7 +229,6 @@ class TimelineList extends React.Component {
                     },
                     onCancel: () => {
                         hideConfirm();
-                        this.setExpandedTimelineId(selectedTimeline.RowId);
                     }
                 })
             }
@@ -207,7 +239,7 @@ class TimelineList extends React.Component {
     };
 
     reviseTimeline = () => {
-        const { selectedTimeline, timelines, showAlert, hideAlert } = this.props;
+        const { selectedTimeline, timelines, showAlert, hideAlert, onReviseTimeline } = this.props;
         let latestRev;
         timelines.forEach((tl) => {
             if (tl.TimelineId === selectedTimeline.TimelineId && tl.RevisionNum > selectedTimeline.RevisionNum) {
@@ -227,7 +259,7 @@ class TimelineList extends React.Component {
             })
         }
 
-        this.props.onReviseTimeline(latestRev ? latestRev : selectedTimeline);
+        onReviseTimeline(latestRev ? latestRev : selectedTimeline);
     };
 
     deleteTimelineValidate = () => {
@@ -285,7 +317,7 @@ class TimelineList extends React.Component {
 
     deleteSelectedTimeline = () => {
 
-        const {showAlertBanner, selectedTimeline, fetchTimelines, selectedProject} = this.props;
+        const { showAlertBanner, selectedTimeline, fetchTimelines, selectedProject } = this.props;
 
         selectedTimeline.IsDeleted = true;
 
@@ -348,267 +380,253 @@ class TimelineList extends React.Component {
 
     };
 
-    innerOptions = {
-        defaultSortName: 'RevisionNum',
-        defaultSortOrder: 'asc',
-    }
 
-    expandComponent = (row) => {
-        const { selectedTimeline, timelines, accordion } = this.props;
-
-        return ((() => {
-
-            if (accordion && accordion.tab === TAB_TIMELINES) {
-
-                let revs = [];
-
-                for (const timeline of timelines) {
-                    if (timeline.RowId && timeline.RowId === row.RowId) {
-                        revs.push(timeline);
-                    }
-                }
-
-                revs = revs.sort(function (a, b) {
-                    return (a.RevisionNum < b.RevisionNum ? 1 : -1)
-                });
-
-                this.state.revTableCount++;
-
-                const expanded = this.getExpandedTimelineIds();
-                if (selectedTimeline && row.RowId === selectedTimeline.RowId && selectedTimeline.RowId !== expanded[0])
-                    this.setExpandedTimelineId(selectedTimeline.RowId);
-
-                return (
-                        <BootstrapTable
-                                ref={'rev-table-' + row.RowId}
-                                data={revs}
-                                options={this.innerOptions}
-                                selectRow={this.getInnerRowProps(selectedTimeline.RevisionNum)}
-                                cellEdit={this.getCellEditProps()}
-                        >
-                            <TableHeaderColumn dataField='RevisionNum' width='50px' isKey={true}>Rev</TableHeaderColumn>
-                            <TableHeaderColumn dataField='Description'>Description</TableHeaderColumn>
-                            <TableHeaderColumn dataField='RowId' hidden/>
-                        </BootstrapTable>
-                )
-            }
-            return null;
-        }).apply(this))
-    };
-
-    isExpandableRow(row) {
-        return true;
-    }
-
-    handleExpand = (rowKey, isExpand, e) => {
-        const {selectedTimeline, onSelectTimeline, hideConfirm, showConfirm, deleteNewTimelines, timelines} = this.props;
-
-        if (isExpand) {
-            if (selectedTimeline && selectedTimeline.IsDirty && !this.state.confirmed) {
-                showConfirm({
-                    title: 'Unsaved Data',
-                    msg: 'Opening another timeline will lose unsaved data on this timeline, including the timeline ' +
-                            'itself if it is not saved. Proceed without saving?',
-                    onConfirm: () => {
-                        // Delete unsaved timelines if navigating away
-                        deleteNewTimelines();
-                        onSelectTimeline(timelines.find((timeline) => {
-                            return (timeline.RowId === rowKey && timeline.RevisionNum === 0)
-                        }));
-                        hideConfirm();
-                        this.setExpandedTimelineId(rowKey);
-                    },
-                    onCancel: () => {
-                        hideConfirm();
-                        this.setExpandedTimelineId(selectedTimeline.RowId);
-                    }
-                });
-                this.setExpandedTimelineId(selectedTimeline.RowId);
-            }
-            else {
-                if (this.state.confirmed) {
-                    this.setState({confirmed: false});
-                }
-
-                onSelectTimeline(timelines.find((timeline) => {
-                    return (timeline.RowId === rowKey && timeline.RevisionNum === 0)
-                }));
-            }
+    ExpandFormatter = ({ row }) => {
+        if (!row.isParent) {
+            return <div style={{ paddingLeft: '25px' }} />;
         }
-        else {
-            this.setExpandedTimelineId(selectedTimeline.RowId);
+        
+        if (!row.hasChildren) {
+            return <div />;
         }
 
+        const icon = row.isExpanded ? 
+            <FontAwesomeIcon icon={faCaretDown} size="lg" /> : 
+            <FontAwesomeIcon icon={faCaretRight} size="lg" />;
+        
+        return <div style={{ cursor: 'pointer' }}>{icon}</div>;
     };
 
-    getExpandedTimelineIds = () => {
-        return this.refs["timeline-table"].state.expanding;
+    RevisionFormatter = ({ row }) => {
+        return <div style={{ paddingLeft: '25px' }}>{row.RevisionNum}</div>;
     };
 
-    setExpandedTimelineId = (id) => {
-        this.refs["timeline-table"].setState({
-            expanding: [id]
-        });
+    DescriptionFormatter = ({ row }) => {
+        const { selectedTimeline } = this.props;
+        const isSelected = selectedTimeline && 
+                          selectedTimeline.RowId === row.RowId && 
+                          selectedTimeline.RevisionNum === row.RevisionNum;
+        const style = row.isChild ? { paddingLeft: '25px', display: 'flex', alignItems: 'center', gap: '8px' } : { display: 'flex', alignItems: 'center', gap: '8px' };
+        return (
+            <div style={style}>
+                <span style={{ flex: 1 }}>{row.Description || ''}</span>
+                {isSelected && (
+                    <FontAwesomeIcon 
+                        icon={faPencil} 
+                        style={{ cursor: 'pointer', color: '#666' }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            this.enableEditMode(row);
+                        }}
+                        title="Edit description"
+                    />
+                )}
+            </div>
+        );
     };
 
-    getCellEditProps = () => {
-        return ((() => {
-            let me = this;
-            return {
-                mode: 'dbclick',
-                blurToSave: true,
-                nonEditableRows: function () {
+    enableEditMode = (row) => {
+        if (this.gridRef.current) {
+            const rows = this.getTimelineRows();
+            const rowIdx = rows.findIndex(r =>
+                    r.RowId === row.RowId && r.RevisionNum === row.RevisionNum
+                );
 
-                    // Only selected timelines can edit their names
-                    let expanded = me.getExpandedTimelineIds();
-                    let nonEdit = [];
-                    let timelineTable = me.refs["timeline-table"];
-
-                    // Look at expanded subtable
-                    if (timelineTable != null && expanded.length > 0) {
-                        for (const revTableRef in timelineTable.body.refs) {
-                            if (timelineTable.body.refs.hasOwnProperty(revTableRef)) {
-                                let timelineId = revTableRef.split('-')[2];
-
-                                // Only look at selections in expanded subtable
-                                if (expanded[0] === parseInt(timelineId)) {
-                                    let revTable = timelineTable.body.refs[revTableRef];
-                                    let selections = revTable.state.selectedRowKeys;
-
-                                    // Add keys for any rows not selected
-                                    for (const row of revTable.state.data) {
-                                        if (selections.length < 1 || selections[0] !== row.RevisionNum || me.props.selectedTimeline.QcStateLabel !== "In Progress") {
-                                            nonEdit.push(row.RevisionNum)
-                                        }
-                                    }
-
-
-                                }
-                            }
-                        }
-
-                    }
-
-                    return nonEdit;
-                },
-                afterSaveCell: function(row, cellName, cellValue) {
-                    const updatedTimeline = Object.assign({}, me.props.selectedTimeline, {
-                        Description: cellValue,
-                        IsDirty: true
-                    });
-                    me.props.onUpdateTimeline(updatedTimeline, true);
-
-                    return true;
-                }
-            }
-        }).apply(this))
-    }
-
-
-    getInnerRowProps = (rev) => {
-        return {
-            mode: 'radio',
-            clickToSelect: true,
-            onSelect: this.onTimelineRowsSelected,
-            selected: [rev]
-        };
-    };
-
-    expandColumnComponent = ({ isExpandableRow, isExpanded }) => {
-        return ((() => {
-            let content = '';
-
-            if (isExpandableRow) {
-                content = (isExpanded ? <FontAwesomeIcon icon={["fa", "caret-down"]} size={"lg"}/> :
-                        <FontAwesomeIcon icon={["fa", "caret-right"]} size={"lg"}/>);
-            }
-            else {
-                content = ' ';
-            }
-            return (
-                    <div> {content} </div>
+            const descriptionColumnIdx = 2;
+            this.gridRef.current.selectCell(
+                    { idx: descriptionColumnIdx, rowIdx },
+                    { enableEditor: true }
             );
-        }).apply(this));
+        }
+    };
+
+    getColumns = () => {
+        return [
+            { 
+                key: 'expand', 
+                name: '', 
+                width: 30,
+                renderCell: this.ExpandFormatter,
+                frozen: true
+            },
+            { 
+                key: 'RevisionNum', 
+                name: 'Rev', 
+                width: 50,
+                renderCell: this.RevisionFormatter
+            },
+            { 
+                key: 'Description', 
+                name: 'Description', 
+                renderCell: this.DescriptionFormatter,
+                renderEditCell: textEditor,
+                editable: (row) => {
+                    const { selectedTimeline } = this.props;
+                    return selectedTimeline && 
+                           selectedTimeline.RowId === row.RowId && 
+                           selectedTimeline.RevisionNum === row.RevisionNum;
+                }
+            }
+        ];
+    };
+
+    getGridKey = () => {
+        return Math.random();
+    };
+
+    onRowsChange = (rows, data) => {
+        // Handle cell edit
+        const { column, indexes } = data;
+        
+        if (column.key === 'Description') {
+            const rowIndex = indexes[0];
+            const updatedRow = rows[rowIndex];
+            
+            const updatedTimeline = Object.assign({}, this.props.selectedTimeline, {
+                Description: updatedRow.Description,
+                IsDirty: true
+            });
+            this.props.onUpdateTimeline(updatedTimeline, true);
+
+            const stateCopy = {
+                rows: [...rows],
+                key: this.getGridKey()
+            };
+            this.setState(stateCopy);
+        }
+    };
+
+    rowClass = (row) => {
+        const { selectedTimeline } = this.props;
+        
+        if (selectedTimeline && 
+            selectedTimeline.RowId === row.RowId && 
+            selectedTimeline.RevisionNum === row.RevisionNum) {
+            return 'rdg-row-selected';
+        }
+        
+        if (row.isChild) {
+            return 'rdg-row-child';
+        }
+        
+        return '';
     };
 
     getTimelineRows = () => {
-        const { timelines } = this.props;
+        const { timelines, selectedTimeline } = this.props;
+        const { expandedTimelineIds } = this.state;
 
-        if (timelines) {
-            return timelines.filter(timeline => timeline.RevisionNum === 0)
+        if (!timelines || timelines.length === 0) {
+            return [];
         }
 
-        return timelines;
+        const rows = [];
+        
+        // Group timelines by RowId
+        const timelineGroups = {};
+        timelines.forEach(timeline => {
+            // Use selectedTimeline if it matches the current timeline
+            const timelineToUse = selectedTimeline && 
+                                  selectedTimeline.RowId === timeline.RowId && 
+                                  selectedTimeline.RevisionNum === timeline.RevisionNum
+                ? selectedTimeline
+                : timeline;
+            
+            if (!timelineGroups[timelineToUse.RowId]) {
+                timelineGroups[timelineToUse.RowId] = [];
+            }
+            timelineGroups[timelineToUse.RowId].push(timelineToUse);
+        });
+
+        // For each timeline group, add parent row (RevisionNum 0) and child rows if expanded
+        Object.keys(timelineGroups).forEach(rowId => {
+            const group = timelineGroups[rowId];
+            
+            // Sort by revision number ascending
+            group.sort((a, b) => a.RevisionNum - b.RevisionNum);
+            
+            // Add parent row (RevisionNum 0)
+            const parent = group.find(t => t.RevisionNum === 0);
+            if (parent) {
+                rows.push({
+                    ...parent,
+                    isParent: true,
+                    isExpanded: expandedTimelineIds.has(parent.RowId),
+                    hasChildren: group.length > 1
+                });
+                
+                // Add child rows if expanded
+                if (expandedTimelineIds.has(parent.RowId)) {
+                    group.forEach(timeline => {
+                        if (timeline.RevisionNum !== 0) {
+                            rows.push({
+                                ...timeline,
+                                isParent: false,
+                                isChild: true
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+        return rows;
     };
 
     render = () => {
         const { selectedTimeline } = this.props;
+        const rows = this.getTimelineRows();
+        const columns = this.getColumns();
 
-        this.state.revTableCount = 0;
-        const options = {
-            expandRowBgColor: 'rgb(249, 249, 209)',
-            onlyOneExpanding: true,
-            defaultSortName: 'Description',
-            defaultSortOrder: 'asc',
-            noDataText: 'No timelines available',
-            onExpand: this.handleExpand
-        };
-
-        // let projectCount = this.props.timelines ? this.props.timelines.length : 0;
         return <div>
-        <div className="input-group top-bottom-padding-8">
-            <OverlayTrigger placement="top" overlay={this.getTooltip("New timeline")}>
-                <Button
+            <div className="input-group top-bottom-padding-8">
+                <OverlayTrigger placement="top" overlay={this.getTooltip("New timeline")}>
+                    <Button
+                        variant="light"
                         className='scheduler-timeline-list-btn'
                         onClick={this.newTimelineConfirm}
-                ><FontAwesomeIcon icon={["fa", "plus"]}/></Button>
-            </OverlayTrigger>
-            <OverlayTrigger placement="top" overlay={this.getTooltip("Timeline revision")}>
-                <Button
+                    ><FontAwesomeIcon icon={faPlus}/></Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={this.getTooltip("Timeline revision")}>
+                    <Button
+                        variant="light"
                         className='scheduler-timeline-list-btn'
                         onClick={this.reviseTimelineConfirm}
-                        disabled={!selectedTimeline || !selectedTimeline.ObjectId} // Must be a saved timeline selected
-                ><FontAwesomeIcon icon={["fa", "copy"]}/></Button>
-            </OverlayTrigger>
-            <OverlayTrigger placement="top" overlay={this.getTooltip("Timeline clone")}>
-                <Button
+                        disabled={!selectedTimeline || !selectedTimeline.ObjectId}
+                    ><FontAwesomeIcon icon={faCopy}/></Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={this.getTooltip("Timeline clone")}>
+                    <Button
+                        variant="light"
                         className='scheduler-timeline-list-btn'
                         onClick={this.cloneTimelineConfirm}
                         disabled={!selectedTimeline}
-                ><FontAwesomeIcon icon={["fa", "clone"]}/></Button>
-            </OverlayTrigger>
-            <OverlayTrigger placement="top" overlay={this.getTooltip("Delete timeline")}>
-                <Button
+                    ><FontAwesomeIcon icon={faClone}/></Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={this.getTooltip("Delete timeline")}>
+                    <Button
+                        variant="light"
                         className='scheduler-timeline-list-btn'
                         onClick={this.deleteTimelineValidate}
-                        disabled={!selectedTimeline || !selectedTimeline.ObjectId} // Must be a saved timeline selected
-                ><FontAwesomeIcon icon={["fa", "trash"]}/></Button>
-            </OverlayTrigger>
-        </div>
-        <div className='col-sm-12 scheduler-timeline-list'>
-            <BootstrapTable
-                    ref='timeline-table'
+                        disabled={!selectedTimeline || !selectedTimeline.ObjectId}
+                    ><FontAwesomeIcon icon={faTrash}/></Button>
+                </OverlayTrigger>
+            </div>
+            <div className='col-sm-12 scheduler-timeline-list'>
+                <DataGrid
+                    ref={this.gridRef}
                     className='timeline-table'
-                    data={this.getTimelineRows()}
-                    options={options}
-                    height={243}
-                    expandableRow={this.isExpandableRow}
-                    expandComponent={this.expandComponent}
-                    expandColumnOptions={{
-                        expandColumnVisible: true,
-                        expandColumnComponent: this.expandColumnComponent,
-                        columnWidth: 25
-                    }}
-            >
-                <TableHeaderColumn dataField='RowId' isKey={true} hidden />
-                <TableHeaderColumn
-                        dataField='Description'
-                        className='scheduler-timeline-list-hdr'
-                        dataSort={ true }
-                >Description</TableHeaderColumn>
-            </BootstrapTable>
+                    columns={columns}
+                    rows={rows}
+                    rowKeyGetter={(row) => `${row.RowId}_${row.RevisionNum}`}
+                    onCellClick={this.onCellClick}
+                    onRowsChange={this.onRowsChange}
+                    rowClass={this.rowClass}
+                    style={{ height: 'calc(51vh - 160px - 50px)' }}
+                    defaultColumnOptions={{ resizable: true }}
+                />
+            </div>
         </div>
-    </div>
     }
 
   }
@@ -636,9 +654,7 @@ const mapDispatchToProps = dispatch => ({
     hideConfirm: confirm => dispatch(hideConfirm(confirm)),
     showAlert: alert => dispatch(showAlertModal(alert)),
     hideAlert: alert => dispatch(hideAlertModal(alert)),
-    hideAlertBanner: timeline => dispatch(hideAlertBanner(timeline)),
     showAlertBanner: timeline => dispatch(showAlertBanner(timeline)),
-    cleanTimeline: timeline => dispatch(setTimelineClean(timeline)),
     fetchTimelines: selectedProject => dispatch(fetchTimelinesByProject(selectedProject))
 })
 

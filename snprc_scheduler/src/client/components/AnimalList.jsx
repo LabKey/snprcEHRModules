@@ -9,26 +9,18 @@
     ==================================================================================
 */
 import React from 'react';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import {
     deleteTimelineAnimalItem,
-    hideAlertBanner,
-    hideAlertModal,
-    hideConfirm,
     setAssignedAnimalFilter,
     setForceRerender,
-    setTimelineClean,
-    showAlertBanner,
-    showAlertModal,
-    showConfirm,
     updateTimelineAnimalItem
 } from '../actions/dataActions';
-import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
-import connect from "react-redux/es/connect/connect";
-import {Button} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { DataGrid } from 'react-data-grid';
+import { connect } from "react-redux";
+import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faMinus} from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faMinus);
 
@@ -36,16 +28,7 @@ class AnimalList extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = {
-            animals: [], 
-            animalCols: [
-                { key: 'Id', name: 'ID', width: 70 },
-                { key: 'Gender', name: 'Gender', width: 82 },
-                { key: 'Weight', name: 'Weight', width: 90 },
-                { key: 'Age', name: 'Age', width: 130 },
-            ],
-            selectedAnimals: []
-        };
+        this.state = {};
     }
 
     handleAnimalFilter = (event) => {
@@ -54,44 +37,83 @@ class AnimalList extends React.Component {
 
     handleUnassignAnimal = (id) => {
         const { deleteTimelineAnimalItem, selectedTimeline} = this.props;
-
-        return (() => {
-            deleteTimelineAnimalItem(id, selectedTimeline);
-        });
+        deleteTimelineAnimalItem(id, selectedTimeline);
     };
 
-    getCellEditProps = () => {
-        return ((() => {
-            let me = this;
-            return {
-                mode: 'dbclick',
-                blurToSave: true,
-                nonEditableRows: function () {
-
-
-                },
-                afterSaveCell: function(row, cellName, cellValue) {
-                    me.props.updateTimelineAnimalItem({...row,
-                                                    AnimalId: row.Id,
-                                                    EndDate: cellValue,
-                                                    IsDeleted: false,
-                                                    IsDirty: true}, me.props.selectedTimeline);
-                }
-            }
-        }).apply(this))
-    };
-
-    addFormatter = (cell, row) => {
+    UnassignButtonFormatter = ({ row }) => {
         const {selectedTimeline} = this.props;
         const disableBtn = (!selectedTimeline || !selectedTimeline.savedDraft);
 
-
-        return (<Button disabled={disableBtn} onClick={this.handleUnassignAnimal(cell)}
-                        className='animal-grid-add'><FontAwesomeIcon icon={["fa", "minus"]}/></Button>)
+        return (
+            <Button 
+                disabled={disableBtn} 
+                onClick={() => this.handleUnassignAnimal(row.Id)}
+                className='animal-grid-add'
+            >
+                <FontAwesomeIcon icon={faMinus}/>
+            </Button>
+        );
     };
 
-    options = {
-        noDataText: 'No animals assigned'
+    getColumns = () => {
+        const { selectedTimeline } = this.props;
+        
+        return [
+            {
+                key: 'unassign',
+                name: '',
+                width: 45,
+                renderCell: this.UnassignButtonFormatter,
+                frozen: true
+            },
+            {
+                key: 'Id',
+                name: 'ID',
+                width: 60,
+                sortable: true
+            },
+            {
+                key: 'Gender',
+                name: 'Sex',
+                width: 60,
+                sortable: true
+            },
+            {
+                key: 'Weight',
+                name: 'Weight',
+                width: 78,
+                sortable: true
+            },
+            {
+                key: 'Age',
+                name: 'Age',
+                width: 85,
+                sortable: true
+            },
+            {
+                key: 'EndDate',
+                name: 'End Date',
+                sortable: true,
+                editable: true
+            }
+        ];
+    };
+
+    onRowsChange = (rows, data) => {
+        const { column, indexes } = data;
+        
+        if (column.key === 'EndDate') {
+            const rowIndex = indexes[0];
+            const updatedRow = rows[rowIndex];
+            
+            this.props.updateTimelineAnimalItem({
+                ...updatedRow,
+                AnimalId: updatedRow.Id,
+                EndDate: updatedRow.EndDate,
+                IsDeleted: false,
+                IsDirty: true
+            }, this.props.selectedTimeline);
+        }
     };
 
     componentDidUpdate() {
@@ -110,10 +132,11 @@ class AnimalList extends React.Component {
 
     render = () => {
         const {assignedAnimals} = this.props;
+        const columns = this.getColumns();
 
         let searchJSX = (
                 <div className="input-group top-bottom-padding-8">
-                    <span className="input-group-addon input-group-addon-buffer"><Glyphicon glyph="search"/></span>
+                    <span className="input-group-addon input-group-addon-buffer"><i className="fa fa-search"></i></span>
                     <input
                             id="assignedAnimalSearch"
                             type="text"
@@ -127,28 +150,15 @@ class AnimalList extends React.Component {
                 <div>
                     {searchJSX}
                     <div>
-                        <BootstrapTable
-                                ref='assigned-animal-table'
+                        <DataGrid
                                 className='animal-table'
-                                data={assignedAnimals}
-                                options={this.options}
-                                cellEdit={this.getCellEditProps()}
-                                // selectRow={this.selectRowProp}
-                                height={240}
-                        >
-                            <TableHeaderColumn dataField='Id' width='45px' sortFunc={() => {
-                            }} dataFormat={this.addFormatter} dataSort={true}/>
-                            <TableHeaderColumn dataField='Id' width='60px' isKey={true} dataSort={true}
-                                               editable={false}>ID</TableHeaderColumn>
-                            <TableHeaderColumn dataField='Gender' width='60px' dataSort={true}
-                                               editable={false}>Sex</TableHeaderColumn>
-                            <TableHeaderColumn dataField='Weight' width='78px' dataSort={true}
-                                               editable={false}>Weight</TableHeaderColumn>
-                            <TableHeaderColumn dataField='Age' width='85px' dataSort={true}
-                                               editable={false}>Age</TableHeaderColumn>
-                            <TableHeaderColumn dataField='EndDate' editable={{type: 'date'}} dataSort={true}>End
-                                Date</TableHeaderColumn>
-                        </BootstrapTable>
+                                columns={columns}
+                                rows={assignedAnimals || []}
+                                rowKeyGetter={(row) => row.Id}
+                                onRowsChange={this.onRowsChange}
+                                style={{ height: 'calc(50vh - 160px - 50px)' }}
+                                defaultColumnOptions={{ resizable: true }}
+                        />
                     </div>
                 </div>
         )
@@ -163,13 +173,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    showConfirm: confirm => dispatch(showConfirm(confirm)),
-    hideConfirm: confirm => dispatch(hideConfirm(confirm)),
-    showAlert: alert => dispatch(showAlertModal(alert)),
-    hideAlert: alert => dispatch(hideAlertModal(alert)),
-    hideAlertBanner: timeline => dispatch(hideAlertBanner(timeline)),
-    showAlertBanner: timeline => dispatch(showAlertBanner(timeline)),
-    cleanTimeline: timeline => dispatch(setTimelineClean(timeline)),
     setForceRerender: render => dispatch(setForceRerender(render)),
     deleteTimelineAnimalItem: (id, timeline) => dispatch(deleteTimelineAnimalItem(id, timeline)),
     setAssignedAnimalFilter: (item, timeline) => dispatch(setAssignedAnimalFilter(item, timeline)),

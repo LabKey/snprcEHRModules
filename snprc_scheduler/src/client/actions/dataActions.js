@@ -211,7 +211,7 @@ function fetchProjects_SND() {
                                     }
                                     else {
                                         console.error("Retrieving projects failed.", data.message);
-                                        dispatch(handleErrors("Retrieving projects failed.", data.message));
+                                        dispatch(handleErrors("Retrieving projects failed.", data));
                                     }
                                 })
                     }

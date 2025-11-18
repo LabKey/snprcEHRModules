@@ -68,6 +68,7 @@ const cloneTimeline = (source, revision) => {
 
     newTimeline.StudyDayNotes = newTimeline.StudyDayNotes.map( note => {return {
         ...note,
+        TimelineObjectId: undefined,
         IsDirty: true
     }});
 
@@ -287,10 +288,12 @@ export default (state = { }, action) => {
             // action payload is timeline item
             const { StudyDayNote, StudyDay, ScheduleDate, RowIdx } = action.payload;
 
+            const safeStudyDay = Number.isInteger(Number(StudyDay)) ? Number(StudyDay) : undefined;
+
             nextState.selectedTimeline.TimelineItems = nextState.selectedTimeline.TimelineItems.map(item => {
                 if (RowIdx === item.RowIdx) {
                     item = { ...item };
-                    item.StudyDay = parseInt(StudyDay);
+                    item.StudyDay = safeStudyDay;
                     item.ScheduleDate = ScheduleDate;
                     item.IsDirty = true;
                 }
@@ -303,9 +306,9 @@ export default (state = { }, action) => {
                 nextState.selectedTimeline.StudyDayNotes = nextState.selectedTimeline.StudyDayNotes.map(note => {
                     if (RowIdx === note.RowIdx) {
                         updated = true;
-                        if (StudyDayNote !== note.StudyDayNote || StudyDay !== note.StudyDay) {
+                        if (StudyDayNote !== note.StudyDayNote || safeStudyDay !== note.StudyDay) {
                             note.StudyDayNote = StudyDayNote;
-                            note.StudyDay = StudyDay;
+                            note.StudyDay = safeStudyDay;
                             note.IsDirty = true;
                         }
                     }
@@ -316,7 +319,7 @@ export default (state = { }, action) => {
                 if (!updated) {
                     nextState.selectedTimeline.StudyDayNotes.push({
                         IsDirty: true,
-                        StudyDay: StudyDay,
+                        StudyDay: safeStudyDay,
                         StudyDayNote: StudyDayNote,
                         RowIdx: RowIdx
                     })

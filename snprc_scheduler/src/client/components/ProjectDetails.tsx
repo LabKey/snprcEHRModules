@@ -1,30 +1,38 @@
 import React from 'react';
-import connect from "react-redux/es/connect/connect";
-import {ControlLabel, FormControl} from "react-bootstrap";
+import { connect } from "react-redux";
+import { Form, FormControl } from "react-bootstrap";
+import { Project } from "../models/models";
 
-class ProjectDetails extends React.Component {
+interface ProjectDetailsProps {
+    selectedProject: Project | null;
+}
 
-    render() {
-        const {selectedProject} = this.props;
+interface RootState {
+    project: {
+        selectedProject: Project | null;
+    };
+}
 
-        return (<div className='container-fluid details-frame project-details' style={{textAlign: 'left'}}>
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ selectedProject }) => {
+    return (
+        <div className='container-fluid details-frame project-details' style={{textAlign: 'left'}}>
             <div className='col-sm-4'>
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>Cost Account</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>Cost Account</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="CostAccount" readOnly
                                                            value={selectedProject && selectedProject.CostAccount ? selectedProject.CostAccount : ''}/>
                     </div>
                     <div className='col-sm-1'/>
                 </div>
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>Charge ID</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>Charge ID</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="referenceId" readOnly
                                                            value={selectedProject && selectedProject.referenceId ? selectedProject.referenceId : ''}/>
                     </div>
                     <div className='col-sm-1'/>
                 </div>
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>IACUC</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>IACUC</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="Iacuc" readOnly
                                                            value={selectedProject && selectedProject.Iacuc ? selectedProject.Iacuc : ''}/>
                     </div>
@@ -33,7 +41,7 @@ class ProjectDetails extends React.Component {
             </div>
             <div className='col-sm-4'>
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>Primary Vet</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>Primary Vet</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="Veterinarian1"
                                                            readOnly
                                                            value={selectedProject && selectedProject.Veterinarian1 ? selectedProject.Veterinarian1 : ''}/>
@@ -41,7 +49,7 @@ class ProjectDetails extends React.Component {
                 </div>
 
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>Secondary Vet</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>Secondary Vet</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="Veterinarian2"
                                                            readOnly
                                                            value={selectedProject && selectedProject.Veterinarian2 ? selectedProject.Veterinarian2 : ''}/>
@@ -49,7 +57,7 @@ class ProjectDetails extends React.Component {
                 </div>
 
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>VS Number</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>VS Number</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="VsNumber" readOnly
                                                            value={selectedProject && selectedProject.VsNumber ? selectedProject.VsNumber : ''}/>
                     </div>
@@ -57,7 +65,7 @@ class ProjectDetails extends React.Component {
             </div>
             <div className='col-sm-4 zero-right-padding'>
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>Start Date</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>Start Date</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="startDate" readOnly
                                                            value={selectedProject && selectedProject.startDate ? selectedProject.startDate : ''}/>
                     </div>
@@ -65,19 +73,18 @@ class ProjectDetails extends React.Component {
                 </div>
 
                 <div className='row input-row'>
-                    <div className='col-sm-3 zero-side-padding'><ControlLabel>End Date</ControlLabel></div>
+                    <div className='col-sm-3 zero-side-padding'><Form.Label column={true}>End Date</Form.Label></div>
                     <div className='col-sm-7'><FormControl type='text' className='input-wide' id="endDate" readOnly
                                                            value={selectedProject && selectedProject.endDate ? selectedProject.endDate : ''}/>
                     </div>
                     <div className='col-sm-1'/>
                 </div>
             </div>
-        </div>)
+        </div>
+    );
+};
 
-    }
-}
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState): ProjectDetailsProps => ({
     selectedProject: state.project.selectedProject
 });
 

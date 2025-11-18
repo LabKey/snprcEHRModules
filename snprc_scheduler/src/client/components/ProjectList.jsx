@@ -10,7 +10,6 @@
 */
 import React from 'react';
 import PropTypes from 'prop-types'
-import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import {
     selectProject,
     filterProjects,
@@ -18,13 +17,16 @@ import {
     TAB_PROJECTS,
     setForceRerender
 } from '../actions/dataActions';
-import connect from "react-redux/es/connect/connect";
-import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
+import { connect } from "react-redux";
+import { DataGrid } from 'react-data-grid';
 
 class ProjectList extends React.Component {
     
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            sortColumns: [{ columnKey: 'description', direction: 'ASC' }]
+        };
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -33,29 +35,13 @@ class ProjectList extends React.Component {
         return !!(!accordion || accordion.tab === TAB_PROJECTS);
     }
 
-    onProjectRowsSelected = (row, isSelected, e) => {
-
+    onCellClick = (cell) => {
         // Select project and empty selected timeline
-        if (isSelected) {
-            this.props.onSelectProject(row);
-            this.props.onSelectTimeline();
-            return true;
-        }
-
-        // Cannot unselect
-        return false;
+        this.props.onSelectProject(cell.row);
+        this.props.onSelectTimeline();
     }
 
     handleProjectSearchChange = (event) => this.props.filterProjects(event.target.value);
-
-    getInnerRowProps = (project) => {
-        return {
-            mode: 'radio',
-            clickToSelect: true,
-            onSelect: this.onProjectRowsSelected,
-            selected: (project >= 0 ? [project] : [])
-        }
-    };
 
     componentDidUpdate() {
         const { forceRerender, setForceRerender } = this.props;
@@ -64,18 +50,54 @@ class ProjectList extends React.Component {
         }
     }
 
-    options = {
-        noDataText: 'No projects available',
-        defaultSortName: 'description',
-        defaultSortOrder: 'asc',
+    columns = [
+        { key: 'Iacuc', name: 'IACUC', width: 80, sortable: true },
+        { key: 'description', name: 'Description', sortable: true },
+        { key: 'revisionNum', name: 'Rev', width: 40, sortable: true }
+    ];
+
+    handleSort = (sortColumns) => {
+        this.setState({ sortColumns });
+    };
+
+    getSortedRows = () => {
+        const { projects } = this.props;
+        const { sortColumns } = this.state;
+
+        if (sortColumns.length === 0) return projects;
+
+        const sortColumn = sortColumns[0];
+        let sortedRows = [];
+        if (projects) {
+            sortedRows = [...projects].sort((a, b) => {
+                const aVal = a[sortColumn.columnKey];
+                const bVal = b[sortColumn.columnKey];
+
+                if (aVal == null && bVal == null) return 0;
+                if (aVal == null) return 1;
+                if (bVal == null) return -1;
+
+                const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                return sortColumn.direction === 'ASC' ? comparison : -comparison;
+            });
+        }
+
+        return sortedRows;
+    };
+
+    rowClass = (row) => {
+        const { selectedProject } = this.props;
+        return selectedProject && selectedProject.projectId === row.projectId ? 'rdg-row-selected' : '';
     };
 
     render = () => {
-        const { selectedProject, projects } = this.props;
+        const { selectedProject } = this.props;
+        const { sortColumns } = this.state;
+        const sortedRows = this.getSortedRows();
 
         return (<div>
             <div className="input-group top-bottom-padding-8">
-                <span className="input-group-addon input-group-addon-buffer"><Glyphicon glyph="search"/></span>
+                <span className="input-group-addon input-group-addon-buffer"><i className="fa fa-search"></i></span>
                 <input
                         id="projectSearch"
                         type="text"
@@ -85,27 +107,23 @@ class ProjectList extends React.Component {
                         placeholder="Search projects"/>
             </div>
             <div className="top-bottom-padding-8 scheduler-project-list">
-                <BootstrapTable
-                        ref='project-table'
-                        className='project-table'
-                        data={projects}
-                        options={this.options}
-                        selectRow={this.getInnerRowProps(selectedProject ? selectedProject.projectId : -1)}
-                        height={224}
-                >
-                    <TableHeaderColumn dataField='projectId' isKey={true} hidden/>
-                    <TableHeaderColumn dataField='Iacuc' width='80px' dataSort={ true }>IACUC</TableHeaderColumn>
-                    <TableHeaderColumn dataField='description' dataSort={ true }>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField='revisionNum' width='40px'>Rev</TableHeaderColumn>
-                </BootstrapTable>
+                <DataGrid
+                    key={ selectedProject?.projectId ? 'project-list-' + selectedProject.projectId : 'project-list-none' }
+                    className='project-table'
+                    columns={this.columns}
+                    rows={sortedRows}
+                    rowKeyGetter={(row) => row.projectId}
+                    onCellClick={this.onCellClick}
+                    sortColumns={sortColumns}
+                    onSortColumnsChange={this.handleSort}
+                    rowClass={this.rowClass}
+                    style={{ height: 'calc(48vh - 160px - 50px)' }}
+                    defaultColumnOptions={{ resizable: true }}
+                />
             </div>
         </div>)
     };
 
-}
-
-ProjectList.propTypes = {
-    onSelectProject: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

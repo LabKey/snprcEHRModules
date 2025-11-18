@@ -3,7 +3,7 @@ import {
     ANIMAL_LIST_REQUEST_FAILED,
     AVAILABLE_ANIMAL_LIST_FILTERED
 } from "../../actions/dataActions";
-import {animalData} from "../fixtures/animalData";
+import { animalData } from "../fixtures/animalData";
 import projectReducer from "../../reducers/projectReducer";
 
 
