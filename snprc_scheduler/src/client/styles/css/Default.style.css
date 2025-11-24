@@ -178,3 +178,18 @@ textarea.form-control {
     padding-right: 15px;
 }
 
+.datagrid-container-relative {
+    position: relative;
+}
+
+.datagrid-empty-message {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 14px;
+}
+

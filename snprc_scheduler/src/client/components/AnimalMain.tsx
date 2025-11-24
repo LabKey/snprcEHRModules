@@ -101,6 +101,7 @@ const AnimalMain: React.FC = () => {
     }, [AddButtonFormatter]);
 
     const columns = getColumns();
+    const hasAnimals = availableAnimals && availableAnimals.length > 0;
 
     return (
         <>
@@ -115,7 +116,7 @@ const AnimalMain: React.FC = () => {
                     name="availableAnimalSearch"
                     placeholder="Search available animals"/>
             </div>
-            <div className="col-sm-12 scheduler-main-table">
+            <div className="col-sm-12 scheduler-main-table datagrid-container-relative">
                 <DataGrid
                     className='animal-available-table'
                     columns={columns}
@@ -124,6 +125,11 @@ const AnimalMain: React.FC = () => {
                     style={{ height: 'calc(67vh - 160px - 50px)' }}
                     defaultColumnOptions={{ resizable: true }}
                 />
+                {!hasAnimals && (
+                    <div className='datagrid-empty-message'>
+                        No unassigned animals available
+                    </div>
+                )}
             </div>
         </>
     );

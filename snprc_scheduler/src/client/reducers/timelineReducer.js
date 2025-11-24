@@ -228,7 +228,7 @@ export default (state = { }, action) => {
                     return action.payload;
                 }
                 // Saving new timeline
-                if (!timeline.ObjectId && timeline.Description === action.payload.Description) {
+                if (!timeline.ObjectId && timeline.RowId === nextState.selectedTimeline.RowId) {
                     return action.payload
                 }
                 return timeline;

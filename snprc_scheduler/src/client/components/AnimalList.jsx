@@ -45,8 +45,8 @@ class AnimalList extends React.Component {
         const disableBtn = (!selectedTimeline || !selectedTimeline.savedDraft);
 
         return (
-            <Button 
-                disabled={disableBtn} 
+            <Button
+                disabled={disableBtn}
                 onClick={() => this.handleUnassignAnimal(row.Id)}
                 className='animal-grid-add'
             >
@@ -57,7 +57,7 @@ class AnimalList extends React.Component {
 
     getColumns = () => {
         const { selectedTimeline } = this.props;
-        
+
         return [
             {
                 key: 'unassign',
@@ -101,11 +101,11 @@ class AnimalList extends React.Component {
 
     onRowsChange = (rows, data) => {
         const { column, indexes } = data;
-        
+
         if (column.key === 'EndDate') {
             const rowIndex = indexes[0];
             const updatedRow = rows[rowIndex];
-            
+
             this.props.updateTimelineAnimalItem({
                 ...updatedRow,
                 AnimalId: updatedRow.Id,
@@ -133,6 +133,7 @@ class AnimalList extends React.Component {
     render = () => {
         const {assignedAnimals} = this.props;
         const columns = this.getColumns();
+        const hasAnimals = assignedAnimals && assignedAnimals.length > 0;
 
         let searchJSX = (
                 <div className="input-group top-bottom-padding-8">
@@ -149,7 +150,7 @@ class AnimalList extends React.Component {
         return (
                 <div>
                     {searchJSX}
-                    <div>
+                    <div className='datagrid-container-relative'>
                         <DataGrid
                                 className='animal-table'
                                 columns={columns}
@@ -159,6 +160,11 @@ class AnimalList extends React.Component {
                                 style={{ height: 'calc(50vh - 160px - 50px)' }}
                                 defaultColumnOptions={{ resizable: true }}
                         />
+                        {!hasAnimals && (
+                            <div className='datagrid-empty-message'>
+                                No animals assigned
+                            </div>
+                        )}
                     </div>
                 </div>
         )

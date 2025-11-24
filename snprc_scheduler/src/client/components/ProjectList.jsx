@@ -41,6 +41,18 @@ class ProjectList extends React.Component {
         this.props.onSelectTimeline();
     }
 
+    onSelectedRowsChange = (selectedRows) => {
+        // Handle single row selection - when a row is selected via checkbox or other means
+        if (selectedRows.size > 0) {
+            const selectedProjectId = Array.from(selectedRows)[0];
+            const selectedProject = this.getSortedRows().find(row => row.projectId === selectedProjectId);
+            if (selectedProject) {
+                this.props.onSelectProject(selectedProject);
+                this.props.onSelectTimeline();
+            }
+        }
+    }
+
     handleProjectSearchChange = (event) => this.props.filterProjects(event.target.value);
 
     componentDidUpdate() {
@@ -94,6 +106,9 @@ class ProjectList extends React.Component {
         const { selectedProject } = this.props;
         const { sortColumns } = this.state;
         const sortedRows = this.getSortedRows();
+        
+        // Create selectedRows Set for single row selection
+        const selectedRows = selectedProject ? new Set([selectedProject.projectId]) : new Set();
 
         return (<div>
             <div className="input-group top-bottom-padding-8">
@@ -108,11 +123,12 @@ class ProjectList extends React.Component {
             </div>
             <div className="top-bottom-padding-8 scheduler-project-list">
                 <DataGrid
-                    key={ selectedProject?.projectId ? 'project-list-' + selectedProject.projectId : 'project-list-none' }
                     className='project-table'
                     columns={this.columns}
                     rows={sortedRows}
                     rowKeyGetter={(row) => row.projectId}
+                    selectedRows={selectedRows}
+                    onSelectedRowsChange={this.onSelectedRowsChange}
                     onCellClick={this.onCellClick}
                     sortColumns={sortColumns}
                     onSortColumnsChange={this.handleSort}

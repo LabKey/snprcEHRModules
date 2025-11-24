@@ -154,7 +154,7 @@ class TimelineList extends React.Component {
         onNewTimeline(newTimeline, selectedProject);
         const newRowId = getNextRowId(lastRowId, timelines);
         this.expandTimeline(newRowId);
-        
+
         // Enable edit mode for the description field of the new timeline
         // Use setTimeout to ensure the grid has rendered the new row
         setTimeout(() => {
@@ -385,15 +385,15 @@ class TimelineList extends React.Component {
         if (!row.isParent) {
             return <div style={{ paddingLeft: '25px' }} />;
         }
-        
+
         if (!row.hasChildren) {
             return <div />;
         }
 
-        const icon = row.isExpanded ? 
-            <FontAwesomeIcon icon={faCaretDown} size="lg" /> : 
+        const icon = row.isExpanded ?
+            <FontAwesomeIcon icon={faCaretDown} size="lg" /> :
             <FontAwesomeIcon icon={faCaretRight} size="lg" />;
-        
+
         return <div style={{ cursor: 'pointer' }}>{icon}</div>;
     };
 
@@ -403,16 +403,16 @@ class TimelineList extends React.Component {
 
     DescriptionFormatter = ({ row }) => {
         const { selectedTimeline } = this.props;
-        const isSelected = selectedTimeline && 
-                          selectedTimeline.RowId === row.RowId && 
+        const isSelected = selectedTimeline &&
+                          selectedTimeline.RowId === row.RowId &&
                           selectedTimeline.RevisionNum === row.RevisionNum;
         const style = row.isChild ? { paddingLeft: '25px', display: 'flex', alignItems: 'center', gap: '8px' } : { display: 'flex', alignItems: 'center', gap: '8px' };
         return (
             <div style={style}>
                 <span style={{ flex: 1 }}>{row.Description || ''}</span>
                 {isSelected && (
-                    <FontAwesomeIcon 
-                        icon={faPencil} 
+                    <FontAwesomeIcon
+                        icon={faPencil}
                         style={{ cursor: 'pointer', color: '#666' }}
                         onClick={(e) => {
                             e.stopPropagation();
@@ -442,28 +442,28 @@ class TimelineList extends React.Component {
 
     getColumns = () => {
         return [
-            { 
-                key: 'expand', 
-                name: '', 
+            {
+                key: 'expand',
+                name: '',
                 width: 30,
                 renderCell: this.ExpandFormatter,
                 frozen: true
             },
-            { 
-                key: 'RevisionNum', 
-                name: 'Rev', 
+            {
+                key: 'RevisionNum',
+                name: 'Rev',
                 width: 50,
                 renderCell: this.RevisionFormatter
             },
-            { 
-                key: 'Description', 
-                name: 'Description', 
+            {
+                key: 'Description',
+                name: 'Description',
                 renderCell: this.DescriptionFormatter,
                 renderEditCell: textEditor,
                 editable: (row) => {
                     const { selectedTimeline } = this.props;
-                    return selectedTimeline && 
-                           selectedTimeline.RowId === row.RowId && 
+                    return selectedTimeline &&
+                           selectedTimeline.RowId === row.RowId &&
                            selectedTimeline.RevisionNum === row.RevisionNum;
                 }
             }
@@ -477,11 +477,11 @@ class TimelineList extends React.Component {
     onRowsChange = (rows, data) => {
         // Handle cell edit
         const { column, indexes } = data;
-        
+
         if (column.key === 'Description') {
             const rowIndex = indexes[0];
             const updatedRow = rows[rowIndex];
-            
+
             const updatedTimeline = Object.assign({}, this.props.selectedTimeline, {
                 Description: updatedRow.Description,
                 IsDirty: true
@@ -498,17 +498,17 @@ class TimelineList extends React.Component {
 
     rowClass = (row) => {
         const { selectedTimeline } = this.props;
-        
-        if (selectedTimeline && 
-            selectedTimeline.RowId === row.RowId && 
+
+        if (selectedTimeline &&
+            selectedTimeline.RowId === row.RowId &&
             selectedTimeline.RevisionNum === row.RevisionNum) {
             return 'rdg-row-selected';
         }
-        
+
         if (row.isChild) {
             return 'rdg-row-child';
         }
-        
+
         return '';
     };
 
@@ -521,17 +521,17 @@ class TimelineList extends React.Component {
         }
 
         const rows = [];
-        
+
         // Group timelines by RowId
         const timelineGroups = {};
         timelines.forEach(timeline => {
             // Use selectedTimeline if it matches the current timeline
-            const timelineToUse = selectedTimeline && 
-                                  selectedTimeline.RowId === timeline.RowId && 
+            const timelineToUse = selectedTimeline &&
+                                  selectedTimeline.RowId === timeline.RowId &&
                                   selectedTimeline.RevisionNum === timeline.RevisionNum
                 ? selectedTimeline
                 : timeline;
-            
+
             if (!timelineGroups[timelineToUse.RowId]) {
                 timelineGroups[timelineToUse.RowId] = [];
             }
@@ -541,10 +541,10 @@ class TimelineList extends React.Component {
         // For each timeline group, add parent row (RevisionNum 0) and child rows if expanded
         Object.keys(timelineGroups).forEach(rowId => {
             const group = timelineGroups[rowId];
-            
+
             // Sort by revision number ascending
             group.sort((a, b) => a.RevisionNum - b.RevisionNum);
-            
+
             // Add parent row (RevisionNum 0)
             const parent = group.find(t => t.RevisionNum === 0);
             if (parent) {
@@ -554,7 +554,7 @@ class TimelineList extends React.Component {
                     isExpanded: expandedTimelineIds.has(parent.RowId),
                     hasChildren: group.length > 1
                 });
-                
+
                 // Add child rows if expanded
                 if (expandedTimelineIds.has(parent.RowId)) {
                     group.forEach(timeline => {

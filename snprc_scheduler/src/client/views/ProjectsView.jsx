@@ -19,6 +19,7 @@ import {
     hideAlertBanner,
     hideAlertModal,
     hideConfirm,
+    hideLoading,
     saveTimeline,
     saveTimelineSuccess,
     selectFirstTimeline,
@@ -175,10 +176,7 @@ class ProjectsView extends React.Component {
             });
 
             return saveTimeline(selectedTimeline).then((response) => {
-                this.setState(state => {
-                    state.showSaving = false;
-                    return state;
-                });
+
 
                 if (!response.success) {
                     if (response.responseText) {
@@ -199,11 +197,14 @@ class ProjectsView extends React.Component {
                     onSaveSuccess(response.rows);
                 }
 
-            }).catch((error) => {
                 this.setState(state => {
                     state.showSaving = false;
                     return state;
                 });
+
+                hideLoading();
+
+            }).catch((error) => {
 
                 if (error.exception) {
                     showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
@@ -220,6 +221,13 @@ class ProjectsView extends React.Component {
                                 ", revision " + selectedTimeline.RevisionNum + ": " + error.message});
                     console.warn('save timeline error', error.message);
                 }
+
+                this.setState(state => {
+                    state.showSaving = false;
+                    return state;
+                });
+
+                hideLoading();
             });
         };
     };
@@ -364,6 +372,7 @@ const mapDispatchToProps = dispatch => ({
     hideAlertBanner: () => dispatch(hideAlertBanner()),
     showAlertModal: alert => dispatch(showAlertModal(alert)),
     hideAlertModal: () => dispatch(hideAlertModal()),
+    hideLoading: () => dispatch(hideLoading()),
     selectTimeline: timeline => dispatch(selectTimeline(timeline)),
     showConfirm: confirm => dispatch(showConfirm(confirm)),
     hideConfirm: confirm => dispatch(hideConfirm(confirm)),
