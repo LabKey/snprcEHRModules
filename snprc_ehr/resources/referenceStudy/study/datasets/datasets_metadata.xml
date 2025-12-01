@@ -394,6 +394,11 @@
                 <datatype>varchar</datatype>
             </column>
         </columns>
+        <indices>
+            <index type="unique">
+                <column>caseid</column>
+            </index>
+        </indices>
         <tableTitle>Cases</tableTitle>
     </table>
     <table tableName="matings" tableDbType="TABLE">
@@ -1498,6 +1503,7 @@
                 <datatype>varchar</datatype>
                 <nullable>false</nullable>
                 <columnTitle>Species code (3 char)</columnTitle>
+                <scale>10</scale>
             </column>
             <column columnName="project">
                 <datatype>integer</datatype>
