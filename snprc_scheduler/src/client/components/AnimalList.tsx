@@ -1,14 +1,14 @@
-import React, { FC, ChangeEvent, useEffect, useMemo, useCallback } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useMemo } from 'react';
 import {
     deleteTimelineAnimalItem,
     setAssignedAnimalFilter,
     setForceRerender,
-    updateTimelineAnimalItem
+    updateTimelineAnimalItem,
 } from '../actions/dataActions';
-import { DataGrid, Column } from 'react-data-grid';
-import { connect } from "react-redux";
-import { Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Column, DataGrid } from 'react-data-grid';
+import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Animal, Project, Timeline } from '../models/models';
@@ -17,17 +17,17 @@ import { Dispatch } from 'redux';
 library.add(faMinus);
 
 interface AnimalListProps {
-    selectedProject: Project | null;
-    selectedTimeline: Timeline | null;
     assignedAnimals: Animal[];
+    deleteTimelineAnimalItem: (id: string, timeline: null | Timeline) => void;
     forceRerender: boolean;
-    setForceRerender: (render: boolean) => void;
-    deleteTimelineAnimalItem: (id: string, timeline: Timeline | null) => void;
+    selectedProject: null | Project;
+    selectedTimeline: null | Timeline;
     setAssignedAnimalFilter: (filter: string) => void;
-    updateTimelineAnimalItem: (item: Animal, timeline: Timeline | null) => void;
+    setForceRerender: (render: boolean) => void;
+    updateTimelineAnimalItem: (item: Animal, timeline: null | Timeline) => void;
 }
 
-const AnimalList: FC<AnimalListProps> = (props) => {
+const AnimalList: FC<AnimalListProps> = props => {
     const {
         selectedTimeline,
         assignedAnimals,
@@ -35,7 +35,7 @@ const AnimalList: FC<AnimalListProps> = (props) => {
         setForceRerender,
         setAssignedAnimalFilter,
         deleteTimelineAnimalItem,
-        updateTimelineAnimalItem
+        updateTimelineAnimalItem,
     } = props;
 
     useEffect(() => {
@@ -48,40 +48,48 @@ const AnimalList: FC<AnimalListProps> = (props) => {
         setAssignedAnimalFilter(event.target.value);
     };
 
-    const handleUnassignAnimal = useCallback((id: string) => {
-        deleteTimelineAnimalItem(id, selectedTimeline);
-    }, [deleteTimelineAnimalItem, selectedTimeline]);
+    const handleUnassignAnimal = useCallback(
+        (id: string) => {
+            deleteTimelineAnimalItem(id, selectedTimeline);
+        },
+        [deleteTimelineAnimalItem, selectedTimeline]
+    );
 
-    const UnassignButtonFormatter = useCallback(({ row }: { row: Animal }) => {
-        const disableBtn = (!selectedTimeline || !selectedTimeline.savedDraft);
+    const UnassignButtonFormatter = useCallback(
+        ({ row }: { row: Animal }) => {
+            const disableBtn = !selectedTimeline || !selectedTimeline.savedDraft;
 
-        return (
-            <Button
-                disabled={disableBtn}
-                onClick={() => handleUnassignAnimal(row.Id!)}
-                className='animal-grid-add'
-            >
-                <FontAwesomeIcon icon={faMinus}/>
-            </Button>
-        );
-    }, [selectedTimeline, handleUnassignAnimal]);
+            return (
+                <Button className="animal-grid-add" disabled={disableBtn} onClick={() => handleUnassignAnimal(row.Id!)}>
+                    <FontAwesomeIcon icon={faMinus} />
+                </Button>
+            );
+        },
+        [selectedTimeline, handleUnassignAnimal]
+    );
 
-    const onRowsChange = useCallback((rows: Animal[], data: any) => {
-        const { column, indexes } = data;
+    const onRowsChange = useCallback(
+        (rows: Animal[], data: any) => {
+            const { column, indexes } = data;
 
-        if (column.key === 'EndDate') {
-            const rowIndex = indexes[0];
-            const updatedRow = rows[rowIndex];
+            if (column.key === 'EndDate') {
+                const rowIndex = indexes[0];
+                const updatedRow = rows[rowIndex];
 
-            updateTimelineAnimalItem({
-                ...updatedRow,
-                AnimalId: updatedRow.Id,
-                EndDate: updatedRow.EndDate,
-                IsDeleted: false,
-                IsDirty: true
-            }, selectedTimeline);
-        }
-    }, [updateTimelineAnimalItem, selectedTimeline]);
+                updateTimelineAnimalItem(
+                    {
+                        ...updatedRow,
+                        AnimalId: updatedRow.Id,
+                        EndDate: updatedRow.EndDate,
+                        IsDeleted: false,
+                        IsDirty: true,
+                    },
+                    selectedTimeline
+                );
+            }
+        },
+        [updateTimelineAnimalItem, selectedTimeline]
+    );
 
     const columns = useMemo((): Column<Animal>[] => {
         return [
@@ -90,38 +98,38 @@ const AnimalList: FC<AnimalListProps> = (props) => {
                 name: '',
                 width: 45,
                 renderCell: UnassignButtonFormatter,
-                frozen: true
+                frozen: true,
             },
             {
                 key: 'Id',
                 name: 'ID',
                 width: 60,
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'Gender',
                 name: 'Sex',
                 width: 60,
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'Weight',
                 name: 'Weight',
                 width: 78,
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'Age',
                 name: 'Age',
                 width: 85,
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'EndDate',
                 name: 'End Date',
                 sortable: true,
-                editable: true
-            }
+                editable: true,
+            },
         ];
     }, [UnassignButtonFormatter]);
 
@@ -129,35 +137,34 @@ const AnimalList: FC<AnimalListProps> = (props) => {
 
     const search = (
         <div className="input-group top-bottom-padding-8">
-            <span className="input-group-addon input-group-addon-buffer"><i className="fa fa-search"></i></span>
+            <span className="input-group-addon input-group-addon-buffer">
+                <i className="fa fa-search"></i>
+            </span>
             <input
-                id="assignedAnimalSearch"
-                type="text"
-                onChange={handleAnimalFilter}
                 className="form-control search-input"
+                id="assignedAnimalSearch"
                 name="assignedAnimalSearch"
-                placeholder="Search assigned animals"/>
+                onChange={handleAnimalFilter}
+                placeholder="Search assigned animals"
+                type="text"
+            />
         </div>
     );
 
     return (
         <div>
             {search}
-            <div className='datagrid-container-relative'>
+            <div className="datagrid-container-relative">
                 <DataGrid
-                    className='animal-table'
+                    className="animal-table"
                     columns={columns}
-                    rows={assignedAnimals || []}
-                    rowKeyGetter={(row: Animal) => row.Id!}
-                    onRowsChange={onRowsChange}
-                    style={{ height: 'calc(50vh - 160px - 50px)' }}
                     defaultColumnOptions={{ resizable: true }}
+                    onRowsChange={onRowsChange}
+                    rowKeyGetter={(row: Animal) => row.Id!}
+                    rows={assignedAnimals || []}
+                    style={{ height: 'calc(50vh - 160px - 50px)' }}
                 />
-                {!hasAnimals && (
-                    <div className='datagrid-empty-message'>
-                        No animals assigned
-                    </div>
-                )}
+                {!hasAnimals && <div className="datagrid-empty-message">No animals assigned</div>}
             </div>
         </div>
     );
@@ -165,19 +172,16 @@ const AnimalList: FC<AnimalListProps> = (props) => {
 
 const mapStateToProps = (state: any) => ({
     selectedProject: state.project.selectedProject || null,
-    selectedTimeline: (state.project.selectedProject != null) ? state.timeline.selectedTimeline : null,
+    selectedTimeline: state.project.selectedProject != null ? state.timeline.selectedTimeline : null,
     assignedAnimals: state.animal.assignedAnimals,
-    forceRerender: state.root.forceRerender  // Bit of a hack to get a re-render
+    forceRerender: state.root.forceRerender, // Bit of a hack to get a re-render
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setForceRerender: (render: boolean) => dispatch(setForceRerender(render)),
     deleteTimelineAnimalItem: (id: string, timeline: Timeline) => dispatch(deleteTimelineAnimalItem(id, timeline)),
     setAssignedAnimalFilter: (item: string) => dispatch(setAssignedAnimalFilter(item)),
-    updateTimelineAnimalItem: (item: Animal, timeline: Timeline) => dispatch(updateTimelineAnimalItem(item, timeline))
+    updateTimelineAnimalItem: (item: Animal, timeline: Timeline) => dispatch(updateTimelineAnimalItem(item, timeline)),
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AnimalList);
+export default connect(mapStateToProps, mapDispatchToProps)(AnimalList);

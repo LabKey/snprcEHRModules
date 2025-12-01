@@ -1,4 +1,4 @@
-import React, { FC, Children, cloneElement, useMemo, ReactElement } from 'react';
+import React, { Children, cloneElement, FC, ReactElement, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';

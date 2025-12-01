@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ChangeEvent } from 'react';
+import React, { ChangeEvent, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTimelineAnimalItem, setAvailableAnimalFilter } from '../actions/dataActions';
 import { Column, DataGrid, RenderCellProps } from 'react-data-grid';

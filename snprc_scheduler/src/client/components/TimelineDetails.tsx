@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { setTimelineDayZero, updateSelectedTimeline } from '../actions/dataActions';
 import { connect } from 'react-redux';
 import { Form, FormControl } from 'react-bootstrap';
