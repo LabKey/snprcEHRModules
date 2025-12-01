@@ -1,17 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import { DataGrid, Column } from "react-data-grid";
-import { Project } from "../models/models";
+import React, { FC } from 'react';
+import { connect } from 'react-redux';
+import { Column, DataGrid } from 'react-data-grid';
+import { Project } from '../models/models';
 
 interface ProjectMainProps {
-    selectedProject: Project | null;
-    projects: Project[] | null;
+    projects: null | Project[];
+    selectedProject: null | Project;
 }
 
 interface RootState {
     project: {
-        selectedProject: Project | null;
-        projects: Project[] | null;
+        projects: null | Project[];
+        selectedProject: null | Project;
     };
 }
 
@@ -27,32 +27,30 @@ const columns: Column<Project>[] = [
     { key: 'referenceId', name: 'Reference ID', sortable: true },
     { key: 'FeeScheduler', name: 'Fee Schedule', sortable: true },
     { key: 'startDate', name: 'Start Date', sortable: true },
-    { key: 'endDate', name: 'End Date', sortable: true }
+    { key: 'endDate', name: 'End Date', sortable: true },
 ];
 
-const ProjectMain: React.FC<ProjectMainProps> = ({ projects }) => {
+const ProjectMain: FC<ProjectMainProps> = ({ projects }) => {
     const rows = projects || [];
 
     return (
-        <div className='col-sm-12 scheduler-main-table'>
+        <div className="col-sm-12 scheduler-main-table">
             <h4>All Active Projects</h4>
             <DataGrid
-                className='project-main-table rdg-light'
+                className="project-main-table rdg-light"
                 columns={columns}
-                rows={rows}
-                rowKeyGetter={(row) => row.projectId}
-                style={{ height: 'calc(67vh - 160px - 50px)' }}
                 defaultColumnOptions={{ resizable: true, sortable: true }}
+                rowKeyGetter={row => row.projectId}
+                rows={rows}
+                style={{ height: 'calc(67vh - 160px - 50px)' }}
             />
         </div>
     );
-}
+};
 
 const mapStateToProps = (state: RootState): ProjectMainProps => ({
     selectedProject: state.project.selectedProject || null,
-    projects: state.project.projects || null
-})
+    projects: state.project.projects || null,
+});
 
-export default connect(
-        mapStateToProps
-)(ProjectMain)
+export default connect(mapStateToProps)(ProjectMain);

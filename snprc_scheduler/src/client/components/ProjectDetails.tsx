@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { connect } from "react-redux";
 import { Form, FormControl } from "react-bootstrap";
 import { Project } from "../models/models";
@@ -13,7 +13,7 @@ interface RootState {
     };
 }
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({ selectedProject }) => {
+const ProjectDetails: FC<ProjectDetailsProps> = ({ selectedProject }) => {
     return (
         <div className='container-fluid details-frame project-details' style={{textAlign: 'left'}}>
             <div className='col-sm-4'>

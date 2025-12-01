@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useMemo } from 'react';
+import React, { FC, Children, cloneElement, useMemo, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -7,17 +7,17 @@ import DraggableHeaderCell from './DraggableHeaderCell';
 export type HeaderDropHandler = (source: any, target: any) => void;
 
 export interface DraggableContainerProps {
-    children: React.ReactElement;
+    children: ReactElement;
     onHeaderDrop: HeaderDropHandler;
 }
 
 function DraggableContainerImpl(props: DraggableContainerProps) {
-    const child = Children.only(props.children) as React.ReactElement<any>;
+    const child = Children.only(props.children) as ReactElement<any>;
 
     // Clone the child and transform its columns to wrap draggable ones with DraggableHeaderCell
     const enhancedChild = useMemo(() => {
         const childProps = child.props;
-        
+
         // If no columns prop, return child as-is
         if (!childProps.columns) {
             return child;
@@ -36,23 +36,21 @@ function DraggableContainerImpl(props: DraggableContainerProps) {
             return {
                 ...col,
                 renderHeaderCell: (headerProps: any) => (
-                    <DraggableHeaderCell 
-                        column={headerProps.column} 
-                        onHeaderDrop={props.onHeaderDrop}
-                    >
-                        {originalRenderHeaderCell ? 
-                            originalRenderHeaderCell(headerProps) : 
+                    <DraggableHeaderCell column={headerProps.column} onHeaderDrop={props.onHeaderDrop}>
+                        {originalRenderHeaderCell ? (
+                            originalRenderHeaderCell(headerProps)
+                        ) : (
                             <div>{headerProps.column.name}</div>
-                        }
+                        )}
                     </DraggableHeaderCell>
-                )
+                ),
             };
         });
 
         return cloneElement(child, {
             ...childProps,
             columns: enhancedColumns,
-            onHeaderDrop: props.onHeaderDrop
+            onHeaderDrop: props.onHeaderDrop,
         } as any);
     }, [child, props.onHeaderDrop]);
 
@@ -61,10 +59,10 @@ function DraggableContainerImpl(props: DraggableContainerProps) {
 
 // Keep runtime prop validation (optional but harmless)
 DraggableContainerImpl.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
 };
 
-export const DraggableContainer: React.FC<DraggableContainerProps> = (props) => {
+export const DraggableContainer: FC<DraggableContainerProps> = props => {
     return (
         <DndProvider backend={HTML5Backend}>
             <DraggableContainerImpl {...props} />

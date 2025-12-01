@@ -1,58 +1,58 @@
 export interface Project {
-    projectId?: number;
-    description?: string;
-    Iacuc?: string;
     CostAccount?: string;
+    description?: string;
+    endDate?: string;
+    FeeScheduler?: string;
+    Iacuc?: string;
+    objectId?: string;
+    projectId?: number;
+    ProjectItems?: any[];
+    ProjectObjectId?: string;
     referenceId?: string;
+    revisionNum?: number;
+    startDate?: string;
     Veterinarian1?: string;
     Veterinarian2?: string;
     VsNumber?: string;
-    startDate?: string;
-    endDate?: string;
-    FeeScheduler?: string;
-    revisionNum?: number;
-    ProjectObjectId?: string;
-    ProjectItems?: any[];
-    objectId?: string;
 }
 
 export interface Timeline {
-    RowId?: number;
-    TimelineId?: number;
-    RevisionNum?: number;
-    Description?: string;
-    QcStateLabel?: string;
-    IsDirty?: boolean;
-    ObjectId?: string;
-    TimelineItems?: any[];
-    TimelineProjectItems?: any[];
-    TimelineAnimalItems?: any[];
-    StudyDayNotes?: any[];
-    StudyDay0?: string;
-    RC?: string;
-    LeadTech?: string;
     AnimalAccount?: string;
     Created?: string;
     CreatedByName?: string;
+    Description?: string;
+    EndDate?: string;
+    IsDirty?: boolean;
+    IsInUse?: boolean;
+    LeadTech?: string;
     Modified?: string;
     ModifiedByName?: string;
-    StartDate?: string;
-    EndDate?: string;
     Notes?: string;
-    SchedulerNotes?: string;
-    IsInUse?: boolean;
+    ObjectId?: string;
+    QcStateLabel?: string;
+    RC?: string;
+    RevisionNum?: number;
+    RowId?: number;
     savedDraft?: boolean;
+    SchedulerNotes?: string;
+    StartDate?: string;
+    StudyDay0?: string;
+    StudyDayNotes?: any[];
+    TimelineAnimalItems?: any[];
+    TimelineId?: number;
+    TimelineItems?: any[];
+    TimelineProjectItems?: any[];
 }
 
 export interface Animal {
-    Id?: string;
-    AssignmentStatus?: string;
-    Gender?: string;
-    Weight?: number;
     Age?: string;
     AnimalId?: string;
+    assigned?: boolean;
+    AssignmentStatus?: string;
+    EndDate?: string;
+    Gender?: string;
+    Id?: string;
     IsDeleted?: boolean;
     IsDirty?: boolean;
-    assigned?: boolean;
-    EndDate?: string;
+    Weight?: number;
 }

@@ -1,67 +1,74 @@
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    setAvailableAnimalFilter,
-    addTimelineAnimalItem
-} from "../actions/dataActions";
-import { Column, DataGrid, RenderCellProps } from "react-data-grid";
+import React, { FC, useCallback, ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTimelineAnimalItem, setAvailableAnimalFilter } from '../actions/dataActions';
+import { Column, DataGrid, RenderCellProps } from 'react-data-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Button } from "react-bootstrap";
-import { Animal, Project, Timeline } from "../models/models";
+import { Button } from 'react-bootstrap';
+import { Animal, Project, Timeline } from '../models/models';
 
 library.add(faPlus);
 
 interface RootState {
-    project: {
-        selectedProject: Project | null;
-    };
-    timeline: {
-        selectedTimeline: Timeline | null;
-    };
     animal: {
         availableAnimals: Animal[];
     };
+    project: {
+        selectedProject: null | Project;
+    };
+    timeline: {
+        selectedTimeline: null | Timeline;
+    };
 }
 
-const AnimalMain: React.FC = () => {
+const AnimalMain: FC = () => {
     const dispatch = useDispatch();
-    
+
     const selectedProject = useSelector((state: RootState) => state.project.selectedProject || null);
-    const selectedTimeline = useSelector((state: RootState) => 
-        (state.project.selectedProject != null) ? state.timeline.selectedTimeline : null
+    const selectedTimeline = useSelector((state: RootState) =>
+        state.project.selectedProject != null ? state.timeline.selectedTimeline : null
     );
     const availableAnimals = useSelector((state: RootState) => state.animal.availableAnimals);
 
-    const handleAnimalFilter = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setAvailableAnimalFilter(event.target.value));
-    }, [dispatch]);
+    const handleAnimalFilter = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(setAvailableAnimalFilter(event.target.value));
+        },
+        [dispatch]
+    );
 
-    const handleAssignAnimal = useCallback((row: Animal) => {
-        if (selectedTimeline) {
-            dispatch(addTimelineAnimalItem({
-                ...row,
-                AnimalId: row.Id,
-                IsDeleted: false,
-                IsDirty: true
-            }, selectedTimeline));
-        }
-    }, [dispatch, selectedTimeline]);
+    const handleAssignAnimal = useCallback(
+        (row: Animal) => {
+            if (selectedTimeline) {
+                dispatch(
+                    addTimelineAnimalItem(
+                        {
+                            ...row,
+                            AnimalId: row.Id,
+                            IsDeleted: false,
+                            IsDirty: true,
+                        },
+                        selectedTimeline
+                    )
+                );
+            }
+        },
+        [dispatch, selectedTimeline]
+    );
 
-    const AddButtonFormatter = useCallback(({ row }: RenderCellProps<Animal>) => {
-        const disableBtn = (!selectedTimeline || !selectedTimeline.savedDraft);
+    const AddButtonFormatter = useCallback(
+        ({ row }: RenderCellProps<Animal>) => {
+            const disableBtn = !selectedTimeline || !selectedTimeline.savedDraft;
 
-        return (
-            <Button 
-                disabled={disableBtn} 
-                onClick={() => handleAssignAnimal(row)} 
-                className='animal-grid-add'
-            >
-                <FontAwesomeIcon icon={faPlus} />
-            </Button>
-        );
-    }, [selectedTimeline, handleAssignAnimal]);
+            return (
+                <Button className="animal-grid-add" disabled={disableBtn} onClick={() => handleAssignAnimal(row)}>
+                    <FontAwesomeIcon icon={faPlus} />
+                </Button>
+            );
+        },
+        [selectedTimeline, handleAssignAnimal]
+    );
 
     const getColumns = useCallback((): Column<Animal>[] => {
         return [
@@ -70,33 +77,33 @@ const AnimalMain: React.FC = () => {
                 name: '',
                 width: 45,
                 renderCell: AddButtonFormatter,
-                frozen: true
+                frozen: true,
             },
             {
                 key: 'Id',
                 name: 'ID',
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'AssignmentStatus',
                 name: 'IACUC Status',
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'Gender',
                 name: 'Sex',
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'Weight',
                 name: 'Weight',
-                sortable: true
+                sortable: true,
             },
             {
                 key: 'Age',
                 name: 'Age',
-                sortable: true
-            }
+                sortable: true,
+            },
         ];
     }, [AddButtonFormatter]);
 
@@ -106,30 +113,28 @@ const AnimalMain: React.FC = () => {
     return (
         <>
             <div className="input-group bottom-padding-8">
-                <span className="input-group-addon input-group-addon-buffer"><i
-                    className="fa fa-search"></i></span>
+                <span className="input-group-addon input-group-addon-buffer">
+                    <i className="fa fa-search"></i>
+                </span>
                 <input
-                    id="availableAnimalSearch"
-                    type="text"
-                    onChange={handleAnimalFilter}
                     className="form-control search-input"
+                    id="availableAnimalSearch"
                     name="availableAnimalSearch"
-                    placeholder="Search available animals"/>
+                    onChange={handleAnimalFilter}
+                    placeholder="Search available animals"
+                    type="text"
+                />
             </div>
             <div className="col-sm-12 scheduler-main-table datagrid-container-relative">
                 <DataGrid
-                    className='animal-available-table'
+                    className="animal-available-table"
                     columns={columns}
-                    rows={availableAnimals || []}
-                    rowKeyGetter={(row) => row.Id || ''}
-                    style={{ height: 'calc(67vh - 160px - 50px)' }}
                     defaultColumnOptions={{ resizable: true }}
+                    rowKeyGetter={row => row.Id || ''}
+                    rows={availableAnimals || []}
+                    style={{ height: 'calc(67vh - 160px - 50px)' }}
                 />
-                {!hasAnimals && (
-                    <div className='datagrid-empty-message'>
-                        No unassigned animals available
-                    </div>
-                )}
+                {!hasAnimals && <div className="datagrid-empty-message">No unassigned animals available</div>}
             </div>
         </>
     );

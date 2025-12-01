@@ -13,19 +13,19 @@ interface DragItem {
 type DropResult = { source?: string; target?: string };
 
 export interface DraggableHeaderCellProps {
-    column: { key?: string; name?: string } | null | undefined;
+    children: ReactElement;
+    column: null | undefined | { key?: string; name?: string };
     onHeaderDrop: HeaderDropHandler;
-    children: React.ReactElement;
 }
 
 export default function DraggableHeaderCell(props: DraggableHeaderCellProps): ReactElement {
     const { column, onHeaderDrop, children } = props;
 
     // Drag source
-    const [{ isDragging }, drag, preview] = useDrag<DragItem, DropResult, { isDragging: boolean}>({
+    const [{ isDragging }, drag, preview] = useDrag<DragItem, DropResult, { isDragging: boolean }>({
         type: TYPE,
         item: { key: column?.key, name: column?.name },
-        collect: (monitor) => ({
+        collect: monitor => ({
             isDragging: monitor.isDragging(),
         }),
         end: (_item, monitor) => {
@@ -35,7 +35,7 @@ export default function DraggableHeaderCell(props: DraggableHeaderCellProps): Re
                     onHeaderDrop(result.source, result.target);
                 }
             }
-        }
+        },
     });
 
     // Set up custom drag preview
@@ -49,7 +49,7 @@ export default function DraggableHeaderCell(props: DraggableHeaderCellProps): Re
             const textWidth = ctx.measureText(column?.name || 'Column').width;
             canvas.width = textWidth + 24;
             canvas.height = 32;
-            
+
             // Draw preview with rounded rectangle background
             ctx.fillStyle = '#4a90e2';
             ctx.roundRect(0, 0, canvas.width, canvas.height, 4);
@@ -59,7 +59,7 @@ export default function DraggableHeaderCell(props: DraggableHeaderCellProps): Re
             ctx.textBaseline = 'middle';
             ctx.fillText(column?.name || 'Column', 12, 16);
         }
-        
+
         const img = new Image();
         img.src = canvas.toDataURL();
         img.onload = () => {
@@ -68,7 +68,7 @@ export default function DraggableHeaderCell(props: DraggableHeaderCellProps): Re
     }, [column?.name, preview]);
 
     // Drop target
-    const [{ isOver, canDrop }, dropRef] = useDrop<DragItem, DropResult, { isOver: boolean; canDrop: boolean }>({
+    const [{ isOver, canDrop }, dropRef] = useDrop<DragItem, DropResult, { canDrop: boolean; isOver: boolean }>({
         accept: TYPE,
         drop: (dragItem: DragItem) => {
             const source = dragItem?.key as string | undefined;
@@ -76,23 +76,23 @@ export default function DraggableHeaderCell(props: DraggableHeaderCellProps): Re
             // return result consumed by the drag source's end handler
             return { source, target };
         },
-        collect: (monitor) => ({
+        collect: monitor => ({
             isOver: monitor.isOver(),
             canDrop: monitor.canDrop(),
-        })
+        }),
     });
 
     const opacity = isDragging ? 0.6 : 1;
 
     return (
         <div
+            className={isOver && canDrop ? 'rdg-can-drop' : ''}
             ref={(node: HTMLDivElement | null) => {
                 // Compose drag and drop refs on the same DOM node
                 drag(node);
                 dropRef(node);
             }}
             style={{ width: 0, cursor: 'move', opacity }}
-            className={isOver && canDrop ? 'rdg-can-drop' : ''}
         >
             {children}
         </div>

@@ -1,16 +1,16 @@
-import React from 'react';
-import {Button, Modal} from "react-bootstrap";
+import React, { FC } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 interface AlertModalProps {
-    show: boolean;
-    title: string;
     msg: string;
     onDismiss: (() => void) | null;
+    show: boolean;
+    title: string;
 }
 
-const AlertModal: React.FC<AlertModalProps> = ({ show, title, msg, onDismiss }) => {
+const AlertModal: FC<AlertModalProps> = ({ show, title, msg, onDismiss }) => {
     return (
-        <Modal show={show} onHide={onDismiss} animation={false}>
+        <Modal animation={false} onHide={onDismiss} show={show}>
             <Modal.Header closeButton>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
@@ -20,7 +20,9 @@ const AlertModal: React.FC<AlertModalProps> = ({ show, title, msg, onDismiss }) 
             </Modal.Body>
 
             <Modal.Footer>
-                <Button className='btn btn-danger' onClick={onDismiss}>OK</Button>
+                <Button className="btn btn-danger" onClick={onDismiss}>
+                    OK
+                </Button>
             </Modal.Footer>
         </Modal>
     );

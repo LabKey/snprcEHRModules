@@ -1,13 +1,12 @@
-
 // import Redux
-import { createStore, combineReducers, applyMiddleware, compose, Store } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import { thunk } from 'redux-thunk';
 
 // import reducers
 import rootReducer from '../reducers/rootReducer';
 import projectReducer from '../reducers/projectReducer';
-import timelineReducer from "../reducers/timelineReducer";
-import animalReducer from "../reducers/animalReducer";
+import timelineReducer from '../reducers/timelineReducer';
+import animalReducer from '../reducers/animalReducer';
 
 // enable redux developer tools
 declare global {
@@ -25,7 +24,7 @@ export default (): Store => {
             project: projectReducer,
             timeline: timelineReducer,
             animal: animalReducer,
-            root: rootReducer
+            root: rootReducer,
         }),
         composeEnhancers(applyMiddleware(thunk))
     );

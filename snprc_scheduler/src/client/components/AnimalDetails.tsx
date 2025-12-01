@@ -1,37 +1,50 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Project, Timeline } from "../models/models";
+import React, { FC } from 'react';
+import { connect } from 'react-redux';
+import { Project, Timeline } from '../models/models';
 
 interface AnimalDetailsProps {
-    selectedProject: Project | null;
-    selectedTimeline: Timeline | null;
+    selectedProject: null | Project;
+    selectedTimeline: null | Timeline;
 }
 
 interface RootState {
     project: {
-        selectedProject: Project | null;
+        selectedProject: null | Project;
     };
     timeline: {
-        selectedTimeline: Timeline | null;
+        selectedTimeline: null | Timeline;
     };
 }
 
-const AnimalDetails: React.FC<AnimalDetailsProps> = ({ selectedProject, selectedTimeline }) => {
+const AnimalDetails: FC<AnimalDetailsProps> = ({ selectedProject, selectedTimeline }) => {
     return (
-        <div className={'details-frame'}
-             style={{ textAlign: "center", backgroundColor: "#eee", padding: "10px", marginRight: '30px', marginLeft: '30px' }}
+        <div
+            className={'details-frame'}
+            style={{
+                textAlign: 'center',
+                backgroundColor: '#eee',
+                padding: '10px',
+                marginRight: '30px',
+                marginLeft: '30px',
+            }}
         >
-            <h3>{(!selectedProject || !selectedProject.description) ? "Select a Project" : "Project: " + selectedProject.description}</h3>
-            <h3>{(!selectedTimeline || !selectedTimeline.Description) ? "Select a Timeline" : "Timeline: " + selectedTimeline.Description}</h3>
+            <h3>
+                {!selectedProject || !selectedProject.description
+                    ? 'Select a Project'
+                    : 'Project: ' + selectedProject.description}
+            </h3>
+            <h3>
+                {!selectedTimeline || !selectedTimeline.Description
+                    ? 'Select a Timeline'
+                    : 'Timeline: ' + selectedTimeline.Description}
+            </h3>
         </div>
     );
 };
 
 const mapStateToProps = (state: RootState): AnimalDetailsProps => ({
     selectedProject: state.project.selectedProject || null,
-    selectedTimeline: state.timeline.selectedTimeline || null
-})
+    selectedTimeline: state.timeline.selectedTimeline || null,
+});
 
-export default connect(
-        mapStateToProps
-)(AnimalDetails)
+export default connect(mapStateToProps)(AnimalDetails);

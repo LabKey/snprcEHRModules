@@ -19,7 +19,7 @@ store.dispatch(fetchProjects());
 
 // Suppress ResizeObserver loop errors in development. This is only a development warning that is benign (but annoying)
 // and does not affect the production build. Related to the resizing of react-data-grid.
-const resizeObserverErrHandler = (e) => {
+const resizeObserverErrHandler = e => {
     if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
         const resizeObserverErr = document.getElementById('webpack-dev-server-client-overlay');
         if (resizeObserverErr) {
