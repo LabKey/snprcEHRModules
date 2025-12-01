@@ -12,7 +12,6 @@ import React from 'react';
 import { DataGrid, textEditor } from 'react-data-grid';
 import {
     selectTimeline,
-    duplicateTimeline,
     newTimeline,
     updateSelectedTimeline,
     cloneTimeline,
@@ -23,7 +22,6 @@ import {
     getNextRowId,
     showAlertModal,
     hideAlertModal,
-    TAB_TIMELINES,
     saveTimeline,
     showAlertBanner,
     fetchTimelinesByProject
