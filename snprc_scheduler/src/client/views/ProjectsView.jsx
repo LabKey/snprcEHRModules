@@ -153,7 +153,9 @@ class ProjectsView extends React.Component {
     };
 
     cancel = () => {
-        this.props.showConfirm({
+        const { showConfirm, hideConfirm } = this.props;
+
+        showConfirm({
             title: 'Unsaved Data',
             msg: 'Any unsaved data will be lost and the page will reload.  Are you sure?',
             onConfirm: () => {
