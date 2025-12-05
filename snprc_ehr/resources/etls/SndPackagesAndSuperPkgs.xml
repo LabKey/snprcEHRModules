@@ -33,11 +33,6 @@
             <description>Copy to Staging table</description>
             <source schemaName="snprcSrc" queryName="v_sndGetAllSuperPkgs" />
             <destination schemaName="snprc_ehr" queryName="SndSuperPackageStaging" bulkLoad="true" targetOption="merge">
-                <alternateKeys>
-                    <column name="TopLevelPkgId"/>
-                    <column name = "SuperPkgId"/>
-                    <column name="ObjectId"/>
-                </alternateKeys>
                 <columnTransforms>
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                     <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
