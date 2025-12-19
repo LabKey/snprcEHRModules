@@ -23,10 +23,9 @@ import org.labkey.snprc_scheduler.security.QCStateEnum;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerAdminPermission;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerReviewersPermission;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-/* Created by Charles Peterson on December 13, 2018 */
 
 public class SNPRC_schedulerServiceValidator
 {
@@ -206,6 +205,9 @@ public class SNPRC_schedulerServiceValidator
                 }
             } //end of checks related to timeline in database
         } // end of checks to Timeline object itself
+
+        // Validate timeline revision overlap for all timelines
+        validateTimelineRevisionOverlap(timeline, c, u, errors);
     } // end of ValidateNewTimeline
 
 
@@ -231,6 +233,81 @@ public class SNPRC_schedulerServiceValidator
                 studyDayNotes, Container c, User u, BatchValidationException errors) throws BatchValidationException
         {
             //TODO: Validate StudyDayNotes
+        }
+
+        /**
+         * Validates that a timeline revision (RevisionNum) does not overlap any other revisions
+         * with the same TimelineId in the Timeline table.
+         * Two timeline revisions overlap if their date ranges (StartDate to EndDate) intersect.
+         *
+         * @param timeline The timeline to validate
+         * @param c Container
+         * @param u User
+         * @param errors BatchValidationException to collect validation errors
+         * @throws BatchValidationException if validation fails
+         */
+        private static void validateTimelineRevisionOverlap(Timeline timeline, Container c, User u, BatchValidationException errors) throws BatchValidationException
+        {
+            if (timeline.getTimelineId() == null)
+            {
+                // New timeline without an ID, no overlap check needed
+                return;
+            }
+
+            if (timeline.getStartDate() == null || timeline.getEndDate() == null)
+            {
+                errors.addRowError(new ValidationException("Timeline StartDate and EndDate are required for overlap validation"));
+                throw errors;
+            }
+
+            try
+            {
+                UserSchema schema = QueryService.get().getUserSchema(u, c, SNPRC_schedulerSchema.NAME);
+                TableInfo ti = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter());
+
+                // Find all other revisions with the same TimelineId and different revisions
+                SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_ID), timeline.getTimelineId(), CompareType.EQUAL);
+                filter.addCondition(FieldKey.fromParts(Timeline.TIMELINE_REVISION_NUM), timeline.getRevisionNum(), CompareType.NEQ);
+
+                TableSelector ts = new TableSelector(ti, filter, null);
+                List<Map<String, Object>> existingRevisions = ts.getMapCollection().stream().toList();
+
+                for (Map<String, Object> existingRevision : existingRevisions)
+                {
+                    Date existingStartDate = (Date) existingRevision.get(Timeline.TIMELINE_STARTDATE);
+                    Date existingEndDate = (Date) existingRevision.get(Timeline.TIMELINE_ENDDATE);
+                    Integer existingRevisionNum = (Integer) existingRevision.get(Timeline.TIMELINE_REVISION_NUM);
+
+                    if (existingStartDate == null || existingEndDate == null)
+                    {
+                        continue; // Skip revisions with missing dates
+                    }
+
+                    // Check for date range overlap:
+                    // Two ranges overlap if: start1 <= end2 AND start2 <= end1
+                    boolean overlaps = !timeline.getStartDate().after(existingEndDate) &&
+                                       !existingStartDate.after(timeline.getEndDate());
+
+                    if (overlaps)
+                    {
+                        errors.addRowError(new ValidationException(
+                                String.format("Timeline revision overlaps with existing revision %d (dates %s to %s)",
+                                        existingRevisionNum,
+                                        existingStartDate.toString(),
+                                        existingEndDate.toString())));
+                        throw errors;
+                    }
+                }
+            }
+            catch (BatchValidationException bve)
+            {
+                throw bve;
+            }
+            catch (Exception e)
+            {
+                errors.addRowError(new ValidationException("Error checking for timeline revision overlap: " + e.getMessage()));
+                throw errors;
+            }
         }
 
     } // End of SNPRC_schedulerServiceValidator Class
