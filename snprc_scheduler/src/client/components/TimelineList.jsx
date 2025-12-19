@@ -322,6 +322,7 @@ class TimelineList extends React.Component {
         saveTimeline(selectedTimeline).then((response) => {
 
             if (!response.success) {
+                selectedTimeline.IsDeleted = false;
                 if (response.responseText) {
                     showAlertBanner({
                         variant: 'danger', msg: "Error deleting " + selectedTimeline.Description +
@@ -348,6 +349,7 @@ class TimelineList extends React.Component {
             }
 
         }).catch((error) => {
+            selectedTimeline.IsDeleted = false;
             this.setState(state => {
                 state.showSaving = false;
                 return state;
