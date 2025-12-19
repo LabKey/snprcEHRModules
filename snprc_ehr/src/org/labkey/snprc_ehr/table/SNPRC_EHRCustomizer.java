@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.collections.CaseInsensitiveHashSet;
 import org.labkey.api.data.AbstractTableInfo;
+import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ForeignKey;
@@ -29,6 +30,7 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 
+import org.labkey.api.data.WrappedColumnInfo;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
 import org.labkey.api.exp.api.StorageProvisioner;
@@ -61,6 +63,8 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
     private final CustomizerQueryProvider _provider;
 
     private Set<CalculatedColumn> calculatedColumns;
+
+    public static final String ID_COL = "Id";
 
     public SNPRC_EHRCustomizer()
     {
@@ -134,6 +138,17 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         return getUserSchema(ds, name, ehrContainer);
     }
 
+    private BaseColumnInfo getWrappedIdCol(UserSchema us, AbstractTableInfo ds, String name, String queryName)
+    {
+        WrappedColumn col = new WrappedColumn(ds.getColumn(ID_COL), name);
+        col.setReadOnly(true);
+        col.setIsUnselectable(true);
+        col.setUserEditable(false);
+        col.setFk(new QueryForeignKey(ds.getUserSchema(), null, us, null, queryName, ID_COL, ID_COL));
+
+        return col;
+    }
+
     protected boolean hasTable(AbstractTableInfo tableInfo, String schemaName, String queryName, @Nullable Container targetContainer) {
 
         if (targetContainer == null)
@@ -161,8 +176,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
          */
         if (matches(ti, "study", "Animal"))
         {
+            UserSchema us = getEHRUserSchema(ti, STUDY_SCHEMA);
             customizeAnimalTable(ti);
+            var col42 = getWrappedIdCol(us, ti, "earliestLocation", "demographicsEarliestHousing");
+            col42.setLabel("Housing - Earliest");
+            col42.setDescription("The calculates the earliest housing location for each living animal.");
+            ti.addColumn(col42);
         }
+
         if (matches(ti, "study", "Animal Events") || matches(ti, "study", "encounters"))
         {
             customizeEncounterTable(ti);

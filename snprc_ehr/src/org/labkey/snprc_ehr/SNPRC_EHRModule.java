@@ -65,6 +65,7 @@ import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
+import org.labkey.snprc_ehr.demographics.EarliestHousingDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.LastBcsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.LastHousingDemographicsProvider;
@@ -194,6 +195,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         EHRService.get().registerDemographicsProvider(new MhcSummaryDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new LastHousingDemographicsProvider(this));
         EHRService.get().registerDemographicsProvider(new LastBcsDemographicsProvider(this));
+        EHRService.get().registerDemographicsProvider(new EarliestHousingDemographicsProvider(this));
 
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.housing, "Find Animals Housed In A Given Room/Cage At A Specific Time", this, DetailsURL.fromString("/ehr-housingOverlaps.view?groupById=1"), "Commonly Used Queries");
         EHRService.get().registerReportLink(EHRService.REPORT_LINK_TYPE.animalSearch, "Population Summary By Species, Gender and Age", this, DetailsURL.fromString("/query-executeQuery.view?schemaName=study&query.queryName=colonyPopulationByAge"), "Other Searches");
