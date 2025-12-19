@@ -14,7 +14,7 @@ public class EarliestHousingDemographicsProvider extends AbstractListDemographic
 
     public EarliestHousingDemographicsProvider(Module owner)
     {
-        super(owner, "study", "demographicsEarliestHousing", "EarliestHousing");
+        super(owner, "study", "demographicsEarliestHousing", "earliestHousing");
         _supportsQCState = false;
     }
 

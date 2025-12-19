@@ -138,17 +138,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         return getUserSchema(ds, name, ehrContainer);
     }
 
-    private BaseColumnInfo getWrappedIdCol(UserSchema us, AbstractTableInfo ds, String name, String queryName)
-    {
-        WrappedColumn col = new WrappedColumn(ds.getColumn(ID_COL), name);
-        col.setReadOnly(true);
-        col.setIsUnselectable(true);
-        col.setUserEditable(false);
-        col.setFk(new QueryForeignKey(ds.getUserSchema(), null, us, null, queryName, ID_COL, ID_COL));
-
-        return col;
-    }
-
     protected boolean hasTable(AbstractTableInfo tableInfo, String schemaName, String queryName, @Nullable Container targetContainer) {
 
         if (targetContainer == null)
@@ -178,7 +167,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             UserSchema us = getEHRUserSchema(ti, STUDY_SCHEMA);
             customizeAnimalTable(ti);
-            var col42 = getWrappedCol(us, ti, "earliestLocation", "demographicsEarliestHousing",ID_COL,ID_COL);
+            var col42 = getWrappedCol(us, ti, "earliestHousing", "demographicsEarliestHousing",ID_COL,ID_COL);
             col42.setLabel("Housing - Earliest");
             col42.setDescription("The calculates the earliest housing location for each living animal.");
             ti.addColumn(col42);
