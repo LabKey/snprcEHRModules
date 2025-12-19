@@ -132,6 +132,17 @@
   color: black;
 }
 
+/* Hide spinner arrows from number inputs */
+.rdg-text-editor::-webkit-outer-spin-button,
+.rdg-text-editor::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.rdg-text-editor[type=number] {
+  -moz-appearance: textfield;
+}
+
 .rdg-cell {
   height: 35px;
   --rdg-selection-color: transparent !important;
