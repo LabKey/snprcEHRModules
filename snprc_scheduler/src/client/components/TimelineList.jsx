@@ -9,7 +9,7 @@
     ==================================================================================
 */
 import React from 'react';
-import { DataGrid, textEditor } from 'react-data-grid';
+import { DataGrid, renderTextEditor } from 'react-data-grid';
 import {
     selectTimeline,
     newTimeline,
@@ -459,7 +459,7 @@ class TimelineList extends React.Component {
                 key: 'Description',
                 name: 'Description',
                 renderCell: this.DescriptionFormatter,
-                renderEditCell: textEditor,
+                renderEditCell: renderTextEditor,
                 editable: (row) => {
                     const { selectedTimeline } = this.props;
                     return selectedTimeline &&
@@ -503,10 +503,6 @@ class TimelineList extends React.Component {
             selectedTimeline.RowId === row.RowId &&
             selectedTimeline.RevisionNum === row.RevisionNum) {
             return 'rdg-row-selected';
-        }
-
-        if (row.isChild) {
-            return 'rdg-row-child';
         }
 
         return '';

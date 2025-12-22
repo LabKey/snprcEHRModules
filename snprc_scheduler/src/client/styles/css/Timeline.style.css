@@ -4,72 +4,12 @@
     height: 100px;
 }
 
-.day-tl-grid-hdr {
-    width: 260px !important;
-    height: 74px;
-    padding-top: 20px;
-    padding-bottom: 0px !important;
-    padding-left: 65px;
-    margin-bottom: 0px !important;
-    transform: translate(-60px,-15px);
-    overflow: visible !important;
-}
-
-.time-tl-grid-hdr {
-    border-bottom: 3px groove rgb(255, 255, 255) !important;
-    border-top: 3px groove rgb(255, 255, 255) !important;
-    width: 320px !important;
-    height: 73px;
-    padding-top: 20px;
-    padding-bottom: 0 !important;
-    padding-left: 75px;
-    margin-bottom: 0 !important;
-    transform: translate(-26px, 8px);
-}
-
-.wkDay-t1-grid-hdr {
-    border-bottom: 3px groove rgb(255, 255, 255) !important;
-    width: 260px !important;
-    /*height: 75px;*/
-    height: 60px;
-    padding-top: 20px;
-    padding-bottom: 0px !important;
-    padding-left: 50px;
-    margin-bottom: 0px !important;
-    transform: translate(-6px, -6px);
-    overflow: visible !important;
-}
-
 .procedure-tl-grid-hdr {
-    transform: translate(-6px, -6px);
-    border-bottom: 3px groove rgb(255, 255, 255) !important;
-    width: 248px !important;
-    /*height: 75px;*/
-    height: 60px;
-    padding-left: 30px !important;
-    padding-right: 35px !important;
-    padding-bottom: 23px;
-    padding-top: 25px !important;
-    /*padding-top: 20px !important;*/
-    word-wrap: break-word;
-    overflow-wrap: break-word !important;
-    white-space: normal;
-    overflow: hidden !important;
-    line-height: normal
-}
-
-.studyDayNote-t1-grid-hdr {
-    width: 260px !important;
-    height: 53px;
-    padding-top: 20px;
-    padding-bottom: 0px !important;
-    padding-left: 35px;
-    margin-bottom: 0px !important;
-    transform: translate(-6px, -6px)
+    width: 190px !important;
 }
 
 .studyDayNote-cell {
-  width: 300px !important;
+  width: 100% !important;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -77,29 +17,58 @@
 
 .timeline-grid .rdg-header-row .rdg-cell {
     transform:
-            translate(9px, 58px)
+            translate(12px, 55px)
             rotate(315deg) !important;
-    width: 0 !important;
-    border: 0 !important;
+    width: 228px !important;
+    border: none !important;
     color: black;
     background-color: transparent;
-    text-decoration-style: solid !important;
     font-size: 13px;
-    padding-top: 0 !important;
-    padding-right: 150px !important;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
     margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    padding-bottom: 24px !important;
     overflow: visible !important;
-    height: 100px !important;
+    height: 20px !important;
+    z-index: 20000;
+    box-sizing: border-box !important;
+    position: sticky;
+}
+
+.timeline-grid .rdg::before {
+  content: '';
+  height: 160px;
+  width: 100%;
+  background-color: #eee;
+  top: 0;
+  position: sticky;
+  z-index: 19999;
+  border-bottom: 1px solid black;
+}
+
+.timeline-grid .rdg-header-row .rdg-cell::after {
+    content: '';
+    position: absolute;
+    left: -40px;
+    bottom: 35px;
+    width: 100%;
+    height: 1px;
+    background-color: gray;
+}
+
+.timeline-grid .rdg-header-row {
+  position: sticky;
+  top: 0;
+  height: 200px;
+  z-index: 20000;
 }
 
 .timeline-grid .rdg-row .rdg-cell,
 .timeline-grid .rdg-row-odd .rdg-cell,
 .timeline-grid .rdg-row-even .rdg-cell {
-  transform: translateY(122px);
+  position: relative;
+  top: 122px;
   width: 100px;
   border: 1px solid gray;
   z-index: 10000;
@@ -128,7 +97,6 @@
 
 .rdg-text-editor {
   width: 100%;
-  /*border-color: #66afe9;*/
   color: black;
 }
 
@@ -158,6 +126,12 @@
   outline: none !important;
 }
 
-.rdg-cell {
-  --rdg-selection-color: transparent !important;
+/* Disabled row styling for rows outside timeline date range */
+.timeline-grid .timeline-row-disabled .rdg-cell {
+  background-color: #eee !important;
+}
+
+/* Disabled cell styling for individual cells in partially disabled rows */
+.timeline-grid .timeline-cell-disabled {
+  background-color: #eee !important;
 }

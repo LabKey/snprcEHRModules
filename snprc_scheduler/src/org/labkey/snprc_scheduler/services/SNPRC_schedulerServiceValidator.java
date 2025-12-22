@@ -23,6 +23,7 @@ import org.labkey.snprc_scheduler.security.QCStateEnum;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerAdminPermission;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerReviewersPermission;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ import java.util.Map;
 public class SNPRC_schedulerServiceValidator
 {
 
-    public static void validateNewTimeline(Timeline timeline, Container c, User u, BatchValidationException errors) throws BatchValidationException
+    public static void validateTimeline(Timeline timeline, Container c, User u, BatchValidationException errors) throws BatchValidationException
     {
         // Validate Dates Specified
 
@@ -208,13 +209,51 @@ public class SNPRC_schedulerServiceValidator
 
         // Validate timeline revision overlap for all timelines
         validateTimelineRevisionOverlap(timeline, c, u, errors);
+
     } // end of ValidateNewTimeline
 
 
-        public static void validateNewTimelineItems (List < TimelineItem > newItems, Timeline timeline, Container
+        public static void validateTimelineItems (List < TimelineItem > newItems, Timeline timeline, Container
         c, User u, BatchValidationException errors) throws BatchValidationException
         {
-            //TODO: Validate TimelineItems
+            if (newItems == null || newItems.isEmpty())
+            {
+                return;
+            }
+
+            Date startDate = timeline.getStartDate();
+            Date endDate = timeline.getEndDate();
+
+            if (startDate == null || endDate == null)
+            {
+                errors.addRowError(new ValidationException("Timeline StartDate and EndDate are required for timeline item validation"));
+                throw errors;
+            }
+
+            for (TimelineItem item : newItems)
+            {
+                // Only validate items that do not have a timelineItemId (new items)
+                if (item.getTimelineItemId() == null)
+                {
+                    Date scheduleDate = item.getScheduleDate();
+
+                    if (scheduleDate != null)
+                    {
+                        // Check if scheduleDate is before startDate or after endDate
+                        if (scheduleDate.before(startDate) || scheduleDate.after(endDate))
+                        {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            errors.addRowError(new ValidationException(
+                                    String.format("Timeline item study day %s (schedule date: %s) must be within or equal to the timeline start date (%s) and end date (%s)",
+                                            item.getStudyDay(),
+                                            dateFormat.format(scheduleDate),
+                                            dateFormat.format(startDate),
+                                            dateFormat.format(endDate))));
+                            throw errors;
+                        }
+                    }
+                }
+            }
         }
 
         public static void validateNewTimelineProjectItems (List < TimelineProjectItem > newItems, Timeline

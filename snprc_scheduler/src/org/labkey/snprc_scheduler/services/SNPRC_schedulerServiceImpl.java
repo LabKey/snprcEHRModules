@@ -175,8 +175,8 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
         {
             try (DbScope.Transaction transaction = scope.ensureTransaction())
             {
-                // Validate new timeline for saving (throws BatchValidationException)
-                SNPRC_schedulerServiceValidator.validateNewTimeline(timeline, c, u, errors);
+                // Validate timeline for saving (throws BatchValidationException)
+                SNPRC_schedulerServiceValidator.validateTimeline(timeline, c, u, errors);
 
                 SNPRC_schedulerManager.get().updateTimeline(c, u, timeline, errors);
 
@@ -215,7 +215,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
                             }
                         }
                     }
-                    SNPRC_schedulerServiceValidator.validateNewTimelineItems(timelineItems, timeline, c, u, errors);
+                    SNPRC_schedulerServiceValidator.validateTimelineItems(timelineItems, timeline, c, u, errors);
 
                     SNPRC_schedulerManager.get().updateTimelineItems(c, u, timelineItems, studyDayNotes, errors); //new BatchValidationException());
                 }

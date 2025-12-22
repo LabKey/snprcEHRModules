@@ -114,6 +114,10 @@
 
 /* React data grid styles */
 
+.rdg-header-row {
+    height: 35px;
+    border-bottom: 1px solid #ccc;
+}
 
 .hide-react-grid-header {
     display: none !important;
