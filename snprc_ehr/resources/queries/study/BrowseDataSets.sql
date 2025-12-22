@@ -68,3 +68,5 @@ UNION
 select 'ehr' as schema, 'Colony Management' as CategoryId,'Kinship' as Label, 'kinship' as Name,  true as ShowByDefault, true as isAnimal
 UNION
 select 'ehr' as schema, 'Colony Management' as CategoryId,'Project' as Label, 'project' as Name,  true as ShowByDefault, false as isAnimal
+UNION
+select 'study' as schema, 'Colony Management' as CategoryId,'Offspring' as Label, 'demographicsOffspring' as Name,  true as ShowByDefault, true as isAnimal

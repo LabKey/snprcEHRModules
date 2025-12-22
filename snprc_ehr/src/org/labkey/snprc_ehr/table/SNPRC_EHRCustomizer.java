@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.collections.CaseInsensitiveHashSet;
 import org.labkey.api.data.AbstractTableInfo;
-import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ForeignKey;
@@ -30,7 +29,6 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 
-import org.labkey.api.data.WrappedColumnInfo;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.security.EHRDataEntryPermission;
 import org.labkey.api.exp.api.StorageProvisioner;
@@ -47,7 +45,6 @@ import org.labkey.api.util.logging.LogHelper;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
 import org.labkey.snprc_ehr.helpers.CustomizerQueryProvider;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
-
 import static org.labkey.snprc_ehr.constants.QueryConstants.*;
 
 import java.util.Calendar;
@@ -64,7 +61,6 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
     private Set<CalculatedColumn> calculatedColumns;
 
-    public static final String ID_COL = "Id";
 
     public SNPRC_EHRCustomizer()
     {
@@ -167,10 +163,10 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             UserSchema us = getEHRUserSchema(ti, STUDY_SCHEMA);
             customizeAnimalTable(ti);
-            var col42 = getWrappedCol(us, ti, "earliestHousing", "demographicsEarliestHousing",ID_COL,ID_COL);
-            col42.setLabel("Housing - Earliest");
-            col42.setDescription("The calculates the earliest housing location for each living animal.");
-            ti.addColumn(col42);
+            var col = getWrappedCol(us, ti, "earliestHousing", "demographicsEarliestHousing", ID_COLUMN, ID_COLUMN);
+            col.setLabel("Housing - Earliest");
+            col.setDescription("The calculates the earliest housing location for each living animal.");
+            ti.addColumn(col);
         }
 
         if (matches(ti, "study", "Animal Events") || matches(ti, "study", "encounters"))
@@ -454,27 +450,27 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (ds.getColumn("flags") == null)
         {
-            var col = getWrappedCol(us, ds, "Flags", "demographicsActiveFlags", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "Flags", "demographicsActiveFlags", ID_COLUMN, ID_COLUMN);
             col.setLabel("ActiveFlags");
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=ehr_lookups&queryName=flag_values&query.Id~eq=${Id}", ds.getContainerContext()));
             ds.addColumn(col);
         }
         if (ds.getColumn("parents") == null)
         {
-            var col = getWrappedCol(us, ds, "parents", "demographicsParents", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "parents", "demographicsParents", ID_COLUMN, ID_COLUMN);
             col.setLabel("Parents");
             ds.addColumn(col);
         }
 
         if (ds.getColumn("mhcSummary") == null)
         {
-            var col = getWrappedCol(us, ds, "mhcSummary", "mhcSummary", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "mhcSummary", "mhcSummary", ID_COLUMN, ID_COLUMN);
             col.setLabel("mhcSummary");
             ds.addColumn(col);
         }
         if (ds.getColumn("totalOffspring") == null)
         {
-            var col15 = getWrappedCol(us, ds, "totalOffspring", "demographicsTotalOffspring", ID_COL, ID_COL);
+            var col15 = getWrappedCol(us, ds, "totalOffspring", "demographicsTotalOffspring", ID_COLUMN, ID_COLUMN);
             col15.setLabel("Number of Offspring");
             col15.setDescription("Shows the total offspring of each animal");
             ds.addColumn(col15);
@@ -482,7 +478,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("labworkHistory") == null)
         {
-            var col = getWrappedCol(us, ds, "labworkHistory", "demographicsLabwork", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "labworkHistory", "demographicsLabwork", ID_COLUMN, ID_COLUMN);
             col.setLabel("Labwork History");
             col.setDescription("Shows the date of last labwork for a subsets of tests");
             ds.addColumn(col);
@@ -491,7 +487,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         //do we have freezer samples?
         if (ds.getColumn("freezerSamples") == null)
         {
-            var col = getWrappedCol(us, ds, "freezerSamples", "demographicsFreezers", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "freezerSamples", "demographicsFreezers", ID_COLUMN, ID_COLUMN);
             col.setLabel("Freezer Samples");
             col.setDescription("Shows the number of archived freezer samples");
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=freezerWorks&query.Id~eq=${Id}", ds.getContainerContext()));
@@ -499,7 +495,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         if (ds.getColumn("idHistoryList") == null)
         {
-            var col = getWrappedCol(us, ds, "idHistoryList", "demographicsIdHistory", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "idHistoryList", "demographicsIdHistory", ID_COLUMN, ID_COLUMN);
             col.setLabel("Id Hx List");
             col.setDescription("List of Ids assigned to animal");
             col.setURL(DetailsURL.fromString("/query/executeQuery.view?schemaName=study&queryName=idHistory&query.Id~eq=${Id}", ds.getContainerContext()));
@@ -508,7 +504,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("activeAccounts") == null)
         {
-            var col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "activeAccounts", "demographicsActiveAccount", ID_COLUMN, ID_COLUMN);
             col.setLabel("Accounts - Active");
             col.setDescription("Shows all accounts to which the animal is actively assigned on the current date");
             ds.addColumn(col);
@@ -516,7 +512,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("packageCategory") == null)
         {
-            var col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "packageCategory", "demographicsPackageCategories", ID_COLUMN, ID_COLUMN);
             col.setLabel("Package Category");
             col.setDescription("Shows the package category for procedures");
             ds.addColumn(col);
@@ -524,7 +520,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("activeAssignments") == null)
         {
-            var col = getWrappedCol(us, ds, "activeAssignments", "demographicsActiveAssignment", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "activeAssignments", "demographicsActiveAssignment", ID_COLUMN, ID_COLUMN);
             col.setLabel("IACUC Assignments - Active");
             col.setDescription("Shows all protocols to which the animal is actively assigned on the current date");
             ds.addColumn(col);
@@ -532,7 +528,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("activeGroups") == null)
         {
-            var col = getWrappedCol(us, ds, "activeGroups", "demographicsAnimalGroups", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "activeGroups", "demographicsAnimalGroups", ID_COLUMN, ID_COLUMN);
             col.setLabel("Animal Groups - Active");
             col.setDescription("Shows all groups to which the animal is actively assigned on the current date");
             ds.addColumn(col);
@@ -540,14 +536,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
 
         if (ds.getColumn("MostRecentTBDate") == null)
         {
-            var col = getWrappedCol(us, ds, "MostRecentTBDate", "demographicsMostRecentTBDate", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "MostRecentTBDate", "demographicsMostRecentTBDate", ID_COLUMN, ID_COLUMN);
             col.setLabel("Most Recent TB");
             col.setDescription("Queries the most recent TB date for the animal.");
             ds.addColumn(col);
         }
         if (ds.getColumn("LastBCS") == null)
         {
-            var col = getWrappedCol(us, ds, "LastBCS", "demographicsLastBCS", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "LastBCS", "demographicsLastBCS", ID_COLUMN, ID_COLUMN);
             col.setLabel("Most Recent BCS");
             col.setDescription("Queries the most recent BCS value for the animal.");
             ds.addColumn(col);
@@ -556,7 +552,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         // Change label and description 8/31/2017 tjh
         if (ds.getColumn("MostRecentArrival") != null)
         {
-            var col = getWrappedCol(us, ds, "MostRecentArrival", "demographicsArrival", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "MostRecentArrival", "demographicsArrival", ID_COLUMN, ID_COLUMN);
             ds.removeColumn(col);
             col.setLabel("Acquisition");
             col.setDescription("Calculates the earliest and most recent acquisition per animal.");
@@ -566,7 +562,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         // Change label and description 8/31/2017 tjh
         if (ds.getColumn("MostRecentDeparture") != null)
         {
-            var col = getWrappedCol(us, ds, "MostRecentDeparture", "demographicsMostRecentDeparture", ID_COL, ID_COL);
+            var col = getWrappedCol(us, ds, "MostRecentDeparture", "demographicsMostRecentDeparture", ID_COLUMN, ID_COLUMN);
             ds.removeColumn(col);
             col.setLabel("Disposition");
             col.setDescription("Calculates the earliest and most recent departure per animal, if applicable, and most recent acquisition.");
@@ -578,7 +574,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             if (ds.getColumn("GenDemoCustomizer") == null)
             {
-                var col = getWrappedCol(us, ds, "GenDemoCustomizer", "GenDemoCustomizer", ID_COL, ID_COL);
+                var col = getWrappedCol(us, ds, "GenDemoCustomizer", "GenDemoCustomizer", ID_COLUMN, ID_COLUMN);
                 col.setLabel("Genetic Assays");
                 col.setDescription("Show if genetic assays exist for ID");
                 ds.addColumn(col);
