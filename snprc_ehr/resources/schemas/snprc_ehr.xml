@@ -2374,7 +2374,7 @@
     </table>
     <table tableName="SndSuperPackageStaging" tableDbType="TABLE" useColumnOrder="true">
         <tableTitle>Super PackageStaging</tableTitle>
-        <pkColumnName>TopLevelPkgId, SuperPkgId</pkColumnName>
+        <pkColumnName>TopLevelPkgId, SuperPkgId, TreePath</pkColumnName>
         <columns>
             <column columnName="TopLevelPkgId"/>
             <column columnName="SuperPkgId"/>
