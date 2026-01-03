@@ -149,3 +149,7 @@ CREATE TABLE [snprc_r24].[WeightStaging] (
 CONSTRAINT [pk_snprc_r24_weight_staging] PRIMARY KEY (	[ObjectId] ASC) );
 
 GO
+
+/* 24.xxx SQL scripts */
+
+ALTER TABLE snprc_r24.WeightStaging ALTER COLUMN Weight FLOAT

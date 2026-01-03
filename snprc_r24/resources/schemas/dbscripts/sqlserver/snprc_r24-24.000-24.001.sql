@@ -1,1 +1,0 @@
-ALTER TABLE snprc_r24.WeightStaging ALTER COLUMN Weight FLOAT
