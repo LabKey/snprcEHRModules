@@ -46,7 +46,7 @@ public class snprc_r24Module extends DefaultModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 25.000;
+        return 26.000;
     }
 
     @Override
