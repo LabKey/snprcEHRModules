@@ -7,7 +7,7 @@ module.exports = {
     apps: [{
         name: 'app',
         title: 'SNPRC Scheduler',
-        permissionClasses: ['org.labkey.api.security.permissions.InsertPermission'],
+        permissionClasses: ['org.labkey.api.security.permissions.ReadPermission'],
         path: './src/client'
     }]
 };
