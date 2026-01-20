@@ -1,5 +1,6 @@
 SELECT obr.ANIMAL_ID as id,
        obr.OBSERVATION_DATE_TM as date,
+    obr.ANIMAL_ID || '-' || CAST(obr.OBSERVATION_DATE_TM AS VARCHAR) as key,
     obr.MESSAGE_ID,
     COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME) as PROCEDURE_NAME,
     obr.PROCEDURE_ID,

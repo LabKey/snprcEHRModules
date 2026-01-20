@@ -1,5 +1,6 @@
 select Id,
     date,
+    obr.ANIMAL_ID || '-' || CAST(obr.OBSERVATION_DATE_TM AS VARCHAR) as key,
     PROCEDURE_NAME,
     PROCEDURE_ID,
     COMMENT,

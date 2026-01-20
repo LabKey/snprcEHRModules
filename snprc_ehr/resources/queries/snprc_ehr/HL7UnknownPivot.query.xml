@@ -2,7 +2,14 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="HL7UnknownPivot" tableDbType="NOT_IN_DB">
+                <javaCustomizer class="org.labkey.ehr.table.DefaultEHRCustomizer" />
                 <tableTitle>Unknown Panel Category Pivot</tableTitle>
+                <columns>
+                    <column columnName="Key">
+                        <isKeyField>true</isKeyField>
+                        <isHidden>true</isHidden>
+                    </column>
+                </columns>
             </table>
         </tables>
     </metadata>
