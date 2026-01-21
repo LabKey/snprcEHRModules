@@ -1,3 +1,7 @@
+a {
+  text-decoration: none !important; /* bootstrap conflict */
+}
+
 .container {
   max-width: 100% !important;  /* Override bootstrap container max-width. This is controlled by LK */
 }
