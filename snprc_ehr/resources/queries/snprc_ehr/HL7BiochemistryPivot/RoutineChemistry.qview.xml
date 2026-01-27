@@ -1,3 +1,4 @@
+<!-- $S is the escape code for / -->
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
         <column name="Id"/>
