@@ -170,6 +170,16 @@ class ProjectsView extends React.Component {
     save = () => {
         return () => {
             const { showAlertBanner, selectedTimeline, onSaveSuccess } = this.props;
+
+            // Validate Study Day 0 is set when not in draft mode
+            if (selectedTimeline.QcStateLabel !== 'In Progress' && !selectedTimeline.StudyDay0) {
+                showAlertBanner({
+                    variant: 'danger',
+                    msg: 'Study Day 0 is required when saving a timeline that is not in draft mode.'
+                });
+                return;
+            }
+
             selectedTimeline.IsDirty = true;
 
             this.setState(state => {
