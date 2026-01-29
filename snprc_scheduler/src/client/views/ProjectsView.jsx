@@ -96,11 +96,6 @@ class ProjectsView extends React.Component {
                     break;
                 case 1:
                     expandTab(tabIndex);
-
-                    // Select first timeline if going from project to timelines
-                    if (accordion.tab === 0) {
-                        selectFirstTimeline(timelines);
-                    }
                     break;
                 case 2:
                     if (!selectedTimeline) {

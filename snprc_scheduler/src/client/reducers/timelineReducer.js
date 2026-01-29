@@ -424,11 +424,7 @@ export default (state = {}, action) => {
         }
       }
 
-      if (nextState.timelines && nextState.timelines.length > 0) {
-        nextState.selectedTimeline = nextState.timelines[0];
-      } else {
-        nextState.selectedTimeline = null;
-      }
+      nextState.selectedTimeline = null;
 
       nextState.lastRowId = getNextRowId(-1, nextState.timelines);
       break;
