@@ -1,0 +1,43 @@
+<!-- $S is the escape code for / -->
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Id"/>
+        <column name="Date"/>
+        <column name="CREATININE::RESULT"/>
+        <column name="CREATININE::ABNORMAL_FLAGS"/>
+        <column name="GLUCOSE::RESULT"/>
+        <column name="GLUCOSE::ABNORMAL_FLAGS"/>
+        <column name="BUN$SCREAT RATIO::RESULT"/>
+        <column name="BUN$SCREAT RATIO::ABNORMAL_FLAGS"/>
+        <column name="TOTAL PROTEIN::RESULT"/>
+        <column name="TOTAL PROTEIN::ABNORMAL_FLAGS"/>
+        <column name="ALBUMIN::RESULT"/>
+        <column name="ALBUMIN::ABNORMAL_FLAGS"/>
+        <column name="GLOBULIN (CALC)::RESULT"/>
+        <column name="GLOBULIN (CALC)::ABNORMAL_FLAGS"/>
+        <column name="A$SG RATIO (CALC)::RESULT"/>
+        <column name="A$SG RATIO (CALC)::ABNORMAL_FLAGS"/>
+        <column name="ALT $S SGPT::RESULT"/>
+        <column name="ALT $S SGPT::ABNORMAL_FLAGS"/>
+        <column name="AST $S SGOT::RESULT"/>
+        <column name="AST $S SGOT::ABNORMAL_FLAGS"/>
+        <column name="ALK PHOSPHATASE::RESULT"/>
+        <column name="ALK PHOSPHATASE::ABNORMAL_FLAGS"/>
+        <column name="SODIUM::RESULT"/>
+        <column name="SODIUM::ABNORMAL_FLAGS"/>
+        <column name="POTASSIUM::RESULT"/>
+        <column name="POTASSIUM::ABNORMAL_FLAGS"/>
+        <column name="CHLORIDE::RESULT"/>
+        <column name="CHLORIDE::ABNORMAL_FLAGS"/>
+        <column name="CARBON DIOXIDE::RESULT"/>
+        <column name="CARBON DIOXIDE::ABNORMAL_FLAGS"/>
+        <column name="ANION GAP (CALC)::RESULT"/>
+        <column name="ANION GAP (CALC)::ABNORMAL_FLAGS"/>
+        <column name="COMMENT"/>
+    </columns>
+    <sorts>
+        <sort column="Id"/>
+        <sort column="Date" descending="true"/>
+    </sorts>
+</customView>
+
