@@ -44,7 +44,7 @@ SELECT  m.[Animal ID] AS id ,
 
 FROM    dbo.MhcStatus AS m -- select primates only from the TxBiomed colony
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS d ON d.id = RIGHT(SPACE(6) + m.[Animal ID], 6)
-WHERE [A001 Status] IS NOT NULL AND [B008 Status] IS NOT NULL AND [B017 Status] IS NOT NULL AND [B003 Status] IS NOT NULL
+WHERE [A001 Status] IS NOT NULL OR [B008 Status] IS NOT NULL OR [B017 Status] IS NOT NULL AND [B003 Status] IS NOT NULL
 
 GO
 
