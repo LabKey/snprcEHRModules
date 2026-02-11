@@ -21,7 +21,7 @@ CREATE TABLE snprc_ehr.package (
     id int not null,
     name NVARCHAR(100),
     description NVARCHAR(MAX),
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_packages PRIMARY KEY (id),
     CONSTRAINT FK_packages_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -50,7 +50,7 @@ CREATE TABLE snprc_ehr.package_category (
     id int not null,
     name NVARCHAR(100),
     description NVARCHAR(MAX),
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_package_categories PRIMARY KEY (id),
     CONSTRAINT FK_package_categories_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -110,19 +110,19 @@ CREATE UNIQUE INDEX idx_package_category_junction_objectid ON snprc_ehr.package_
 
 CREATE TABLE snprc_ehr.species
 (
-	common NVARCHAR(255) NOT NULL,
-	scientific_name NVARCHAR(255),
-	id_prefix NVARCHAR(255),
-	mhc_prefix NVARCHAR(255),
-	blood_per_kg FLOAT,
-	max_draw_pct FLOAT,
-	blood_draw_interval FLOAT,
-	dateDisabled DATETIME NULL,
-	cites_code NVARCHAR(200),
-	species_code NVARCHAR(3),
-	arc_species_code NVARCHAR(3),
-	objectid NVARCHAR(4000),
-	tid INT,
+    common NVARCHAR(255) NOT NULL,
+    scientific_name NVARCHAR(255),
+    id_prefix NVARCHAR(255),
+    mhc_prefix NVARCHAR(255),
+    blood_per_kg FLOAT,
+    max_draw_pct FLOAT,
+    blood_draw_interval FLOAT,
+    dateDisabled DATETIME NULL,
+    cites_code NVARCHAR(200),
+    species_code NVARCHAR(3),
+    arc_species_code NVARCHAR(3),
+    objectid NVARCHAR(4000),
+    tid INT,
 
     CONSTRAINT pk_species PRIMARY KEY (common)
 );
@@ -157,10 +157,10 @@ ALTER TABLE snprc_ehr.species ADD ModifiedBy USERID;
 CREATE TABLE snprc_ehr.clinical_observation_datasets
 (
     rowId Int NOT NULL,
-	dataset_name NVARCHAR(255) NOT NULL,
-	category_name NVARCHAR(255) NOT NULL,
-	sort_order Int NULL,
-	Container entityId NOT NULL,
+    dataset_name NVARCHAR(255) NOT NULL,
+    category_name NVARCHAR(255) NOT NULL,
+    sort_order Int NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT pk_clinical_observation_datasets PRIMARY KEY (rowId),
     CONSTRAINT FK_clinical_observation_datasets_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -171,22 +171,22 @@ GO
 ALTER TABLE snprc_ehr.clinical_observation_datasets ADD objectid uniqueidentifier not null default newid();
 
 CREATE TABLE snprc_ehr.validAccounts(
-	account varchar(16) NOT NULL,
-	accountStatus varchar(1) NOT NULL,
-	date DATETIME NOT NULL,
-	endDate DATETIME NULL,
-	description VARCHAR(100) NULL,
-	accountGroup VARCHAR(20) NOT NULL,
-	userName VARCHAR(128) NOT NULL,
-	entryDateTm DATETIME NOT NULL,
-	Container	entityId NOT NULL,
-	Created DATETIME,
+    account varchar(16) NOT NULL,
+    accountStatus varchar(1) NOT NULL,
+    date DATETIME NOT NULL,
+    endDate DATETIME NULL,
+    description VARCHAR(100) NULL,
+    accountGroup VARCHAR(20) NOT NULL,
+    userName VARCHAR(128) NOT NULL,
+    entryDateTm DATETIME NOT NULL,
+    Container entityId NOT NULL,
+    Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-	objectid NVARCHAR(4000)
+    objectid NVARCHAR(4000)
 
-    CONSTRAINT [PK_VALID_ACCOUNTS] PRIMARY KEY CLUSTERED (	account ASC )
+    CONSTRAINT [PK_VALID_ACCOUNTS] PRIMARY KEY CLUSTERED (account ASC )
 );
 GO
 
@@ -221,7 +221,7 @@ CREATE TABLE snprc_ehr.lab_tests (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_lab_tests PRIMARY KEY (rowid),
     CONSTRAINT FK_snprc_lab_tests FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -266,7 +266,7 @@ CREATE TABLE snprc_ehr.labwork_services (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_labwork_services PRIMARY KEY (servicename),
     CONSTRAINT FK_snprc_labwork_services FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -307,7 +307,7 @@ CREATE TABLE snprc_ehr.labwork_services (
     diModified DATETIME,
     diCreatedBy USERID,
     diModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_labwork_services PRIMARY KEY (rowId),
     CONSTRAINT FK_snprc_labwork_services FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -345,7 +345,7 @@ CREATE TABLE snprc_ehr.labwork_services (
     [DiModified] [DATETIME] NULL,
     [DiCreatedBy] [dbo].[USERID] NULL,
     [DiModifiedBy] [dbo].[USERID] NULL,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_labwork_services PRIMARY KEY (ServiceId),
     CONSTRAINT FK_snprc_labwork_services_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -372,7 +372,7 @@ CREATE TABLE snprc_ehr.validInstitutions (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_valid_institutions PRIMARY KEY (institution_id),
     CONSTRAINT FK_snprc_valid_institutions FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -400,7 +400,7 @@ CREATE TABLE snprc_ehr.validVets (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_validVets PRIMARY KEY (vetId),
     CONSTRAINT FK_snprc_validVets FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -426,7 +426,7 @@ CREATE TABLE snprc_ehr.valid_bd_status (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_valid_bd_status PRIMARY KEY (value),
     CONSTRAINT FK_snprc_valid_bd_status FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -446,7 +446,7 @@ CREATE TABLE snprc_ehr.valid_birth_code (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_valid_birth_code PRIMARY KEY (value),
     CONSTRAINT FK_snprc_valid_birth_code FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -468,7 +468,7 @@ CREATE TABLE snprc_ehr.valid_death_code (
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_valid_death_code PRIMARY KEY (value),
     CONSTRAINT FK_snprc_valid_death_code FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -501,7 +501,7 @@ CREATE TABLE snprc_ehr.animal_group_categories(
     diModified DATETIME,
     diCreatedBy USERID,
     diModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_animal_group_categories PRIMARY KEY (category_code),
     CONSTRAINT FK_animal_group_categories FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -531,7 +531,7 @@ CREATE TABLE snprc_ehr.animal_groups(
     diModified DATETIME,
     diCreatedBy USERID,
     diModifiedBy USERID,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_animal_groups PRIMARY KEY (code, category_code),
     CONSTRAINT FK_snprc_animal_groups FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -562,7 +562,7 @@ CREATE TABLE snprc_ehr.labwork_types (
     [DiModified] [DATETIME] NULL,
     [DiCreatedBy] [dbo].[USERID] NULL,
     [DiModifiedBy] [dbo].[USERID] NULL,
-    Container	entityId NOT NULL,
+    Container entityId NOT NULL,
 
     CONSTRAINT PK_snprc_labwork_types PRIMARY KEY (ServiceType),
     CONSTRAINT FK_snprc_labwork_types_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -742,7 +742,7 @@ CREATE TABLE [snprc_ehr].[FeeSchedule](
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
     [ModifiedBy] [dbo].[USERID] NULL,
-    Container	entityId NOT NULL
+    Container entityId NOT NULL
 
     CONSTRAINT PK_snprc_fee_schedule PRIMARY KEY ([RowId])
     CONSTRAINT FK_snprc_fee_Schedule_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -790,9 +790,9 @@ CREATE TABLE [snprc_ehr].[LocationTemperature](
     [user_name] [VARCHAR](128) NOT NULL,
     [entry_date_tm] [DATETIME] NOT NULL,
     [Container] [entityID] NOT NULL,
-    [Created]	DATETIME,
+    [Created] DATETIME,
     [CreatedBy] USERID,
-    [Modified]	DATETIME,
+    [Modified] DATETIME,
     [ModifiedBy] USERID
 
     CONSTRAINT [PK_LocationTemperature] PRIMARY KEY CLUSTERED ([Room] ASC,[Date] ASC)
@@ -869,12 +869,12 @@ CREATE TABLE snprc_ehr.ValidDiet(
     [StartDate] [datetime] NOT NULL,
     [StopDate] [datetime] NULL,
     [SnomedCode] [nvarchar](7) NULL,
-    [DietId]	[INTEGER] NOT NULL,
+    [DietId] [INTEGER] NOT NULL,
     --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
     --[Container] [entityID] NOT NULL,
-    [Created]	DATETIME,
+    [Created] DATETIME,
     [CreatedBy] USERID,
-    [Modified]	DATETIME,
+    [Modified] DATETIME,
     [ModifiedBy] USERID,
     [diCreated] [datetime] NULL,
     [diModified] [datetime] NULL,
@@ -916,12 +916,12 @@ CREATE TABLE snprc_ehr.ValidDiet(
     [StartDate] [datetime] NOT NULL,
     [StopDate] [datetime] NULL,
     [SnomedCode] [nvarchar](7) NULL,
-    [DietCode]	[INTEGER] NOT NULL,
+    [DietCode] [INTEGER] NOT NULL,
     --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
     --[Container] [entityID] NOT NULL,
-    [Created]	DATETIME,
+    [Created] DATETIME,
     [CreatedBy] USERID,
-    [Modified]	DATETIME,
+    [Modified] DATETIME,
     [ModifiedBy] USERID,
     [diCreated] [datetime] NULL,
     [diModified] [datetime] NULL,
@@ -1535,7 +1535,7 @@ GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_OBX_OBR_OBJ_ID] ON [snprc_ehr].[HL7_OBX]
 (
-	[OBR_OBJECT_ID] ASC
+    [OBR_OBJECT_ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY];
 GO
 
@@ -1578,7 +1578,7 @@ GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_NTE_OBR_OBJ_ID] ON [snprc_ehr].[HL7_NTE]
 (
-	[OBR_OBJECT_ID] ASC
+    [OBR_OBJECT_ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY];
 GO
 
@@ -1632,8 +1632,8 @@ GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_OBR_ID_DATE] ON [snprc_ehr].[HL7_OBR]
 (
-	[ANIMAL_ID] ASC,
-	[OBSERVATION_DATE_TM] ASC
+    [ANIMAL_ID] ASC,
+    [OBSERVATION_DATE_TM] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY];
 GO
 
@@ -1693,7 +1693,7 @@ GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_PID_ID] ON [snprc_ehr].[HL7_PID]
 (
-	[PATIENT_ID_EXTERNAL] ASC
+    [PATIENT_ID_EXTERNAL] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY];
 GO
 
@@ -2138,15 +2138,15 @@ ALTER TABLE snprc_ehr.therapy_resolutions WITH CHECK ADD CONSTRAINT FK_therapy_r
 GO
 
 -- ==========================================================================
--- Author:		Terry Hawkins
+-- Author:      Terry Hawkins
 -- Create date: 2/28/14
--- Description:	Returns 1 if the value is numeric, 0 if value is not numeric
--- 6/19/2015	added additional criteria based on the current datasets. tjh
--- 2/29/2016  fixed file formatting.  Fixed bug in patindex call (removed). tjh
+-- Description: Returns 1 if the value is numeric, 0 if value is not numeric
+-- 6/19/2015    added additional criteria based on the current datasets. tjh
+-- 2/29/2016    fixed file formatting.  Fixed bug in patindex call (removed). tjh
 -- ==========================================================================
 CREATE FUNCTION [snprc_ehr].[f_isNumeric]
 (
-	@value VARCHAR(MAX)
+    @value VARCHAR(MAX)
 )
 RETURNS INT
 AS
