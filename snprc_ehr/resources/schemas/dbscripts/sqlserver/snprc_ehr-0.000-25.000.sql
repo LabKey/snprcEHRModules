@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2018-2019 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 CREATE SCHEMA snprc_ehr;
 GO
 
@@ -22,57 +6,41 @@ CREATE TABLE snprc_ehr.package (
     name NVARCHAR(100),
     description NVARCHAR(MAX),
     Container entityId NOT NULL,
+    Created DATETIME,
+    CreatedBy USERID,
+    Modified DATETIME,
+    ModifiedBy USERID,
+    diCreated DATETIME,
+    diModified DATETIME,
+    diCreatedBy USERID,
+    diModifiedBy USERID,
+    objectid uniqueidentifier not null default newid(),
+    pkgType NVARCHAR(1) not null default 'U',
 
     CONSTRAINT PK_packages PRIMARY KEY (id),
     CONSTRAINT FK_packages_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 
-ALTER TABLE snprc_ehr.package ADD Created DATETIME;
-ALTER TABLE snprc_ehr.package ADD CreatedBy USERID;
-ALTER TABLE snprc_ehr.package ADD Modified DATETIME;
-ALTER TABLE snprc_ehr.package ADD ModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.package ADD objectid nvarchar(4000);
-
-ALTER TABLE snprc_ehr.package ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.package ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.package ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.package ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.package DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.package ADD objectid uniqueidentifier not null default newid();
-
 CREATE UNIQUE INDEX idx_package_objectid ON snprc_ehr.package (objectid);
-
-ALTER TABLE snprc_ehr.package ADD pkgType NVARCHAR(1) not null default 'U';
 
 CREATE TABLE snprc_ehr.package_category (
     id int not null,
-    name NVARCHAR(100),
     description NVARCHAR(MAX),
     Container entityId NOT NULL,
+    Created DATETIME,
+    CreatedBy USERID,
+    Modified DATETIME,
+    ModifiedBy USERID,
+    diCreated DATETIME,
+    diModified DATETIME,
+    diCreatedBy USERID,
+    diModifiedBy USERID,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_package_categories PRIMARY KEY (id),
     CONSTRAINT FK_package_categories_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 GO
-
-ALTER TABLE snprc_ehr.package_category DROP COLUMN name;
-
-ALTER TABLE snprc_ehr.package_category ADD Created DATETIME;
-ALTER TABLE snprc_ehr.package_category ADD CreatedBy USERID;
-ALTER TABLE snprc_ehr.package_category ADD Modified DATETIME;
-ALTER TABLE snprc_ehr.package_category ADD ModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.package_category ADD objectid nvarchar(4000);
-
-ALTER TABLE snprc_ehr.package_category ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.package_category ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.package_category ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.package_category ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.package_category DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.package_category ADD objectid uniqueidentifier not null default newid();
 
 CREATE UNIQUE INDEX idx_package_category_objectid ON snprc_ehr.package_category (objectid);
 
@@ -80,6 +48,15 @@ CREATE TABLE snprc_ehr.package_category_junction (
     rowId int not null,
     packageId int not null,
     categoryId int not null,
+    Created DATETIME,
+    CreatedBy USERID,
+    Modified DATETIME,
+    ModifiedBy USERID,
+    diCreated DATETIME,
+    diModified DATETIME,
+    diCreatedBy USERID,
+    diModifiedBy USERID,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_package_category_junction PRIMARY KEY (rowId),
     CONSTRAINT FK_package_category_junction_packageId FOREIGN KEY (packageId) REFERENCES snprc_ehr.package(id),
@@ -88,24 +65,6 @@ CREATE TABLE snprc_ehr.package_category_junction (
 GO
 
 CREATE UNIQUE INDEX IDX_package_category_junction ON snprc_ehr.package_category_junction(categoryId, packageId);
-
-ALTER TABLE snprc_ehr.package_category_junction ADD Created DATETIME;
-ALTER TABLE snprc_ehr.package_category_junction ADD CreatedBy USERID;
-ALTER TABLE snprc_ehr.package_category_junction ADD Modified DATETIME;
-ALTER TABLE snprc_ehr.package_category_junction ADD ModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.package_category_junction ADD objectid nvarchar(4000);
-
-GO
-
-ALTER TABLE snprc_ehr.package_category_junction ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.package_category_junction ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.package_category_junction ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.package_category_junction ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.package_category_junction DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.package_category_junction ADD objectid uniqueidentifier not null default newid();
-
 CREATE UNIQUE INDEX idx_package_category_junction_objectid ON snprc_ehr.package_category_junction (objectid);
 
 CREATE TABLE snprc_ehr.species
@@ -119,40 +78,24 @@ CREATE TABLE snprc_ehr.species
     blood_draw_interval FLOAT,
     dateDisabled DATETIME NULL,
     cites_code NVARCHAR(200),
-    species_code NVARCHAR(3),
-    arc_species_code NVARCHAR(3),
-    objectid NVARCHAR(4000),
+    species_code NVARCHAR(3) NOT NULL,
+    arc_species_code NVARCHAR(3) NOT NULL,
     tid INT,
+    diCreated DATETIME,
+    diModified DATETIME,
+    diCreatedBy USERID,
+    diModifiedBy USERID,
+    primate VARCHAR(1),
+    objectid uniqueidentifier not null default newid(),
+    Created DATETIME,
+    Modified DATETIME,
+    CreatedBy USERID,
+    ModifiedBy USERID,
 
-    CONSTRAINT pk_species PRIMARY KEY (common)
+    CONSTRAINT pk_species PRIMARY KEY (species_code)
 );
 
--- change primary key to species_code column
-
-ALTER TABLE snprc_ehr.species ALTER COLUMN species_code NVARCHAR(3) NOT NULL;
-ALTER TABLE snprc_ehr.species ALTER COLUMN arc_species_code NVARCHAR(3)  NOT NULL;
-ALTER TABLE snprc_ehr.species DROP CONSTRAINT pk_species;
-ALTER TABLE snprc_ehr.species ADD CONSTRAINT pk_species PRIMARY KEY (species_code);
-
-ALTER TABLE snprc_ehr.species ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.species ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.species ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.species ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.species ADD primate VARCHAR(1);
-
--- DROP the object id column
--- ADD the objectid back as a uniqueidentifier
-
-ALTER TABLE snprc_ehr.species DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.species ADD objectid uniqueidentifier not null default newid();
-
--- create a unique index on the objectid
 CREATE UNIQUE INDEX idx_species_objectid ON snprc_ehr.species (objectid);
-ALTER TABLE snprc_ehr.species ADD Created DATETIME;
-ALTER TABLE snprc_ehr.species ADD Modified DATETIME;
-ALTER TABLE snprc_ehr.species ADD CreatedBy USERID;
-ALTER TABLE snprc_ehr.species ADD ModifiedBy USERID;
 
 CREATE TABLE snprc_ehr.clinical_observation_datasets
 (
@@ -161,14 +104,12 @@ CREATE TABLE snprc_ehr.clinical_observation_datasets
     category_name NVARCHAR(255) NOT NULL,
     sort_order Int NULL,
     Container entityId NOT NULL,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT pk_clinical_observation_datasets PRIMARY KEY (rowId),
     CONSTRAINT FK_clinical_observation_datasets_Container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
 GO
-
-ALTER TABLE snprc_ehr.clinical_observation_datasets ADD objectid uniqueidentifier not null default newid();
 
 CREATE TABLE snprc_ehr.validAccounts(
     account varchar(16) NOT NULL,
@@ -177,128 +118,7 @@ CREATE TABLE snprc_ehr.validAccounts(
     endDate DATETIME NULL,
     description VARCHAR(100) NULL,
     accountGroup VARCHAR(20) NOT NULL,
-    userName VARCHAR(128) NOT NULL,
-    entryDateTm DATETIME NOT NULL,
     Container entityId NOT NULL,
-    Created DATETIME,
-    CreatedBy USERID,
-    Modified DATETIME,
-    ModifiedBy USERID,
-    objectid NVARCHAR(4000)
-
-    CONSTRAINT [PK_VALID_ACCOUNTS] PRIMARY KEY CLUSTERED (account ASC )
-);
-GO
-
-ALTER TABLE snprc_ehr.validAccounts ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.validAccounts ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.validAccounts ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.validAccounts ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.validAccounts DROP COLUMN entryDateTm;
-ALTER TABLE snprc_ehr.validAccounts DROP COLUMN userName;
-
-ALTER TABLE snprc_ehr.validAccounts DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.validAccounts ADD objectid uniqueidentifier not null default newid();
-
-CREATE UNIQUE INDEX idx_validAccounts_objectid ON snprc_ehr.validAccounts (objectid);
-
-CREATE TABLE snprc_ehr.lab_tests (
-    rowid int identity(1,1),
-    type varchar(100),
-    testid varchar(100) NOT NULL,
-    name varchar(100),
-    units varchar(100),
-    aliases varchar(1000),
-    alertOnAbnormal bit,
-    alertOnAny bit,
-    includeInPanel bit,
-    sort_order int,
-    userName VARCHAR(128) NOT NULL,
-    entryDateTm DATETIME NOT NULL,
-    objectid nvarchar(4000),
-    Created DATETIME,
-    CreatedBy USERID,
-    Modified DATETIME,
-    ModifiedBy USERID,
-    Container entityId NOT NULL,
-
-    CONSTRAINT PK_snprc_lab_tests PRIMARY KEY (rowid),
-    CONSTRAINT FK_snprc_lab_tests FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
-);
-
-GO
-
-CREATE INDEX IDX_snprc_lab_tests_test_id ON snprc_ehr.lab_tests (testid);
-GO
-
-ALTER TABLE snprc_ehr.lab_tests ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.lab_tests ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.lab_tests ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.lab_tests ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.lab_tests DROP COLUMN entryDateTm;
-ALTER TABLE snprc_ehr.lab_tests DROP COLUMN userName;
-
-ALTER TABLE snprc_ehr.lab_tests DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.lab_tests ADD objectid uniqueidentifier not null default newid();
-
-CREATE UNIQUE INDEX idx_lab_tests_objectid ON snprc_ehr.lab_tests (objectid);
--- drop existing tables
-DROP TABLE snprc_ehr.lab_tests;
-GO
-
-CREATE TABLE snprc_ehr.labwork_services (
-    servicename varchar(200) NOT NULL,
-    serviceid varchar(200) NOT NULL,
-    dataset varchar(200),
-    chargetype varchar(200),
-    collectionmethod varchar(500),
-    alertOnComplete bit,
-    tissue varchar(100),
-    outsidelab bit,
-    datedisabled datetime,
-    method varchar(100),
-    userName VARCHAR(128) NOT NULL,
-    entryDateTm DATETIME NOT NULL,
-    objectid nvarchar(4000),
-    Created DATETIME,
-    CreatedBy USERID,
-    Modified DATETIME,
-    ModifiedBy USERID,
-    Container entityId NOT NULL,
-
-    CONSTRAINT PK_snprc_labwork_services PRIMARY KEY (servicename),
-    CONSTRAINT FK_snprc_labwork_services FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
-);
-
-GO
-
-ALTER TABLE snprc_ehr.labwork_services ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.labwork_services ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.labwork_services ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.labwork_services ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.labwork_services DROP COLUMN entryDateTm;
-ALTER TABLE snprc_ehr.labwork_services DROP COLUMN userName;
-
--- Need to change the primary key - recreate labwork_services table - The table will need to be repopulated using the ETL process
-
-DROP TABLE snprc_ehr.labwork_services;
-
-CREATE TABLE snprc_ehr.labwork_services (
-    rowId int identity,
-    serviceName varchar(200) NOT NULL,
-    serviceId varchar(200) NOT NULL,
-    dataset varchar(200),
-    chargeType varchar(200),
-    collectionMethod varchar(500),
-    alertOnComplete bit,
-    tissue varchar(100),
-    outsideLab bit,
-    dateDisabled datetime,
-    method varchar(100),
-    objectid UNIQUEIDENTIFIER not null default newid(),
     Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
@@ -307,20 +127,13 @@ CREATE TABLE snprc_ehr.labwork_services (
     diModified DATETIME,
     diCreatedBy USERID,
     diModifiedBy USERID,
-    Container entityId NOT NULL,
+    objectid uniqueidentifier not null default newid(),
 
-    CONSTRAINT PK_snprc_labwork_services PRIMARY KEY (rowId),
-    CONSTRAINT FK_snprc_labwork_services FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
+    CONSTRAINT [PK_VALID_ACCOUNTS] PRIMARY KEY CLUSTERED (account ASC )
 );
+GO
 
-CREATE UNIQUE INDEX idx_labwork_services_serviceName ON snprc_ehr.labwork_services (serviceName);
-CREATE UNIQUE INDEX idx_labwork_services_serviceId ON snprc_ehr.labwork_services (serviceId);
-CREATE UNIQUE INDEX idx_labwork_services_objectid ON snprc_ehr.labwork_services (objectid);
-
-DROP TABLE snprc_ehr.labwork_services;
-go
-
--- labwork_services
+CREATE UNIQUE INDEX idx_validAccounts_objectid ON snprc_ehr.validAccounts (objectid);
 
 CREATE TABLE snprc_ehr.labwork_services (
     RowId [INT] IDENTITY(1,1) NOT NULL,
@@ -336,7 +149,7 @@ CREATE TABLE snprc_ehr.labwork_services (
     Method varchar(100),
     Active INT,
     Bench varchar(20),
-    ObjectId nvarchar(4000),
+    ObjectId uniqueidentifier NOT NULL DEFAULT NEWID(),
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -353,9 +166,6 @@ CREATE TABLE snprc_ehr.labwork_services (
 
 GO
 
-ALTER TABLE [snprc_ehr].[labwork_services] ADD DEFAULT (NEWID()) FOR [ObjectId];
-GO
-
 CREATE UNIQUE INDEX idx_labwork_services_serviceId ON [snprc_ehr].[labwork_services](ServiceId);
 GO
 
@@ -367,26 +177,21 @@ CREATE TABLE snprc_ehr.validInstitutions (
     state varchar(20) NOT NULL,
     affiliate varchar(50) NULL,
     web_site varchar(200) NULL,
-    objectid nvarchar(4000) NOT NULL,
     Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
     Container entityId NOT NULL,
+    diCreated DATETIME,
+    diModified DATETIME,
+    diCreatedBy USERID,
+    diModifiedBy USERID,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_snprc_valid_institutions PRIMARY KEY (institution_id),
     CONSTRAINT FK_snprc_valid_institutions FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
 GO
-
-ALTER TABLE snprc_ehr.validInstitutions ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.validInstitutions ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.validInstitutions ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.validInstitutions ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.validInstitutions DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.validInstitutions ADD objectid uniqueidentifier not null default newid();
 
 CREATE UNIQUE INDEX idx_validInstitutions_objectid ON snprc_ehr.validInstitutions (objectid);
 
@@ -395,92 +200,39 @@ CREATE TABLE snprc_ehr.validVets (
     displayName varchar(128) NOT NULL ,
     emailAddress varchar(128) NULL,
     status varchar(10) NOT NULL,
-    objectid nvarchar(4000) NOT NULL,
     Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
     Container entityId NOT NULL,
+    diCreated DATETIME,
+    diModified DATETIME,
+    diCreatedBy USERID,
+    diModifiedBy USERID,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_snprc_validVets PRIMARY KEY (vetId),
     CONSTRAINT FK_snprc_validVets FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
 GO
-
-ALTER TABLE snprc_ehr.validVets ADD diCreated DATETIME;
-ALTER TABLE snprc_ehr.validVets ADD diModified DATETIME;
-ALTER TABLE snprc_ehr.validVets ADD diCreatedBy USERID;
-ALTER TABLE snprc_ehr.validVets ADD diModifiedBy USERID;
-
-ALTER TABLE snprc_ehr.validVets DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.validVets ADD objectid uniqueidentifier not null default newid();
 
 CREATE UNIQUE INDEX idx_validVets_objectid ON snprc_ehr.validVets (objectid);
 
 CREATE TABLE snprc_ehr.valid_bd_status (
     value  integer NOT NULL,
     description varchar(128) NOT NULL ,
-    objectid nvarchar(4000) NULL,
     Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
     ModifiedBy USERID,
     Container entityId NOT NULL,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_snprc_valid_bd_status PRIMARY KEY (value),
     CONSTRAINT FK_snprc_valid_bd_status FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
 GO
-ALTER TABLE snprc_ehr.valid_bd_status DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.valid_bd_status ADD objectid uniqueidentifier not null default newid();
-
 CREATE UNIQUE INDEX idx_valid_bd_status_objectid ON snprc_ehr.valid_bd_status (objectid);
-
-CREATE TABLE snprc_ehr.valid_birth_code (
-    value  integer NOT NULL,
-    description varchar(128) NOT NULL ,
-    objectid nvarchar(4000) NULL,
-    Created DATETIME,
-    CreatedBy USERID,
-    Modified DATETIME,
-    ModifiedBy USERID,
-    Container entityId NOT NULL,
-
-    CONSTRAINT PK_snprc_valid_birth_code PRIMARY KEY (value),
-    CONSTRAINT FK_snprc_valid_birth_code FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
-);
-
-GO
-
-ALTER TABLE snprc_ehr.valid_birth_code DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.valid_birth_code ADD objectid uniqueidentifier not null default newid();
-
-CREATE UNIQUE INDEX idx_valid_birth_code_objectid ON snprc_ehr.valid_birth_code (objectid);
-EXEC core.fn_dropifexists 'valid_birth_code','snprc_ehr', 'TABLE';
-
-CREATE TABLE snprc_ehr.valid_death_code (
-    value  integer NOT NULL,
-    description varchar(128) NOT NULL ,
-    objectid nvarchar(4000) NULL,
-    Created DATETIME,
-    CreatedBy USERID,
-    Modified DATETIME,
-    ModifiedBy USERID,
-    Container entityId NOT NULL,
-
-    CONSTRAINT PK_snprc_valid_death_code PRIMARY KEY (value),
-    CONSTRAINT FK_snprc_valid_death_code FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
-);
-
-GO
-
-ALTER TABLE snprc_ehr.valid_death_code DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.valid_death_code ADD objectid uniqueidentifier not null default newid();
-
-CREATE UNIQUE INDEX idx_valid_death_code_objectid ON snprc_ehr.valid_death_code (objectid);
-EXEC core.fn_dropifexists 'valid_death_code','snprc_ehr', 'TABLE';
 
 CREATE TABLE snprc_ehr.animal_group_categories(
     category_code int NOT NULL,
@@ -492,7 +244,6 @@ CREATE TABLE snprc_ehr.animal_group_categories(
     enforce_exclusivity char(1) NOT NULL,
     allow_future_date char(1) NOT NULL,
     sort_order int NULL,
-    objectid nvarchar(4000) NULL,
     Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
@@ -502,27 +253,23 @@ CREATE TABLE snprc_ehr.animal_group_categories(
     diCreatedBy USERID,
     diModifiedBy USERID,
     Container entityId NOT NULL,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_animal_group_categories PRIMARY KEY (category_code),
     CONSTRAINT FK_animal_group_categories FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
 GO
-
-ALTER TABLE snprc_ehr.animal_group_categories DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.animal_group_categories ADD objectid uniqueidentifier not null default newid();
 
 CREATE UNIQUE INDEX idx_animal_group_categories_objectid ON snprc_ehr.animal_group_categories (objectid);
 
 CREATE TABLE snprc_ehr.animal_groups(
     code INT NOT NULL,
     category_code INT NOT NULL,
-    description VARCHAR(128) NOT NULL,
+    name VARCHAR(128) NOT NULL, -- Renamed from description
     date DATE NOT NULL,
     enddate DATE NULL,
     comment VARCHAR(MAX) NULL,
     sort_order  INT NULL,
-    objectid nvarchar(4000) NULL,
     Created DATETIME,
     CreatedBy USERID,
     Modified DATETIME,
@@ -532,28 +279,20 @@ CREATE TABLE snprc_ehr.animal_groups(
     diCreatedBy USERID,
     diModifiedBy USERID,
     Container entityId NOT NULL,
+    objectid uniqueidentifier not null default newid(),
 
     CONSTRAINT PK_snprc_animal_groups PRIMARY KEY (code, category_code),
     CONSTRAINT FK_snprc_animal_groups FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
 GO
-
-EXEC sp_rename 'snprc_ehr.animal_groups.description', 'name', 'COLUMN';
-GO
-
-ALTER TABLE snprc_ehr.animal_groups DROP COLUMN objectid;
-ALTER TABLE snprc_ehr.animal_groups ADD objectid uniqueidentifier not null default newid();
 
 CREATE UNIQUE INDEX idx_animal_groups_objectid ON snprc_ehr.animal_groups (objectid);
--- add unique index on code column in snprc_ehr.animal_groups
 CREATE UNIQUE INDEX idx_animal_groups_code ON snprc_ehr.animal_groups (code);
 
--- labwork_types
 CREATE TABLE snprc_ehr.labwork_types (
     RowId [INT] IDENTITY(1,1) NOT NULL,
     ServiceType varchar(100) NOT NULL,
-    ObjectId nvarchar(4000),
+    ObjectId uniqueidentifier NOT NULL DEFAULT NEWID(),
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -567,18 +306,12 @@ CREATE TABLE snprc_ehr.labwork_types (
     CONSTRAINT PK_snprc_labwork_types PRIMARY KEY (ServiceType),
     CONSTRAINT FK_snprc_labwork_types_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
-GO
-
-ALTER TABLE [snprc_ehr].[labwork_types] ADD DEFAULT (NEWID()) FOR [ObjectId];
 GO
 
 ALTER TABLE [snprc_ehr].[labwork_services] WITH CHECK ADD CONSTRAINT [FK_snprc_labwork_panels_dataset] FOREIGN KEY([Dataset]) REFERENCES [snprc_ehr].[labwork_types] ([ServiceType]);
 GO
 ALTER TABLE [snprc_ehr].[labwork_services] CHECK CONSTRAINT [FK_snprc_labwork_panels_dataset];
 GO
-
--- labwork_panels
 
 CREATE TABLE [snprc_ehr].[labwork_panels](
     RowId [INT] IDENTITY(1,1) NOT NULL,
@@ -600,16 +333,13 @@ CREATE TABLE [snprc_ehr].[labwork_panels](
     [DiModified] [DATETIME] NULL,
     [DiCreatedBy] [dbo].[USERID] NULL,
     [DiModifiedBy] [dbo].[USERID] NULL,
-    [ObjectId] [UNIQUEIDENTIFIER] NOT NULL,
+    [ObjectId] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
     CONSTRAINT [PK_snprc_labwork_panels] PRIMARY KEY CLUSTERED
     (
         [RowId] ASC
     )
     WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
-GO
-
-ALTER TABLE [snprc_ehr].[labwork_panels] ADD  DEFAULT (NEWID()) FOR [objectid];
 GO
 
 ALTER TABLE [snprc_ehr].[labwork_panels] WITH CHECK ADD CONSTRAINT [FK_snprc_labwork_panels_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
@@ -631,7 +361,7 @@ CREATE TABLE [snprc_ehr].[MhcData](
     [OcId] [NVARCHAR](128) NULL,
     [MhcValue] [nvarchar](128) NULL,
     [DataFileSource] [nvarchar](4000) NULL,
-    [ObjectId] nvarchar(128),
+    [ObjectId] uniqueidentifier NOT NULL DEFAULT NEWID(),
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -648,10 +378,6 @@ CREATE TABLE [snprc_ehr].[MhcData](
 
 go
 
-
-ALTER TABLE [snprc_ehr].[MhcData] ADD DEFAULT (NEWID()) FOR [ObjectId];
-GO
-
 ALTER TABLE [snprc_ehr].[MhcData] ADD CONSTRAINT [AK_ID_Haplotype] UNIQUE NONCLUSTERED
   (
     [Id] ASC,
@@ -663,7 +389,7 @@ CREATE TABLE [snprc_ehr].[ValidChargeBySpecies](
     [Project] INTEGER NOT NULL,
     [Species] NVARCHAR(2) NOT NULL,
     [Purpose] NVARCHAR (2) NOT NULL,
-    [ObjectId] nvarchar(128),
+    [ObjectId] uniqueidentifier NOT NULL DEFAULT NEWID(),
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -672,58 +398,14 @@ CREATE TABLE [snprc_ehr].[ValidChargeBySpecies](
     [DiModified] [DATETIME] NULL,
     [DiCreatedBy] [dbo].[USERID] NULL,
     [DiModifiedBy] [dbo].[USERID] NULL,
-    Container entityId NOT NULL
+    Container entityId NOT NULL,
+    startDate DATETIME NOT NULL DEFAULT GETDATE(),
+    stopDate DATETIME,
 
-    CONSTRAINT PK_snprc_ValidChargeBySpecies PRIMARY KEY ([Project])
+    CONSTRAINT PK_snprc_ValidChargeBySpecies PRIMARY KEY CLUSTERED (Project, Species),
     CONSTRAINT FK_snprc_ValidChargeBySpecies_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-
-go
-
-ALTER TABLE [snprc_ehr].[ValidChargeBySpecies] ADD  DEFAULT (NEWID()) FOR [ObjectId];
 GO
-
--- adding species to the PK
-ALTER TABLE snprc_ehr.ValidChargeBySpecies
-    DROP CONSTRAINT PK_snprc_ValidChargeBySpecies;
-GO
-
-ALTER TABLE snprc_ehr.ValidChargeBySpecies ADD CONSTRAINT
-    PK_snprc_ValidChargeBySpecies PRIMARY KEY CLUSTERED
-(
-    Project,
-    Species
-);
-
-GO
-
-ALTER TABLE snprc_ehr.ValidChargeBySpecies ADD startDate DATETIME NOT NULL DEFAULT GETDATE();
-ALTER TABLE snprc_ehr.ValidChargeBySpecies ADD stopDate DATETIME;
-
-EXEC core.fn_dropifexists 'FeeSchedule','snprc_ehr', 'TABLE';
-GO
-
-CREATE TABLE [snprc_ehr].[FeeSchedule](
-    [RowId] [bigint] IDENTITY(1,1) NOT NULL,
-    [ActivityId] INTEGER NOT NULL,
-    [Species] NVARCHAR(128) NOT NULL,
-    [Description] NVARCHAR (256) NOT NULL,
-    [BudgetYear] NVARCHAR (256) NOT NULL,
-    [Cost] NUMERIC (9,2) NOT NULL,
-    [FileName] NVARCHAR (256) NOT NULL,
-    [ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-    [Created] [DATETIME] NULL,
-    [CreatedBy] [dbo].[USERID] NULL,
-    [Modified] [DATETIME] NULL,
-    [ModifiedBy] [dbo].[USERID] NULL,
-    Container entityId NOT NULL
-
-    CONSTRAINT PK_snprc_fee_schedule PRIMARY KEY ([RowId])
-    CONSTRAINT FK_snprc_fee_Schedule_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
-);
-
-CREATE UNIQUE INDEX idx_snprc_fee_schedule_objectid ON snprc_ehr.feeSchedule (objectid);
-CREATE UNIQUE INDEX idx_snprc_fee_schedule_activityId_budgetYear ON snprc_ehr.FeeSchedule (ActivityId, BudgetYear);
 
 EXEC core.fn_dropifexists 'FeeSchedule','snprc_ehr', 'TABLE';
 
@@ -744,7 +426,7 @@ CREATE TABLE [snprc_ehr].[FeeSchedule](
     [ModifiedBy] [dbo].[USERID] NULL,
     Container entityId NOT NULL
 
-    CONSTRAINT PK_snprc_fee_schedule PRIMARY KEY ([RowId])
+    CONSTRAINT PK_snprc_fee_schedule PRIMARY KEY ([RowId]),
     CONSTRAINT FK_snprc_fee_Schedule_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 
@@ -765,7 +447,7 @@ CREATE TABLE [snprc_ehr].[FeeScheduleSpeciesLookup] (
     [ModifiedBy] [dbo].[USERID] NULL,
     [Container] [dbo].[ENTITYID] NOT NULL
 
-    CONSTRAINT [PK_FeeScheduleSpeciesLookup] PRIMARY KEY CLUSTERED ([FsSpecies], [SpeciesCode])
+    CONSTRAINT [PK_FeeScheduleSpeciesLookup] PRIMARY KEY CLUSTERED ([FsSpecies], [SpeciesCode]),
     CONSTRAINT [FK_FeeScheduleSpeciesLookup_container] FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 GO
@@ -773,48 +455,6 @@ GO
 EXEC core.fn_dropifexists 'LocationTemperature','snprc_ehr', 'TABLE';
 
 GO
-/*************************************
-ObjectId should be populated before insert.
-
-
-srr 02.25.2019
-*************************************/
-
-CREATE TABLE [snprc_ehr].[LocationTemperature](
-    [Room] [varchar](100) NOT NULL,
-    [Date] [DATETIME] NOT NULL,
-    [LowTemperature] [NUMERIC](6, 2) NULL,
-    [HighTemperature] [NUMERIC](6, 2) NULL,
-    [Notify] [VARCHAR](18) NULL,
-    [ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-    [user_name] [VARCHAR](128) NOT NULL,
-    [entry_date_tm] [DATETIME] NOT NULL,
-    [Container] [entityID] NOT NULL,
-    [Created] DATETIME,
-    [CreatedBy] USERID,
-    [Modified] DATETIME,
-    [ModifiedBy] USERID
-
-    CONSTRAINT [PK_LocationTemperature] PRIMARY KEY CLUSTERED ([Room] ASC,[Date] ASC)
-    CONSTRAINT FK_snprc_LocationTemperature_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
-);
-GO
-
-
-CREATE UNIQUE INDEX idx_snprc_LocationTemperature_objectid ON snprc_ehr.LocationTemperature (ObjectId);
-CREATE UNIQUE INDEX idx_snprc_LocationTemperature_Room ON snprc_ehr.LocationTemperature (Room);
-GO
-
-EXEC core.fn_dropifexists 'LocationTemperature','snprc_ehr', 'TABLE';
-
-GO
-/*************************************
-ObjectId should be populated before insert.
-
-
-srr 02.25.2019 ori
-srr 02.27.2019 19.11 version
-*************************************/
 
 CREATE TABLE [snprc_ehr].[LocationTemperature](
     [Room] [varchar](100) NOT NULL,
@@ -831,9 +471,9 @@ CREATE TABLE [snprc_ehr].[LocationTemperature](
     [diCreatedBy] [dbo].[USERID] NULL,
     [diModifiedBy] [dbo].[USERID] NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [objectid] [uniqueidentifier] NOT NULL
+    [objectid] [uniqueidentifier] NOT NULL DEFAULT NEWID(),
 
-    CONSTRAINT [PK_LocationTemperature] PRIMARY KEY CLUSTERED ([Room] ASC,[Date] ASC)
+    CONSTRAINT [PK_LocationTemperature] PRIMARY KEY CLUSTERED ([Room] ASC,[Date] ASC),
     CONSTRAINT FK_snprc_LocationTemperature_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 GO
@@ -842,26 +482,7 @@ CREATE UNIQUE INDEX idx_snprc_LocationTemperature_objectid ON snprc_ehr.Location
 CREATE INDEX idx_snprc_LocationTemperature_Date ON snprc_ehr.LocationTemperature (Date, Room);
 GO
 
--- Version 12 is replaced by version 13 srr
-
 EXEC core.fn_dropifexists 'ValidDiet','snprc_ehr', 'TABLE';
-
---GO;
-/***************************************************
-Note:  ArcSpeciesCode is null for most rows
-      therefore not included in PK
- PK is composite of Diet and StartDate
-
- Currently: In legacy table, SnomedCode is
-            generated using a identity (tid).
-
-            This was refactored to an integer
-            DietId.
-            May refactor out or to a counter
-             value at a later date.
-
-srr 03.11.2019 ori
-***************************************************/
 
 CREATE TABLE snprc_ehr.ValidDiet(
     [Diet] [nvarchar](20) NOT NULL,
@@ -869,9 +490,7 @@ CREATE TABLE snprc_ehr.ValidDiet(
     [StartDate] [datetime] NOT NULL,
     [StopDate] [datetime] NULL,
     [SnomedCode] [nvarchar](7) NULL,
-    [DietId] [INTEGER] NOT NULL,
-    --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-    --[Container] [entityID] NOT NULL,
+    [DietCode] [INTEGER] NOT NULL, -- Renamed from DietId
     [Created] DATETIME,
     [CreatedBy] USERID,
     [Modified] DATETIME,
@@ -881,91 +500,15 @@ CREATE TABLE snprc_ehr.ValidDiet(
     [diCreatedBy] [dbo].[USERID] NULL,
     [diModifiedBy] [dbo].[USERID] NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [objectid] [uniqueidentifier] NOT NULL
-    CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED ([Diet] ASC,[StartDate] ASC)
+    [objectid] [uniqueidentifier] NOT NULL DEFAULT NEWID(),
+
+    CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED (Diet) -- Changed primary key
 );
 
-go
-
-EXEC core.fn_dropifexists 'ValidDiet','snprc_ehr', 'TABLE';
-
-/*****************************************************************
-Note:  ArcSpeciesCode is null for most rows
-therefore not included in PK
-PK is composite of Diet and StartDate
-
-Currently: In legacy table, SnomedCode is
-generated using a identity (tid).
-As of 03.18.2019 column is now DietCode.
-
-This was refactored to an integer
-DietId.
-May refactor out or to a counter
-value at a later date.
-
-srr 03.11.2019 ori
-srr 03.18.2019 To agree w/ naming conventions elsewhere
-refactored DietId to DietCode
-
-
-******************************************************************/
-
-CREATE TABLE snprc_ehr.ValidDiet(
-    [Diet] [nvarchar](20) NOT NULL,
-    [ArcSpeciesCode] [nvarchar](2) NULL,
-    [StartDate] [datetime] NOT NULL,
-    [StopDate] [datetime] NULL,
-    [SnomedCode] [nvarchar](7) NULL,
-    [DietCode] [INTEGER] NOT NULL,
-    --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-    --[Container] [entityID] NOT NULL,
-    [Created] DATETIME,
-    [CreatedBy] USERID,
-    [Modified] DATETIME,
-    [ModifiedBy] USERID,
-    [diCreated] [datetime] NULL,
-    [diModified] [datetime] NULL,
-    [diCreatedBy] [dbo].[USERID] NULL,
-    [diModifiedBy] [dbo].[USERID] NULL,
-    [Container] [dbo].[ENTITYID] NOT NULL,
-    [objectid] [uniqueidentifier] NOT NULL
-    CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED ([Diet] ASC,[StartDate] ASC)
-);
-
--- will need to be changed if we begin to use Diet instead of SnomedCode srr
 CREATE UNIQUE INDEX idx_ValidDiet_SnomedCode_StartStopDate ON snprc_ehr.ValidDiet(SnomedCode, StartDate, StopDate);
 go
 
-/******************************************************
-Change ValidDiet PK
-Script generated by SSMS
-srr 06.16.2020
-******************************************************/
-ALTER TABLE snprc_ehr.ValidDiet DROP CONSTRAINT PK_ValidDiet;
-GO
-
-ALTER TABLE snprc_ehr.ValidDiet ADD CONSTRAINT PK_ValidDiet PRIMARY KEY CLUSTERED
-(
-    Diet
-);
-GO
-
-ALTER TABLE snprc_ehr.ValidDiet SET (LOCK_ESCALATION = TABLE);
-GO
-
-/*********************************************************
-Valids for diagnosis (DX) taken from legacy DB.
-  Likely needs refactoring.
-  Will no do now.
-  srr
-
-*********************************************************/
-
-
-
 EXEC core.fn_dropifexists 'ValidDXGroup','snprc_ehr', 'TABLE';
-
---srr 07.17.19
 
 CREATE TABLE snprc_ehr.ValidDXGroup
 (
@@ -979,7 +522,7 @@ CREATE TABLE snprc_ehr.ValidDXGroup
     diCreatedBy  dbo.USERID       NULL,
     diModifiedBy dbo.USERID       NULL,
     Container    dbo.ENTITYID     NOT NULL,
-    objectid     uniqueidentifier NOT NULL,
+    objectid     uniqueidentifier NOT NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_ValidDXGroup PRIMARY KEY CLUSTERED (DXGroup ASC)
 );
@@ -1001,7 +544,7 @@ CREATE TABLE snprc_ehr.ValidDXList
     diCreatedBy  dbo.USERID       NULL,
     diModifiedBy dbo.USERID       NULL,
     Container    dbo.ENTITYID     NOT NULL,
-    objectid     uniqueidentifier NOT NULL,
+    objectid     uniqueidentifier NOT NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_ValidDXList PRIMARY KEY CLUSTERED (DXGroup ASC, DX ASC)
 );
@@ -1022,234 +565,10 @@ CREATE TABLE snprc_ehr.ValidVaccines
     diCreatedBy  dbo.USERID       NULL,
     diModifiedBy dbo.USERID       NULL,
     Container    dbo.ENTITYID     NOT NULL,
-    objectid     uniqueidentifier NOT NULL,
+    objectid     uniqueidentifier NOT NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_ValidVaccine PRIMARY KEY CLUSTERED (Vaccine ASC)
 );
-
-/*******************************************************
-New table to load data from new animal wizard.
-  Data will be ETLed back down to animal database
-
-srr 01.28.2020
-
-  May not use all columns.
-  I defaulted to nvarchar(400) if unsure of datatype.
-  May need to change databypes to match those in lookup tables.
-
-*******************************************************/
-
-EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
-
-CREATE TABLE snprc_ehr.NewAnimalData
-(
-    Id NVARCHAR(32) NOT NULL,
-    BirthDate DATETIME NULL,
-    AcquisitionType INT NULL,
-    AcqDate DATETIME NULL,  -- Will use for all start dates in this dataset
-    Gender NVARCHAR(10) NULL,         --gender nvarchar(4000)
-    Sire NVARCHAR(32) NULL,
-    Dam NVARCHAR(32) NULL,
-    Species NVARCHAR(3) NULL, -- species, nvarchar(4000)
-    Colony NVARCHAR(400) NULL,
-    AnimalAccount NVARCHAR(400) NULL,
-    OwnerInstitution INT NULL,       -- lookup snprc_ehr.validInstitutions
-    ResponsibleInstitution INT NULL,       -- likely same as owner
-    Location NVARCHAR(400) NULL,
-    Diet NVARCHAR(400) NULL,
-    Pedigree NVARCHAR(400) NULL,
-    IACUC NVARCHAR(400) NULL,
-    Created DATETIME NULL,
-    CreatedBy dbo.USERID NULL,
-    Modified DATETIME NULL,
-    ModifiedBy dbo.USERID NULL,
-    DiCreated DATETIME NULL,
-    DiModified DATETIME NULL,
-    DiCreatedBy dbo.USERID NULL,
-    DiModifiedBy dbo.USERID NULL,
-    Container ENTITYID NOT NULL,
-    objectid UNIQUEIDENTIFIER NOT NULL,
-
-    CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
-);
-/*******************************************************
-New table to load data from new animal wizard.
-  Data will be ETLed back down to animal database
-
-srr 01.28.2020
-
-  May not use all columns.
-  I defaulted to nvarchar(400) if unsure of datatype.
-  May need to change databypes to match those in lookup tables.
-
-srr 03.09.2020 version 20.003
-Changed to ints for values that have a dropdown.
-  No Real data, therefore dropping table and re-recreating.
-*******************************************************/
-
-EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
-
-CREATE TABLE [snprc_ehr].[NewAnimalData](
-    [Id] [nvarchar](32) NOT NULL,
-    [BirthDate] [datetime] NULL,
-    [AcquisitionType] [int] NULL,
-    [AcqDate] [datetime] NULL,
-    [Gender] [nvarchar](10) NULL,
-    [Sire] [nvarchar](32) NULL,
-    [Dam] [nvarchar](32) NULL,
-    [Species] [nvarchar](3) NULL,
-    [Colony] [int] NULL,
-    [AnimalAccount] [int] NULL,
-    [OwnerInstitution] [int] NULL,
-    [ResponsibleInstitution] [int] NULL,
-    [Room] [int] NULL,
-    [Cage] [int] NULL,
-    [Diet] [int] NULL,
-    [Pedigree] [int] NULL,
-    [IACUC] [int] NULL,
-    [Created] [datetime] NULL,
-    [CreatedBy] [dbo].[USERID] NULL,
-    [Modified] [datetime] NULL,
-    [ModifiedBy] [dbo].[USERID] NULL,
-    [Container] [dbo].[ENTITYID] NOT NULL,
-    [objectid] [uniqueidentifier] NOT NULL,
-
-    CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
-);
-
-/*******************************************************
-New table to load data from new animal wizard.
-  Data will be ETLed back down to animal database
-
-srr 01.28.2020
-
-  May not use all columns.
-  I defaulted to nvarchar(400) if unsure of datatype.
-  May need to change datatypes to match those in lookup tables.
-
-srr 03.09.2020 version 20.003
-  Changed to ints for values that have a dropdown.
-  No Real data, therefore dropping table and re-recreating.
-srr 06.08.2020 version 20.007
-  Added column for BirthCode.
-    1   DOB accurate
-    2   Month-Year accurate
-    3   Year accurate
-  No Real data, therefore dropping table and re-recreating.
-*******************************************************/
-
-EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
-
-CREATE TABLE snprc_ehr.NewAnimalData
-(
-    Id                     nvarchar(32)     NOT NULL,
-    BirthDate              datetime         NULL,
-    BirthCode              int              NULL,
-    AcquisitionType        int              NULL,
-    AcqDate                datetime         NULL,
-    Gender                 nvarchar(10)     NULL,
-    Sire                   nvarchar(32)     NULL,
-    Dam                    nvarchar(32)     NULL,
-    Species                nvarchar(3)      NULL,
-    Colony                 int              NULL,
-    AnimalAccount          int              NULL,
-    OwnerInstitution       int              NULL,
-    ResponsibleInstitution int              NULL,
-    Room                   int              NULL,
-    Cage                   int              NULL,
-    Diet                   int              NULL,
-    Pedigree               int              NULL,
-    IACUC                  int              NULL,
-    Created                datetime         NULL,
-    CreatedBy              dbo.USERID       NULL,
-    Modified               datetime         NULL,
-    ModifiedBy             dbo.USERID       NULL,
-    Container              dbo.ENTITYID     NOT NULL,
-    objectid               uniqueidentifier NOT NULL,
-
-    CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
-);
-
-/*******************************************************
-New table to load data from new animal wizard.
-  Data will be ETLed back down to animal database
-
-srr 01.28.2020
-
-  May not use all columns.
-  I defaulted to nvarchar(400) if unsure of datatype.
-  May need to change datatypes to match those in lookup tables.
-
-srr 03.09.2020 version 20.003
-  Changed to ints for values that have a dropdown.
-  No Real data, therefore dropping table and re-recreating.
-srr 06.08.2020 version 20.007
-  Added column for BirthCode.
-    1   DOB accurate
-    2   Month-Year accurate
-    3   Year accurate
-  No Real data, therefore dropping table and re-recreating.
-
- srr 06.24.2020
-  Changed Diet, AnimalAccount and IACUC to strings
-*******************************************************/
-
-EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
-
-CREATE TABLE snprc_ehr.NewAnimalData
-(
-    Id                     nvarchar(32)     NOT NULL,
-    BirthDate              datetime         NULL,
-    BirthCode              int              NULL,
-    AcquisitionType        int              NULL,
-    AcqDate                datetime         NULL,
-    Gender                 nvarchar(10)     NULL,
-    Sire                   nvarchar(32)     NULL,
-    Dam                    nvarchar(32)     NULL,
-    Species                nvarchar(3)      NULL,
-    Colony                 int              NULL,
-    AnimalAccount          nvarchar(16)     NULL,
-    OwnerInstitution       int              NULL,
-    ResponsibleInstitution int              NULL,
-    Room                   int              NULL,
-    Cage                   int              NULL,
-    Diet                   nvarchar(20)     NULL,
-    Pedigree               int              NULL,
-    IACUC                  nvarchar(200)    NULL,
-    Created                datetime         NULL,
-    CreatedBy              dbo.USERID       NULL,
-    Modified               datetime         NULL,
-    ModifiedBy             dbo.USERID       NULL,
-    Container              dbo.ENTITYID     NOT NULL,
-    objectid               uniqueidentifier NOT NULL,
-
-    CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
-);
-
-/*******************************************************
-New table to load data from new animal wizard.
-  Data will be ETLed back down to animal database
-
-srr 01.28.2020
-
-  May not use all columns.
-  I defaulted to nvarchar(400) if unsure of datatype.
-  May need to change datatypes to match those in lookup tables.
-
-srr 03.09.2020 version 20.003
-  Changed to ints for values that have a dropdown.
-  No Real data, therefore dropping table and re-recreating.
-srr 06.08.2020 version 20.007
-  Added column for BirthCode.
-    1   DOB accurate
-    2   Month-Year accurate
-    3   Year accurate
-  No Real data, therefore dropping table and re-recreating.
-
- srr 06.24.2020
-  Changed Diet, AnimalAccount and IACUC to strings
- srr 04012021 version 21.000
-*******************************************************/
 
 EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
 
@@ -1279,46 +598,11 @@ CREATE TABLE snprc_ehr.NewAnimalData
     Modified               datetime         NULL,
     ModifiedBy             dbo.USERID       NULL,
     Container              dbo.ENTITYID     NOT NULL,
-    objectid               uniqueidentifier NOT NULL,
+    objectid               uniqueidentifier NOT NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
 );
 
--- generated w/o issue from SSMS srr 04.10.20
-EXEC core.fn_dropifexists 'BehaviorNotificationComment','snprc_ehr', 'TABLE';
-
-CREATE TABLE snprc_ehr.BehaviorNotificationComment
-(
-    NotificationNumber   INT              NOT NULL,
-    NotificationDateTm   DATETIME         NOT NULL,
-    BehaviorId           INT              NOT NULL,
-    NotificationStatus   INT              NOT NULL,
-    CaseNumber           INT              NULL,
-    NotificationComments VARCHAR(255)     NULL,
-    SuspiciousBehavior   CHAR(1)          NOT NULL,
-    Sib                  CHAR(1)          NOT NULL,
-    HousingType          INT              NULL,
-    Behavior             VARCHAR(30)      NOT NULL,
-    AbnormalFlag         CHAR(1)          NOT NULL,
-    BehaviorDescription  VARCHAR(200)     NOT NULL,
-    BehaviorCategory     VARCHAR(40)      NULL,
-    BehaviorComments     VARCHAR(200)     NULL,
-    Container            ENTITYID         NOT NULL,
-    Created              DATETIME         NULL,
-    CreatedBy            USERID           NULL,
-    ModifiedBy           USERID           NULL,
-    Modified             DATETIME         NULL,
-    DiCreatedBy          USERID           NULL,
-    DiCreated            DATETIME         NULL,
-    DiModifiedBy         USERID           NULL,
-    DiModified           DATETIME         NULL,
-    ObjectId             UNIQUEIDENTIFIER NULL,
-
-    CONSTRAINT PK_BehaviorNotiComment PRIMARY KEY (NotificationNumber)
-);
-
--- generated w/o issue from SSMS srr 04.10.20
--- changed pk to tid identity
 EXEC core.fn_dropifexists 'BehaviorNotificationComment','snprc_ehr', 'TABLE';
 
 CREATE TABLE snprc_ehr.BehaviorNotificationComment
@@ -1347,7 +631,7 @@ CREATE TABLE snprc_ehr.BehaviorNotificationComment
     DiModifiedBy         USERID           NULL,
     DiModified           DATETIME         NULL,
     tid                  INT              IDENTITY,
-    objectid             UNIQUEIDENTIFIER NULL,
+    objectid             UNIQUEIDENTIFIER NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_BehaviorNotiComment_oid PRIMARY KEY (tid)
 );
@@ -1370,16 +654,10 @@ CREATE TABLE snprc_ehr.validDefaultIACUC
     DiCreated    DATETIME         NULL,
     DiModifiedBy USERID           NULL,
     DiModified   DATETIME         NULL,
-    ObjectId     UNIQUEIDENTIFIER NOT NULL,
+    ObjectId     UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_ValidDefaultIACUC PRIMARY KEY (WorkingIacuc)
 );
-
-/*******************************************************
-Counters table for SNPRC_EHRSequencer
-  Creator: thawkins
-  Date: 08/21/2020
-*******************************************************/
 
 CREATE TABLE snprc_ehr.Counters
 (
@@ -1396,10 +674,6 @@ GO
 CREATE UNIQUE INDEX idx_snprc_container_NameValue ON snprc_ehr.Counters (Container, Name, Value);
 GO
 
-/*
- * New table to track number of animals allowed and assigned to IACUC protocols
- * 9/25/2020 tjh
- */
 EXEC core.fn_dropifexists 'IacucAssignmentStats','snprc_ehr', 'TABLE';
 
 CREATE TABLE snprc_ehr.IacucAssignmentStats
@@ -1424,10 +698,6 @@ CREATE TABLE snprc_ehr.IacucAssignmentStats
     CONSTRAINT FK_IacucAssignmentsStats_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 
-/*
- * New table to configure external reports
- *
- */
 EXEC core.fn_dropifexists 'ExternalReports','snprc_ehr', 'TABLE';
 
 CREATE TABLE snprc_ehr.ExternalReports
@@ -1447,10 +717,6 @@ CREATE TABLE snprc_ehr.ExternalReports
     CONSTRAINT PK_ExternalReports PRIMARY KEY CLUSTERED ( Id ASC)
 );
 
-/*
- Drop tables if they already exist
-*/
-
 EXEC core.fn_dropifexists @objname = 'HL7_IMPORT_LOG',@objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE [snprc_ehr].[HL7_IMPORT_LOG](
@@ -1465,30 +731,16 @@ CREATE TABLE [snprc_ehr].[HL7_IMPORT_LOG](
     [HL7_MESSAGE_TEXT] [VARCHAR](MAX) NULL,
     [IMPORT_TEXT] [VARCHAR](MAX) NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_IMPORT_LOG] PRIMARY KEY CLUSTERED
 (
 [TID] ASC
-) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON),
+    CONSTRAINT [CKC_HL7_IMPORT_LOG_OBSERVATION_DATE] CHECK  (([OBSERVATION_DATE_TM] IS NULL OR [OBSERVATION_DATE_TM]<=GETDATE()))
     );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG] ADD  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG] ADD  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG] ADD  CONSTRAINT [DF_HL7_IMPROT_LOG_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG]  WITH CHECK ADD  CONSTRAINT [CKC_HL7_IMPORT_LOG_OBSERVATION_DATE] CHECK  (([OBSERVATION_DATE_TM] IS NULL OR [OBSERVATION_DATE_TM]<=GETDATE()));
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG] CHECK CONSTRAINT [CKC_HL7_IMPORT_LOG_OBSERVATION_DATE];
 GO
 
 ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG] WITH CHECK ADD CONSTRAINT [FK_HL7_IMPORT_LOG_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
@@ -1513,24 +765,15 @@ CREATE TABLE [snprc_ehr].[HL7_OBX](
     [ABNORMAL_FLAGS] [VARCHAR](10) NULL,
     [RESULT_STATUS] [VARCHAR](10) NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_OBX] PRIMARY KEY CLUSTERED
 (
     [OBJECT_ID]
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBX] ADD  CONSTRAINT [DF_HL7_OBX_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBX] ADD  CONSTRAINT [DF_HL7_OBX_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBX] ADD  CONSTRAINT [DF_HL7_OBX_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
 GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_OBX_OBR_OBJ_ID] ON [snprc_ehr].[HL7_OBX]
@@ -1552,9 +795,9 @@ CREATE TABLE [snprc_ehr].[HL7_NTE](
     [OBR_SET_ID] [VARCHAR](20) NOT NULL,
     [COMMENT] [VARCHAR](MAX) NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_NTE] PRIMARY KEY CLUSTERED
 (
@@ -1562,15 +805,6 @@ CREATE TABLE [snprc_ehr].[HL7_NTE](
 
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_NTE] ADD  CONSTRAINT [DF_HL7_NTE_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_NTE] ADD  CONSTRAINT [DF_HL7_NTE_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_NTE] ADD  CONSTRAINT [DF_HL7_NTE_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
 GO
 
 ALTER TABLE [snprc_ehr].[HL7_NTE] WITH CHECK ADD CONSTRAINT [FK_HL7_NTE_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
@@ -1597,37 +831,23 @@ CREATE TABLE [snprc_ehr].[HL7_OBR](
     [SET_ID] [VARCHAR](20) NOT NULL,
     [SPECIMEN_NUM] [VARCHAR](50) NULL,
     [PROCEDURE_ID] [VARCHAR](20) NULL,
-    [PROCEDURE_NAME] [VARCHAR](50) NULL,
+    [PROCEDURE_NAME] [VARCHAR](200) NULL, -- Increased size from VARCHAR(50)
     [PRIORITY] [VARCHAR](10) NULL,
     [RESULT_STATUS] [VARCHAR](10) NULL,
     [TECHNICIAN_FIRST_NAME] [VARCHAR](50) NULL,
     [TECHNICIAN_LAST_NAME] [VARCHAR](50) NULL,
     [CHARGE_ID] [INT] NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_OBR] PRIMARY KEY CLUSTERED
 (
     [OBJECT_ID]
-) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON),
+    CONSTRAINT [CKC_ENTRY_DATE_TM_HL7_OBR_OBR] CHECK  (([ENTRY_DATE_TM]<=GETDATE()))
 );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBR] ADD  CONSTRAINT [DF_HL7_OBR_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBR] ADD  CONSTRAINT [DF_HL7_OBR_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBR] ADD  CONSTRAINT [DF_HL7_OBR_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBR]  WITH CHECK ADD  CONSTRAINT [CKC_ENTRY_DATE_TM_HL7_OBR_OBR] CHECK  (([ENTRY_DATE_TM]<=GETDATE()));
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_OBR] CHECK CONSTRAINT [CKC_ENTRY_DATE_TM_HL7_OBR_OBR];
 GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_OBR_ID_DATE] ON [snprc_ehr].[HL7_OBR]
@@ -1639,9 +859,6 @@ GO
 
 ALTER TABLE [snprc_ehr].[HL7_OBR] WITH CHECK ADD CONSTRAINT [FK_HL7_OBR_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
 GO
-
--- Increase procedure name size in OBR table
-ALTER TABLE snprc_ehr.HL7_OBR ALTER COLUMN PROCEDURE_NAME VARCHAR(200) NULL;
 
 ALTER TABLE [snprc_ehr].[HL7_OBX] WITH CHECK ADD CONSTRAINT [FK_OBX_REF_OBR] FOREIGN KEY([OBR_OBJECT_ID]) REFERENCES [snprc_ehr].[HL7_OBR] ([OBJECT_ID]);
 GO
@@ -1670,9 +887,9 @@ CREATE TABLE [snprc_ehr].[HL7_PID](
     [ACCOUNT_NUMBER] [VARCHAR] (50) NULL, --F18_C1
     [DEATH_DATE] [VARCHAR] (50) NULL, -- F29_C1
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_PID] PRIMARY KEY CLUSTERED
 (
@@ -1680,15 +897,6 @@ CREATE TABLE [snprc_ehr].[HL7_PID](
     [IDX]
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
     );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_PID] ADD  CONSTRAINT [DF_HL7_PID_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_PID] ADD  CONSTRAINT [DF_HL7_PID_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_PID] ADD  CONSTRAINT [DF_HL7_PID_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
 GO
 
 CREATE NONCLUSTERED INDEX [IDX_HL7_PID_ID] ON [snprc_ehr].[HL7_PID]
@@ -1713,9 +921,9 @@ CREATE TABLE [snprc_ehr].[HL7_PV1](
     [CHARGE_NUMBER] [VARCHAR] (20) NULL, -- F22_C1 (Courtesy Code)
     [ADMIT_DATE] [DATETIME] NULL, --F44_C1
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_PV1] PRIMARY KEY CLUSTERED
 (
@@ -1723,15 +931,6 @@ CREATE TABLE [snprc_ehr].[HL7_PV1](
     [IDX]
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
     );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_PV1] ADD  CONSTRAINT [DF_HL7_PV1_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_PV1] ADD  CONSTRAINT [DF_HL7_PV1_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_PV1] ADD  CONSTRAINT [DF_HL7_PV1_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
 GO
 
 ALTER TABLE [snprc_ehr].[HL7_PV1] WITH CHECK ADD CONSTRAINT [FK_HL7_PV1_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
@@ -1753,9 +952,9 @@ CREATE TABLE [snprc_ehr].[HL7_ORC](
     [CALLBACK_EMAIL] [VARCHAR](50) NULL, -- F14_C3
     [ORDER_DATE] [DATETIME] NULL, -- F15_C1
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_ORC] PRIMARY KEY CLUSTERED
 (
@@ -1763,15 +962,6 @@ CREATE TABLE [snprc_ehr].[HL7_ORC](
     [IDX]
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
     );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_ORC] ADD  CONSTRAINT [DF_HL7_ORC_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_ORC] ADD  CONSTRAINT [DF_HL7_ORC_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_ORC] ADD  CONSTRAINT [DF_HL7_ORC_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
 GO
 
 ALTER TABLE [snprc_ehr].[HL7_ORC] WITH CHECK ADD CONSTRAINT [FK_HL7_ORC_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
@@ -1791,24 +981,15 @@ CREATE TABLE [snprc_ehr].[HL7_MSH](
     [MESSAGE_CONTROL_ID] [VARCHAR](50) NULL,
     [MESSAGE_DATE_TM] [DATETIME] NULL,
     [Container] [dbo].[ENTITYID] NOT NULL,
-    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL,
-    [USER_NAME] [VARCHAR](128) NOT NULL,
-    [ENTRY_DATE_TM] [DATETIME] NOT NULL,
+    [OBJECT_ID] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [USER_NAME] [VARCHAR](128) NOT NULL DEFAULT USER_NAME(),
+    [ENTRY_DATE_TM] [DATETIME] NOT NULL DEFAULT GETDATE(),
     [TIMESTAMP] [TIMESTAMP] NULL,
     CONSTRAINT [PK_HL7_MSH] PRIMARY KEY CLUSTERED
 (
     [MESSAGE_ID] ASC
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
     );
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_MSH] ADD  CONSTRAINT [DF_HL7_MSH_OBJECT_ID]  DEFAULT (NEWID()) FOR [OBJECT_ID];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_MSH] ADD  CONSTRAINT [DF_HL7_MSH_USER]  DEFAULT (USER_NAME()) FOR [USER_NAME];
-GO
-
-ALTER TABLE [snprc_ehr].[HL7_MSH] ADD  CONSTRAINT [DF_HL7_MSH_ENTRY]  DEFAULT (GETDATE()) FOR [ENTRY_DATE_TM];
 GO
 
 ALTER TABLE [snprc_ehr].[HL7_MSH] WITH CHECK ADD CONSTRAINT [FK_HL7_MSH_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
@@ -1977,7 +1158,7 @@ CREATE TABLE snprc_ehr.SndSuperPackageStaging
     Modified DATETIME NOT NULL,
     ModifiedBy USERID NOT NULL,
     diModified DATETIME NOT NULL,
-    ObjectId UNIQUEIDENTIFIER NOT NULL
+    ObjectId UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID()
 
     CONSTRAINT PK_SndSuperPackageStaging PRIMARY KEY CLUSTERED ( TopLevelPkgId, SuperPkgId)
 );
@@ -1999,7 +1180,7 @@ CREATE TABLE snprc_ehr.SndPackageStaging
     ModifiedBy USERID NOT NULL,
     Modified DATETIME NOT NULL,
     diModified DATETIME NOT NULL,
-    ObjectId UNIQUEIDENTIFIER NOT NULL
+    ObjectId UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID()
 
     CONSTRAINT PK_SndPackageStaging PRIMARY KEY CLUSTERED (PkgId)
 );
@@ -2026,7 +1207,7 @@ CREATE TABLE snprc_ehr.SndPackageAttributeStaging
     CreatedBy USERID NOT NULL,
     Modified DATETIME NOT NULL,
     ModifiedBy USERID NOT NULL,
-    ObjectId UNIQUEIDENTIFIER NOT NULL
+    ObjectId UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID()
 
     CONSTRAINT pk_SndPackagesAttributeStaging PRIMARY KEY CLUSTERED (AttributeId)
 );
@@ -2049,7 +1230,7 @@ CREATE TABLE snprc_ehr.therapy_formulary(
     CreatedBy dbo.USERID NULL,
     Modified DATETIME NULL,
     ModifiedBy dbo.USERID NULL,
-    ObjectId UNIQUEIDENTIFIER NOT NULL
+    ObjectId UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID()
 
     CONSTRAINT PK_therapy_formulary PRIMARY KEY CLUSTERED (RowId)
 );
@@ -2069,7 +1250,7 @@ CREATE TABLE snprc_ehr.therapy_frequency(
     CreatedBy dbo.USERID NULL,
     Modified DATETIME NULL,
     ModifiedBy dbo.USERID NULL,
-    ObjectId UNIQUEIDENTIFIER NOT NULL
+    ObjectId UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID()
 
     CONSTRAINT PK_therapy_frequency  PRIMARY KEY CLUSTERED (RowId)
 );
@@ -2089,7 +1270,7 @@ CREATE TABLE snprc_ehr.therapy_routes(
     CreatedBy dbo.USERID NULL,
     Modified DATETIME NULL,
     ModifiedBy dbo.USERID NULL,
-    ObjectId UNIQUEIDENTIFIER NULL
+    ObjectId UNIQUEIDENTIFIER NULL DEFAULT NEWID()
 
     CONSTRAINT PK_therapy_routes  PRIMARY KEY CLUSTERED (RowId)
 );
@@ -2109,7 +1290,7 @@ CREATE TABLE snprc_ehr.therapy_units(
     CreatedBy dbo.USERID NULL,
     Modified DATETIME NULL,
     ModifiedBy dbo.USERID NULL,
-    ObjectId UNIQUEIDENTIFIER NULL
+    ObjectId UNIQUEIDENTIFIER NULL DEFAULT NEWID()
 
     CONSTRAINT PK_therapy_units PRIMARY KEY CLUSTERED (RowId)
 );
@@ -2129,7 +1310,7 @@ CREATE TABLE snprc_ehr.therapy_resolutions
     CreatedBy  dbo.USERID NULL,
     Modified   DATETIME NULL,
     ModifiedBy dbo.USERID NULL,
-    ObjectId   UNIQUEIDENTIFIER NULL,
+    ObjectId   UNIQUEIDENTIFIER NULL DEFAULT NEWID(),
 
     CONSTRAINT PK_therapy_resolutions PRIMARY KEY CLUSTERED (RowId)
 );
@@ -2137,13 +1318,6 @@ CREATE TABLE snprc_ehr.therapy_resolutions
 ALTER TABLE snprc_ehr.therapy_resolutions WITH CHECK ADD CONSTRAINT FK_therapy_resolutions FOREIGN KEY(Container) REFERENCES core.Containers (EntityId);
 GO
 
--- ==========================================================================
--- Author:      Terry Hawkins
--- Create date: 2/28/14
--- Description: Returns 1 if the value is numeric, 0 if value is not numeric
--- 6/19/2015    added additional criteria based on the current datasets. tjh
--- 2/29/2016    fixed file formatting.  Fixed bug in patindex call (removed). tjh
--- ==========================================================================
 CREATE FUNCTION [snprc_ehr].[f_isNumeric]
 (
     @value VARCHAR(MAX)
