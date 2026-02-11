@@ -76,63 +76,6 @@ ALTER TABLE snprc_ehr.package_category_junction ADD objectid nvarchar(4000);
 
 GO
 
-CREATE PROCEDURE snprc_ehr.handleUpgrade AS
-    BEGIN
-    IF NOT EXISTS(SELECT column_name
-            FROM information_schema.columns
-            WHERE table_name='package' and table_schema='snprc_ehr' and column_name='objectid')
-        BEGIN
-        -- Run variants of scripts from trunk
-
-        ALTER TABLE snprc_ehr.package ADD objectid nvarchar(4000);
-        ALTER TABLE snprc_ehr.package_category ADD objectid nvarchar(4000);
-        ALTER TABLE snprc_ehr.package_category_junction ADD objectid nvarchar(4000);
-        END
-    END;
-
-GO
-
-EXEC snprc_ehr.handleUpgrade;
-GO
-
-DROP PROCEDURE snprc_ehr.handleUpgrade;
-GO
-
--- Alters existing ehr_lookups.species table to include additional SNPRC species code columns columns needed
--- for ETLs (objectid)
-
-CREATE PROCEDURE snprc_ehr.handleUpgrade AS
-    BEGIN
-    IF NOT EXISTS(SELECT column_name
-            FROM information_schema.columns
-            WHERE table_name='species' and table_schema='ehr_lookups' and column_name='objectid')
-        BEGIN
-        -- Run variants of scripts from trunk
-
-						ALTER TABLE ehr_lookups.species ADD species_code nvarchar(3);
-						ALTER TABLE ehr_lookups.species ADD arc_species_code nvarchar(3);
-						--ALTER TABLE ehr_lookups.species ADD arc_common_name nvarchar(255);
-						--ALTER TABLE ehr_lookups.species ADD arc_scientific_name nvarchar(255);
-						ALTER TABLE ehr_lookups.species ADD objectid nvarchar(4000);
-						ALTER TABLE ehr_lookups.species ADD tid int;
-        END
-    END;
-
-GO
-
-EXEC snprc_ehr.handleUpgrade;
-GO
-
-DROP PROCEDURE snprc_ehr.handleUpgrade;
-GO
-
--- Use custom SNPRC species table instead of ehr_lookups species
-
-ALTER TABLE ehr_lookups.species DROP COLUMN species_code;
-ALTER TABLE ehr_lookups.species DROP COLUMN arc_species_code;
-ALTER TABLE ehr_lookups.species DROP COLUMN objectid;
-ALTER TABLE ehr_lookups.species DROP COLUMN tid;
-
 CREATE TABLE snprc_ehr.species
 (
 	common NVARCHAR(255) NOT NULL,
@@ -153,8 +96,6 @@ CREATE TABLE snprc_ehr.species
 );
 
 -- change primary key to species_code column
-
-TRUNCATE TABLE snprc_ehr.species;
 
 ALTER TABLE snprc_ehr.species ALTER COLUMN species_code NVARCHAR(3) NOT NULL;
 ALTER TABLE snprc_ehr.species ALTER COLUMN arc_species_code NVARCHAR(3)  NOT NULL;
@@ -511,8 +452,7 @@ CREATE UNIQUE INDEX idx_animal_groups_code ON snprc_ehr.animal_groups (code);
 
 -- Need to change the primary key - recreate labwork_services table - The table will need to be repopulated using the ETL process
 
-IF exists (select 1 from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'labwork_services' AND TABLE_SCHEMA = 'snprc_ehr')
-  drop table snprc_ehr.labwork_services;
+DROP TABLE snprc_ehr.labwork_services;
 
 CREATE TABLE snprc_ehr.labwork_services (
     rowId int identity,
@@ -551,18 +491,10 @@ ALTER TABLE snprc_ehr.species ADD CreatedBy USERID;
 ALTER TABLE snprc_ehr.species ADD ModifiedBy USERID;
 
 -- drop existing tables
-if exists (select 1
-           from  sysobjects
-           where  id = object_id('snprc_ehr.lab_tests')
-                  and   type = 'U')
-  drop table snprc_ehr.lab_tests;
+DROP TABLE snprc_ehr.lab_tests;
 GO
 
-if exists (select 1
-           from  sysobjects
-           where  id = object_id('snprc_ehr.labwork_services')
-                  and   type = 'U')
-  drop table snprc_ehr.labwork_services;
+DROP TABLE snprc_ehr.labwork_services;
 go
 
 -- labwork_types
@@ -907,25 +839,25 @@ srr 03.11.2019 ori
 ***************************************************/
 
 CREATE TABLE snprc_ehr.ValidDiet(
-  [Diet] [nvarchar](20) NOT NULL,
-  [ArcSpeciesCode] [nvarchar](2) NULL,
-  [StartDate] [datetime] NOT NULL,
-  [StopDate] [datetime] NULL,
-  [SnomedCode] [nvarchar](7) NULL,
-  [DietId]	[INTEGER] NOT NULL,
-  --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-  --[Container] [entityID] NOT NULL,
-  [Created]	DATETIME,
-  [CreatedBy] USERID,
-  [Modified]	DATETIME,
-  [ModifiedBy] USERID,
-  [diCreated] [datetime] NULL,
-  [diModified] [datetime] NULL,
-  [diCreatedBy] [dbo].[USERID] NULL,
-  [diModifiedBy] [dbo].[USERID] NULL,
-  [Container] [dbo].[ENTITYID] NOT NULL,
-  [objectid] [uniqueidentifier] NOT NULL
-  CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED ([Diet] ASC,[StartDate] ASC)
+    [Diet] [nvarchar](20) NOT NULL,
+    [ArcSpeciesCode] [nvarchar](2) NULL,
+    [StartDate] [datetime] NOT NULL,
+    [StopDate] [datetime] NULL,
+    [SnomedCode] [nvarchar](7) NULL,
+    [DietId]	[INTEGER] NOT NULL,
+    --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    --[Container] [entityID] NOT NULL,
+    [Created]	DATETIME,
+    [CreatedBy] USERID,
+    [Modified]	DATETIME,
+    [ModifiedBy] USERID,
+    [diCreated] [datetime] NULL,
+    [diModified] [datetime] NULL,
+    [diCreatedBy] [dbo].[USERID] NULL,
+    [diModifiedBy] [dbo].[USERID] NULL,
+    [Container] [dbo].[ENTITYID] NOT NULL,
+    [objectid] [uniqueidentifier] NOT NULL
+    CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED ([Diet] ASC,[StartDate] ASC)
 );
 
 go
@@ -954,25 +886,25 @@ refactored DietId to DietCode
 ******************************************************************/
 
 CREATE TABLE snprc_ehr.ValidDiet(
-  [Diet] [nvarchar](20) NOT NULL,
-  [ArcSpeciesCode] [nvarchar](2) NULL,
-  [StartDate] [datetime] NOT NULL,
-  [StopDate] [datetime] NULL,
-  [SnomedCode] [nvarchar](7) NULL,
-  [DietCode]	[INTEGER] NOT NULL,
-  --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-  --[Container] [entityID] NOT NULL,
-  [Created]	DATETIME,
-  [CreatedBy] USERID,
-  [Modified]	DATETIME,
-  [ModifiedBy] USERID,
-  [diCreated] [datetime] NULL,
-  [diModified] [datetime] NULL,
-  [diCreatedBy] [dbo].[USERID] NULL,
-  [diModifiedBy] [dbo].[USERID] NULL,
-  [Container] [dbo].[ENTITYID] NOT NULL,
-  [objectid] [uniqueidentifier] NOT NULL
-  CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED ([Diet] ASC,[StartDate] ASC)
+    [Diet] [nvarchar](20) NOT NULL,
+    [ArcSpeciesCode] [nvarchar](2) NULL,
+    [StartDate] [datetime] NOT NULL,
+    [StopDate] [datetime] NULL,
+    [SnomedCode] [nvarchar](7) NULL,
+    [DietCode]	[INTEGER] NOT NULL,
+    --ObjectId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    --[Container] [entityID] NOT NULL,
+    [Created]	DATETIME,
+    [CreatedBy] USERID,
+    [Modified]	DATETIME,
+    [ModifiedBy] USERID,
+    [diCreated] [datetime] NULL,
+    [diModified] [datetime] NULL,
+    [diCreatedBy] [dbo].[USERID] NULL,
+    [diModifiedBy] [dbo].[USERID] NULL,
+    [Container] [dbo].[ENTITYID] NOT NULL,
+    [objectid] [uniqueidentifier] NOT NULL
+    CONSTRAINT [PK_ValidDiet] PRIMARY KEY CLUSTERED ([Diet] ASC,[StartDate] ASC)
 );
 
 -- will need to be changed if we begin to use Diet instead of SnomedCode srr
@@ -1982,30 +1914,30 @@ EXEC core.fn_dropifexists @objname = 'HL7_DeletePathologyDiagnosesStaging',@objs
 EXEC core.fn_dropifexists @objname = 'HL7_Demographics', @objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE snprc_ehr.HL7_PathologyCasesStaging (
-     ID NVARCHAR(32) NOT NULL,
-     Date DATETIME NOT NULL,
-     RowId BIGINT IDENTITY(1,1) NOT NULL,
-     AccessionNumber NVARCHAR(10) NULL,
-     AccessionCode NVARCHAR(4000) NULL,
-     Tissue NVARCHAR(4000) NULL,
-     PerformedBy NVARCHAR(64) NULL,
-     Description NVARCHAR(4000) NULL,
-     Remark NVARCHAR(4000) NULL,
-     ApathRecordStatus NVARCHAR(1) NULL,
-     DeathType NVARCHAR(1) NULL,
-     Created DATETIME NULL,
-     CreatedBy dbo.USERID NULL,
-     Modified datetime NULL,
-     ModifiedBy dbo.USERID NULL,
-     Container dbo.ENTITYID NOT NULL,
-     ObjectId uniqueidentifier NULL,
-	 timestamp ROWVERSION,
+    ID NVARCHAR(32) NOT NULL,
+    Date DATETIME NOT NULL,
+    RowId BIGINT IDENTITY(1,1) NOT NULL,
+    AccessionNumber NVARCHAR(10) NULL,
+    AccessionCode NVARCHAR(4000) NULL,
+    Tissue NVARCHAR(4000) NULL,
+    PerformedBy NVARCHAR(64) NULL,
+    Description NVARCHAR(4000) NULL,
+    Remark NVARCHAR(4000) NULL,
+    ApathRecordStatus NVARCHAR(1) NULL,
+    DeathType NVARCHAR(1) NULL,
+    Created DATETIME NULL,
+    CreatedBy dbo.USERID NULL,
+    Modified datetime NULL,
+    ModifiedBy dbo.USERID NULL,
+    Container dbo.ENTITYID NOT NULL,
+    ObjectId uniqueidentifier NULL,
+    timestamp ROWVERSION,
 
-     CONSTRAINT PK_HL7_PathologyCasesStaging PRIMARY KEY CLUSTERED
-     (
-     ID ASC,
-     Date ASC
-     )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    CONSTRAINT PK_HL7_PathologyCasesStaging PRIMARY KEY CLUSTERED
+    (
+        ID ASC,
+        Date ASC
+    ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 );
 GO
 
@@ -2241,7 +2173,7 @@ CREATE TABLE snprc_ehr.therapy_resolutions
     CreatedBy  dbo.USERID NULL,
     Modified   DATETIME NULL,
     ModifiedBy dbo.USERID NULL,
-    ObjectId   UNIQUEIDENTIFIER NULL
+    ObjectId   UNIQUEIDENTIFIER NULL,
 
     CONSTRAINT PK_therapy_resolutions PRIMARY KEY CLUSTERED (RowId)
 );
