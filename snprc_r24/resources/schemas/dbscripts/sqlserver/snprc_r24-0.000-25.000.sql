@@ -70,6 +70,9 @@ GO
 ALTER TABLE [snprc_r24].[SampleInventory] ADD  DEFAULT (NEWID()) FOR [ObjectId];
 GO
 
+ALTER TABLE snprc_r24.SampleInventory ADD SampleWeight NUMERIC(7,2) NULL;
+ALTER TABLE snprc_r24.SampleInventory ADD SampleAmount NUMERIC(7,2) NULL;
+
 CREATE TABLE [snprc_r24].[lookupSets](
     [RowId] [bigint] IDENTITY(1,1) NOT NULL,
     [SetName] [NVARCHAR](32) NOT NULL,
@@ -124,9 +127,6 @@ GO
 
 ALTER TABLE [snprc_r24].[Lookups] ADD DEFAULT (NEWID()) FOR [ObjectId];
 GO
-
-ALTER TABLE snprc_r24.SampleInventory ADD SampleWeight NUMERIC(7,2) NULL;
-ALTER TABLE snprc_r24.SampleInventory ADD SampleAmount NUMERIC(7,2) NULL;
 
 CREATE TABLE [snprc_r24].[RowsToDelete](
     [ObjectId] [dbo].[EntityId] NOT NULL,
