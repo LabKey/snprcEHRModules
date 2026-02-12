@@ -22,7 +22,7 @@ CREATE TABLE [snprc_R24].[Biomarkers](
     [SampleId] [NVARCHAR](32) NOT NULL,
     [Lab] [nvarchar](128) NULL,
     [Analyte] [nvarchar](128) NOT NULL,
-    [ObjectId] nvarchar(128),
+    [ObjectId] nvarchar(128) DEFAULT (NEWID()) NULL,
     [Value] numeric(6,2),
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
@@ -40,9 +40,6 @@ CREATE TABLE [snprc_R24].[Biomarkers](
 
 go
 
-ALTER TABLE [snprc_r24].[Biomarkers] ADD  DEFAULT (NEWID()) FOR [ObjectId]
-GO
-
 CREATE TABLE [snprc_r24].[SampleInventory](
     [RowId] [bigint] IDENTITY(1,1) NOT NULL,
     [AnimalId] [NVARCHAR](32) NOT NULL,
@@ -50,7 +47,7 @@ CREATE TABLE [snprc_r24].[SampleInventory](
     [SampleId] [NVARCHAR](32) NOT NULL,
     [Aim] [NVARCHAR](128) NULL,
     [SampleType] [NVARCHAR](128) NOT NULL,
-    [ObjectId] nvarchar(128) NULL,
+    [ObjectId] nvarchar(128) DEFAULT (NEWID()) NULL,
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -60,6 +57,8 @@ CREATE TABLE [snprc_r24].[SampleInventory](
     [DiCreatedBy] [dbo].[USERID] NULL,
     [DiModifiedBy] [dbo].[USERID] NULL,
     Container entityId NOT NULL,
+    SampleWeight NUMERIC(7,2) NULL,
+    SampleAmount NUMERIC(7,2) NULL,
 
     CONSTRAINT [pk_snprc_r24_sampleinventory] PRIMARY KEY ([SampleId] ASC),
     CONSTRAINT [fk_snprc_r24_sampleinventory_container] FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
@@ -67,17 +66,11 @@ CREATE TABLE [snprc_r24].[SampleInventory](
 
 GO
 
-ALTER TABLE [snprc_r24].[SampleInventory] ADD  DEFAULT (NEWID()) FOR [ObjectId];
-GO
-
-ALTER TABLE snprc_r24.SampleInventory ADD SampleWeight NUMERIC(7,2) NULL;
-ALTER TABLE snprc_r24.SampleInventory ADD SampleAmount NUMERIC(7,2) NULL;
-
 CREATE TABLE [snprc_r24].[lookupSets](
     [RowId] [bigint] IDENTITY(1,1) NOT NULL,
     [SetName] [NVARCHAR](32) NOT NULL,
     [Label] [NVARCHAR](32) NOT NULL,
-    [ObjectId] nvarchar(128) NULL,
+    [ObjectId] nvarchar(128) DEFAULT (NEWID()) NULL,
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -96,16 +89,13 @@ GO
 CREATE UNIQUE NONCLUSTERED INDEX [idx_snprc_r24_lookupSets_setname] ON [snprc_r24].[lookupSets] ( [SetName] ASC );
 GO
 
-ALTER TABLE [snprc_r24].[LookupSets] ADD  DEFAULT (NEWID()) FOR [ObjectId];
-GO
-
 CREATE TABLE [snprc_r24].[lookups](
     [RowId] [bigint] IDENTITY(1,1) NOT NULL,
     [SetName] [NVARCHAR](32) NOT NULL,
     [Value] [NVARCHAR](128) NOT NULL,
     [SortOrder] [INTEGER] NULL,
     [DateDisabled] [datetime] NULL,
-    [ObjectId] nvarchar(128) NULL,
+    [ObjectId] nvarchar(128) DEFAULT (NEWID()) NULL,
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
     [Modified] [DATETIME] NULL,
@@ -125,9 +115,6 @@ GO
 CREATE UNIQUE NONCLUSTERED INDEX [idx_snprc_r24_lookups_setname] ON [snprc_r24].[lookups] ( [SetName] ASC, [VALUE] ASC);
 GO
 
-ALTER TABLE [snprc_r24].[Lookups] ADD DEFAULT (NEWID()) FOR [ObjectId];
-GO
-
 CREATE TABLE [snprc_r24].[RowsToDelete](
     [ObjectId] [dbo].[EntityId] NOT NULL,
     [Modified] [DATETIME] NOT NULL,
@@ -140,7 +127,7 @@ GO
 CREATE TABLE [snprc_r24].[WeightStaging] (
     [AnimalId] [NVARCHAR](32) NOT NULL,
     [Date] [DATETIME] NOT NULL,
-    [Weight] [NUMERIC](7,4) NOT NULL,
+    [Weight] [FLOAT] NOT NULL,
     [ObjectId] [dbo].EntityId NOT NULL,
     [Created] [DATETIME] NULL,
     [CreatedBy] [dbo].[USERID] NULL,
@@ -151,5 +138,3 @@ CREATE TABLE [snprc_r24].[WeightStaging] (
 );
 
 GO
-
-ALTER TABLE snprc_r24.WeightStaging ALTER COLUMN Weight FLOAT;
