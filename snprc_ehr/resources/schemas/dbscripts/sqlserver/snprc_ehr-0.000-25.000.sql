@@ -407,8 +407,6 @@ CREATE TABLE [snprc_ehr].[ValidChargeBySpecies](
 );
 GO
 
-EXEC core.fn_dropifexists 'FeeSchedule','snprc_ehr', 'TABLE';
-
 CREATE TABLE [snprc_ehr].[FeeSchedule](
     [RowId] [bigint] IDENTITY(1,1) NOT NULL,
     [StartingYear] INTEGER NOT NULL,
@@ -434,9 +432,6 @@ CREATE UNIQUE INDEX idx_snprc_fee_schedule_objectid ON snprc_ehr.feeSchedule (ob
 CREATE UNIQUE INDEX idx_snprc_fee_schedule_activityId_budgetYear ON snprc_ehr.FeeSchedule (StartingYear, VersionLabel, ActivityId, BudgetYear);
 GO
 
-EXEC core.fn_dropifexists 'FeeScheduleSpeciesLookup','snprc_ehr', 'TABLE';
-GO
-
 CREATE TABLE [snprc_ehr].[FeeScheduleSpeciesLookup] (
     [FsSpecies] [VARCHAR](128) NOT NULL,
     [SpeciesCode] [VARCHAR](2) NOT NULL,
@@ -450,10 +445,6 @@ CREATE TABLE [snprc_ehr].[FeeScheduleSpeciesLookup] (
     CONSTRAINT [PK_FeeScheduleSpeciesLookup] PRIMARY KEY CLUSTERED ([FsSpecies], [SpeciesCode]),
     CONSTRAINT [FK_FeeScheduleSpeciesLookup_container] FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
-GO
-
-EXEC core.fn_dropifexists 'LocationTemperature','snprc_ehr', 'TABLE';
-
 GO
 
 CREATE TABLE [snprc_ehr].[LocationTemperature](
@@ -482,8 +473,6 @@ CREATE UNIQUE INDEX idx_snprc_LocationTemperature_objectid ON snprc_ehr.Location
 CREATE INDEX idx_snprc_LocationTemperature_Date ON snprc_ehr.LocationTemperature (Date, Room);
 GO
 
-EXEC core.fn_dropifexists 'ValidDiet','snprc_ehr', 'TABLE';
-
 CREATE TABLE snprc_ehr.ValidDiet(
     [Diet] [nvarchar](20) NOT NULL,
     [ArcSpeciesCode] [nvarchar](2) NULL,
@@ -508,8 +497,6 @@ CREATE TABLE snprc_ehr.ValidDiet(
 CREATE UNIQUE INDEX idx_ValidDiet_SnomedCode_StartStopDate ON snprc_ehr.ValidDiet(SnomedCode, StartDate, StopDate);
 go
 
-EXEC core.fn_dropifexists 'ValidDXGroup','snprc_ehr', 'TABLE';
-
 CREATE TABLE snprc_ehr.ValidDXGroup
 (
     DXGroup      VARCHAR(30)      NOT NULL,
@@ -526,8 +513,6 @@ CREATE TABLE snprc_ehr.ValidDXGroup
 
     CONSTRAINT PK_ValidDXGroup PRIMARY KEY CLUSTERED (DXGroup ASC)
 );
-
-EXEC core.fn_dropifexists 'ValidDXList','snprc_ehr', 'TABLE';
 
 --srr 07.17.19
 
@@ -549,8 +534,6 @@ CREATE TABLE snprc_ehr.ValidDXList
     CONSTRAINT PK_ValidDXList PRIMARY KEY CLUSTERED (DXGroup ASC, DX ASC)
 );
 
-EXEC core.fn_dropifexists 'ValidVaccines','snprc_ehr', 'TABLE';
-
 --srr 07.17.19
 
 CREATE TABLE snprc_ehr.ValidVaccines
@@ -569,8 +552,6 @@ CREATE TABLE snprc_ehr.ValidVaccines
 
     CONSTRAINT PK_ValidVaccine PRIMARY KEY CLUSTERED (Vaccine ASC)
 );
-
-EXEC core.fn_dropifexists 'NewAnimalData','snprc_ehr', 'TABLE';
 
 CREATE TABLE snprc_ehr.NewAnimalData
 (
@@ -603,8 +584,6 @@ CREATE TABLE snprc_ehr.NewAnimalData
     CONSTRAINT PK_snprc_NEWANIMALDATA PRIMARY KEY (Id)
 );
 
-EXEC core.fn_dropifexists 'BehaviorNotificationComment','snprc_ehr', 'TABLE';
-
 CREATE TABLE snprc_ehr.BehaviorNotificationComment
 (
     NotificationNumber   INT              NOT NULL,
@@ -635,8 +614,6 @@ CREATE TABLE snprc_ehr.BehaviorNotificationComment
 
     CONSTRAINT PK_BehaviorNotiComment_oid PRIMARY KEY (tid)
 );
-
-EXEC core.fn_dropifexists 'ValidDefaultIACUC','snprc_ehr', 'TABLE';
 
 CREATE TABLE snprc_ehr.validDefaultIACUC
 (
@@ -674,8 +651,6 @@ GO
 CREATE UNIQUE INDEX idx_snprc_container_NameValue ON snprc_ehr.Counters (Container, Name, Value);
 GO
 
-EXEC core.fn_dropifexists 'IacucAssignmentStats','snprc_ehr', 'TABLE';
-
 CREATE TABLE snprc_ehr.IacucAssignmentStats
 (
     ThreeYearPeriod    INT              NOT NULL,
@@ -698,8 +673,6 @@ CREATE TABLE snprc_ehr.IacucAssignmentStats
     CONSTRAINT FK_IacucAssignmentsStats_container FOREIGN KEY (Container) REFERENCES core.Containers (EntityId)
 );
 
-EXEC core.fn_dropifexists 'ExternalReports','snprc_ehr', 'TABLE';
-
 CREATE TABLE snprc_ehr.ExternalReports
 (
     Id                 INT              IDENTITY(1,1),
@@ -716,8 +689,6 @@ CREATE TABLE snprc_ehr.ExternalReports
 
     CONSTRAINT PK_ExternalReports PRIMARY KEY CLUSTERED ( Id ASC)
 );
-
-EXEC core.fn_dropifexists @objname = 'HL7_IMPORT_LOG',@objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE [snprc_ehr].[HL7_IMPORT_LOG](
     [TID] [NUMERIC](18, 0) IDENTITY(1,1) NOT NULL,
@@ -745,8 +716,6 @@ GO
 
 ALTER TABLE [snprc_ehr].[HL7_IMPORT_LOG] WITH CHECK ADD CONSTRAINT [FK_HL7_IMPORT_LOG_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
 GO
-
-EXEC core.fn_dropifexists @objname = 'HL7_OBX',@objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE [snprc_ehr].[HL7_OBX](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
@@ -785,8 +754,6 @@ GO
 ALTER TABLE [snprc_ehr].[HL7_OBX] WITH CHECK ADD CONSTRAINT [FK_HL7_OBX_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_NTE',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE [snprc_ehr].[HL7_NTE](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
     [IDX] [INT] NOT NULL,
@@ -815,8 +782,6 @@ CREATE NONCLUSTERED INDEX [IDX_HL7_NTE_OBR_OBJ_ID] ON [snprc_ehr].[HL7_NTE]
     [OBR_OBJECT_ID] ASC
 ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY];
 GO
-
-EXEC core.fn_dropifexists @objname = 'HL7_OBR',@objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE [snprc_ehr].[HL7_OBR](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
@@ -872,8 +837,6 @@ GO
 ALTER TABLE [snprc_ehr].[HL7_NTE] CHECK CONSTRAINT [FK_NTE_REF_OBR];
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_PID',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE [snprc_ehr].[HL7_PID](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
     [IDX] [INT] NOT NULL,
@@ -908,8 +871,6 @@ GO
 ALTER TABLE [snprc_ehr].[HL7_PID] WITH CHECK ADD CONSTRAINT [FK_HL7_PID_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_PV1',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE [snprc_ehr].[HL7_PV1](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
     [IDX] [INT] NOT NULL,
@@ -935,8 +896,6 @@ GO
 
 ALTER TABLE [snprc_ehr].[HL7_PV1] WITH CHECK ADD CONSTRAINT [FK_HL7_PV1_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
 GO
-
-EXEC core.fn_dropifexists @objname = 'HL7_ORC',@objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE [snprc_ehr].[HL7_ORC](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
@@ -966,8 +925,6 @@ GO
 
 ALTER TABLE [snprc_ehr].[HL7_ORC] WITH CHECK ADD CONSTRAINT [FK_HL7_ORC_container] FOREIGN KEY([Container]) REFERENCES [core].[Containers] ([EntityId]);
 GO
-
-EXEC core.fn_dropifexists @objname = 'HL7_MSH',@objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE [snprc_ehr].[HL7_MSH](
     [MESSAGE_ID] [VARCHAR](50) NOT NULL,
@@ -1019,8 +976,6 @@ GO
 ALTER TABLE [snprc_ehr].[HL7_ORC] CHECK CONSTRAINT [FK_ORC_REF_MSH];
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_PathologyCasesStaging',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.HL7_PathologyCasesStaging (
     ID NVARCHAR(32) NOT NULL,
     Date DATETIME NOT NULL,
@@ -1049,8 +1004,6 @@ CREATE TABLE snprc_ehr.HL7_PathologyCasesStaging (
 );
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_PathologyDiagnosesStaging',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.HL7_PathologyDiagnosesStaging (
     ID NVARCHAR(32) NOT NULL,
     Date DATETIME NOT NULL,
@@ -1078,8 +1031,6 @@ CREATE TABLE snprc_ehr.HL7_PathologyDiagnosesStaging (
 );
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_DeletePathologyCasesStaging',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.HL7_DeletePathologyCasesStaging (
     AccessionNumber NVARCHAR(10) NOT NULL,
     ObjectId UNIQUEIDENTIFIER NOT NULL,
@@ -1094,8 +1045,6 @@ CREATE TABLE snprc_ehr.HL7_DeletePathologyCasesStaging (
 );
 GO
 
-EXEC core.fn_dropifexists @objname = 'HL7_DeletePathologyDiagnosesStaging',@objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.HL7_DeletePathologyDiagnosesStaging (
     AccessionNumber NVARCHAR(10) NOT NULL,
     ObjectId uniqueidentifier NOT NULL,
@@ -1109,8 +1058,6 @@ CREATE TABLE snprc_ehr.HL7_DeletePathologyDiagnosesStaging (
     WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 );
 GO
-
-EXEC core.fn_dropifexists @objname = 'HL7_Demographics', @objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE snprc_ehr.HL7_Demographics (
     ID NVARCHAR(32) NOT NULL,
@@ -1133,9 +1080,6 @@ CREATE TABLE snprc_ehr.HL7_Demographics (
         RowId ASC
     ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 );
-GO
-
-EXEC core.fn_dropifexists 'SndSuperPackageStaging', 'snprc_ehr', 'TABLE';
 GO
 
 CREATE TABLE snprc_ehr.SndSuperPackageStaging
@@ -1164,9 +1108,6 @@ CREATE TABLE snprc_ehr.SndSuperPackageStaging
 );
 GO
 
-EXEC core.fn_dropifexists 'SndPackageStaging', 'snprc_ehr', 'TABLE';
-GO
-
 CREATE TABLE snprc_ehr.SndPackageStaging
 (
     PkgId INTEGER NOT NULL,
@@ -1184,9 +1125,6 @@ CREATE TABLE snprc_ehr.SndPackageStaging
 
     CONSTRAINT PK_SndPackageStaging PRIMARY KEY CLUSTERED (PkgId)
 );
-GO
-
-EXEC core.fn_dropifexists 'SndPackageAttributeStaging', 'snprc_ehr', 'TABLE';
 GO
 
 CREATE TABLE snprc_ehr.SndPackageAttributeStaging
@@ -1213,8 +1151,6 @@ CREATE TABLE snprc_ehr.SndPackageAttributeStaging
 );
 GO
 
-EXEC core.fn_dropifexists @objname = 'therapy_formulary', @objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.therapy_formulary(
     RowId INT NOT NULL,
     drug VARCHAR(400) NOT NULL,
@@ -1238,8 +1174,6 @@ CREATE TABLE snprc_ehr.therapy_formulary(
 ALTER TABLE snprc_ehr.therapy_formulary WITH CHECK ADD CONSTRAINT FK_therapy_formulary_container FOREIGN KEY(Container) REFERENCES core.Containers (EntityId);
 GO
 
-EXEC core.fn_dropifexists @objname = 'therapy_frequency', @objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.therapy_frequency(
     RowId INT  NOT NULL,
     frequency VARCHAR(30) NOT NULL,
@@ -1257,8 +1191,6 @@ CREATE TABLE snprc_ehr.therapy_frequency(
 
 ALTER TABLE snprc_ehr.therapy_frequency WITH CHECK ADD CONSTRAINT FK_therapy_frequency FOREIGN KEY(Container) REFERENCES core.Containers (EntityId);
 GO
-
-EXEC core.fn_dropifexists @objname = 'therapy_routes', @objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE snprc_ehr.therapy_routes(
     RowId INT NOT NULL,
@@ -1278,8 +1210,6 @@ CREATE TABLE snprc_ehr.therapy_routes(
 ALTER TABLE snprc_ehr.therapy_routes WITH CHECK ADD CONSTRAINT FK_therapy_routes FOREIGN KEY(Container) REFERENCES core.Containers (EntityId);
 GO
 
-EXEC core.fn_dropifexists @objname = 'therapy_units', @objschema = 'snprc_ehr', @objtype = 'TABLE';
-
 CREATE TABLE snprc_ehr.therapy_units(
     RowId INT NOT NULL,
     units VARCHAR(30) NOT NULL,
@@ -1297,8 +1227,6 @@ CREATE TABLE snprc_ehr.therapy_units(
 
 ALTER TABLE snprc_ehr.therapy_units WITH CHECK ADD CONSTRAINT FK_therapy_units FOREIGN KEY(Container) REFERENCES core.Containers (EntityId);
 GO
-
-EXEC core.fn_dropifexists @objname = 'therapy_resolutions', @objschema = 'snprc_ehr', @objtype = 'TABLE';
 
 CREATE TABLE snprc_ehr.therapy_resolutions
 (
