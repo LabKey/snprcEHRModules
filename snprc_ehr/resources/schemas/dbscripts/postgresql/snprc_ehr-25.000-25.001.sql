@@ -16,9 +16,9 @@ CREATE TABLE snprc_ehr.SndSuperPackageStaging
     Repeatable INTEGER NOT NULL,
     Level INTEGER NOT NULL,
     Created TIMESTAMP NOT NULL,
-    CreatedBy INTEGER NOT NULL,
+    CreatedBy USERID NOT NULL,
     Modified TIMESTAMP NOT NULL,
-    ModifiedBy INTEGER NOT NULL,
+    ModifiedBy USERID NOT NULL,
     diModified TIMESTAMP NOT NULL,
     ObjectId ENTITYID NOT NULL,
 

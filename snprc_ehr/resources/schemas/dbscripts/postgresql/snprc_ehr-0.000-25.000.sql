@@ -1102,7 +1102,7 @@ BEGIN
         RETURN 0;
     END IF;
 
-    trimmed_value := TRIM(value);
+    trimmed_value := TRIM(REPLACE(value, ' ', ''))
 
     -- Check if it is a valid numeric using Regex
     -- This regex matches optional sign, digits, optional dot, optional digits
