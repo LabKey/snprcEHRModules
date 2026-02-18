@@ -1,0 +1,1 @@
+DROP VIEW IF EXISTS snprc_ehr.HL7_GroupNTE;
