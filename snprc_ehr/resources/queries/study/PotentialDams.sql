@@ -4,7 +4,7 @@ PARAMETERS
     selectedOptionParm VARCHAR DEFAULT 'Birth'  -- Birth or Acquisition
 )
 -- TODO: Do we want to limit selection to animals that were co-located with dam?
-SELECT d.id as Dam,
+SELECT DISTINCT d.id as Dam,
        d.species as Species,
        d.species.arc_species_code as ArcSpeciesCode,
        d.gender as Gender,
@@ -43,14 +43,25 @@ FROM study.demographics AS d
     SELECT 185 as gestation, timestampadd('SQL_TSI_DAY', -185, birthdateParm ) as minConceptionDate, 'O' as species
 ) AS y ON CASE WHEN d.species.arc_species_code IN ('PC', 'CJ', 'MM', 'MF', 'PT','MA') then d.species.arc_species_code ELSE 'O' END = y.species
          INNER JOIN study.acq_disp as ad on d.id = ad.id
+         LEFT JOIN (
+    SELECT DISTINCT edc.Id
+    FROM study.pregnancyConfirmation edc
+    WHERE edc.termCode <= 28
+) AS confirmed_pregnant ON d.id = confirmed_pregnant.Id
 WHERE d.gender = 'F'
 -- age at conception is greater or equal to minimum adult age and less than or equal to maximum adult age
   -- LK has trouble matching parameters correctly using the code below, so minConceptionDate was added to the y result set
   --AND x.minAdultAge <= ROUND(CAST(age_in_months(d.birth, timestampadd('SQL_TSI_DAY', -y.gestation, coalesce(birthdateParm, curdate()) ) ) AS DOUBLE) / 12.0, 1)
   AND ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1) between (x.minAdultAge * .95) and x.maxAdultAge
 -- ensure animal was at txbiomed on date of conception for birth type acquisitions
-  AND (timestampadd('SQL_TSI_DAY', -y.gestation, birthdateParm) BETWEEN ad.acq_date AND COALESCE(ad.disp_date, birthdateParm) OR selectedOptionParm = 'Acquisition')
+-- also include animals already confirmed pregnant (on active pregnancy list) as conception is proven
+  AND (timestampadd('SQL_TSI_DAY', -y.gestation, birthdateParm) BETWEEN ad.acq_date AND COALESCE(ad.disp_date, birthdateParm)
+      OR selectedOptionParm = 'Acquisition'
+      OR confirmed_pregnant.Id IS NOT NULL)
 -- make sure animal was alive (at center) on conception date for birth type acquisitions
-  AND (COALESCE(d.lastDayAtCenter, birthdateParm) >= timestampadd('SQL_TSI_DAY', -y.gestation, birthdateParm) OR selectedOptionParm = 'Acquisition')
+-- also include animals already confirmed pregnant (on active pregnancy list) as conception is proven
+  AND (COALESCE(d.lastDayAtCenter, birthdateParm) >= timestampadd('SQL_TSI_DAY', -y.gestation, birthdateParm)
+      OR selectedOptionParm = 'Acquisition'
+      OR confirmed_pregnant.Id IS NOT NULL)
 -- drop off animals that were not alive on the conception date
   AND d.id.age.ageInYears >= ROUND(CAST(age_in_months(d.birth, y.minConceptionDate ) AS DOUBLE) / 12.0, 1)
