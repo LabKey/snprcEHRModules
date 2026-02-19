@@ -14,6 +14,7 @@ import {
   TIMELINE_CLEAN,
   TIMELINE_CLONE,
   TIMELINE_LIST_RECEIVED,
+  TIMELINE_LIST_REQUESTED,
   TIMELINE_REVISION,
   TIMELINE_SAVE_SUCCESS,
   TIMELINE_SELECTED,
@@ -395,8 +396,14 @@ export default (state = {}, action) => {
       nextState.timelines.push(clone);
       nextState.selectedTimeline = clone;
       break;
+    case TIMELINE_LIST_REQUESTED:
+      nextState.timelinesLoading = true;
+      nextState.timelines = [];
+      nextState.selectedTimeline = null;
+      break;
     case TIMELINE_LIST_RECEIVED:
       // action payload is the timeline array
+      nextState.timelinesLoading = false;
       nextState.timelines = action.payload.timelines;
 
       // Add rowid, timelineitems, timelineprojectitems and timelineanimalitems for UI

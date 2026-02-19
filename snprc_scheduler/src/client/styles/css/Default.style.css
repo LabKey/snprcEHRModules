@@ -190,6 +190,19 @@ textarea.form-control {
     position: relative;
 }
 
+.animal-grid-add:disabled {
+    opacity: 0.25;
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: #adb5bd !important;
+    pointer-events: none;
+}
+
+/* Wrapper span around disabled button — shows not-allowed cursor */
+.animal-grid-add-disabled-wrapper {
+    cursor: not-allowed;
+}
+
 .datagrid-empty-message {
     position: absolute;
     top: 35px;

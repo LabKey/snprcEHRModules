@@ -5,7 +5,7 @@ import { Column, DataGrid, RenderCellProps } from 'react-data-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Button } from 'react-bootstrap';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Animal, Project, Timeline } from '../models/models';
 
 library.add(faPlus);
@@ -60,12 +60,22 @@ const AnimalMain: FC = () => {
     const AddButtonFormatter = useCallback(
         ({ row }: RenderCellProps<Animal>) => {
             const disableBtn = !selectedTimeline || !selectedTimeline.savedDraft;
-
-            return (
+            const button = (
                 <Button className="animal-grid-add" disabled={disableBtn} onClick={() => handleAssignAnimal(row)}>
                     <FontAwesomeIcon icon={faPlus} />
                 </Button>
             );
+
+            if (disableBtn) {
+                const tooltip = <Tooltip id="add-animal-tooltip">Timeline must be saved as a draft before animals assignments can be changed.</Tooltip>;
+                return (
+                    <OverlayTrigger overlay={tooltip} placement="top">
+                        <span className="d-inline-block animal-grid-add-disabled-wrapper">{button}</span>
+                    </OverlayTrigger>
+                );
+            }
+
+            return button;
         },
         [selectedTimeline, handleAssignAnimal]
     );

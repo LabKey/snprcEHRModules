@@ -133,6 +133,9 @@ class TimelineGrid extends React.Component {
 
         return ((props) => {
             const { selectedTimeline } = this.props;
+            if (!selectedTimeline) {
+                return <div />;
+            }
             if (props.row.RowIdx === 0 && selectedTimeline) {
                 const projItem = selectedTimeline.TimelineProjectItems.find((item) => item.ProjectItemId === colKey);
 
@@ -210,7 +213,7 @@ class TimelineGrid extends React.Component {
 
         // First row, in use timeline, extra row, or out of date range not editable
         const isOutOfRange = !this.isScheduleDateWithinRange(rowData);
-        return !(rowData.RowIdx === 0 || selectedTimeline.IsInUse || rowData.ExtraRow || isOutOfRange);
+        return !(rowData.RowIdx === 0 || !selectedTimeline || selectedTimeline.IsInUse || rowData.ExtraRow || isOutOfRange);
 
     };
 
@@ -576,7 +579,7 @@ class TimelineGrid extends React.Component {
         return (() => {
                     const {selectedTimeline} = this.props;
 
-                    if (!selectedTimeline.IsInUse) {
+                    if (selectedTimeline && !selectedTimeline.IsInUse) {
 
                         let procNote = "", procNoteName = "";
 
@@ -649,7 +652,7 @@ class TimelineGrid extends React.Component {
 
     deleteTimepoint = (RowIdx) => {
         const { selectedTimeline, onDeleteTimelineItem } = this.props;
-        if (!selectedTimeline.IsInUse) {
+        if (selectedTimeline && !selectedTimeline.IsInUse) {
             const filteredRows = this.state.rows.filter(row => row.RowIdx !== RowIdx);
 
             this.setState(state => {
@@ -673,7 +676,7 @@ class TimelineGrid extends React.Component {
         // Noop for first row (procedure notes) and study day and date columns
         if (!column || !column.key || rowIdx === 0 ||
                 column.key === 'StudyDay' || column.key === 'ScheduleDate' || column.key === 'ScheduleDay' || column.key === 'StudyDayNote' ||
-                selectedTimeline.IsInUse) {
+                !selectedTimeline || selectedTimeline.IsInUse) {
             return;
         }
 

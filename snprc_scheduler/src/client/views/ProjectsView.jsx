@@ -175,12 +175,22 @@ class ProjectsView extends React.Component {
                 return;
             }
 
+            // Validate Study Day 0 is not before Start Date for revision 0 non-draft timelines
+            if (selectedTimeline.RevisionNum === 0
+                && selectedTimeline.QcStateLabel !== 'In Progress'
+                && selectedTimeline.StudyDay0
+                && selectedTimeline.StartDate
+                && new Date(selectedTimeline.StudyDay0) < new Date(selectedTimeline.StartDate)) {
+                showAlertBanner({
+                    variant: 'danger',
+                    msg: 'Study Day 0 cannot be before the Start Date for an original timeline that is not in draft mode.'
+                });
+                return;
+            }
+
             selectedTimeline.IsDirty = true;
 
-            this.setState(state => {
-                state.showSaving = true;
-                return state;
-            });
+            this.setState({ showSaving: true });
 
             return saveTimeline(selectedTimeline).then((response) => {
 
@@ -204,12 +214,9 @@ class ProjectsView extends React.Component {
                     onSaveSuccess(response.rows);
                 }
 
-                this.setState(state => {
-                    state.showSaving = false;
-                    return state;
-                });
+                this.setState({ showSaving: false });
 
-                hideLoading();
+                this.props.hideLoading();
 
             }).catch((error) => {
 
@@ -229,12 +236,9 @@ class ProjectsView extends React.Component {
                     console.warn('save timeline error', error.message);
                 }
 
-                this.setState(state => {
-                    state.showSaving = false;
-                    return state;
-                });
+                this.setState({ showSaving: false });
 
-                hideLoading();
+                this.props.hideLoading();
             });
         };
     };
@@ -255,6 +259,7 @@ class ProjectsView extends React.Component {
                         backdrop="static"
                         keyboard={false}
                         centered
+                        animation={false}
                         className="loading-modal"
                 >
                     <Modal.Body className="text-center py-5">

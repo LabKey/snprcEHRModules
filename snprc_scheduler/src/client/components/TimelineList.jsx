@@ -32,7 +32,7 @@ import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCopy, faClone, faCaretDown, faCaretRight, faTrash, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faClone, faCaretDown, faCaretRight, faTrash, faPlus, faPencil, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCopy);
 library.add(faClone);
@@ -570,7 +570,7 @@ class TimelineList extends React.Component {
     };
 
     render = () => {
-        const { selectedTimeline } = this.props;
+        const { selectedTimeline, timelinesLoading } = this.props;
         const rows = this.getTimelineRows();
         const columns = this.getColumns();
 
@@ -608,20 +608,27 @@ class TimelineList extends React.Component {
                     ><FontAwesomeIcon icon={faTrash}/></Button>
                 </OverlayTrigger>
             </div>
-            <div className='col-sm-12 scheduler-timeline-list'>
-                <DataGrid
-                    ref={this.gridRef}
-                    className='timeline-table'
-                    columns={columns}
-                    rows={rows}
-                    rowKeyGetter={(row) => `${row.RowId}_${row.RevisionNum}`}
-                    onCellClick={this.onCellClick}
-                    onRowsChange={this.onRowsChange}
-                    rowClass={this.rowClass}
-                    style={{ height: 'calc(51vh - 160px - 50px)' }}
-                    defaultColumnOptions={{ resizable: true }}
-                />
-            </div>
+            {timelinesLoading ? (
+                <div className='col-sm-12 scheduler-timeline-list' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 'calc(51vh - 160px - 50px)' }}>
+                    <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+                    <div style={{ marginTop: '10px' }}>Loading timelines...</div>
+                </div>
+            ) : (
+                <div className='col-sm-12 scheduler-timeline-list'>
+                    <DataGrid
+                        ref={this.gridRef}
+                        className='timeline-table'
+                        columns={columns}
+                        rows={rows}
+                        rowKeyGetter={(row) => `${row.RowId}_${row.RevisionNum}`}
+                        onCellClick={this.onCellClick}
+                        onRowsChange={this.onRowsChange}
+                        rowClass={this.rowClass}
+                        style={{ height: 'calc(51vh - 160px - 50px)' }}
+                        defaultColumnOptions={{ resizable: true }}
+                    />
+                </div>
+            )}
         </div>
     }
 
@@ -635,6 +642,7 @@ const mapStateToProps = state => ({
     selectedProject: state.project.selectedProject || null,
     selectedTimeline: (state.project.selectedProject != null) ? state.timeline.selectedTimeline : null,
     timelines: state.timeline.timelines  || null,
+    timelinesLoading: state.timeline.timelinesLoading || false,
     lastRowId: state.timeline.lastRowId,
     accordion: state.root.accordion,
 })

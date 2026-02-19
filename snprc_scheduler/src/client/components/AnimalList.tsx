@@ -7,7 +7,7 @@ import {
 } from '../actions/dataActions';
 import { Column, DataGrid } from 'react-data-grid';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -58,12 +58,22 @@ const AnimalList: FC<AnimalListProps> = props => {
     const UnassignButtonFormatter = useCallback(
         ({ row }: { row: Animal }) => {
             const disableBtn = !selectedTimeline || !selectedTimeline.savedDraft;
-
-            return (
+            const button = (
                 <Button className="animal-grid-add" disabled={disableBtn} onClick={() => handleUnassignAnimal(row.Id!)}>
                     <FontAwesomeIcon icon={faMinus} />
                 </Button>
             );
+
+            if (disableBtn) {
+                const tooltip = <Tooltip id="unassign-animal-tooltip">Timeline must be saved as a draft before animals assignments can be changed.</Tooltip>;
+                return (
+                    <OverlayTrigger overlay={tooltip} placement="top">
+                        <span className="d-inline-block animal-grid-add-disabled-wrapper">{button}</span>
+                    </OverlayTrigger>
+                );
+            }
+
+            return button;
         },
         [selectedTimeline, handleUnassignAnimal]
     );

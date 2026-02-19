@@ -237,6 +237,7 @@ export function fetchTimelinesByProject(selectedProject) {
     dispatch(createAction(TIMELINE_LIST_REQUESTED, selectedProject.objectId));
     fetch(API_ENDPOINT).then((response) => {
       if (response.status === 403) {
+        dispatch(hideLoading());
         dispatch(setPermission(false));
       } else {
         dispatch(setPermission(true));
@@ -259,6 +260,8 @@ export function fetchTimelinesByProject(selectedProject) {
             dispatch(handleErrors("Retrieving timelines failed", error)),
           );
       }
+    }).catch((error) => {
+      dispatch(handleErrors("Retrieving timelines failed", error));
     });
   };
 }
@@ -371,6 +374,7 @@ export function newTimeline(timeline, selectedProject) {
         timeline: timeline,
       }),
     );
+    dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, []));
   };
 }
 
@@ -711,6 +715,9 @@ function fetchProjects_SND() {
               console.error("Retrieving projects failed.", data.message);
               dispatch(handleErrors("Retrieving projects failed.", data));
             }
+          }).catch((error) => {
+            console.error("Retrieving projects failed", error);
+            dispatch(handleErrors("Retrieving projects failed", error));
           });
         }
       })
