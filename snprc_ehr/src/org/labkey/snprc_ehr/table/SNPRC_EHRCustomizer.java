@@ -123,6 +123,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             ti.getMutableColumn("project").setLabel("Charge Id");
         }
+
     }
 
     public UserSchema getEHRUserSchema(AbstractTableInfo ds, String name)
@@ -202,6 +203,14 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         {
             customizeTasks(ti);
         }
+
+        // add assignments and age to hl7 pivot tables
+        if (ti.getName().toLowerCase().contains("hl7") && ti.getName().toLowerCase().contains("pivot")) {
+            UserSchema snprc_ehrSchema = getEHRUserSchema(ti, SNPRC_EHRSchema.NAME);
+            appendAssignmentAtTimeColumn(snprc_ehrSchema, ti, DATE_COLUMN);
+            appendAgeAtTimeColumn(snprc_ehrSchema, ti, DATE_COLUMN);
+        }
+
     }
 
     /**
@@ -225,6 +234,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
             appendAssignmentAtTimeColumn(ehrSchema, table, DATE_COLUMN);
             appendAgeAtTimeColumn(ehrSchema, table, DATE_COLUMN);
         }
+
     }
 
     /**
