@@ -59,7 +59,7 @@ const AnimalList: FC<AnimalListProps> = props => {
         ({ row }: { row: Animal }) => {
             const disableBtn = !selectedTimeline || !selectedTimeline.savedDraft;
             const button = (
-                <Button className="animal-grid-add" disabled={disableBtn} onClick={() => handleUnassignAnimal(row.Id!)}>
+                <Button className="animal-grid-add" style={{ borderColor: 'darkgray' }} disabled={disableBtn} onClick={() => handleUnassignAnimal(row.Id!)}>
                     <FontAwesomeIcon icon={faMinus} />
                 </Button>
             );
@@ -114,6 +114,12 @@ const AnimalList: FC<AnimalListProps> = props => {
                 key: 'Id',
                 name: 'ID',
                 width: 60,
+                sortable: true,
+            },
+            {
+                key: 'status',
+                name: 'Status',
+                width: 80,
                 sortable: true,
             },
             {

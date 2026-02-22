@@ -193,7 +193,7 @@ export function fetchAnimalsByProject(projectId, revision) {
     dispatch(createAction(ANIMAL_LIST_REQUESTED));
     LABKEY.Query.selectRows({
       columns:
-        "Id,ProjectId,RevisionNum,StartDate,EndDate,Gender,ChargeId,Iacuc,AssignmentStatus,Weight,Age",
+        "Id,ProjectId,RevisionNum,StartDate,EndDate,Gender,ChargeId,Iacuc,AssignmentStatus,Weight,Age,status,DeathDate",
       failure: (error) => {
         dispatch(createAction(ANIMAL_LIST_RECEIVED, []));
         dispatch(handleErrors("Retrieving animals failed", error));

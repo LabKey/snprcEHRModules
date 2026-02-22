@@ -49,10 +49,12 @@ export interface Animal {
     AnimalId?: string;
     assigned?: boolean;
     AssignmentStatus?: string;
+    DeathDate?: string;
     EndDate?: string;
     Gender?: string;
     Id?: string;
     IsDeleted?: boolean;
     IsDirty?: boolean;
+    status?: string;
     Weight?: number;
 }

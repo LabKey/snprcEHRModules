@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback } from 'react';
+import React, { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTimelineAnimalItem, setAvailableAnimalFilter } from '../actions/dataActions';
 import { Column, DataGrid, RenderCellProps } from 'react-data-grid';
@@ -31,6 +31,18 @@ const AnimalMain: FC = () => {
     );
     const availableAnimals = useSelector((state: RootState) => state.animal.availableAnimals);
 
+    const filteredAnimals = useMemo(() => {
+        if (!availableAnimals) return [];
+        const studyDay0 = selectedTimeline?.StudyDay0;
+        if (!studyDay0) return availableAnimals;
+
+        const day0Date = new Date(studyDay0);
+        return availableAnimals.filter(animal => {
+            if (!animal.DeathDate) return true;
+            return new Date(animal.DeathDate) >= day0Date;
+        });
+    }, [availableAnimals, selectedTimeline?.StudyDay0]);
+
     const handleAnimalFilter = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             dispatch(setAvailableAnimalFilter(event.target.value));
@@ -61,7 +73,7 @@ const AnimalMain: FC = () => {
         ({ row }: RenderCellProps<Animal>) => {
             const disableBtn = !selectedTimeline || !selectedTimeline.savedDraft;
             const button = (
-                <Button className="animal-grid-add" disabled={disableBtn} onClick={() => handleAssignAnimal(row)}>
+                <Button className="animal-grid-add" style={{ borderColor: 'darkgray' }} disabled={disableBtn} onClick={() => handleAssignAnimal(row)}>
                     <FontAwesomeIcon icon={faPlus} />
                 </Button>
             );
@@ -100,6 +112,11 @@ const AnimalMain: FC = () => {
                 sortable: true,
             },
             {
+                key: 'status',
+                name: 'Status',
+                sortable: true,
+            },
+            {
                 key: 'Gender',
                 name: 'Sex',
                 sortable: true,
@@ -118,7 +135,7 @@ const AnimalMain: FC = () => {
     }, [AddButtonFormatter]);
 
     const columns = getColumns();
-    const hasAnimals = availableAnimals && availableAnimals.length > 0;
+    const hasAnimals = filteredAnimals && filteredAnimals.length > 0;
 
     return (
         <>
@@ -141,7 +158,7 @@ const AnimalMain: FC = () => {
                     columns={columns}
                     defaultColumnOptions={{ resizable: true }}
                     rowKeyGetter={row => row.Id || ''}
-                    rows={availableAnimals || []}
+                    rows={filteredAnimals}
                     style={{ height: 'calc(67vh - 160px - 50px)' }}
                 />
                 {!hasAnimals && <div className="datagrid-empty-message">No unassigned animals available</div>}
