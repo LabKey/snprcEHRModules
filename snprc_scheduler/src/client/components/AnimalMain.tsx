@@ -38,8 +38,9 @@ const AnimalMain: FC = () => {
 
         const day0Date = new Date(studyDay0);
         return availableAnimals.filter(animal => {
-            if (!animal.DeathDate) return true;
-            return new Date(animal.DeathDate) >= day0Date;
+            if (animal.DeathDate && new Date(animal.DeathDate) < day0Date) return false;
+            if (animal.DepartureDate && new Date(animal.DepartureDate) < day0Date) return false;
+            return true;
         });
     }, [availableAnimals, selectedTimeline?.StudyDay0]);
 

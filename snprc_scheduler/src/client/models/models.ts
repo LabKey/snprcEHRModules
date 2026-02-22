@@ -50,6 +50,7 @@ export interface Animal {
     assigned?: boolean;
     AssignmentStatus?: string;
     DeathDate?: string;
+    DepartureDate?: string;
     EndDate?: string;
     Gender?: string;
     Id?: string;
