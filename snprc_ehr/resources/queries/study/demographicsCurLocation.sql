@@ -22,5 +22,11 @@ SELECT d2.id,
        coalesce(d2.cage, '')          AS cage_order,
        d2.cage_sortValue @hidden
 FROM study.housing d2
+INNER JOIN (SELECT d3.id, MAX(d3.date) AS maxDate
+            FROM study.housing d3
+            WHERE d3.enddate IS NULL
+              AND d3.qcstate.publicdata = true
+            GROUP BY d3.id) latest
+  ON d2.id = latest.id AND d2.date = latest.maxDate
 WHERE d2.enddate IS NULL
   AND d2.qcstate.publicdata = true;
