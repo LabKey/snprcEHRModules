@@ -22,7 +22,6 @@ import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
 import org.labkey.api.util.DateUtil;
-import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.security.SNPRC_schedulerEditorsPermission;
@@ -57,7 +56,7 @@ public class SNPRC_schedulerController extends SpringActionController
     public static class BeginAction extends SimpleRedirectAction<Object>
     {
         @Override
-        public URLHelper getRedirectURL(Object o)
+        public ActionURL getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "app", getContainer());
         }

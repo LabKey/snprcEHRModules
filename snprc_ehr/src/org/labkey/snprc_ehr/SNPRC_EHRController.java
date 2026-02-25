@@ -305,7 +305,7 @@ public class SNPRC_EHRController extends SpringActionController
     public static class BirthReportAction extends SimpleRedirectAction<Object>
     {
         @Override
-        public URLHelper getRedirectURL(Object o)
+        public ActionURL getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "BirthRecordReport", getContainer());
         }
@@ -315,7 +315,7 @@ public class SNPRC_EHRController extends SpringActionController
     public static class SsrsReportsAction extends SimpleRedirectAction<Object>
     {
         @Override
-        public URLHelper getRedirectURL(Object o)
+        public ActionURL getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "SsrsReporting", getContainer());
         }
@@ -325,7 +325,7 @@ public class SNPRC_EHRController extends SpringActionController
     public static class IdChipReaderAction extends SimpleRedirectAction
     {
         @Override
-        public URLHelper getRedirectURL(Object o)
+        public ActionURL getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "ChipReader", getContainer());
         }
@@ -335,7 +335,7 @@ public class SNPRC_EHRController extends SpringActionController
     public static class SndEventViewAction extends SimpleRedirectAction<Object>
     {
         @Override
-        public URLHelper getRedirectURL(Object o)
+        public ActionURL getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "SndEventsViewer", getContainer());
         }
@@ -345,7 +345,7 @@ public class SNPRC_EHRController extends SpringActionController
     public static class NewAnimalWizardAction extends SimpleRedirectAction<Object>
     {
         @Override
-        public URLHelper getRedirectURL(Object o)
+        public ActionURL getRedirectURL(Object o)
         {
             return new ActionURL(NAME, "NewAnimalPage", getContainer());
         }
