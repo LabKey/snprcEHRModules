@@ -118,13 +118,14 @@ public class SNPRC_schedulerController extends SpringActionController
                 {
                     species = url.getParameter("species");
                     dateString = url.getParameter("date");
+                    String qcState = url.getParameter("qcState");
 
                      // assume current date if date is not passed in
                     date = (dateString == null ? new Date() : DateUtil.parseDateTime(dateString, Timeline.TIMELINE_DATE_FORMAT));
                     if (species != null && date != null)
                     {
                         timelines = SNPRC_schedulerService.get().getScheduledTimelinesForSpecies(getContainer(), getUser(),
-                                species, date, new BatchValidationException());
+                                species, date, qcState, new BatchValidationException());
 
                         props.put("success", true);
                         props.put("rows", timelines);
