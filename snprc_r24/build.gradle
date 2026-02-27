@@ -33,15 +33,13 @@ project.tasks.register("transformJar", Jar)
             jar.from { configurations.transformJars.collect { it.isDirectory() ? it : zipTree(it) }}
             jar.archiveBaseName.set("MicrobiomeTransform")
             jar.archiveClassifier.set("transform")
-            jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+            jar.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
             jar.destinationDirectory.set(BuildUtils.getBuildDirFile(project, "artifacts/snprc"))
             jar.manifest {
                 attributes "Main-Class": "MicrobiomeTransform"
             }
         }
 
-project.artifacts {
-    archives project.tasks.transformJar
-}
+project.tasks.assemble.dependsOn(project.tasks.transformJar)
 
 project.tasks.named('module').configure { dependsOn(project.tasks.transformJar) }

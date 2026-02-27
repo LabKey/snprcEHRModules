@@ -34,7 +34,7 @@ project.tasks.register("transformJar", Jar)
         jar.description = "Create the genetics transform jar file"
         jar.from project.sourceSets.transform.output
         jar.from { configurations.transformJars.collect { it.isDirectory() ? it : zipTree(it) }}
-        jar.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+        jar.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         jar.archiveBaseName.set("GeneticsTransform")
         jar.destinationDirectory.set(project.layout.buildDirectory.file("artifacts/snprc").get().asFile)
     }
