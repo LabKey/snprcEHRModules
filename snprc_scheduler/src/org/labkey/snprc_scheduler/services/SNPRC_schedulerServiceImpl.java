@@ -27,11 +27,14 @@ import org.labkey.snprc_scheduler.domains.Timeline;
 import org.labkey.snprc_scheduler.domains.TimelineAnimalJunction;
 import org.labkey.snprc_scheduler.domains.TimelineItem;
 import org.labkey.snprc_scheduler.domains.TimelineProjectItem;
+import org.labkey.snprc_scheduler.security.QCStateEnum;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Created by thawkins on 10/21/2018
@@ -91,9 +94,20 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
     }
 
 
-    //TODO: need to add scheduleDate criteria
+    /**
+     * Retrieves timelines for a given species that have procedures scheduled on a specific date.
+     * Optionally filters by QC state.
+     *
+     * @param c       = Container object
+     * @param u       = User object
+     * @param species = species identifier to filter timelines
+     * @param date    = schedule date to match against timeline items
+     * @param qcState = optional QC state name to further filter timelines
+     * @param errors  = exception object for collecting validation errors
+     * @return list of timeline JSON objects matching the criteria
+     */
     @Override
-    public List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, Date date, BatchValidationException errors) throws ApiUsageException
+    public List<JSONObject> getScheduledTimelinesForSpecies(Container c, User u, String species, Date date, String qcState, BatchValidationException errors) throws ApiUsageException
     {
         List<JSONObject> timelinesJson = new ArrayList<>();
         try
@@ -101,7 +115,7 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             SNPRC_schedulerUserSchema schema = SNPRC_schedulerManager.getSNPRC_schedulerUserSchema(c, u);
             TableInfo timelineTable = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter(), false, false);
 
-            // only return timelines with procedures scheduled on specified date
+            // Query for timeline ObjectIds that have items scheduled on the given date
             SQLFragment sql = new SQLFragment();
             sql.append("SELECT DISTINCT t." + Timeline.TIMELINE_OBJECTID);
             sql.append(" FROM ");
@@ -109,19 +123,30 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
             sql.append(" JOIN ");
             sql.append(SNPRC_schedulerSchema.getInstance().getTableInfoTimelineItem(), "ti");
             sql.append(" ON t." + Timeline.TIMELINE_OBJECTID + " = ti." + TimelineItem.TIMELINEITEM_TIMELINE_OBJECT_ID);
-            sql.append(" WHERE " + "ti." + TimelineItem.TIMELINEITEM_SCHEDULE_DATE  + " = ?" ).add(date);
+            sql.append(" WHERE ti." + TimelineItem.TIMELINEITEM_SCHEDULE_DATE + " = ?").add(date);
 
             SqlSelector selector = new SqlSelector(SNPRC_schedulerSchema.getInstance().getSchema(), sql);
 
             List<String> objectIds = new ArrayList<>();
             selector.forEachMap(row -> objectIds.add( (String) row.get(Timeline.TIMELINE_OBJECTID)));
 
-            //SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_SPECIES, "referenceId", "species"), species, CompareType.EQUAL);
+            // Build filter for species, matching ObjectIds, and optional QC state
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("sndProject", "referenceId", "species"), species, CompareType.EQUAL);
-            filter.addInClause(FieldKey.fromParts(Timeline.TIMELINE_OBJECTID), objectIds );
+            filter.addInClause(FieldKey.fromParts(Timeline.TIMELINE_OBJECTID), objectIds);
+
+            if (isNotBlank(qcState))
+            {
+                Integer qcStateId = QCStateEnum.getQCStateEnumId(c, u,
+                    QCStateEnum.getQCStateEnumByName(qcState));
+                if (qcStateId != null)
+                {
+                    filter.addCondition(FieldKey.fromParts(Timeline.TIMELINE_QCSTATE), qcStateId, CompareType.EQUAL);
+                }
+            }
 
             List<Timeline> timelines = new TableSelector(timelineTable, filter, null).getArrayList(Timeline.class);
 
+            // Populate nested collections for each timeline and convert to JSON
             for (Timeline timeline : timelines)
             {
                 timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId(), date));
