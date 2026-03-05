@@ -216,7 +216,7 @@ const TimelineDetails: FC<TimelineDetailsProps> = ({
                         <div className="col-sm-7 zero-side-padding">
                             <FormControl
                                 className="input-wide"
-                                disabled={!timeline.RowId}
+                                disabled={!timeline.RowId || timeline.RevisionNum > 0}
                                 id="StudyDay0"
                                 onChange={handleStudyDay0}
                                 type="date"
