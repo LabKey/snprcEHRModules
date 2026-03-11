@@ -230,6 +230,43 @@ public class SNPRC_schedulerServiceValidator
                 throw errors;
             }
 
+            // For revisions > 0, validate schedule dates against the start date of revision 0
+            if (timeline.getRevisionNum() != null && timeline.getRevisionNum() > 0 && timeline.getTimelineId() != null)
+            {
+                try
+                {
+                    UserSchema schema = QueryService.get().getUserSchema(u, c, SNPRC_schedulerSchema.NAME);
+                    TableInfo ti = schema.getTable(SNPRC_schedulerSchema.TABLE_NAME_TIMELINE, schema.getDefaultContainerFilter());
+                    SimpleFilter filter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_ID), timeline.getTimelineId(), CompareType.EQUAL);
+                    filter.addCondition(FieldKey.fromParts(Timeline.TIMELINE_REVISION_NUM), 0, CompareType.EQUAL);
+                    TableSelector ts = new TableSelector(ti, filter, null);
+                    Map<String, Object> revisionZeroRow = ts.getMap();
+
+                    if (revisionZeroRow != null)
+                    {
+                        Date revisionZeroStartDate = (Date) revisionZeroRow.get(Timeline.TIMELINE_STARTDATE);
+                        if (revisionZeroStartDate != null)
+                        {
+                            startDate = revisionZeroStartDate;
+                        }
+                    }
+                    else
+                    {
+                        errors.addRowError(new ValidationException("Revision 0 not found for TimelineId " + timeline.getTimelineId()));
+                        throw errors;
+                    }
+                }
+                catch (BatchValidationException bve)
+                {
+                    throw bve;
+                }
+                catch (Exception e)
+                {
+                    errors.addRowError(new ValidationException("Error retrieving revision 0 start date: " + e.getMessage()));
+                    throw errors;
+                }
+            }
+
             for (TimelineItem item : newItems)
             {
                 // Only validate items that do not have a timelineItemId (new items)
