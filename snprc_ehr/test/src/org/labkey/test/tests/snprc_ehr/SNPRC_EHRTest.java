@@ -447,7 +447,10 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         waitForElement(Ext4Helper.Locators.ext4Button("Create Folders"));
         click(Ext4Helper.Locators.ext4Button("Create Folders"));
 
-        waitForText("Anesthesia Reports", "Cardiology Docs", "Dental Records", "Images", "Lab Reports", "Misc Docs", "Pathology Reports", "Procurement Docs", "Radiology Reports", "Surgery Sheets");
+        waitForTextToDisappear("No directory found for this animal. To upload files, you must create the folders first.");
+        waitForTextToDisappear("Loading...");
+        waitForText(WAIT_FOR_PAGE * 2, "Anesthesia Reports");
+        assertTextPresent("Anesthesia Reports", "Cardiology Docs", "Dental Records", "Images", "Lab Reports", "Misc Docs", "Pathology Reports", "Procurement Docs", "Radiology Reports", "Surgery Sheets");
 
     }
 
