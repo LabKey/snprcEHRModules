@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useEffect, useMemo } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import {
     deleteTimelineAnimalItem,
     setAssignedAnimalFilter,
@@ -37,6 +37,43 @@ const AnimalList: FC<AnimalListProps> = props => {
         deleteTimelineAnimalItem,
         updateTimelineAnimalItem,
     } = props;
+
+    const prevStateRef = useRef<{ timelineId: number | null; animalIds: Set<string>; orderedIds: string[] }>({
+        timelineId: null,
+        animalIds: new Set(),
+        orderedIds: [],
+    });
+
+    const orderedAnimals = useMemo(() => {
+        if (!assignedAnimals || assignedAnimals.length === 0) {
+            prevStateRef.current = { timelineId: selectedTimeline?.TimelineId ?? null, animalIds: new Set(), orderedIds: [] };
+            return [];
+        }
+
+        const timelineId = selectedTimeline?.TimelineId ?? null;
+        const currentIds = new Set(assignedAnimals.map(a => a.Id!));
+        const prev = prevStateRef.current;
+        const timelineChanged = timelineId !== prev.timelineId;
+
+        let orderedIds: string[];
+
+        if (timelineChanged || prev.animalIds.size === 0) {
+            // Sort on initial load or timeline change
+            orderedIds = [...assignedAnimals]
+                .sort((a, b) => (a.Id || '').localeCompare(b.Id || ''))
+                .map(a => a.Id!);
+        } else {
+            // Prepend new animals, keep existing order for the rest
+            const newIds = [...currentIds].filter(id => !prev.animalIds.has(id));
+            const existingOrder = prev.orderedIds.filter(id => currentIds.has(id));
+            orderedIds = [...newIds, ...existingOrder];
+        }
+
+        prevStateRef.current = { timelineId, animalIds: currentIds, orderedIds };
+
+        const animalMap = new Map(assignedAnimals.map(a => [a.Id, a]));
+        return orderedIds.map(id => animalMap.get(id)).filter(Boolean) as Animal[];
+    }, [assignedAnimals, selectedTimeline]);
 
     useEffect(() => {
         if (forceRerender) {
@@ -149,7 +186,7 @@ const AnimalList: FC<AnimalListProps> = props => {
         ];
     }, [UnassignButtonFormatter]);
 
-    const hasAnimals = assignedAnimals && assignedAnimals.length > 0;
+    const hasAnimals = orderedAnimals.length > 0;
 
     const search = (
         <div className="input-group top-bottom-padding-8">
@@ -177,7 +214,7 @@ const AnimalList: FC<AnimalListProps> = props => {
                     defaultColumnOptions={{ resizable: true }}
                     onRowsChange={onRowsChange}
                     rowKeyGetter={(row: Animal) => row.Id!}
-                    rows={assignedAnimals || []}
+                    rows={orderedAnimals}
                     style={{ height: 'calc(50vh - 160px - 50px)' }}
                 />
                 {!hasAnimals && <div className="datagrid-empty-message">No animals assigned</div>}

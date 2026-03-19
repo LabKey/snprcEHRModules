@@ -9,6 +9,7 @@ interface TimelineDetailsProps {
     onUpdateTimelineDayZero: (day0: string, forceReload: boolean, dirty: boolean) => void;
     selectedProject: null | Project;
     selectedTimeline: null | Timeline;
+    timelines: Timeline[];
 }
 
 interface RootState {
@@ -17,6 +18,7 @@ interface RootState {
     };
     timeline: {
         selectedTimeline: null | Timeline;
+        timelines: Timeline[];
     };
 }
 
@@ -25,6 +27,7 @@ const TimelineDetails: FC<TimelineDetailsProps> = ({
     selectedTimeline,
     onUpdateSelectedTimeline,
     onUpdateTimelineDayZero,
+    timelines,
 }) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         onUpdateSelectedTimeline(
@@ -52,6 +55,12 @@ const TimelineDetails: FC<TimelineDetailsProps> = ({
     };
 
     const timeline = selectedTimeline || {};
+
+    const timelinesList = timelines || [];
+    const hasOtherRevisions =
+        timeline.TimelineId != null &&
+        timelinesList.some(tl => tl.TimelineId === timeline.TimelineId && tl.RevisionNum !== timeline.RevisionNum);
+    const studyDay0Disabled = !timeline.RowId || timeline.RevisionNum > 0 || (timeline.RevisionNum === 0 && hasOtherRevisions);
 
     return (
         <div className="container-fluid details-frame" style={{ textAlign: 'left' }}>
@@ -216,7 +225,7 @@ const TimelineDetails: FC<TimelineDetailsProps> = ({
                         <div className="col-sm-7 zero-side-padding">
                             <FormControl
                                 className="input-wide"
-                                disabled={!timeline.RowId || timeline.RevisionNum > 0}
+                                disabled={studyDay0Disabled}
                                 id="StudyDay0"
                                 onChange={handleStudyDay0}
                                 type="date"
@@ -282,6 +291,7 @@ const TimelineDetails: FC<TimelineDetailsProps> = ({
 const mapStateToProps = (state: RootState) => ({
     selectedProject: state.project.selectedProject || null,
     selectedTimeline: state.timeline.selectedTimeline || null,
+    timelines: state.timeline.timelines || [],
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -54,7 +54,36 @@ class TimelineList extends React.Component {
             confirmed: false
         };
         this.gridRef = React.createRef();
+        this.rowKeyGetter = (row) => `${row.RowId}_${row.RevisionNum}`;
+        this._cachedRows = null;
+        this._cacheKey = null;
+        this._displayOrder = [];       // stable RowId ordering — survives saves
+        this._prevTimelinesLength = 0;
+        this._prevTimelinesLoading = false;
+        this._prevSelectedRowId = null;
+        this._columns = this.getColumns();
+        this._gridStyle = { height: 'calc(51vh - 160px - 50px)' };
+        this._defaultColumnOptions = { resizable: true };
     }
+
+    // Compute a display order sorted by Description (used once on initial load)
+    _computeSortedOrder = (timelines) => {
+        const seen = new Set();
+        const parents = [];
+        timelines.forEach(tl => {
+            if (!seen.has(tl.RowId)) {
+                seen.add(tl.RowId);
+                const parent = timelines.find(t => t.RowId === tl.RowId && t.RevisionNum === 0) || tl;
+                parents.push(parent);
+            }
+        });
+        parents.sort((a, b) => {
+            const descA = (a.Description || '');
+            const descB = (b.Description || '');
+            return descA.localeCompare(descB);
+        });
+        return parents.map(p => p.RowId);
+    };
 
     getTooltip = (label) => {
         return (<Tooltip id="tooltip">
@@ -200,6 +229,13 @@ class TimelineList extends React.Component {
         onCloneTimeline(selectedTimeline);
         const newRowId = getNextRowId(lastRowId, timelines);
         this.expandTimeline(newRowId);
+
+        // Scroll to top so the new clone (prepended) is visible
+        setTimeout(() => {
+            if (this.gridRef.current) {
+                this.gridRef.current.scrollToCell({ rowIdx: 0, idx: 0 });
+            }
+        }, 100);
     };
 
     reviseTimelineConfirm = () => {
@@ -427,7 +463,7 @@ class TimelineList extends React.Component {
 
     enableEditMode = (row) => {
         if (this.gridRef.current) {
-            const rows = this.getTimelineRows();
+            const rows = this._cachedRows || this.getTimelineRows();
             const rowIdx = rows.findIndex(r =>
                     r.RowId === row.RowId && r.RevisionNum === row.RevisionNum
                 );
@@ -534,9 +570,12 @@ class TimelineList extends React.Component {
             timelineGroups[timelineToUse.RowId].push(timelineToUse);
         });
 
-        // For each timeline group, add parent row (RevisionNum 0) and child rows if expanded
-        Object.keys(timelineGroups).forEach(rowId => {
+        // Use the stable display order maintained in render().
+        // This is sorted by Description only on initial load; after that the
+        // order is frozen so saves and other interactions never re-sort the grid.
+        this._displayOrder.forEach(rowId => {
             const group = timelineGroups[rowId];
+            if (!group) return;
 
             // Sort by revision number ascending
             group.sort((a, b) => a.RevisionNum - b.RevisionNum);
@@ -570,9 +609,70 @@ class TimelineList extends React.Component {
     };
 
     render = () => {
-        const { selectedTimeline, timelinesLoading } = this.props;
-        const rows = this.getTimelineRows();
-        const columns = this.getColumns();
+        const { selectedTimeline, timelinesLoading, timelines } = this.props;
+        const { expandedTimelineIds } = this.state;
+        const timelinesLength = timelines ? timelines.length : 0;
+
+        // --- Maintain the stable display order (array of RowIds) ---
+        // Sorted by Description ONCE on initial load; after that frozen so
+        // saves never re-sort.  New timelines are prepended (newest at top).
+
+        // Fresh load from server (timelinesLoading transitioned from true → false)
+        if (this._prevTimelinesLoading && !timelinesLoading && timelinesLength > 0) {
+            this._displayOrder = this._computeSortedOrder(timelines);
+        }
+        // Timelines cleared (project change / loading)
+        else if (timelinesLength === 0) {
+            this._displayOrder = [];
+        }
+        // Fallback: displayOrder empty but timelines exist (e.g. first render)
+        else if (timelinesLength > 0 && this._displayOrder.length === 0) {
+            this._displayOrder = this._computeSortedOrder(timelines);
+        }
+        // Timeline added (new, clone, or revision with new RowId)
+        else if (timelinesLength > this._prevTimelinesLength && this._prevTimelinesLength > 0) {
+            const existingSet = new Set(this._displayOrder);
+            const newRowIds = [];
+            timelines.forEach(tl => {
+                if (!existingSet.has(tl.RowId) && !newRowIds.includes(tl.RowId)) {
+                    newRowIds.push(tl.RowId);
+                }
+            });
+            if (newRowIds.length > 0) {
+                this._displayOrder = [...newRowIds, ...this._displayOrder];
+            }
+        }
+
+        // Patch RowId after save of a new timeline (temp RowId → server TimelineId)
+        if (selectedTimeline && this._prevSelectedRowId != null &&
+            selectedTimeline.RowId !== this._prevSelectedRowId &&
+            this._displayOrder.includes(this._prevSelectedRowId) &&
+            !this._displayOrder.includes(selectedTimeline.RowId)) {
+            this._displayOrder = this._displayOrder.map(id =>
+                id === this._prevSelectedRowId ? selectedTimeline.RowId : id
+            );
+        }
+
+        this._prevTimelinesLoading = timelinesLoading;
+        this._prevTimelinesLength = timelinesLength;
+        this._prevSelectedRowId = selectedTimeline ? selectedTimeline.RowId : null;
+
+        // --- Cache rows so saves return the exact same array reference ---
+        const cacheKey = [
+            timelinesLength,
+            timelinesLoading,
+            [...expandedTimelineIds].join(','),
+            selectedTimeline ? selectedTimeline.Description : '',
+            this._displayOrder.join(',')
+        ].join('|');
+
+        if (this._cacheKey !== cacheKey) {
+            this._cachedRows = this.getTimelineRows();
+            this._cacheKey = cacheKey;
+        }
+
+        const rows = this._cachedRows;
+        const columns = this._columns;
 
         return <div>
             <div className="input-group top-bottom-padding-8">
@@ -620,12 +720,12 @@ class TimelineList extends React.Component {
                         className='timeline-table'
                         columns={columns}
                         rows={rows}
-                        rowKeyGetter={(row) => `${row.RowId}_${row.RevisionNum}`}
+                        rowKeyGetter={this.rowKeyGetter}
                         onCellClick={this.onCellClick}
                         onRowsChange={this.onRowsChange}
                         rowClass={this.rowClass}
-                        style={{ height: 'calc(51vh - 160px - 50px)' }}
-                        defaultColumnOptions={{ resizable: true }}
+                        style={this._gridStyle}
+                        defaultColumnOptions={this._defaultColumnOptions}
                     />
                 </div>
             )}

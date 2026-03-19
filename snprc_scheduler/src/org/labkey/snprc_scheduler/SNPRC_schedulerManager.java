@@ -188,7 +188,8 @@ public class SNPRC_schedulerManager
                             .addCondition(FieldKey.fromParts("projectId"), projectInfo.get("ProjectId"), CompareType.EQUAL)
                             .addCondition(FieldKey.fromParts("RevisionNum"), projectInfo.get("ProjectRevisionNum"));
 
-                    Map result = new TableSelector(ti, demFilter, null).getMap();
+                    List<Map> results = new TableSelector(ti, demFilter, null).getArrayList(Map.class);
+                    Map result = results.isEmpty() ? null : results.get(0);
 
                     if (result != null)
                     {

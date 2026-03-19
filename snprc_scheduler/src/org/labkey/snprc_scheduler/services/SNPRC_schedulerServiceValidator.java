@@ -230,7 +230,8 @@ public class SNPRC_schedulerServiceValidator
                 throw errors;
             }
 
-            // For revisions > 0, validate schedule dates against the start date of revision 0
+            // For revisions > 0, look up revision 0's start date for validating existing items
+            Date revisionZeroStartDate = null;
             if (timeline.getRevisionNum() != null && timeline.getRevisionNum() > 0 && timeline.getTimelineId() != null)
             {
                 try
@@ -244,11 +245,7 @@ public class SNPRC_schedulerServiceValidator
 
                     if (revisionZeroRow != null)
                     {
-                        Date revisionZeroStartDate = (Date) revisionZeroRow.get(Timeline.TIMELINE_STARTDATE);
-                        if (revisionZeroStartDate != null)
-                        {
-                            startDate = revisionZeroStartDate;
-                        }
+                        revisionZeroStartDate = (Date) revisionZeroRow.get(Timeline.TIMELINE_STARTDATE);
                     }
                     else
                     {
@@ -269,25 +266,39 @@ public class SNPRC_schedulerServiceValidator
 
             for (TimelineItem item : newItems)
             {
-                // Only validate items that do not have a timelineItemId (new items)
+                Date scheduleDate = item.getScheduleDate();
+                if (scheduleDate == null)
+                {
+                    continue;
+                }
+
                 if (item.getTimelineItemId() == null)
                 {
-                    Date scheduleDate = item.getScheduleDate();
-
-                    if (scheduleDate != null)
+                    // New items must be within the current revision's start/end dates
+                    if (scheduleDate.before(startDate) || scheduleDate.after(endDate))
                     {
-                        // Check if scheduleDate is before startDate or after endDate
-                        if (scheduleDate.before(startDate) || scheduleDate.after(endDate))
-                        {
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            errors.addRowError(new ValidationException(
-                                    String.format("Timeline item study day %s (schedule date: %s) must be within or equal to the timeline start date (%s) and end date (%s)",
-                                            item.getStudyDay(),
-                                            dateFormat.format(scheduleDate),
-                                            dateFormat.format(startDate),
-                                            dateFormat.format(endDate))));
-                            throw errors;
-                        }
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        errors.addRowError(new ValidationException(
+                                String.format("Timeline item study day %s (schedule date: %s) must be within or equal to the timeline start date (%s) and end date (%s)",
+                                        item.getStudyDay(),
+                                        dateFormat.format(scheduleDate),
+                                        dateFormat.format(startDate),
+                                        dateFormat.format(endDate))));
+                        throw errors;
+                    }
+                }
+                else if (revisionZeroStartDate != null)
+                {
+                    // Existing items must not be before revision 0's start date
+                    if (scheduleDate.before(revisionZeroStartDate))
+                    {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        errors.addRowError(new ValidationException(
+                                String.format("Existing timeline item study day %s (schedule date: %s) must not be before revision 0 start date (%s)",
+                                        item.getStudyDay(),
+                                        dateFormat.format(scheduleDate),
+                                        dateFormat.format(revisionZeroStartDate))));
+                        throw errors;
                     }
                 }
             }

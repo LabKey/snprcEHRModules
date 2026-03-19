@@ -421,8 +421,7 @@ class TimelineGrid extends React.Component {
             })
 
             this.setState(Object.assign({}, this.state, {
-                rows: newRows,
-                key: this.getGridKey()
+                rows: newRows
             }));
 
             this.props.selectedTimeline.forceReload = false;
@@ -636,7 +635,6 @@ class TimelineGrid extends React.Component {
                 stateCopy.showProcNote = false;
                 stateCopy.procNoteName = "";
                 stateCopy.rows = newRows;
-                stateCopy.key = this.getGridKey();
 
                 this.setState(stateCopy);
 
@@ -655,11 +653,10 @@ class TimelineGrid extends React.Component {
         if (selectedTimeline && !selectedTimeline.IsInUse) {
             const filteredRows = this.state.rows.filter(row => row.RowIdx !== RowIdx);
 
-            this.setState(state => {
-                state.rows = filteredRows;
-                state.key = this.getGridKey();
-                return state;
-            });
+            this.setState(state => ({
+                ...state,
+                rows: filteredRows
+            }));
 
             onDeleteTimelineItem({RowIdx: RowIdx});
         }
@@ -700,7 +697,6 @@ class TimelineGrid extends React.Component {
             }
 
             state.rows = newRows;
-            state.key = this.getGridKey();
             return state;
         });
 
@@ -727,7 +723,7 @@ class TimelineGrid extends React.Component {
             onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true, true);
         }
 
-        const stateCopy = {rows: [...rows], key: this.getGridKey()};
+        const stateCopy = {rows: [...rows]};
         this.setState(stateCopy);
     };
 
@@ -742,7 +738,6 @@ class TimelineGrid extends React.Component {
         const { selectedTimeline, onUpdateSelectedTimeline, onAddTimelineItem, lastRowIdx } = this.props;
 
         if (selectedTimeline && selectedTimeline.Description && !selectedTimeline.IsInUse) {
-            const stateCopy = Object.assign({}, this.state);
             let RowIdx = lastRowIdx;
             RowIdx++;
 
@@ -750,10 +745,9 @@ class TimelineGrid extends React.Component {
                 StudyDayNote: '', TimelineObjectId: selectedTimeline.ObjectId};
             onAddTimelineItem(newRow);
 
-            stateCopy.rows.push(newRow);
-            stateCopy.key = this.getGridKey();
+            const newRows = [...this.state.rows, newRow];
 
-            this.setState(stateCopy, () => {
+            this.setState({ ...this.state, rows: newRows }, () => {
                 // Focus on the new row's first cell (StudyDay column at index 0)
                 if (this.dataGridRef.current) {
                     const newRowIdx = this.state.rows.length - 1;
