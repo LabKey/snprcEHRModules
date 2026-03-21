@@ -315,10 +315,14 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
                 if (!errors.hasErrors())
                 {
-                    timeline.setTimelineItems(timelineItems);
-                    timeline.setTimelineProjectItems(timelineProjectItems);
-                    timeline.setTimelineAnimalItems(timelineAnimalItems);
-                    timeline.setStudyDayNotes(studyDayNotes);
+                    // Re-query all child collections from the database to ensure DB-generated
+                    // values (e.g., TimelineItemId identity column) are properly populated
+                    timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId(), null));
+                    timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId(), null));
+                    timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
+                    timeline.setStudyDayNotes(SNPRC_schedulerManager.get().getStudyDayNotes(c, u, timeline.getObjectId()));
+                    timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
+                    timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
 
                     responseJson = timeline.toJSON(c, u);
 

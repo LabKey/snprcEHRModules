@@ -219,8 +219,7 @@ class TimelineGrid extends React.Component {
 
     StudyDayEditable = (rowData) => {
         const isOutOfRange = !this.isScheduleDateWithinRange(rowData);
-        // If row has no TimelineItemId, allow editing even if out of range
-        const hasNoTimelineItemId = !rowData.TimelineItemId;
+        const hasNoTimelineItemId = !rowData.TimelineItemId && !rowData.ParentTimelineItemId;
         return rowData.RowIdx !== 0 && (!isOutOfRange || hasNoTimelineItemId);
 
     };
@@ -246,8 +245,7 @@ class TimelineGrid extends React.Component {
         const { selectedTimeline } = this.props;
         const isOutOfRange = !this.isScheduleDateWithinRange(row);
         const isInUse = selectedTimeline && selectedTimeline.IsInUse;
-        // If row has no TimelineItemId, allow delete even if out of range
-        const hasNoTimelineItemId = !row.TimelineItemId;
+        const hasNoTimelineItemId = !row.TimelineItemId && !row.ParentTimelineItemId;
         const showDeleteIcon = row.RowIdx !== 0 && (!isOutOfRange || hasNoTimelineItemId);
 
         const cellContent = (
@@ -267,7 +265,6 @@ class TimelineGrid extends React.Component {
                 </div>
         );
 
-        // Only show tooltip for out of range rows that have a TimelineItemId
         if (isOutOfRange && row.RowIdx !== 0 && !hasNoTimelineItemId) {
             const disabledTooltip = (
                 <Tooltip id="disabled-tooltip">
@@ -297,8 +294,7 @@ class TimelineGrid extends React.Component {
     // Returns 'timeline-cell-disabled' for out-of-range rows without TimelineItemId (partially disabled rows)
     getCellDisabledClass = (row) => {
         const isOutOfRange = !this.isScheduleDateWithinRange(row);
-        const hasNoTimelineItemId = !row.TimelineItemId;
-        // Apply disabled styling to cells in out-of-range rows that have no TimelineItemId
+        const hasNoTimelineItemId = !row.TimelineItemId && !row.ParentTimelineItemId;
         if (isOutOfRange && hasNoTimelineItemId && row.RowIdx !== 0) {
             return 'timeline-cell-disabled';
         }
@@ -513,7 +509,8 @@ class TimelineGrid extends React.Component {
                                     ObjectId: item.ObjectId,
                                     ExtraRow: true,
                                     TimelineObjectId: item.TimelineObjectId,
-                                    TimelineItemId: item.TimelineItemId
+                                    TimelineItemId: item.TimelineItemId,
+                                    ParentTimelineItemId: item.ParentTimelineItemId
                                 };
 
                                 if (item.ProjectItemId) {
@@ -535,7 +532,8 @@ class TimelineGrid extends React.Component {
                                 ScheduleDate: item.ScheduleDate,
                                 ObjectId: item.ObjectId,
                                 TimelineObjectId: item.TimelineObjectId,
-                                TimelineItemId: item.TimelineItemId
+                                TimelineItemId: item.TimelineItemId,
+                                ParentTimelineItemId: item.ParentTimelineItemId
                             };
 
                             if (item.ProjectItemId) {
@@ -931,7 +929,7 @@ class TimelineGrid extends React.Component {
                                         // headerRowHeight={200}
                                         onRowsChange={this.onRowsChange}
                                         onCellClick={this.onCellClick}
-                                        rowClass={(row) => !this.isScheduleDateWithinRange(row) && row.TimelineItemId ? 'timeline-row-disabled' : undefined}
+                                        rowClass={(row) => !this.isScheduleDateWithinRange(row) && (row.TimelineItemId || row.ParentTimelineItemId) ? 'timeline-row-disabled' : undefined}
                                 />
                             </DraggableContainer>
                         )}

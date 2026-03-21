@@ -63,6 +63,7 @@ const cloneTimeline = (source, revision) => {
       ...item,
       IsDirty: true,
       ObjectId: undefined,
+      ParentTimelineItemId: revision ? item.TimelineItemId : undefined,
       TimelineItemId: undefined,
       TimelineObjectId: undefined,
     };

@@ -272,7 +272,7 @@ public class SNPRC_schedulerServiceValidator
                     continue;
                 }
 
-                if (item.getTimelineItemId() == null)
+                if (item.getTimelineItemId() == null && item.getParentTimelineItemId() == null)
                 {
                     // New items must be within the current revision's start/end dates
                     if (scheduleDate.before(startDate) || scheduleDate.after(endDate))
