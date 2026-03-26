@@ -147,6 +147,24 @@ class TimelineList extends React.Component {
         });
     };
 
+    componentDidUpdate(prevProps) {
+        const { selectedTimeline } = this.props;
+        const prevSelected = prevProps.selectedTimeline;
+
+        // After saving a new timeline, RowId changes from temp (negative) to server-assigned TimelineId.
+        // Patch expandedTimelineIds to track the new RowId so the timeline stays expanded.
+        if (selectedTimeline && prevSelected &&
+            selectedTimeline.RowId !== prevSelected.RowId &&
+            this.state.expandedTimelineIds.has(prevSelected.RowId)) {
+            this.setState(state => {
+                const expandedTimelineIds = new Set(state.expandedTimelineIds);
+                expandedTimelineIds.delete(prevSelected.RowId);
+                expandedTimelineIds.add(selectedTimeline.RowId);
+                return { expandedTimelineIds };
+            });
+        }
+    }
+
     newTimelineConfirm = () => {
         const { selectedTimeline, hideConfirm, showConfirm, deleteNewTimelines } = this.props;
 
@@ -294,6 +312,7 @@ class TimelineList extends React.Component {
         }
 
         onReviseTimeline(latestRev ? latestRev : selectedTimeline);
+        this.expandTimeline(selectedTimeline.RowId);
     };
 
     deleteTimelineValidate = () => {
@@ -662,7 +681,7 @@ class TimelineList extends React.Component {
             timelinesLength,
             timelinesLoading,
             [...expandedTimelineIds].join(','),
-            selectedTimeline ? selectedTimeline.Description : '',
+            selectedTimeline ? `${selectedTimeline.RowId}_${selectedTimeline.RevisionNum}_${selectedTimeline.Description}` : '',
             this._displayOrder.join(',')
         ].join('|');
 
