@@ -382,6 +382,7 @@ export function reviseTimeline(timeline) {
   if (verboseOutput) console.log("TIMELINE_REVISION");
   return (dispatch) => {
     dispatch(createAction(TIMELINE_REVISION, timeline));
+    dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, timeline.TimelineAnimalItems || []));
   };
 }
 
