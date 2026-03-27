@@ -96,16 +96,20 @@ const cloneTimeline = (source, revision) => {
     };
   });
 
-  newTimeline.TimelineAnimalItems = (newTimeline.TimelineAnimalItems || []).map(
-    (item) => {
-      return {
-        ...item,
-        IsDirty: true,
-        ObjectId: undefined,
-        TimelineObjectId: undefined,
-      };
-    },
-  );
+  if (revision) {
+    newTimeline.TimelineAnimalItems = (newTimeline.TimelineAnimalItems || []).map(
+      (item) => {
+        return {
+          ...item,
+          IsDirty: true,
+          ObjectId: undefined,
+          TimelineObjectId: undefined,
+        };
+      },
+    );
+  } else {
+    newTimeline.TimelineAnimalItems = [];
+  }
 
   return newTimeline;
 };

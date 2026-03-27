@@ -119,6 +119,7 @@ export function cloneTimeline(timeline) {
   if (verboseOutput) console.log("TIMELINE_CLONE");
   return (dispatch) => {
     dispatch(createAction(TIMELINE_CLONE, timeline));
+    dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, []));
   };
 }
 
