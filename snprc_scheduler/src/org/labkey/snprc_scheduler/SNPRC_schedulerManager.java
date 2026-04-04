@@ -185,7 +185,7 @@ public class SNPRC_schedulerManager
                 else
                 {
                     demFilter = new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL)
-                            .addCondition(FieldKey.fromParts("projectId"), projectInfo.get("ProjectId"), CompareType.EQUAL)
+                            .addCondition(FieldKey.fromParts("projectId"), projectInfo.get("ProjectId"))
                             .addCondition(FieldKey.fromParts("RevisionNum"), projectInfo.get("ProjectRevisionNum"));
 
                     List<Map> results = new TableSelector(ti, demFilter, null).getArrayList(Map.class);
