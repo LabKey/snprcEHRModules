@@ -1,5 +1,6 @@
 package org.labkey.snprc_scheduler.services;
 
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiUsageException;
@@ -17,6 +18,7 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.snprc_scheduler.SNPRC_schedulerService;
+import org.labkey.api.util.logging.LogHelper;
 import org.labkey.snprc_scheduler.SNPRC_schedulerManager;
 import org.labkey.snprc_scheduler.SNPRC_schedulerSchema;
 import org.labkey.snprc_scheduler.SNPRC_schedulerUserSchema;
@@ -39,6 +41,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  */
 public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 {
+    private static final Logger LOG = LogHelper.getLogger(SNPRC_schedulerServiceImpl.class, "SNPRC Scheduler service operations");
     public static final SNPRC_schedulerServiceImpl INSTANCE = new SNPRC_schedulerServiceImpl();
 
     private SNPRC_schedulerServiceImpl()
@@ -315,17 +318,23 @@ public class SNPRC_schedulerServiceImpl implements SNPRC_schedulerService
 
                 if (!errors.hasErrors())
                 {
-                    // Re-query all child collections from the database to ensure DB-generated
-                    // values (e.g., TimelineItemId identity column) are properly populated
-                    timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId(), null));
-                    timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId(), null));
-                    timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
-                    timeline.setStudyDayNotes(SNPRC_schedulerManager.get().getStudyDayNotes(c, u, timeline.getObjectId()));
-                    timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
-                    timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
+                    try
+                    {
+                        // Re-query all child collections from the database to ensure DB-generated
+                        // values (e.g., TimelineItemId identity column) are properly populated
+                        timeline.setTimelineItems(SNPRC_schedulerManager.get().getTimelineItems(c, u, timeline.getObjectId(), null));
+                        timeline.setTimelineProjectItems(SNPRC_schedulerManager.get().getTimelineProjectItems(c, u, timeline.getObjectId(), null));
+                        timeline.setTimelineAnimalItems(SNPRC_schedulerManager.get().getTimelineAnimalItems(c, u, timeline.getObjectId()));
+                        timeline.setStudyDayNotes(SNPRC_schedulerManager.get().getStudyDayNotes(c, u, timeline.getObjectId()));
+                        timeline.setCreatedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getCreatedBy()));
+                        timeline.setModifiedByName(SNPRC_schedulerManager.getUserDisplayName(timeline.getModifiedBy()));
+                    }
+                    catch (RuntimeException e)
+                    {
+                        LOG.warn("Failed to re-query timeline child collections after successful save", e);
+                    }
 
                     responseJson = timeline.toJSON(c, u);
-
                 }
 
             }

@@ -65,10 +65,10 @@ export function addDaysToDate(date, days) {
 export function addTimelineAnimalItem(item, timeline) {
   if (verboseOutput)
     console.log(
-      "addTimelineItem(timelineId: " +
+      "addTimelineAnimalItem(timelineId: " +
         timeline.TimelineId +
         ", animalId: " +
-        id +
+        item.AnimalId +
         ")",
     );
   return (dispatch) => {

@@ -33,7 +33,7 @@ from snd.Projects as p
        INNER JOIN ehr.project as ep on p.ReferenceId = ep.project
        INNER JOIN study.assignment as a on ep.protocol = a.protocol
        LEFT JOIN study.deaths as d on d.Id = a.Id
-       LEFT JOIN study.departure as dep on dep.Id = a.Id
+       LEFT JOIN (SELECT Id, MAX(date) as date FROM study.departure GROUP BY Id) as dep ON dep.Id = a.Id
 where p.ReferenceId < 4000 and p.ReferenceId > 0
   and p.Active = true
   and ep.protocol is not null
