@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 export const verboseOutput = false;
 const SEARCH_MODE_LABKEY = 1;
 const SEARCH_MODE_SND = 2;
@@ -83,10 +81,10 @@ export default (state = {}, action) => {
       if (action.payload.direction == "NONE")
         nextState.projects = nextState.allProjects;
       else {
-        nextState.projects = _.sortBy(
-          nextState.allProjects,
-          action.payload.field,
-        );
+        nextState.projects = [...nextState.allProjects].sort((a, b) => {
+          const f = action.payload.field;
+          return a[f] < b[f] ? -1 : a[f] > b[f] ? 1 : 0;
+        });
         if (action.payload.direction == "DESC")
           nextState.projects = nextState.projects.reverse();
       }

@@ -264,6 +264,7 @@ public class SNPRC_schedulerServiceValidator
                 }
             }
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (TimelineItem item : newItems)
             {
                 Date scheduleDate = item.getScheduleDate();
@@ -277,7 +278,6 @@ public class SNPRC_schedulerServiceValidator
                     // New items must be within the current revision's start/end dates
                     if (scheduleDate.before(startDate) || scheduleDate.after(endDate))
                     {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         errors.addRowError(new ValidationException(
                                 String.format("Timeline item study day %s (schedule date: %s) must be within or equal to the timeline start date (%s) and end date (%s)",
                                         item.getStudyDay(),
@@ -292,7 +292,6 @@ public class SNPRC_schedulerServiceValidator
                     // Existing items must not be before revision 0's start date
                     if (scheduleDate.before(revisionZeroStartDate))
                     {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         errors.addRowError(new ValidationException(
                                 String.format("Existing timeline item study day %s (schedule date: %s) must not be before revision 0 start date (%s)",
                                         item.getStudyDay(),

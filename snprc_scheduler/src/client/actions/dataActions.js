@@ -236,41 +236,36 @@ export function fetchTimelinesByProject(selectedProject) {
     selectedProject.objectId;
   return (dispatch) => {
     dispatch(createAction(TIMELINE_LIST_REQUESTED, selectedProject.objectId));
-    fetch(API_ENDPOINT).then((response) => {
-      if (response.status === 403) {
-        dispatch(hideLoading());
-        dispatch(setPermission(false));
-      } else {
-        dispatch(setPermission(true));
-        response
-          .json()
-          .then((data) => {
-            if (data.success) {
-              dispatch(hideLoading()); // last API call in initial loading sequence
-              dispatch(
-                createAction(TIMELINE_LIST_RECEIVED, {
-                  selectedProject: selectedProject,
-                  timelines: data.rows,
-                }),
-              );
-            } else {
-              dispatch(handleErrors("Retrieving timelines failed", data));
-            }
-          })
-          .catch((error) =>
-            dispatch(handleErrors("Retrieving timelines failed", error)),
-          );
-      }
-    }).catch((error) => {
-      dispatch(handleErrors("Retrieving timelines failed", error));
-    });
-  };
-}
-
-export function filterAnimals(pattern) {
-  if (verboseOutput) console.log("filterAnimals(" + pattern + ")");
-  return (dispatch) => {
-    dispatch(createAction(ANIMAL_LIST_FILTERED, pattern));
+    fetch(API_ENDPOINT)
+      .then((response) => {
+        if (response.status === 403) {
+          dispatch(hideLoading());
+          dispatch(setPermission(false));
+        } else {
+          dispatch(setPermission(true));
+          response
+            .json()
+            .then((data) => {
+              if (data.success) {
+                dispatch(hideLoading()); // last API call in initial loading sequence
+                dispatch(
+                  createAction(TIMELINE_LIST_RECEIVED, {
+                    selectedProject: selectedProject,
+                    timelines: data.rows,
+                  }),
+                );
+              } else {
+                dispatch(handleErrors("Retrieving timelines failed", data));
+              }
+            })
+            .catch((error) =>
+              dispatch(handleErrors("Retrieving timelines failed", error)),
+            );
+        }
+      })
+      .catch((error) => {
+        dispatch(handleErrors("Retrieving timelines failed", error));
+      });
   };
 }
 
@@ -383,7 +378,9 @@ export function reviseTimeline(timeline) {
   if (verboseOutput) console.log("TIMELINE_REVISION");
   return (dispatch) => {
     dispatch(createAction(TIMELINE_REVISION, timeline));
-    dispatch(createAction(UPDATE_ASSIGNED_ANIMALS, timeline.TimelineAnimalItems || []));
+    dispatch(
+      createAction(UPDATE_ASSIGNED_ANIMALS, timeline.TimelineAnimalItems || []),
+    );
   };
 }
 
@@ -659,27 +656,6 @@ export function updateTimelineRow(item) {
   };
 }
 
-function fetchProjects_LABKEY() {
-  return (dispatch) => {
-    dispatch(createAction(PROJECT_LIST_REQUESTED));
-    LABKEY.Query.selectRows({
-      columns:
-        "ProjectId,RevisionNum,ChargeId,Description,StartDate,EndDate,ProjectType,VsNumber,Active,ObjectId,iacuc,veterinarian",
-      failure: (error) => {
-        dispatch(createAction(PROJECT_LIST_REQUEST_FAILED, error));
-      },
-      filterArray: [],
-      queryName: "ProjectDetails",
-      requiredVersion: 9.1,
-      schemaName: "snd",
-      sort: "ProjectId,RevisionNum",
-      success: (results) => {
-        dispatch(createAction(PROJECT_LIST_RECEIVED, results.rows));
-      },
-    });
-  };
-}
-
 function fetchProjects_SND() {
   const API_ENDPOINT =
     LABKEY.ActionURL.getBaseURL() +
@@ -695,32 +671,35 @@ function fetchProjects_SND() {
           dispatch(setPermission(false));
         } else {
           dispatch(setPermission(true));
-          response.json().then((data) => {
-            if (data.success) {
-              dispatch(createAction(PROJECT_LIST_RECEIVED, data.rows));
+          response
+            .json()
+            .then((data) => {
+              if (data.success) {
+                dispatch(createAction(PROJECT_LIST_RECEIVED, data.rows));
 
-              // Sort matches defaultSort on projects table to select first project
-              dispatch(
-                selectProject(
-                  data.rows.sort(function (a, b) {
-                    if (!a.description) {
-                      return 1;
-                    }
-                    if (!b.description) {
-                      return -1;
-                    }
-                    return a.description > b.description ? 1 : -1;
-                  })[0],
-                ),
-              );
-            } else {
-              console.error("Retrieving projects failed.", data.message);
-              dispatch(handleErrors("Retrieving projects failed.", data));
-            }
-          }).catch((error) => {
-            console.error("Retrieving projects failed", error);
-            dispatch(handleErrors("Retrieving projects failed", error));
-          });
+                // Sort matches defaultSort on projects table to select first project
+                dispatch(
+                  selectProject(
+                    data.rows.sort(function (a, b) {
+                      if (!a.description) {
+                        return 1;
+                      }
+                      if (!b.description) {
+                        return -1;
+                      }
+                      return a.description > b.description ? 1 : -1;
+                    })[0],
+                  ),
+                );
+              } else {
+                console.error("Retrieving projects failed.", data.message);
+                dispatch(handleErrors("Retrieving projects failed.", data));
+              }
+            })
+            .catch((error) => {
+              console.error("Retrieving projects failed", error);
+              dispatch(handleErrors("Retrieving projects failed", error));
+            });
         }
       })
       .catch((error) => {
