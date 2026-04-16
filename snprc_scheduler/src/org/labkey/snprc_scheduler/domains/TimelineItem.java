@@ -28,6 +28,7 @@ public class TimelineItem
     private Boolean _isDeleted; // NOTE WELL: The deleteFlag set to true signals deletion of the individual TimelineItem record.
     private Boolean _isDirty;    // NOTE WELL: is set to true if the record has been updated
     private Integer _pkgId;     // Expression column
+    private Integer _parentTimelineItemId;  // Transient: tracks source item when creating revisions
 
 
     public static final String TIMELINEITEM_TIMELINE_ITEM_ID = "TimelineItemId";
@@ -39,6 +40,7 @@ public class TimelineItem
     public static final String TIMELINEITEM_IS_DELETED = "IsDeleted";
     public static final String TIMELINEITEM_IS_DIRTY = "IsDirty";
     public static final String TIMELINEITEM_PKG_ID = "PkgId";
+    public static final String TIMELINEITEM_PARENT_TIMELINE_ITEM_ID = "ParentTimelineItemId";
 
 
     public TimelineItem()
@@ -61,6 +63,7 @@ public class TimelineItem
             this.setDeleted(!json.isNull(TIMELINEITEM_IS_DELETED) && json.getBoolean(TIMELINEITEM_IS_DELETED));
             this.setDirty(!json.isNull(TIMELINEITEM_IS_DIRTY) && json.getBoolean(TIMELINEITEM_IS_DIRTY));
             this.setPkgId(json.isNull(TIMELINEITEM_PKG_ID) ? null : json.getInt(TIMELINEITEM_PKG_ID));
+            this.setParentTimelineItemId(json.isNull(TIMELINEITEM_PARENT_TIMELINE_ITEM_ID) ? null : json.getInt(TIMELINEITEM_PARENT_TIMELINE_ITEM_ID));
 
             String scheduleDateString = json.optString(TIMELINEITEM_SCHEDULE_DATE, null);
 
@@ -189,6 +192,16 @@ public class TimelineItem
     public void setPkgId(Integer pkgId)
     {
         _pkgId = pkgId;
+    }
+
+    public Integer getParentTimelineItemId()
+    {
+        return _parentTimelineItemId;
+    }
+
+    public void setParentTimelineItemId(Integer parentTimelineItemId)
+    {
+        _parentTimelineItemId = parentTimelineItemId;
     }
 
     @NotNull

@@ -1,6 +1,44 @@
+.projects-view {
+  display: flex;
+  flex-direction: column;
+  height: 72vh;
+}
+
+.projects-view-top {
+  flex-shrink: 0;
+  height: 160px;
+}
+
+.projects-view-main {
+  flex: 1; /* Takes up remaining space */
+}
+
+.projects-view-bottom {
+  flex-shrink: 0;
+  height: 50px;
+}
 
 .project-details .input-row {
     padding-bottom: 10px;
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.timeline-saving-backdrop {
+    position: fixed;
+    z-index: 1040;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    opacity: 0.5;
+}
+
+.rdg-row-selected {
+    background-color: #d9edf7;
+}
+
+.rdg-row-selected:hover {
+    background-color: #c4e3f3;
 }

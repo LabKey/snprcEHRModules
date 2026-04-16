@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDataGrid from "react-data-grid";
+import { DataGrid, renderTextEditor } from "react-data-grid";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { DraggableContainer } from "./dnd/DraggableContainer";
 import Moment from 'react-moment';
@@ -9,16 +9,14 @@ import {
     deleteTimelineItem,
     formatDateString,
     getDay0Date,
-    hideConfirm,
     setTimelineDayZero,
-    showAlertBanner,
-    showConfirm,
-    updateSelectedTimeline, updateStudyDayNote,
+    updateSelectedTimeline,
+    updateStudyDayNote,
     updateTimelineItem,
     updateTimelineProjectItem,
     updateTimelineRow
 } from "../actions/dataActions";
-import connect from "react-redux/es/connect/connect";
+import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -30,40 +28,25 @@ library.add(faPlusCircle);
 library.add(faFileAlt);
 library.add(faFile);
 
-function MyCustomHeader(props) {
-    let cls = 'procedure-tl-grid-hdr';
-    if (props.type === 'studyDay') {
-        cls = 'day-tl-grid-hdr';
-    }
-    else if (props.type === 'schedDate') {
-        cls = 'time-tl-grid-hdr';
-    }
-    else if (props.type === 'schedDay') {
-        cls = 'wkDay-t1-grid-hdr';
-    }
-    else if (props.type === 'studyDayNote') {
-        cls = 'studyDayNote-t1-grid-hdr';
-    }
-    else {
-        const tooltip = (
-                <Tooltip id="tooltip">
-                    {props.column.rawName}
-                </Tooltip>
-        );
+// Flag to enable/disable the feature that disables rows outside the timeline date range
+// Set to true to enable disabled rows, false to disable this feature
+const ENABLE_OUT_OF_RANGE_ROW_DISABLE = true;
 
-        return (
-                <OverlayTrigger placement="top" overlay={tooltip}>
-                    <div className={cls}>{props.column.name} </div>
-                </OverlayTrigger>
-        )
-    }
+function MyCustomHeader(props) {
+    const tooltip = (
+            <Tooltip id="tooltip">
+                {props.column.rawName}
+            </Tooltip>
+    );
 
     return (
-        <div className={cls}>{props.column.name} </div>
+            <OverlayTrigger placement="top" overlay={tooltip}>
+                <div className={'procedure-tl-grid-hdr'}>{props.column.name} </div>
+            </OverlayTrigger>
     )
 }
 
-export {MyCustomHeader};
+export { MyCustomHeader };
 
 class TimelineGrid extends React.Component {
 
@@ -72,6 +55,8 @@ class TimelineGrid extends React.Component {
     constructor(props) {
         super(props);
 
+        this.timelineProcNoteRef = React.createRef();
+        this.dataGridRef = React.createRef();
         this.state = this.getInitState();
         this.state.columns = this.getColumns(props.selectedProject);
     }
@@ -98,19 +83,83 @@ class TimelineGrid extends React.Component {
         return Math.random();
     };
 
+    isScheduleDateWithinRange = (row) => {
+        // If the feature is disabled, all rows are considered within range
+        if (!ENABLE_OUT_OF_RANGE_ROW_DISABLE) {
+            return true;
+        }
+
+        const { selectedTimeline } = this.props;
+
+        // First row (header) is always considered within range
+        if (row.RowIdx === 0) {
+            return true;
+        }
+
+        // If no schedule date, consider it within range
+        if (!row.ScheduleDate) {
+            return true;
+        }
+
+        // If no timeline or no start/end dates, consider it within range
+        if (!selectedTimeline || (!selectedTimeline.StartDate && !selectedTimeline.EndDate)) {
+            return true;
+        }
+
+        // Strip time from ScheduleDate before converting to a date. This is kind of a hack but we're storing
+        // timeline start and end dates as date type and scheduled date as datetime, which causes different timezone
+        // corrections in Date conversion.
+        const scheduleDateStr = row.ScheduleDate.toString().split(' ')[0];
+        const scheduleDate = new Date(scheduleDateStr);
+        
+        if (selectedTimeline.StartDate) {
+            const startDate = new Date(selectedTimeline.StartDate);
+            if (scheduleDate < startDate) {
+                return false;
+            }
+        }
+
+        if (selectedTimeline.EndDate) {
+            const endDate = new Date(selectedTimeline.EndDate);
+            if (scheduleDate > endDate) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
     CheckBoxFormatter = (colKey) => {
 
         return ((props) => {
             const { selectedTimeline } = this.props;
+            if (!selectedTimeline) {
+                return <div />;
+            }
             if (props.row.RowIdx === 0 && selectedTimeline) {
                 const projItem = selectedTimeline.TimelineProjectItems.find((item) => item.ProjectItemId === colKey);
 
                 return <div onClick={this.handleNoteShow(colKey)} className={selectedTimeline.IsInUse ? 'timeline-grid-disabled' : ''} >
-                    <i><FontAwesomeIcon icon={(projItem && projItem.TimelineFootNotes) ? ["far", "file-alt"] : ["fa", "plus-circle"]}/></i>
+                    <i><FontAwesomeIcon icon={(projItem && projItem.TimelineFootNotes) ? faFileAlt : faPlusCircle}/></i>
                 </div>
             }
             else {
-                return <input disabled={selectedTimeline.IsInUse} type="checkbox" className='chbox' value={props.value} checked={props.value} onChange={() => {return null}}/>;
+                const isOutOfRange = !this.isScheduleDateWithinRange(props.row);
+                const checkboxInput = <input disabled={selectedTimeline.IsInUse || isOutOfRange} type="checkbox" className='chbox' value={props.row[colKey] || false} checked={props.row[colKey] || false} onChange={() => {return null}}/>;
+                
+                if (isOutOfRange) {
+                    const disabledTooltip = (
+                        <Tooltip id="disabled-tooltip">
+                            Study day outside of revision start and end date
+                        </Tooltip>
+                    );
+                    return (
+                        <OverlayTrigger placement="top" overlay={disabledTooltip}>
+                            <span>{checkboxInput}</span>
+                        </OverlayTrigger>
+                    );
+                }
+                return checkboxInput;
             }
         });
     };
@@ -135,68 +184,153 @@ class TimelineGrid extends React.Component {
         });
     };
 
-    StudyDayNoteFormatter = () => {
-        return ((props) => {
-            const tooltip = (
-                    <Tooltip id="tooltip">
-                        {props.row.StudyDayNote ? props.row.StudyDayNote : ''}
-                    </Tooltip>
-            );
+    StudyDayNoteFormatter = (props) => {
+        const isOutOfRange = !this.isScheduleDateWithinRange(props.row);
+        
+        const tooltip = isOutOfRange ? (
+                <Tooltip id="disabled-tooltip">
+                    Study day outside of revision start and end date
+                </Tooltip>
+        ) : (
+                <Tooltip id="tooltip">
+                    {props.row.StudyDayNote ? props.row.StudyDayNote : ''}
+                </Tooltip>
+        );
 
-            if (props.row.RowIdx !== 0) {
-                return (
-                        <OverlayTrigger placement="top" overlay={tooltip}>
-                            <div style={{textAlign: 'left'}}>{props.row.StudyDayNote ? props.row.StudyDayNote : ''}</div>
-                        </OverlayTrigger>)
-            }
-            else {
-                // return <div style={{padding: '0px -10px', backgroundColor: '#EEEEEE', height: '40px'}}/>
-                return <div />
-            }
-        })
-    };
-
-    StudyDayEditable = (rowData) => {
-        if (rowData.RowIdx === 0) {
-            return false;
+        if (props.row.RowIdx !== 0) {
+            return (
+                    <OverlayTrigger placement="top" overlay={tooltip}>
+                        <div style={{textAlign: 'left'}}>{props.row.StudyDayNote ? props.row.StudyDayNote : ''}</div>
+                    </OverlayTrigger>)
         }
-        return true;
+        else {
+            return <div />
+        }
     };
 
     StudyDayNoteEditable = (rowData) => {
         const { selectedTimeline } = this.props;
 
-        // First row and in use timeline not editable
-        if (rowData.RowIdx === 0 || selectedTimeline.IsInUse || rowData.ExtraRow) {
-            return false;
+        // First row, in use timeline, extra row, or out of date range not editable
+        const isOutOfRange = !this.isScheduleDateWithinRange(rowData);
+        return !(rowData.RowIdx === 0 || !selectedTimeline || selectedTimeline.IsInUse || rowData.ExtraRow || isOutOfRange);
+
+    };
+
+    StudyDayEditable = (rowData) => {
+        const isOutOfRange = !this.isScheduleDateWithinRange(rowData);
+        const hasNoTimelineItemId = !rowData.TimelineItemId && !rowData.ParentTimelineItemId;
+        return rowData.RowIdx !== 0 && (!isOutOfRange || hasNoTimelineItemId);
+
+    };
+
+    StudyDayEditor = ({ row, column, onRowChange, onClose }) => {
+        return (
+            <input
+                    type="number"
+                    step="1"
+                    pattern="[0-9]*"
+                    className="rdg-text-editor"
+                    autoFocus
+                    value={row[column.key] || ''}
+                    onChange={(e) => onRowChange({ ...row, [column.key]: e.target.value })}
+                    onBlur={onClose}
+            />
+        );
+    };
+
+    // Render StudyDay cell with delete action
+    StudyDayRenderer = (props) => {
+        const { row, column } = props;
+        const { selectedTimeline } = this.props;
+        const isOutOfRange = !this.isScheduleDateWithinRange(row);
+        const isInUse = selectedTimeline && selectedTimeline.IsInUse;
+        const hasNoTimelineItemId = !row.TimelineItemId && !row.ParentTimelineItemId;
+        const showDeleteIcon = row.RowIdx !== 0 && (!isOutOfRange || hasNoTimelineItemId);
+
+        const cellContent = (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', height: '100%' }}>
+                    <span>{row[column.key]}</span>
+                    {showDeleteIcon && (
+                            <i
+                                    className={"fa fa-times timeline-grid-delete-icon " + (isInUse ? 'timeline-grid-disabled' : '')}
+                                    onClick={() => {
+                                        if (!isInUse) {
+                                            this.deleteTimepoint(row.RowIdx);
+                                        }
+                                    }}
+                                    style={{ cursor: isInUse ? 'not-allowed' : 'pointer' }}
+                            />
+                    )}
+                </div>
+        );
+
+        if (isOutOfRange && row.RowIdx !== 0 && !hasNoTimelineItemId) {
+            const disabledTooltip = (
+                <Tooltip id="disabled-tooltip">
+                    Study day outside of revision start and end date
+                </Tooltip>
+            );
+            return (
+                <OverlayTrigger placement="top" overlay={disabledTooltip}>
+                    {cellContent}
+                </OverlayTrigger>
+            );
         }
-        return true;
+
+        return cellContent;
     };
 
     EmptyRowsView = () => {
-        const message = "Create a new timeline";
         return (
                 <div
                         style={{textAlign: "center", backgroundColor: "rgb(250, 250, 250)", padding: "100px"}}
                 >
-                    <h3>{message}</h3>
+                    <h3>No timeline data available</h3>
                 </div>
         );
     };
 
-    defaultColumns = [
-        { key: "StudyDay", name: "Study Day", rawName: "Study Day", sortable: true, width: 100, height: 100, editable: this.StudyDayEditable,
-            headerRenderer: <MyCustomHeader type='studyDay'/> },
-        { key: "ScheduleDate", name: "Scheduled Date", rawName: "Scheduled Date", width: 100, height: 100, editable: false,
-            headerRenderer: <MyCustomHeader type='schedDate'/>, formatter: this.ScheduleDateFormatter() },
-        { key: "ScheduleDay", name: "Day of the week", rawName: "Day of the week", width: 70, height: 70, editable: false,
-            headerRenderer: <MyCustomHeader type='schedDay'/>, formatter: this.WeekDateFormatter() }
-    ];
+    // Returns 'timeline-cell-disabled' for out-of-range rows without TimelineItemId (partially disabled rows)
+    getCellDisabledClass = (row) => {
+        const isOutOfRange = !this.isScheduleDateWithinRange(row);
+        const hasNoTimelineItemId = !row.TimelineItemId && !row.ParentTimelineItemId;
+        if (isOutOfRange && hasNoTimelineItemId && row.RowIdx !== 0) {
+            return 'timeline-cell-disabled';
+        }
+        return undefined;
+    };
 
-    defaultEndColumns = [
-        { key: "StudyDayNote", name: "Study Day Notes", rawName: "Study Day Notes", width: 400, height: 400,
-            editable: this.StudyDayNoteEditable, headerRenderer: <MyCustomHeader type='studyDayNote'/>, formatter: this.StudyDayNoteFormatter() },
-    ]
+    getDefaultColumns = () => {
+        return [
+            { key: "StudyDay", name: "Study Day", rawName: "Study Day", sortable: true, width: 100, height: 100, editable: this.StudyDayEditable,
+                renderHeaderCell: (props) => <MyCustomHeader type='studyDay' {...props} />,
+                renderEditCell: this.StudyDayEditor,
+                renderCell: this.StudyDayRenderer
+            },
+            { key: "ScheduleDate", name: "Scheduled Date", rawName: "Scheduled Date", width: 100, height: 100, editable: false,
+                renderHeaderCell: (props) => <MyCustomHeader type='schedDate' {...props} />, renderCell: this.ScheduleDateFormatter(),
+                cellClass: (row) => this.getCellDisabledClass(row) },
+            { key: "ScheduleDay", name: "Day of the week", rawName: "Day of the week", width: 70, height: 70, editable: false,
+                renderHeaderCell: (props) => <MyCustomHeader type='schedDay' {...props} />, renderCell: this.WeekDateFormatter(),
+                cellClass: (row) => this.getCellDisabledClass(row) }
+        ];
+    }
+
+    getDefaultEndColumns = () => {
+        return [
+            { key: "StudyDayNote", name: "Study Day Notes", rawName: "Study Day Notes", width: 400, height: 400,
+                editable: this.StudyDayNoteEditable, renderHeaderCell: (props) => <MyCustomHeader type='studyDayNote' {...props} />,
+                // renderCell: this.StudyDayNoteEditor,
+                renderCell: this.StudyDayNoteFormatter,
+                renderEditCell: renderTextEditor,
+                cellClass: (row) => {
+                    const disabledClass = this.getCellDisabledClass(row);
+                    return disabledClass ? `studyDayNote-cell ${disabledClass}` : 'studyDayNote-cell';
+                }
+            },
+        ];
+    }
 
     getStudyDay0 = () => {
         const { selectedTimeline } = this.props;
@@ -234,7 +368,7 @@ class TimelineGrid extends React.Component {
      };
 
     getColumns = (project) => {
-        let cols = this.defaultColumns;
+        let cols = this.getDefaultColumns();
         let procCols = [];
         this.state.lastColIdx = 0;
 
@@ -256,15 +390,16 @@ class TimelineGrid extends React.Component {
                     width: 70,
                     height: 100,
                     draggable: true,
-                    formatter: this.CheckBoxFormatter(col.projectItemId),
-                    headerRenderer: <MyCustomHeader/>
+                    renderCell: this.CheckBoxFormatter(col.projectItemId),
+                    renderHeaderCell: (props) => <MyCustomHeader {...props} />,
+                    cellClass: (row) => this.getCellDisabledClass(row)
                 }
             })
         }
 
         procCols = this.sortColumns(procCols);
 
-        return cols.concat(procCols).concat(this.defaultEndColumns);
+        return cols.concat(procCols).concat(this.getDefaultEndColumns());
     };
 
     updateScheduledDate = () => {
@@ -282,8 +417,7 @@ class TimelineGrid extends React.Component {
             })
 
             this.setState(Object.assign({}, this.state, {
-                rows: newRows,
-                key: this.getGridKey()
+                rows: newRows
             }));
 
             this.props.selectedTimeline.forceReload = false;
@@ -291,7 +425,7 @@ class TimelineGrid extends React.Component {
     };
 
     loadStudyDayNotes = (rows, dirty) => {
-        const {selectedTimeline, onUpdateStudyDayNote} = this.props;
+        const { selectedTimeline, onUpdateStudyDayNote } = this.props;
 
         if (selectedTimeline.StudyDayNotes != null && Array.isArray(selectedTimeline.StudyDayNotes)) {
 
@@ -312,8 +446,8 @@ class TimelineGrid extends React.Component {
 
     // Loads rows from redux state into local react state
     loadRows = (dirty) => {
-        const {selectedTimeline, selectedProject, onUpdateTimelineItem, onUpdateSelectedTimeline} = this.props;
-        const {rows, rowId, revisionNum, sortColumn, sortMinorColumn, sortDirection} = this.state;
+        const { selectedTimeline, selectedProject, onUpdateTimelineItem, onUpdateSelectedTimeline, onUpdateTimelineDayZero } = this.props;
+        const { rows, rowId, revisionNum, sortColumn, sortMinorColumn, sortDirection } = this.state;
         let allRows = [];
 
         // If we have already loaded the saved timeline data, don't reload (prevents infinite loop)
@@ -332,7 +466,7 @@ class TimelineGrid extends React.Component {
 
             let day0 = this.getStudyDay0();
             if (day0) {
-                this.props.onUpdateTimelineDayZero(day0, false, false);
+                onUpdateTimelineDayZero(day0, false, false);
             }
 
             // First sort columns
@@ -374,7 +508,9 @@ class TimelineGrid extends React.Component {
                                     ScheduleDate: item.ScheduleDate,
                                     ObjectId: item.ObjectId,
                                     ExtraRow: true,
-                                    TimelineObjectId: item.TimelineObjectId
+                                    TimelineObjectId: item.TimelineObjectId,
+                                    TimelineItemId: item.TimelineItemId,
+                                    ParentTimelineItemId: item.ParentTimelineItemId
                                 };
 
                                 if (item.ProjectItemId) {
@@ -395,7 +531,9 @@ class TimelineGrid extends React.Component {
                                 StudyDay: item.StudyDay,
                                 ScheduleDate: item.ScheduleDate,
                                 ObjectId: item.ObjectId,
-                                TimelineObjectId: item.TimelineObjectId
+                                TimelineObjectId: item.TimelineObjectId,
+                                TimelineItemId: item.TimelineItemId,
+                                ParentTimelineItemId: item.ParentTimelineItemId
                             };
 
                             if (item.ProjectItemId) {
@@ -438,7 +576,7 @@ class TimelineGrid extends React.Component {
         return (() => {
                     const {selectedTimeline} = this.props;
 
-                    if (!selectedTimeline.IsInUse) {
+                    if (selectedTimeline && !selectedTimeline.IsInUse) {
 
                         let procNote = "", procNoteName = "";
 
@@ -471,7 +609,7 @@ class TimelineGrid extends React.Component {
     handleNoteSave = () => {
         return ((() => {
 
-            const textArea = this.refs.timelineProcNote;
+            const textArea = this.timelineProcNoteRef.current;
             if (textArea) {
 
                 let stateCopy = Object.assign({}, this.state);
@@ -495,7 +633,6 @@ class TimelineGrid extends React.Component {
                 stateCopy.showProcNote = false;
                 stateCopy.procNoteName = "";
                 stateCopy.rows = newRows;
-                stateCopy.key = this.getGridKey();
 
                 this.setState(stateCopy);
 
@@ -509,46 +646,32 @@ class TimelineGrid extends React.Component {
         }).apply(this))
     };
 
-    // Delete row
-    getCellActions = (column, row) => {
-        const { selectedTimeline } = this.props;
-
-        let action = {
-            icon: <i className={"fa fa-times timeline-grid-delete-icon " + (selectedTimeline && selectedTimeline.IsInUse ? 'timeline-grid-disabled' : '')} />,
-            callback: () => {
-                (() => {
-                    this.deleteTimepoint(row.RowIdx);
-                }).apply(this);
-            }
-        };
-
-        return (column.key === "StudyDay" && row.RowIdx !== 0) ? [action] : null;
-    };
-
     deleteTimepoint = (RowIdx) => {
-        const { selectedTimeline } = this.props;
-        if (!selectedTimeline.IsInUse) {
+        const { selectedTimeline, onDeleteTimelineItem } = this.props;
+        if (selectedTimeline && !selectedTimeline.IsInUse) {
             const filteredRows = this.state.rows.filter(row => row.RowIdx !== RowIdx);
 
-            this.setState(state => {
-                state.rows = filteredRows;
-                state.key = this.getGridKey();
-                return state;
-            });
+            this.setState(state => ({
+                ...state,
+                rows: filteredRows
+            }));
 
-            this.props.onDeleteTimelineItem({RowIdx: RowIdx});
+            onDeleteTimelineItem({RowIdx: RowIdx});
         }
     };
 
     // Checkbox cell handler
-    onRowClick = (rowIdx, row, column) => {
+    onCellClick = (args, event) => {
+        const { row, column } = args;
+        const { selectedTimeline, onAssignTimelineProcedure } = this.props;
 
-        const { selectedTimeline } = this.props;
+        // Get the row index by finding it in the rows array
+        const rowIdx = this.state.rows.findIndex(r => r.RowIdx === row.RowIdx);
 
         // Noop for first row (procedure notes) and study day and date columns
         if (!column || !column.key || rowIdx === 0 ||
-                column.idx === 0 || column.idx === 1 || column.idx === 2 || column.key === 'StudyDayNote' ||
-                selectedTimeline.IsInUse) {
+                column.key === 'StudyDay' || column.key === 'ScheduleDate' || column.key === 'ScheduleDay' || column.key === 'StudyDayNote' ||
+                !selectedTimeline || selectedTimeline.IsInUse) {
             return;
         }
 
@@ -572,11 +695,10 @@ class TimelineGrid extends React.Component {
             }
 
             state.rows = newRows;
-            state.key = this.getGridKey();
             return state;
         });
 
-        this.props.onAssignTimelineProcedure({
+        onAssignTimelineProcedure({
             Value: rowCopy[column.key],
             ProjectItemId: column.key,
             RowIdx: row.RowIdx,
@@ -587,20 +709,19 @@ class TimelineGrid extends React.Component {
         })
     };
 
-    onGridRowsUpdated = ({fromRow, toRow, updated}) => {
-        const { selectedTimeline } = this.props;
-        let rows = this.state.rows.slice();
+    onRowsChange = (rows, data) => {
+        const { selectedTimeline, onUpdateTimelineRow, onUpdateTimelineDayZero } = this.props;
+        const { indexes } = data;
 
-        for (let i = fromRow; i <= toRow; i++) {
-            rows[i] = {...rows[i], ...updated};
-            this.props.onUpdateTimelineRow(rows[i]);
+        const rowIndex = indexes[0];
+        const updatedRow = rows[rowIndex];
+        onUpdateTimelineRow({...updatedRow});
+
+        if (updatedRow.StudyDay && selectedTimeline.StudyDay0) {
+            onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true, true);
         }
 
-        if (updated.StudyDay && selectedTimeline.StudyDay0) {
-            this.props.onUpdateTimelineDayZero(selectedTimeline.StudyDay0, true, true);
-        }
-
-        const stateCopy = {rows: [...rows], key: this.getGridKey()};
+        const stateCopy = {rows: [...rows]};
         this.setState(stateCopy);
     };
 
@@ -612,37 +733,44 @@ class TimelineGrid extends React.Component {
 
     // Add a row
     onAddClick = () => {
-        const { selectedTimeline } = this.props;
+        const { selectedTimeline, onUpdateSelectedTimeline, onAddTimelineItem, lastRowIdx } = this.props;
 
         if (selectedTimeline && selectedTimeline.Description && !selectedTimeline.IsInUse) {
-            const stateCopy = Object.assign({}, this.state);
-            let RowIdx = this.props.lastRowIdx;
+            let RowIdx = lastRowIdx;
             RowIdx++;
 
             const newRow = {RowIdx: RowIdx, StudyDay: "", ScheduleDate: null, IsDirty: true, IsDeleted: false,
                 StudyDayNote: '', TimelineObjectId: selectedTimeline.ObjectId};
-            this.props.onAddTimelineItem(newRow);
+            onAddTimelineItem(newRow);
 
-            stateCopy.rows.push(newRow);
-            stateCopy.key = this.getGridKey();
+            const newRows = [...this.state.rows, newRow];
 
-            this.setState(stateCopy);
+            this.setState({ ...this.state, rows: newRows }, () => {
+                // Focus on the new row's first cell (StudyDay column at index 0)
+                if (this.dataGridRef.current) {
+                    const newRowIdx = this.state.rows.length - 1;
+                    this.dataGridRef.current.selectCell({ idx: 0, rowIdx: newRowIdx }, { enableEditor: true });
+                }
+            });
 
-            this.props.onUpdateSelectedTimeline({lastRowIdx: RowIdx}, true);
+            onUpdateSelectedTimeline({lastRowIdx: RowIdx}, true);
         }
     };
 
     // Finish drag and drop of column
     onHeaderDrop = (source, target) => {
-        if (!this.props.selectedTimeline || !this.props.selectedTimeline.TimelineProjectItems) {
+        const { selectedTimeline, onUpdateTimelineProjectItem } = this.props;
+        const { columns } = this.state;
+
+        if (!selectedTimeline || !selectedTimeline.TimelineProjectItems) {
             return;
         }
 
         const stateCopy = Object.assign({}, this.state);
-        const columnSourceIndex = this.state.columns.findIndex(
+        const columnSourceIndex = columns.findIndex(
                 i => i.key === source
         );
-        const columnTargetIndex = this.state.columns.findIndex(
+        const columnTargetIndex = columns.findIndex(
                 i => i.key === target
         );
 
@@ -662,25 +790,21 @@ class TimelineGrid extends React.Component {
         this.setState(reorderedColumns);
 
         // Save to redux
-        if (this.props.selectedTimeline && this.props.selectedTimeline.TimelineProjectItems) {
+        if (selectedTimeline && selectedTimeline.TimelineProjectItems) {
 
             const defaultColCount = 2;
-            this.props.onUpdateTimelineProjectItem({
+            onUpdateTimelineProjectItem({
                 ProjectItemId: source,
                 SortOrder: columnTargetIndex - defaultColCount,
                 IsDirty: true
             })
 
-            this.props.onUpdateTimelineProjectItem({
+            onUpdateTimelineProjectItem({
                 ProjectItemId: target,
                 SortOrder: columnSourceIndex - defaultColCount,
                 IsDirty: true
             })
         }
-    };
-
-    setSort = (sortColumn, sortDirection) => {
-        this.sortRows(this.state.rows, sortColumn, undefined, sortDirection, true);
     };
 
     sortRows = (initialRows, sortColumn, sortMinorColumn, sortDirection, setState) => {
@@ -763,13 +887,13 @@ class TimelineGrid extends React.Component {
 
         return (
                 <div className='timeline-grid'>
-                    <Modal show={showProcNote} onHide={this.handleNoteCancel}>
+                    <Modal show={showProcNote} onHide={this.handleNoteCancel} animation={false}>
                         <Modal.Header closeButton>
                             <Modal.Title>Procedure Note - {procNoteName}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <textarea className='timeline-grid-proc-note'
-                                    ref={'timelineProcNote'}
+                                    ref={this.timelineProcNoteRef}
                                     defaultValue={procNote}
                             />
                         </Modal.Body>
@@ -782,29 +906,33 @@ class TimelineGrid extends React.Component {
                         <div className='col-sm-2 row input-row'>
                             <OverlayTrigger placement="top" overlay={this.getTooltip("New timeline study day")}>
                                 <Button
+                                        variant="light"
                                         className='add-delete-btn'
                                         onClick={this.onAddClick}
                                         disabled={!selectedTimeline || selectedTimeline.IsInUse}
-                                ><FontAwesomeIcon icon={["fa", "plus"]}/></Button>
+                                ><FontAwesomeIcon icon={faPlus}/></Button>
                             </OverlayTrigger>
                         </div>
                         <div className='col-sm-10' />
                     </div>
                     <div className='col-sm-12 zero-side-padding'>
-                        <DraggableContainer onHeaderDrop={this.onHeaderDrop} key={this.state.key}>
-                            <ReactDataGrid
-                                    columns={columns}
-                                    rowGetter={i => rows[i]}
-                                    rowsCount={rows.length}
-                                    onGridRowsUpdated={this.onGridRowsUpdated}
-                                    enableCellSelect={true}
-                                    getCellActions={this.getCellActions}
-                                    minHeight={445}
-                                    onGridSort={this.setSort}
-                                    onRowClick={this.onRowClick}
-                                    emptyRowsView={this.EmptyRowsView}
-                            />
-                        </DraggableContainer>
+                        {(!rows || rows.length === 0 || (rows.length === 1 && rows[0].RowIdx === 0)) ? (
+                            this.EmptyRowsView()
+                        ) : (
+                            <DraggableContainer onHeaderDrop={this.onHeaderDrop} key={this.state.key}>
+                                <DataGrid
+                                        ref={this.dataGridRef}
+                                        rows={rows}
+                                        columns={columns}
+                                        style={{ height: 'calc(67vh - 160px - 50px)' }}
+                                        rowHeight={35}
+                                        // headerRowHeight={200}
+                                        onRowsChange={this.onRowsChange}
+                                        onCellClick={this.onCellClick}
+                                        rowClass={(row) => !this.isScheduleDateWithinRange(row) && (row.TimelineItemId || row.ParentTimelineItemId) ? 'timeline-row-disabled' : undefined}
+                                />
+                            </DraggableContainer>
+                        )}
                     </div>
                 </div>
         );
@@ -826,10 +954,7 @@ const mapDispatchToProps = dispatch => ({
     onAssignTimelineProcedure: item => dispatch(assignTimelineProcedure(item)),
     onUpdateTimelineProjectItem: projectItem => dispatch(updateTimelineProjectItem(projectItem)),
     onDeleteTimelineItem: timelineItem => dispatch(deleteTimelineItem(timelineItem)),
-    onUpdateTimelineDayZero: (day0, forceReload, dirty) => dispatch(setTimelineDayZero(day0, forceReload, dirty)),
-    showAlertBanner: timeline => dispatch(showAlertBanner(timeline)),
-    showConfirm: confirm => dispatch(showConfirm(confirm)),
-    hideConfirm: confirm => dispatch(hideConfirm(confirm))
+    onUpdateTimelineDayZero: (day0, forceReload, dirty) => dispatch(setTimelineDayZero(day0, forceReload, dirty))
 })
 
 export default connect(

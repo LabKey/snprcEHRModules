@@ -1,12 +1,12 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import ProjectList from '../components/ProjectList';
 import AnimalList from '../components/AnimalList';
 import ProjectDetails from '../components/ProjectDetails';
 import TimelineList from '../components/TimelineList';
 import TimelineDetails from '../components/TimelineDetails';
-import {Card, Button, Modal, Panel, PanelGroup, Alert} from "react-bootstrap";
+import { Button, Modal, Accordion, Alert } from "react-bootstrap";
 import CalendarDetails from "../components/CalendarDetails";
 import AnimalDetails from "../components/AnimalDetails";
 import ProjectMain from "../components/ProjectMain";
@@ -16,14 +16,20 @@ import AnimalMain from "../components/AnimalMain";
 import {
     deleteNewTimelines,
     expandAccordionTab,
-    hideAlertBanner, hideAlertModal,
+    hideAlertBanner,
+    hideAlertModal,
     hideConfirm,
+    hideLoading,
     saveTimeline,
-    saveTimelineSuccess, selectFirstTimeline,
-    selectTimeline, setForceRerender, setProjectRender,
+    saveTimelineSuccess,
+    selectFirstTimeline,
+    selectTimeline,
+    setForceRerender,
     setTimelineClean,
-    showAlertBanner, showAlertModal,
-    showConfirm, TAB_ANIMALS,
+    showAlertBanner,
+    showAlertModal,
+    showConfirm,
+    TAB_ANIMALS,
     TAB_PROJECTS,
     TAB_TIMELINES
 } from '../actions/dataActions';
@@ -90,11 +96,6 @@ class ProjectsView extends React.Component {
                     break;
                 case 1:
                     expandTab(tabIndex);
-
-                    // Select first timeline if going from project to timelines
-                    if (accordion.tab === 0) {
-                        selectFirstTimeline(timelines);
-                    }
                     break;
                 case 2:
                     if (!selectedTimeline) {
@@ -146,26 +147,10 @@ class ProjectsView extends React.Component {
         };
     };
 
-    backdropStyle = () => {
-
-        return {
-            position: 'fixed',
-            zIndex: 1040,
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: '#000',
-            opacity: 0.5
-        }
-    };
-
-    renderBackdrop = (props) => {
-        return <div {...props} style={this.backdropStyle()}/>;
-    }
-
     cancel = () => {
-        this.props.showConfirm({
+        const { showConfirm, hideConfirm } = this.props;
+
+        showConfirm({
             title: 'Unsaved Data',
             msg: 'Any unsaved data will be lost and the page will reload.  Are you sure?',
             onConfirm: () => {
@@ -179,19 +164,36 @@ class ProjectsView extends React.Component {
 
     save = () => {
         return () => {
-            const {showAlertBanner, selectedTimeline} = this.props;
+            const { showAlertBanner, selectedTimeline, onSaveSuccess } = this.props;
+
+            // Validate Study Day 0 is set when not in draft mode
+            if (selectedTimeline.QcStateLabel !== 'In Progress' && !selectedTimeline.StudyDay0) {
+                showAlertBanner({
+                    variant: 'danger',
+                    msg: 'Study Day 0 is required when saving a timeline that is not in draft mode.'
+                });
+                return;
+            }
+
+            // Validate Study Day 0 is not before Start Date for revision 0 non-draft timelines
+            if (selectedTimeline.RevisionNum === 0
+                && selectedTimeline.QcStateLabel !== 'In Progress'
+                && selectedTimeline.StudyDay0
+                && selectedTimeline.StartDate
+                && new Date(selectedTimeline.StudyDay0) < new Date(selectedTimeline.StartDate)) {
+                showAlertBanner({
+                    variant: 'danger',
+                    msg: 'Study Day 0 cannot be before the Start Date for an original timeline that is not in draft mode.'
+                });
+                return;
+            }
+
             selectedTimeline.IsDirty = true;
 
-            this.setState(state => {
-                state.showSaving = true;
-                return state;
-            });
+            this.setState({ showSaving: true });
 
             return saveTimeline(selectedTimeline).then((response) => {
-                this.setState(state => {
-                    state.showSaving = false;
-                    return state;
-                });
+
 
                 if (!response.success) {
                     if (response.responseText) {
@@ -209,14 +211,14 @@ class ProjectsView extends React.Component {
                     // console.log('save timeline succeeded');
                     showAlertBanner({variant: 'success', msg: selectedTimeline.Description + ", revision " + selectedTimeline.RevisionNum +
                         " saved successfully."});
-                    this.props.onSaveSuccess(response.rows);
+                    onSaveSuccess(response.rows);
                 }
 
+                this.setState({ showSaving: false });
+
+                this.props.hideLoading();
+
             }).catch((error) => {
-                this.setState(state => {
-                    state.showSaving = false;
-                    return state;
-                });
 
                 if (error.exception) {
                     showAlertBanner({variant: 'danger', msg: "Error saving " + selectedTimeline.Description +
@@ -233,6 +235,10 @@ class ProjectsView extends React.Component {
                                 ", revision " + selectedTimeline.RevisionNum + ": " + error.message});
                     console.warn('save timeline error', error.message);
                 }
+
+                this.setState({ showSaving: false });
+
+                this.props.hideLoading();
             });
         };
     };
@@ -245,6 +251,27 @@ class ProjectsView extends React.Component {
         this.props.hideAlertBanner();
     }
 
+    LoadingModal = (show) => {
+        return (
+                <Modal
+                        show={show}
+                        // show={true}
+                        backdrop="static"
+                        keyboard={false}
+                        centered
+                        animation={false}
+                        className="loading-modal"
+                >
+                    <Modal.Body className="text-center py-5">
+                        <FontAwesomeIcon icon={faSpinner} size={"9x"} spinPulse={true}/>
+                          {/*<h4>Loading...</h4>*/}
+                          <p className="margin-top">Loading. Please wait...</p>
+                    </Modal.Body>
+                </Modal>
+
+        );
+    }
+
     render() {
 
         const { selectedProject, selectedTimeline, confirm, alertModal, alertBanner, accordion, hasPermission, showLoading } = this.props;
@@ -252,58 +279,42 @@ class ProjectsView extends React.Component {
         let detailView = this.getDetailComponent(accordion ? accordion.tab : null);
         let mainView = this.getMainComponent(accordion ? accordion.tab : null);
         let accordionComponent = (
-            <PanelGroup
-                    accordion
+            <Accordion
                     id="accordion-controller"
                     activeKey={accordion ? accordion.tab : TAB_PROJECTS}
                     onSelect={this.handleAccordionSelectionChange}
                     className = 'scheduler-bs-accordion'
                     style={{marginLeft: '20px'}}
                     >
-                <Panel eventKey={TAB_PROJECTS}>
-                    <Panel.Heading>
-                        <Panel.Title toggle className='scheduler-bs-accordion-title'>{'Projects' +
+                <Accordion.Item eventKey={TAB_PROJECTS}>
+                    <Accordion.Header>
+                        <div className='scheduler-bs-accordion-title'>{'Projects' +
                             ((selectedProject && selectedProject.description)
                             ? (' - ' + selectedProject.description) : '')}
-                        </Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Collapse onEntered={this.forceRerenderHandler}>
-                        <Panel.Body><ProjectList store={this.props.store} /></Panel.Body>
-                    </Panel.Collapse>
-                </Panel>
-                <Panel eventKey={TAB_TIMELINES}>
-                    <Panel.Heading>
-                        <Panel.Title toggle className='scheduler-bs-accordion-title'>{'Timelines' +
+                        </div>
+                    </Accordion.Header>
+                    <Accordion.Body onEntered={this.forceRerenderHandler}><ProjectList store={this.props.store} /></Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey={TAB_TIMELINES} className='scheduler-accordion-timeline-item'>
+                    <Accordion.Header>
+                        <div className='scheduler-bs-accordion-title'>{'Timelines' +
                             ((selectedTimeline && selectedTimeline.Description)
                             ? (' - ' + selectedTimeline.Description) : '') + (selectedTimeline && selectedTimeline.savedDraft ? " (draft)" : "")}
-                        </Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body collapsible><TimelineList /></Panel.Body>
-                </Panel>
-                <Panel eventKey={TAB_ANIMALS}>
-                <Panel.Heading>
-                    <Panel.Title toggle>Animals</Panel.Title>
-                </Panel.Heading>
-                <Panel.Collapse onEntered={this.forceRerenderHandler}>
-                    <Panel.Body><AnimalList store={this.props.store}/></Panel.Body>
-                </Panel.Collapse>
-            </Panel>
-            </PanelGroup>
+                        </div>
+                    </Accordion.Header>
+                    <Accordion.Body><TimelineList /></Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey={TAB_ANIMALS}>
+                    <Accordion.Header>
+                        <div>Animals</div>
+                    </Accordion.Header>
+                    <Accordion.Body onEntered={this.forceRerenderHandler}><AnimalList store={this.props.store}/></Accordion.Body>
+            </Accordion.Item>
+            </Accordion>
         );
 
         return <div className='scheduler-view'>
-            <Modal
-                    // onHide={this.close}
-                    style={this.modalStyle()}
-                    aria-labelledby="modal-label"
-                    show={this.state.showSaving || showLoading}
-                    renderBackdrop={this.renderBackdrop}
-                    className={'timeline-saving-modal'}
-            >
-                <div style={{backgroundColor: 'transparent'}}>
-                    <FontAwesomeIcon icon={["fa", "spinner"]} size={"9x"} pulse/>
-                </div>
-            </Modal>
+            { this.LoadingModal(this.state.showSaving || showLoading) }
             <Confirm show={confirm ? confirm.show : false}
                            title={confirm ? confirm.title : ''}
                            msg={confirm ? confirm.msg : ''}
@@ -317,29 +328,32 @@ class ProjectsView extends React.Component {
                      msg={alertModal ? alertModal.msg : ''}
                      onDismiss={alertModal ? alertModal.onDismiss : null}
                      dismissButtonText='OK'/>
-            {alertBanner && alertBanner.show &&
-            <Alert className="alert-banner" bsClass={'alert alert-' + alertBanner.variant} onDismiss={this.dismissBanner}>{alertBanner.msg}</Alert>
+            { alertBanner && alertBanner.show &&
+            <Alert variant={alertBanner.variant}
+                   dismissible={true}
+                   // className={"alert-banner alert alert-" + alertBanner.variant}
+                   onClose={this.dismissBanner}>{alertBanner.msg}</Alert>
             }
 
             {(!alertBanner || !alertBanner.show) && <><div className='row spacer-row'></div></>}
             {hasPermission &&
-                <div className='row'>
-                    <div className='col-sm-12 zero-right-padding'>{detailView}</div>
-                    <div className='col-sm-4'>
-                        <div className='col-sm-12'>
-                            {accordionComponent}
-                        </div>
-                        <div className='scheduler-save-cancel'>
-                            <div className='col-sm-6'>
-                                <Button disabled={this.props.selectedTimeline == null || this.props.selectedTimeline.RevisionNum == null}
+                <div className='projects-view'>
+                    <div className='col-sm-12 zero-right-padding projects-view-top'>{detailView}</div>
+                    <div className='projects-view-main'>
+                        <div className='col-sm-4'>{accordionComponent}</div>
+                        <div className='col-sm-8 zero-side-padding'>{mainView}</div>
+                    </div>
+                    <div className='projects-view-bottom'>
+                        <div className='scheduler-save-cancel padding-top'>
+                            <div className='col-sm-2'>
+                                <Button variant='primary' disabled={this.props.selectedTimeline == null || this.props.selectedTimeline.RevisionNum == null}
                                         onClick={this.props.selectedTimeline ? this.save() : null}
                                         className='scheduler-save-cancel-btn'>Save</Button>
                             </div>
-                            <div className='col-sm-6'><Button onClick={this.cancel}
+                            <div className='col-sm-2'><Button variant='primary' onClick={this.cancel}
                                                               className='scheduler-save-cancel-btn'>Cancel</Button></div>
                         </div>
                     </div>
-                    <div className='col-sm-8 zero-side-padding'>{mainView}</div>
                 </div>
             }
         </div>
@@ -361,13 +375,17 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    // selectFirstTimeline: timelines => dispatch(selectFirstTimeline(timelines)),
+    selectFirstTimeline: (timelines) => (dispatch) => {
+        return dispatch(selectFirstTimeline(timelines)) },
+
     onSaveSuccess: timeline => dispatch(saveTimelineSuccess(timeline)),
     showAlertBanner: alert => dispatch(showAlertBanner(alert)),
     hideAlertBanner: () => dispatch(hideAlertBanner()),
     showAlertModal: alert => dispatch(showAlertModal(alert)),
     hideAlertModal: () => dispatch(hideAlertModal()),
+    hideLoading: () => dispatch(hideLoading()),
     selectTimeline: timeline => dispatch(selectTimeline(timeline)),
-    selectFirstTimeline: timelines => dispatch(selectFirstTimeline(timelines)),
     showConfirm: confirm => dispatch(showConfirm(confirm)),
     hideConfirm: confirm => dispatch(hideConfirm(confirm)),
     cleanTimeline: timeline => dispatch(setTimelineClean(timeline)),
