@@ -139,6 +139,11 @@ public class Timeline //extends Entity
             String createdDateString = json.optString(TIMELINE_DATE_CREATED, null);
             String modifiedDateString = json.optString(TIMELINE_DATE_MODIFIED, null);
 
+            startDateString = "".equals(startDateString) ? null : startDateString;
+            endDateString = "".equals(endDateString) ? null : endDateString;
+            createdDateString = "".equals(createdDateString) ? null : createdDateString;
+            modifiedDateString = "".equals(modifiedDateString) ? null : modifiedDateString;
+
             try
             {
                 this.setStartDate(startDateString == null ? new Date() : DateUtil.parseDateTime(startDateString, TIMELINE_DATE_FORMAT));
