@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 SELECT a.Id,
+       a.Id.Demographics.calculated_status as status,
        p.ProjectId,
        p.RevisionNum,
        a.date as StartDate,
@@ -25,10 +26,14 @@ SELECT a.Id,
        ep.protocol as Iacuc,
        a.id.curLocation.room as location,
        a.id.curLocation.cage as cage,
-       a.assignmentStatus as AssignmentStatus
+       a.assignmentStatus as AssignmentStatus,
+       d.date as DeathDate,
+       dep.date as DepartureDate
 from snd.Projects as p
        INNER JOIN ehr.project as ep on p.ReferenceId = ep.project
        INNER JOIN study.assignment as a on ep.protocol = a.protocol
+       LEFT JOIN study.deaths as d on d.Id = a.Id
+       LEFT JOIN (SELECT Id, MAX(date) as date FROM study.departure GROUP BY Id) as dep ON dep.Id = a.Id
 where p.ReferenceId < 4000 and p.ReferenceId > 0
   and p.Active = true
   and ep.protocol is not null

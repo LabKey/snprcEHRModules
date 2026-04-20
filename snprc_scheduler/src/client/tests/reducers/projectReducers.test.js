@@ -1,5 +1,5 @@
 import projectReducer from '../../reducers/projectReducer';
-import {projectData} from '../fixtures/projectData';
+import { projectData } from '../fixtures/projectData';
 
 import {
     PROJECT_LIST_FILTERED,

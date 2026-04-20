@@ -33,6 +33,8 @@ snprc_ehr/.editorconfig
 snprc_ehr/resources/referenceStudy/LoadTaqmanData
 snprc_ehr/resources/referenceStudy/datasetImport/LoadTaqmanData
 snprc_scheduler/.gradle
+snprc_scheduler/resources/views/gen
+snprc_scheduler/resources/web/gen
 snprc_ehr/resources/credits
 */resources/credits/dependencies.txt
 */resources/credits/jars.txt
