@@ -24,6 +24,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
   -- 11/11/2016  added modified, modifiedby, created, and createdby columns tjh
   -- 10/22/2019  removed distinct clause from valid_charge_by_species join tjh
   -- 02/15/2020  Added fallback for missing created & createdBy columns tjh
+  -- 04/23/2026  Removed join on species table and added OUTER APPLY ja
   -- ==========================================================================================
 
 
@@ -47,7 +48,11 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
     ca.timestamp                     AS timestamp
   FROM dbo.charge_account AS ca
     LEFT OUTER JOIN dbo.TAC_COLUMNS AS tc ON tc.object_id = ca.object_id
-	LEFT OUTER JOIN dbo.valid_charge_by_species AS vcs ON ca.charge_id = vcs.charge_id
+    OUTER APPLY (
+      SELECT TOP 1 vcs2.charge_id, vcs2.arc_species_code
+      FROM dbo.valid_charge_by_species vcs2
+      WHERE vcs2.charge_id = ca.charge_id
+    ) vcs
     LEFT OUTER JOIN dbo.prd_cost_account AS pca on pca.account_id = ca.account_id
 
 
