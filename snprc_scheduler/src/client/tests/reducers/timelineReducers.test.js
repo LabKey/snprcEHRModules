@@ -1,5 +1,5 @@
 import timelineReducer from '../../reducers/timelineReducer';
-import {timelineData} from "../fixtures/timelineData";
+import { timelineData } from "../fixtures/timelineData";
 
 import {
     TIMELINE_DUPLICATED,

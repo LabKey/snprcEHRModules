@@ -90,6 +90,9 @@ public class SNPRC_schedulerManager
      */
     public static String getUserDisplayName(Integer userId)
     {
+        if (userId == null)
+            return "";
+
         String userName = "";
         DbSchema schema = DbSchema.get("core", DbSchemaType.Module);
         TableInfo ti = schema.getTable("Users");
@@ -187,10 +190,11 @@ public class SNPRC_schedulerManager
                 else
                 {
                     demFilter = new SimpleFilter(FieldKey.fromParts("Id"), timelineAnimalItem.getAnimalId(), CompareType.EQUAL)
-                            .addCondition(FieldKey.fromParts("projectId"), projectInfo.get("ProjectId"), CompareType.EQUAL)
+                            .addCondition(FieldKey.fromParts("projectId"), projectInfo.get("ProjectId"))
                             .addCondition(FieldKey.fromParts("RevisionNum"), projectInfo.get("ProjectRevisionNum"));
 
-                    Map result = new TableSelector(ti, demFilter, null).getMap();
+                    List<Map> results = new TableSelector(ti, demFilter, null).getArrayList(Map.class);
+                    Map result = results.isEmpty() ? null : results.get(0);
 
                     if (result != null)
                     {
@@ -483,6 +487,20 @@ public class SNPRC_schedulerManager
             // update existing row
             else if (timeline.getDirty())
             {
+                // Preserve ProjectId and ProjectRevisionNum from DB when not specified in the payload
+                if (timeline.getProjectId() == null || timeline.getProjectRevisionNum() == null)
+                {
+                    SimpleFilter existingFilter = new SimpleFilter(FieldKey.fromParts(Timeline.TIMELINE_OBJECTID), timeline.getObjectId(), CompareType.EQUAL);
+                    Map<String, Object> existingRow = new TableSelector(timelineTable, existingFilter, null).getMap();
+                    if (existingRow != null)
+                    {
+                        if (timeline.getProjectId() == null)
+                            timeline.setProjectId((Integer) existingRow.get(Timeline.TIMELINE_PROJECT_ID));
+                        if (timeline.getProjectRevisionNum() == null)
+                            timeline.setProjectRevisionNum((Integer) existingRow.get(Timeline.TIMELINE_PROJECT_REVISION_NUM));
+                    }
+                }
+
                 timelineRows.add(timeline.toMap(c, u));
                 Map<String, Object> pkMap = new HashMap<>();
                 List<Map<String, Object>> pkList = new ArrayList<>();
