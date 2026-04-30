@@ -1,6 +1,6 @@
 package org.labkey.snprc_scheduler;
 
-import jakarta.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.CompareType;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.labkey.api.exp.api.ExperimentService.asInteger;
+import static org.labkey.api.util.IntegerUtils.asInteger;
 
 public class SNPRC_schedulerManager
 {
