@@ -52,6 +52,7 @@ ALTER VIEW [labkey_etl].[v_charge_account] AS
       SELECT TOP 1 vcs2.charge_id, vcs2.arc_species_code
       FROM dbo.valid_charge_by_species vcs2
       WHERE vcs2.charge_id = ca.charge_id
+      ORDER BY vcs2.arc_species_code
     ) vcs
     LEFT OUTER JOIN dbo.prd_cost_account AS pca on pca.account_id = ca.account_id
 
