@@ -49,7 +49,7 @@ SELECT DISTINCT
     sp.projectType AS sndProjectType,
     sp.ObjectId AS sndProjectObjectId,
     c.caseid AS admitId,
-    c.problem + '/' + c.admitcomplaint AS projectText,
+    c.problem || '/' || c.admitcomplaint AS projectText,
     GREATEST (c.date, sp.startDate) AS startDate,
     LEAST (c.enddate, TIMESTAMPADD('SQL_TSI_DAY', 1, sp.endDate), NOW()) AS endDate,
     sp.projectId AS sndProjectId,
