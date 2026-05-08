@@ -17,7 +17,6 @@ package org.labkey.snd;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.labkey.api.gwt.client.util.StringProperty;
 
 /**
  * Configures the fields that are not returned when serializing a GWTPropertyDescriptor.
@@ -44,7 +43,7 @@ import org.labkey.api.gwt.client.util.StringProperty;
 })
 public abstract class PropertyDescriptorMixin
 {
-    PropertyDescriptorMixin(@JsonProperty("URL") StringProperty url)
+    PropertyDescriptorMixin(@JsonProperty("URL") String url)
     { }
     @JsonProperty("URL")
     abstract void setURL(String url); // rename property on deserialize
