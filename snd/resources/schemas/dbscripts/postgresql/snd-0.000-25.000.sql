@@ -316,9 +316,16 @@ CREATE INDEX IDX_SND_EVENTSCACHE_CONTAINER ON snd.EventsCache(Container);
 -- Creation date: 9/22/2017
 -- Description:  Table valued function to return hierarchical view of a superPkg
 -- ==========================================================================================
--- NOTE: ROW_NUMBER() OVER (...) cannot be used in the recursive term of WITH RECURSIVE in
--- PostgreSQL. The TreePath is computed using SortOrder directly, which preserves ordering
--- semantics while remaining compatible with PostgreSQL's recursive CTE restrictions.
+-- NOTE: PostgreSQL forbids window functions in the recursive term of WITH RECURSIVE. We
+-- pre-compute per-parent ordinals (ROW_NUMBER PARTITION BY ParentSuperPkgId) in a
+-- non-recursive CTE that is materialized once, then join to it in both the anchor and
+-- recursive members. This produces a stable per-parent TreePath segment and avoids the
+-- collisions and 3-char truncation that result from formatting raw SortOrder values.
+-- This differs from the SQL Server twin (sqlserver/snd-0.000-25.000.sql), which uses an
+-- unpartitioned ROW_NUMBER OVER (ORDER BY SortOrder); the partitioned form is preferred
+-- and the MSSQL function should eventually be aligned. NULLS FIRST is used so a NULL
+-- SortOrder sorts first within a parent, matching MSSQL's default NULL-ordering and the
+-- prior PG behavior (COALESCE(SortOrder, 0)).
 -- ==========================================================================================
 CREATE FUNCTION snd.fGetSuperPkg(_pkgId INT)
 RETURNS TABLE (
@@ -337,14 +344,26 @@ RETURNS TABLE (
     Level           INTEGER
 )
 LANGUAGE sql AS $$
-    WITH RECURSIVE CTE1 (TopLevelPkgId, SuperPkgId, ParentSuperPkgId, PkgId, TreePath, SuperPkgPath, SortOrder, Required, Description, Narrative, Active, Repeatable, Level) AS (
+    WITH RECURSIVE
+    ordered_super_pkgs AS (
+        SELECT sp.SuperPkgId,
+               sp.ParentSuperPkgId,
+               sp.PkgId,
+               sp.SuperPkgPath,
+               sp.SortOrder,
+               sp.Required,
+               ROW_NUMBER() OVER (PARTITION BY sp.ParentSuperPkgId
+                                  ORDER BY sp.SortOrder NULLS FIRST, sp.SuperPkgId) AS Ordinal
+        FROM   snd.SuperPkgs sp
+    ),
+    CTE1 (TopLevelPkgId, SuperPkgId, ParentSuperPkgId, PkgId, TreePath, SuperPkgPath, SortOrder, Required, Description, Narrative, Active, Repeatable, Level) AS (
 
         -- anchor member
         SELECT _pkgId::INTEGER                                                         AS TopLevelPkgId,
                sp.SuperPkgId,
                sp.ParentSuperPkgId,
                sp.PkgId,
-               RIGHT(REPEAT(' ', 3) || COALESCE(sp.SortOrder, 0)::VARCHAR, 3)         AS TreePath,
+               LPAD(sp.Ordinal::TEXT, 6, '0')                                          AS TreePath,
                sp.SuperPkgPath,
                sp.SortOrder,
                sp.Required,
@@ -353,7 +372,7 @@ LANGUAGE sql AS $$
                p.Active,
                p.Repeatable,
                1                                                                       AS Level
-        FROM   snd.SuperPkgs sp
+        FROM   ordered_super_pkgs sp
                    INNER JOIN snd.Pkgs p ON sp.PkgId = p.PkgId
         WHERE  sp.PkgId = _pkgId
           AND  sp.ParentSuperPkgId IS NULL
@@ -365,7 +384,7 @@ LANGUAGE sql AS $$
                sp.SuperPkgId,
                c.SuperPkgId                                                            AS ParentSuperPkgId,
                sp.PkgId,
-               c.TreePath || '/' || RIGHT(REPEAT(' ', 3) || COALESCE(sp.SortOrder, 0)::VARCHAR, 3) AS TreePath,
+               c.TreePath || '/' || LPAD(sp.Ordinal::TEXT, 6, '0')                     AS TreePath,
                sp.SuperPkgPath,
                sp.SortOrder,
                sp.Required,
@@ -374,7 +393,7 @@ LANGUAGE sql AS $$
                p.Active,
                p.Repeatable,
                c.Level + 1                                                             AS Level
-        FROM   snd.SuperPkgs AS sp
+        FROM   ordered_super_pkgs AS sp
                    INNER JOIN CTE1 AS c ON
                            sp.ParentSuperPkgId = c.SuperPkgId
                        OR  sp.ParentSuperPkgId IN (
@@ -407,6 +426,12 @@ $$;
 -- Description:  Returns the list of ProjectItems for a Project/Revision along with
 --               sub packages for each ProjectItem
 -- ==========================================================================================
+-- See note on fGetSuperPkg above re: pre-computed ordinals. The anchor uses an ordinal
+-- ordered by (ProjectItemId, SuperPkgId), which matches the MSSQL anchor's ROW_NUMBER.
+-- The recursive sub-tree uses per-parent ordinals over (SortOrder NULLS FIRST,
+-- SuperPkgId) -- partitioned by ParentSuperPkgId, unlike MSSQL's unpartitioned form;
+-- NULLS FIRST matches MSSQL's default NULL-ordering.
+-- ==========================================================================================
 CREATE FUNCTION snd.fGetProjectItems(_projectId INT, _revisionNum INT)
 RETURNS TABLE (
     ProjectId       INTEGER,
@@ -421,27 +446,46 @@ RETURNS TABLE (
     Description     VARCHAR
 )
 LANGUAGE sql AS $$
-    WITH RECURSIVE CTE1 (ProjectId, RevisionNum, ProjectItemId, ParentObjectId, ParentSuperPkgId, SuperPkgId, PkgId, ProjectActive, Active, TreePath, Level, Description) AS (
+    WITH RECURSIVE
+    ordered_project_items AS (
+        SELECT pi.ProjectItemId,
+               pi.ParentObjectId,
+               pi.SuperPkgId,
+               pi.Active                                                              AS ItemActive,
+               p.Active                                                               AS ProjectActive,
+               ROW_NUMBER() OVER (ORDER BY pi.ProjectItemId, pi.SuperPkgId)           AS Ordinal
+        FROM   snd.ProjectItems pi
+                   INNER JOIN snd.Projects p ON pi.ParentObjectId = p.ObjectId
+        WHERE  p.ProjectId = _projectId
+          AND  p.RevisionNum = _revisionNum
+    ),
+    ordered_super_pkgs AS (
+        SELECT sp.SuperPkgId,
+               sp.ParentSuperPkgId,
+               sp.PkgId,
+               sp.SortOrder,
+               ROW_NUMBER() OVER (PARTITION BY sp.ParentSuperPkgId
+                                  ORDER BY sp.SortOrder NULLS FIRST, sp.SuperPkgId) AS Ordinal
+        FROM   snd.SuperPkgs sp
+    ),
+    CTE1 (ProjectId, RevisionNum, ProjectItemId, ParentObjectId, ParentSuperPkgId, SuperPkgId, PkgId, ProjectActive, Active, TreePath, Level, Description) AS (
 
         -- anchor member
         SELECT _projectId::INTEGER                                                          AS ProjectId,
                _revisionNum::INTEGER                                                        AS RevisionNum,
-               pi.ProjectItemId,
-               pi.ParentObjectId,
+               opi.ProjectItemId,
+               opi.ParentObjectId,
                sp.ParentSuperPkgId,
                sp.SuperPkgId,
                sp.PkgId,
-               p.Active                                                                     AS ProjectActive,
-               pi.Active,
-               RIGHT(REPEAT(' ', 3) || COALESCE(sp.SuperPkgId, 0)::VARCHAR, 3)             AS TreePath,
+               opi.ProjectActive,
+               opi.ItemActive                                                               AS Active,
+               LPAD(opi.Ordinal::TEXT, 6, '0')                                              AS TreePath,
                1                                                                            AS Level,
                pkg.Description
-        FROM   snd.ProjectItems AS pi
-                   INNER JOIN snd.Projects AS p  ON pi.ParentObjectId = p.ObjectId
-                   INNER JOIN snd.SuperPkgs AS sp ON pi.SuperPkgId = sp.SuperPkgId
+        FROM   ordered_project_items AS opi
+                   INNER JOIN snd.SuperPkgs AS sp ON opi.SuperPkgId = sp.SuperPkgId
                    INNER JOIN snd.Pkgs pkg        ON sp.PkgId = pkg.PkgId
-        WHERE  p.ProjectId = _projectId
-          AND  p.RevisionNum = _revisionNum
 
         UNION ALL
 
@@ -455,10 +499,10 @@ LANGUAGE sql AS $$
                sp.PkgId,
                c.ProjectActive,
                c.Active,
-               c.TreePath || '/' || RIGHT(REPEAT(' ', 3) || COALESCE(sp.SortOrder, 0)::VARCHAR, 3) AS TreePath,
-               c.Level + 1                                                                 AS Level,
+               c.TreePath || '/' || LPAD(sp.Ordinal::TEXT, 6, '0')                          AS TreePath,
+               c.Level + 1                                                                  AS Level,
                pkg.Description
-        FROM   snd.SuperPkgs AS sp
+        FROM   ordered_super_pkgs AS sp
                    INNER JOIN snd.Pkgs AS pkg ON sp.PkgId = pkg.PkgId
                    INNER JOIN CTE1 AS c ON
                            sp.ParentSuperPkgId = c.SuperPkgId
