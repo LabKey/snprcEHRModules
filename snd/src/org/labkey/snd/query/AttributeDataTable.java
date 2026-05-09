@@ -216,11 +216,11 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                 OntologyManager.insertProperties(c, u, uri, true, properties);
                 inserted += props.size();
                 if (inserted % 10000 < props.size())
-                    logger.info("Inserted/updated " + inserted + " rows.");
+                    logger.info("Inserted/updated {} rows.", inserted);
             }
             catch (ValidationException e)
             {
-                logger.error(e.getMessage() + " PkgId " + pkgId, e);
+                logger.error("{} PkgId {}", e.getMessage(), pkgId, e);
                 throw UnexpectedException.wrap(e, e.getMessage() + "For PkgId: " + pkgId + ".\n");
             }
 
@@ -292,11 +292,11 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                             {
                                 if (pd.getLookupSchema() != null && pd.getLookupQuery() != null)
                                 {
-                                    logger.info("Value null for property " + pd.getName() + ". Value skipped. Verify lookup " + pd.getLookupSchema() + "." + pd.getLookupQuery() + " contains " + stringValue);
+                                    logger.info("Value null for property {}. Value skipped. Verify lookup {}.{} contains {}", pd.getName(), pd.getLookupSchema(), pd.getLookupQuery(), stringValue);
                                 }
                                 else
                                 {
-                                    logger.info("Value null for property " + pd.getName() + ". Value skipped.");
+                                    logger.info("Value null for property {}. Value skipped.", pd.getName());
                                 }
                             }
 
@@ -347,7 +347,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             }
 
             OntologyManager.clearPropertyCache();
-            logger.info("End updating exp.ObjectProperty. Inserted/Updated " + inserted + " rows.");
+            logger.info("End updating exp.ObjectProperty. Inserted/Updated {} rows.", inserted);
 
             _sndManager.updateNarrativeCache(container, user, cacheEventIds, logger);
 
@@ -373,7 +373,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             if (distinctEventIds.size() >= max_merge_rows)
             {
                 data.clear();
-                log.info("More than " + max_merge_rows + " rows. using importRows method.");
+                log.info("More than {} rows. using importRows method.", max_merge_rows);
                 return importRows(user, container, rows, errors, configParameters, extraScriptContext);
             }
             log.info("Merging rows.");
@@ -444,7 +444,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                     deleteObjProp.append("and propertyId = ?");
                     deleteObjProp.add(propertyId);
                     executor.execute(deleteObjProp);
-                    log.info("Deleting a row in exp.ObjectProperty with objectId = " + objectId + ", and propertyId = " + propertyId);
+                    log.info("Deleting a row in exp.ObjectProperty with objectId = {}, and propertyId = {}", objectId, propertyId);
 
                     //narrative cache to update
                     cacheData.add((Integer) row.get("EventId"));

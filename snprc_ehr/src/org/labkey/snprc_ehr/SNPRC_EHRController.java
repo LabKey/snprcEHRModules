@@ -211,7 +211,7 @@ public class SNPRC_EHRController extends SpringActionController
             List<String> pks = ti.getPkColumnNames();
             String keyField = null;
             if (pks.size() == 1)
-                keyField = pks.get(0);
+                keyField = pks.getFirst();
 
             ActionURL url = getViewContext().getActionURL().clone();
 

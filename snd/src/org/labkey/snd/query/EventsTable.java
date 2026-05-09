@@ -148,7 +148,7 @@ public class EventsTable extends AbstractSNDTableInfo
             // Large merge triggers importRows path
             if (eventIds.size() > maxMergeRows)
             {
-                log.info("More than " + maxMergeRows + " rows. using importRows method.");
+                log.info("More than {} rows. using importRows method.", maxMergeRows);
                 result = super.importRows(user, container, rows, errors, configParameters, extraScriptContext);
             }
             else

@@ -273,7 +273,7 @@ public class SNPRC_EHRTriggerHelper
         TableInfo flagCategoriesTable = getTableInfo("ehr_lookups", "flag_categories");
         TableSelector ts2 =  new TableSelector(flagCategoriesTable, Collections.singleton("enforceUnique"), new SimpleFilter(FieldKey.fromString("category"), category), null);
         List<Boolean> ret = ts2.getArrayList(Boolean.class);
-        boolean enforceUnique = ret != null && ret.size() == 1 ? ret.get(0) : false;
+        boolean enforceUnique = ret != null && ret.size() == 1 ? ret.getFirst() : false;
 
         if (enforceUnique)
         {

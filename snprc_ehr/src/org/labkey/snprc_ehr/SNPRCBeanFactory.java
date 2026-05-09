@@ -129,7 +129,7 @@ public class SNPRCBeanFactory<K> extends BeanObjectFactory<K>
             }
             catch (IllegalArgumentException x)
             {
-                _log.error("could not set property: " + prop + "=" + String.valueOf(value), x);
+                _log.error("could not set property: {}={}", prop, String.valueOf(value), x);
             }
         }
 

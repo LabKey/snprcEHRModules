@@ -83,8 +83,8 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {   //update
             timelineScript = timelineScript +
-                    "           'TimelineItemId' : " + timelineItems.get(0).get("TimelineItemId") + ",\n" +
-                    "           'ObjectId' : '" + timelineItems.get(0).get("ObjectId") + "'";
+                    "           'TimelineItemId' : " + timelineItems.getFirst().get("TimelineItemId") + ",\n" +
+                    "           'ObjectId' : '" + timelineItems.getFirst().get("ObjectId") + "'";
         }
         else
         {   //insert
@@ -163,7 +163,7 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {
             timelineScript = timelineScript +
-                "           'ObjectId' : '" + projectItems.get(0).get("ObjectId") + "',\n";
+                "           'ObjectId' : '" + projectItems.getFirst().get("ObjectId") + "',\n";
         }
         timelineScript = timelineScript +
                 "           'ProjectItemId'  : " + projectItemId1 + ",\n" +
@@ -199,7 +199,7 @@ public class TimelineScripts
         if (testTimelineObjectId != null)
         {   //update
             timelineScript = timelineScript +
-                    "           'ObjectId' : '" + studyDayNotes.get(0).get("ObjectId") + "',\n";
+                    "           'ObjectId' : '" + studyDayNotes.getFirst().get("ObjectId") + "',\n";
         }
         else
         {   //insert

@@ -65,7 +65,6 @@ import org.labkey.snprc_ehr.demographics.CurrentAccountsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentDietDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.CurrentPedigreeDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.DeathsDemographicsProvider;
-import org.labkey.snprc_ehr.demographics.EarliestHousingDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.IdHistoryDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.LastBcsDemographicsProvider;
 import org.labkey.snprc_ehr.demographics.LastHousingDemographicsProvider;

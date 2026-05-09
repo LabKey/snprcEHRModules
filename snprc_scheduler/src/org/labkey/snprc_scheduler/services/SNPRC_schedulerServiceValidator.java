@@ -304,19 +304,19 @@ public class SNPRC_schedulerServiceValidator
         }
 
         public static void validateNewTimelineProjectItems (List < TimelineProjectItem > newItems, Timeline
-        timeline, Container c, User u, BatchValidationException errors) throws BatchValidationException
+        timeline, Container c, User u, BatchValidationException errors)
         {
             //TODO: Validate TimelineProjectItems
         }
 
         public static void validateNewTimelineAnimalItems (List < TimelineAnimalJunction > newItems, Timeline
-        timeline, Container c, User u, BatchValidationException errors) throws BatchValidationException
+        timeline, Container c, User u, BatchValidationException errors)
         {
             //TODO: Validate TimelineAnimalJunction items
         }
 
         public static void validateNewStudyDayNotes (List <StudyDayNotes> newItems, StudyDayNotes
-                studyDayNotes, Container c, User u, BatchValidationException errors) throws BatchValidationException
+                studyDayNotes, Container c, User u, BatchValidationException errors)
         {
             //TODO: Validate StudyDayNotes
         }

@@ -246,7 +246,7 @@ public class SNDManager
         QueryUpdateService lookupQus = getQueryUpdateService(tableInfo);
 
         Map<String, Object> keyRow = new HashMap<>();
-        String pk = tableInfo.getPkColumnNames().get(0);  // Only handling single value pks
+        String pk = tableInfo.getPkColumnNames().getFirst();  // Only handling single value pks
         keyRow.put(pk, key);
 
         List<Map<String, Object>> pkRows = new ArrayList<>();
@@ -265,7 +265,7 @@ public class SNDManager
         if (rows == null || rows.isEmpty())
             return null;
 
-        return rows.get(0).get(tableInfo.getTitleColumn());
+        return rows.getFirst().get(tableInfo.getTitleColumn());
     }
 
     /**
@@ -284,7 +284,7 @@ public class SNDManager
         String pk;
         if (tableInfo.getPkColumnNames() != null)
         {
-            pk = tableInfo.getPkColumnNames().get(0); // Only handling single value pks
+            pk = tableInfo.getPkColumnNames().getFirst(); // Only handling single value pks
         }
         else
         {
@@ -300,7 +300,7 @@ public class SNDManager
         if (lookupRows.isEmpty())
             return null;
 
-        return lookupRows.get(0);
+        return lookupRows.getFirst();
     }
 
     /**
@@ -726,7 +726,7 @@ public class SNDManager
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
         if (selector.getArrayList(SuperPackage.class).size() == 1)
-            return selector.getArrayList(SuperPackage.class).get(0);
+            return selector.getArrayList(SuperPackage.class).getFirst();
         else
             return null;
     }
@@ -905,7 +905,7 @@ public class SNDManager
         sql.append(" WHERE SuperPkgId = ?");
         sql.add(topLevelSuperPkgId);
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
-        Integer topLevelPkgId = selector.getArrayList(Integer.class).get(0);
+        Integer topLevelPkgId = selector.getArrayList(Integer.class).getFirst();
 
         sql = new SQLFragment("SELECT * FROM ");
         sql.append(SNDSchema.NAME + "." + SNDSchema.SUPERPKGS_FUNCTION_NAME + "(?)");
@@ -945,7 +945,7 @@ public class SNDManager
             List<Package> pkgs = getPackages(c, u, pkgIds, true, true, true, errors);
             if (!pkgs.isEmpty())
             {
-                superPackage.setPkg(pkgs.get(0));
+                superPackage.setPkg(pkgs.getFirst());
             }
         }
 
@@ -982,7 +982,7 @@ public class SNDManager
             {
                 pkgIds = new ArrayList<>();
                 pkgIds.add(sPkg.getPkgId());
-                childPkg = getPackages(c, u, pkgIds, true, true, true, errors).get(0);
+                childPkg = getPackages(c, u, pkgIds, true, true, true, errors).getFirst();
                 sPkg.setPkg(childPkg);
             }
         }
@@ -1362,7 +1362,7 @@ public class SNDManager
 
                 if (!rows.isEmpty())
                 {
-                    Map<String, Object> row = rows.get(0);
+                    Map<String, Object> row = rows.getFirst();
                     if ((Integer) row.get("ReferenceId") != project.getReferenceId() && Boolean.parseBoolean((String) row.get("HasEvent")))
                     {
                         errors.addRowError(new ValidationException("This is an in use project. Reference Id cannot be changed."));
@@ -1752,7 +1752,7 @@ public class SNDManager
         if (!selector.exists())
             return null;
 
-        return selector.getArrayList(String.class).get(0);
+        return selector.getArrayList(String.class).getFirst();
     }
 
     /**
@@ -2257,7 +2257,7 @@ public class SNDManager
                         event.setException(new ValidationException("Project|revision not found: " + event.getProjectIdRev()));
                     }
 
-                    return !results.isEmpty() ? results.get(0) : null;
+                    return !results.isEmpty() ? results.getFirst() : null;
                 }
             }
         }
@@ -2513,7 +2513,7 @@ public class SNDManager
                 List<ValidationException> validationExceptions = validateProperty(c, u, propertyDescriptor, objectProperty);
                 if (!validationExceptions.isEmpty())
                 {
-                    attributeData.setException(event, validationExceptions.get(0)); // just handling on exception
+                    attributeData.setException(event, validationExceptions.getFirst()); // just handling on exception
                 }
                 else
                 {
@@ -2649,7 +2649,7 @@ public class SNDManager
         List<Integer> pkgIds = Lists.newArrayList(selector.getObject(Integer.class));
 
 
-        return getPackages(c, u, pkgIds, false, false, true, errors).get(0);
+        return getPackages(c, u, pkgIds, false, false, true, errors).getFirst();
     }
 
     /**
@@ -3063,7 +3063,7 @@ public class SNDManager
 
             if (cacheData.size() > MAX_MERGE_ROWS)
             {
-                log.info("More than " + MAX_MERGE_ROWS + " rows. Truncating narrative cache");
+                log.info("More than {} rows. Truncating narrative cache", MAX_MERGE_ROWS);
                 clearNarrativeCache(container, user, errors);
                 if (isUpdate)
                     log.info("Not automatically populating narrative cache. Must refresh manually.");
@@ -3202,7 +3202,7 @@ public class SNDManager
                 rows.add(row);
                 int currentCount = count.incrementAndGet();
                 if (logger != null && currentCount % 1000 == 0) {
-                    logger.info(currentCount + " narratives generated.");
+                    logger.info("{} narratives generated.", currentCount);
                 }
             });
             try (DbScope.Transaction tx = sndSchema.getDbSchema().getScope().ensureTransaction()) {
@@ -3637,7 +3637,7 @@ public class SNDManager
                         try
                         {
                             String pk, title;
-                            pk = luTi.getPkColumnNames().get(0); // Only handling single value pks
+                            pk = luTi.getPkColumnNames().getFirst(); // Only handling single value pks
                             title = luTi.getTitleColumn();
 
                             if (pk != null)
@@ -3961,7 +3961,7 @@ public class SNDManager
                 List<Integer> packageIds = Collections.singletonList(pkgId);
                 List<Package> packages = getBulkPackages(c, u, packageIds, pkgQus, packageExtraFields, fullTreeSuperPkgs, childrenByParentId, pkgCategoriesByPkgId, lookups, true, true, true, errors);
                 if (!packages.isEmpty()) {
-                    superPackage.setPkg(packages.get(0));
+                    superPackage.setPkg(packages.getFirst());
                 }
                 superPackage.setChildPackages(childrenByTopLevelPkgId.get(pkgId));
             }
@@ -4008,7 +4008,7 @@ public class SNDManager
                         .forEach((SuperPackage superPackage) -> {
                             if (includeFullSubpackages) {
                                 List<Integer> packageIds = Collections.singletonList(superPackage.getPkgId());
-                                superPackage.setPkg(getBulkPackages(c, u, packageIds, pkgQus, packageExtraFields, allSuperPackages, childrenByParentId, pkgCategoriesByPkgId, lookups, true, true, true, errors).get(0));
+                                superPackage.setPkg(getBulkPackages(c, u, packageIds, pkgQus, packageExtraFields, allSuperPackages, childrenByParentId, pkgCategoriesByPkgId, lookups, true, true, true, errors).getFirst());
                             }
                             if (superPackage.getParentSuperPkgId().intValue() == root.getSuperPkgId().intValue()) {
                                 children.add(addChildren(superPackage, superPackages));

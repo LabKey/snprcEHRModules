@@ -19,7 +19,6 @@ package org.labkey.snd;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.audit.AuditLogService;
-import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.exp.property.PropertyService;
@@ -128,13 +127,6 @@ public class SNDModule extends SpringModule
             if (container.getActiveModules().contains(SNDModule.this) && container.hasPermission(user, AdminPermission.class))
                 adminNavTree.addChild(new NavTree("SND Admin", new ActionURL(SNDController.AdminAction.class, container)));
         });
-    }
-
-    @Override
-    @NotNull
-    public Collection<String> getSummary(Container c)
-    {
-        return Collections.emptyList();
     }
 
     @Override

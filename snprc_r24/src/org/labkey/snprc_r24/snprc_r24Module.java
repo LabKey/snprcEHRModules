@@ -18,7 +18,6 @@ package org.labkey.snprc_r24;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.module.DefaultModule;
@@ -71,9 +70,6 @@ public class snprc_r24Module extends DefaultModule
     @Override
     public void doStartup(ModuleContext moduleContext)
     {
-        // add a container listener so we'll know when our container is deleted:
-        ContainerManager.addContainerListener(new snprc_r24ContainerListener());
-
         for (final String schemaName : getSchemaNames())
         {
             final DbSchema dbSchema = DbSchema.get(schemaName, DbSchemaType.Module);

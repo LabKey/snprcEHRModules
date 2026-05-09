@@ -443,11 +443,11 @@ public class SNDServiceImpl implements SNDService
 
             if (!table.getPkColumnNames().isEmpty())
             {
-                pk = table.getPkColumnNames().get(0);
+                pk = table.getPkColumnNames().getFirst();
 
                 if (title == null)
                 {
-                    title = table.getPkColumnNames().get(0);
+                    title = table.getPkColumnNames().getFirst();
                 }
             }
 

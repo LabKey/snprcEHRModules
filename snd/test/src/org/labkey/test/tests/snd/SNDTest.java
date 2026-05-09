@@ -1084,7 +1084,7 @@ public class SNDTest extends BaseWebDriverTest
 
         List<List<String>> rows = results.getRows("PkgId", "Description", "Active", "Repeatable", "Narrative");
         List<String> row_expected = Arrays.asList("878", "Vitals", "true", "true", "Check Vitals Test");
-        assertEquals("Initial package insert - data not as expected in snd.Pkgs", row_expected, rows.get(0));
+        assertEquals("Initial package insert - data not as expected in snd.Pkgs", row_expected, rows.getFirst());
 
         //TODO: Uncomment below and test for validity - I was unable to test since these tables are not exposed yet
 //        //DomainDescriptor
@@ -1127,7 +1127,7 @@ public class SNDTest extends BaseWebDriverTest
         results = new DataRegionTable("query", getDriver());
         rows = results.getRows("PkgId", "Description", "Active", "Repeatable", "Narrative");
         row_expected = Arrays.asList("878", "Vitals", "true", "true", "Check Vitals");
-        assertEquals("Updated narrative - data not as expected in snd.Pkgs", row_expected, rows.get(0));
+        assertEquals("Updated narrative - data not as expected in snd.Pkgs", row_expected, rows.getFirst());
 
         //import 3_insertPackage.snd.xml
         goToModule("Pipeline");
@@ -1146,7 +1146,7 @@ public class SNDTest extends BaseWebDriverTest
 
         rows = results.getRows("PkgId", "Description", "Active", "Repeatable", "Narrative");
         row_expected = Arrays.asList("877", "Therapy", "false", "true", "Therapy started");
-        assertEquals("New Package inserted - data not as expected in snd.Pkgs", row_expected, rows.get(0));
+        assertEquals("New Package inserted - data not as expected in snd.Pkgs", row_expected, rows.getFirst());
 
         //import 4_addAttribute.snd.xml
         goToModule("Pipeline");
@@ -1708,7 +1708,7 @@ public class SNDTest extends BaseWebDriverTest
         assertEquals("Wrong categories", Arrays.asList(Long.valueOf(TEST_CATEGORY_ID3), Long.valueOf(TEST_CATEGORY_ID4)), categories);
 
 
-        List validators = (List) (attributes.get(0)).get("validators");
+        List validators = (List) (attributes.getFirst()).get("validators");
         assertEquals("Wrong validator count", 1, validators.size());
 
         //confirm package currently has no event

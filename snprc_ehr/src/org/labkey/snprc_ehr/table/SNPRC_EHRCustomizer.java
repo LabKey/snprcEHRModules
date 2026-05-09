@@ -592,7 +592,7 @@ public class SNPRC_EHRCustomizer extends AbstractTableCustomizer
         }
         else
         {
-            _log.info("Linked Schema: " + geneticsSchema + " - Not found");
+            _log.info("Linked Schema: {} - Not found", geneticsSchema);
         }
     }
 

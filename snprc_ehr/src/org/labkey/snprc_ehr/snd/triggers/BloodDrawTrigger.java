@@ -186,7 +186,7 @@ public class BloodDrawTrigger implements EventTrigger
         //always report the most severe overage
         if (!overages.isEmpty())
         {
-            errors.add(new ValidationException("Blood volume of " + quantity + " (" + overages.descendingSet().iterator().next() + " over " + interval + " days) exceeds the allowable volume of " + maxAllowable + " mL (weight: " + weight + " kg)", ValidationException.SEVERITY.WARN));
+            errors.add(new ValidationException("Blood volume of " + quantity + " (" + overages.descendingSet().getFirst() + " over " + interval + " days) exceeds the allowable volume of " + maxAllowable + " mL (weight: " + weight + " kg)", ValidationException.SEVERITY.WARN));
         }
     }
 
@@ -271,7 +271,7 @@ public class BloodDrawTrigger implements EventTrigger
         Map<String, Object> bloodBySpecies = getBloodInfoForSpecies(c, u, species, errors);
         if (!errors.isEmpty())
         {
-            eventData.setException(event, errors.get(0));
+            eventData.setException(event, errors.getFirst());
             return;
         }
 

@@ -47,7 +47,7 @@ public class ClinicalRoundsRemarksFormSection extends RoundsRemarksFormSection
     public List<String> getTbarButtons()
     {
         List<String> defaultButtons = super.getTbarButtons();
-        defaultButtons.add(0, "ADDCLINICALCASES");
+        defaultButtons.addFirst("ADDCLINICALCASES");
 
         return defaultButtons;
     }

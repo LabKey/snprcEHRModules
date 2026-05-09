@@ -57,7 +57,7 @@ public class CalculatedColumnForeignKey extends LookupForeignKey
         List<QueryException> errors = new ArrayList<>();
         TableInfo lookupTable = queryDefinition.getTable(errors, true);
         if (!errors.isEmpty()) {
-            _log.error("Error creating lookup table for: " + schemaName + "." + queryName + " in container: " + targetSchema.getContainer().getPath());
+            _log.error("Error creating lookup table for: {}.{} in container: {}", schemaName, queryName, targetSchema.getContainer().getPath());
             errors.forEach(error -> _log.error(error.getMessage(), error));
             return null;
         }

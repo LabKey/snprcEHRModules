@@ -272,7 +272,7 @@ public class GroupsHierarchyServiceImpl implements HierarchyService
             return animalNodePath;
         }
         Node node = new Node();
-        GroupMember firstActiveAssignment = activeAssignments.get(0);
+        GroupMember firstActiveAssignment = activeAssignments.getFirst();
         node.setNode("GROUP-" + firstActiveAssignment.getGroupid());
 
         locationsPath.add(this.getRootNode(node));
