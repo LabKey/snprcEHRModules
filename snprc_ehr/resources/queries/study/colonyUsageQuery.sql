@@ -59,7 +59,8 @@ FROM
    WHERE isActive = true AND a.Id.Demographics.gender IS NOT NULL AND a.Id.AgeClass.label IS NOT NULL AND protocol.inves IS NOT NULL and a.assignmentStatus = 'A'
    GROUP BY protocol.inves, demographicsCurrentColony.colony, a.Id.Demographics.species.arc_species_code
 
-   PIVOT grouptotal BY colony IN (SELECT name FROM snprc_ehr.BaboonColonyGroups))  col
+   -- Literal IN list; outer SELECT only consumes pc_SPF and pc_Conv anyway, and a dynamic subquery against an empty BaboonColonyGroups breaks query validation.
+   PIVOT grouptotal BY colony IN ('pc_SPF', 'pc_Conv'))  col
     ON gen.investigator = col.investigator AND gen.species_code = col.species_code
 
 

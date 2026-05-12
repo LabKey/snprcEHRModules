@@ -1,5 +1,5 @@
 select
-    substring(qae.oldrecordmap, charindex('objectid=',qae.oldrecordmap, 0) + len('objectid='), 36) as objectid,
+    substring(qae.oldrecordmap, LOCATE('objectid=', qae.oldrecordmap) + LENGTH('objectid='), 36) as objectid,
     qae.date as modified
 
 from auditLog.QueryUpdateAuditEvent as qae

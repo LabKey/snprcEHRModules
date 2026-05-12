@@ -16,10 +16,10 @@ Select d.Id,
        d.species,
        d.species.arc_species_code as ARC_species,
        */
-       IFNULL(g.HasGeneExpressionData,0) as HasGeneExpressionData,
-       IFNULL(s.HasSNPData,0) as HasSNPData,
-       IFNULL(m.HasMicrosatellitesData,0) as HasMicrosatellitesData,
-       IFNULL(p.HasphenotypesData,0) as HasPhenotypeData
+       IFNULL(g.HasGeneExpressionData, false) as HasGeneExpressionData,
+       IFNULL(s.HasSNPData, false) as HasSNPData,
+       IFNULL(m.HasMicrosatellitesData, false) as HasMicrosatellitesData,
+       IFNULL(p.HasphenotypesData, false) as HasPhenotypeData
 
 From study.demographics d
          LEFT OUTER JOIN study.GenFlagSNP s

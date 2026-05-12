@@ -19,7 +19,8 @@ SELECT
 
 FROM snprc_ehr.FeeSchedule AS fs
 WHERE  fs.StartingYear = YEAR(NOW())
-AND  fs.BudgetYear = YEAR(NOW())
+-- BudgetYear is VARCHAR in the schema; Postgres won't implicitly compare it to a numeric, so cast.
+AND  fs.BudgetYear = CAST(YEAR(NOW()) AS VARCHAR)
 AND fs.VersionLabel = 'Capped Fee Schedule'
 AND fs.ActivityId between 4000 and 4999
 

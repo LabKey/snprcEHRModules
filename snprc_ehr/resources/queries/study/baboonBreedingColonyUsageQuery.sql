@@ -63,7 +63,8 @@ FROM
      WHERE aag.Id.Demographics.gender IS NOT NULL AND aag.Id.Demographics.calculated_status = 'Alive'
      GROUP BY aag.accountGroup, dcc.colony, aag.Id.Demographics.species.arc_species_code
 
-     PIVOT colonytotal BY colony IN (SELECT name FROM snprc_ehr.BaboonColonyGroups))  col -- ('pc_SPF', 'pc_Conv')) col
+     -- Literal IN list; outer SELECT only consumes pc_SPF and pc_Conv anyway, and a dynamic subquery against an empty BaboonColonyGroups breaks query validation.
+     PIVOT colonytotal BY colony IN ('pc_SPF', 'pc_Conv'))  col
       ON gen.accountGroup = col.accountGroup AND gen.species_code = col.species_code
   INNER JOIN
   -- Total --

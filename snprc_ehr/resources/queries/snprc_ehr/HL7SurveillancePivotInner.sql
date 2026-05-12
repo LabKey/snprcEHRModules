@@ -21,7 +21,8 @@ SELECT
     b.id,
     b.date,
     b.serviceTestId.serviceId.ServiceName AS PROCEDURE_NAME,
-    b.serviceTestId.serviceId AS PROCEDURE_ID,
+    -- HL7_OBR.PROCEDURE_ID is VARCHAR but labwork_services.ServiceId is INT; cast so the UNION types match on Postgres.
+    CAST(b.serviceTestId.serviceId AS VARCHAR) AS PROCEDURE_ID,
     b.serviceTestId.testName AS TestName,
     b.remark as COMMENT,
     '' AS ABNORMAL_FLAGS,
@@ -36,7 +37,7 @@ SELECT
     b.id,
     b.date,
     b.serviceTestId.serviceId.ServiceName AS PROCEDURE_NAME,
-    b.serviceTestId.serviceId AS PROCEDURE_ID,
+    CAST(b.serviceTestId.serviceId AS VARCHAR) AS PROCEDURE_ID,
     b.serviceTestId.testName AS TestName,
     b.remark as COMMENT,
     '' AS ABNORMAL_FLAGS,
