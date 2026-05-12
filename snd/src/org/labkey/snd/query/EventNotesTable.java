@@ -96,7 +96,7 @@ public class EventNotesTable extends AbstractSNDTableInfo
             int result;
             if (getRowCount(rows, configParameters, errors) > SNDManager.MAX_MERGE_ROWS)
             {
-                log.info("More than " + SNDManager.MAX_MERGE_ROWS + " rows. using importRows method.");
+                log.info("More than {} rows. using importRows method.", SNDManager.MAX_MERGE_ROWS);
                 result = super.importRows(user, container, rows, errors, configParameters, extraScriptContext);
             }
             else

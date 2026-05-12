@@ -80,7 +80,7 @@ public class CustomizerQueryProvider
      */
     private ColumnInfo getPrimaryKeyColumn(TableInfo tableInfo) {
         List<ColumnInfo> primaryKeys = tableInfo.getPkColumns();
-        return (primaryKeys.size() != 1) ? null : primaryKeys.get(0);
+        return (primaryKeys.size() != 1) ? null : primaryKeys.getFirst();
     }
 
     /**

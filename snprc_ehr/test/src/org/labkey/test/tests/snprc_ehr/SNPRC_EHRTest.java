@@ -136,12 +136,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     }
 
     @Override
-    public BrowserType bestBrowser()
-    {
-        return BrowserType.CHROME;
-    }
-
-    @Override
     public List<String> getAssociatedModules()
     {
         return Arrays.asList("ehr", "snprc_ehr", "snprc_genetics");
@@ -687,7 +681,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     {
         sleep(1000);
         List<DataRegionTable> dataRegions = page.getActiveReportDataRegions();
-        DataRegionTable recentBlood = dataRegions.get(dataRegions.size() - 1);
+        DataRegionTable recentBlood = dataRegions.getLast();
 
         for (String col : values.keySet())
         {
@@ -913,7 +907,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
         ColonyOverviewPage.BaboonColonyTab baboonColonyTab = overviewPage.clickBaboonColonyTab();
         String[] censusColumns = {"Investigator", "Protocol", "M", "F", "SPF", "Conventional", "Total"};
         waitForElement(Locator.tagContainingText("span","Active IACUC Assignments"),WAIT_FOR_PAGE);
-        List<String> row = baboonColonyTab.getActiveIacucDataRegion().getRows(censusColumns).get(0);
+        List<String> row = baboonColonyTab.getActiveIacucDataRegion().getRows(censusColumns).getFirst();
         List<String> expectedRows =
                 Arrays.asList("dummyinvestigator", "dummyprotocol", "2", "2", " ", "1", "4");
         assertEquals(expectedRows, row);

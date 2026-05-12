@@ -73,33 +73,33 @@ public class SuperPackageLoadTask extends TaskRefTaskImpl
             Map<Integer, List<SuperPackage>> superPackagesByTopLevelPkgId = superPackages.stream()
                     .collect(Collectors.groupingBy(SuperPackage::getTopLevelPkgId, LinkedHashMap::new, Collectors.toList()));
 
-            job.getLogger().info("Number of super packages: " + superPackagesByTopLevelPkgId.size());
+            job.getLogger().info("Number of super packages: {}", superPackagesByTopLevelPkgId.size());
 
             superPackagesByTopLevelPkgId.forEach((topLevelPkgId, sp) -> {
-                job.getLogger().info("Processing Super Package: " + topLevelPkgId);
+                job.getLogger().info("Processing Super Package: {}", topLevelPkgId);
                 try
                 {
                     hierarchicalPackages.put(topLevelPkgId, buildHierarchicalPackages(sp, job));
                 }
                 catch (RuntimeException e)
                 {
-                    job.getLogger().info("Skipping package: " + topLevelPkgId);
+                    job.getLogger().info("Skipping package: {}", topLevelPkgId);
                 }
                 catch (PipelineJobException e)
                 {
-                    job.getLogger().info("Error processing package: " + topLevelPkgId);
+                    job.getLogger().info("Error processing package: {}", topLevelPkgId);
                     throw new RuntimeException(e.getMessage(), e);
                 }
             });
 
             hierarchicalPackages.forEach((topLevelPkgId, sp) -> {
-                job.getLogger().info("Saving Super Package: " + topLevelPkgId + "-" + sp.get(0).getDescription());
+                job.getLogger().info("Saving Super Package: {}-{}", topLevelPkgId, sp.getFirst().getDescription());
                 SNDService.get().saveSuperPackages(job.getContainer(), job.getUser(), sp);
             });
         }
         catch (Exception e)
         {
-            job.getLogger().error("Error importing super packages: " + e.getMessage());
+            job.getLogger().error("Error importing super packages: {}", e.getMessage());
             throw e;
         }
     }
@@ -117,7 +117,7 @@ public class SuperPackageLoadTask extends TaskRefTaskImpl
             sortedSuperPackages.stream().forEachOrdered(subPackage ->
             {
                 // add package object to childSuperPackage
-                subPackage.setPkg(SNDService.get().getPackages(job.getContainer(), job.getUser(), Collections.singletonList(subPackage.getPkgId()), true, true, true).get(0));
+                subPackage.setPkg(SNDService.get().getPackages(job.getContainer(), job.getUser(), Collections.singletonList(subPackage.getPkgId()), true, true, true).getFirst());
 
                 if (subPackage.getParentSuperPkgId() == null)
                 {
@@ -146,12 +146,12 @@ public class SuperPackageLoadTask extends TaskRefTaskImpl
         }
         catch (EmptyStackException e)
         {
-            job.getLogger().info("Not enough information to build hierarchical package: " + superPackages.get(0).getTopLevelPkgId());
+            job.getLogger().info("Not enough information to build hierarchical package: {}", superPackages.getFirst().getTopLevelPkgId());
             throw new RuntimeException(e.getMessage(), e);
         }
         catch (Exception e)
         {
-            job.getLogger().info("Error while building hierarchical package: " + e.getMessage(), e);
+            job.getLogger().info("Error while building hierarchical package: {}", e.getMessage(), e);
             throw new PipelineJobException(e.getMessage(), e);
         }
     }

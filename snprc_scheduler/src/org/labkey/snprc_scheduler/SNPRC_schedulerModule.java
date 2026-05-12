@@ -2,7 +2,6 @@ package org.labkey.snprc_scheduler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.labkey.api.data.ContainerManager;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
@@ -94,9 +93,6 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     public void doStartup(ModuleContext moduleContext)
     {
-        // add a container listener so we'll know when our container is deleted:
-        ContainerManager.addContainerListener(new SNPRC_schedulerContainerListener());
-
         Resource r = getModuleResource("/scripts/snprc_scheduler_triggers.js");
         assert r != null;
         EHRService.get().registerTriggerScript(this, r);

@@ -49,18 +49,16 @@ public class SNPRC_EHRUserSchema extends SimpleUserSchema
     protected TableInfo createWrappedTable(String name, @NotNull TableInfo schemaTable, ContainerFilter cf)
     {
         String nameLowercased = name.toLowerCase();
-        switch(nameLowercased){
-            case SNPRC_EHRSchema.TABLE_VALID_VETS:
-            case SNPRC_EHRSchema.TABLE_VALID_BIRTH_CODES:
-            case SNPRC_EHRSchema.TABLE_VALID_DEATH_CODES:
-            case SNPRC_EHRSchema.TABLE_VALID_INSTITUTIONS:
-                return getCustomPermissionTable(createSourceTable(nameLowercased), cf, ManageLookupTablesPermission.class);
-            case SNPRC_EHRSchema.TABLE_GROUP_CATEGORIES:
-            case SNPRC_EHRSchema.TABLE_ANIMAL_GROUPS:
-                return getCustomPermissionTable(createSourceTable(nameLowercased), cf, ManageGroupMembersPermission.class);
-        }
+        return switch (nameLowercased)
+        {
+            case SNPRC_EHRSchema.TABLE_VALID_VETS, SNPRC_EHRSchema.TABLE_VALID_BIRTH_CODES,
+                 SNPRC_EHRSchema.TABLE_VALID_DEATH_CODES, SNPRC_EHRSchema.TABLE_VALID_INSTITUTIONS ->
+                    getCustomPermissionTable(createSourceTable(nameLowercased), cf, ManageLookupTablesPermission.class);
+            case SNPRC_EHRSchema.TABLE_GROUP_CATEGORIES, SNPRC_EHRSchema.TABLE_ANIMAL_GROUPS ->
+                    getCustomPermissionTable(createSourceTable(nameLowercased), cf, ManageGroupMembersPermission.class);
+            default -> super.createWrappedTable(name, schemaTable, cf);
+        };
 
-        return super.createWrappedTable(name, schemaTable, cf);
     }
 
 

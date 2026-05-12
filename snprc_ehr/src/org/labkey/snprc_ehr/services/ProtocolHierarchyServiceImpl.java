@@ -246,7 +246,7 @@ public class ProtocolHierarchyServiceImpl implements HierarchyService
         {
             return animalNodePath;
         }
-        Map firstCurrentAnimalAssignment = currentAnimalAssignments.get(0);
+        Map firstCurrentAnimalAssignment = currentAnimalAssignments.getFirst();
 
         Node node = new Node();
         node.setNode((String) firstCurrentAnimalAssignment.get("protocol"));

@@ -15,6 +15,7 @@
  */
 package org.labkey.api.snd;
 
+import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.SQLFragment;
@@ -72,7 +73,7 @@ public class SNDDomainKind extends ExtendedTableDomainKind
     }
 
     @Override
-    public Set<String> getReservedPropertyNames(Domain domain, User user)
+    public @NotNull Set<String> getReservedPropertyNames(Domain domain, User user)
     {
         Set<String> result = new HashSet<>();
         result.add("Description");

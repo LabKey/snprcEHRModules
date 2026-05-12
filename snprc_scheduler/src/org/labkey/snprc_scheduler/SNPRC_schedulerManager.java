@@ -194,7 +194,7 @@ public class SNPRC_schedulerManager
                             .addCondition(FieldKey.fromParts("RevisionNum"), projectInfo.get("ProjectRevisionNum"));
 
                     List<Map> results = new TableSelector(ti, demFilter, null).getArrayList(Map.class);
-                    Map result = results.isEmpty() ? null : results.get(0);
+                    Map result = results.isEmpty() ? null : results.getFirst();
 
                     if (result != null)
                     {
@@ -472,10 +472,10 @@ public class SNPRC_schedulerManager
                 // add updated values returned from db call
                 if (insertedRow != null)
                 {
-                    timeline.setCreated((Date) insertedRow.get(0).get("Created"));
-                    timeline.setCreatedBy(c, u, (Integer) insertedRow.get(0).get("CreatedBy"));
-                    timeline.setModified((Date) insertedRow.get(0).get("Modified"));
-                    timeline.setModifiedBy(c, u, (Integer) insertedRow.get(0).get("ModifiedBy"));
+                    timeline.setCreated((Date) insertedRow.getFirst().get("Created"));
+                    timeline.setCreatedBy(c, u, (Integer) insertedRow.getFirst().get("CreatedBy"));
+                    timeline.setModified((Date) insertedRow.getFirst().get("Modified"));
+                    timeline.setModifiedBy(c, u, (Integer) insertedRow.getFirst().get("ModifiedBy"));
                     timeline.setDirty(false);
                 }
 
@@ -513,8 +513,8 @@ public class SNPRC_schedulerManager
                 // add updated values returned from db call
                 if (updatedRow != null)
                 {
-                    timeline.setModified((Date) updatedRow.get(0).get("Modified"));
-                    timeline.setModifiedBy(c, u, (Integer) updatedRow.get(0).get("ModifiedBy"));
+                    timeline.setModified((Date) updatedRow.getFirst().get("Modified"));
+                    timeline.setModifiedBy(c, u, (Integer) updatedRow.getFirst().get("ModifiedBy"));
                     timeline.setDirty(false);
                 }
             }
@@ -566,8 +566,8 @@ public class SNPRC_schedulerManager
                     // add updated values returned from db call
                     if (insertedRow != null)
                     {
-                        timelineItem.setObjectId((String) insertedRow.get(0).get(TimelineItem.TIMELINEITEM_OBJECT_ID));
-                        timelineItem.setTimelineItemId(asInteger(insertedRow.get(0).get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID)));
+                        timelineItem.setObjectId((String) insertedRow.getFirst().get(TimelineItem.TIMELINEITEM_OBJECT_ID));
+                        timelineItem.setTimelineItemId(asInteger(insertedRow.getFirst().get(TimelineItem.TIMELINEITEM_TIMELINE_ITEM_ID)));
                         timelineItem.setDirty(false);
                     }
 
@@ -677,7 +677,7 @@ public class SNPRC_schedulerManager
                     // add updated values returned from db call
                     if (insertedRow != null)
                     {
-                        studyDayNote.setObjectId((String) insertedRow.get(0).get(StudyDayNotes.STUDYDAY_OBJECT_ID));
+                        studyDayNote.setObjectId((String) insertedRow.getFirst().get(StudyDayNotes.STUDYDAY_OBJECT_ID));
                         studyDayNote.setDirty(false);
                     }
                 }
@@ -755,8 +755,8 @@ public class SNPRC_schedulerManager
                     // add updated values returned from db call
                     if (insertedRow != null)
                     {
-                        timelineProjectItem.setObjectId((String) insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
-                        timelineProjectItem.setProjectItemId(asInteger(insertedRow.get(0).get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID)));
+                        timelineProjectItem.setObjectId((String) insertedRow.getFirst().get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_TIMELINE_OBJECT_ID));
+                        timelineProjectItem.setProjectItemId(asInteger(insertedRow.getFirst().get(TimelineProjectItem.TIMELINE_PROJECT_ITEM_PROJECT_ITEM_ID)));
                         timelineProjectItem.setDirty(false);
                     }
                 }
@@ -841,8 +841,8 @@ public class SNPRC_schedulerManager
                     // add updated values returned from db call
                     if (insertedRow != null)
                     {
-                        timelineAnimalItem.setObjectId((String) insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
-                        timelineAnimalItem.setRowId(asInteger(insertedRow.get(0).get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID)));
+                        timelineAnimalItem.setObjectId((String) insertedRow.getFirst().get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_OBJECT_ID));
+                        timelineAnimalItem.setRowId(asInteger(insertedRow.getFirst().get(TimelineAnimalJunction.TIMELINE_ANIMAL_JUNCTION_ROW_ID)));
                         timelineAnimalItem.setDirty(false);
                     }
                 }

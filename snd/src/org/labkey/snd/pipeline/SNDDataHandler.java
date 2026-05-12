@@ -15,7 +15,6 @@
  */
 package org.labkey.snd.pipeline;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
@@ -55,8 +54,6 @@ import org.txbiomed.snd.SuperPackageType;
 import org.txbiomed.snd.SuperPackagesType;
 import org.txbiomed.snd.USDACategoryType;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -145,7 +142,7 @@ public class SNDDataHandler extends AbstractExperimentDataHandler
         {
             Package pkg = parsePackage(packageType, info); //convert auto-generated objects/tokens to SND's Package objects
             sndService.savePackage(info.getContainer(), info.getUser(), pkg, null,false, true); //save to db
-            log.info("Saving package: " + packageType.getId() + "-" + packageType.getDescription());
+            log.info("Saving package: {}-{}", packageType.getId(), packageType.getDescription());
         }
     }
 

@@ -29,29 +29,14 @@ public class SNPRCEventTriggerFactory implements EventTriggerFactory
     @Override
     public EventTrigger createTrigger(String category)
     {
-        EventTrigger trigger;
-
-        switch (category)
+        return switch (category)
         {
-            case "TestTrigger":
-                trigger = new TestTrigger();
-                break;
-            case "Blood Draw":
-                trigger = new BloodDrawTrigger();
-                break;
-            case "Male Only":
-                trigger = new MaleOnlyTrigger();
-                break;
-            case "Female Only":
-                trigger = new FemaleOnlyTrigger();
-                break;
-            case "Ketamine Reactor":
-                trigger = new KetamineReactorTrigger();
-                break;
-            default:
-                trigger = null;
-        }
-
-        return trigger;
+            case "TestTrigger" -> new TestTrigger();
+            case "Blood Draw" -> new BloodDrawTrigger();
+            case "Male Only" -> new MaleOnlyTrigger();
+            case "Female Only" -> new FemaleOnlyTrigger();
+            case "Ketamine Reactor" -> new KetamineReactorTrigger();
+            default -> null;
+        };
     }
 }

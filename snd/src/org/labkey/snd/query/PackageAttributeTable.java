@@ -192,7 +192,7 @@ public class PackageAttributeTable extends FilteredTable<SNDUserSchema>
                             keys.add(key);
 
                             List<Map<String, Object>> rows = pkgQus.getRows(getUserSchema().getUser(), getContainer(), keys);
-                            Map<String, Object> row = rows.get(0);
+                            Map<String, Object> row = rows.getFirst();
                             return row.get(pd.getName());
                         }
                         catch (QueryUpdateServiceException | InvalidKeyException | SQLException e)

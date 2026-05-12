@@ -42,7 +42,7 @@ public class FemaleOnlyTrigger implements EventTrigger
 
         if (!errors.isEmpty())
         {
-            event.setException(errors.get(0));
+            event.setException(errors.getFirst());
         }
 
         if (!genderMatches)

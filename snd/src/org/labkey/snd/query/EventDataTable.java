@@ -151,7 +151,7 @@ public class EventDataTable extends AbstractSNDTableInfo
 
             if (distinctEventIds.size() >= max_merge_rows)
             {
-                log.info("More than " + max_merge_rows + " rows. using importRows method.");
+                log.info("More than {} rows. using importRows method.", max_merge_rows);
                 return importRows(user, container, rows, errors, configParameters, extraScriptContext);
             }
 
@@ -178,14 +178,14 @@ public class EventDataTable extends AbstractSNDTableInfo
                 count++;
                 //TODO: Count in exp.Object is not going to be the same as in snd.EventData - need to figure out how to get the count to log
                 if(count % 1000 == 0)
-                    log.info("Updated " + count + " rows in exp.Object table.");
+                    log.info("Updated {} rows in exp.Object table.", count);
             }
-            log.info("End updating exp.Object table. Updated total of " + count + " rows.");
+            log.info("End updating exp.Object table. Updated total of {} rows.", count);
 
             int rowCount = 0;
-            if(!data.isEmpty() && null != data.get(0))
+            if(!data.isEmpty() && null != data.getFirst())
             {
-                DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.get(0).keySet(), data);
+                DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.getFirst().keySet(), data);
                 rowCount = _importRowsUsingDIB(user, container, rowsWithObjectURI, null, dataIteratorContext, extraScriptContext);
             }
 
@@ -231,11 +231,11 @@ public class EventDataTable extends AbstractSNDTableInfo
                 count++;
                 //TODO: Count in exp.Object is not going to be the same as in snd.EventData - need to figure out how to get the count to log
                 if(count % 1000 == 0)
-                    log.info("Inserted " + count + " rows in exp.Object table.");
+                    log.info("Inserted {} rows in exp.Object table.", count);
             }
-            log.info("End inserting into exp.Object. Inserted total of " + count + " rows.");
+            log.info("End inserting into exp.Object. Inserted total of {} rows.", count);
 
-            DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.get(0).keySet(), data);
+            DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.getFirst().keySet(), data);
 
             _sndManager.updateNarrativeCache(container, user, cacheData, log);
 
@@ -351,21 +351,21 @@ public class EventDataTable extends AbstractSNDTableInfo
                 count++;
                 //TODO: Count in exp.Object is not going to be the same as in snd.EventData - need to figure out how to get the count to log
                 if (count % 1000 == 0)
-                    log.info("Deleted " + count + " rows from exp.ObjectProperty and exp.Object.");
+                    log.info("Deleted {} rows from exp.ObjectProperty and exp.Object.", count);
             }
 
-            log.info("End deleting from exp.ObjectProperty and exp.Object. Deleted total of " + count + " rows.");
+            log.info("End deleting from exp.ObjectProperty and exp.Object. Deleted total of {} rows.", count);
         }
 
         private int deleteAllFromExpTables(Logger log)
         {
             log.info("Deleting from exp.ObjectProperty table.");
             int objPropCount = deleteFromExpObjectProperty(log);
-            log.info("Deleted " + objPropCount + " rows from exp.ObjectProperty.");
+            log.info("Deleted {} rows from exp.ObjectProperty.", objPropCount);
 
             log.info("Deleting from exp.Object table.");
             int objCount = deleteFromExpObject(log);
-            log.info("Deleted " + objCount + " rows from exp.Object.");
+            log.info("Deleted {} rows from exp.Object.", objCount);
 
             return objCount;
         }

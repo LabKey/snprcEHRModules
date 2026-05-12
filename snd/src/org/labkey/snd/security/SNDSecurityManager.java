@@ -74,7 +74,7 @@ public class SNDSecurityManager
         Category category;
         if (categories != null && !categories.isEmpty())
         {
-            category = categories.get(0);
+            category = categories.getFirst();
             Group group = SecurityManager.getGroup(SecurityManager.getGroupId(c, groupName));
             if (group != null)
             {

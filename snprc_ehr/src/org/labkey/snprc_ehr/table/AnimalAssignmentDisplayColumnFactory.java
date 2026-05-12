@@ -134,7 +134,7 @@ public class AnimalAssignmentDisplayColumnFactory implements DisplayColumnFactor
             if (errors.isEmpty())
                 return HtmlString.unsafe(html);
             else
-                return HtmlString.of(errors.get(0));
+                return HtmlString.of(errors.getFirst());
         }
 
         @NotNull

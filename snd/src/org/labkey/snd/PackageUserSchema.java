@@ -36,7 +36,6 @@ import org.labkey.api.sql.LabKeySql;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -223,7 +222,7 @@ public class PackageUserSchema extends UserSchema
         @Override
         protected SQLFragment getFromSQLExpanded(String alias, Set<FieldKey> cols)
         {
-            boolean hasEventDataColumn = cols.stream().anyMatch(fk -> eventDataCols.contains(fk.getParts().get(0)));
+            boolean hasEventDataColumn = cols.stream().anyMatch(fk -> eventDataCols.contains(fk.getParts().getFirst()));
             return getFromSQLJoin(alias, hasEventDataColumn);
         }
 
@@ -419,7 +418,7 @@ public class PackageUserSchema extends UserSchema
             List<QueryException> errors = new ArrayList<>();
             queryTableInfo = qdef.getTable(_snd, errors, false);
             if (!errors.isEmpty())
-                throw errors.get(0);
+                throw errors.getFirst();
             if (null == queryTableInfo)
                 throw new QueryException("Unexpected error compiling query");
 

@@ -56,11 +56,11 @@ public class PackageLoadTask extends TaskRefTaskImpl
                 return;
             }
 
-            job.getLogger().info("Number of packages: " + rows.length);
+            job.getLogger().info("Number of packages: {}", rows.length);
             for (Map<String, Object> row : rows) {
                 // build package
                 Package pkg = buildPackage(row, job);
-                job.getLogger().info("Processing Package: " + pkg.getPkgId());
+                job.getLogger().info("Processing Package: {}", pkg.getPkgId());
                 // add attributes to package
                 List<GWTPropertyDescriptor> attributeDataList = getAttributes(pkg.getPkgId(), job);
                 if (attributeDataList != null && !attributeDataList.isEmpty())
@@ -68,12 +68,12 @@ public class PackageLoadTask extends TaskRefTaskImpl
                     pkg.setAttributes(attributeDataList);
                 }
                 // save package
-                job.getLogger().info("Saving Package: " + pkg.getPkgId() + "-" + pkg.getDescription());
+                job.getLogger().info("Saving Package: {}-{}", pkg.getPkgId(), pkg.getDescription());
                 SNDService.get().savePackage(job.getContainer(), job.getUser(), pkg, null, false, true);
             }
         }
         catch (Exception e) {
-            job.getLogger().error ("Error reading package table: " + e.getMessage());
+            job.getLogger().error("Error reading package table: {}", e.getMessage());
             throw new PipelineJobException(e);
         }
     }
@@ -112,7 +112,7 @@ public class PackageLoadTask extends TaskRefTaskImpl
         }
         catch (Exception e)
         {
-            job.getLogger().error("Error building package: " + e.getMessage());
+            job.getLogger().error("Error building package: {}", e.getMessage());
             throw new PipelineJobException(e);
         }
         return pkg;
@@ -217,7 +217,7 @@ public class PackageLoadTask extends TaskRefTaskImpl
         }
         catch (Exception e)
         {
-            job.getLogger().error("Error building package attributes: " + e.getMessage());
+            job.getLogger().error("Error building package attributes: {}", e.getMessage());
             throw new PipelineJobException(e);
         }
         return attributesList;
