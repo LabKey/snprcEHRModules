@@ -107,7 +107,7 @@
                             <fkColumnName>UserId</fkColumnName>
                             <fkTable>Users</fkTable>
                             <fkDbSchema>core</fkDbSchema>
-                        </fk>`
+                        </fk>
                     </column>
                     <column columnName="qcstate">
                     <isHidden>true</isHidden>

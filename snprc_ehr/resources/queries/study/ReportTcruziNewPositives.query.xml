@@ -23,13 +23,10 @@
                     <column columnName="TcruziResult">
                         <columnTitle>T cruzi result</columnTitle>
                     </column>
-                    <column columnName="MinDate">
+                    <column columnName="FirstDate">
                         <columnTitle>First Date</columnTitle>
                     </column>
                 </columns>
-                <sorts>
-                    <sort column="MinDate" descending="true"/>
-                </sorts>
             </table>
         </tables>
     </metadata>
