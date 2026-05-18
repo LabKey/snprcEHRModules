@@ -7,10 +7,10 @@ Select d.Id,
        d.gender,
        d.species,
        d.species.arc_species_code as ARC_species,
-       IFNULL(g.HasGeneExpressionData,0) as HasGeneExpressionData,
-       IFNULL(s.HasSNPData,0) as HasSNPData,
-       IFNULL(m.HasMicrosatellitesData,0) as HasMicrosatellitesData,
-       IFNULL(p.HasphenotypesData,0) as HasPhenotypeData
+       IFNULL(CAST(g.HasGeneExpressionData AS INTEGER), 0) as HasGeneExpressionData,
+       IFNULL(CAST(s.HasSNPData AS INTEGER), 0) as HasSNPData,
+       IFNULL(CAST(m.HasMicrosatellitesData AS INTEGER), 0) as HasMicrosatellitesData,
+       IFNULL(CAST(p.HasphenotypesData AS INTEGER), 0) as HasPhenotypeData
        
 From study.demographics d
          LEFT OUTER JOIN study.GenFlagSNP s

@@ -16,10 +16,13 @@ Select d.Id,
        d.species,
        d.species.arc_species_code as ARC_species,
        */
-       IFNULL(g.HasGeneExpressionData,0) as HasGeneExpressionData,
-       IFNULL(s.HasSNPData,0) as HasSNPData,
-       IFNULL(m.HasMicrosatellitesData,0) as HasMicrosatellitesData,
-       IFNULL(p.HasphenotypesData,0) as HasPhenotypeData
+       -- Cast boolean → integer first so the IFNULL result type is INTEGER, not BOOLEAN.
+       -- Both args matching as BOOLEAN triggers SQL Server's BIT→BOOLEAN CASE-wrap (error 4145);
+       -- mixing BOOLEAN with integer 0 fails on Postgres ("COALESCE types boolean and integer cannot be matched").
+       IFNULL(CAST(g.HasGeneExpressionData AS INTEGER), 0) as HasGeneExpressionData,
+       IFNULL(CAST(s.HasSNPData AS INTEGER), 0) as HasSNPData,
+       IFNULL(CAST(m.HasMicrosatellitesData AS INTEGER), 0) as HasMicrosatellitesData,
+       IFNULL(CAST(p.HasphenotypesData AS INTEGER), 0) as HasPhenotypeData
 
 From study.demographics d
          LEFT OUTER JOIN study.GenFlagSNP s
