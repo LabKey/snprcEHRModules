@@ -16,6 +16,7 @@
 package org.labkey.snprc_ehr;
 
 import org.apache.logging.log4j.Logger;
+import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.data.DbScope;
@@ -42,8 +43,9 @@ public class SNPRC_EHRUpgradeCode implements UpgradeCode
      * Called from snprc_ehr-26.000-26.001.sql
      *
      * For every PropertyDescriptor in the specimen storage schema, verify that its StorageColumnName
-     * matches an actual column in the provisioned table. If not, update the PropertyDescriptor's
-     * StorageColumnName to match its Name.
+     * matches an actual column in the provisioned table. If not, and the descriptor's Name resolves
+     * to a real column, update StorageColumnName to that column's physical (DB-metadata) name so the
+     * value will still match after migration to a case-sensitive database.
      */
     @SuppressWarnings("unused")
     public static void fixSpecimenStorageColumnNames(ModuleContext context)
@@ -73,6 +75,7 @@ public class SNPRC_EHRUpgradeCode implements UpgradeCode
 
         int updated = 0;
         int skipped = 0;
+        int alreadyCorrect = 0;
         try (Transaction tx = scope.ensureTransaction())
         {
             for (PropertyRow row : properties)
@@ -87,17 +90,15 @@ public class SNPRC_EHRUpgradeCode implements UpgradeCode
                 }
 
                 if (provisioned.getColumn(row.storageColumnName()) != null)
-                    continue;
-
-                if (row.name().equalsIgnoreCase(row.storageColumnName()))
                 {
-                    LOG.warn("Property '{}' in '{}.{}' has StorageColumnName '{}' that does not exist, but Name already matches; nothing to update",
+                    LOG.debug("Property '{}' in '{}.{}': StorageColumnName '{}' already resolves; nothing to update",
                             row.name(), row.storageSchemaName(), row.storageTableName(), row.storageColumnName());
-                    skipped++;
+                    alreadyCorrect++;
                     continue;
                 }
 
-                if (provisioned.getColumn(row.name()) == null)
+                ColumnInfo byName = provisioned.getColumn(row.name());
+                if (byName == null)
                 {
                     LOG.warn("Property '{}' in '{}.{}': neither StorageColumnName '{}' nor Name '{}' exists in provisioned table; skipping",
                             row.name(), row.storageSchemaName(), row.storageTableName(), row.storageColumnName(), row.name());
@@ -105,16 +106,17 @@ public class SNPRC_EHRUpgradeCode implements UpgradeCode
                     continue;
                 }
 
+                String newStorageColumnName = byName.getMetaDataIdentifier().getId();
                 LOG.info("Updating StorageColumnName from '{}' to '{}' for property '{}' in table '{}.{}'",
-                        row.storageColumnName(), row.name(), row.name(), row.storageSchemaName(), row.storageTableName());
-                Table.update(null, tinfoPropertyDescriptor, PageFlowUtil.map("StorageColumnName", row.name()), row.propertyId());
+                        row.storageColumnName(), newStorageColumnName, row.name(), row.storageSchemaName(), row.storageTableName());
+                Table.update(null, tinfoPropertyDescriptor, PageFlowUtil.map("StorageColumnName", newStorageColumnName), row.propertyId());
                 updated++;
             }
             tx.commit();
         }
 
         LOG.info("Specimen StorageColumnName fix complete: {} updated, {} skipped, {} already correct",
-                updated, skipped, properties.size() - updated - skipped);
+                updated, skipped, alreadyCorrect);
     }
 
     public record PropertyRow(int propertyId, String storageSchemaName, String storageTableName, String storageColumnName, String name) {}
