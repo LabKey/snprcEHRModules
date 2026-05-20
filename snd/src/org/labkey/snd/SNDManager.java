@@ -1549,20 +1549,14 @@ public class SNDManager
         }
     }
 
-    /**
-     * Used in reviseProject to update a project
-     */
-
     //TODO: Use QUS to update columns - pass Project.objectId
-    // Note: EndDate is the only field that's updated with this
-    private void updateProjectField(Container c, User u, int id, int rev, String field, Object value)
+    private void updateProjectEndDate(Container c, User u, int id, int rev, Object endDate)
     {
         UserSchema schema = getSndUserSchema(c, u);
 
         SQLFragment sql = new SQLFragment("UPDATE " + SNDSchema.getInstance().getTableInfoProjects());
-        sql.append(" SET " + field + " = ?");
-        sql.append(" WHERE ProjectId = ? AND RevisionNum = ?");
-        sql.add(value).add(id).add(rev);
+        sql.append(" SET EndDate = ? WHERE ProjectId = ? AND RevisionNum = ?");
+        sql.add(endDate).add(id).add(rev);
 
         new SqlExecutor(schema.getDbSchema().getScope()).execute(sql);
     }
@@ -1578,8 +1572,8 @@ public class SNDManager
             UserSchema schema = getSndUserSchema(c, u);
             List<Map<String, Object>> updatedProjectItems = new ArrayList<>();
 
-            updateProjectField(c, u, project.getProjectId(), project.getRevisionNum(), "EndDate",
-                    project.getEndDateRevised() == null ? null : project.getEndDateRevised());
+            updateProjectEndDate(c, u, project.getProjectId(), project.getRevisionNum(),
+                    project.getEndDateRevised());
 
             if (project.isCopyRevisedPkgs())
             {
