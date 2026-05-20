@@ -7,7 +7,7 @@ SELECT
   b.id,
   b.date,
   b.testId,
-  b.testId.Name,
+  lt.testName,
 
   b.resultOORIndicator,
   b.result,
@@ -17,6 +17,9 @@ SELECT
   b.taskid,
   b.runId
 FROM study.labworkResults b
-
-WHERE b.testId.Type = 'Biochemistry' AND (b.testId.includeInPanel = false OR b.testId.includeInPanel IS NULL) AND b.qcstate.publicdata = true
+INNER JOIN snprc_ehr.labwork_panels AS lt
+    ON b.serviceTestid = lt.rowId
+           AND lt.ServiceId.Dataset='Biochemistry'
+           AND (b.serviceTestid.includeInPanel = false OR b.serviceTestid.includeInPanel IS NULL)
+           AND b.qcstate.publicdata = true
 
