@@ -27,7 +27,8 @@ SELECT
     b.remark as COMMENT,
     '' AS ABNORMAL_FLAGS,
     b.qualresult as QUALITATIVE_RESULT,
-    b.RESULT as RESULT
+    -- labworkTaqman.RESULT is DOUBLE but HL7_OBX.RESULT (first UNION branch) is TEXT; cast to VARCHAR so the UNION types match on Postgres.
+    CAST(b.RESULT AS VARCHAR) as RESULT
 FROM study.labworkTaqman b
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
 
@@ -42,6 +43,6 @@ SELECT
     b.remark as COMMENT,
     '' AS ABNORMAL_FLAGS,
     b.qualresult as QUALITATIVE_RESULT,
-    NULL as RESULT
+    CAST(NULL AS VARCHAR) as RESULT
 FROM study.assay_labworkResults b
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
