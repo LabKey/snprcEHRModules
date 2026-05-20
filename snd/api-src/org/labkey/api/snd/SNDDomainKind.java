@@ -73,7 +73,7 @@ public class SNDDomainKind extends ExtendedTableDomainKind
     }
 
     @Override
-    public @NotNull Set<String> getReservedPropertyNames(Domain domain, User user)
+    protected @NotNull Set<String> getKindReservedPropertyNames(Domain domain, User user, boolean forCreate)
     {
         Set<String> result = new HashSet<>();
         result.add("Description");
