@@ -15,5 +15,8 @@ SELECT
   b.taskid,
   b.runId
 FROM study.labworkResults b
-
-WHERE (testId.includeInPanel = FALSE OR b.testid.includeInPanel IS NULL) and b.qcstate.publicdata = true
+    INNER JOIN snprc_ehr.labwork_panels AS lt
+    ON b.serviceTestid = lt.rowId
+        AND lt.ServiceId.Dataset='Hematology'
+        AND (b.serviceTestid.includeInPanel = false OR b.serviceTestid.includeInPanel IS NULL)
+        AND b.qcstate.publicdata = true
