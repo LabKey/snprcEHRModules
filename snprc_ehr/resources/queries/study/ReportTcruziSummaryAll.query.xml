@@ -31,9 +31,6 @@
                         <columnTitle>Test Count</columnTitle>
                     </column>
                 </columns>
-                <sorts>
-                    <sort column="MinDate" descending="true"/>
-                </sorts>
             </table>
         </tables>
     </metadata>
