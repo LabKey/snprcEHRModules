@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 import React, { FC, memo, ReactNode, useState } from 'react';
 import { Alert, ConfirmModal, resolveErrorMessage, SchemaQuery } from '@labkey/components';
 import { deleteTableRow } from '../actions';

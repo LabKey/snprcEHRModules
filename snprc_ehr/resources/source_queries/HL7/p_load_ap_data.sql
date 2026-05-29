@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 USE [Orchard_ap_staging];
 GO
 /****** Object:  StoredProcedure [dbo].[p_load_ap_data]    Script Date: 9/6/2022 12:31:52 PM ******/

@@ -1,7 +1,7 @@
 -- noinspection SqlResolveForFile
 
 /*
- * Copyright (c) 2015-2016 LabKey Corporation
+ * Copyright (c) 2015-2026 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

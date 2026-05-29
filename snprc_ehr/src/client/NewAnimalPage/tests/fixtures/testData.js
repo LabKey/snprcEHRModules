@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 export default {
     selectedOption: 'Birth',
     species: { id: 10, value: 'PCA', label: 'PCA (PC) - Papio hamadryas anubis/Baboon', arcSpeciesCode: 'PC' },

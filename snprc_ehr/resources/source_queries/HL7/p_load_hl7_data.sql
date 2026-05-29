@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 USE [Orchard_HL7_staging]
 GO
 /****** Object:  StoredProcedure [dbo].[p_load_hl7_data]    Script Date: 1/10/2023 2:50:17 PM ******/

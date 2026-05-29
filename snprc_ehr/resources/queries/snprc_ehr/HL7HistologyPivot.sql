@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 SELECT obr.ANIMAL_ID as id,
        obr.OBSERVATION_DATE_TM as date,
     obr.ANIMAL_ID || '-' || CAST(obr.OBSERVATION_DATE_TM AS VARCHAR) as key,
