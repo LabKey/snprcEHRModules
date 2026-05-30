@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 import { createRowApiData, getRowApiData } from '../__tests__/fixtures/testdata';
 
 export const createTableRow = async (schemaName: string, queryName: string, name: string, parentId?: number) => {

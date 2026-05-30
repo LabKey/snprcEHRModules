@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 SELECT DISTINCT s.species_code     as SpeciesCode,
                 rtrim(sc.common_name)   as CommonName,
                 s.species_code + ' (' + rtrim(s.arc_species_code) + ') - ' + rtrim(s.scientific_name)  + '/'+ rtrim(sc.common_name) as DisplayColumn,

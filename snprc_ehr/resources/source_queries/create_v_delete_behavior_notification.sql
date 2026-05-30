@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 Create VIEW [labkey_etl].[v_delete_behavior_notification] as
 -- ====================================================================================================================
 -- Object: v_delete_b_notification

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
 export default {
     accountList: [{ id: 1, value: '0063-010-99', label: '0063-010-99 - TEST Blah, Combination therapy for Blah' },
         { id: 0, value: '0060-014-00', label: '0060-014-99 - TEST PC, Natural resistance of baboon cells to Blah infection' }],
