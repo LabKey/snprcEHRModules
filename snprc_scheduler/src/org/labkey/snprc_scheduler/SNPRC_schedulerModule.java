@@ -44,7 +44,7 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 23.00;
+        return 25.000;
     }
 
     @Override
