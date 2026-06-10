@@ -3,8 +3,6 @@
 CREATE SCHEMA snprc_scheduler;
 GO
 
-/* 18.xxx SQL scripts */
-
 /************************************************************************
 Create schema
 Timeline,
@@ -86,12 +84,12 @@ go
 /*==============================================================*/
 create clustered index IDX_TimelineFK1 on SNPRC_Scheduler.Timeline (
   ProjectObjectId ASC
-)
+);
 go
 
 alter table SNPRC_Scheduler.Timeline
   add constraint FK_Timeline_SNDProject foreign key (ProjectObjectId)
-references snd.projects (Objectid)
+references snd.projects (Objectid);
 go
 
 
@@ -119,12 +117,12 @@ create table SNPRC_Scheduler.TimelineItem (
 
 go
 alter table SNPRC_Scheduler.TimelineItem
-  add constraint PK_TimelineItem primary key nonclustered (TimelineItemId)
+  add constraint PK_TimelineItem primary key nonclustered (TimelineItemId);
 
 go
 
 alter table SNPRC_Scheduler.TimelineItem
-  add constraint AK_TimelineItemObjectId unique (ObjectId)
+  add constraint AK_TimelineItemObjectId unique (ObjectId);
 go
 
 
@@ -133,23 +131,23 @@ go
 /*==============================================================*/
 create clustered index IDXC_TimelineItemFK2 on SNPRC_Scheduler.TimelineItem (
   ProjectItemId ASC
-)
+);
 
 /*==============================================================*/
 /* Index: IDX_TimelineItemFK1                                   */
 /*==============================================================*/
 create index IDX_TimelineItemFK1 on SNPRC_Scheduler.TimelineItem (
   TimelineObjectId ASC
-)
+);
 go
 
 alter table SNPRC_Scheduler.Timelineitem
   add constraint FK_TimelineItem_Timeline foreign key (TimelineObjectId)
-references SNPRC_Scheduler.Timeline (ObjectId)
+references SNPRC_Scheduler.Timeline (ObjectId);
 go
 alter table SNPRC_Scheduler.Timelineitem
   add constraint FK_TimelineItem_SNDProjectItem foreign key (ProjectItemId)
-references snd.ProjectItems (ProjectItemId)
+references snd.ProjectItems (ProjectItemId);
 go
 -- %% 22222222222 %%  end timelineItem
 
@@ -165,12 +163,12 @@ create table SNPRC_Scheduler.Schedule (
   Modified             datetime             null,
   ModifiedBy           int                  null,
   ObjectId             EntityId             not null
-)
+);
 
 go
 
 alter table SNPRC_Scheduler.Schedule
-  add constraint PK_Schedule primary key (ScheduleId)
+  add constraint PK_Schedule primary key (ScheduleId);
 go
 
 
@@ -323,18 +321,18 @@ srr. 11.12.18
 
 
 
-ALTER TABLE [snprc_scheduler].[TimelineItem] DROP CONSTRAINT [FK_TimelineItem_Timeline]
+ALTER TABLE [snprc_scheduler].[TimelineItem] DROP CONSTRAINT [FK_TimelineItem_Timeline];
 GO
 
-ALTER TABLE [snprc_scheduler].[TimelineItem] DROP CONSTRAINT [FK_TimelineItem_SNDProjectItem]
+ALTER TABLE [snprc_scheduler].[TimelineItem] DROP CONSTRAINT [FK_TimelineItem_SNDProjectItem];
 GO
 
-ALTER TABLE [snprc_scheduler].[Schedule] DROP CONSTRAINT [FK_ScheduleFK1]
+ALTER TABLE [snprc_scheduler].[Schedule] DROP CONSTRAINT [FK_ScheduleFK1];
 GO
 
 
 /****** Object:  Table [snprc_scheduler].[TimelineItem]    Script Date: 11/12/2018 11:42:24 AM ******/
-DROP TABLE [snprc_scheduler].[TimelineItem]
+DROP TABLE [snprc_scheduler].[TimelineItem];
 GO
 
 /****** Object:  Table [snprc_scheduler].[TimelineItem]    Script Date: 11/12/2018 11:42:24 AM ******/
@@ -576,25 +574,7 @@ Integrity triggers
 
 /*****************************  snprc_scheduler.tia_StudyDayNotes  *****************************************/
 
-IF EXISTS
-(
-    SELECT 1
-    FROM sysobjects
-    WHERE id = OBJECT_ID('snprc_scheduler.tiu_StudyDayNotes')
-          AND type = 'TR'
-)
-DROP TRIGGER snprc_scheduler.tiu_StudyDayNotes;
-GO
-
-
 /****** Object:  Trigger [snprc_scheduler].[tia_StudyDayNotes]    Script Date: 5/28/2019 10:50:47 AM ******/
-/*
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-*/
 
 
 /*	For referential integrity only.
@@ -645,21 +625,7 @@ GO
 
 ALTER TABLE snprc_scheduler.StudyDayNotes ENABLE TRIGGER tiu_StudyDayNotes;
 
-
-
 /*****************************  snprc_scheduler.td_TimelineItem  *****************************************/
-
-
-IF EXISTS
-(
-    SELECT 1
-    FROM sysobjects
-    WHERE id = OBJECT_ID('snprc_scheduler.td_TimelineItem')
-          AND type = 'TR'
-)
-DROP TRIGGER snprc_scheduler.td_TimelineItem;
-GO
-
 
 CREATE TRIGGER [SNPRC_Scheduler].[td_TimelineItem]
     ON [SNPRC_Scheduler].[TimelineItem]
@@ -775,20 +741,6 @@ Added unique index to FK columns
 
 srr 06.10.2019
 ******************************/
-
--- delete index if it exists
-if exists (select 1
-            from  sysindexes
-           where  id    = object_id('snprc_scheduler.StudyDayNotes')
-            and   name  = 'idx_u_FK_to_TimelineItem'
-
-            and   indid > 0
-            and   indid < 255)
-drop index idx_u_FK_to_TimelineItem  ON snprc_scheduler.StudyDayNotes
-
-go
-
-
 
 /****** Object:  Index [idx_u_FK_TimelineItem]    Script Date: 6/10/2019 4:00:27 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX idx_u_FK_to_TimelineItem ON snprc_scheduler.StudyDayNotes
