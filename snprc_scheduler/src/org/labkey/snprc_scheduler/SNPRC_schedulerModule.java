@@ -48,6 +48,13 @@ public class SNPRC_schedulerModule extends DefaultModule
     }
 
     @Override
+    public double getEarliestUpgradeVersion()
+    {
+        // Allow upgrades from 23.000+
+        return 23.000;
+    }
+
+    @Override
     public boolean hasScripts()
     {
         return true;
@@ -74,7 +81,6 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     protected void init()
     {
-
         addController(SNPRC_schedulerController.NAME, SNPRC_schedulerController.class);
 
         ServiceRegistry.get().registerService(SNPRC_schedulerService.class, SNPRC_schedulerServiceImpl.INSTANCE);
