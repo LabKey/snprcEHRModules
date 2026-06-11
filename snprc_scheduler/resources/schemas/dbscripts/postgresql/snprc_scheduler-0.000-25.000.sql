@@ -412,17 +412,13 @@ ALTER TABLE snprc_scheduler.Timeline ADD COLUMN RC varchar(50) NULL;
 
 /*******************************************
 Add AnimalAccount to Timeline table
-Will hold a concated list of animal acccount
+Will hold a concatenated list of animal accounts
 for this project.
 NOTE: Reference only, not validated
 srr 05.22.2019
 *******************************************/
 ALTER TABLE snprc_scheduler.Timeline
     ADD COLUMN AnimalAccount varchar(255) NULL;
-
--- drop table if it exists
-SELECT core.fn_dropifexists('StudyDayNotes','snprc_scheduler', 'TABLE');
-
 
 /********************************************
 Create table to hold day specific study notes.
