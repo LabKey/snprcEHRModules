@@ -624,6 +624,7 @@ END;
 GO
 
 ALTER TABLE snprc_scheduler.StudyDayNotes ENABLE TRIGGER tiu_StudyDayNotes;
+GO
 
 /*****************************  snprc_scheduler.td_TimelineItem  *****************************************/
 
