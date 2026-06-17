@@ -43,7 +43,14 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 23.00;
+        return 26.000;
+    }
+
+    @Override
+    public double getEarliestUpgradeVersion()
+    {
+        // Allow upgrades from 23.000+
+        return 23.000;
     }
 
     @Override
@@ -73,7 +80,6 @@ public class SNPRC_schedulerModule extends DefaultModule
     @Override
     protected void init()
     {
-
         addController(SNPRC_schedulerController.NAME, SNPRC_schedulerController.class);
 
         ServiceRegistry.get().registerService(SNPRC_schedulerService.class, SNPRC_schedulerServiceImpl.INSTANCE);
