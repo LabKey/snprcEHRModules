@@ -3,6 +3,7 @@ import org.labkey.gradle.util.ExternalDependency
 
 dependencies
         {
+            BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:platform:study", depProjectConfig: "apiJarFile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:ehrModules:ehr", depProjectConfig: "apiJarFile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:snprcEHRModules:snd", depProjectConfig: "apiJarFile")
             BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath: ":server:modules:LabDevKitModules:LDK", depProjectConfig: "apiJarFile")
