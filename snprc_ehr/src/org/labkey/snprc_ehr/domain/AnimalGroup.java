@@ -113,8 +113,8 @@ public class AnimalGroup extends Entity
     public JSONObject toJSON()
     {
         JSONObject json = new JSONObject(this);
-        json.put("date",    date    == null ? null : DateUtil.toISO(date).substring(0, 10));
-        json.put("endDate", endDate == null ? null : DateUtil.toISO(endDate).substring(0, 10));
+        json.put("date", DateUtil.formatIsoDate(date));
+        json.put("endDate", DateUtil.formatIsoDate(endDate));
         return json;
     }
 }
