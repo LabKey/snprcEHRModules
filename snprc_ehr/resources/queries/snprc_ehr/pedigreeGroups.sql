@@ -20,4 +20,4 @@ SELECT ag.category_code as Category,
        agc.Species as Species
 FROM snprc_ehr.animal_groups AS ag
          INNER JOIN snprc_ehr.animal_group_categories AS agc ON ag.category_code = agc.category_code
-WHERE agc.description LIKE '%pedigree%'
+WHERE lower(agc.description) LIKE '%pedigree%'

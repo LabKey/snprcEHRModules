@@ -38,6 +38,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,6 +55,14 @@ import static org.labkey.snprc_ehr.constants.QueryConstants.*;
  */
 public class LabworkDataSource extends AbstractDataSource
 {
+    // SQL Server commonly includes fractional seconds, while Postgres may omit them when zero.
+    private static final DateTimeFormatter DATE_TIME_PARSER = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd HH:mm:ss")
+            .optionalStart()
+            .appendFraction(ChronoField.NANO_OF_SECOND, 1, 9, true)
+            .optionalEnd()
+            .toFormatter();
+
     private Map<String, List<String>> _results;
     private Map<String, List<String>> _flags;
 
@@ -204,7 +214,7 @@ public class LabworkDataSource extends AbstractDataSource
         String result = "";
         if (rs.hasColumn(fk) && rs.getObject(fk) != null) {
             String date = rs.getString(fk);
-            String time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")).format(DateTimeFormatter.ofPattern("H:mm a"));
+            String time = LocalDateTime.parse(date, DATE_TIME_PARSER).format(DateTimeFormatter.ofPattern("H:mm a"));
             result = (label == null ? "" : label + ": ") + time + "\n";
         }
 
