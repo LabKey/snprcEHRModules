@@ -54,7 +54,6 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
-import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;

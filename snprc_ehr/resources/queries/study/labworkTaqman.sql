@@ -43,7 +43,7 @@ SELECT
     tr.objectId AS runid,
     CAST(NULL AS TIMESTAMP) AS enddate,
     NULL AS method,
-    'From Excel import',
+    'From Excel import' AS remark,
     tr.history AS history,
     tr.lsid,
     tr.Sequencenum,
