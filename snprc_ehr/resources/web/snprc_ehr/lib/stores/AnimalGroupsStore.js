@@ -8,11 +8,10 @@
  */
 Ext4.define("AnimalGroupsStore", {
     extend: 'Ext.data.Store',
-    fields: ['code', 'categoryCode', 'name', {name: 'date', type: 'date', submitFormat: 'Y-m-d'}, {
-        name: 'endDate',
-        type: 'date',
-        submitFormat: 'Y-m-d'
-    }, 'comment', 'sortOrder'],
+    fields: ['code', 'categoryCode', 'name',
+        {name: 'date', type: 'date', dateReadFormat: 'Y-m-d', submitFormat: 'Y-m-d'},
+        {name: 'endDate', type: 'date', dateReadFormat: 'Y-m-d', submitFormat: 'Y-m-d' },
+        'comment', 'sortOrder'],
     autoLoad: false,
     proxy: {
         type: 'ajax',
