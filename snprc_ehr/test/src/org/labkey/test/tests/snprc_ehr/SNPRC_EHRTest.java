@@ -360,16 +360,34 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
 
     protected void createSNDCategories() throws CommandException, IOException
     {
-        InsertRowsCommand command = new InsertRowsCommand("snd", "PkgCategories");
+        SelectRowsCommand selectCommand = new SelectRowsCommand("snd", "PkgCategories");
+        selectCommand.setColumns(List.of("Description"));
+        SelectRowsResponse response = selectCommand.execute(createDefaultConnection(), getProjectName());
+
+        List<String> existingCategories = new ArrayList<>();
+        for (Map<String, Object> row : response.getRows())
+        {
+            Object description = row.get("Description");
+            if (description != null)
+                existingCategories.add(String.valueOf(description));
+        }
+
+        InsertRowsCommand insertCommand = new InsertRowsCommand("snd", "PkgCategories");
+        boolean hasNewCategories = false;
         for (String category : SND_CATEGORIES)
         {
-            command.addRow(new HashMap<>(Maps.of(
+            if (existingCategories.contains(category))
+                continue;
+
+            insertCommand.addRow(new HashMap<>(Maps.of(
                     "Description", category,
                     "Active", true
             )));
+            hasNewCategories = true;
         }
 
-        command.execute(createDefaultConnection(), getProjectName());
+        if (hasNewCategories)
+            insertCommand.execute(createDefaultConnection(), getProjectName());
     }
 
     protected void createSNDPackages() throws Exception
@@ -624,7 +642,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOn
     @Override
     protected void populateInitialData()
     {
-        beginAt(WebTestHelper.getBaseURL() + "/SNPRC_EHR/" + getContainerPath() + "/populateData.view");
+        beginAt(WebTestHelper.buildURL("SNPRC_EHR", getContainerPath(), "populateData"));
 
         repopulate("Lookup Sets");
         repopulate("All");
