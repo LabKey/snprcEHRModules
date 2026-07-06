@@ -63,11 +63,7 @@ FROM
    WHERE aag.Id.Demographics.gender IS NOT NULL AND aag.Id.Demographics.calculated_status = 'Alive'
    GROUP BY aag.accountGroup, dcc.colony, aag.Id.Demographics.species.arc_species_code
 
-   -- SQL Server used a dynamic list here:
-   --   PIVOT colonytotal BY colony IN (SELECT name FROM snprc_ehr.BaboonColonyGroups)
-   -- During the Postgres migration, validation broke when BaboonColonyGroups was empty, so this query now uses the literal list below.
-   -- Maintenance consequence: the query is no longer driven by BaboonColonyGroups; future colony groups require manual query changes here and in the outer SELECT.
-   PIVOT colonytotal BY colony IN ('pc_SPF', 'pc_Conv'))  col
+   PIVOT colonytotal BY colony IN (SELECT name FROM snprc_ehr.BaboonColonyGroups))  col
     ON gen.accountGroup = col.accountGroup AND gen.species_code = col.species_code
 
   INNER JOIN
