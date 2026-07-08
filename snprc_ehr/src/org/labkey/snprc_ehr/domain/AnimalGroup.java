@@ -17,6 +17,7 @@ package org.labkey.snprc_ehr.domain;
 
 import org.json.JSONObject;
 import org.labkey.api.data.Entity;
+import org.labkey.api.util.DateUtil;
 
 import java.util.Date;
 
@@ -111,6 +112,9 @@ public class AnimalGroup extends Entity
 
     public JSONObject toJSON()
     {
-        return new JSONObject(this);
+        JSONObject json = new JSONObject(this);
+        json.put("date", DateUtil.formatIsoDate(date));
+        json.put("endDate", DateUtil.formatIsoDate(endDate));
+        return json;
     }
 }

@@ -464,7 +464,7 @@ public class AnimalGroupsController extends SpringActionController
                     if (mappedRows.get("code") != null && (Integer) mappedRows.get("code") != 0)
                     {
                         mappedRows.put("category_code", o.get("categoryCode"));
-                        mappedRows.put("sort_order", o.get("sortOrder"));
+                        mappedRows.put("sort_order", o.isNull("sortOrder") ? null : o.get("sortOrder"));
 
                         // update existing row
                         rowsList.add(mappedRows);
@@ -482,7 +482,7 @@ public class AnimalGroupsController extends SpringActionController
                         //mappedRows.put("code", -1);
                         mappedRows.put("objectId", GUID.makeGUID());
                         mappedRows.put("category_code", o.get("categoryCode"));
-                        mappedRows.put("sort_order", o.get("sortOrder"));
+                        mappedRows.put("sort_order", o.isNull("sortOrder") ? null : o.get("sortOrder"));
                         rowsList.add(mappedRows);
                         qus.insertRows(getUser(), getContainer(), rowsList, batchErrors, null, null);
                         if (batchErrors.hasErrors()) throw batchErrors;
