@@ -9,7 +9,7 @@ SELECT
     d.species.arc_species_code as species,
     CASE
         WHEN h.cage is null THEN h.room
-        WHEN isnumeric(h.cage) = 1 THEN (h.room || '-' || cast(cast(h.cage as DECIMAL) as varchar) )
+        WHEN isnumeric(h.cage) THEN (h.room || '-' || cast(cast(h.cage as DECIMAL) as varchar) )
         ELSE (h.room || '-' || h.cage)
         END AS Location,
     h.room as room,
