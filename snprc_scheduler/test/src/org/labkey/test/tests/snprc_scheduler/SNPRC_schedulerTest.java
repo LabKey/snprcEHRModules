@@ -26,7 +26,7 @@ import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.tests.ehr.AbstractEHRTest;
 import org.labkey.test.util.ApiPermissionsHelper;
 import org.labkey.test.util.PermissionsHelper;
-import org.labkey.test.util.SqlserverOnlyTest;
+import org.labkey.test.util.snprc_ehr.SnprcSetupHelper;
 import org.openqa.selenium.JavascriptExecutor;
 
 import java.io.File;
@@ -46,7 +46,7 @@ import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 @Category({EHR.class, SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
 @FixMethodOrder(MethodSorters. NAME_ASCENDING)
-public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptExecutor, SqlserverOnlyTest
+public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptExecutor
 {
     private static final String PROJECT_NAME = "SNPRC_schedulerTest Project";
     private static final String SNPRC_EHR_PATH  = "server/modules/snprcEHRModules/snprc_ehr";
@@ -101,7 +101,11 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         _containerHelper.createProject(getProjectName(), null);
         _containerHelper.enableModule("SNPRC_scheduler");
         _containerHelper.enableModule("SND");
-//        _containerHelper.enableModules(Arrays.asList("SNPRC_scheduler", "snprc_ehr"));
+        _containerHelper.enableModules(Arrays.asList("SNPRC_scheduler", "SNPRC_EHR"));
+
+        // Genetics subfolder + assay designs satisfy the study.GenHas* module-defined queries
+        // that reference Project."Core Facilities/Genetics".assay.general.*.data during query validation.
+        SnprcSetupHelper.createGeneticsSubfolder(this, getProjectName());
 
         // create users
         READER_USER.setUserId(_userHelper.createUser(READER_USER.getEmail(), false, true).getUserId().intValue());
@@ -127,25 +131,30 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
         setEHRModuleProperties();
         createUsersandPermissions();
         defineQCStates();
-
-        importStudy();
-        defineQCStates();
-        setup_sndData();
-
-        // TODO: Removing this as it is not being used. If it is needed when more tests are developed, an LSID will
-        // have to be generated for each row.
-        // (ex. urn:lsid:labkey.com:ExtensibleTable-ehr-protocol.Folder-37:dbe561b9-b00a-102d-8c2a-9926f351b1ae)
-        // add ehr extensible columns
-//        runScript(SetupScripts.CREATE_EHR_DOMAINS);
+        populateInitialData();
 
         try
         {
+            SnprcSetupHelper.initSND(this, getProjectName());
+            SnprcSetupHelper.addEhrExtensibleColumns(this, getProjectName());
+            SnprcSetupHelper.createSNDCategories(this, getProjectName());
+            SnprcSetupHelper.createSNDPackages(this, getProjectName());
+            SnprcSetupHelper.populateAnimalGroupTables(this, getProjectName());
+            SnprcSetupHelper.uploadGeneticsAssayDesigns(this, getProjectName());
+            // Populate ehr.protocol / ehr.project before importStudy so that saved queries
+            // and lookups resolved during import-time query validation can find them.
+            // Mirrors SNPRC_EHRTest.initCreatedProject's ordering (populateHardTableRecords
+            // before importStudy at SNPRC_EHRTest.java:196-198).
             populateEHRTables();
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            throw new RuntimeException("Failed pre-import setup for SNPRC_schedulerTest", e);
         }
+
+        importStudy();
+        defineQCStates();
+        setup_sndData();
     }
 
     @Override
@@ -157,7 +166,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     @Override
     protected boolean skipStudyImportQueryValidation()
     {
-        return true;
+        return false;
     }
 
     @Override
@@ -188,6 +197,16 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     protected void importStudy()
     {
         importFolderFromPath(++_pipelineJobCount);
+    }
+
+    @Override
+    protected void populateInitialData()
+    {
+        beginAt(WebTestHelper.buildURL("SNPRC_EHR", getContainerPath(), "populateData"));
+
+        repopulate("Lookup Sets");
+        repopulate("All");
+        repopulate("Weight Ranges");
     }
 
     @Before

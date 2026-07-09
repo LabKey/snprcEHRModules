@@ -25,18 +25,10 @@ public class BeginPage extends LabKeyPage<BeginPage.ElementCache>
         driver.beginAt(WebTestHelper.buildURL("snprc_scheduler", containerPath, "begin"));
         //driver.waitForElement(Locator.byClass("modal-open"));
 
-        JavascriptExecutor js;
-        js = (JavascriptExecutor) driver;
-        try
-        {
-            //sleep(3000);
-            //re-enable buttons
-            js.executeScript("document.getElementsByClassName('modal-backdrop')[0].style.display=\"none\";");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "var el = document.getElementsByClassName('modal-backdrop')[0];" +
+                        " if (el) { el.style.display = 'none'; }");
         return new BeginPage(driver);
     }
 
