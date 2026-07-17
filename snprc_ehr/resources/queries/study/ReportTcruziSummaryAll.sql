@@ -19,13 +19,18 @@ Sourced from ReportTcruziPositiveSummary
   srr 04.23.21
 **************************************************************/
 
+-- b.id is canonicalized with UPPER(LTRIM(RTRIM(...))) because the source has case-variant animal IDs
+-- (e.g. 4x0133 vs 4X0133). SQL Server's case-insensitive collation grouped them together in the outer
+-- GROUP BY; Postgres is case- and whitespace-sensitive so they'd split into separate groups without this normalization.
+-- The b.qualresult, b.serviceTestid.ServiceId.Dataset, and b.serviceTestId.testName wraps in the WHERE
+-- clauses exist for the same reason — SS matched their string filters case-insensitively; Postgres won't.
 SELECT d.SpeciesCode AS Species, d.CurrentLocation,d.id, d.status, d.result AS "TcruziResult",
        min(d.TestDate) AS MinDate,max(d.TestDate) AS MaxDate,  count(*) TestCount
 FROM
     (SELECT 'LabResults',
             b.id.demographics.species.arc_species_code.code AS SpeciesCode,
             b.id.curlocation.Room AS CurrentLocation,
-            b.id,
+            UPPER(LTRIM(RTRIM(b.id))) as id,
             b.id.demographics.calculated_status AS status,
             b.date AS TestDate,
             b.runId.serviceRequested as panelName,
@@ -41,23 +46,23 @@ FROM
                 WHEN 'INDETERMINATE' THEN 'INDETERMINATE'
                 END AS result
      FROM study.labworkResults b
-     WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
-       AND b.serviceTestId.testName LIKE '%CRUZI%'
-       AND b.qualresult IN ('SEROPOS','POSITIVE')
+     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and UPPER(LTRIM(RTRIM(b.serviceTestid.ServiceId.Dataset))) = 'SURVEILLANCE'
+       AND UPPER(LTRIM(RTRIM(b.serviceTestId.testName))) LIKE '%CRUZI%'
+       AND UPPER(LTRIM(RTRIM(b.qualresult))) IN ('SEROPOS','POSITIVE')
        -- AND b.id.demographics.calculated_status  = 'Alive'
      union
 
      SELECT 'AssayResults',
             b.id.demographics.species.arc_species_code.code  AS SpeciesCode,
             b.id.curlocation.Room AS CurrentLocation,
-            b.id,
+            UPPER(LTRIM(RTRIM(b.id))) as id,
             b.id.demographics.calculated_status AS status,
             b.date AS TestDate,
             b.runId.serviceRequested as panelName,
             b.serviceTestId.testName AS TestName,
             coalesce(b.runId, b.objectid) as runId,
          /*b.resultoorindicator,*/
-            CASE b.qualresult
+            CASE UPPER(LTRIM(RTRIM(b.qualresult)))
                 WHEN 'NEGATIVE' THEN 'NEGATIVE'
                 WHEN 'SERONEG' THEN 'NEGATIVE'
                 WHEN 'POSITIVE' THEN 'POSITIVE'
@@ -67,9 +72,9 @@ FROM
                 END AS result
 
      FROM study.assay_labworkResults b
-     WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
-       AND b.serviceTestId.testName LIKE '%CRUZI%'
-       AND b.qualresult IN ('SEROPOS','POSITIVE')
+     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and UPPER(LTRIM(RTRIM(b.serviceTestid.ServiceId.Dataset))) = 'SURVEILLANCE'
+       AND UPPER(LTRIM(RTRIM(b.serviceTestId.testName))) LIKE '%CRUZI%'
+       AND UPPER(LTRIM(RTRIM(b.qualresult))) IN ('SEROPOS','POSITIVE')
         --AND b.id.demographics.calculated_status  = 'Alive'
     ) AS d
     --WHERE result IN ('SEROPOS','POSITIVE')
