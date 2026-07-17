@@ -37,4 +37,8 @@ FROM labworkResults as l
        inner join snprc_ehr.labwork_panels as lt
                   on l.serviceTestid = lt.rowId
                     and lt.ServiceId.Dataset='Parasitology'
-                    and lt.ServiceId.ServiceName NOT IN ('OVA & PARASITES' , 'OVA & PARASITES, URINE' )
+                    -- ServiceName has case/whitespace variants in the source data (e.g. 'Ova & Parasites' vs 'OVA & PARASITES').
+                    -- SQL Server's case-insensitive collation matched both against the NOT IN list; Postgres is case- and
+                    -- whitespace-sensitive, so the variants have to be normalized here or they slip past the exclusion.
+                    and UPPER(RTRIM(LTRIM(lt.ServiceId.ServiceName))) NOT IN ('OVA & PARASITES' , 'OVA & PARASITES, URINE' )
+    assay_labworkResults	POSITIVE	265
