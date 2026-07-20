@@ -41,4 +41,3 @@ FROM labworkResults as l
                     -- SQL Server's case-insensitive collation matched both against the NOT IN list; Postgres is case- and
                     -- whitespace-sensitive, so the variants have to be normalized here or they slip past the exclusion.
                     and UPPER(RTRIM(LTRIM(lt.ServiceId.ServiceName))) NOT IN ('OVA & PARASITES' , 'OVA & PARASITES, URINE' )
-    assay_labworkResults	POSITIVE	265
