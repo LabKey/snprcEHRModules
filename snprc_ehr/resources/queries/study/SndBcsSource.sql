@@ -3,7 +3,7 @@ SELECT
     b.SubjectId as participantid,
     b.date,
     l.value as BCS,
-    CAST(SUBSTRING(l.value, 1, locate(' -', l.value ,1)) AS varchar(4))  AS BCSValue,
+    CAST(SUBSTRING(l.value, 1, CAST(locate(' -', l.value, 1) AS INTEGER)) AS varchar(4))  AS BCSValue,
     p.ReferenceId as project,
     null as taskid,
     null as requestid,

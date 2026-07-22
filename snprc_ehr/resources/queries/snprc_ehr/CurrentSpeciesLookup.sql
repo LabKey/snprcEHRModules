@@ -1,6 +1,6 @@
 SELECT DISTINCT s.species_code     as SpeciesCode,
                 rtrim(sc.common_name)   as CommonName,
-                s.species_code + ' (' + rtrim(s.arc_species_code) + ') - ' + rtrim(s.scientific_name)  + '/'+ rtrim(sc.common_name) as DisplayColumn,
+                s.species_code || ' (' || rtrim(s.arc_species_code) || ') - ' || rtrim(s.scientific_name)  || '/' || rtrim(sc.common_name) as DisplayColumn,
                 s.scientific_name  as ScientificName,
                 s.arc_species_code as arcSpeciesCode
 FROM snprc_ehr.species AS s

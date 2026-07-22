@@ -16,8 +16,8 @@
 
 SELECT d.id,
 -- special handling for colonies and pedigrees
-case when agc.description like '%colonies%' then 'Colony'
-         when agc.description like '%pedigree%' then 'Pedigree' else agc.description end as category,
+case when lower(agc.description) like '%colonies%' then 'Colony'
+         when lower(agc.description) like '%pedigree%' then 'Pedigree' else agc.description end as category,
          cast(group_concat(ag.name) as varchar(128)) as animal_group
 -- CAST(group_concat(ag.name) AS VARCHAR) as animal_group
 -- min(ag.name) as animal_group
@@ -31,10 +31,10 @@ WHERE agm.enddate is null
 AND agm.qcstate.publicdata = true
 
 group by d.id,
-      case when agc.description like '%colonies%' then 'Colony'
-           when agc.description like '%pedigree%' then 'Pedigree' else agc.description end
+      case when lower(agc.description) like '%colonies%' then 'Colony'
+           when lower(agc.description) like '%pedigree%' then 'Pedigree' else agc.description end
 
 PIVOT animal_group BY category IN
-(select case when description like '%colonies%' then 'Colony'
-             when description like '%pedigree%' then 'Pedigree' else description end as description
- 	from snprc_ehr.animal_group_categories )
+(select case when lower(description) like '%colonies%' then 'Colony'
+             when lower(description) like '%pedigree%' then 'Pedigree' else description end as description
+    from snprc_ehr.animal_group_categories )

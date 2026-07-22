@@ -29,7 +29,7 @@ ELSE 'Completed'
 END AS QCStateLabel,
 
 CASE
-WHEN a.tissue IS NOT NULL THEN (a.tissue + '-' + b.description)
+WHEN a.tissue IS NOT NULL THEN (a.tissue || '-' || b.description)
 ELSE b.description
 END AS title
 

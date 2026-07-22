@@ -12,7 +12,7 @@ SELECT
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
-    LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = lp.ServiceId
+    LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = CAST(lp.ServiceId AS VARCHAR)
 WHERE obr.PROCEDURE_ID.Dataset = 'Surveillance'
 
 UNION
@@ -21,12 +21,14 @@ SELECT
     b.id,
     b.date,
     b.serviceTestId.serviceId.ServiceName AS PROCEDURE_NAME,
-    b.serviceTestId.serviceId AS PROCEDURE_ID,
+    -- HL7_OBR.PROCEDURE_ID is VARCHAR but labwork_services.ServiceId is INT; cast so the UNION types match on Postgres.
+    CAST(b.serviceTestId.serviceId AS VARCHAR) AS PROCEDURE_ID,
     b.serviceTestId.testName AS TestName,
     b.remark as COMMENT,
     '' AS ABNORMAL_FLAGS,
     b.qualresult as QUALITATIVE_RESULT,
-    b.RESULT as RESULT
+    -- labworkTaqman.RESULT is DOUBLE but HL7_OBX.RESULT (first UNION branch) is TEXT; cast to VARCHAR so the UNION types match on Postgres.
+    CAST(b.RESULT AS VARCHAR) as RESULT
 FROM study.labworkTaqman b
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
 
@@ -36,11 +38,11 @@ SELECT
     b.id,
     b.date,
     b.serviceTestId.serviceId.ServiceName AS PROCEDURE_NAME,
-    b.serviceTestId.serviceId AS PROCEDURE_ID,
+    CAST(b.serviceTestId.serviceId AS VARCHAR) AS PROCEDURE_ID,
     b.serviceTestId.testName AS TestName,
     b.remark as COMMENT,
     '' AS ABNORMAL_FLAGS,
     b.qualresult as QUALITATIVE_RESULT,
-    NULL as RESULT
+    CAST(NULL AS VARCHAR) as RESULT
 FROM study.assay_labworkResults b
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
