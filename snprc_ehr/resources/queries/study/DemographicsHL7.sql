@@ -17,4 +17,4 @@ SELECT
     d.modifiedBy.DisplayName as modifiedBy,
     d.modified
 FROM demographics as d
-where len(d.id) <= 6
+where LENGTH(d.id) <= 6

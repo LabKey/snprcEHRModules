@@ -25,4 +25,4 @@ FROM snprc_ehr.animal_groups AS ag
       SELECT DISTINCT primate, arc_species_code
       FROM snprc_ehr.species
     ) AS s on agc.Species = s.arc_species_code
-WHERE agc.description LIKE '%colonies%'
+WHERE lower(agc.description) LIKE '%colonies%'

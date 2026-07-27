@@ -21,9 +21,9 @@
 
 SELECT
 a.id as id, a.date as acq_date,
-          a.acquisitionType.description + ' (' + cast(a.AcquisitionType as varchar(10)) + ')' as acquisitionType,
+          a.acquisitionType.description || ' (' || cast(a.AcquisitionType as varchar(10)) || ')' as acquisitionType,
             d.date as disp_date,
-            d.dispositionType.description + ' (' + cast(d.dispositionType as varchar(10))  + ')' as dispositionType,
+            d.dispositionType.description || ' (' || cast(d.dispositionType as varchar(10))  || ')' as dispositionType,
 
 FROM arrival a
 	LEFT OUTER JOIN departure d

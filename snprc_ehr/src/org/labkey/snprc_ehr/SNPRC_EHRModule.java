@@ -104,8 +104,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
-//import org.labkey.snprc_ehr.views.FeeScheduleWebPart;
-
 public class SNPRC_EHRModule extends ExtendedSimpleModule
 {
     public static final String NAME = "SNPRC_EHR";

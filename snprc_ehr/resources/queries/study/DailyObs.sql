@@ -29,34 +29,34 @@ SELECT o.Id,
        CASE
            WHEN o.SaNone = 'Y' THEN 'None'
            ELSE ''
-       END +
-	   CASE
+       END ||
+       CASE
            WHEN o.SaUnknown = 'Y' THEN 'Unknown'
            ELSE ''
-       END +
-	   CASE WHEN o.SaNormal = 'Y' THEN 'Normal'
+       END ||
+       CASE WHEN o.SaNormal = 'Y' THEN 'Normal'
            ELSE ''
-       END +
+       END ||
        CASE WHEN o.SaLoose = 'Y' THEN ' Loose'
-                  ELSE ''
-       END +
+           ELSE ''
+       END ||
        CASE WHEN o.SaSoft = 'Y' THEN ' Soft'
            ELSE ''
-       END +
-	   CASE WHEN o.SaWatery = 'Y' THEN ' Watery'
-            ELSE ''
-       END +
-	   CASE WHEN o.SaBloody = 'Y' THEN ' Bloody'
-            ELSE ''
-       END +
-	   CASE WHEN o.SaDry = 'Y' THEN ' Dry'
-            ELSE ''
-       END +
-	   CASE WHEN o.SaOther = 'Y' THEN ' Other'
-            ELSE ''
-       END +
-	   CASE WHEN o.SaPellet = 'Y' THEN ' Pellet'
-            ELSE ''
+       END ||
+       CASE WHEN o.SaWatery = 'Y' THEN ' Watery'
+           ELSE ''
+       END ||
+       CASE WHEN o.SaBloody = 'Y' THEN ' Bloody'
+           ELSE ''
+       END ||
+       CASE WHEN o.SaDry = 'Y' THEN ' Dry'
+           ELSE ''
+       END ||
+       CASE WHEN o.SaOther = 'Y' THEN ' Other'
+           ELSE ''
+       END ||
+       CASE WHEN o.SaPellet = 'Y' THEN ' Pellet'
+           ELSE ''
        END AS Stool,
        coalesce(o.HousingStatus.description,'NA') as Housing,
        o.taskid,

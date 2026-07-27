@@ -265,7 +265,7 @@ public class PackageUserSchema extends UserSchema
             fromSql.append("FROM ").append(eventData.getFromSQL("eventdata"));
             if (withEventJoin)
                 fromSql.append(" INNER JOIN ").append(events.getFromSQL("events")).append( " ON eventdata.eventid = events.eventid\n");
-            fromSql.append("WHERE eventdata.Container=").appendValue(getContainer());
+            fromSql.append(" WHERE eventdata.Container=").appendValue(getContainer());
             if (null == me || me.superPkgIds.isEmpty())
                 fromSql.append(" AND (0=1)");
             else

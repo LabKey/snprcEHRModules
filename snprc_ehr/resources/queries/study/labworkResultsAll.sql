@@ -24,7 +24,8 @@ SELECT
     lr.Id,
     lr.date,
     lr.project,
-    lr.serviceId,
+    -- serviceId is INTEGER here but VARCHAR in the HL7_OBR branch (PROCEDURE_ID); cast everything to VARCHAR for the UNION on Postgres.
+    CAST(lr.serviceId AS VARCHAR) AS serviceId,
     lp.objectID AS serviceTestId,
     lr.testid,
     lr.resultOORIndicator,
@@ -60,7 +61,7 @@ SELECT
     obx.REFERENCE_RANGE as refRange,
     obx.ABNORMAL_FLAGS as abnormal_flags,
     obx.OBR_OBJECT_ID as runId,
-    NULL as enddate,
+    CAST(NULL AS TIMESTAMP) as enddate,
     NULL as method,
     nte.COMMENT as remark,
     obx.OBJECT_ID AS objectId,
@@ -68,14 +69,14 @@ SELECT
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
-    LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = lp.ServiceId
+    LEFT OUTER JOIN snprc_ehr.labwork_Panels AS lp on obx.TEST_ID = lp.TestId AND obr.PROCEDURE_ID = CAST(lp.ServiceId AS VARCHAR)
     INNER JOIN core.QCState as q on q.Label = 'Completed'
 UNION
 select
   alr.Id,
   alr.date,
   alr.project,
-  alr.serviceId,
+  CAST(alr.serviceId AS VARCHAR) AS serviceId,
   alr.serviceTestId,
   alr.testid,
   alr.resultOORIndicator,
@@ -98,7 +99,7 @@ select
     lt.Id,
     lt.date,
     lt.project,
-    lt.serviceId,
+    CAST(lt.serviceId AS VARCHAR) AS serviceId,
     lt.serviceTestId,
     lt.testid,
     lt.resultOORIndicator,
