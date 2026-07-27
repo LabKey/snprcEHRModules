@@ -1,8 +1,14 @@
+-- panelName and TestName are emitted in canonical UPPER + trimmed form so downstream pivots
+-- (ParasitologyPivotOP, ParasitologyPivot) can filter and pivot-match consistently across databases.
+-- SQL Server's case-insensitive collation matched every casing/whitespace variant of the source
+-- ServiceRequested / testName / PROCEDURE_NAME / TEST_NAME columns; Postgres is case- and
+-- whitespace-sensitive, so variants must be normalized here or they slip past IN/NOT IN filters
+-- and produce split GROUP BY rows in the outer queries.
 SELECT
     b.Id,
     b.date,
-    b.runId.serviceRequested as panelName,
-    b.serviceTestId.testName AS TestName,
+    UPPER(RTRIM(LTRIM(b.runId.serviceRequested))) as panelName,
+    UPPER(RTRIM(LTRIM(b.serviceTestId.testName))) AS TestName,
     b.remark,
     COALESCE(CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result,
     b.abnormal_flags
@@ -14,8 +20,8 @@ UNION
 SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
-    obr.PROCEDURE_NAME as panelName,
-    obx.TEST_NAME as TestName,
+    UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
+    UPPER(RTRIM(LTRIM(obx.TEST_NAME))) as TestName,
     nte.COMMENT as remark,
     COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
     obx.ABNORMAL_FLAGS AS abnormal_flags
