@@ -11,4 +11,4 @@ SELECT
   agm.groupId.name
 
 FROM study.animal_group_members as agm
-where agm.groupId.category_code.description like '%colonies%'
+where lower(agm.groupId.category_code.description) like '%colonies%'

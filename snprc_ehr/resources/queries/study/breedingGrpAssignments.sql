@@ -12,4 +12,4 @@ agm.groupId.name,
 ag.comment
 
 FROM study.animal_group_members as agm
-JOIN snprc_ehr.animal_groups ag on ((ag.category_code.description like '%Breeding%' or ag.category_code.description like '%cycle%') and agm.groupId = ag.code)
+JOIN snprc_ehr.animal_groups ag on ((lower(ag.category_code.description) like '%breeding%' or lower(ag.category_code.description) like '%cycle%') and agm.groupId = ag.code)

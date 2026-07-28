@@ -53,7 +53,6 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.Maps;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
-import org.labkey.test.util.SqlserverOnlyTest;
 import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;
@@ -76,7 +75,7 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category ({EHR.class, SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
-public class SNPRC_EHRTest extends AbstractGenericEHRTest implements SqlserverOnlyTest
+public class SNPRC_EHRTest extends AbstractGenericEHRTest
 {
     private static final String ASSAY_GENE_EXPRESSION = "Gene Expression";
     private static final File ASSAY_GENE_EXPRESSION_XAR = TestFileUtils.getSampleData("snprc/assays/Gene Expression.xar");

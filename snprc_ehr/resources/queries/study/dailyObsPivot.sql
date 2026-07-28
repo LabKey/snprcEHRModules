@@ -19,15 +19,15 @@ c.date,
 c."water::observation" as water,
 c."feed::observation" as feed,
 
-case when c."sa_none::observation" = 'Y' then 'None' else '' end +
-case	when c."sa_unknown::observation" = 'Y' then 'Unknown' else '' end +
-case	when c."sa_normal::observation" = 'Y' then 'Normal' else '' end +
-case when c."sa_bloody::observation" = 'Y' then ' Bloody' else '' end +
-case when c."sa_dry::observation" = 'Y' then ' Dry' else '' end +
-case when c."sa_loose::observation" = 'Y' then ' Loose' else '' end +
-case when c."sa_other::observation" = 'Y' then ' Other' else '' end +
-case when c."sa_soft::observation" = 'Y' then ' Soft' else '' end +
-case when c."sa_pellet::observation" = 'Y' then ' Pellet' else '' end +
+case when c."sa_none::observation" = 'Y' then 'None' else '' end ||
+case	when c."sa_unknown::observation" = 'Y' then 'Unknown' else '' end ||
+case	when c."sa_normal::observation" = 'Y' then 'Normal' else '' end ||
+case when c."sa_bloody::observation" = 'Y' then ' Bloody' else '' end ||
+case when c."sa_dry::observation" = 'Y' then ' Dry' else '' end ||
+case when c."sa_loose::observation" = 'Y' then ' Loose' else '' end ||
+case when c."sa_other::observation" = 'Y' then ' Other' else '' end ||
+case when c."sa_soft::observation" = 'Y' then ' Soft' else '' end ||
+case when c."sa_pellet::observation" = 'Y' then ' Pellet' else '' end ||
 case when c."sa_watery::observation" = 'Y' then ' Watery' else '' end as stool,
 COALESCE (c."housing_status::observation", '0') as housing_status,
 COALESCE (c."comments::observation", ' ') as comments,

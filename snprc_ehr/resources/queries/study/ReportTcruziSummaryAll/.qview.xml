@@ -35,7 +35,7 @@
                 <property name="columnTitle" value="MaxDate"/>
             </properties>
         </column>
-        <column name="TestCountZ">
+        <column name="TestCount">
             <properties>
                 <property name="columnTitle" value="TestCount"/>
             </properties>

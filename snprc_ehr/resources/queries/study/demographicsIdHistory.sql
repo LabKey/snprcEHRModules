@@ -25,7 +25,7 @@ SELECT
   case when i.id_type.description = 'Name' THEN i.value ELSE NULL END as id_name
 
 FROM study.idHistory i
-where i.id_type.value not in ( 1, 30)
+where CAST(i.id_type.value AS INTEGER) not in (1, 30)
 
 
 ) i1
