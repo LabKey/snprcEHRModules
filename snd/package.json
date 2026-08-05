@@ -96,5 +96,8 @@
     "webpack": "3.4.1",
     "webpack-dev-middleware": "2.0.6",
     "webpack-hot-middleware": "2.18.2"
+  },
+  "allowScripts": {
+    "uglifyjs-webpack-plugin@0.4.6": true
   }
 }
