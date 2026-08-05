@@ -56,6 +56,11 @@
     "setimmediate": "1.0.5",
     "ts-jest": "29.0.3"
   },
+  "allowScripts": {
+    "core-js@2.6.12": true,
+    "fsevents@2.3.3": true,
+    "vis-network@6.5.2": true
+  },
   "jest": {
     "globals": {
       "LABKEY": {}
