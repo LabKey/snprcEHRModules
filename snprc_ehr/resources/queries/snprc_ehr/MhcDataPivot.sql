@@ -3,15 +3,13 @@
 -- SQL Server's case-insensitive collation collapsed these variants at GROUP BY / PIVOT time; Postgres is
 -- case- and whitespace-sensitive and would otherwise split them into separate output rows / pivot columns.
 --
--- b.modified is aggregated via MAX() rather than included in GROUP BY. SQL Server's default
--- cast(datetime as varchar) uses coarser precision (minute-level) than Postgres's cast (which preserves
--- microseconds), so identical-looking timestamps that collapsed to one string on SS stayed distinct on
--- PG and split into extra groups (+158 rows before this change). MAX(b.modified) keeps the latest
--- modification timestamp in the output for display without letting per-microsecond differences drive
--- grouping.
+-- b.modified is aggregated via MAX() rather than grouped on as cast(b.modified as varchar). That cast only
+-- collapsed near-identical timestamps on SQL Server, whose default datetime-to-varchar style drops seconds
+-- and milliseconds; Postgres keeps them, splitting the rows into extra groups (+158 rows). MAX() does the
+-- collapsing and leaves the column a TIMESTAMP, so the DateTime formatString in the query.xml governs display.
 SELECT
     b.Id,
-    cast(MAX(b.modified) as varchar) as modified,
+    MAX(b.modified) as modified,
     b.Haplotype,
     b.Ocid,
     b.DataFileSource,
