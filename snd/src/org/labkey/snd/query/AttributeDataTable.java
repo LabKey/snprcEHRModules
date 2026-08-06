@@ -434,8 +434,9 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             {
                 for (Map<String, Object> row : oldRows)
                 {
-                    Integer objectId = (Integer) row.get("ObjectId");
-                    Integer propertyId = (Integer) row.get("PropertyId");
+                    // exp.ObjectProperty.ObjectId is BIGINT as of exp 25.005, so the value arrives as a Long
+                    Number objectId = (Number) row.get("ObjectId");
+                    Number propertyId = (Number) row.get("PropertyId");
 
                     SqlExecutor executor = new SqlExecutor(_expSchema);
                     SQLFragment deleteObjProp = new SQLFragment("delete from " + _expSchema.getName() + ".ObjectProperty\n");
