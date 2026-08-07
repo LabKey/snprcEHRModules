@@ -22,8 +22,8 @@ CREATE VIEW [labkey_etl].[v_delete_snd_attributeData] AS
 --
 -- Changes:
 -- Jay Allen - Only propagate a delete if the kew no longer exists in the source. EventDataAndName
---              is not unique when CAMP holds duplicate attribute rows, so cleaning up duplicate
---              caused ETL to delete the legitimate value from exp.ObjectProperty
+--              (PROC_ID + ATTRIB_KEY) is not unique when CAMP holds duplicate attribute rows,
+--              so cleaning up duplicate caused ETL to delete the legitimate value from exp.ObjectProperty
 --
 -- ==========================================================================================
 
