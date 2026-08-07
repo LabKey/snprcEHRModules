@@ -307,7 +307,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AuxProcedureFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ASBRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ColonyRequestFormType.class, this));
-//        // Requires mergesync
           // EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BloodRequestBulkEditFormType.class, this));
