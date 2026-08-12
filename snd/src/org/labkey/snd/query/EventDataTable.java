@@ -68,7 +68,7 @@ public class EventDataTable extends AbstractSNDTableInfo
     @Override
     public void addColumns()
     {
-        BaseColumnInfo objectid = new BaseColumnInfo("ObjectId", this, JdbcType.INTEGER)
+        BaseColumnInfo objectid = new BaseColumnInfo("ObjectId", this, JdbcType.BIGINT)
         {
             @Override
             public SQLFragment getValueSql(String tableAliasName)
