@@ -149,6 +149,10 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
     protected class UpdateService extends SNDQueryUpdateService
     {
+        /** Bounds the source ordering check below. It costs one retained URI per distinct EventDataId, and an ungrouped source would otherwise warn once per row. */
+        private static final int MAX_TRACKED_URIS = 50_000;
+        private static final int MAX_ORDER_WARNINGS = 10;
+
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();
         private final DbSchema _expSchema = OntologyManager.getExpSchema();
@@ -230,7 +234,11 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         private List<Map<String, Object>> updateObjectProperty(User user, Container container, List<Map<String, Object>> data,
                                          boolean isInsertOnly, boolean isUpdate, Logger logger)
         {
-            logger.info("Begin updating exp.ObjectProperty.");
+            Set<Integer> incomingEventDataIds = new HashSet<>();
+            for (Map<String, Object> row : data)
+                incomingEventDataIds.add((Integer) row.get("EventDataId"));
+
+            SNDManager.logIds(logger, "Begin updating exp.ObjectProperty. Source rows: " + data.size() + ". EventDataIds in this batch:", incomingEventDataIds);
 
             int inserted = 0;
 
@@ -240,6 +248,10 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             boolean found = false;
 
             Set<Integer> cacheEventIds = new HashSet<>();
+            Set<Integer> writtenEventDataIds = new HashSet<>();
+            Set<String> flushedUris = new HashSet<>();
+            boolean checkOrdering = true;
+            int outOfOrderFlushes = 0;
 
             for(Map<String, Object> row : data)
             {
@@ -255,7 +267,8 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                 //add to list of cached narrative rows to delete
                 cacheEventIds.add((Integer) row.get("EventId"));
 
-                String objectURI = getObjectURI((Integer) row.get("EventDataId"), container);
+                Integer eventDataId = (Integer) row.get("EventDataId");
+                String objectURI = getObjectURI(eventDataId, container);
                 if (prevUri == null)
                     prevUri = objectURI;
 
@@ -320,10 +333,27 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                                     if (!prevUri.equals(objectURI))
                                     {
                                         inserted = insertObject(container, user, prevUri, prevObjProps, pkgId, inserted, logger);
+
+                                        // Properties are only flushed when the URI changes, so a URI seen twice means the source
+                                        // did not arrive grouped by EventDataId and the ORDER BY in v_snd_attributeData was lost.
+                                        if (checkOrdering)
+                                        {
+                                            if (!flushedUris.add(prevUri) && ++outOfOrderFlushes <= MAX_ORDER_WARNINGS)
+                                                logger.warn("Source rows are not grouped by EventDataId; exp.ObjectProperty for {} was written in more than one pass.", prevUri);
+
+                                            if (flushedUris.size() >= MAX_TRACKED_URIS)
+                                            {
+                                                logger.info("More than {} EventDataIds in this batch; ending the source ordering check.", MAX_TRACKED_URIS);
+                                                flushedUris.clear();
+                                                checkOrdering = false;
+                                            }
+                                        }
+
                                         prevUri = objectURI;
                                         prevObjProps = new ArrayList<>();
                                     }
                                     prevObjProps.add(oprop);
+                                    writtenEventDataIds.add(eventDataId);
                                 }
                             }
 
@@ -332,12 +362,16 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                     }
                     if (!found)
                     {
-                        throw new RuntimeException("Attribute metadata not found for key: '" + key + "' in package: " + pkgId);
+                        throw new RuntimeException("Attribute metadata not found for key: '" + key + "' in package: " + pkgId
+                                + ", EventDataId: " + eventDataId + ". Aborting, leaving all " + incomingEventDataIds.size()
+                                + " EventDataIds in this batch with the attribute values the _SND Event Data step already cleared.");
                     }
                 }
                 else
                 {
-                    throw new RuntimeException("Package metadata not found for package id: " + pkgId);
+                    throw new RuntimeException("Package metadata not found for package id: " + pkgId
+                            + ", EventDataId: " + eventDataId + ". Aborting, leaving all " + incomingEventDataIds.size()
+                            + " EventDataIds in this batch with the attribute values the _SND Event Data step already cleared.");
                 }
             }
 
@@ -347,7 +381,22 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             }
 
             OntologyManager.clearPropertyCache();
-            logger.info("End updating exp.ObjectProperty. Inserted/Updated " + inserted + " rows.");
+
+            SNDManager.logIds(logger, "End updating exp.ObjectProperty. Inserted/Updated " + inserted + " rows. EventDataIds written:", writtenEventDataIds);
+
+            if (outOfOrderFlushes > MAX_ORDER_WARNINGS)
+                logger.warn("{} objectURIs in total were written in more than one pass; further warnings were suppressed.", outOfOrderFlushes);
+
+            // Collect only the misses; copying the incoming set would double its footprint on a full load.
+            Set<Integer> unwritten = new HashSet<>();
+            for (Integer id : incomingEventDataIds)
+            {
+                if (!writtenEventDataIds.contains(id))
+                    unwritten.add(id);
+            }
+
+            if (!unwritten.isEmpty())
+                SNDManager.logIds(logger, "EventDataIds present in the source rows but left with no attribute values written:", unwritten);
 
             _sndManager.updateNarrativeCache(container, user, cacheEventIds, logger);
 

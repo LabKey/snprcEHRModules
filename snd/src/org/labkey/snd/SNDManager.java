@@ -105,6 +105,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
@@ -153,6 +154,9 @@ public class SNDManager
 
     public static int MAX_MERGE_ROWS = 2000;
 
+    private static final int MAX_LOGGED_IDS = 5000;
+    private static final int LOGGED_IDS_PER_LINE = 250;
+
     public static Logger getLogger(Map<Enum, Object> configParameters, Class<?> clazz)
     {
         Logger log = null;
@@ -162,6 +166,29 @@ public class SNDManager
             log = LogManager.getLogger(clazz);
 
         return log;
+    }
+
+    /**
+     * Writes an id set to the ETL job log so that the id sets logged by different ETL steps of the same run can be
+     * diffed against each other. Chunked because a single line of thousands of ids is unreadable, and capped because
+     * the initial full data load would otherwise write the entire table to the log.
+     */
+    public static void logIds(Logger log, String message, Collection<Integer> ids)
+    {
+        log.info(message + " Count: " + ids.size() + ".");
+
+        if (ids.isEmpty())
+            return;
+
+        if (ids.size() > MAX_LOGGED_IDS)
+        {
+            log.info("Id list omitted, more than " + MAX_LOGGED_IDS + " ids.");
+            return;
+        }
+
+        List<Integer> sorted = ids.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());
+        for (List<Integer> chunk : ListUtils.partition(sorted, LOGGED_IDS_PER_LINE))
+            log.info("    " + StringUtils.join(chunk, ", "));
     }
 
     public static String getPackageName(int id)
