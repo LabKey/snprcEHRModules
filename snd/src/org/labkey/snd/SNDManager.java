@@ -154,7 +154,7 @@ public class SNDManager
 
     public static int MAX_MERGE_ROWS = 2000;
 
-    private static final int MAX_LOGGED_IDS = 5000;
+    public static final int MAX_LOGGED_IDS = 5000;
     private static final int LOGGED_IDS_PER_LINE = 250;
 
     public static Logger getLogger(Map<Enum, Object> configParameters, Class<?> clazz)

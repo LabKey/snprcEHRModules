@@ -158,6 +158,29 @@ public class EventDataTable extends AbstractSNDTableInfo
             return withAttributeData;
         }
 
+        /**
+         * Diagnostic only, so a failure here must not abort the merge. Skipped above the cap logIds lists at, where the
+         * chunked queries would cost hundreds of round trips to produce a bare count.
+         */
+        private void logAttributeDataToBeCleared(Container container, Map<String, Integer> eventDataIdsByUri, Logger log)
+        {
+            if (eventDataIdsByUri.size() > SNDManager.MAX_LOGGED_IDS)
+            {
+                log.info("More than " + SNDManager.MAX_LOGGED_IDS + " EventDataIds in this batch; skipping the check for attribute values about to be cleared.");
+                return;
+            }
+
+            try
+            {
+                SNDManager.logIds(log, "Attribute values about to be cleared by this merge; the _SND Attribute Data step must re-insert them.",
+                        getEventDataIdsWithAttributeData(container, eventDataIdsByUri));
+            }
+            catch (Exception e)
+            {
+                log.warn("Could not determine which EventDataIds have attribute values; continuing with the merge.", e);
+            }
+        }
+
         @Override
         public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors,
                              @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
@@ -207,8 +230,7 @@ public class EventDataTable extends AbstractSNDTableInfo
                 eventDataIdsByUri.put(objectURI, eventDataId);
             }
 
-            SNDManager.logIds(log, "Attribute values about to be cleared by this merge; the _SND Attribute Data step must re-insert them.",
-                    getEventDataIdsWithAttributeData(container, eventDataIdsByUri));
+            logAttributeDataToBeCleared(container, eventDataIdsByUri, log);
 
             int count = 0;
             for(Map<String, Object> map : data)
