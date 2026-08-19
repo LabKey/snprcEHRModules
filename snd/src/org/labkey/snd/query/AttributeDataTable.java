@@ -305,11 +305,11 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                             {
                                 if (pd.getLookupSchema() != null && pd.getLookupQuery() != null)
                                 {
-                                    logger.info("Value null for property " + pd.getName() + ". Value skipped. Verify lookup " + pd.getLookupSchema() + "." + pd.getLookupQuery() + " contains " + stringValue);
+                                    logger.info("Value null for property " + pd.getName() + ", EventDataId: " + eventDataId + ". Value skipped. Verify lookup " + pd.getLookupSchema() + "." + pd.getLookupQuery() + " contains " + stringValue);
                                 }
                                 else
                                 {
-                                    logger.info("Value null for property " + pd.getName() + ". Value skipped.");
+                                    logger.info("Value null for property " + pd.getName() + ", EventDataId: " + eventDataId + ". Value skipped.");
                                 }
                             }
 
