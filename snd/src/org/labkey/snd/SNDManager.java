@@ -154,7 +154,8 @@ public class SNDManager
 
     public static int MAX_MERGE_ROWS = 2000;
 
-    public static final int MAX_LOGGED_IDS = 5000;
+    /** Below the ETL batch size so that the full batches of an initial load suppress the id lists while the smaller batches of an incremental run keep them. */
+    public static final int MAX_LOGGED_IDS = 2000;
     private static final int LOGGED_IDS_PER_LINE = 250;
 
     public static Logger getLogger(Map<Enum, Object> configParameters, Class<?> clazz)
@@ -175,20 +176,23 @@ public class SNDManager
      */
     public static void logIds(Logger log, String message, Collection<Integer> ids)
     {
-        log.info(message + " Count: " + ids.size() + ".");
+        if (!log.isDebugEnabled())
+            return;
+
+        log.debug(message + " Count: " + ids.size() + ".");
 
         if (ids.isEmpty())
             return;
 
         if (ids.size() > MAX_LOGGED_IDS)
         {
-            log.info("Id list omitted, more than " + MAX_LOGGED_IDS + " ids.");
+            log.debug("Id list omitted, more than " + MAX_LOGGED_IDS + " ids.");
             return;
         }
 
         List<Integer> sorted = ids.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());
         for (List<Integer> chunk : ListUtils.partition(sorted, LOGGED_IDS_PER_LINE))
-            log.info("    " + StringUtils.join(chunk, ", "));
+            log.debug("    " + StringUtils.join(chunk, ", "));
     }
 
     public static String getPackageName(int id)

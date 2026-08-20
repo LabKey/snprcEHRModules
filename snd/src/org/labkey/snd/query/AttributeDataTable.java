@@ -149,7 +149,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
     protected class UpdateService extends SNDQueryUpdateService
     {
-        /** Bounds the source ordering check below. It costs one retained URI per distinct EventDataId, and an ungrouped source would otherwise warn once per row. */
+        /** Bounds the source ordering check below. It costs one retained URI per distinct EventDataId, and an ungrouped source would otherwise log once per row. */
         private static final int MAX_TRACKED_URIS = 50_000;
         private static final int MAX_ORDER_WARNINGS = 10;
 
@@ -234,11 +234,13 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         private List<Map<String, Object>> updateObjectProperty(User user, Container container, List<Map<String, Object>> data,
                                          boolean isInsertOnly, boolean isUpdate, Logger logger)
         {
+            logger.info("Begin updating exp.ObjectProperty.");
+
             Set<Integer> incomingEventDataIds = new HashSet<>();
             for (Map<String, Object> row : data)
                 incomingEventDataIds.add((Integer) row.get("EventDataId"));
 
-            SNDManager.logIds(logger, "Begin updating exp.ObjectProperty. Source rows: " + data.size() + ". EventDataIds in this batch:", incomingEventDataIds);
+            SNDManager.logIds(logger, "Source rows: " + data.size() + ". EventDataIds in this batch:", incomingEventDataIds);
 
             int inserted = 0;
 
@@ -250,7 +252,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             Set<Integer> cacheEventIds = new HashSet<>();
             Set<Integer> writtenEventDataIds = new HashSet<>();
             Set<String> flushedUris = new HashSet<>();
-            boolean checkOrdering = true;
+            boolean checkOrdering = logger.isDebugEnabled();
             int outOfOrderFlushes = 0;
 
             for(Map<String, Object> row : data)
@@ -339,11 +341,11 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                                         if (checkOrdering)
                                         {
                                             if (!flushedUris.add(prevUri) && ++outOfOrderFlushes <= MAX_ORDER_WARNINGS)
-                                                logger.warn("Source rows are not grouped by EventDataId; exp.ObjectProperty for {} was written in more than one pass.", prevUri);
+                                                logger.debug("Source rows are not grouped by EventDataId; exp.ObjectProperty for {} was written in more than one pass.", prevUri);
 
                                             if (flushedUris.size() >= MAX_TRACKED_URIS)
                                             {
-                                                logger.info("More than {} EventDataIds in this batch; ending the source ordering check.", MAX_TRACKED_URIS);
+                                                logger.debug("More than {} EventDataIds in this batch; ending the source ordering check.", MAX_TRACKED_URIS);
                                                 flushedUris.clear();
                                                 checkOrdering = false;
                                             }
@@ -382,10 +384,12 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
             OntologyManager.clearPropertyCache();
 
-            SNDManager.logIds(logger, "End updating exp.ObjectProperty. Inserted/Updated " + inserted + " rows. EventDataIds written:", writtenEventDataIds);
+            logger.info("End updating exp.ObjectProperty. Inserted/Updated " + inserted + " rows.");
+
+            SNDManager.logIds(logger, "EventDataIds written:", writtenEventDataIds);
 
             if (outOfOrderFlushes > MAX_ORDER_WARNINGS)
-                logger.warn("{} objectURIs in total were written in more than one pass; further warnings were suppressed.", outOfOrderFlushes);
+                logger.debug("{} objectURIs in total were written in more than one pass; further messages were suppressed.", outOfOrderFlushes);
 
             // Collect only the misses; copying the incoming set would double its footprint on a full load.
             Set<Integer> unwritten = new HashSet<>();

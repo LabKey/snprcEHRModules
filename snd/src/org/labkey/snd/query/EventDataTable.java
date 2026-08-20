@@ -164,9 +164,12 @@ public class EventDataTable extends AbstractSNDTableInfo
          */
         private void logAttributeDataToBeCleared(Container container, Map<String, Integer> eventDataIdsByUri, Logger log)
         {
+            if (!log.isDebugEnabled())
+                return;
+
             if (eventDataIdsByUri.size() > SNDManager.MAX_LOGGED_IDS)
             {
-                log.info("More than " + SNDManager.MAX_LOGGED_IDS + " EventDataIds in this batch; skipping the check for attribute values about to be cleared.");
+                log.debug("More than " + SNDManager.MAX_LOGGED_IDS + " EventDataIds in this batch; skipping the check for attribute values about to be cleared.");
                 return;
             }
 
@@ -177,7 +180,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             }
             catch (Exception e)
             {
-                log.warn("Could not determine which EventDataIds have attribute values; continuing with the merge.", e);
+                log.debug("Could not determine which EventDataIds have attribute values; continuing with the merge.", e);
             }
         }
 
@@ -230,6 +233,7 @@ public class EventDataTable extends AbstractSNDTableInfo
                 eventDataIdsByUri.put(objectURI, eventDataId);
             }
 
+            SNDManager.logIds(log, "EventDataIds merged into snd.EventData by this batch:", eventDataIdsByUri.values());
             logAttributeDataToBeCleared(container, eventDataIdsByUri, log);
 
             int count = 0;
@@ -286,9 +290,11 @@ public class EventDataTable extends AbstractSNDTableInfo
 
             log.info("Begin inserting into exp.Object.");
             int count = 0;
+            Set<Integer> eventDataIds = new HashSet<>();
             for(Map<String, Object> map : data)
             {
-                String objectURI = getObjectURI((Integer) map.get("EventDataId"), container);
+                Integer eventDataId = (Integer) map.get("EventDataId");
+                String objectURI = getObjectURI(eventDataId, container);
 
                 //update snd.EventData row with objectURI
                 map.put("ObjectURI", objectURI);
@@ -299,12 +305,17 @@ public class EventDataTable extends AbstractSNDTableInfo
                 //add to list of cached narrative rows to delete
                 cacheData.add((Integer) map.get("EventId"));
 
+                eventDataIds.add(eventDataId);
+
                 count++;
                 //TODO: Count in exp.Object is not going to be the same as in snd.EventData - need to figure out how to get the count to log
                 if(count % 1000 == 0)
                     log.info("Inserted " + count + " rows in exp.Object table.");
             }
             log.info("End inserting into exp.Object. Inserted total of " + count + " rows.");
+
+            // These rows get a fresh exp.Object with no properties, so they depend on the _SND Attribute Data step just as much as the merged ones do.
+            SNDManager.logIds(log, "EventDataIds inserted into snd.EventData by this batch:", eventDataIds);
 
             DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.get(0).keySet(), data);
 
@@ -405,11 +416,15 @@ public class EventDataTable extends AbstractSNDTableInfo
         {
             log.info("Begin deleting from exp.ObjectProperty and exp.Object.");
             int count = 0;
+            Set<Integer> eventDataIds = new HashSet<>();
 
             //This will be a cascading delete across exp.ObjectProperty, exp.Object, and snd.EventData
             for (Map<String, Object> map : oldRows)
             {
-                String objectURI = getObjectURI((Integer) map.get("EventDataId"), container);
+                Integer eventDataId = (Integer) map.get("EventDataId");
+                String objectURI = getObjectURI(eventDataId, container);
+
+                eventDataIds.add(eventDataId);
                 OntologyObject obj = OntologyManager.getOntologyObject(container, objectURI);
 
                 //delete row from exp.ObjectProperty
@@ -426,6 +441,9 @@ public class EventDataTable extends AbstractSNDTableInfo
             }
 
             log.info("End deleting from exp.ObjectProperty and exp.Object. Deleted total of " + count + " rows.");
+
+            // Without these the deleted rows read as attribute data the _SND Attribute Data step failed to write.
+            SNDManager.logIds(log, "EventDataIds deleted from snd.EventData by this batch:", eventDataIds);
         }
 
         private int deleteAllFromExpTables(Logger log)
