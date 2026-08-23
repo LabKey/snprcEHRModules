@@ -188,7 +188,7 @@ public class AnimalsGroupAssignor
                 sql.append("FROM ");
                 sql.append(animalGroupMembers, "agm");
                 sql.append("\n");
-                sql.append("inner join ehr_lookups.calendar as c on c.targetDate between agm.date and COALESCE(agm.enddate, getDate())\n");
+                sql.append("inner join ehr_lookups.calendar as c on c.targetDate between agm.date and COALESCE(agm.enddate, CURRENT_TIMESTAMP)\n");
                 sql.append("where agm.participantid = ? and agm.groupId = ?\n");
                 sql.append(" and c.targetDate between ? and ?\n");
                 sql.append("group by agm.participantid");
@@ -217,7 +217,7 @@ public class AnimalsGroupAssignor
                 sql.append(animalGroupMembers, "agm");
                 sql.append("\n");
                 sql.append("inner join ehr_lookups.calendar as c\n "); //;
-                sql.append ("on c.targetDate between agm.date and COALESCE(agm.enddate, DATEADD(YEAR, 10, getDate()))\n");
+                sql.append ("on c.targetDate between agm.date and COALESCE(agm.enddate, CURRENT_TIMESTAMP + INTERVAL '10 years')\n");
                 sql.append("where agm.participantid = ? \n");
                 sql.append(" and agm.groupId in " + getCategoryGroupsString() + "\n");
                 sql.append(" and c.targetDate between ? and ?\n");

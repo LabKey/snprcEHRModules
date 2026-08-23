@@ -20,6 +20,6 @@ SELECT
 
 FROM study.animal_group_members as agm
   INNER JOIN snprc_ehr.animal_groups as ag ON ag.code = agm.groupId
-  -- SQL Server's default collation matched this case-insensitively; Postgres LIKE does not.
+  -- Postgres LIKE is case-sensitive.
   INNER JOIN snprc_ehr.animal_group_categories as agc on ag.category_code = agc.category_code and lower(agc.description) like '%colonies%'
 WHERE agm.isActive = true and agm.qcstate.PublicData = true and id.demographics.calculated_status = 'Alive'

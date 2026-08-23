@@ -132,7 +132,7 @@ CREATE TABLE snprc_scheduler.StudyDayNotes (
   CONSTRAINT PK_StudyDayNotes PRIMARY KEY (ObjectId)
 );
 
--- Using NULLS NOT DISTINCT (PostgreSQL 15+) to match SQL Server behavior for unique constraints with NULLs
+-- NULLS NOT DISTINCT (PostgreSQL 15+) so two rows with a NULL StudyDay still collide.
 CREATE UNIQUE INDEX idx_u_FK_to_TimelineItem ON snprc_scheduler.StudyDayNotes (
   TimelineObjectId ASC,
   StudyDay ASC

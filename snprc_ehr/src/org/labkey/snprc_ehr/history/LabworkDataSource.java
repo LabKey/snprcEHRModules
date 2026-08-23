@@ -55,7 +55,7 @@ import static org.labkey.snprc_ehr.constants.QueryConstants.*;
  */
 public class LabworkDataSource extends AbstractDataSource
 {
-    // SQL Server commonly includes fractional seconds, while Postgres may omit them when zero.
+    // Postgres may omit fractional seconds when they are zero.
     private static final DateTimeFormatter DATE_TIME_PARSER = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd HH:mm:ss")
             .optionalStart()
