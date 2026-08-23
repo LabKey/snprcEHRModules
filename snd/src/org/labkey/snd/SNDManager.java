@@ -91,6 +91,7 @@ import org.labkey.snd.security.QCStateActionEnum;
 import org.labkey.snd.security.SNDSecurityManager;
 import org.labkey.snd.trigger.SNDTriggerManager;
 
+import java.nio.ByteBuffer;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -104,6 +105,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -157,6 +159,10 @@ public class SNDManager
     /** Below the ETL batch size so that the full batches of an initial load suppress the id lists while the smaller batches of an incremental run keep them. */
     public static final int MAX_LOGGED_IDS = 2000;
     private static final int LOGGED_IDS_PER_LINE = 250;
+    private static final int LOGGED_PAIRS_PER_LINE = 50;
+
+    /** The incremental filter column of both SND ETL source views. */
+    public static final String SOURCE_ROWVERSION_COLUMN = "timestamp";
 
     public static Logger getLogger(Map<Enum, Object> configParameters, Class<?> clazz)
     {
@@ -192,6 +198,61 @@ public class SNDManager
 
         List<Integer> sorted = ids.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());
         for (List<Integer> chunk : ListUtils.partition(sorted, LOGGED_IDS_PER_LINE))
+            log.debug("    " + StringUtils.join(chunk, ", "));
+    }
+
+    /**
+     * SQL Server hands a rowversion back as binary(8); the ETL's own persisted window state returns it as a number.
+     * Read big-endian, matching how the incremental filter logs its bounds, so the two can be compared directly.
+     */
+    @Nullable
+    public static Long toRowversion(@Nullable Object o)
+    {
+        if (o instanceof byte[] bytes && 8 == bytes.length)
+            return ByteBuffer.wrap(bytes).getLong();
+        if (o instanceof Number n)
+            return n.longValue();
+        return null;
+    }
+
+    /**
+     * Logs the rowversion span of a batch so it can be placed against the incremental window the ETL logged for the
+     * run. Both SND source views draw their rowversions from the same source database, so the spans the two steps
+     * report are on one sequence and comparable.
+     */
+    public static void logRowversionRange(Logger log, String message, Collection<Map<String, Object>> rows)
+    {
+        if (!log.isDebugEnabled())
+            return;
+
+        LongSummaryStatistics stats = rows.stream()
+                .map(row -> toRowversion(row.get(SOURCE_ROWVERSION_COLUMN)))
+                .filter(Objects::nonNull)
+                .mapToLong(Long::longValue)
+                .summaryStatistics();
+
+        if (0 == stats.getCount())
+            log.debug(message + " No source rowversions in this batch.");
+        else
+            log.debug(message + " Rowversions " + stats.getMin() + " to " + stats.getMax() + " over " + stats.getCount() + " rows.");
+    }
+
+    /**
+     * Pairs each id with its source rowversion. Logged separately from the bare list the same set gets from logIds,
+     * which stays free of annotations so it can be diffed against the other step's list.
+     */
+    public static void logIdRowversions(Logger log, String message, Collection<Integer> ids, Map<Integer, Long> rowversions)
+    {
+        if (!log.isDebugEnabled() || ids.isEmpty() || ids.size() > MAX_LOGGED_IDS)
+            return;
+
+        log.debug(message);
+
+        List<String> pairs = ids.stream().filter(Objects::nonNull).sorted()
+                .map(id -> id + ":" + rowversions.get(id))
+                .collect(Collectors.toList());
+
+        for (List<String> chunk : ListUtils.partition(pairs, LOGGED_PAIRS_PER_LINE))
             log.debug("    " + StringUtils.join(chunk, ", "));
     }
 

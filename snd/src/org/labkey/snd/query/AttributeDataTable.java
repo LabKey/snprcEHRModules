@@ -236,11 +236,25 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
         {
             logger.info("Begin updating exp.ObjectProperty.");
 
+            // An EventDataId gets one source row per attribute; keep the newest, since that is the one that pulled it into the window.
+            boolean trackRowversions = logger.isDebugEnabled();
             Set<Integer> incomingEventDataIds = new HashSet<>();
+            Map<Integer, Long> rowversionByEventDataId = new HashMap<>();
             for (Map<String, Object> row : data)
-                incomingEventDataIds.add((Integer) row.get("EventDataId"));
+            {
+                Integer eventDataId = (Integer) row.get("EventDataId");
+                incomingEventDataIds.add(eventDataId);
+
+                if (trackRowversions)
+                {
+                    Long rowversion = SNDManager.toRowversion(row.get(SNDManager.SOURCE_ROWVERSION_COLUMN));
+                    if (null != rowversion)
+                        rowversionByEventDataId.merge(eventDataId, rowversion, Math::max);
+                }
+            }
 
             SNDManager.logIds(logger, "Source rows: " + data.size() + ". EventDataIds in this batch:", incomingEventDataIds);
+            SNDManager.logRowversionRange(logger, "Source span of this batch.", data);
 
             int inserted = 0;
 
@@ -400,7 +414,10 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             }
 
             if (!unwritten.isEmpty())
+            {
                 SNDManager.logIds(logger, "EventDataIds present in the source rows but left with no attribute values written:", unwritten);
+                SNDManager.logIdRowversions(logger, "Rowversions of those EventDataIds, to place them against the incremental window of this run:", unwritten, rowversionByEventDataId);
+            }
 
             _sndManager.updateNarrativeCache(container, user, cacheEventIds, logger);
 
