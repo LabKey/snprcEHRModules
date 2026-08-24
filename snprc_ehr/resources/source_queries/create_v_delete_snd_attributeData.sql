@@ -21,6 +21,9 @@ CREATE VIEW [labkey_etl].[v_delete_snd_attributeData] AS
 -- Note:
 --
 -- Changes:
+-- Jay Allen - Only propagate a delete if the kew no longer exists in the source. EventDataAndName
+--              (PROC_ID + ATTRIB_KEY) is not unique when CAMP holds duplicate attribute rows,
+--              so cleaning up duplicate caused ETL to delete the legitimate value from exp.ObjectProperty
 --
 -- ==========================================================================================
 
@@ -29,6 +32,12 @@ SELECT
   a.audit_date_tm
 FROM audit.audit_coded_proc_attribs AS a
 WHERE a.audit_action = 'D'
+    AND NOT EXISTS (
+        SELECT 1
+        FROM dbo.CODED_PROC_ATTRIBS cpa
+        WHERE cpa.PROC_ID = a.PROC_ID
+        AND cpa.ATTRIB_KEY = a.ATTRIB_KEY
+    )
 GO
 
 GRANT SELECT on labkey_etl.v_delete_snd_AttributeData to z_labkey
