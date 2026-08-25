@@ -18,7 +18,6 @@ SELECT
   age.species,
   age.ageclass,
 
-  -- please excuse the ugly formatting - A sql server convert function would be helpful here!
   case when (age."max" is NULL and age.label = 'Senior') then
     (CAST(age."min" as VARCHAR(5) ) || case when (age."min"- FLOOR(age."min") > 0)  then  '' else '.0 - ' end)
   ELSE

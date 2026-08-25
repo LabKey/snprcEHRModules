@@ -321,11 +321,8 @@ CREATE INDEX IDX_SND_EVENTSCACHE_CONTAINER ON snd.EventsCache(Container);
 -- non-recursive CTE that is materialized once, then join to it in both the anchor and
 -- recursive members. This produces a stable per-parent TreePath segment and avoids the
 -- collisions and 3-char truncation that result from formatting raw SortOrder values.
--- This differs from the SQL Server twin (sqlserver/snd-0.000-25.000.sql), which uses an
--- unpartitioned ROW_NUMBER OVER (ORDER BY SortOrder); the partitioned form is preferred
--- and the MSSQL function should eventually be aligned. NULLS FIRST is used so a NULL
--- SortOrder sorts first within a parent, matching MSSQL's default NULL-ordering and the
--- prior PG behavior (COALESCE(SortOrder, 0)).
+-- NULLS FIRST is used so a NULL SortOrder sorts first within a parent, matching the prior
+-- PG behavior (COALESCE(SortOrder, 0)).
 -- ==========================================================================================
 CREATE FUNCTION snd.fGetSuperPkg(_pkgId INT)
 RETURNS TABLE (
@@ -427,10 +424,8 @@ $$;
 --               sub packages for each ProjectItem
 -- ==========================================================================================
 -- See note on fGetSuperPkg above re: pre-computed ordinals. The anchor uses an ordinal
--- ordered by (ProjectItemId, SuperPkgId), which matches the MSSQL anchor's ROW_NUMBER.
--- The recursive sub-tree uses per-parent ordinals over (SortOrder NULLS FIRST,
--- SuperPkgId) -- partitioned by ParentSuperPkgId, unlike MSSQL's unpartitioned form;
--- NULLS FIRST matches MSSQL's default NULL-ordering.
+-- ordered by (ProjectItemId, SuperPkgId); the recursive sub-tree uses per-parent ordinals
+-- over (SortOrder NULLS FIRST, SuperPkgId), partitioned by ParentSuperPkgId.
 -- ==========================================================================================
 CREATE FUNCTION snd.fGetProjectItems(_projectId INT, _revisionNum INT)
 RETURNS TABLE (

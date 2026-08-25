@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.ObjectFactory;
-import org.labkey.api.data.UpgradeCode;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
@@ -118,13 +117,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     public @Nullable Double getSchemaVersion()
     {
         return 26.002;
-    }
-
-    @Nullable
-    @Override
-    public UpgradeCode getUpgradeCode()
-    {
-        return new SNPRC_EHRUpgradeCode();
     }
 
     @Override

@@ -22,7 +22,6 @@ Select d.Id,
        d.species.arc_species_code as ARC_species,
        */
        -- Cast boolean → integer first so the IFNULL result type is INTEGER, not BOOLEAN.
-       -- Both args matching as BOOLEAN triggers SQL Server's BIT→BOOLEAN CASE-wrap (error 4145);
        -- mixing BOOLEAN with integer 0 fails on Postgres ("COALESCE types boolean and integer cannot be matched").
        IFNULL(CAST(g.HasGeneExpressionData AS INTEGER), 0) as HasGeneExpressionData,
        IFNULL(CAST(s.HasSNPData AS INTEGER), 0) as HasSNPData,
