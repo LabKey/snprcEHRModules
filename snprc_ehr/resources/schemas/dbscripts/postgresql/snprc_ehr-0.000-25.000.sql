@@ -15,9 +15,9 @@
  */
 
 /*
- * NOTE: Need to:
- * - Fix snprc_ehr.HL7_IMPORT_LOG.TID - IDENTITY columns in PostgreSQL must be int, bigint, smallint, etc. NOT NUMERIC
- * - get_random_uuid
+ * NOTE:
+ * - Fixed snprc_ehr.HL7_IMPORT_LOG.TID - IDENTITY columns in PostgreSQL must be int, bigint, smallint, etc. NOT NUMERIC
+ * - gen_random_uuid
  * - ROWVERSION replaced with BYTEA
  */
 
