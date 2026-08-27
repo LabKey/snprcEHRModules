@@ -36,10 +36,7 @@ import org.labkey.api.util.PageFlowUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,13 +52,7 @@ import static org.labkey.snprc_ehr.constants.QueryConstants.*;
  */
 public class LabworkDataSource extends AbstractDataSource
 {
-    // SQL Server commonly includes fractional seconds, while Postgres may omit them when zero.
-    private static final DateTimeFormatter DATE_TIME_PARSER = new DateTimeFormatterBuilder()
-            .appendPattern("yyyy-MM-dd HH:mm:ss")
-            .optionalStart()
-            .appendFraction(ChronoField.NANO_OF_SECOND, 1, 9, true)
-            .optionalEnd()
-            .toFormatter();
+    private static final DateTimeFormatter DISPLAY_FORMAT = DateTimeFormatter.ofPattern("H:mm a");
 
     private Map<String, List<String>> _results;
     private Map<String, List<String>> _flags;
@@ -213,8 +204,10 @@ public class LabworkDataSource extends AbstractDataSource
         FieldKey fk = FieldKey.fromString(field);
         String result = "";
         if (rs.hasColumn(fk) && rs.getObject(fk) != null) {
-            String date = rs.getString(fk);
-            String time = LocalDateTime.parse(date, DATE_TIME_PARSER).format(DateTimeFormatter.ofPattern("H:mm a"));
+            // Read the value as a Timestamp rather than round-tripping through rs.getString(): the string
+            // form is driver-specific (fractional seconds, and a trailing offset for timestamptz on pgjdbc),
+            // so parsing it against a fixed pattern is fragile across databases.
+            String time = rs.getTimestamp(fk).toLocalDateTime().format(DISPLAY_FORMAT);
             result = (label == null ? "" : label + ": ") + time + "\n";
         }
 
