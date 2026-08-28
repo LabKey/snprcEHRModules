@@ -139,7 +139,7 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 26.001;
+        return 26.002;
     }
 
     @Nullable
@@ -328,7 +328,6 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(AuxProcedureFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ASBRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(ColonyRequestFormType.class, this));
-//        // Requires mergesync
           // EHRService.get().registerFormType(new DefaultDataEntryFormFactory(LabworkRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(HousingRequestFormType.class, this));
 //        EHRService.get().registerFormType(new DefaultDataEntryFormFactory(BloodRequestBulkEditFormType.class, this));
