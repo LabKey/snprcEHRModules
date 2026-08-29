@@ -239,7 +239,7 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             // An EventDataId gets one source row per attribute; keep the newest, since that is the one that pulled it into the window.
             boolean trackRowversions = logger.isDebugEnabled();
             Set<Integer> incomingEventDataIds = new HashSet<>();
-            Map<Integer, Long> rowversionByEventDataId = new HashMap<>();
+            Map<Integer, SNDManager.SourceRowversion> rowversionByEventDataId = new HashMap<>();
             for (Map<String, Object> row : data)
             {
                 Integer eventDataId = (Integer) row.get("EventDataId");
@@ -247,14 +247,16 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
 
                 if (trackRowversions)
                 {
-                    Long rowversion = SNDManager.toRowversion(row.get(SNDManager.SOURCE_ROWVERSION_COLUMN));
+                    SNDManager.SourceRowversion rowversion = SNDManager.SourceRowversion.of(
+                            SNDManager.toRowversion(row.get(SNDManager.PROC_ROWVERSION_COLUMN)),
+                            SNDManager.toRowversion(row.get(SNDManager.ATTRIB_ROWVERSION_COLUMN)));
                     if (null != rowversion)
-                        rowversionByEventDataId.merge(eventDataId, rowversion, Math::max);
+                        rowversionByEventDataId.merge(eventDataId, rowversion, SNDManager.SourceRowversion::later);
                 }
             }
 
             SNDManager.logIds(logger, "Source rows: " + data.size() + ". EventDataIds in this batch:", incomingEventDataIds);
-            SNDManager.logRowversionRange(logger, "Source span of this batch.", data);
+            SNDManager.logRowversionRange(logger, "Source span of this batch.", data, SNDManager.PROC_ROWVERSION_COLUMN, SNDManager.ATTRIB_ROWVERSION_COLUMN);
 
             int inserted = 0;
 
@@ -416,7 +418,9 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
             if (!unwritten.isEmpty())
             {
                 SNDManager.logIds(logger, "EventDataIds present in the source rows but left with no attribute values written:", unwritten);
-                SNDManager.logIdRowversions(logger, "Rowversions of those EventDataIds, to place them against the incremental window of this run:", unwritten, rowversionByEventDataId);
+                // An (a) id is newer on the attribute row than on the coded proc row the event step filtered on, so this step's window can exclude an id that step just cleared, and the next run restores it.
+                // A (p) id carries the same value the event step saw, so the window is not what kept it out: it is missing from v_snd_attributeData itself, and no later run brings it back.
+                SNDManager.logIdRowversions(logger, "Rowversions of those EventDataIds, to place them against the incremental window of this run.", unwritten, rowversionByEventDataId);
             }
 
             _sndManager.updateNarrativeCache(container, user, cacheEventIds, logger);

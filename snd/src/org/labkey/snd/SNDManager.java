@@ -86,17 +86,18 @@ import org.labkey.api.snd.SNDSequencer;
 import org.labkey.api.snd.SuperPackage;
 import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.util.StringUtilsLabKey;
 import org.labkey.snd.query.PackagesTable;
 import org.labkey.snd.security.QCStateActionEnum;
 import org.labkey.snd.security.SNDSecurityManager;
 import org.labkey.snd.trigger.SNDTriggerManager;
 
-import java.nio.ByteBuffer;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -161,8 +162,15 @@ public class SNDManager
     private static final int LOGGED_IDS_PER_LINE = 250;
     private static final int LOGGED_PAIRS_PER_LINE = 50;
 
-    /** The incremental filter column of both SND ETL source views. */
-    public static final String SOURCE_ROWVERSION_COLUMN = "timestamp";
+    /**
+     * The BIGINT copy each SND ETL source view exposes of the coded proc row's rowversion. The ETL drops every column
+     * SQL Server types as a rowversion (TransformDataIteratorBuilder, via TransformManager.isRowversionColumn), so the
+     * incremental filter column itself never reaches these steps and only a cast copy of it can be logged.
+     */
+    public static final String PROC_ROWVERSION_COLUMN = "ProcRowversion";
+
+    /** The same for the attribute row's rowversion, which only v_snd_attributeData has. */
+    public static final String ATTRIB_ROWVERSION_COLUMN = "AttribRowversion";
 
     public static Logger getLogger(Map<Enum, Object> configParameters, Class<?> clazz)
     {
@@ -201,52 +209,85 @@ public class SNDManager
             log.debug("    " + StringUtils.join(chunk, ", "));
     }
 
-    /**
-     * SQL Server hands a rowversion back as binary(8); the ETL's own persisted window state returns it as a number.
-     * Read big-endian, matching how the incremental filter logs its bounds, so the two can be compared directly.
-     */
+    /** The cast copies arrive as BIGINT, the form the incremental filter also logs its bounds in. */
     @Nullable
     public static Long toRowversion(@Nullable Object o)
     {
-        if (o instanceof byte[] bytes && 8 == bytes.length)
-            return ByteBuffer.wrap(bytes).getLong();
-        if (o instanceof Number n)
-            return n.longValue();
-        return null;
+        return o instanceof Number n ? n.longValue() : null;
+    }
+
+    /**
+     * A source row's rowversion and the source table it came from. v_snd_attributeData filters on the newer of the
+     * coded proc row and the attribute row, so a row can enter that step's window on a value the event step, which
+     * sees only the coded proc row, never had.
+     */
+    public record SourceRowversion(long value, boolean fromAttribute)
+    {
+        /** Null when the row carries neither column, which is what a view still lacking the cast copies looks like. */
+        @Nullable
+        public static SourceRowversion of(@Nullable Long proc, @Nullable Long attrib)
+        {
+            if (null == proc)
+                return null == attrib ? null : new SourceRowversion(attrib, true);
+            return null == attrib || attrib <= proc ? new SourceRowversion(proc, false) : new SourceRowversion(attrib, true);
+        }
+
+        public static SourceRowversion later(SourceRowversion a, SourceRowversion b)
+        {
+            return b.value > a.value ? b : a;
+        }
+
+        @Override
+        public String toString()
+        {
+            return value + (fromAttribute ? "(a)" : "(p)");
+        }
     }
 
     /**
      * Logs the rowversion span of a batch so it can be placed against the incremental window the ETL logged for the
      * run. Both SND source views draw their rowversions from the same source database, so the spans the two steps
-     * report are on one sequence and comparable.
+     * report are on one sequence and comparable. Pass every column the view derives its filter value from; the span is
+     * over the newest of them per row.
      */
-    public static void logRowversionRange(Logger log, String message, Collection<Map<String, Object>> rows)
+    public static void logRowversionRange(Logger log, String message, Collection<Map<String, Object>> rows, String... columns)
     {
         if (!log.isDebugEnabled())
             return;
 
         LongSummaryStatistics stats = rows.stream()
-                .map(row -> toRowversion(row.get(SOURCE_ROWVERSION_COLUMN)))
+                .map(row -> Arrays.stream(columns).map(column -> toRowversion(row.get(column))).filter(Objects::nonNull).max(Long::compare).orElse(null))
                 .filter(Objects::nonNull)
                 .mapToLong(Long::longValue)
                 .summaryStatistics();
 
-        if (0 == stats.getCount())
-            log.debug(message + " No source rowversions in this batch.");
+        if (rows.isEmpty())
+            log.debug(message + " Empty batch.");
+        else if (0 == stats.getCount())
+            log.debug(message + " No source rowversions in " + StringUtilsLabKey.pluralize(rows.size(), "row") + "; the source view is missing the BIGINT rowversion copies.");
         else
-            log.debug(message + " Rowversions " + stats.getMin() + " to " + stats.getMax() + " over " + stats.getCount() + " rows.");
+            log.debug(message + " Rowversions " + stats.getMin() + " to " + stats.getMax() + " over " + StringUtilsLabKey.pluralize(stats.getCount(), "row") + ".");
     }
 
     /**
-     * Pairs each id with its source rowversion. Logged separately from the bare list the same set gets from logIds,
-     * which stays free of annotations so it can be diffed against the other step's list.
+     * Pairs each id with its source rowversion and the side that rowversion came from. Logged separately from the bare
+     * list the same set gets from logIds, which stays free of annotations so it can be diffed against the other step's
+     * list.
      */
-    public static void logIdRowversions(Logger log, String message, Collection<Integer> ids, Map<Integer, Long> rowversions)
+    public static void logIdRowversions(Logger log, String message, Collection<Integer> ids, Map<Integer, SourceRowversion> rowversions)
     {
         if (!log.isDebugEnabled() || ids.isEmpty() || ids.size() > MAX_LOGGED_IDS)
             return;
 
-        log.debug(message);
+        List<SourceRowversion> known = ids.stream().map(rowversions::get).filter(Objects::nonNull).collect(Collectors.toList());
+        if (known.isEmpty())
+        {
+            log.debug(message + " No source rowversions; the source view is missing the BIGINT rowversion copies.");
+            return;
+        }
+
+        long fromAttribute = known.stream().filter(SourceRowversion::fromAttribute).count();
+        log.debug(message + " " + fromAttribute + " of " + StringUtilsLabKey.pluralize(known.size(), "id") + " with a rowversion took it from the attribute row (a), the rest from the coded proc row (p).");
 
         List<String> pairs = ids.stream().filter(Objects::nonNull).sorted()
                 .map(id -> id + ":" + rowversions.get(id))

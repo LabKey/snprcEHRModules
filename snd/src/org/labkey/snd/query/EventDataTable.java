@@ -234,7 +234,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             }
 
             SNDManager.logIds(log, "EventDataIds merged into snd.EventData by this batch:", eventDataIdsByUri.values());
-            SNDManager.logRowversionRange(log, "Source span of the merged rows.", data);
+            SNDManager.logRowversionRange(log, "Source span of the merged rows.", data, SNDManager.PROC_ROWVERSION_COLUMN);
             logAttributeDataToBeCleared(container, eventDataIdsByUri, log);
 
             int count = 0;
@@ -317,7 +317,7 @@ public class EventDataTable extends AbstractSNDTableInfo
 
             // These rows get a fresh exp.Object with no properties, so they depend on the _SND Attribute Data step just as much as the merged ones do.
             SNDManager.logIds(log, "EventDataIds inserted into snd.EventData by this batch:", eventDataIds);
-            SNDManager.logRowversionRange(log, "Source span of the inserted rows.", data);
+            SNDManager.logRowversionRange(log, "Source span of the inserted rows.", data, SNDManager.PROC_ROWVERSION_COLUMN);
 
             DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.get(0).keySet(), data);
 
