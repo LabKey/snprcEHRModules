@@ -27,6 +27,6 @@ FROM miscPivotInner b
 GROUP BY b.id, b.date, b.TestName, b.panelName, b.remark
 
 PIVOT results, abnormal_flags BY TestName IN
-(select TestName from snprc_ehr.labwork_panels t
+(select UPPER(RTRIM(LTRIM(t.TestName))) as TestName from snprc_ehr.labwork_panels t
 where t.includeInPanel = true AND t.ServiceId.Dataset='Misc Tests'
 )
