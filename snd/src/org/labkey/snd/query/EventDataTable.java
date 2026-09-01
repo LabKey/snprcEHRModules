@@ -25,6 +25,7 @@ import org.labkey.api.data.DbScope;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
+import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
@@ -48,7 +49,9 @@ import org.labkey.snd.security.permissions.SNDViewerPermission;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,6 +111,9 @@ public class EventDataTable extends AbstractSNDTableInfo
 
     protected static class UpdateService extends SNDQueryUpdateService
     {
+        /** Keeps the ObjectURI IN clause well under the SQL Server parameter limit. */
+        private static final int URI_CHUNK_SIZE = 500;
+
         private final SNDManager _sndManager = SNDManager.get();
         private final SNDService _sndService = SNDService.get();
         private final DbSchema _expSchema = OntologyManager.getExpSchema();
@@ -120,6 +126,62 @@ public class EventDataTable extends AbstractSNDTableInfo
         private String getObjectURI(Integer eventDataId, Container c)
         {
             return _sndManager.generateLsid(c, String.valueOf(eventDataId));
+        }
+
+        /**
+         * EventDataIds in this batch whose exp.Object currently carries attribute values. Deleting the exp.Object row
+         * cascades to exp.ObjectProperty, so these are the values the merge destroys; only the _SND Attribute Data ETL
+         * step re-inserts them, and it computes its incremental window independently of this step's.
+         */
+        private Set<Integer> getEventDataIdsWithAttributeData(Container container, Map<String, Integer> eventDataIdsByUri)
+        {
+            Set<Integer> withAttributeData = new HashSet<>();
+            List<String> uris = new ArrayList<>(eventDataIdsByUri.keySet());
+
+            for (int i = 0; i < uris.size(); i += URI_CHUNK_SIZE)
+            {
+                List<String> chunk = uris.subList(i, Math.min(i + URI_CHUNK_SIZE, uris.size()));
+
+                // EXISTS rather than a join: both indexes (UQ_Object on ObjectURI, PK_ObjectProperty on ObjectId)
+                // are seeks, and the semi-join stops at the first property instead of reading all of them per object.
+                SQLFragment sql = new SQLFragment("SELECT o.ObjectURI FROM ")
+                        .append(OntologyManager.getTinfoObject(), "o")
+                        .append(" WHERE o.Container = ?").add(container.getId())
+                        .append(" AND EXISTS (SELECT 1 FROM ").append(OntologyManager.getTinfoObjectProperty(), "op")
+                        .append(" WHERE op.ObjectId = o.ObjectId)")
+                        .append(" AND o.ObjectURI").appendInClause(chunk, _expSchema.getSqlDialect());
+
+                new SqlSelector(_expSchema, sql).getCollection(String.class)
+                        .forEach(uri -> withAttributeData.add(eventDataIdsByUri.get(uri)));
+            }
+
+            return withAttributeData;
+        }
+
+        /**
+         * Diagnostic only, so a failure here must not abort the merge. Skipped above the cap logIds lists at, where the
+         * chunked queries would cost hundreds of round trips to produce a bare count.
+         */
+        private void logAttributeDataToBeCleared(Container container, Map<String, Integer> eventDataIdsByUri, Logger log)
+        {
+            if (!log.isDebugEnabled())
+                return;
+
+            if (eventDataIdsByUri.size() > SNDManager.MAX_LOGGED_IDS)
+            {
+                log.debug("More than " + SNDManager.MAX_LOGGED_IDS + " EventDataIds in this batch; skipping the check for attribute values about to be cleared.");
+                return;
+            }
+
+            try
+            {
+                SNDManager.logIds(log, "Attribute values about to be cleared by this merge; the _SND Attribute Data step must re-insert them.",
+                        getEventDataIdsWithAttributeData(container, eventDataIdsByUri));
+            }
+            catch (Exception e)
+            {
+                log.debug("Could not determine which EventDataIds have attribute values; continuing with the merge.", e);
+            }
         }
 
         @Override
@@ -158,13 +220,27 @@ public class EventDataTable extends AbstractSNDTableInfo
             log.info("Merging rows.");
 
             log.info("Begin updating exp.Object table.");
-            int count = 0;
-            for(Map<String, Object> map : data)
+
+            Map<String, Integer> eventDataIdsByUri = new LinkedHashMap<>();
+            for (Map<String, Object> map : data)
             {
-                String objectURI = getObjectURI((Integer) map.get("EventDataId"), container);
+                Integer eventDataId = (Integer) map.get("EventDataId");
+                String objectURI = getObjectURI(eventDataId, container);
 
                 //update snd.EventData row with objectURI
                 map.put("ObjectURI", objectURI);
+
+                eventDataIdsByUri.put(objectURI, eventDataId);
+            }
+
+            SNDManager.logIds(log, "EventDataIds merged into snd.EventData by this batch:", eventDataIdsByUri.values());
+            SNDManager.logRowversionRange(log, "Source span of the merged rows.", data, SNDManager.PROC_ROWVERSION_COLUMN);
+            logAttributeDataToBeCleared(container, eventDataIdsByUri, log);
+
+            int count = 0;
+            for(Map<String, Object> map : data)
+            {
+                String objectURI = (String) map.get("ObjectURI");
 
                 //delete row from exp.Object
                 OntologyManager.deleteOntologyObjects(container, objectURI);
@@ -215,9 +291,11 @@ public class EventDataTable extends AbstractSNDTableInfo
 
             log.info("Begin inserting into exp.Object.");
             int count = 0;
+            Set<Integer> eventDataIds = new HashSet<>();
             for(Map<String, Object> map : data)
             {
-                String objectURI = getObjectURI((Integer) map.get("EventDataId"), container);
+                Integer eventDataId = (Integer) map.get("EventDataId");
+                String objectURI = getObjectURI(eventDataId, container);
 
                 //update snd.EventData row with objectURI
                 map.put("ObjectURI", objectURI);
@@ -228,12 +306,18 @@ public class EventDataTable extends AbstractSNDTableInfo
                 //add to list of cached narrative rows to delete
                 cacheData.add((Integer) map.get("EventId"));
 
+                eventDataIds.add(eventDataId);
+
                 count++;
                 //TODO: Count in exp.Object is not going to be the same as in snd.EventData - need to figure out how to get the count to log
                 if(count % 1000 == 0)
                     log.info("Inserted " + count + " rows in exp.Object table.");
             }
             log.info("End inserting into exp.Object. Inserted total of " + count + " rows.");
+
+            // These rows get a fresh exp.Object with no properties, so they depend on the _SND Attribute Data step just as much as the merged ones do.
+            SNDManager.logIds(log, "EventDataIds inserted into snd.EventData by this batch:", eventDataIds);
+            SNDManager.logRowversionRange(log, "Source span of the inserted rows.", data, SNDManager.PROC_ROWVERSION_COLUMN);
 
             DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.get(0).keySet(), data);
 
@@ -334,11 +418,15 @@ public class EventDataTable extends AbstractSNDTableInfo
         {
             log.info("Begin deleting from exp.ObjectProperty and exp.Object.");
             int count = 0;
+            Set<Integer> eventDataIds = new HashSet<>();
 
             //This will be a cascading delete across exp.ObjectProperty, exp.Object, and snd.EventData
             for (Map<String, Object> map : oldRows)
             {
-                String objectURI = getObjectURI((Integer) map.get("EventDataId"), container);
+                Integer eventDataId = (Integer) map.get("EventDataId");
+                String objectURI = getObjectURI(eventDataId, container);
+
+                eventDataIds.add(eventDataId);
                 OntologyObject obj = OntologyManager.getOntologyObject(container, objectURI);
 
                 //delete row from exp.ObjectProperty
@@ -355,6 +443,9 @@ public class EventDataTable extends AbstractSNDTableInfo
             }
 
             log.info("End deleting from exp.ObjectProperty and exp.Object. Deleted total of " + count + " rows.");
+
+            // Without these the deleted rows read as attribute data the _SND Attribute Data step failed to write.
+            SNDManager.logIds(log, "EventDataIds deleted from snd.EventData by this batch:", eventDataIds);
         }
 
         private int deleteAllFromExpTables(Logger log)
