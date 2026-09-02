@@ -40,7 +40,6 @@ public class LabworkRequestFormType extends RequestForm
     {
         super(ctx, owner, NAME, LABEL, "Requests", Arrays.<FormSection>asList(
                 new RequestFormSection(),
-                new LabworkRequestInstructionsFormSection(),
                 new AnimalDetailsFormSection(),
                 new ClinpathRunsFormSection(true)
         ));
@@ -53,7 +52,6 @@ public class LabworkRequestFormType extends RequestForm
             //Added 2-8-2016 Blasa
         addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/model/sources/labworkPanel.js"));
 
-        addClientDependency(ClientDependency.supplierFromModuleName("MergeSync"));
         addClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/LabworkRequestDataEntryPanel.js"));
         setJavascriptClass("SNPRC_EHR.panel.LabworkRequestDataEntryPanel");
     }
