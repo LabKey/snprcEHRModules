@@ -26,7 +26,7 @@ FROM culturePivotInner b
 GROUP BY b.panelName, b.id, b.date, b.TestName, b.remark
 
 PIVOT results, abnormal_flags BY TestName IN
-(select TestName from snprc_ehr.labwork_panels t
+(select UPPER(RTRIM(LTRIM(t.TestName))) as TestName from snprc_ehr.labwork_panels t
     where t.includeInPanel = true AND t.ServiceId.Dataset='Culture'
- order by t.TestName asc
+ order by UPPER(RTRIM(LTRIM(t.TestName))) asc
 )

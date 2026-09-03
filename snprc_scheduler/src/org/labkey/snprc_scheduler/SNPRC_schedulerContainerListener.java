@@ -3,6 +3,9 @@ package org.labkey.snprc_scheduler;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager.ContainerListener;
+import org.labkey.api.data.DbScope;
+import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.security.User;
 import java.util.Collections;
 import java.util.Collection;
@@ -19,6 +22,40 @@ public class SNPRC_schedulerContainerListener implements ContainerListener
     @Override
     public void containerDeleted(Container c, User user)
     {
+        DbScope scope = SNPRC_schedulerSchema.getInstance().getSchema().getScope();
+        // One transaction so a failure partway through doesn't leave the schema half-cleaned.
+        try (DbScope.Transaction transaction = scope.ensureTransaction())
+        {
+            SqlExecutor executor = new SqlExecutor(scope);
+            // Order matters: StudyDayNotes first (td_TimelineItem trigger blocks deletes otherwise),
+            // then TimelineItem/AnimalJunction/ProjectItem children, then Timeline last. Timeline scope
+            // is inferred by joining to snd.projects.Container since scheduler tables have no Container column.
+            executor.execute(deleteByContainer("StudyDayNotes", c));
+            executor.execute(deleteByContainer("TimelineItem", c));
+            executor.execute(deleteByContainer("TimelineAnimalJunction", c));
+            executor.execute(deleteByContainer("TimelineProjectItem", c));
+            executor.execute(deleteTimelineByContainer(c));
+
+            transaction.commit();
+        }
+    }
+
+    private SQLFragment deleteByContainer(String childTable, Container c)
+    {
+        return new SQLFragment(
+                "DELETE FROM snprc_scheduler." + childTable + " WHERE TimelineObjectId IN (" +
+                        "SELECT t.ObjectId FROM snprc_scheduler.Timeline t " +
+                        "JOIN snd.projects p ON p.ObjectId = t.ProjectObjectId " +
+                        "WHERE p.Container = ?)", c.getId());
+    }
+
+    private SQLFragment deleteTimelineByContainer(Container c)
+    {
+        return new SQLFragment(
+                "DELETE FROM snprc_scheduler.Timeline WHERE ObjectId IN (" +
+                        "SELECT t.ObjectId FROM snprc_scheduler.Timeline t " +
+                        "JOIN snd.projects p ON p.ObjectId = t.ProjectObjectId " +
+                        "WHERE p.Container = ?)", c.getId());
     }
 
     @Override

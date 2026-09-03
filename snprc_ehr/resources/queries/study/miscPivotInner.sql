@@ -16,10 +16,10 @@
 SELECT
     b.Id,
     b.date,
-    b.runId.serviceRequested as panelName,
-    b.serviceTestId.testName AS TestName,
+    UPPER(RTRIM(LTRIM(b.runId.serviceRequested))) as panelName,
+    UPPER(RTRIM(LTRIM(b.serviceTestId.testName))) AS TestName,
     b.remark,
-    COALESCE(CAST(CAST(b.result AS float) AS VARCHAR), qualresult) as result,
+    UPPER(RTRIM(LTRIM(COALESCE(CAST(CAST(b.result AS float) AS VARCHAR), qualresult)))) as result,
     b.abnormal_flags
 FROM study.labworkResults b
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Misc Tests'
@@ -29,10 +29,10 @@ UNION
 SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
-    obr.PROCEDURE_NAME as panelName,
-    obx.TEST_NAME as TestName,
+    UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
+    UPPER(RTRIM(LTRIM(obx.TEST_NAME))) as TestName,
     nte.COMMENT as remark,
-    COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
+    UPPER(RTRIM(LTRIM(COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT)))) as result,
     obx.ABNORMAL_FLAGS AS abnormal_flags
 
 FROM snprc_ehr.HL7_OBR obr
