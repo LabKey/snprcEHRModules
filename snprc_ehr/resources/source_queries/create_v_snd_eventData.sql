@@ -21,6 +21,7 @@ AS
     -- Description:	View provides the datasource for event data with attribute/values
     -- Changes: 4/12/2018 Added permissions
     --           6/26/2025 Added check for eventId in labkey Events table. tjh
+    --           8/28/2026 Added ProcRowversion so the ETL step can log the rowversion it filtered on.
     -- ==========================================================================================
 
     SELECT
@@ -29,7 +30,9 @@ AS
             cp.PROC_ID                        AS EventDataId,
             cp.PARENT_PROC_ID                 AS ParentEventDataId,
             sp.SUPER_PKG_ID                   AS SuperPkgId,
-			      cp.timestamp					            AS timestamp
+			      cp.timestamp					            AS timestamp,
+            -- The ETL drops every column SQL Server types as a rowversion, so its steps can only see this cast copy. [timestamp] above stays the incremental filter column.
+            CAST(cp.timestamp AS BIGINT)      AS ProcRowversion
 
     FROM dbo.CODED_PROCS AS cp
 	    INNER JOIN dbo.ANIMAL_EVENTS AS ae ON cp.ANIMAL_EVENT_ID = ae.ANIMAL_EVENT_ID
