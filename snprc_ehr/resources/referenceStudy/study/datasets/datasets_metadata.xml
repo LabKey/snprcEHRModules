@@ -2431,6 +2431,209 @@
             </column>
         </columns>
     </table>
+    <table tableName="ASIObservations" tableDbType="TABLE">
+         <columns>
+            <column columnName="Id">
+                <datatype>varchar</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#ParticipantId</propertyURI>
+                <importAliases>
+                    <importAlias>ptid</importAlias>
+                </importAliases>
+            </column>
+            <column columnName="date">
+                <datatype>timestamp</datatype>
+                <propertyURI>http://cpas.labkey.com/Study#VisitDate</propertyURI>
+                <conceptURI>http://cpas.labkey.com/Study#VisitDate</conceptURI>
+            </column>
+            <column columnName="Location">
+                <datatype>double</datatype>
+                <scale>6</scale>
+                <columnTitle>Location</columnTitle>
+            </column>
+             <column columnName="LocationComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Location Comments</columnTitle>
+             </column>
+            <column columnName="WeightLoss">
+                <datatype>integer</datatype>
+                <columnTitle>Weight Loss</columnTitle>
+            </column>
+             <column columnName="WeightLossComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Weight Loss Comments</columnTitle>
+             </column>
+            <column columnName="WeightLossCO">
+                <columnTitle>Weight Loss Carry Over</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+             <column columnName="WeightLossCOComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Weight Loss Carry Over Comments</columnTitle>
+             </column>
+            <column columnName="TemperatureChange">
+                <datatype>integer</datatype>
+                <columnTitle>Temperature Change</columnTitle>
+            </column>
+             <column columnName="TemperatureChangeComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Temperature Change Comments</columnTitle>
+             </column>
+            <column columnName="TemperatureChangeCO">
+                <columnTitle>Temperature Change Carry Over</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+             <column columnName="TemperatureChangeCOComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Temperature Change Carry Over Comments</columnTitle>
+             </column>
+            <column columnName="Responsiveness">
+                <datatype>integer</datatype>
+                <columnTitle>Responsiveness</columnTitle>
+            </column>
+             <column columnName="ResponsivenessComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Responsiveness Comments</columnTitle>
+             </column>
+            <column columnName="HairCoat">
+                <datatype>integer</datatype>
+                <columnTitle>Hair Coat</columnTitle>
+            </column>
+             <column columnName="HairCoatComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Hair Coat Comments</columnTitle>
+             </column>
+            <column columnName="Respiration">
+                <datatype>integer</datatype>
+                <columnTitle>Respiration</columnTitle>
+            </column>
+             <column columnName="RespirationComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Respiration Comments</columnTitle>
+             </column>
+            <column columnName="Petechia">
+                <datatype>integer</datatype>
+                <columnTitle>Petechia</columnTitle>
+            </column>
+             <column columnName="PetechiaComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Petechia Comments</columnTitle>
+             </column>
+            <column columnName="PetechiaCO">
+                <columnTitle>Petechia Carry Over</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+             <column columnName="PetechiaCOComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Petechia Carry Over Comments</columnTitle>
+             </column>
+            <column columnName="Bleeding">
+                <datatype>integer</datatype>
+                <columnTitle>Bleeding</columnTitle>
+            </column>
+             <column columnName="BleedingComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Bleeding Comments</columnTitle>
+             </column>
+            <column columnName="NasalDischarge">
+                <datatype>integer</datatype>
+                <columnTitle>Nasal Discharge</columnTitle>
+            </column>
+             <column columnName="NasalDischargeComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Nasal Discharge Comments</columnTitle>
+             </column>
+            <column columnName="FeedEaten">
+                <datatype>integer</datatype>
+                <columnTitle>Feed Eaten</columnTitle>
+            </column>
+             <column columnName="FeedEatenComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Feed Eaten Comments</columnTitle>
+             </column>
+            <column columnName="FeedEatenCO">
+                <columnTitle>Feed Eaten Carry Over</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+             <column columnName="FeedEatenCOComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Feed Eaten Carry Over Comments</columnTitle>
+             </column>
+            <column columnName="FoodEnrichment">
+                <datatype>integer</datatype>
+                <columnTitle>Food Enrichment Comments</columnTitle>
+            </column>
+             <column columnName="FoodEnrichmentComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Food Enrichment Comments</columnTitle>
+             </column>
+            <column columnName="FoodEnrichmentCO">
+                <columnTitle>Food Enrichment Carry Over</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+             <column columnName="FoodEnrichmentCOComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Food Enrichment Carry Over Comments</columnTitle>
+             </column>
+            <column columnName="Stool">
+                <datatype>varchar</datatype>
+                <scale>2</scale>
+                <columnTitle>Stool</columnTitle>
+            </column>
+             <column columnName="StoolComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Stool Comments</columnTitle>
+             </column>
+            <column columnName="FluidIntake">
+                <datatype>integer</datatype>
+                <columnTitle>Fluid Intake</columnTitle>
+            </column>
+             <column columnName="FluidIntakeComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Fluid Intake Comments</columnTitle>
+             </column>
+            <column columnName="Dehydration">
+                <datatype>integer</datatype>
+                <columnTitle>Dehydration</columnTitle>
+            </column>
+             <column columnName="DehydrationComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Dehydration Comments</columnTitle>
+             </column>
+            <column columnName="DehydrationCO">
+                <columnTitle>Dehydration Carry Over</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+             <column columnName="DehydrationCOComments">
+                 <datatype>varchar</datatype>
+                 <scale>128</scale>
+                 <columnTitle>Dehydration Carry Over Comments</columnTitle>
+             </column>
+            <column columnName="Comment">
+                <datatype>varchar</datatype>
+                <scale>80</scale>
+                <columnTitle>Comment</columnTitle>
+            </column>
+        </columns>
+    </table>
 <table tableName="CycleDaily" tableDbType="TABLE">
 <columns>
     <column columnName="Id">
