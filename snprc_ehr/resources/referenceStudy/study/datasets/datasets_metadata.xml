@@ -3344,7 +3344,7 @@
             </column>
             <column columnName="FoodEnrichment">
                 <datatype>integer</datatype>
-                <columnTitle>Food Enrichment</columnTitle>
+                <columnTitle>Food Enrichment Comments</columnTitle>
             </column>
             <column columnName="FoodEnrichmentComments">
                 <datatype>varchar</datatype>
