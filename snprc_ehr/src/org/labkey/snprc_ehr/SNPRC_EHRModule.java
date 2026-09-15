@@ -18,10 +18,14 @@ package org.labkey.snprc_ehr;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.ObjectFactory;
+import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.UpgradeCode;
+import org.labkey.api.data.WrappedColumn;
 import org.labkey.api.ehr.EHRService;
 import org.labkey.api.ehr.dataentry.DefaultDataEntryFormFactory;
 import org.labkey.api.ehr.history.DefaultArrivalDataSource;
@@ -30,6 +34,9 @@ import org.labkey.api.ehr.history.DefaultTBDataSource;
 import org.labkey.api.ehr.history.DefaultVitalsDataSource;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
+import org.labkey.api.migration.DatabaseMigrationService;
+import org.labkey.api.migration.GuidMapperColumn;
+import org.labkey.api.migration.MigrationTableHandler;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
@@ -104,10 +111,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class SNPRC_EHRModule extends ExtendedSimpleModule
 {
     public static final String NAME = "SNPRC_EHR";
+
+    // Column names (case-insensitive) that hold ENTITYID/UNIQUEIDENTIFIER values. The SQL Server JDBC
+    // driver reports these as VARCHAR, so ForceLowercaseColumn in SqlServerMigrationConfiguration is a
+    // no-op on them — GuidMapperColumn wraps them with a LIKE-guarded LOWER() so any GUID-shaped value
+    // lands in Postgres lowercase.
+    private static final Set<String> GUID_MAPPED_COLUMNS = Set.of(
+        "objectid",       // hard tables in snprc_ehr use ENTITYID objectid
+        "object_id",      // HL7_MSH, HL7_OBR, HL7_OBX, HL7_NTE
+        "obr_object_id",  // HL7_OBX, HL7_NTE (references HL7_OBR.OBJECT_ID)
+        "servicetestid",  // HL7_OBX (references labwork_panels.objectId)
+        "container");     // every snprc_ehr hard table
+
+    private final Set<String> _registeredMigrationTables = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
     @Override
     public String getName()
@@ -373,5 +394,148 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        });
 
         return webPartFactories;
+    }
+
+    @Override
+    public void registerMigrationHandlers(@NotNull DatabaseMigrationService service)
+    {
+        service.registerSchemaContributor("snprc_ehr", schema -> registerSnprcMigrationTableHandlers(service, schema));
+        // Every schema below holds GUID FK columns that point at snprc_ehr targets (or otherwise need
+        // GUID lowercasing on Postgres). Without the same treatment applied to snprc_ehr, the FK values
+        // stay uppercase after migration and FKs break on Postgres. Study datasets in particular live in
+        // the studyDataset physical schema and hold columns like serviceTestId that reference labwork_panels.
+        service.registerSchemaContributor("studydataset", schema -> registerGuidMappedTableHandlers(service, schema));
+        service.registerSchemaContributor("ehr", schema -> registerGuidMappedTableHandlers(service, schema));
+        service.registerSchemaContributor("ehr_lookups", schema -> registerGuidMappedTableHandlers(service, schema));
+    }
+
+    // Composite (schema, table) key so tables that happen to share a bare name across schemas each register
+    // their own handler. Case-insensitive because SQL Server identifiers compare that way by default.
+    private static String migrationTableKey(DbSchema schema, TableInfo table)
+    {
+        return schema.getName().toLowerCase() + "." + table.getName().toLowerCase();
+    }
+
+    private void registerSnprcMigrationTableHandlers(@NotNull DatabaseMigrationService service, DbSchema schema)
+    {
+        schema.getTableNames().stream()
+            .map(schema::getTable)
+            .filter(table -> table != null && _registeredMigrationTables.add(migrationTableKey(schema, table)))
+            .forEach(table -> {
+                // Decide table-level behavior once at registration; the handler body then only inspects column names.
+                boolean normalizeDatasetCase = "labwork_services".equalsIgnoreCase(table.getName());
+                service.registerTableHandler(new MigrationTableHandler()
+                {
+                    @Override
+                    public TableInfo getTableInfo()
+                    {
+                        return table;
+                    }
+
+                    @Override
+                    public ColumnInfo handleColumn(ColumnInfo col)
+                    {
+                        String colName = col.getName().toLowerCase();
+
+                        // Normalize labwork_services.Dataset case to match labwork_types.ServiceType at
+                        // migration time. SQL Server's case-insensitive collation lets the source FK hold
+                        // regardless of case; Postgres FK is case-sensitive and rejects mismatches.
+                        if (normalizeDatasetCase && "dataset".equals(colName))
+                            return new DatasetCaseMapperColumn(col);
+
+                        if (GUID_MAPPED_COLUMNS.contains(colName))
+                            return new GuidMapperColumn(col);
+
+                        return col;
+                    }
+                });
+            });
+    }
+
+    private void registerGuidMappedTableHandlers(@NotNull DatabaseMigrationService service, DbSchema schema)
+    {
+        schema.getTableNames().stream()
+            .map(schema::getTable)
+            .filter(table -> table != null && _registeredMigrationTables.add(migrationTableKey(schema, table)))
+            .forEach(table -> {
+                // The ehr_lookups.lookups table exposes its rows as virtual per-set queries (e.g.
+                // ehr_lookups.AccessionCode = lookups WHERE set_name = 'AccessionCode'). SS's case-
+                // insensitive collation let set_name values drift out of case with the canonical
+                // PascalCase names declared in lookup_sets; PG is case-sensitive, so those virtual
+                // queries return 0 rows post-migration. Normalize set_name against lookup_sets so
+                // PG rows match the query filters. Compare against BehaviorNotification's labwork_services
+                // Dataset case fix registered in registerSnprcMigrationTableHandlers.
+                boolean normalizeLookupSetName =
+                    "ehr_lookups".equalsIgnoreCase(schema.getName())
+                        && "lookups".equalsIgnoreCase(table.getName());
+                service.registerTableHandler(new MigrationTableHandler()
+                {
+                    @Override
+                    public TableInfo getTableInfo()
+                    {
+                        return table;
+                    }
+
+                    @Override
+                    public ColumnInfo handleColumn(ColumnInfo col)
+                    {
+                        String colName = col.getName().toLowerCase();
+
+                        if (normalizeLookupSetName && "set_name".equals(colName))
+                            return new LookupSetNameCaseMapperColumn(col);
+
+                        if (GUID_MAPPED_COLUMNS.contains(colName))
+                            return new GuidMapperColumn(col);
+
+                        return col;
+                    }
+                });
+            });
+    }
+
+    // Emits: COALESCE((SELECT ls.setname FROM ehr_lookups.lookup_sets ls WHERE ls.setname = <col>), <col>)
+    // On SQL Server the WHERE match is case-insensitive, so any case variant of set_name resolves to the
+    // canonical setname stored in lookup_sets. Falls back to the original value if there is no lookup_sets
+    // match (a truly orphaned set_name — preserved as-is rather than nulled).
+    private static final class LookupSetNameCaseMapperColumn extends WrappedColumn
+    {
+        private LookupSetNameCaseMapperColumn(ColumnInfo col)
+        {
+            super(col, col.getName());
+        }
+
+        @Override
+        public SQLFragment getValueSql(String tableAlias)
+        {
+            SQLFragment columnSql = super.getValueSql(tableAlias);
+            return new SQLFragment("COALESCE((SELECT ls.setname FROM ehr_lookups.lookup_sets ls WHERE ls.setname = ")
+                .append(columnSql)
+                .append("), ")
+                .append(columnSql)
+                .append(")");
+        }
+    }
+
+    // Emits: COALESCE((SELECT lt.ServiceType FROM snprc_ehr.labwork_types lt WHERE lt.ServiceType = <col>), <col>)
+    // On SQL Server the WHERE match is case-insensitive, so any case variation of Dataset resolves to the
+    // canonical ServiceType value stored in labwork_types. Falls back to the original value if there is no
+    // labwork_types match at all (a true orphan — still fails FK, but doesn't NULL the column).
+    private static final class DatasetCaseMapperColumn extends WrappedColumn
+    {
+        private DatasetCaseMapperColumn(ColumnInfo col)
+        {
+            super(col, col.getName());
+        }
+
+        @Override
+        public SQLFragment getValueSql(String tableAlias)
+        {
+            SQLFragment columnSql = super.getValueSql(tableAlias);
+            return new SQLFragment("COALESCE((SELECT lt.ServiceType FROM snprc_ehr.labwork_types lt WHERE lt.ServiceType = ")
+                .append(columnSql)
+                .append("), ")
+                .append(columnSql)
+                .append(")");
+        }
     }
 }
