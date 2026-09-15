@@ -1,0 +1,107 @@
+@import "../../Shared/styles/components/labkeyGridPanel";
+
+// Page wrapper, centred like .snd-lookups-grid
+.observation-review {
+  margin: auto;
+  width: 95%;
+}
+
+// Line the page title up with the grids, as .lk-body-title does on SND Lookups; same width and centring as .observation-review.
+// LabKey renders it as a Bootstrap .col-md-12, which floats above 992px, and auto margins don't centre a float.
+// The 16px left padding lines the title text up with the grid's own heading text: the shared
+// .panel-default .panel-heading rule insets it 15px, plus the panel's 1px border.
+.lk-body-title {
+  display: block;
+  float: none;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 0;
+  color: #555;
+}
+
+// Grid left, record right on wide screens; stacked below 1200px (same breakpoint as SND Lookups)
+@media screen and (min-width: 1200px) {
+  .observation-review__panels {
+    display: flex;
+    align-items: flex-start;
+  }
+  .observation-review__grid {
+    flex: 0 0 600px;
+  }
+  .observation-review__detail {
+    flex: 1 !important;
+  }
+}
+
+.review-instructions {
+  color: #555;
+  margin: 0 0 10px 0;
+}
+
+// Single selection only: no select-all checkbox in the grid header
+.observation-review__grid .grid-panel__page-checkbox {
+  display: none;
+}
+
+// Same treatment as .success-alert
+.review-alert {
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+// Link to the Recently Approved dataset view
+.observation-review__footer-link {
+  display: inline-block;
+  margin: 15px 0;
+}
+
+// Same treatment as .lookups-placeholder, without the absolute positioning
+.observation-review__placeholder {
+  color: #555;
+  margin: 15px;
+}
+
+// Record panel — styled by the shared .panel-default .panel-heading rule so it matches the grid header
+.observation-detail {
+  border-color: #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+
+  .panel-body {
+    padding: 10px 15px 15px;
+    color: #555;
+  }
+
+  .table > thead > tr > th {
+    font-weight: bold;
+  }
+
+  .form-control {
+    height: 30px;
+    padding: 4px 8px;
+  }
+
+  // A changed value with no reason yet: the server will reject the save, so show it before the round trip
+  .needs-reason .form-control {
+    border-color: #c24343;
+  }
+
+  // The shared .btn rule makes borders transparent; default buttons are white on a white panel
+  .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+
+    &:hover,
+    &:focus {
+      background-color: #e6e6e6;
+      border-color: #adadad;
+    }
+  }
+
+  .btn + .btn {
+    margin-left: 5px;
+  }
+}

@@ -178,7 +178,17 @@
                     { name: 'Enter Data', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/ehr-enterData.view' },
                 ]
 
-            }
+            },
+                {
+                    header: 'Biocontainment',
+                    itemDefaults: {
+                        linkCls: 'none',
+                        style: 'font-weight: bold;'
+                    },
+                    items: [
+                        { name: 'Biocontainment Observation Review', url: '<%=contextPath%>' + ctx['EHRStudyContainer'] + '/snprc_ehr-BiocontainmentObservationReview.view' }
+                    ]
+                }
             ]
         };
 

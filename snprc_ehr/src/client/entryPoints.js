@@ -43,6 +43,12 @@ module.exports = {
             title: 'Animal Events Webpart',
             path: './src/client/SndEventsWidget/webpart',
             generateLib: true
+        },
+        {
+            name: 'BiocontainmentObservationReview',
+            title: 'Biocontainment Observation Review',
+            permissionClasses: ['org.labkey.api.security.permissions.ReadPermission'],
+            path: './src/client/BiocontainmentObservationReview'
         }
     ]
 };

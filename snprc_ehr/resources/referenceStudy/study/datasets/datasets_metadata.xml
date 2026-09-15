@@ -3201,7 +3201,7 @@
         </columns>
         <tableTitle>Serology</tableTitle>
     </table>
-    <table tableName="ASIObservations" tableDbType="TABLE">
+    <table tableName="BiocontainmentObservations" tableDbType="TABLE">
         <columns>
             <column columnName="Id">
                 <datatype>varchar</datatype>
@@ -3219,11 +3219,6 @@
                 <datatype>double</datatype>
                 <scale>6</scale>
                 <columnTitle>Location</columnTitle>
-            </column>
-            <column columnName="LocationComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Location Comments</columnTitle>
             </column>
             <column columnName="WeightLoss">
                 <datatype>integer</datatype>
@@ -3344,7 +3339,7 @@
             </column>
             <column columnName="FoodEnrichment">
                 <datatype>integer</datatype>
-                <columnTitle>Food Enrichment Comments</columnTitle>
+                <columnTitle>Food Enrichment</columnTitle>
             </column>
             <column columnName="FoodEnrichmentComments">
                 <datatype>varchar</datatype>
@@ -3401,6 +3396,29 @@
                 <datatype>varchar</datatype>
                 <scale>80</scale>
                 <columnTitle>Comment</columnTitle>
+            </column>
+            <column columnName="reviewedBy">
+                <datatype>integer</datatype>
+                <columnTitle>Reviewed By</columnTitle>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="reviewedByName">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <columnTitle>Reviewer Printed Name</columnTitle>
+            </column>
+            <column columnName="reviewedDate">
+                <datatype>timestamp</datatype>
+                <columnTitle>Reviewed Date</columnTitle>
+            </column>
+            <column columnName="reviewMeaning">
+                <datatype>varchar</datatype>
+                <scale>64</scale>
+                <columnTitle>Signature Meaning</columnTitle>
             </column>
         </columns>
     </table>
