@@ -3201,7 +3201,7 @@
         </columns>
         <tableTitle>Serology</tableTitle>
     </table>
-    <table tableName="ASIObservations" tableDbType="TABLE">
+    <table tableName="BiocontainmentObservations" tableDbType="TABLE">
         <columns>
             <column columnName="Id">
                 <datatype>varchar</datatype>
