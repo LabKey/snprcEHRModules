@@ -20,7 +20,6 @@ import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.pages.snprc_scheduler.BeginPage;
 import org.labkey.test.tests.ehr.AbstractEHRTest;
@@ -43,7 +42,7 @@ import static org.labkey.remoteapi.query.Filter.Operator.EQUAL;
 import static org.labkey.test.util.PermissionsHelper.EDITOR_ROLE;
 import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 
-@Category({EHR.class, SNPRC.class})
+@Category({SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
 @FixMethodOrder(MethodSorters. NAME_ASCENDING)
 public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptExecutor, SqlserverOnlyTest

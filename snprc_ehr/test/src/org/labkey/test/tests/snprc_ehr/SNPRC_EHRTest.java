@@ -34,7 +34,6 @@ import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.EHR;
 import org.labkey.test.categories.SNPRC;
 import org.labkey.test.components.BodyWebPart;
 import org.labkey.test.components.ehr.panel.AnimalSearchPanel;
@@ -73,7 +72,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
-@Category ({EHR.class, SNPRC.class})
+@Category ({SNPRC.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 45)
 public class SNPRC_EHRTest extends AbstractGenericEHRTest
 {
