@@ -3220,11 +3220,6 @@
                 <scale>6</scale>
                 <columnTitle>Location</columnTitle>
             </column>
-            <column columnName="LocationComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Location Comments</columnTitle>
-            </column>
             <column columnName="WeightLoss">
                 <datatype>integer</datatype>
                 <columnTitle>Weight Loss</columnTitle>
@@ -3238,11 +3233,6 @@
                 <columnTitle>Weight Loss Carry Over</columnTitle>
                 <datatype>integer</datatype>
             </column>
-            <column columnName="WeightLossCOComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Weight Loss Carry Over Comments</columnTitle>
-            </column>
             <column columnName="TemperatureChange">
                 <datatype>integer</datatype>
                 <columnTitle>Temperature Change</columnTitle>
@@ -3255,11 +3245,6 @@
             <column columnName="TemperatureChangeCO">
                 <columnTitle>Temperature Change Carry Over</columnTitle>
                 <datatype>integer</datatype>
-            </column>
-            <column columnName="TemperatureChangeCOComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Temperature Change Carry Over Comments</columnTitle>
             </column>
             <column columnName="Responsiveness">
                 <datatype>integer</datatype>
@@ -3301,11 +3286,6 @@
                 <columnTitle>Petechia Carry Over</columnTitle>
                 <datatype>integer</datatype>
             </column>
-            <column columnName="PetechiaCOComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Petechia Carry Over Comments</columnTitle>
-            </column>
             <column columnName="Bleeding">
                 <datatype>integer</datatype>
                 <columnTitle>Bleeding</columnTitle>
@@ -3337,11 +3317,6 @@
                 <columnTitle>Feed Eaten Carry Over</columnTitle>
                 <datatype>integer</datatype>
             </column>
-            <column columnName="FeedEatenCOComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Feed Eaten Carry Over Comments</columnTitle>
-            </column>
             <column columnName="FoodEnrichment">
                 <datatype>integer</datatype>
                 <columnTitle>Food Enrichment</columnTitle>
@@ -3354,11 +3329,6 @@
             <column columnName="FoodEnrichmentCO">
                 <columnTitle>Food Enrichment Carry Over</columnTitle>
                 <datatype>integer</datatype>
-            </column>
-            <column columnName="FoodEnrichmentCOComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Food Enrichment Carry Over Comments</columnTitle>
             </column>
             <column columnName="Stool">
                 <datatype>varchar</datatype>
@@ -3391,11 +3361,6 @@
             <column columnName="DehydrationCO">
                 <columnTitle>Dehydration Carry Over</columnTitle>
                 <datatype>integer</datatype>
-            </column>
-            <column columnName="DehydrationCOComments">
-                <datatype>varchar</datatype>
-                <scale>128</scale>
-                <columnTitle>Dehydration Carry Over Comments</columnTitle>
             </column>
             <column columnName="Comment">
                 <datatype>varchar</datatype>
