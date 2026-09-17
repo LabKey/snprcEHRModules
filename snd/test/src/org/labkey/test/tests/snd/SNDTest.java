@@ -41,7 +41,6 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestProperties;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.Git;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.snd.AttributeGridRow;
 import org.labkey.test.components.snd.AttributesGrid;
@@ -86,7 +85,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.WebTestHelper.buildURL;
 
-@Category ({Git.class})
+@Category ({})
 @BaseWebDriverTest.ClassTimeout(minutes = 15)
 public class SNDTest extends BaseWebDriverTest
 {
