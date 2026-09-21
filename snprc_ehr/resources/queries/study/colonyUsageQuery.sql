@@ -11,10 +11,12 @@ SELECT
   gen."M::gentotal" as M,
   gen."F::gentotal" as F,
   gen."U::gentotal" as U,
-  age."Infant::ageTotal" as Infant,
-  age."Juvenile::ageTotal" as Juvenile,
-  age."Adult::ageTotal" as Adult,
-  age."Senior::ageTotal" as Senior,
+  -- Match the lowercase 'agetotal' alias used inside the age subquery; quoted identifiers are case-sensitive
+  -- on Postgres, so the previous "Infant::ageTotal" spelling missed the column and produced NULLs.
+  age."Infant::agetotal" as Infant,
+  age."Juvenile::agetotal" as Juvenile,
+  age."Adult::agetotal" as Adult,
+  age."Senior::agetotal" as Senior,
   col."pc_SPF::grouptotal" as SPF,
   col."pc_Conv::grouptotal" as Conventional,
   gt.total
@@ -23,13 +25,13 @@ FROM
   -- Gender --
   (SELECT
      protocol.inves AS investigator,
-     Id.Demographics.gender AS gender,
+     upper(Id.Demographics.gender.code) AS gender,
      Id.Demographics.species.arc_species_code AS species_code,
      count(*) AS gentotal
 
    FROM assignment
    WHERE isActive = true AND Id.Demographics.gender IS NOT NULL AND Id.AgeClass.label IS NOT NULL AND protocol.inves IS NOT NULL and assignment.assignmentStatus = 'A'
-   GROUP BY protocol.inves, Id.Demographics.gender, Id.Demographics.species.arc_species_code
+   GROUP BY protocol.inves, upper(Id.Demographics.gender.code), Id.Demographics.species.arc_species_code
    PIVOT gentotal BY gender IN ('M', 'F', 'U')) gen
 
   INNER JOIN
