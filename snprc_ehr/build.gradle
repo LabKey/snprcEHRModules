@@ -16,6 +16,7 @@ dependencies
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:dataintegration", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:bigiron", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:premium", depProjectConfig: "published", depExtension: "module")
+            BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:premiumModules:professional", depProjectConfig: "published", depExtension: "module")
             BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:snprcEHRModules:snd", depProjectConfig: "published", depExtension: "module")
 
             compileOnly "org.projectlombok:lombok:${lombokVersion}"

@@ -99,7 +99,7 @@ const BiocontainmentObservationReview = () => {
             <Row>
                 <Col xs={12}>
                     <a className="observation-review__footer-link" href={RECENTLY_APPROVED_URL}>
-                        View observations approved in the last 7 days
+                        View observations approved in the last 7 days.
                     </a>
                 </Col>
             </Row>
