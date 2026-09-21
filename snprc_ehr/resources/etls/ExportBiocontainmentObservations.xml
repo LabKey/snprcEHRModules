@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>ExportBiocontainmentObservations</name>
+    <description>Sync Biocontainment Observations edits to CAMP</description>
+    <transforms>
+        <transform id="step1" type="org.labkey.di.pipeline.TransformTask">
+            <description>Copy to target</description>
+            <source schemaName="snprc_ehr" queryName="ExportBiocontainmentObservations" />
+            <destination schemaName="tacSrc" queryName="BiocontainmentObservations" bulkLoad="true" targetOption="merge">
+                <alternateKeys>
+                    <column name="objectid"/>
+                </alternateKeys>
+                <columnTransforms>
+                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
+                </columnTransforms>
+            </destination>
+        </transform>
+        <transform id="step2" type="TaskrefTransformStep">
+            <description>Fan merged edits out to CAMP's live BiocontainmentObservation table</description>
+            <taskref ref="org.labkey.snprc_ehr.steps.BiocontainmentObservationsFanOutTask" />
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="modified">
+    </incrementalFilter>
+    <schedule>
+        <poll interval="10m" />
+    </schedule>
+</etl>
