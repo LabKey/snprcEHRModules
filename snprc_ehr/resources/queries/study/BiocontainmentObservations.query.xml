@@ -2,6 +2,7 @@
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="BiocontainmentObservations" tableDbType="TABLE">
+                <tableUrl/>
                 <insertUrl/>
                 <importUrl/>
                 <updateUrl/>
@@ -15,6 +16,18 @@
                     </column>
                     <column columnName="reviewedDate">
                         <formatString>MM/dd/yyyy HH:mm</formatString>
+                    </column>
+                    <column columnName="diCreated">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diCreatedBy">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModified">
+                        <isHidden>true</isHidden>
+                    </column>
+                    <column columnName="diModifiedBy">
+                        <isHidden>true</isHidden>
                     </column>
                 </columns>
             </table>
