@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
 import { App } from '@labkey/api';
 
 import { SndEventsWidget } from "../SndEventsWidget";
@@ -13,12 +12,5 @@ App.registerApp<any>('SndEventsWidgetWebpart', (target: string, ctx) => {
         hasReadPermission: ctx.hasReadPermission ? ctx.hasReadPermission : undefined,
         hasWritePermission: ctx.hasWritePermission ? ctx.hasWritePermission : undefined
     }
-    ReactDOM.render(
-        <AppContainer>
-            <SndEventsWidget {...config}/>
-        </AppContainer>,
-        document.getElementById(target)
-    );
+    ReactDOM.render(<SndEventsWidget {...config}/>, document.getElementById(target));
 }, true /* hot */);
-
-declare const module: any;
