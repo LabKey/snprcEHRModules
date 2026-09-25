@@ -21,8 +21,8 @@ import org.labkey.snprc_ehr.audit.BiocontainmentObservationsAuditProvider;
 import org.labkey.snprc_ehr.services.SNPRC_EHRUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Logs a BiocontainmentObservationsAuditEvent for each row the BiocontainmentObservations ETL merged
@@ -34,6 +34,7 @@ import java.util.Map;
  *
  * NOTE: this only covers inserts/updates picked up by the merge. Deletes are
  * not covered in here
+ * KNOWN GAP: will be addrssing the deletes in separate PR after discussing.
  */
 public class BiocontainmentObservationsAuditLogTask extends TaskRefTaskImpl
 {
@@ -48,15 +49,13 @@ public class BiocontainmentObservationsAuditLogTask extends TaskRefTaskImpl
         Study study = StudyService.get().getStudy(c);
         if (study == null)
         {
-            job.getLogger().error("No study found in " + c.getPath());
-            return;
+            throw new PipelineJobException("No study found in " + c.getPath());
         }
 
         Dataset ds = study.getDatasetByName(DATASET_NAME);
         if (ds == null)
         {
-            job.getLogger().error("Could not find dataset " + DATASET_NAME + " in " + c.getPath());
-            return;
+            throw new PipelineJobException("Could not find dataset " + DATASET_NAME + " in " + c.getPath());
         }
 
         UserSchema schema = QueryService.get().getUserSchema(job.getUser(), c, "study");
@@ -72,24 +71,27 @@ public class BiocontainmentObservationsAuditLogTask extends TaskRefTaskImpl
         }
 
         String since = SNPRC_EHRUtils.get().getQueryDateTime(-LOOKBACK_MINUTES);
-        SimpleFilter filter = new SimpleFilter(FieldKey.fromString("modified"), since, CompareType.GTE);
+        SimpleFilter filter = new SimpleFilter(FieldKey.fromString("diModified"), since, CompareType.GTE);
 
-        TableSelector ts = new TableSelector(ti, filter, null);
-        Map<String, Object>[] rows = ts.getMapArray();
+        List<String> lsids = new TableSelector(ti, Collections.singleton("lsid"), filter, null).getArrayList(String.class);
 
-        if (rows == null || rows.length == 0)
+        if (lsids.isEmpty())
         {
             job.getLogger().info("No new/modified rows found in " + DATASET_NAME + " to audit");
             return;
         }
 
         List<BiocontainmentObservationsAuditProvider.AuditEvent> events = new ArrayList<>();
-        for (Map<String, Object> row : rows)
+        for (String lsid : lsids)
         {
+            if (lsid == null)
+            {
+                job.getLogger().warn("Skipping audit event for a row with no lsid in " + DATASET_NAME);
+                continue;
+            }
+
             BiocontainmentObservationsAuditProvider.AuditEvent event = new BiocontainmentObservationsAuditProvider.AuditEvent(c, "ETL merge", ds.getDatasetId());
-            Object lsid = row.get("lsid");
-            if (lsid != null)
-                event.setLsid(lsid.toString());
+            event.setLsid(lsid);
             events.add(event);
         }
 
@@ -107,6 +109,7 @@ public class BiocontainmentObservationsAuditLogTask extends TaskRefTaskImpl
         catch (Exception e)
         {
             job.getLogger().error(e.getMessage(), e);
+            throw new RuntimeException("BiocontainmentObservationsAuditLogTask failed: " + e.getMessage(), e);
         }
         return new RecordedActionSet(makeRecordedAction());
     }

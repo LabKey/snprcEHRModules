@@ -3,7 +3,6 @@ package org.labkey.snprc_ehr.audit;
 import org.labkey.api.audit.AbstractAuditTypeProvider;
 import org.labkey.api.audit.AuditTypeEvent;
 import org.labkey.api.audit.AuditTypeProvider;
-import org.labkey.api.audit.DetailedAuditTypeEvent;
 import org.labkey.api.audit.query.AbstractAuditDomainKind;
 import org.labkey.api.audit.query.DefaultAuditTypeTable;
 import org.labkey.api.data.Container;
@@ -30,7 +29,6 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
     public static final String BIOCONTAINMENT_OBSERVATIONS_AUDIT_EVENT = "BiocontainmentObservationsAuditEvent";
 
     public static final String COLUMN_NAME_DATASET_ID = "DatasetId";
-    public static final String COLUMN_NAME_HAS_DETAILS = "HasDetails";
     public static final String COLUMN_NAME_LSID = "Lsid";
 
     static final List<FieldKey> defaultVisibleColumns = new ArrayList<>();
@@ -41,6 +39,7 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
         defaultVisibleColumns.add(FieldKey.fromParts(COLUMN_NAME_CREATED_BY));
         defaultVisibleColumns.add(FieldKey.fromParts(COLUMN_NAME_CONTAINER));
         defaultVisibleColumns.add(FieldKey.fromParts(COLUMN_NAME_DATASET_ID));
+        defaultVisibleColumns.add(FieldKey.fromParts(COLUMN_NAME_LSID));
         defaultVisibleColumns.add(FieldKey.fromParts(COLUMN_NAME_COMMENT));
     }
 
@@ -76,9 +75,7 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
     @Override
     public TableInfo createTableInfo(UserSchema userSchema, ContainerFilter cf)
     {
-        DefaultAuditTypeTable table = new DefaultAuditTypeTable(this, createStorageTableInfo(), userSchema, cf, defaultVisibleColumns);
-        appendValueMapColumns(table, null, true);
-        return table;
+        return new DefaultAuditTypeTable(this, createStorageTableInfo(), userSchema, cf, defaultVisibleColumns);
     }
 
     @Override
@@ -87,10 +84,9 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
         return (Class<K>) AuditEvent.class;
     }
 
-    public static class AuditEvent extends DetailedAuditTypeEvent
+    public static class AuditEvent extends AuditTypeEvent
     {
         private int _datasetId;
-        private boolean _hasDetails;
         private String _lsid;
 
         /** Important for reflection-based instantiation */
@@ -113,16 +109,6 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
             _datasetId = datasetId;
         }
 
-        public boolean isHasDetails()
-        {
-            return _hasDetails;
-        }
-
-        public void setHasDetails(boolean hasDetails)
-        {
-            _hasDetails = hasDetails;
-        }
-
         public String getLsid()
         {
             return _lsid;
@@ -138,7 +124,6 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
         {
             Map<String, Object> elements = new LinkedHashMap<>();
             elements.put("datasetId", getDatasetId());
-            elements.put("hasDetails", isHasDetails());
             elements.put("lsid", getLsid());
             elements.putAll(super.getAuditLogMessageElements());
             return elements;
@@ -158,10 +143,7 @@ public class BiocontainmentObservationsAuditProvider extends AbstractAuditTypePr
 
             Set<PropertyDescriptor> fields = new LinkedHashSet<>();
             fields.add(createPropertyDescriptor(COLUMN_NAME_DATASET_ID, PropertyType.INTEGER));
-            fields.add(createPropertyDescriptor(COLUMN_NAME_HAS_DETAILS, PropertyType.BOOLEAN));
             fields.add(createPropertyDescriptor(COLUMN_NAME_LSID, PropertyType.STRING, 300));
-            fields.add(createOldDataMapPropertyDescriptor());
-            fields.add(createNewDataMapPropertyDescriptor());
             _fields = Collections.unmodifiableSet(fields);
         }
 

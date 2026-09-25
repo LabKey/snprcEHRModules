@@ -35,10 +35,14 @@ CREATE VIEW [labkey_etl].[v_delete_BiocontainmentObservations] as
 -- ==========================================================================================
 SELECT ao.ObjectId as object_id, ao.audit_date_tm
 FROM audit.BiocontainmentObservation ao
-
-       -- select primates only from the TxBiomed colony
-       INNER JOIN Labkey_etl.V_DEMOGRAPHICS AS d ON d.id = ao.id
-WHERE ao.audit_action = 'D' AND ao.ObjectId IS NOT NULL;
+WHERE ao.audit_action = 'D' AND ao.ObjectId IS NOT NULL
+       -- exclude ObjectIds that exist again in the live table, so a delete
+       -- followed by a re-insert under the same ObjectId doesn't cause the
+       -- import ETL to delete the resurrected live TAC record
+       AND NOT EXISTS (
+           SELECT 1 FROM dbo.BiocontainmentObservation o
+           WHERE o.ObjectId = ao.ObjectId
+       );
 
  go
 
