@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Correction, correctObservation, ObservationRow } from '../api/observation';
+import React, { useEffect, useState } from 'react';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Correction, correctObservation, fetchPriorObservation, historyUrl, ObservationRow } from '../api/observation';
 import { formatDateTime } from '../services/formatDate';
+import { clinicalScore, displayScore } from '../services/clinicalScore';
 import { SCORED_FIELDS } from '../constants/fields';
 
 interface Props {
@@ -9,13 +10,30 @@ interface Props {
     onSaved: () => void;
 }
 
+const priorTooltip = <Tooltip id="prior-history-tooltip">View prior observation history</Tooltip>;
+
 const ObservationDetail = ({row, onSaved}: Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [edits, setEdits] = useState<Record<string, Correction>>({});
     const [errorMessage, setErrorMessage] = useState('');
+    const [prior, setPrior] = useState<ObservationRow>();
 
     const changed = Object.values(edits).filter(e => String(e.value) !== String(row[e.field]));
     const missingReason = changed.filter(e => !e.reason?.trim());
+
+    // The score follows unsaved edits, as the tablet's does while values are picked
+    const edited = Object.values(edits).reduce<ObservationRow>((r, e) => ({ ...r, [e.field]: e.value }), row);
+
+    // A correction reloads the row but never moves it, so the prior only changes with the animal, location or date
+    useEffect(() => {
+        let isCurrent = true;
+        fetchPriorObservation(row)
+            .then(p => isCurrent && setPrior(p))
+            .catch(e => isCurrent && setErrorMessage(e?.exception ?? 'Could not load the prior observation'));
+        return () => {
+            isCurrent = false;
+        };
+    }, [row.Id, row.Location, row.date]);
 
     const setEdit = (field: string, patch: Partial<Correction>) =>
         setEdits({ ...edits, [field]: {field, value: row[field], reason: '', ...edits[field], ...patch}});
@@ -41,12 +59,26 @@ const ObservationDetail = ({row, onSaved}: Props) => {
                 <p>Recorded by {row['createdBy/DisplayName']}</p>
                 <table className="table table-condensed">
                     <thead>
-                    <tr><th>Parameter</th><th>Score</th><th>Carry over</th><th>Reason for change</th></tr>
+                    <tr>
+                        <th>Parameter</th>
+                        {/* Hidden when there is no prior, as on the tablet */}
+                        {prior && (
+                            <th className="prior-value">
+                                <OverlayTrigger placement="top" overlay={priorTooltip}>
+                                    <a href={historyUrl(row)} target="_blank" rel="noopener noreferrer">Prior</a>
+                                </OverlayTrigger>
+                            </th>
+                        )}
+                        <th>Value</th>
+                        <th>Carry over</th>
+                        <th>Reason for change</th>
+                    </tr>
                     </thead>
                     <tbody>
                     {SCORED_FIELDS.map(f => (
                         <tr key={f.name}>
                             <td>{f.label}</td>
+                            {prior && <td className="prior-value">{prior[f.name] ?? '-'}</td>}
                             <td>
                                 {isEditing
                                     ? (
@@ -70,6 +102,11 @@ const ObservationDetail = ({row, onSaved}: Props) => {
                     ))}
                     </tbody>
                 </table>
+                {/* Calculated from the values above, never entered */}
+                <p className="clinical-score">
+                    Clinical Score: <strong>{displayScore(clinicalScore(edited))}</strong>
+                    {prior && <span className="prior-value"> (prior {displayScore(clinicalScore(prior))})</span>}
+                </p>
                 <p>Comment: {row.Comment}</p>
                 {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 {isEditing ? (

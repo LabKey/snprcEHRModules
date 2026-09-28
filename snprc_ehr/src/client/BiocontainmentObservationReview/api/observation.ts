@@ -1,4 +1,4 @@
-import { Filter, Query } from '@labkey/api';
+import { ActionURL, Filter, Query } from '@labkey/api';
 import { COMPLETED, SCORED_FIELDS } from '../constants/fields';
 
 const SCHEMA = 'study';
@@ -56,3 +56,35 @@ export const correctObservation = (lsid: string, corrections: Correction[]): Pro
         });
     });
 };
+
+// Same animal, same location. Any QC state: the tech saw the prior whether or not it had been approved.
+const historyFilters = (row: ObservationRow) => [
+    Filter.create('Id', row.Id),
+    Filter.create('Location', row.Location),
+];
+
+// Most recent observation before this one
+export const fetchPriorObservation = (row: ObservationRow): Promise<ObservationRow | undefined> =>
+    new Promise((resolve, reject) => {
+        Query.selectRows({
+            schemaName: SCHEMA,
+            queryName: QUERY,
+            columns: COLUMNS,
+            // LESS_THAN, not DATE_LESS_THAN: the date filter drops the time, and an animal can have two observations in a day
+            filterArray: historyFilters(row).concat(Filter.create('date', row.date, Filter.Types.LESS_THAN)),
+            sort: '-date',
+            maxRows: 1,
+            success: data => resolve(data.rows[0]),
+            failure: reject,
+        });
+    });
+
+// Full history for the animal at this location, newest first
+export const historyUrl = (row: ObservationRow): string =>
+    ActionURL.buildURL('query', 'executeQuery', undefined, {
+        schemaName: SCHEMA,
+        'query.queryName': QUERY,
+        'query.Id~eq': row.Id,
+        'query.Location~eq': row.Location,
+        'query.sort': '-date',
+    });

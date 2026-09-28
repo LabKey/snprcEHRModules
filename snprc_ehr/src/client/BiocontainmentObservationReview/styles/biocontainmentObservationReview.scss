@@ -104,4 +104,19 @@
   .btn + .btn {
     margin-left: 5px;
   }
+
+  // Prior values sit to the left of the current ones; muted so the eye lands on the value under review
+  .prior-value {
+    color: #999;
+  }
+
+  th.prior-value a {
+    color: inherit;
+    text-decoration: underline dotted;
+    cursor: pointer;
+  }
+
+  .clinical-score {
+    font-size: 15px;
+  }
 }

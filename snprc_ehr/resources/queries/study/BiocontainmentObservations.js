@@ -41,6 +41,8 @@ function onUpdate(helper, scriptErrors, row, oldRow){
         // A re-merge with identical values (e.g. after the write-back export) must not undo an approval
         if (changed.length)
             clearReview(row);
+        else
+            row.QCStateLabel = oldRow.QCStateLabel;
         return;
     }
 
