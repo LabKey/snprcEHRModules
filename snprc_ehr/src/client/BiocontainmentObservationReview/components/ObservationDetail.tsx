@@ -3,7 +3,7 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Correction, correctObservation, fetchPriorObservation, historyUrl, ObservationRow } from '../api/observation';
 import { formatDateTime } from '../services/formatDate';
 import { clinicalScore, displayScore } from '../services/clinicalScore';
-import { SCORED_FIELDS } from '../constants/fields';
+import { carryOverOf, SCORED_FIELDS } from '../constants/fields';
 
 interface Props {
     row: ObservationRow;
@@ -18,7 +18,14 @@ const ObservationDetail = ({row, onSaved}: Props) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [prior, setPrior] = useState<ObservationRow>();
 
-    const changed = Object.values(edits).filter(e => String(e.value) !== String(row[e.field]));
+    // A carry-over shares its parameter's reason, so changing either one needs it. Empty and 0 both mean No.
+    const sameCarryOver = (a: any, b: any) => !!Number(a) === !!Number(b);
+    const isChanged = (e: Correction) => {
+        const co = carryOverOf(e.field);
+        return String(e.value) !== String(row[e.field])
+            || (co !== undefined && !sameCarryOver(e.carryOver, row[co]));
+    };
+    const changed = Object.values(edits).filter(isChanged);
     const missingReason = changed.filter(e => !e.reason?.trim());
 
     // The score follows unsaved edits, as the tablet's does while values are picked
@@ -35,8 +42,12 @@ const ObservationDetail = ({row, onSaved}: Props) => {
         };
     }, [row.Id, row.Location, row.date]);
 
-    const setEdit = (field: string, patch: Partial<Correction>) =>
-        setEdits({ ...edits, [field]: {field, value: row[field], reason: '', ...edits[field], ...patch}});
+    const setEdit = (field: string, patch: Partial<Correction>) => {
+        const co = carryOverOf(field);
+        setEdits({ ...edits, [field]: {
+            field, value: row[field], carryOver: co ? row[co] : undefined, reason: '', ...edits[field], ...patch,
+        }});
+    };
 
     const onSave = async () => {
         setErrorMessage('');
@@ -92,7 +103,20 @@ const ObservationDetail = ({row, onSaved}: Props) => {
                                     )
                                     : row[f.name]}
                             </td>
-                            <td>{f.carryOver ? (row[f.carryOver] ? 'Yes' : 'No') : ''}</td>
+                            <td>
+                                {f.carryOver && (isEditing
+                                    ? (
+                                        <select
+                                            className="form-control"
+                                            value={Number(edits[f.name]?.carryOver ?? row[f.carryOver]) ? '1' : '0'}
+                                            onChange={e => setEdit(f.name, { carryOver: Number(e.target.value) })}
+                                        >
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    )
+                                    : (row[f.carryOver] ? 'Yes' : 'No'))}
+                            </td>
                             <td className={missingReason.some(e => e.field === f.name) ? 'needs-reason' : undefined}>
                                 {isEditing
                                     ? <input className="form-control" maxLength={128} value={edits[f.name]?.reason ?? ''} onChange={e => setEdit(f.name, { reason: e.target.value })} />

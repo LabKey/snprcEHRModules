@@ -1,5 +1,5 @@
 import { ActionURL, Filter, Query } from '@labkey/api';
-import { COMPLETED, SCORED_FIELDS } from '../constants/fields';
+import { carryOverOf, COMPLETED, SCORED_FIELDS } from '../constants/fields';
 
 const SCHEMA = 'study';
 const QUERY = 'BiocontainmentObservations';
@@ -37,6 +37,7 @@ export const approveObservations = (lsids: string[]): Promise<any> =>
 export interface Correction {
     field: string;
     value: any;
+    carryOver?: number;
     reason: string;
 }
 
@@ -45,6 +46,9 @@ export const correctObservation = (lsid: string, corrections: Correction[]): Pro
     corrections.forEach(c => {
         row[c.field] = c.value;
         row[`${c.field}Comments`] = c.reason;
+        const co = carryOverOf(c.field);
+        if (co && c.carryOver !== undefined)
+            row[co] = c.carryOver;
     });
     return new Promise((resolve, reject) => {
         Query.updateRows({
