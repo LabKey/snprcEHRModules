@@ -44,6 +44,7 @@ import org.labkey.api.security.User;
 import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.FileUtil;
 import org.labkey.api.util.MailHelper;
+import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.UnexpectedException;
 import org.labkey.snprc_ehr.SNPRC_EHRModule;
 
@@ -144,12 +145,12 @@ public abstract class AbstractSSRSNotification implements Notification
         // However, if SSRS is handling the request asynchronously we might need to block, sleep, etc. so it's not
         // terminated too early
         TransformSession session = SecurityManager.createTransformSession(u);
-        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.API_KEY + "=" + session.getApiKey();
+        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.API_KEY + "=" + PageFlowUtil.encodeURIComponent(session.getApiKey());
 
         try
         {
             URI uri = new URI(ssrsSessionURL);
-            HttpGet request = new HttpGet (uri);
+            HttpGet request = new HttpGet(uri);
 
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.ISO_8859_1));
