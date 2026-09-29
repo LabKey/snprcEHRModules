@@ -7,6 +7,10 @@ require("ehr/triggers").initScript(this);
 var SCORED_FIELDS = ['WeightLoss', 'TemperatureChange', 'Responsiveness', 'HairCoat', 'Respiration', 'Petechia',
     'Bleeding', 'NasalDischarge', 'FeedEaten', 'FoodEnrichment', 'Stool', 'FluidIntake', 'Dehydration'];
 
+// Carry-over shares its parameter's reason column, so a carry-over change counts as a change to that parameter
+var CARRY_OVER = {WeightLoss: 'WeightLossCO', TemperatureChange: 'TemperatureChangeCO', Petechia: 'PetechiaCO',
+    FeedEaten: 'FeedEatenCO', FoodEnrichment: 'FoodEnrichmentCO', Dehydration: 'DehydrationCO'};
+
 var REVIEW_REQUIRED = 'Review Required';
 var COMPLETED = 'Completed';
 
@@ -14,9 +18,14 @@ function sameValue(a, b){
     return (a == null ? null : String(a)) === (b == null ? null : String(b));
 }
 
+function sameCarryOver(a, b){
+    return !!Number(a) === !!Number(b);
+}
+
 function changedFields(row, oldRow){
     return SCORED_FIELDS.filter(function(field){
-        return !sameValue(row[field], oldRow[field]);
+        var co = CARRY_OVER[field];
+        return !sameValue(row[field], oldRow[field]) || (co && !sameCarryOver(row[co], oldRow[co]));
     });
 }
 

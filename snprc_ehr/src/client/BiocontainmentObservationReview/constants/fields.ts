@@ -22,5 +22,8 @@ export const SCORED_FIELDS: ScoredField[] = [
     { name: 'Dehydration', label: 'Dehydration', carryOver: 'DehydrationCO', values: [0, 1] },
 ];
 
+export const carryOverOf = (field: string): string | undefined =>
+    SCORED_FIELDS.find(f => f.name === field)?.carryOver;
+
 export const REVIEW_REQUIRED = "Review Required";
 export const COMPLETED = "Completed"
