@@ -36,6 +36,7 @@ AS
 --           Purpose is to handle numeric data with commas (',') ~line 59  srr
 -- 04/23/2024 Lookup values need to be string values by default. tjh
 --  6/26/2025 Added check for eventId in labkey Events table. tjh
+--  8/28/2026 Added ProcRowversion and AttribRowversion so the ETL step can log the rowversion it filtered on and which row it came from.
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
     cp.ANIMAL_EVENT_ID               AS EventId,
@@ -57,7 +58,12 @@ SELECT TOP (99.999999999) PERCENT
   CASE WHEN ( (LOWER(pa.DATA_TYPE)) = 'string' OR pa.LOOKUP_KEY IS NOT NULL) THEN 's' ELSE 'f' END AS TypeTag,
 
 cp.OBJECT_ID AS objectId,
-( SELECT MAX(v) FROM ( VALUES (cp.timestamp), (cpa.timestamp)) AS VALUE (v)) AS TIMESTAMP
+( SELECT MAX(v) FROM ( VALUES (cp.timestamp), (cpa.timestamp)) AS VALUE (v)) AS TIMESTAMP,
+
+-- The ETL drops every column SQL Server types as a rowversion, so its steps can only see these cast copies. TIMESTAMP above stays the incremental filter column.
+-- Kept apart rather than pre-maxed: an EventDataId written with no attribute values is diagnosed differently depending on which of the two rows carried its rowversion.
+CAST(cp.timestamp AS BIGINT) AS ProcRowversion,
+CAST(cpa.timestamp AS BIGINT) AS AttribRowversion
 
 
 FROM dbo.CODED_PROCS AS cp
