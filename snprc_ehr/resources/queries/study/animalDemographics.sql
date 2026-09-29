@@ -13,7 +13,7 @@ SELECT
         -- but to unspecified-scale NUMERIC on Postgres, which preserves any decimals from the source string.
         -- With h.cage stored as text like '7.00', that produced '7' on SS and '7.00' on PG. Pin the scale to 0
         -- explicitly so both databases strip the fractional part identically.
-        WHEN isnumeric(h.cage) THEN (h.room || '-' || cast(cast(h.cage as DECIMAL(18, 0)) as varchar) )
+        WHEN isnumeric(h.cage) = 1 THEN (h.room || '-' || cast(cast(h.cage as DECIMAL(18, 0)) as varchar) )
         ELSE (h.room || '-' || h.cage)
         END AS Location,
     h.room as room,
