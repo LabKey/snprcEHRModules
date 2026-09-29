@@ -23,7 +23,7 @@ public interface SNPRC_schedulerService
     @Nullable
     static SNPRC_schedulerService get()
     {
-        return ServiceRegistry.get(SNPRC_schedulerService.class);
+        return ServiceRegistry.get().getService(SNPRC_schedulerService.class);
     }
 
     List<JSONObject> getActiveTimelines(Container c, User u, String ProjectObjectId, BatchValidationException errors);

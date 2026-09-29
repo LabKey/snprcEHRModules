@@ -51,12 +51,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
-/**
- * Created by: jeckels
- * Date: 6/29/16
- */
 public abstract class AbstractSSRSNotification implements Notification
 {
     private final String _subject;
@@ -148,7 +144,7 @@ public abstract class AbstractSSRSNotification implements Notification
         // However, if SSRS is handling the request asynchronously we might need to block, sleep, etc. so it's not
         // terminated too early
         TransformSession session = SecurityManager.createTransformSession(u);
-        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.TRANSFORM_SESSION_ID + "=" + session.getApiKey();
+        String ssrsSessionURL = ssrsReportURL + "&" + SecurityManager.API_KEY + "=" + session.getApiKey();
 
         try
         {
@@ -156,8 +152,8 @@ public abstract class AbstractSSRSNotification implements Notification
             HttpGet request = new HttpGet (uri);
 
             String auth = user + ":" + password;
-            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("ISO-8859-1")));
-            String authHeader = "Basic " + new String(encodedAuth, "ISO-8859-1");
+            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.ISO_8859_1));
+            String authHeader = "Basic " + new String(encodedAuth, StandardCharsets.ISO_8859_1);
             request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
 
             try (CloseableHttpClient client = HttpClientBuilder.create().build(); CloseableHttpResponse resp = client.execute(request))
