@@ -43,7 +43,7 @@ public interface SNDService
     @Nullable
     static SNDService get()
     {
-        return ServiceRegistry.get(SNDService.class);
+        return ServiceRegistry.get().getService(SNDService.class);
     }
 
     void savePackage(Container c, User u, Package pkg);

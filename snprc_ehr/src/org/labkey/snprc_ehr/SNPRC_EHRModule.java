@@ -38,9 +38,12 @@ import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.resource.Resource;
+import org.labkey.api.security.SecurityManager;
+import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.security.roles.RoleManager;
+import org.labkey.api.settings.OptionalFeatureService;
 import org.labkey.api.snd.SNDService;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.BaseWebPartFactory;
@@ -147,6 +150,11 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
     @Override
     protected void doStartupAfterSpringConfig(ModuleContext moduleContext)
     {
+        // SSRS reports authenticate via the apikey URL parameter. TODO: Remove this once SNPRC has upgraded to 26.11 or later.
+        OptionalFeatureService ofs = OptionalFeatureService.get();
+        if (!ofs.isFeatureEnabled(SecurityManager.FEATURE_FLAG_ALLOW_APIKEY_PARAMETER))
+            ofs.setFeatureEnabled(SecurityManager.FEATURE_FLAG_ALLOW_APIKEY_PARAMETER, true, User.getAdminServiceUser());
+
         EHRService.get().registerModule(this);
 
         // Register the Biocontainment Observations audit log, populated by BiocontainmentObservationsAuditLogTask
