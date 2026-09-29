@@ -18,6 +18,7 @@ package org.labkey.snprc_ehr;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.audit.AuditLogService;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.ObjectFactory;
@@ -52,6 +53,7 @@ import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
 import org.labkey.api.view.template.ClientDependency;
+import org.labkey.snprc_ehr.audit.BiocontainmentObservationsAuditProvider;
 import org.labkey.snprc_ehr.buttons.SnprcUserEditButton;
 import org.labkey.snprc_ehr.controllers.AnimalGroupsController;
 import org.labkey.snprc_ehr.controllers.AnimalsHierarchyController;
@@ -154,6 +156,10 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
             ofs.setFeatureEnabled(SecurityManager.FEATURE_FLAG_ALLOW_APIKEY_PARAMETER, true, User.getAdminServiceUser());
 
         EHRService.get().registerModule(this);
+
+        // Register the Biocontainment Observations audit log, populated by BiocontainmentObservationsAuditLogTask
+        // (see resources/etls/BiocontainmentObservations.xml step2) since the dataset's bulkLoad="true"
+        AuditLogService.get().registerAuditType(new BiocontainmentObservationsAuditProvider());
 
         Resource r = getModuleResource("/scripts/snprc_triggers.js");
         assert r != null;
