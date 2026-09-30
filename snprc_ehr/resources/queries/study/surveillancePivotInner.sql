@@ -17,14 +17,16 @@
  -- The surveillance data from SPF_workflow assay does not include an objectid, which
  -- is needed to join back with the run data. 10/20/2021 tjh
 
+-- TestName comes from snprc_ehr.labworkPanelTestNames to normalize inconsistent casing and whitespace in labwork_panels test names; that extra work slows this query.
 SELECT
     b.id,
     b.date,
     UPPER(RTRIM(LTRIM(b.serviceTestId.serviceId.ServiceName))) AS PanelName,
-    UPPER(RTRIM(LTRIM(b.serviceTestId.testName))) AS TestName,
+    n.TestName,
     b.remark,
     COALESCE( CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result
   FROM study.labworkResults b
+    LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(b.serviceTestId.testName, ' ', ''))
   WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
 
 UNION
@@ -33,10 +35,11 @@ SELECT
   b.id,
   b.date,
   UPPER(RTRIM(LTRIM(b.serviceTestId.serviceId.ServiceName))) AS PanelName,
-  UPPER(RTRIM(LTRIM(b.serviceTestId.testName))) AS TestName,
+  n.TestName,
   b.remark,
   COALESCE( CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result
   FROM study.assay_labworkResults b
+    LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(b.serviceTestId.testName, ' ', ''))
   WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
 
 UNION
@@ -45,10 +48,11 @@ SELECT
     b.id,
     b.date,
     UPPER(RTRIM(LTRIM(b.serviceTestId.serviceId.ServiceName))) AS PanelName,
-    UPPER(RTRIM(LTRIM(b.serviceTestId.testName))) AS TestName,
+    n.TestName,
     b.remark,
     COALESCE( CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result
 FROM study.labworkTaqman b
+    LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(b.serviceTestId.testName, ' ', ''))
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
 
 UNION
@@ -57,11 +61,12 @@ SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
     UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
-    UPPER(RTRIM(LTRIM(obx.TEST_NAME))) as TestName,
+    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
     nte.COMMENT as remark,
     COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result
 
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE AS nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
+    LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(obx.TEST_NAME, ' ', ''))
 WHERE obr.PROCEDURE_ID.Dataset = 'Surveillance'

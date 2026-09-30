@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+-- TestName comes from snprc_ehr.labworkPanelTestNames to normalize inconsistent casing and whitespace in labwork_panels test names; that extra work slows this query.
 SELECT
     b.Id,
     b.date,
     UPPER(RTRIM(LTRIM(b.runId.serviceRequested))) as panelName,
-    UPPER(RTRIM(LTRIM(b.serviceTestId.testName))) AS TestName,
+    n.TestName,
     b.remark,
     UPPER(RTRIM(LTRIM(COALESCE(CAST(CAST(b.result AS float) AS VARCHAR), qualresult)))) as result,
     b.abnormal_flags
 FROM study.labworkResults b
+    LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(b.serviceTestId.testName, ' ', ''))
 WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Misc Tests'
 
 UNION
@@ -30,7 +32,7 @@ SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
     UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
-    UPPER(RTRIM(LTRIM(obx.TEST_NAME))) as TestName,
+    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
     nte.COMMENT as remark,
     UPPER(RTRIM(LTRIM(COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT)))) as result,
     obx.ABNORMAL_FLAGS AS abnormal_flags
@@ -38,5 +40,6 @@ SELECT
 FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.HL7_OBX obx ON obr.OBJECT_ID = obx.OBR_OBJECT_ID AND obr.SET_ID = obx.OBR_SET_ID
     LEFT OUTER JOIN snprc_ehr.HL7_GroupNTE AS nte ON obr.OBJECT_ID = nte.OBR_OBJECT_ID AND obr.SET_ID = nte.OBR_SET_ID
+    LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(obx.TEST_NAME, ' ', ''))
 WHERE obr.PROCEDURE_ID.Dataset = 'Misc Tests'
 
