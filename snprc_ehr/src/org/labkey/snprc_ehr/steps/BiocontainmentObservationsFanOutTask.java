@@ -27,9 +27,7 @@ import org.labkey.api.query.UserSchema;
  * Table deleted" (confirmed by toggling the trigger disabled/enabled -
  * disabled succeeds every time, enabled fails every time, including on a
  * 0-row merge). Running the fan-out as a stored procedure after step1 has
- * already committed avoids that conflict entirely - see the header comment
- * in resources/source_queries/create_CAMP_BiocontainmentObservations.sql for the
- * fuller story and the policy decisions baked into the procedure itself.
+ * already committed avoids that conflict entirely
  */
 public class BiocontainmentObservationsFanOutTask extends TaskRefTaskImpl
 {
