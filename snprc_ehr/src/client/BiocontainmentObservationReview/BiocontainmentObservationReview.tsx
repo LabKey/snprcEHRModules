@@ -41,7 +41,6 @@ const BiocontainmentObservationReview = () => {
 
     useEffect(() => {
         if (!focusedLsid) {
-            setFocused(undefined);
             return;
         }
         // A slower fetch for a record that has since been approved or deselected must not reopen it
@@ -54,13 +53,14 @@ const BiocontainmentObservationReview = () => {
         };
     }, [focusedLsid, reload]);
 
+    const record = focused && focused.lsid === focusedLsid ? focused : undefined;
+
     const onApprove = async (lsid: string) => {
         setError('');
         try {
             await approveObservations([lsid]);
             // Approved records leave the queue; close the record immediately rather than waiting for the grid to clear
             setFocusedLsid(undefined);
-            setFocused(undefined);
             showMessage('Observation approved.');
             reloadGrid(true);
         } catch (e) {
@@ -82,18 +82,24 @@ const BiocontainmentObservationReview = () => {
                     <p className="review-instructions">
                         Select an observation to see the full record. Approve only observations you have checked.
                     </p>
-                    <Alert className="review-alert" bsStyle="success">{message}</Alert>
+                    <Alert bsStyle="success" className="review-alert">
+                        {message}
+                    </Alert>
                     <Alert className="review-alert">{error}</Alert>
                 </Col>
             </Row>
             <Row className="observation-review__panels">
-                <Col xs={12} lg={5} className="observation-review__grid">
-                    <ReviewGridPanel reload={reload} onApprove={onApprove} onFocus={setFocusedLsid} />
+                <Col className="observation-review__grid" lg={5} xs={12}>
+                    <ReviewGridPanel onApprove={onApprove} onFocus={setFocusedLsid} reload={reload} />
                 </Col>
-                <Col xs={12} lg={7} className="observation-review__detail">
-                    {focused
-                        ? <ObservationDetail key={focused.lsid} row={focused} onSaved={onSaved} />
-                        : <h3 className="observation-review__placeholder">☑ Select an observation to see the full record.</h3>}
+                <Col className="observation-review__detail" lg={7} xs={12}>
+                    {record ? (
+                        <ObservationDetail key={record.lsid} onSaved={onSaved} row={record} />
+                    ) : (
+                        <h3 className="observation-review__placeholder">
+                            ☑ Select an observation to see the full record.
+                        </h3>
+                    )}
                 </Col>
             </Row>
             <Row>

@@ -5,8 +5,17 @@ const SCHEMA = 'study';
 const QUERY = 'BiocontainmentObservations';
 
 const COLUMNS = [
-    'lsid', 'Id', 'date', 'Location', 'Comment', 'QCState/Label',
-    'createdBy', 'createdBy/DisplayName', 'created', 'modifiedBy/DisplayName', 'modified',
+    'lsid',
+    'Id',
+    'date',
+    'Location',
+    'Comment',
+    'QCState/Label',
+    'createdBy',
+    'createdBy/DisplayName',
+    'created',
+    'modifiedBy/DisplayName',
+    'modified',
 ].concat(...SCORED_FIELDS.map(f => [f.name, `${f.name}Comments`].concat(f.carryOver ? [f.carryOver] : [])));
 
 export type ObservationRow = Record<string, any>;
@@ -35,20 +44,21 @@ export const approveObservations = (lsids: string[]): Promise<any> =>
     });
 
 export interface Correction {
-    field: string;
-    value: any;
     carryOver?: number;
+    field: string;
     reason: string;
+    value: any;
 }
 
-export const correctObservation = (lsid: string, corrections: Correction[]): Promise<any> => {
+// comment is only sent when it changed; an empty comment clears it
+export const correctObservation = (lsid: string, corrections: Correction[], comment?: string): Promise<any> => {
     const row: ObservationRow = { lsid };
+    if (comment !== undefined) row.Comment = comment === '' ? null : comment;
     corrections.forEach(c => {
         row[c.field] = c.value;
         row[`${c.field}Comments`] = c.reason;
         const co = carryOverOf(c.field);
-        if (co && c.carryOver !== undefined)
-            row[co] = c.carryOver;
+        if (co && c.carryOver !== undefined) row[co] = c.carryOver;
     });
     return new Promise((resolve, reject) => {
         Query.updateRows({
@@ -62,10 +72,7 @@ export const correctObservation = (lsid: string, corrections: Correction[]): Pro
 };
 
 // Same animal, same location. Any QC state: the tech saw the prior whether or not it had been approved.
-const historyFilters = (row: ObservationRow) => [
-    Filter.create('Id', row.Id),
-    Filter.create('Location', row.Location),
-];
+const historyFilters = (row: ObservationRow) => [Filter.create('Id', row.Id), Filter.create('Location', row.Location)];
 
 // Most recent observation before this one
 export const fetchPriorObservation = (row: ObservationRow): Promise<ObservationRow | undefined> =>

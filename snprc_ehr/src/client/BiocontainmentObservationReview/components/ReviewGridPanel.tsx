@@ -1,6 +1,12 @@
 import React, { FC, memo, useEffect, useMemo } from 'react';
 import { Filter } from '@labkey/api';
-import { GridPanel, InjectedQueryModels, QueryConfigMap, RequiresModelAndActions, withQueryModels } from '@labkey/components';
+import {
+    GridPanel,
+    InjectedQueryModels,
+    QueryConfigMap,
+    RequiresModelAndActions,
+    withQueryModels,
+} from '@labkey/components';
 import { Button } from 'react-bootstrap';
 import { REVIEW_REQUIRED } from '../constants/fields';
 import { OBSERVATION_REVIEW } from '../schemas';
@@ -8,14 +14,14 @@ import { OBSERVATION_REVIEW } from '../schemas';
 const MODEL_ID = 'observationReview';
 
 export interface Reload {
-    key: number;
     clearSelections: boolean;
+    key: number;
 }
 
 interface Props {
-    reload: Reload;
     onApprove: (lsid: string) => void;
     onFocus: (lsid: string) => void;
+    reload: Reload;
 }
 
 interface ButtonProps {
@@ -34,7 +40,13 @@ const ApproveButton: FC<ButtonProps & RequiresModelAndActions> = ({ model, onApp
     );
 };
 
-const ReviewGridPanelImpl: FC<Props & InjectedQueryModels> = memo(({ actions, queryModels, reload, onApprove, onFocus }) => {
+const ReviewGridPanelImpl: FC<InjectedQueryModels & Props> = memo(function ReviewGridPanelImpl({
+    actions,
+    queryModels,
+    reload,
+    onApprove,
+    onFocus,
+}) {
     const model = queryModels[MODEL_ID];
 
     // Approved rows leave the queue, so their selections must go too; a correction keeps the row and the detail pane open.
@@ -59,27 +71,26 @@ const ReviewGridPanelImpl: FC<Props & InjectedQueryModels> = memo(({ actions, qu
     return (
         <GridPanel
             actions={actions}
-            model={model}
-            title="Observations Awaiting Review"
-            loadOnMount
-            highlightLastSelectedRow
-            showPagination={false}
-            allowSelections
             allowFiltering
+            allowSelections
             allowSorting
-            showExport={false}
-            showViewMenu={false}
-            showChartMenu={false}
-            emptyText="No observations are waiting for review."
             ButtonsComponent={ApproveButton}
             buttonsComponentProps={{ onApprove }}
+            emptyText="No observations are waiting for review."
+            highlightLastSelectedRow
+            loadOnMount
+            model={model}
+            showChartMenu={false}
+            showExport={false}
+            showViewMenu={false}
+            title="Observations Awaiting Review"
         />
     );
 });
 
 const ReviewGridPanelWithQueryModels = withQueryModels<Props>(ReviewGridPanelImpl);
 
-export const ReviewGridPanel: FC<Props> = memo(props => {
+export const ReviewGridPanel: FC<Props> = memo(function ReviewGridPanel(props) {
     const queryConfigs = useMemo<QueryConfigMap>(
         () => ({
             [MODEL_ID]: {
@@ -88,7 +99,7 @@ export const ReviewGridPanel: FC<Props> = memo(props => {
                 baseFilters: [Filter.create('QCState/Label', REVIEW_REQUIRED)],
                 // Without this the total count is never requested, and the selection status spins forever
                 includeTotalCount: true,
-                maxRows: 300,
+                maxRows: 100,
             },
         }),
         []

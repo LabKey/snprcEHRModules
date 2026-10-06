@@ -38,24 +38,24 @@ function clearReview(row){
 }
 
 function onInsert(helper, scriptErrors, row){
-    // A CAMP record is not public until a second person has reviewed it; the EHR default would make it Completed
-    if (helper.isETL())
-        clearReview(row);
+    clearReview(row);
 }
 
 function onUpdate(helper, scriptErrors, row, oldRow){
     var changed = changedFields(row, oldRow);
+    // The comment is free text and needs no separate reason, but changing it is still a modification to approve
+    var commentChanged = !sameValue(row.Comment, oldRow.Comment);
 
     if (helper.isETL()){
         // A re-merge with identical values (e.g. after the write-back export) must not undo an approval
-        if (changed.length)
+        if (changed.length || commentChanged)
             clearReview(row);
         else
             row.QCStateLabel = oldRow.QCStateLabel;
         return;
     }
 
-    if (changed.length){
+    if (changed.length || commentChanged){
         changed.forEach(function(field){
             var reason = row[field + 'Comments'];
             if (!reason || sameValue(reason, oldRow[field + 'Comments']))
@@ -75,9 +75,12 @@ function onUpdate(helper, scriptErrors, row, oldRow){
             return;
         }
 
-        // Stamped here, never taken from the client
+        // Printed name for the signature record (REQ-028), read in Java so approvers don't need permission to see user details
+        var triggerHelper = new org.labkey.snprc_ehr.query.SNPRC_EHRTriggerHelper(user.id, LABKEY.Security.currentContainer.id);
+        var printedName = String(triggerHelper.getPrintedName());
+
         row.reviewedBy = user.id;
-        row.reviewedByName = user.displayName;
+        row.reviewedByName = printedName;
         row.reviewedDate = new Date();
         row.reviewMeaning = 'Reviewed and approved';
     }

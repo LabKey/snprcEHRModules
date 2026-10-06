@@ -85,6 +85,19 @@ public class SNPRC_EHRTriggerHelper
     }
 
     /**
+     * The name printed on an electronic signature: first and last name, or the display name if either is missing.
+     * Read from the User object so approvers don't need the "See User and Group Details" role that core.Users requires.
+     */
+    public String getPrintedName()
+    {
+        String first = _user.getFirstName();
+        String last = _user.getLastName();
+        if (first != null && !first.isBlank() && last != null && !last.isBlank())
+            return first.trim() + " " + last.trim();
+        return _user.getDisplayName(_user);
+    }
+
+    /**
      * Should we close datasets on animal departure?
      *
      * @param Id   Animal ID
