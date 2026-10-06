@@ -1,0 +1,14 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" hidden="true">
+    <columns>
+        <column name="Location"/>
+        <column name="Id"/>
+        <column name="date"/>
+        <column name="createdBy"/>
+        <column name="created"/>
+    </columns>
+    <sorts>
+        <sort column="Location"/>
+        <sort column="date"/>
+        <sort column="Id"/>
+    </sorts>
+</customView>
