@@ -319,7 +319,17 @@ public class AttributeDataTable extends FilteredTable<SNDUserSchema>
                                 }
                             }
 
-                            if (value == null)
+                            // Blank in the source arrives as a null-valued row; remove the value it replaces. A lookup miss (below) keeps the old value.
+                            if (floatValue == null && dateTimeValue == null && stringValue == null)
+                            {
+                                if (isUpdate)
+                                {
+                                    OntologyObject ontologyObject = OntologyManager.getOntologyObject(container, objectURI);
+                                    if (null != ontologyObject)
+                                        OntologyManager.deleteProperty(ontologyObject, OntologyManager.getPropertyDescriptor(pd.getPropertyURI(), container), false);
+                                }
+                            }
+                            else if (value == null)
                             {
                                 if (pd.getLookupSchema() != null && pd.getLookupQuery() != null)
                                 {

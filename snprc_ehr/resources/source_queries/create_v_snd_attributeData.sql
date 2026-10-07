@@ -37,6 +37,7 @@ AS
 -- 04/23/2024 Lookup values need to be string values by default. tjh
 --  6/26/2025 Added check for eventId in labkey Events table. tjh
 --  8/28/2026 Added ProcRowversion and AttribRowversion so the ETL step can log the rowversion it filtered on and which row it came from.
+--  9/9/2026 Blank attribute values pass through as NULL-valued rows instead of being filtered out, so the ETL removes the stored value.
 -- ==========================================================================================
 SELECT TOP (99.999999999) PERCENT
     cp.ANIMAL_EVENT_ID               AS EventId,
@@ -45,15 +46,15 @@ SELECT TOP (99.999999999) PERCENT
        cp.PROC_ID                       AS EventDataId,
        sp.SUPER_PKG_ID                  AS SuperPkgId,
        pbi.SUPER_PKG_ID                 AS ParentSuperPkgId,
-       cpa.value AS value,
+       val.v AS value,
   -- exp.ObjectProperty columns
   LTRIM(RTRIM(cpa.ATTRIB_KEY)) AS [_KEY],
 
   CASE WHEN ( (LOWER(pa.DATA_TYPE) = 'numeric' OR LOWER(pa.DATA_TYPE) = 'decimal') ) AND pa.LOOKUP_KEY IS NULL
-    THEN CAST (REPLACE(cpa.value,',','') AS FLOAT ) ELSE NULL END AS FloatValue,
+    THEN CAST (REPLACE(val.v,',','') AS FLOAT ) ELSE NULL END AS FloatValue,
 
   CASE WHEN LOWER(pa.DATA_TYPE) = 'string' OR pa.LOOKUP_KEY IS NOT NULL
-    THEN cpa.value ELSE NULL END AS StringValue,
+    THEN val.v ELSE NULL END AS StringValue,
 
   CASE WHEN ( (LOWER(pa.DATA_TYPE)) = 'string' OR pa.LOOKUP_KEY IS NOT NULL) THEN 's' ELSE 'f' END AS TypeTag,
 
@@ -74,12 +75,13 @@ INNER JOIN dbo.BUDGET_ITEMS AS pbi ON pbi.BUDGET_ITEM_ID = bi.PARENT_BUDGET_ITEM
 INNER JOIN dbo.SUPER_PKGS AS sp ON sp.SUPER_PKG_ID = bi.SUPER_PKG_ID
 INNER JOIN dbo.PKGS AS p ON p.PKG_ID = sp.PKG_ID
 INNER JOIN dbo.PKG_ATTRIBS AS pa ON pa.PKG_ID = p.PKG_ID AND pa.ATTRIB_KEY = cpa.ATTRIB_KEY
+-- A blank is NULL here rather than a filtered-out row, so the ETL learns the attribute was cleared. CAST('' AS FLOAT) would otherwise read as 0.
+CROSS APPLY (SELECT CASE WHEN LTRIM(RTRIM(cpa.VALUE)) = '' THEN NULL ELSE cpa.VALUE END AS v) AS val
 
 -- select primates only from the TxBiomed colony
 INNER JOIN labkey_etl.V_DEMOGRAPHICS AS D ON D.id = ae.ANIMAL_ID
-WHERE LTRIM(RTRIM(cpa.VALUE)) <> '' AND  cpa.VALUE IS NOT NULL
 -- limit selection to only events that have been imported
-AND EXISTS (SELECT 1 FROM labkey.snd.Events AS e WHERE  cp.ANIMAL_EVENT_ID = e.EventId)
+WHERE EXISTS (SELECT 1 FROM labkey.snd.Events AS e WHERE  cp.ANIMAL_EVENT_ID = e.EventId)
 
 ORDER BY EventDataId
 GO
