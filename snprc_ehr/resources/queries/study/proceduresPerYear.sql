@@ -15,9 +15,12 @@
  */
 
 --  NOTE - SNPRC is not yet populating ProcedureId. Re-add those parts of the query when available
+-- Id is uppercased so case-variant animal IDs group together: 132 animals have records under both
+-- '4X####' and '4x####', which SQL Server's case-insensitive collation merged and Postgres does not.
+-- Stopgap for this report only; the underlying dataset rows still need to be normalized.
 
 SELECT
-c.Id,
+UPPER(c.Id) as Id,
 CAST('01-01-' || cast(year(c.date) as varchar) as date) as date,
 CAST('12-31-' || cast(year(c.date) as varchar) as date) as enddate,
 year(c.date) as year,
@@ -28,6 +31,6 @@ count(*) as total
 FROM study."Animal Procedures" c
 -- WHERE c.procedureid IS NOT NULL
 GROUP BY
-  c.Id,
+  UPPER(c.Id),
 --   c.procedureid.shortName,
   year(c.date)

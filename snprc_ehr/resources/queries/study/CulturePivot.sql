@@ -26,7 +26,8 @@ FROM culturePivotInner b
 GROUP BY b.panelName, b.id, b.date, b.TestName, b.remark
 
 PIVOT results, abnormal_flags BY TestName IN
-(select TestName from snprc_ehr.labwork_panels t
+(select n.TestName from snprc_ehr.labwork_panels t
+    INNER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(t.TestName, ' ', ''))
     where t.includeInPanel = true AND t.ServiceId.Dataset='Culture'
- order by t.TestName asc
+ order by n.TestName asc
 )

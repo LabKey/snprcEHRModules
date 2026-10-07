@@ -8,8 +8,8 @@ Is free text.
 srr 07.30.2019
 ********************************************************/
 
-select AdmitComplaint
+select UPPER(LTRIM(RTRIM(AdmitComplaint))) as AdmitComplaint
 from study.cases c
 where date > timestampadd('SQL_TSI_YEAR', -2,curdate())
-group by admitcomplaint
+group by UPPER(LTRIM(RTRIM(admitcomplaint)))
 having count(*) > 10
