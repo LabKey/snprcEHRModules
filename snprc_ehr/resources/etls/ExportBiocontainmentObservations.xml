@@ -10,10 +10,6 @@
                 <alternateKeys>
                     <column name="objectid"/>
                 </alternateKeys>
-                <columnTransforms>
-                    <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
-                    <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
-                </columnTransforms>
             </destination>
         </transform>
         <transform id="step2" type="TaskrefTransformStep">
