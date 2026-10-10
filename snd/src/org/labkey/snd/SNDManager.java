@@ -132,7 +132,7 @@ public class SNDManager
 
     private SNDManager()
     {
-        _cache = CacheManager.getStringKeyCache(1000, CacheManager.UNLIMITED, "SNDCache");
+        _cache = CacheManager.getCache(String.class, 1000, CacheManager.UNLIMITED, "SNDCache");
     }
 
     public static SNDManager get()
