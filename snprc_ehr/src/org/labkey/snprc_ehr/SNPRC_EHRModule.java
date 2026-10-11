@@ -499,24 +499,30 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
             });
     }
 
-    // Emits: COALESCE((SELECT ls.setname FROM ehr_lookups.lookup_sets ls WHERE ls.setname = <col>), <col>)
+    // Emits: COALESCE((SELECT MIN(ls.setname) FROM ehr_lookups.lookup_sets ls WHERE ls.setname = <col> AND ls.container = <container>), <col>)
     // On SQL Server the WHERE match is case-insensitive, so any case variant of set_name resolves to the
     // canonical setname stored in lookup_sets. Falls back to the original value if there is no lookup_sets
     // match (a truly orphaned set_name — preserved as-is rather than nulled).
+    // setname isn't unique, even per container, so MIN keeps the scalar subquery to one row.
     private static final class LookupSetNameCaseMapperColumn extends WrappedColumn
     {
+        private final ColumnInfo _containerCol;
+
         private LookupSetNameCaseMapperColumn(ColumnInfo col)
         {
             super(col, col.getName());
+            _containerCol = col.getParentTable().getColumn("container");
         }
 
         @Override
         public SQLFragment getValueSql(String tableAlias)
         {
             SQLFragment columnSql = super.getValueSql(tableAlias);
-            return new SQLFragment("COALESCE((SELECT ls.setname FROM ehr_lookups.lookup_sets ls WHERE ls.setname = ")
-                .append(columnSql)
-                .append("), ")
+            SQLFragment sql = new SQLFragment("COALESCE((SELECT MIN(ls.setname) FROM ehr_lookups.lookup_sets ls WHERE ls.setname = ")
+                .append(columnSql);
+            if (_containerCol != null)
+                sql.append(" AND ls.container = ").append(_containerCol.getValueSql(tableAlias));
+            return sql.append("), ")
                 .append(columnSql)
                 .append(")");
         }
