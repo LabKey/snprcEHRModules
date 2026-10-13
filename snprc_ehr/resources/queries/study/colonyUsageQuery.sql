@@ -25,13 +25,13 @@ FROM
   -- Gender --
   (SELECT
      protocol.inves AS investigator,
-     upper(Id.Demographics.gender.code) AS gender,
+     Id.Demographics.gender.code AS gender,
      Id.Demographics.species.arc_species_code AS species_code,
      count(*) AS gentotal
 
    FROM assignment
    WHERE isActive = true AND Id.Demographics.gender IS NOT NULL AND Id.AgeClass.label IS NOT NULL AND protocol.inves IS NOT NULL and assignment.assignmentStatus = 'A'
-   GROUP BY protocol.inves, upper(Id.Demographics.gender.code), Id.Demographics.species.arc_species_code
+   GROUP BY protocol.inves, Id.Demographics.gender.code, Id.Demographics.species.arc_species_code
    PIVOT gentotal BY gender IN ('M', 'F', 'U')) gen
 
   INNER JOIN

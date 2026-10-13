@@ -17,10 +17,10 @@
 SELECT
     b.Id,
     b.date,
-    UPPER(RTRIM(LTRIM(b.runId.serviceRequested))) as panelName,
+    b.runId.serviceRequested as panelName,
     n.TestName,
     b.remark,
-    UPPER(RTRIM(LTRIM(COALESCE(CAST(CAST(b.result AS float) AS VARCHAR), qualresult)))) as result,
+    COALESCE(CAST(CAST(b.result AS float) AS VARCHAR), qualresult) as result,
     b.abnormal_flags
 FROM study.labworkResults b
     LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(b.serviceTestId.testName, ' ', ''))
@@ -31,10 +31,10 @@ UNION
 SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
-    UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
-    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
+    obr.PROCEDURE_NAME as panelName,
+    COALESCE(n.TestName, obx.TEST_NAME) as TestName,
     nte.COMMENT as remark,
-    UPPER(RTRIM(LTRIM(COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT)))) as result,
+    COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
     obx.ABNORMAL_FLAGS AS abnormal_flags
 
 FROM snprc_ehr.HL7_OBR obr

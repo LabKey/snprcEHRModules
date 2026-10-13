@@ -6,7 +6,7 @@ SELECT obr.ANIMAL_ID as id,
     COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME) as PROCEDURE_NAME,
     obr.PROCEDURE_ID,
     nte.COMMENT,
-    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
+    COALESCE(n.TestName, obx.TEST_NAME) as TestName,
     MAX(obx.ABNORMAL_FLAGS) AS ABNORMAL_FLAGS,
     COALESCE(MAX(obx.RESULT), GROUP_CONCAT(obx.QUALITATIVE_RESULT)) as RESULT
 
@@ -17,7 +17,7 @@ FROM snprc_ehr.HL7_OBR obr
     LEFT OUTER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(COALESCE(lp.TestName, obx.TEST_NAME), ' ', ''))
 WHERE obr.PROCEDURE_ID.Dataset = 'Misc Tests'
 
-GROUP BY obr.ANIMAL_ID, obr.OBSERVATION_DATE_TM, obr.MESSAGE_ID, obr.PROCEDURE_NAME, obr.SET_ID, COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME), obr.PROCEDURE_ID, nte.COMMENT, COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME))))
+GROUP BY obr.ANIMAL_ID, obr.OBSERVATION_DATE_TM, obr.MESSAGE_ID, obr.PROCEDURE_NAME, obr.SET_ID, COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME), obr.PROCEDURE_ID, nte.COMMENT, COALESCE(n.TestName, obx.TEST_NAME)
     PIVOT RESULT, ABNORMAL_FLAGS BY TestName
 
     IN

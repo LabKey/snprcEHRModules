@@ -33,7 +33,7 @@ SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
     COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME) as PanelName,
-    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
+    COALESCE(n.TestName, obx.TEST_NAME) as TestName,
     nte.COMMENT as remark,
     COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
     obx.ABNORMAL_FLAGS as abnormal_flags

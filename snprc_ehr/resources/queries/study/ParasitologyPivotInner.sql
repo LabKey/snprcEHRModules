@@ -1,9 +1,4 @@
--- panelName and TestName are emitted in canonical UPPER + trimmed form so downstream pivots
--- (ParasitologyPivotOP, ParasitologyPivot) can filter and pivot-match consistently across databases.
--- SQL Server's case-insensitive collation matched every casing/whitespace variant of the source
--- ServiceRequested / testName / PROCEDURE_NAME / TEST_NAME columns; Postgres is case- and
--- whitespace-sensitive, so variants must be normalized here or they slip past IN/NOT IN filters
--- and produce split GROUP BY rows in the outer queries.
+-- panelName is UPPER/trimmed so the panel filters in ParasitologyPivotOP and ParasitologyPivot match every case/whitespace variant on Postgres.
 -- TestName comes from snprc_ehr.labworkPanelTestNames to normalize inconsistent casing and whitespace in labwork_panels test names; that extra work slows this query.
 SELECT
     b.Id,
@@ -23,7 +18,7 @@ SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
     UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
-    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
+    COALESCE(n.TestName, obx.TEST_NAME) as TestName,
     nte.COMMENT as remark,
     COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
     obx.ABNORMAL_FLAGS AS abnormal_flags

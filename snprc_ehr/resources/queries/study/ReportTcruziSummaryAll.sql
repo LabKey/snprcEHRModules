@@ -19,27 +19,9 @@ Sourced from ReportTcruziPositiveSummary
   srr 04.23.21
 **************************************************************/
 
--- b.id is canonicalized with UPPER(LTRIM(RTRIM(...))) because the source has case-variant animal IDs
--- (e.g. 4x0133 vs 4X0133). SQL Server's case-insensitive collation grouped them together in the outer
--- GROUP BY; Postgres is case- and whitespace-sensitive so they'd split into separate groups without this normalization.
--- The b.qualresult, b.serviceTestid.ServiceId.Dataset, and b.serviceTestId.testName wraps in the WHERE
--- clauses exist for the same reason — SS matched their string filters case-insensitively; Postgres won't.
---
--- TestCount is count(*) over the inner UNION, so the dedup key is every column these subqueries
--- project — any free-text string in the projection can split a row that should collapse. The key is
--- therefore built on serviceTestId.TestId (the lab's test code), not serviceTestId.testName:
--- labwork_panels holds one TestId under more than one name spelling (e.g. TestId 136 as 'ALBUMIN' and
--- 'Albumin'), and on Postgres those spellings would count a single test twice.
---
--- Do NOT "fix" that by normalizing testName's case here. Distinct TestIds can share a name that
--- differs only in case — 850 is 'T. CRUZI AB' and 965 is 'T. Cruzi AB' — so folding the case merges
--- two different tests. That is exactly what SQL Server's case-insensitive collation did, and why it
--- undercounted animal 28215 (5) against Postgres (6, correct).
---
--- testName is no longer projected at all — TestId is the test's identity now. panelName stays in the
--- projection even though the outer query never selects it: it is a single-valued lookup off runId,
--- which is already in the key, so its spelling cannot split a row that runId would not have separated
--- anyway.
+-- b.id, b.qualresult and the testName filter are case-folded because SQL Server's collation merged case variants (e.g. 4x0133 vs 4X0133) that Postgres splits.
+-- TestCount dedups on every projected column, so the key uses serviceTestId.TestId rather than testName, which has several spellings per TestId (e.g. 136 as 'ALBUMIN' and 'Albumin').
+-- Don't case-fold testName instead: 850 'T. CRUZI AB' and 965 'T. Cruzi AB' are different tests.
 SELECT d.SpeciesCode AS Species, d.CurrentLocation,d.id, d.status, d.result AS "TcruziResult",
        min(d.TestDate) AS MinDate,max(d.TestDate) AS MaxDate,  count(*) TestCount
 FROM
@@ -50,7 +32,7 @@ FROM
             b.id.demographics.calculated_status AS status,
             b.date AS TestDate,
             b.runId.serviceRequested as panelName,
-            UPPER(LTRIM(RTRIM(b.serviceTestId.TestId))) AS TestId,
+            b.serviceTestId.TestId AS TestId,
             coalesce(b.runId, b.objectid) as runId,
          /*b.resultoorindicator,*/
             CASE UPPER(LTRIM(RTRIM(b.qualresult)))
@@ -62,8 +44,8 @@ FROM
                 WHEN 'INDETERMINATE' THEN 'INDETERMINATE'
                 END AS result
      FROM study.labworkResults b
-     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and UPPER(LTRIM(RTRIM(b.serviceTestid.ServiceId.Dataset))) = 'SURVEILLANCE'
-       AND UPPER(LTRIM(RTRIM(b.serviceTestId.testName))) LIKE '%CRUZI%'
+     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
+       AND UPPER(b.serviceTestId.testName) LIKE '%CRUZI%'
        AND UPPER(LTRIM(RTRIM(b.qualresult))) IN ('SEROPOS','POSITIVE')
        -- AND b.id.demographics.calculated_status  = 'Alive'
      union
@@ -75,7 +57,7 @@ FROM
             b.id.demographics.calculated_status AS status,
             b.date AS TestDate,
             b.runId.serviceRequested as panelName,
-            UPPER(LTRIM(RTRIM(b.serviceTestId.TestId))) AS TestId,
+            b.serviceTestId.TestId AS TestId,
             coalesce(b.runId, b.objectid) as runId,
          /*b.resultoorindicator,*/
             CASE UPPER(LTRIM(RTRIM(b.qualresult)))
@@ -88,8 +70,8 @@ FROM
                 END AS result
 
      FROM study.assay_labworkResults b
-     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and UPPER(LTRIM(RTRIM(b.serviceTestid.ServiceId.Dataset))) = 'SURVEILLANCE'
-       AND UPPER(LTRIM(RTRIM(b.serviceTestId.testName))) LIKE '%CRUZI%'
+     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
+       AND UPPER(b.serviceTestId.testName) LIKE '%CRUZI%'
        AND UPPER(LTRIM(RTRIM(b.qualresult))) IN ('SEROPOS','POSITIVE')
         --AND b.id.demographics.calculated_status  = 'Alive'
     ) AS d

@@ -2,10 +2,10 @@
 SELECT
     p.Id as Id,
     p.date,
-    UPPER(RTRIM(LTRIM(p.runId.serviceRequested))) as PanelName,
+    p.runId.serviceRequested as PanelName,
     n.TestName,
     p.remark,
-    UPPER(RTRIM(LTRIM(p.qualresult))) as result,
+    p.qualresult as result,
     p.abnormal_flags
 
 FROM study.labworkResults as p
@@ -17,10 +17,10 @@ UNION
 SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
-    UPPER(RTRIM(LTRIM(COALESCE(lp.ServiceId.ServiceName, obr.PROCEDURE_NAME)))) as PanelName,
-    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
+    COALESCE (lp.ServiceId.ServiceName, obr.PROCEDURE_NAME) as PanelName,
+    COALESCE(n.TestName, obx.TEST_NAME) as TestName,
     nte.COMMENT as remark,
-    UPPER(RTRIM(LTRIM(COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT)))) as result,
+    COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result,
     obx.ABNORMAL_FLAGS AS abnormal_flags
 
 FROM snprc_ehr.HL7_OBR obr

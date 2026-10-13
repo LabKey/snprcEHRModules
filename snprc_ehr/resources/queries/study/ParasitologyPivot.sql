@@ -28,10 +28,6 @@ SELECT
   GROUP_CONCAT(p.abnormal_flags) as abnormal_flags
 
 FROM ParasitologyPivotInner p
--- panelName/TestName arrive in canonical UPPER + trimmed form from ParasitologyPivotInner so this
--- NOT IN exclusion behaves the same on SQL Server (case-insensitive collation) and Postgres (case-
--- and whitespace-sensitive). The pivot IN subquery normalizes labwork_panels.ServiceName/TestName
--- the same way so the pivot columns line up.
 WHERE p.panelName not in ('OVA & PARASITES','OVA & PARASITES, URINE')
 
 GROUP BY p.id, p.date, p.remark, p.panelName, p.TestName

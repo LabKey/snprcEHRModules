@@ -21,7 +21,7 @@
 SELECT
     b.id,
     b.date,
-    UPPER(RTRIM(LTRIM(b.serviceTestId.serviceId.ServiceName))) AS PanelName,
+    b.serviceTestId.serviceId.ServiceName AS PanelName,
     n.TestName,
     b.remark,
     COALESCE( CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result
@@ -34,7 +34,7 @@ UNION
 SELECT
   b.id,
   b.date,
-  UPPER(RTRIM(LTRIM(b.serviceTestId.serviceId.ServiceName))) AS PanelName,
+  b.serviceTestId.serviceId.ServiceName AS PanelName,
   n.TestName,
   b.remark,
   COALESCE( CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result
@@ -47,7 +47,7 @@ UNION
 SELECT
     b.id,
     b.date,
-    UPPER(RTRIM(LTRIM(b.serviceTestId.serviceId.ServiceName))) AS PanelName,
+    b.serviceTestId.serviceId.ServiceName AS PanelName,
     n.TestName,
     b.remark,
     COALESCE( CAST(CAST(b.result AS float) AS VARCHAR), b.qualresult) as result
@@ -60,8 +60,8 @@ UNION
 SELECT
     obr.ANIMAL_ID as id,
     obr.OBSERVATION_DATE_TM as date,
-    UPPER(RTRIM(LTRIM(obr.PROCEDURE_NAME))) as panelName,
-    COALESCE(n.TestName, UPPER(RTRIM(LTRIM(obx.TEST_NAME)))) as TestName,
+    obr.PROCEDURE_NAME as panelName,
+    COALESCE(n.TestName, obx.TEST_NAME) as TestName,
     nte.COMMENT as remark,
     COALESCE(obx.RESULT, obx.QUALITATIVE_RESULT) as result
 
