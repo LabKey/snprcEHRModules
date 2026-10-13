@@ -16,7 +16,11 @@ select
   CASE WHEN d.calculated_status = 'Alive' THEN
     -- baboons
     CASE WHEN d.species.arc_species_code = 'PC' THEN
-         CASE  WHEN d.id.age.ageInDays < 270 THEN 'OKAY'   -- baboon is less that 9 months old (too young to wean)
+         -- Spelling matters. Consumers filter on TbStatus <> 'Okay' (study.overdueTb), and
+         -- Postgres compares text case-sensitively, so the 'OKAY' that used to be here put 30
+         -- infant baboons on the overdue-TB report. SQL Server's case-insensitive collation
+         -- made it equal to 'Okay', which hid the typo. Keep this identical to the other branches.
+         CASE  WHEN d.id.age.ageInDays < 270 THEN 'Okay'   -- baboon is less that 9 months old (too young to wean)
           ELSE
             CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (T2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue' -- greater than 9 months
                 ELSE

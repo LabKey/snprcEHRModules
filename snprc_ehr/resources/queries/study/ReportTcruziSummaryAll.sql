@@ -19,20 +19,23 @@ Sourced from ReportTcruziPositiveSummary
   srr 04.23.21
 **************************************************************/
 
+-- b.id, b.qualresult and the testName filter are case-folded because SQL Server's collation merged case variants (e.g. 4x0133 vs 4X0133) that Postgres splits.
+-- TestCount dedups on every projected column, so the key uses serviceTestId.TestId rather than testName, which has several spellings per TestId (e.g. 136 as 'ALBUMIN' and 'Albumin').
+-- Don't case-fold testName instead: 850 'T. CRUZI AB' and 965 'T. Cruzi AB' are different tests.
 SELECT d.SpeciesCode AS Species, d.CurrentLocation,d.id, d.status, d.result AS "TcruziResult",
        min(d.TestDate) AS MinDate,max(d.TestDate) AS MaxDate,  count(*) TestCount
 FROM
     (SELECT 'LabResults',
             b.id.demographics.species.arc_species_code.code AS SpeciesCode,
             b.id.curlocation.Room AS CurrentLocation,
-            b.id,
+            UPPER(LTRIM(RTRIM(b.id))) as id,
             b.id.demographics.calculated_status AS status,
             b.date AS TestDate,
             b.runId.serviceRequested as panelName,
-            b.serviceTestId.testName AS TestName,
+            b.serviceTestId.TestId AS TestId,
             coalesce(b.runId, b.objectid) as runId,
          /*b.resultoorindicator,*/
-            CASE b.qualresult
+            CASE UPPER(LTRIM(RTRIM(b.qualresult)))
                 WHEN 'NEGATIVE' THEN 'NEGATIVE'
                 WHEN 'SERONEG' THEN 'NEGATIVE'
                 WHEN 'POSITIVE' THEN 'POSITIVE'
@@ -41,23 +44,23 @@ FROM
                 WHEN 'INDETERMINATE' THEN 'INDETERMINATE'
                 END AS result
      FROM study.labworkResults b
-     WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
-       AND b.serviceTestId.testName LIKE '%CRUZI%'
-       AND b.qualresult IN ('SEROPOS','POSITIVE')
+     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
+       AND UPPER(b.serviceTestId.testName) LIKE '%CRUZI%'
+       AND UPPER(LTRIM(RTRIM(b.qualresult))) IN ('SEROPOS','POSITIVE')
        -- AND b.id.demographics.calculated_status  = 'Alive'
      union
 
      SELECT 'AssayResults',
             b.id.demographics.species.arc_species_code.code  AS SpeciesCode,
             b.id.curlocation.Room AS CurrentLocation,
-            b.id,
+            UPPER(LTRIM(RTRIM(b.id))) as id,
             b.id.demographics.calculated_status AS status,
             b.date AS TestDate,
             b.runId.serviceRequested as panelName,
-            b.serviceTestId.testName AS TestName,
+            b.serviceTestId.TestId AS TestId,
             coalesce(b.runId, b.objectid) as runId,
          /*b.resultoorindicator,*/
-            CASE b.qualresult
+            CASE UPPER(LTRIM(RTRIM(b.qualresult)))
                 WHEN 'NEGATIVE' THEN 'NEGATIVE'
                 WHEN 'SERONEG' THEN 'NEGATIVE'
                 WHEN 'POSITIVE' THEN 'POSITIVE'
@@ -67,9 +70,9 @@ FROM
                 END AS result
 
      FROM study.assay_labworkResults b
-     WHERE b.serviceTestId.includeInPanel = true and b.qcstate.publicdata = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
-       AND b.serviceTestId.testName LIKE '%CRUZI%'
-       AND b.qualresult IN ('SEROPOS','POSITIVE')
+     WHERE b.serviceTestId.includeInPanel = true and b.QCState.PublicData  = true and b.serviceTestid.ServiceId.Dataset = 'Surveillance'
+       AND UPPER(b.serviceTestId.testName) LIKE '%CRUZI%'
+       AND UPPER(LTRIM(RTRIM(b.qualresult))) IN ('SEROPOS','POSITIVE')
         --AND b.id.demographics.calculated_status  = 'Alive'
     ) AS d
     --WHERE result IN ('SEROPOS','POSITIVE')

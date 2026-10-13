@@ -32,9 +32,10 @@ WHERE p.panelName not in ('OVA & PARASITES','OVA & PARASITES, URINE')
 
 GROUP BY p.id, p.date, p.remark, p.panelName, p.TestName
 PIVOT result, abnormal_flags BY TestName IN
-(select TestName from snprc_ehr.labwork_panels t
+(select n.TestName from snprc_ehr.labwork_panels t
+    INNER JOIN snprc_ehr.labworkPanelTestNames n ON n.TestKey = UPPER(REPLACE(t.TestName, ' ', ''))
 where t.includeInPanel = true AND t.ServiceId.Dataset='Parasitology'
-   and t.ServiceId.ServiceName not in ('OVA & PARASITES','OVA & PARASITES, URINE')
+   and UPPER(RTRIM(LTRIM(t.ServiceId.ServiceName))) not in ('OVA & PARASITES','OVA & PARASITES, URINE')
 )
 
 
