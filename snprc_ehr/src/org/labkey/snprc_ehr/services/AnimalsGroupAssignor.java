@@ -91,21 +91,6 @@ public class AnimalsGroupAssignor
 
     }
 
-    private String getCategoryGroupsString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        this.getCategoryGroups().forEach(group -> {
-                    sb.append(group.toString());
-                    sb.append(",");
-                }
-        );
-        sb.setCharAt(sb.lastIndexOf(","), ' ');
-        sb.append(")");
-
-        return sb.toString();
-    }
-
     /**
      * @param groupMembers: Animals to be assigned (animalId, start date, and end date)
      * returns - Nothing - Animals are either assigned or an exception is thrown
@@ -219,16 +204,16 @@ public class AnimalsGroupAssignor
                 sql.append("inner join ehr_lookups.calendar as c\n "); //;
                 sql.append ("on c.targetDate between agm.date and COALESCE(agm.enddate, CURRENT_TIMESTAMP + INTERVAL '10 years')\n");
                 sql.append("where agm.participantid = ? \n");
-                sql.append(" and agm.groupId in " + getCategoryGroupsString() + "\n");
-                sql.append(" and c.targetDate between ? and ?\n");
-                if (groupMember.getObjectid() != null )
-                    sql.append(" and agm.objectId <> ?");  // ignore the record being updated
-
                 sql.add(groupMember.getParticipantid());
+                sql.append(" and agm.groupId").appendInClause(getCategoryGroups(), dbStudySchema.getSqlDialect()).append("\n");
+                sql.append(" and c.targetDate between ? and ?\n");
                 sql.add(groupMember.getDate());
                 sql.add(endDate);
                 if (groupMember.getObjectid() != null )
+                {
+                    sql.append(" and agm.objectId <> ?");  // ignore the record being updated
                     sql.add(groupMember.getObjectid());
+                }
 
                 selector = new SqlSelector(dbStudySchema, sql);
                 if (selector.exists())
