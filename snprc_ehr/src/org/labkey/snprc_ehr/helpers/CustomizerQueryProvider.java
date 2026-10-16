@@ -16,7 +16,7 @@
 package org.labkey.snprc_ehr.helpers;
 
 import org.apache.commons.lang.text.StrSubstitutor;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.text.CaseUtils;
 import org.labkey.api.data.AbstractTableInfo;
 import org.labkey.api.data.ColumnInfo;
@@ -137,19 +137,19 @@ public class CustomizerQueryProvider
      */
     private String mapQueryStringValues(String queryString, CalculatedColumnQueryInfo queryInfo, String dateColumnName) {
         Map<String, String> queryByValues = new HashMap<>();
-        if(StringUtils.contains(queryString, PRIMARY_KEY_VARIABLE))
+        if(Strings.CS.contains(queryString, PRIMARY_KEY_VARIABLE))
             queryByValues.put(PRIMARY_KEY_VARIABLE, queryInfo.getPrimaryKeyColumn().getFieldKey().toSQLString());
-        if(StringUtils.contains(queryString, SCHEMA_VARIABLE))
+        if(Strings.CS.contains(queryString, SCHEMA_VARIABLE))
             queryByValues.put(SCHEMA_VARIABLE, queryInfo.getTableInfo().getPublicSchemaName());
-        if(StringUtils.contains(queryString, QUERY_VARIABLE))
+        if(Strings.CS.contains(queryString, QUERY_VARIABLE))
             queryByValues.put(QUERY_VARIABLE, queryInfo.getTableInfo().getName());
-        if(StringUtils.contains(queryString, EHR_PATH_VARIABLE))
+        if(Strings.CS.contains(queryString, EHR_PATH_VARIABLE))
             queryByValues.put(EHR_PATH_VARIABLE, queryInfo.getEhrSchema().getContainer().getPath());
-        if(StringUtils.contains(queryString, ID_COLUMN_VARIABLE))
+        if(Strings.CS.contains(queryString, ID_COLUMN_VARIABLE))
             queryByValues.put(ID_COLUMN_VARIABLE, queryInfo.getIdColumn().getFieldKey().toSQLString());
-        if(StringUtils.contains(queryString, TARGET_CONTAINER_VARIABLE))
+        if(Strings.CS.contains(queryString, TARGET_CONTAINER_VARIABLE))
             queryByValues.put(TARGET_CONTAINER_VARIABLE, queryInfo.getTableInfo().getUserSchema().getName());
-        if(StringUtils.contains(queryString, DATE_COLUMN_VARIABLE))
+        if(Strings.CS.contains(queryString, DATE_COLUMN_VARIABLE))
             queryByValues.put(DATE_COLUMN_VARIABLE, dateColumnName);
         return StrSubstitutor.replace(queryString, queryByValues);
     }

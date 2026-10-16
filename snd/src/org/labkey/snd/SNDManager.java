@@ -95,7 +95,6 @@ import org.labkey.snd.trigger.SNDTriggerManager;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -104,7 +103,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
@@ -717,12 +715,7 @@ public class SNDManager
         sql.append(schema.getTable(SNDSchema.PKGCATEGORIES__TABLE_NAME), "ca");
         sql.append(" ON cj.CategoryId = ca.CategoryId");
         if (pkgIds != null) {
-            sql.append(" WHERE PkgId IN ( ");
-            ArrayDeque<Integer> pkgIdsQueue = new ArrayDeque<>(pkgIds);
-            while (pkgIdsQueue.size() > 1) {
-                sql.append("?, ").add(pkgIdsQueue.pop());
-            }
-            sql.append("?) ").add(pkgIdsQueue.pop());
+            sql.append(" WHERE PkgId").appendInClause(pkgIds, schema.getDbSchema().getSqlDialect()).append(" ");
         }
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
@@ -874,9 +867,7 @@ public class SNDManager
 
         SQLFragment sql = new SQLFragment("SELECT sp.SuperPkgId, sp.ParentSuperPkgId, sp.PkgId, sp.SuperPkgPath, sp.SortOrder, sp.Required FROM ");
         sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp");
-        sql.append(" WHERE sp.SuperPkgId IN (");
-        addSubPkgParameters(sql, superPackageIds.iterator());
-        sql.append(")");
+        sql.append(" WHERE sp.SuperPkgId").appendInClause(superPackageIds, schema.getDbSchema().getSqlDialect());
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
         if (!selector.getArrayList(SuperPackage.class).isEmpty())
@@ -899,9 +890,8 @@ public class SNDManager
         sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp2");
         sql.append(" ON sp2.PkgId = sp.PkgId");
 
-        sql.append(" WHERE sp.SuperPkgId IN (");
-        addSubPkgParameters(sql, superPackageIds.iterator());
-        sql.append(") AND sp2.ParentSuperPkgId IS NULL");
+        sql.append(" WHERE sp.SuperPkgId").appendInClause(superPackageIds, schema.getDbSchema().getSqlDialect());
+        sql.append(" AND sp2.ParentSuperPkgId IS NULL");
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
         if (!selector.getArrayList(SuperPackage.class).isEmpty())
@@ -923,9 +913,8 @@ public class SNDManager
 
         SQLFragment sql = new SQLFragment("SELECT sp.SuperPkgId, sp.ParentSuperPkgId, sp.PkgId, sp.SuperPkgPath, sp.SortOrder, sp.Required FROM ");
         sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp");
-        sql.append(" WHERE sp.SuperPkgId IN (");
-        addSubPkgParameters(sql, superPackageIds.iterator());
-        sql.append(") AND sp.ParentSuperPkgId IS NULL");
+        sql.append(" WHERE sp.SuperPkgId").appendInClause(superPackageIds, schema.getDbSchema().getSqlDialect());
+        sql.append(" AND sp.ParentSuperPkgId IS NULL");
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
         if (!selector.getArrayList(SuperPackage.class).isEmpty())
@@ -966,9 +955,8 @@ public class SNDManager
 
         SQLFragment sql = new SQLFragment("SELECT sp.SuperPkgId, sp.ParentSuperPkgId, sp.PkgId, sp.SuperPkgPath, sp.SortOrder, sp.Required FROM ");
         sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp");
-        sql.append(" WHERE sp.SuperPkgId IN (");
-        addSubPkgParameters(sql, superPackageIds.iterator());
-        sql.append(") AND sp.ParentSuperPkgId = ?").add(parentSuperPackageId);
+        sql.append(" WHERE sp.SuperPkgId").appendInClause(superPackageIds, schema.getDbSchema().getSqlDialect());
+        sql.append(" AND sp.ParentSuperPkgId = ?").add(parentSuperPackageId);
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
 
         if (!selector.getArrayList(SuperPackage.class).isEmpty())
@@ -988,19 +976,10 @@ public class SNDManager
         SQLFragment sql = new SQLFragment("SELECT sp.SuperPkgId FROM ");
         sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp");
         sql.append(" WHERE");
-        if ((superPackages != null) && (!superPackages.isEmpty()))
+        if (superPackages != null)
         {
-            sql.append(" sp.SuperPkgId NOT IN (");
-            Iterator<SuperPackage> superPackageIterator = superPackages.iterator();
-            while (superPackageIterator.hasNext())
-            {
-                Integer superPkgId = superPackageIterator.next().getSuperPkgId();
-                if (!superPackageIterator.hasNext())
-                    sql.append("?").add(superPkgId);
-                else
-                    sql.append("?,").add(superPkgId);
-            }
-            sql.append(") AND");
+            sql.append(" ").appendNotInClause("sp.SuperPkgId", superPackages.stream().map(SuperPackage::getSuperPkgId).toList(), schema.getDbSchema().getSqlDialect());
+            sql.append(" AND");
         }
         sql.append(" sp.ParentSuperPkgId = ?").add(parentSuperPackageId);
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
@@ -1009,21 +988,6 @@ public class SNDManager
             return selector.getArrayList(Integer.class);
         else
             return null;
-    }
-
-    /**
-     * Used for building sql statements when adding subpackages to parameters
-     */
-    private static void addSubPkgParameters(SQLFragment sql, Iterator<Integer> subPkgIterator)
-    {
-        while (subPkgIterator.hasNext())
-        {
-            Integer superPkgId = subPkgIterator.next();
-            if (!subPkgIterator.hasNext())
-                sql.append("?").add(superPkgId);
-            else
-                sql.append("?,").add(superPkgId);
-        }
     }
 
     /**
@@ -3656,9 +3620,7 @@ public class SNDManager
 
         SQLFragment sql = new SQLFragment("SELECT CategoryId, Description, Active, ObjectId, Container FROM ");
         sql.append(pkgCategoriesTable, "ed");
-        sql.append(" WHERE CategoryId IN (");
-        sql.append(StringUtils.join(categoryIds, ","));
-        sql.append(")");
+        sql.append(" WHERE CategoryId").appendInClause(categoryIds, schema.getDbSchema().getSqlDialect());
 
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
         return selector.getArrayList(Category.class);
@@ -4032,12 +3994,7 @@ public class SNDManager
         if (eventIds != null) {
             sql.append(" INNER JOIN " + SNDSchema.NAME + "." + SNDSchema.EVENTDATA_TABLE_NAME + " ed");
             sql.append(" ON ed.SuperPkgId = sp.SuperPkgId ");
-            sql.append(" WHERE ed.EventId IN ( ");
-            ArrayDeque<Integer> eventIdsQueue = new ArrayDeque<>(eventIds);
-            while (eventIdsQueue.size() > 1) {
-                sql.append("?, ").add(eventIdsQueue.pop());
-            }
-            sql.append("?) ").add(eventIdsQueue.pop());
+            sql.append(" WHERE ed.EventId").appendInClause(eventIds, schema.getDbSchema().getSqlDialect()).append(" ");
         }
         sql.append(" ORDER BY sp.SuperPkgId ");
 
