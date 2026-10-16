@@ -976,11 +976,10 @@ public class SNDManager
         SQLFragment sql = new SQLFragment("SELECT sp.SuperPkgId FROM ");
         sql.append(schema.getTable(SNDSchema.SUPERPKGS_TABLE_NAME), "sp");
         sql.append(" WHERE");
-        if ((superPackages != null) && (!superPackages.isEmpty()))
+        if (superPackages != null)
         {
-            sql.append(" NOT (sp.SuperPkgId");
-            sql.appendInClause(superPackages.stream().map(SuperPackage::getSuperPkgId).toList(), schema.getDbSchema().getSqlDialect());
-            sql.append(") AND");
+            sql.append(" ").appendNotInClause("sp.SuperPkgId", superPackages.stream().map(SuperPackage::getSuperPkgId).toList(), schema.getDbSchema().getSqlDialect());
+            sql.append(" AND");
         }
         sql.append(" sp.ParentSuperPkgId = ?").add(parentSuperPackageId);
         SqlSelector selector = new SqlSelector(schema.getDbSchema(), sql);
