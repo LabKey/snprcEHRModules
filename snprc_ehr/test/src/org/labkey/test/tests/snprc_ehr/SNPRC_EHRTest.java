@@ -200,7 +200,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         populateHardTableRecords();
 
         importStudy();
-        disableMiniProfiler();
         defineQCStates();
         setupStudyPermissions();
         primeCaches();
