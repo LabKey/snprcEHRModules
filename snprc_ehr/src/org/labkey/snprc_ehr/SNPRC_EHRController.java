@@ -133,7 +133,11 @@ public class SNPRC_EHRController extends SpringActionController
         {
             try
             {
-                new URL(target.getBaseURL());
+                URL url = new URL(target.getBaseURL());
+                if (!"https".equalsIgnoreCase(url.getProtocol()))
+                {
+                    errors.reject("baseURL", "Base URL must use HTTPS protocol.");
+                }
             }
             catch (MalformedURLException e)
             {

@@ -90,6 +90,7 @@ import org.labkey.snprc_ehr.history.DietDataSource;
 import org.labkey.snprc_ehr.history.LabworkDataSource;
 import org.labkey.snprc_ehr.history.LabworkType;
 import org.labkey.snprc_ehr.history.OffspringDataSource;
+import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.snprc_ehr.notification.SampleSSRSNotification;
 import org.labkey.snprc_ehr.pipeline.FeeSchedulePipelineProvider;
 import org.labkey.snprc_ehr.security.ManageGroupMembersRole;
@@ -379,5 +380,13 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 //        });
 
         return webPartFactories;
+    }
+
+    @Override
+    public @NotNull Set<Class<?>> getUnitTests()
+    {
+        return Set.of(
+            SSRSConfigManager.TestCase.class
+        );
     }
 }

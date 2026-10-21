@@ -18,6 +18,8 @@ package org.labkey.snprc_ehr.notification;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.junit.Assert;
+import org.junit.Test;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.PropertyManager.WritablePropertyMap;
@@ -79,7 +81,16 @@ public class SSRSConfigManager
         password = StringUtils.trimToNull(password);
         baseURL = StringUtils.trimToNull(baseURL);
 
-        new URL(baseURL);
+        if (baseURL == null)
+        {
+            throw new MalformedURLException("Base URL is required.");
+        }
+
+        URL url = new URL(baseURL);
+        if (!"https".equalsIgnoreCase(url.getProtocol()))
+        {
+            throw new MalformedURLException("Base URL must use HTTPS protocol.");
+        }
 
         PropertyStore store = PropertyManager.getEncryptedStore();
         WritablePropertyMap map = store.getWritableProperties(c, SSRS_PROPERTY_CATEGORY, true);
@@ -87,5 +98,32 @@ public class SSRSConfigManager
         map.put(SSRS_PASSWORD_PROPERTY, password);
         map.put(SSRS_BASE_URL, baseURL);
         map.save();
+    }
+
+    public static class TestCase extends Assert
+    {
+        @Test(expected = MalformedURLException.class)
+        public void testHttpUrlRejected() throws MalformedURLException
+        {
+            SSRSConfigManager.getInstance().setProperties(null, "user", "pass", "http://server/ReportServer");
+        }
+
+        @Test(expected = MalformedURLException.class)
+        public void testFtpUrlRejected() throws MalformedURLException
+        {
+            SSRSConfigManager.getInstance().setProperties(null, "user", "pass", "ftp://server/ReportServer");
+        }
+
+        @Test(expected = MalformedURLException.class)
+        public void testInvalidUrlRejected() throws MalformedURLException
+        {
+            SSRSConfigManager.getInstance().setProperties(null, "user", "pass", "not-a-url");
+        }
+
+        @Test(expected = MalformedURLException.class)
+        public void testNullUrlRejected() throws MalformedURLException
+        {
+            SSRSConfigManager.getInstance().setProperties(null, "user", "pass", null);
+        }
     }
 }
