@@ -48,8 +48,8 @@
     "redux-thunk": "3.1.0"
   },
   "devDependencies": {
-    "@labkey/build": "10.1.4-fb-package-updates-102026.0",
-    "@labkey/eslint-config": "1.2.5-fb-package-updates-102026.0",
+    "@labkey/build": "10.1.4",
+    "@labkey/eslint-config": "1.2.5",
     "@types/jest": "30.0.0",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
