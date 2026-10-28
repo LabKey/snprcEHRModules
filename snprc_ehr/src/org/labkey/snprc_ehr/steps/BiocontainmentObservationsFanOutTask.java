@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
-import org.labkey.api.data.SqlExecutor;
+import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.di.TaskRefTaskImpl;
 import org.labkey.api.pipeline.PipelineJob;
@@ -12,6 +12,7 @@ import org.labkey.api.pipeline.PipelineJobException;
 import org.labkey.api.pipeline.RecordedActionSet;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
+import java.util.Map;
 
 /**
  * Calls TAC_src.usp_FanOutBiocontainmentObservations (in the animal database, via the
@@ -50,8 +51,31 @@ public class BiocontainmentObservationsFanOutTask extends TaskRefTaskImpl
         DbScope scope = dbSchema.getScope();
 
         job.getLogger().info("Calling TAC_src.usp_FanOutBiocontainmentObservations");
-        new SqlExecutor(scope).execute("EXEC TAC_src.usp_FanOutBiocontainmentObservations");
-        job.getLogger().info("Fan-out to CAMP complete");
+        Map<String, Object> counts = new SqlSelector(scope, "EXEC TAC_src.usp_FanOutBiocontainmentObservations").getMap();
+        if (counts == null)
+            throw new PipelineJobException("TAC_src.usp_FanOutBiocontainmentObservations did not return a row of counts");
+
+        int updated = getCount(counts, "UpdatedCount");
+        int unchanged = getCount(counts, "UnchangedCount");
+        int unmatched = getCount(counts, "UnmatchedCount");
+        int conflicts = getCount(counts, "ConflictCount");
+        int rejected = getCount(counts, "RejectedCount");
+
+        job.getLogger().info("Fan-out to CAMP complete: " + updated + " updated, " + unchanged + " unchanged, "
+                + unmatched + " unmatched, " + conflicts + " conflicts (retried next run), " + rejected + " rejected");
+
+        if (unmatched > 0)
+            job.getLogger().warn(unmatched + " TAC_src.BiocontainmentObservations row(s) had no matching CAMP row for their ObjectId; see FanOutError on those rows");
+        if (rejected > 0)
+            job.getLogger().warn(rejected + " TAC_src.BiocontainmentObservations row(s) were rejected by CAMP; see FanOutError on those rows");
+    }
+
+    private static int getCount(Map<String, Object> counts, String column) throws PipelineJobException
+    {
+        Object value = counts.get(column);
+        if (!(value instanceof Number n))
+            throw new PipelineJobException("TAC_src.usp_FanOutBiocontainmentObservations result is missing " + column);
+        return n.intValue();
     }
 
     @Override
