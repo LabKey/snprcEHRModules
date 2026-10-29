@@ -128,6 +128,9 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
         "object_id",      // HL7_MSH, HL7_OBR, HL7_OBX, HL7_NTE
         "obr_object_id",  // HL7_OBX, HL7_NTE (references HL7_OBR.OBJECT_ID)
         "servicetestid",  // HL7_OBX (references labwork_panels.objectId)
+        "taskid",         // datasets declare it varchar but it references ehr.tasks.taskid
+        "requestid",      // datasets declare it varchar but it references ehr.requests.requestid
+        "parentid",       // references a dataset row's objectid, which is lowercased above
         "container");     // every snprc_ehr hard table
 
     private final Set<String> _registeredMigrationTables = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
