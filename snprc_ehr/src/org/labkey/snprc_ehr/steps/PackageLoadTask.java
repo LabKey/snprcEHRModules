@@ -23,7 +23,7 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.di.TaskRefTaskImpl;
 import org.labkey.api.exp.Lsid;
-import org.labkey.api.exp.property.DefaultPropertyValidator;
+import org.labkey.api.exp.property.DefaultValidatorKind;
 import org.labkey.api.gwt.client.model.GWTPropertyDescriptor;
 import org.labkey.api.gwt.client.model.GWTPropertyValidator;
 import org.labkey.api.gwt.client.model.PropertyValidatorType;
@@ -220,7 +220,7 @@ public class PackageLoadTask extends TaskRefTaskImpl
                     gwtPropertyValidator.setExpression(validatorExpression); //expression
 
                     // Default Property Validator type to "Range"
-                    String typeUri = DefaultPropertyValidator.createValidatorURI(PropertyValidatorType.Range).toString();
+                    String typeUri = DefaultValidatorKind.createValidatorURI(PropertyValidatorType.Range).toString();
                     Lsid lsid = new Lsid(typeUri);
                     gwtPropertyValidator.setType(PropertyValidatorType.getType(lsid.getObjectId()));
                     gwtPropertyValidatorList.add(gwtPropertyValidator);
