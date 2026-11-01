@@ -26,7 +26,6 @@ import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.MutableColumnInfo;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.api.data.WrappedColumn;
 
 import org.labkey.api.ehr.EHRService;
@@ -43,6 +42,7 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.study.DatasetTable;
 import org.labkey.api.util.logging.LogHelper;
 import org.labkey.snprc_ehr.SNPRC_EHRSchema;
+import org.labkey.snprc_ehr.data.WhitespacePreservingDisplayColumnFactory;
 import org.labkey.snprc_ehr.helpers.CustomizerQueryProvider;
 import org.labkey.snprc_ehr.model.CalculatedColumn;
 import static org.labkey.snprc_ehr.constants.QueryConstants.*;
