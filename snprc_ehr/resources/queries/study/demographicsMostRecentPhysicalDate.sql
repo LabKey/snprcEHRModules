@@ -18,16 +18,16 @@ select
       -- it equal to 'Okay', which hid the typo. Keep this identical to the other branches.
       CASE  WHEN d.id.age.ageInDays < 270 THEN 'Okay'   -- baboon is less that 9 months old (too young to wean)
       ELSE
-        CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (p2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue' -- greater than 9 months
+        CASE WHEN age_in_days((COALESCE (p2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue' -- greater than 9 months
         ELSE
-          CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (p2.lastDate, d.birth)), now ()) > 180 THEN 'Due' -- between 6 and 9 months
+          CASE WHEN age_in_days((COALESCE (p2.lastDate, d.birth)), now ()) > 180 THEN 'Due' -- between 6 and 9 months
           ELSE 'Okay' -- less than 6 months
           END
         END
       END
     -- all species except baboons
-    ELSE CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (p2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue'
-         ELSE CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (p2.lastDate, d.birth)), now ()) > 210 THEN 'Due'
+    ELSE CASE WHEN age_in_days((COALESCE (p2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue'
+         ELSE CASE WHEN age_in_days((COALESCE (p2.lastDate, d.birth)), now ()) > 210 THEN 'Due'
               ELSE 'Okay'
               END
          END
@@ -39,11 +39,11 @@ select
 
 
 
-  CASE WHEN d.calculated_status = 'Alive' THEN TIMESTAMPDIFF('SQL_TSI_DAY',(COALESCE (p2.lastDate, d.birth)), now())
+  CASE WHEN d.calculated_status = 'Alive' THEN age_in_days((COALESCE (p2.lastDate, d.birth)), now())
   ELSE NULL
   END AS DaysSinceLastPhysical,
 
-  CASE WHEN d.calculated_status = 'Alive' THEN  (180 - TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (p2.lastDate, d.birth)), now ()) )
+  CASE WHEN d.calculated_status = 'Alive' THEN  (180 - age_in_days((COALESCE (p2.lastDate, d.birth)), now ()) )
   ELSE NULL
   END  AS DaysUntilDue,
 
