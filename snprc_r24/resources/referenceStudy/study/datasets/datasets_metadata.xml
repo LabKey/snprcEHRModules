@@ -260,4 +260,5 @@
             </column>
         </columns>
     </table>
+<!-- TODO : Add <table tableName="Microbiota" tableDbType="TABLE"> -->
 </tables>

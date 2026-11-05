@@ -329,7 +329,7 @@ public class AnimalsHierarchyController extends SpringActionController
 
             TableInfo reportsTable = SNPRC_EHRSchema.getInstance().getTableInfoReports();
             SimpleFilter filter = new SimpleFilter();
-            filter.addCondition(FieldKey.fromString("visible"), 1, CompareType.EQUAL);
+            filter.addCondition(FieldKey.fromString("visible"), true, CompareType.EQUAL);
             Sort sort = new Sort();
             sort.appendSortColumn(FieldKey.fromString("category"), Sort.SortDirection.ASC, false);
             sort.appendSortColumn(FieldKey.fromString("reporttitle"), Sort.SortDirection.ASC, false);

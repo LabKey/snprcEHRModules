@@ -18,8 +18,8 @@ WITH cte0 AS
              FROM study.housing AS h
              INNER JOIN study.demographics AS d ON h.id = d.id  AND d.species = 'CTJ'
              INNER JOIN ehr_lookups.calendar AS c ON c.TargetDate BETWEEN CAST(h.date AS DATE) AND CAST(COALESCE(h.enddate, NOW()) AS DATE)
-             INNER JOIN ehr_lookups.ageclass AS ac ON timestampdiff('SQL_TSI_DAY', d.birth, c.TargetDate) BETWEEN ac."min" * 365 AND COALESCE(ac."max", 99) * 365 AND ac.species = 'CJ'
-             WHERE ac.label IN ('Infant') AND timestampdiff('SQL_TSI_DAY',d.birth, c.TargetDate) >= 14 AND h.cage IS NOT NULL
+             INNER JOIN ehr_lookups.ageclass AS ac ON age_in_days(d.birth, c.TargetDate) BETWEEN ac."min" * 365 AND COALESCE(ac."max", 99) * 365 AND ac.species = 'CJ'
+             WHERE ac.label IN ('Infant') AND age_in_days(d.birth, c.TargetDate) >= 14 AND h.cage IS NOT NULL
          ),
 
      cte2 AS
@@ -28,7 +28,7 @@ WITH cte0 AS
              FROM study.demographics AS d
              INNER JOIN study.birth AS b ON b.dam = d.id AND b.birth_code IN (1, 2, 3, 6) -- get offspring for dam
              INNER JOIN study.demographics AS d2 ON b.id = d2.id -- offspring's demographics
-             WHERE timestampdiff('SQL_TSI_DAY', b.date, COALESCE(d2.death, NOW()) ) <= 14 -- offspring that lived 14 days or less
+             WHERE age_in_days(b.date, COALESCE(d2.death, NOW()) ) <= 14 -- offspring that lived 14 days or less
                AND d.species = 'CTJ' AND d.calculated_status = 'Alive'
              GROUP BY b.dam
          ),
@@ -39,7 +39,7 @@ WITH cte0 AS
              FROM study.demographics AS d
              INNER JOIN study.birth AS b ON b.dam = d.id AND b.birth_code IN (1, 2) -- get offspring for dam
              INNER JOIN study.demographics AS d2 ON b.id = d2.id -- offspring's demographics
-             WHERE timestampdiff('SQL_TSI_DAY', b.date, COALESCE(d2.death, NOW()) ) > 14 -- offspring that lived more than 14 days
+             WHERE age_in_days(b.date, COALESCE(d2.death, NOW()) ) > 14 -- offspring that lived more than 14 days
                AND d.species = 'CTJ' AND d.calculated_status = 'Alive'
              GROUP BY b.dam
 
@@ -73,7 +73,7 @@ FROM
         FROM study.housing AS h
         INNER JOIN cte1 ON h.room = cte1.room AND h.cage = cte1.cage AND cte1.TargetDate BETWEEN h.date AND COALESCE(h.enddate, NOW())
         INNER JOIN study.demographics AS d ON h.id = d.id AND d.calculated_status = 'Alive' AND d.species = 'CTJ'
-        INNER JOIN ehr_lookups.ageclass AS ac ON timestampdiff('SQL_TSI_DAY', d.birth, cte1.TargetDate) BETWEEN ac."min" * 365 AND COALESCE(ac."max", 99) * 365 AND ac.species = 'CJ'
+        INNER JOIN ehr_lookups.ageclass AS ac ON age_in_days(d.birth, cte1.TargetDate) BETWEEN ac."min" * 365 AND COALESCE(ac."max", 99) * 365 AND ac.species = 'CJ'
         WHERE ac.label = 'Juvenile'
         GROUP BY h.id
     ) b ON b.Id = a.Id
@@ -111,7 +111,7 @@ FROM
                     ELSE NULL END AS current_housing_status
         FROM study.animalaccounts AS aa
         INNER JOIN study.demographics AS d ON aa.id = d.id AND d.calculated_status = 'Alive' AND d.species = 'CTJ'
-        INNER JOIN ehr_lookups.ageclass AS ac ON timestampdiff('SQL_TSI_DAY',d.birth, NOW()) BETWEEN ac."min" * 365 AND COALESCE(ac."max", 99) * 365 AND ac.species = 'CJ'
+        INNER JOIN ehr_lookups.ageclass AS ac ON age_in_days(d.birth, NOW()) BETWEEN ac."min" * 365 AND COALESCE(ac."max", 99) * 365 AND ac.species = 'CJ'
         LEFT OUTER JOIN
          (
              SELECT obs.id, obs.HousingStatus
@@ -157,7 +157,7 @@ FROM
         AND p.id.demographics.calculated_status = 'Alive'
         AND p.pkgid IN (5005, 6012)
         AND (p.procNarrative like '%estrumate%' OR p.procNarrative like '%cloprostenol%')
-        AND timestampdiff('SQL_TSI_DAY', p.date, NOW() ) <= 28 -- hormonal birth control efficacy is 28 days
+        AND age_in_days(p.date, NOW() ) <= 28 -- hormonal birth control efficacy is 28 days
         group by p.id
     ) as h ON h.id = a.id
 
