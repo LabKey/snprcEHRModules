@@ -3367,6 +3367,29 @@
                 <scale>80</scale>
                 <columnTitle>Comment</columnTitle>
             </column>
+            <column columnName="reviewedBy">
+                <datatype>integer</datatype>
+                <columnTitle>Reviewed By</columnTitle>
+                <fk>
+                    <fkDbSchema>core</fkDbSchema>
+                    <fkTable>Users</fkTable>
+                    <fkColumnName>UserId</fkColumnName>
+                </fk>
+            </column>
+            <column columnName="reviewedByName">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <columnTitle>Reviewer Printed Name</columnTitle>
+            </column>
+            <column columnName="reviewedDate">
+                <datatype>timestamp</datatype>
+                <columnTitle>Reviewed Date</columnTitle>
+            </column>
+            <column columnName="reviewMeaning">
+                <datatype>varchar</datatype>
+                <scale>64</scale>
+                <columnTitle>Signature Meaning</columnTitle>
+            </column>
         </columns>
     </table>
 </tables>
