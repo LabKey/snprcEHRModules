@@ -29,6 +29,7 @@ import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.SelectRowsCommand;
 import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.TruncateTableCommand;
+import org.labkey.snprc_ehr.notification.SSRSConfigManager;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
@@ -61,6 +62,7 @@ import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -1339,6 +1341,30 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         setFormElement(Locator.name("dateSelect"), dateFormat);
         setFormElement(Locator.name("timeSelect"), timeFormat);
         clickAndWait(Locator.lkButton("Save"));
+    }
+
+    @Test(expected = MalformedURLException.class)
+    public void testSSRSHttpUrlRejected() throws MalformedURLException
+    {
+        SSRSConfigManager.getInstance().setProperties(null, "user", "pass", "http://server/ReportServer");
+    }
+
+    @Test(expected = MalformedURLException.class)
+    public void testSSRSFtpUrlRejected() throws MalformedURLException
+    {
+        SSRSConfigManager.getInstance().setProperties(null, "user", "pass", "ftp://server/ReportServer");
+    }
+
+    @Test(expected = MalformedURLException.class)
+    public void testSSRSInvalidUrlRejected() throws MalformedURLException
+    {
+        SSRSConfigManager.getInstance().setProperties(null, "user", "pass", "not-a-url");
+    }
+
+    @Test(expected = MalformedURLException.class)
+    public void testSSRSNullUrlRejected() throws MalformedURLException
+    {
+        SSRSConfigManager.getInstance().setProperties(null, "user", "pass", null);
     }
 
     @Override
