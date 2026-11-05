@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Correction, correctObservation, fetchPriorObservation, historyUrl, ObservationRow } from '../api/observation';
 import { formatDateTime } from '../services/formatDate';
-import { clinicalScore, displayScore } from '../services/clinicalScore';
-import { carryOverOf, SCORED_FIELDS } from '../constants/fields';
+import { formScore, scoreLabel } from '../services/clinicalScore';
+import { fieldsFor, HUSBANDRY_FIELDS, HusbandryField, NOT_APPLICABLE } from '../constants/fields';
 
 interface Props {
     onSaved: () => void;
@@ -11,6 +11,18 @@ interface Props {
 }
 
 const priorTooltip = <Tooltip id="prior-history-tooltip">View prior observation history</Tooltip>;
+
+// LabKey returns numbers and the selects return strings; null, undefined and '' all mean no value
+const text = (value: unknown): string => (value === null || value === undefined ? '' : String(value));
+
+// Carry-over and NS flags: empty and 0 both mean No
+const sameFlag = (a: unknown, b: unknown) => !!Number(a) === !!Number(b);
+const yesNo = (value: unknown) => (Number(value) ? 'Yes' : 'No');
+
+const husbandryLabel = (h: HusbandryField, value: unknown) =>
+    h.options.find(o => String(o.value) === text(value))?.label ?? NOT_APPLICABLE;
+
+const FORM_NAMES = { '15PT': '15-point', '4PT': '4-point (ABSL-4)' };
 
 const ObservationDetail = ({ row, onSaved }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -20,20 +32,55 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
     // undefined until the comment is edited
     const [comment, setComment] = useState<string>();
 
-    // A carry-over shares its parameter's reason, so changing either one needs it. Empty and 0 both mean No.
-    const sameCarryOver = (a: any, b: any) => !!Number(a) === !!Number(b);
+    const isFourPoint = row.FormType === '4PT';
+    const fields = fieldsFor(row.FormType);
+    const fieldOf = (name: string) => fields.find(f => f.name === name);
+
+    // A carry-over or NS flag shares its parameter's reason, so changing either one needs it
     const isChanged = (e: Correction) => {
-        const co = carryOverOf(e.field);
-        return String(e.value) !== String(row[e.field]) || (co !== undefined && !sameCarryOver(e.carryOver, row[co]));
+        const f = fieldOf(e.field);
+        return (
+            text(e.value) !== text(row[e.field]) ||
+            (f?.carryOver !== undefined && !sameFlag(e.carryOver, row[f.carryOver])) ||
+            (f?.notSedated !== undefined && !sameFlag(e.notSedated, row[f.notSedated]))
+        );
     };
     const changed = Object.values(edits).filter(isChanged);
-    const missingReason = changed.filter(e => !e.reason?.trim());
+
+    // The values as they will be saved; the score follows unsaved edits, as the tablet's does while values are picked
+    const edited = Object.values(edits).reduce<ObservationRow>((r, e) => {
+        const f = fieldOf(e.field);
+        return {
+            ...r,
+            [e.field]: e.value,
+            ...(f?.carryOver ? { [f.carryOver]: e.carryOver } : {}),
+            ...(f?.notSedated ? { [f.notSedated]: e.notSedated } : {}),
+        };
+    }, row);
+
+    // On the 4-point form, FD leaves the rest of the form empty (10/13). On the 15-point form a deceased animal's
+    // observation is still fully recorded (10/20), so Found Dead is just another value there.
+    const foundDead = isFourPoint && Number(edited.FoundDead) === 1;
+    const isNotSedated = (name: string) => {
+        const ns = fieldOf(name)?.notSedated;
+        return ns !== undefined && Number(edited[ns]) === 1;
+    };
+
+    // Switching FD on a 4-point record clears or reopens every scored field, so those fields can use FD's reason
+    const foundDeadChanged = isFourPoint && changed.some(e => e.field === 'FoundDead');
+    const foundDeadReason = edits.FoundDead?.reason?.trim() ?? '';
+    const sharesFoundDeadReason = (field: string) => foundDeadChanged && fieldOf(field) !== undefined;
+    const reasonOf = (e: Correction) => e.reason?.trim() || (sharesFoundDeadReason(e.field) ? foundDeadReason : '');
+    const missingReason = changed.filter(e => !reasonOf(e));
+
+    // Every field is required (5/08, 10/13), except on a 4-point FD record and Dehydration when NS
+    const missingValue = foundDead
+        ? []
+        : fields.filter(f => text(edited[f.name]) === '' && !isNotSedated(f.name)).map(f => f.name);
+
     // The comment is free text, so it is its own reason; changing it still sends the record back for approval
     const commentChanged = comment !== undefined && comment.trim() !== (row.Comment ?? '');
     const hasChanges = changed.length > 0 || commentChanged;
-
-    // The score follows unsaved edits, as the tablet's does while values are picked
-    const edited = Object.values(edits).reduce<ObservationRow>((r, e) => ({ ...r, [e.field]: e.value }), row);
 
     // A correction reloads the row but never moves it, so the prior only changes with the animal, location or date
     useEffect(() => {
@@ -47,25 +94,57 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps -- the prior only depends on animal, location and date
     }, [row.Id, row.Location, row.date]);
 
+    const unedited = (field: string): Correction => {
+        const f = fieldOf(field);
+        return {
+            field,
+            value: row[field],
+            carryOver: f?.carryOver ? row[f.carryOver] : undefined,
+            notSedated: f?.notSedated ? row[f.notSedated] : undefined,
+            reason: '',
+        };
+    };
+
     const setEdit = (field: string, patch: Partial<Correction>) => {
-        const co = carryOverOf(field);
-        setEdits({
-            ...edits,
-            [field]: {
-                field,
-                value: row[field],
-                carryOver: co ? row[co] : undefined,
-                reason: '',
-                ...edits[field],
-                ...patch,
-            },
-        });
+        setEdits({ ...edits, [field]: { ...unedited(field), ...edits[field], ...patch } });
+    };
+
+    const setFoundDead = (value: string) => {
+        const next = { ...edits, FoundDead: { ...unedited('FoundDead'), ...edits.FoundDead, value } };
+        if (isFourPoint) {
+            fields.forEach(f => {
+                if (value === '1') {
+                    next[f.name] = {
+                        ...unedited(f.name),
+                        ...edits[f.name],
+                        value: null,
+                        ...(f.notSedated ? { notSedated: null } : {}),
+                    };
+                    return;
+                }
+                // Turning FD off again drops what it cleared, so any recorded values show again
+                if (edits[f.name] && text(edits[f.name].value) === '') delete next[f.name];
+                // A record that was saved as FD has no NS answer yet; it is required once the animal is observed
+                if (f.notSedated && text(row[f.notSedated]) === '')
+                    next[f.name] = { ...unedited(f.name), ...next[f.name], notSedated: 0 };
+            });
+        }
+        setEdits(next);
+    };
+
+    const setNotSedated = (field: string, value: string) => {
+        // NS leaves Dehydration empty; turning it off asks for a value again
+        setEdit(field, { notSedated: Number(value), ...(value === '1' ? { value: null } : {}) });
     };
 
     const onSave = async () => {
         setErrorMessage('');
         try {
-            await correctObservation(row.lsid, changed, commentChanged ? comment.trim() : undefined);
+            await correctObservation(
+                row.lsid,
+                changed.map(e => ({ ...e, reason: reasonOf(e) })),
+                commentChanged ? comment.trim() : undefined
+            );
             setEdits({});
             setComment(undefined);
             setIsEditing(false);
@@ -75,6 +154,29 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
         }
     };
 
+    const reasonCell = (field: string) => (
+        <td className={missingReason.some(e => e.field === field) ? 'needs-reason' : undefined}>
+            {isEditing ? (
+                <input
+                    className="form-control"
+                    maxLength={128}
+                    onChange={e => setEdit(field, { reason: e.target.value })}
+                    placeholder={sharesFoundDeadReason(field) && foundDeadReason ? 'Same as Found Dead' : undefined}
+                    value={edits[field]?.reason ?? ''}
+                />
+            ) : (
+                row[`${field}Comments`]
+            )}
+        </td>
+    );
+
+    const priorValue = (field: string) => {
+        if (isFourPoint && Number(prior.FoundDead) === 1) return NOT_APPLICABLE;
+        const ns = fieldOf(field)?.notSedated;
+        if (ns && Number(prior[ns]) === 1) return 'NS';
+        return prior[field] ?? '-';
+    };
+
     return (
         <div className="panel panel-default observation-detail">
             <div className="panel-heading">
@@ -82,6 +184,11 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
             </div>
             <div className="panel-body">
                 <p>Recorded by {row['createdBy/DisplayName']}</p>
+                {row.FormType && (
+                    <p className="observation-form">
+                        {FORM_NAMES[row.FormType] ?? row.FormType} form ({row.FormCode})
+                    </p>
+                )}
                 <table className="table table-condensed">
                     <thead>
                         <tr>
@@ -97,22 +204,47 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
                                 </th>
                             )}
                             <th>Value</th>
-                            <th>Carry over</th>
+                            <th>{isFourPoint ? 'Not sedated' : 'Carry over'}</th>
                             <th>Reason for change</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {SCORED_FIELDS.map(f => (
+                        <tr>
+                            <td>Found Dead</td>
+                            {prior && <td className="prior-value">{yesNo(prior.FoundDead)}</td>}
+                            <td>
+                                {isEditing ? (
+                                    <select
+                                        className="form-control"
+                                        onChange={e => setFoundDead(e.target.value)}
+                                        value={Number(edited.FoundDead) ? '1' : '0'}
+                                    >
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                ) : (
+                                    yesNo(row.FoundDead)
+                                )}
+                            </td>
+                            <td />
+                            {reasonCell('FoundDead')}
+                        </tr>
+                        {fields.map(f => (
                             <tr key={f.name}>
                                 <td>{f.label}</td>
-                                {prior && <td className="prior-value">{prior[f.name] ?? '-'}</td>}
-                                <td>
-                                    {isEditing ? (
+                                {prior && <td className="prior-value">{priorValue(f.name)}</td>}
+                                <td className={isEditing && missingValue.includes(f.name) ? 'needs-value' : undefined}>
+                                    {foundDead ? (
+                                        NOT_APPLICABLE
+                                    ) : isNotSedated(f.name) ? (
+                                        'NS'
+                                    ) : isEditing ? (
                                         <select
                                             className="form-control"
                                             onChange={e => setEdit(f.name, { value: e.target.value })}
-                                            value={String(edits[f.name]?.value ?? row[f.name] ?? '')}
+                                            value={text(edited[f.name])}
                                         >
+                                            {text(edited[f.name]) === '' && <option value="">Select</option>}
                                             {f.values.map(v => (
                                                 <option key={v} value={String(v)}>
                                                     {v}
@@ -129,40 +261,76 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
                                             <select
                                                 className="form-control"
                                                 onChange={e => setEdit(f.name, { carryOver: Number(e.target.value) })}
-                                                value={Number(edits[f.name]?.carryOver ?? row[f.carryOver]) ? '1' : '0'}
+                                                value={Number(edited[f.carryOver]) ? '1' : '0'}
                                             >
                                                 <option value="1">Yes</option>
                                                 <option value="0">No</option>
                                             </select>
-                                        ) : row[f.carryOver] ? (
-                                            'Yes'
                                         ) : (
-                                            'No'
+                                            yesNo(row[f.carryOver])
+                                        ))}
+                                    {f.notSedated &&
+                                        !foundDead &&
+                                        (isEditing ? (
+                                            <select
+                                                className="form-control"
+                                                onChange={e => setNotSedated(f.name, e.target.value)}
+                                                value={Number(edited[f.notSedated]) ? '1' : '0'}
+                                            >
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                        ) : (
+                                            yesNo(row[f.notSedated])
                                         ))}
                                 </td>
-                                <td
-                                    className={missingReason.some(e => e.field === f.name) ? 'needs-reason' : undefined}
-                                >
-                                    {isEditing ? (
-                                        <input
-                                            className="form-control"
-                                            maxLength={128}
-                                            onChange={e => setEdit(f.name, { reason: e.target.value })}
-                                            value={edits[f.name]?.reason ?? ''}
-                                        />
-                                    ) : (
-                                        row[`${f.name}Comments`]
-                                    )}
-                                </td>
+                                {reasonCell(f.name)}
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 {/* Calculated from the values above, never entered */}
                 <p className="clinical-score">
-                    Clinical Score: <strong>{displayScore(clinicalScore(edited))}</strong>
-                    {prior && <span className="prior-value"> (prior {displayScore(clinicalScore(prior))})</span>}
+                    {`${scoreLabel(row.FormType)}: `}
+                    <strong>{formScore(edited)}</strong>
+                    {prior && <span className="prior-value"> (prior {formScore(prior)})</span>}
                 </p>
+                {/* Not scored, and no prior value (9/29) */}
+                <table className="table table-condensed husbandry">
+                    <thead>
+                        <tr>
+                            <th>Husbandry</th>
+                            <th>Value</th>
+                            <th>Reason for change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {HUSBANDRY_FIELDS.map(h => (
+                            <tr key={h.name}>
+                                <td>{h.label}</td>
+                                <td>
+                                    {isEditing ? (
+                                        <select
+                                            className="form-control"
+                                            onChange={e => setEdit(h.name, { value: e.target.value })}
+                                            value={text(edited[h.name])}
+                                        >
+                                            <option value="">{NOT_APPLICABLE}</option>
+                                            {h.options.map(o => (
+                                                <option key={o.value} value={String(o.value)}>
+                                                    {o.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        husbandryLabel(h, row[h.name])
+                                    )}
+                                </td>
+                                {reasonCell(h.name)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
                 {isEditing ? (
                     <div className="form-group">
                         <label htmlFor="observation-comment">Comment</label>
@@ -180,7 +348,11 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
                 {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 {isEditing ? (
                     <>
-                        <Button bsStyle="success" disabled={!hasChanges || missingReason.length > 0} onClick={onSave}>
+                        <Button
+                            bsStyle="success"
+                            disabled={!hasChanges || missingReason.length > 0 || missingValue.length > 0}
+                            onClick={onSave}
+                        >
                             Save correction
                         </Button>
                         <Button

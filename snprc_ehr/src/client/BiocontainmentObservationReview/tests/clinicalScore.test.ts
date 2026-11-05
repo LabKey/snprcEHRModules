@@ -1,4 +1,11 @@
-import { clinicalScore, displayScore, scoreOf } from '../services/clinicalScore';
+import {
+    clinicalScore,
+    displayScore,
+    formScore,
+    responsivenessScore,
+    scoreLabel,
+    scoreOf,
+} from '../services/clinicalScore';
 import { SCORED_FIELDS } from '../constants/fields';
 
 // Every scored field at 0, as LabKey returns them (Stool is the one varchar)
@@ -63,5 +70,34 @@ describe('displayScore', () => {
         expect(displayScore(undefined)).toBe('-');
         expect(displayScore(0)).toBe('0');
         expect(displayScore(17)).toBe('17');
+    });
+});
+
+describe('4-point form', () => {
+    test('the score is the Responsiveness value, with no total', () => {
+        expect(responsivenessScore({ FoundDead: 0, Responsiveness: 3, Bleeding: 2 })).toBe('3');
+    });
+
+    test('the score is FD when the animal was found dead', () => {
+        expect(responsivenessScore({ FoundDead: 1, Responsiveness: null })).toBe('FD');
+    });
+
+    test('shows a dash when Responsiveness is missing', () => {
+        expect(responsivenessScore({ FoundDead: 0 })).toBe('-');
+    });
+});
+
+describe('formScore', () => {
+    test('sums the 15-point form, even when the animal was found dead', () => {
+        expect(formScore({ ...zeroRow(), FormType: '15PT', FoundDead: 1, Respiration: 8 })).toBe('8');
+    });
+
+    test('uses Responsiveness alone on the 4-point form', () => {
+        expect(formScore({ FormType: '4PT', FoundDead: 0, Responsiveness: 4, Respiration: 2 })).toBe('4');
+    });
+
+    test('labels the score by form', () => {
+        expect(scoreLabel('15PT')).toBe('Clinical Score');
+        expect(scoreLabel('4PT')).toBe('Responsiveness Score');
     });
 });

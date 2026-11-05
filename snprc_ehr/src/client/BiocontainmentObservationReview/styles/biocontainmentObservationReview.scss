@@ -83,8 +83,10 @@
     padding: 4px 8px;
   }
 
-  // A changed value with no reason yet: the server will reject the save, so show it before the round trip
-  .needs-reason .form-control {
+  // A changed value with no reason yet, or a required value left empty: the server will reject the save,
+  // so show it before the round trip
+  .needs-reason .form-control,
+  .needs-value .form-control {
     border-color: #c24343;
   }
 

@@ -1,5 +1,5 @@
 import { ActionURL, Filter, Query } from '@labkey/api';
-import { carryOverOf, COMPLETED, SCORED_FIELDS } from '../constants/fields';
+import { carryOverOf, COMPLETED, HUSBANDRY_FIELDS, notSedatedOf, SCORED_FIELDS } from '../constants/fields';
 
 const SCHEMA = 'study';
 const QUERY = 'BiocontainmentObservations';
@@ -9,6 +9,11 @@ const COLUMNS = [
     'Id',
     'date',
     'Location',
+    'FormCode',
+    'FormType',
+    'FoundDead',
+    'FoundDeadComments',
+    'DehydrationNS',
     'Comment',
     'QCState/Label',
     'createdBy',
@@ -16,7 +21,9 @@ const COLUMNS = [
     'created',
     'modifiedBy/DisplayName',
     'modified',
-].concat(...SCORED_FIELDS.map(f => [f.name, `${f.name}Comments`].concat(f.carryOver ? [f.carryOver] : [])));
+]
+    .concat(...SCORED_FIELDS.map(f => [f.name, `${f.name}Comments`].concat(f.carryOver ? [f.carryOver] : [])))
+    .concat(...HUSBANDRY_FIELDS.map(f => [f.name, `${f.name}Comments`]));
 
 export type ObservationRow = Record<string, any>;
 
@@ -46,19 +53,22 @@ export const approveObservations = (lsids: string[]): Promise<any> =>
 export interface Correction {
     carryOver?: number;
     field: string;
+    notSedated?: number;
     reason: string;
     value: any;
 }
 
-// comment is only sent when it changed; an empty comment clears it
+// comment is only sent when it changed; an empty comment clears it, and an empty value is sent as null
 export const correctObservation = (lsid: string, corrections: Correction[], comment?: string): Promise<any> => {
     const row: ObservationRow = { lsid };
     if (comment !== undefined) row.Comment = comment === '' ? null : comment;
     corrections.forEach(c => {
-        row[c.field] = c.value;
+        row[c.field] = c.value === '' || c.value === undefined ? null : c.value;
         row[`${c.field}Comments`] = c.reason;
         const co = carryOverOf(c.field);
         if (co && c.carryOver !== undefined) row[co] = c.carryOver;
+        const ns = notSedatedOf(c.field);
+        if (ns && c.notSedated !== undefined) row[ns] = c.notSedated;
     });
     return new Promise((resolve, reject) => {
         Query.updateRows({
@@ -71,8 +81,13 @@ export const correctObservation = (lsid: string, corrections: Correction[], comm
     });
 };
 
-// Same animal, same location. Any QC state: the tech saw the prior whether or not it had been approved.
-const historyFilters = (row: ObservationRow) => [Filter.create('Id', row.Id), Filter.create('Location', row.Location)];
+// Same animal, same location, same form (scores are never compared across forms, 9/22).
+// Any QC state: the tech saw the prior whether or not it had been approved.
+const historyFilters = (row: ObservationRow) => [
+    Filter.create('Id', row.Id),
+    Filter.create('Location', row.Location),
+    Filter.create('FormType', row.FormType),
+];
 
 // Most recent observation before this one
 export const fetchPriorObservation = (row: ObservationRow): Promise<ObservationRow | undefined> =>
@@ -90,12 +105,13 @@ export const fetchPriorObservation = (row: ObservationRow): Promise<ObservationR
         });
     });
 
-// Full history for the animal at this location, newest first
+// Full history for the animal at this location on this form, newest first
 export const historyUrl = (row: ObservationRow): string =>
     ActionURL.buildURL('query', 'executeQuery', undefined, {
         schemaName: SCHEMA,
         'query.queryName': QUERY,
         'query.Id~eq': row.Id,
         'query.Location~eq': row.Location,
+        'query.FormType~eq': row.FormType,
         'query.sort': '-date',
     });

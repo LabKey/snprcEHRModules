@@ -1,4 +1,13 @@
-import { carryOverOf, COMPLETED, REVIEW_REQUIRED, SCORED_FIELDS } from '../constants/fields';
+import {
+    carryOverOf,
+    COMPLETED,
+    fieldsFor,
+    FOUR_POINT_FIELDS,
+    HUSBANDRY_FIELDS,
+    notSedatedOf,
+    REVIEW_REQUIRED,
+    SCORED_FIELDS,
+} from '../constants/fields';
 
 describe('SCORED_FIELDS', () => {
     test('has the 13 parameters on TXB 904-1, in form order', () => {
@@ -37,6 +46,80 @@ describe('SCORED_FIELDS', () => {
             FluidIntake: [0, 1, 2],
             Dehydration: [0, 1],
         });
+    });
+});
+
+describe('FOUR_POINT_FIELDS', () => {
+    test('has the 9 parameters on the ABSL-4 4-point form, in form order', () => {
+        expect(FOUR_POINT_FIELDS.map(f => f.name)).toEqual([
+            'Responsiveness',
+            'HairCoat',
+            'Respiration',
+            'Petechia',
+            'Bleeding',
+            'NasalDischarge',
+            'Stool',
+            'FluidIntake',
+            'Dehydration',
+        ]);
+    });
+
+    test('allowed values match the 4PT CHECK constraints on dbo.BiocontainmentObservation', () => {
+        const values = Object.fromEntries(FOUR_POINT_FIELDS.map(f => [f.name, f.values]));
+        expect(values).toEqual({
+            Responsiveness: [0, 1, 2, 3, 4],
+            HairCoat: [0, 1],
+            Respiration: [0, 1, 2],
+            Petechia: [0, 1, 2, 3],
+            Bleeding: [0, 1, 2],
+            NasalDischarge: [0, 1],
+            Stool: ['0', '1', '2D', '2R'],
+            FluidIntake: [0, 1, 2],
+            Dehydration: [0, 1],
+        });
+    });
+
+    test('has no carry-overs; only Dehydration has NS', () => {
+        expect(FOUR_POINT_FIELDS.filter(f => f.carryOver)).toHaveLength(0);
+        expect(FOUR_POINT_FIELDS.filter(f => f.notSedated).map(f => f.name)).toEqual(['Dehydration']);
+        expect(notSedatedOf('Dehydration')).toBe('DehydrationNS');
+        expect(notSedatedOf('Responsiveness')).toBeUndefined();
+    });
+
+    // The page fetches columns from SCORED_FIELDS, so a 4-point-only field would never be loaded
+    test('every 4-point parameter is also a 15-point parameter', () => {
+        const names = SCORED_FIELDS.map(f => f.name);
+        FOUR_POINT_FIELDS.forEach(f => expect(names).toContain(f.name));
+    });
+});
+
+describe('fieldsFor', () => {
+    test('picks the field list by form type, defaulting to the 15-point form', () => {
+        expect(fieldsFor('4PT')).toBe(FOUR_POINT_FIELDS);
+        expect(fieldsFor('15PT')).toBe(SCORED_FIELDS);
+        expect(fieldsFor(undefined)).toBe(SCORED_FIELDS);
+    });
+});
+
+describe('HUSBANDRY_FIELDS', () => {
+    // CK_CageCleaning and CK_Water allow 1 and 2; N/A is NULL
+    test('offers Cage Cleaning and Water as words for the values CAMP allows', () => {
+        expect(HUSBANDRY_FIELDS.map(h => [h.name, h.options])).toEqual([
+            [
+                'CageCleaning',
+                [
+                    { value: 1, label: 'Cleaned' },
+                    { value: 2, label: 'Changed' },
+                ],
+            ],
+            [
+                'Water',
+                [
+                    { value: 1, label: 'Added' },
+                    { value: 2, label: 'Fresh bottle' },
+                ],
+            ],
+        ]);
     });
 });
 

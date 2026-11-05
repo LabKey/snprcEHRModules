@@ -1,7 +1,11 @@
+export type FormType = '4PT' | '15PT';
+
 export interface ScoredField {
     carryOver?: string;
     label: string;
     name: string;
+    // 4-point Dehydration only: "not sedated", which leaves the value empty. Never called a carry-over (10/13).
+    notSedated?: string;
     values: (number | string)[];
 }
 
@@ -22,7 +26,54 @@ export const SCORED_FIELDS: ScoredField[] = [
     { name: 'Dehydration', label: 'Dehydration', carryOver: 'DehydrationCO', values: [0, 1] },
 ];
 
+// ABSL-4 4-point form (TXB 904-1 ABSL-4 REV 00): no weight, temperature, feed or enrichment, and no carry-overs
+export const FOUR_POINT_FIELDS: ScoredField[] = [
+    { name: 'Responsiveness', label: 'Responsiveness', values: [0, 1, 2, 3, 4] },
+    { name: 'HairCoat', label: 'Hair Coat', values: [0, 1] },
+    { name: 'Respiration', label: 'Respiration', values: [0, 1, 2] },
+    { name: 'Petechia', label: 'Petechia', values: [0, 1, 2, 3] },
+    { name: 'Bleeding', label: 'Bleeding', values: [0, 1, 2] },
+    { name: 'NasalDischarge', label: 'Nasal Discharge', values: [0, 1] },
+    { name: 'Stool', label: 'Stool', values: ['0', '1', '2D', '2R'] },
+    { name: 'FluidIntake', label: 'Fluid Intake', values: [0, 1, 2] },
+    { name: 'Dehydration', label: 'Dehydration', notSedated: 'DehydrationNS', values: [0, 1] },
+];
+
+// A row whose form is missing is shown as the original 15-point form
+export const fieldsFor = (formType: string): ScoredField[] => (formType === '4PT' ? FOUR_POINT_FIELDS : SCORED_FIELDS);
+
+export interface HusbandryField {
+    label: string;
+    name: string;
+    options: { label: string; value: number }[];
+}
+
+// Both forms, never scored and no prior value (9/29). Empty means N/A.
+export const HUSBANDRY_FIELDS: HusbandryField[] = [
+    {
+        name: 'CageCleaning',
+        label: 'Cage Cleaning',
+        options: [
+            { value: 1, label: 'Cleaned' },
+            { value: 2, label: 'Changed' },
+        ],
+    },
+    {
+        name: 'Water',
+        label: 'Water',
+        options: [
+            { value: 1, label: 'Added' },
+            { value: 2, label: 'Fresh bottle' },
+        ],
+    },
+];
+
+export const NOT_APPLICABLE = 'N/A';
+
 export const carryOverOf = (field: string): string | undefined => SCORED_FIELDS.find(f => f.name === field)?.carryOver;
+
+export const notSedatedOf = (field: string): string | undefined =>
+    FOUR_POINT_FIELDS.find(f => f.name === field)?.notSedated;
 
 export const REVIEW_REQUIRED = 'Review Required';
 export const COMPLETED = 'Completed';

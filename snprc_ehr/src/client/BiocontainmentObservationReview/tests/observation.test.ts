@@ -93,6 +93,27 @@ describe('correctObservation', () => {
         expect(updateRows.mock.calls[0][0].rows[0]).toEqual({ lsid: 'lsid-1', Bleeding: 1, BleedingComments: 'Typo' });
     });
 
+    test('sends NS with Dehydration, sharing the reason, and an empty value as null', async () => {
+        succeedWith(updateRows, { rows: [] });
+
+        await correctObservation('lsid-1', [{ field: 'Dehydration', notSedated: 1, reason: 'Not sedated', value: '' }]);
+
+        expect(updateRows.mock.calls[0][0].rows[0]).toEqual({
+            lsid: 'lsid-1',
+            Dehydration: null,
+            DehydrationComments: 'Not sedated',
+            DehydrationNS: 1,
+        });
+    });
+
+    test('sends a cleared husbandry value as null (N/A)', async () => {
+        succeedWith(updateRows, { rows: [] });
+
+        await correctObservation('lsid-1', [{ field: 'Water', reason: 'Not done', value: '' }]);
+
+        expect(updateRows.mock.calls[0][0].rows[0]).toEqual({ lsid: 'lsid-1', Water: null, WaterComments: 'Not done' });
+    });
+
     test('sends the comment only when one is passed, and an empty comment as null', async () => {
         succeedWith(updateRows, { rows: [] });
 
@@ -128,12 +149,32 @@ describe('fetchObservation', () => {
         );
         expect(config.columns).not.toContain('StoolCO');
     });
+
+    test('also selects the form, Found Dead, NS and husbandry columns', async () => {
+        succeedWith(selectRows, { rows: [{}] });
+
+        await fetchObservation('lsid-1');
+
+        expect(selectRows.mock.calls[0][0].columns).toEqual(
+            expect.arrayContaining([
+                'FormCode',
+                'FormType',
+                'FoundDead',
+                'FoundDeadComments',
+                'DehydrationNS',
+                'CageCleaning',
+                'CageCleaningComments',
+                'Water',
+                'WaterComments',
+            ])
+        );
+    });
 });
 
 describe('fetchPriorObservation', () => {
-    const row = { date: '2026/09/28 13:45:00', Id: '12345', Location: 23.03 };
+    const row = { date: '2026/09/28 13:45:00', FormType: '4PT', Id: '12345', Location: 23.03 };
 
-    test('asks for the latest earlier observation of the same animal at the same location', async () => {
+    test('asks for the latest earlier observation of the same animal at the same location on the same form', async () => {
         succeedWith(selectRows, { rows: [{ lsid: 'prior' }] });
 
         await expect(fetchPriorObservation(row)).resolves.toEqual({ lsid: 'prior' });
@@ -143,6 +184,8 @@ describe('fetchPriorObservation', () => {
         expect(filterSummary(config.filterArray)).toEqual([
             ['Id', 'eq', '12345'],
             ['Location', 'eq', 23.03],
+            // Scores are never compared across forms (9/22)
+            ['FormType', 'eq', '4PT'],
             ['date', 'lt', '2026/09/28 13:45:00'],
         ]);
         expect(config.sort).toBe('-date');
@@ -157,11 +200,12 @@ describe('fetchPriorObservation', () => {
 });
 
 describe('historyUrl', () => {
-    test('opens the dataset filtered to the animal and location, newest first', () => {
-        expect(historyUrl({ Id: '12345', Location: 23.03 })).toEqual({
+    test('opens the dataset filtered to the animal, location and form, newest first', () => {
+        expect(historyUrl({ FormType: '15PT', Id: '12345', Location: 23.03 })).toEqual({
             action: 'executeQuery',
             controller: 'query',
             params: {
+                'query.FormType~eq': '15PT',
                 'query.Id~eq': '12345',
                 'query.Location~eq': 23.03,
                 'query.queryName': 'BiocontainmentObservations',

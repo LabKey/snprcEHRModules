@@ -35,6 +35,10 @@ CREATE TABLE TAC_src.BiocontainmentObservations
     FluidIntake INT NULL,
     Dehydration INT NULL,
     Dehydration_CO INT NULL,
+    Dehydration_NS INT NULL,
+    FoundDead INT NULL,
+    CageCleaning INT NULL,
+    Water INT NULL,
     Comment VARCHAR(80) NULL,
     ETLDownDate DATETIME DEFAULT GETDATE(),
     Created DATETIME NULL,
@@ -135,6 +139,10 @@ BEGIN
         FluidIntake         INT NULL,
         Dehydration         INT NULL,
         Dehydration_CO      INT NULL,
+        Dehydration_NS      INT NULL,
+        FoundDead           INT NULL,
+        CageCleaning        INT NULL,
+        Water               INT NULL,
         Comment             VARCHAR(80) NULL,
         hasChanges          BIT NOT NULL
     );
@@ -160,18 +168,14 @@ BEGIN
            l.HairCoat, l.Respiration, l.Petechia, l.Petechia_CO, l.Bleeding,
            l.NasalDischarge, l.FeedEaten, l.FeedEaten_CO, l.FoodEnrichment,
            l.FoodEnrichment_CO, l.Stool, l.FluidIntake, l.Dehydration,
-           l.Dehydration_CO, l.Comment,
+           l.Dehydration_CO, l.Dehydration_NS, l.FoundDead, l.CageCleaning, l.Water, l.Comment,
            CASE WHEN EXISTS (
-               SELECT COALESCE(l.Location, b.Location), COALESCE(l.WeightLoss, b.WeightLoss),
-                      COALESCE(l.WeightLoss_CO, b.WeightLoss_CO), COALESCE(l.TemperatureChange, b.TemperatureChange),
-                      COALESCE(l.TemperatureChange_CO, b.TemperatureChange_CO), COALESCE(l.Responsiveness, b.Responsiveness),
-                      COALESCE(l.HairCoat, b.HairCoat), COALESCE(l.Respiration, b.Respiration),
-                      COALESCE(l.Petechia, b.Petechia), COALESCE(l.Petechia_CO, b.Petechia_CO),
-                      COALESCE(l.Bleeding, b.Bleeding), COALESCE(l.NasalDischarge, b.NasalDischarge),
-                      COALESCE(l.FeedEaten, b.FeedEaten), COALESCE(l.FeedEaten_CO, b.FeedEaten_CO),
-                      COALESCE(l.FoodEnrichment, b.FoodEnrichment), COALESCE(l.FoodEnrichment_CO, b.FoodEnrichment_CO),
-                      COALESCE(l.Stool, b.Stool), COALESCE(l.FluidIntake, b.FluidIntake),
-                      COALESCE(l.Dehydration, b.Dehydration), COALESCE(l.Dehydration_CO, b.Dehydration_CO),
+               SELECT COALESCE(l.Location, b.Location), l.WeightLoss, l.WeightLoss_CO, l.TemperatureChange,
+                      l.TemperatureChange_CO, l.Responsiveness, l.HairCoat, l.Respiration,
+                      l.Petechia, l.Petechia_CO, l.Bleeding, l.NasalDischarge,
+                      l.FeedEaten, l.FeedEaten_CO, l.FoodEnrichment, l.FoodEnrichment_CO,
+                      l.Stool, l.FluidIntake, l.Dehydration, l.Dehydration_CO,
+                      l.Dehydration_NS, l.FoundDead, l.CageCleaning, l.Water,
                       l.Comment
                EXCEPT
                SELECT b.Location, b.WeightLoss, b.WeightLoss_CO, b.TemperatureChange,
@@ -179,6 +183,7 @@ BEGIN
                       b.Petechia, b.Petechia_CO, b.Bleeding, b.NasalDischarge,
                       b.FeedEaten, b.FeedEaten_CO, b.FoodEnrichment, b.FoodEnrichment_CO,
                       b.Stool, b.FluidIntake, b.Dehydration, b.Dehydration_CO,
+                      b.Dehydration_NS, b.FoundDead, b.CageCleaning, b.Water,
                       b.Comment
            ) THEN 1 ELSE 0 END
     FROM TAC_src.BiocontainmentObservations l
@@ -271,28 +276,34 @@ BEGIN
             -- now-current data.
             UPDATE b
             SET Location             = COALESCE(m.Location, b.Location),
-                WeightLoss           = COALESCE(m.WeightLoss, b.WeightLoss),
-                WeightLoss_CO        = COALESCE(m.WeightLoss_CO, b.WeightLoss_CO),
-                TemperatureChange    = COALESCE(m.TemperatureChange, b.TemperatureChange),
-                TemperatureChange_CO = COALESCE(m.TemperatureChange_CO, b.TemperatureChange_CO),
-                Responsiveness       = COALESCE(m.Responsiveness, b.Responsiveness),
-                HairCoat             = COALESCE(m.HairCoat, b.HairCoat),
-                Respiration          = COALESCE(m.Respiration, b.Respiration),
-                Petechia             = COALESCE(m.Petechia, b.Petechia),
-                Petechia_CO          = COALESCE(m.Petechia_CO, b.Petechia_CO),
-                Bleeding             = COALESCE(m.Bleeding, b.Bleeding),
-                NasalDischarge       = COALESCE(m.NasalDischarge, b.NasalDischarge),
-                FeedEaten            = COALESCE(m.FeedEaten, b.FeedEaten),
-                FeedEaten_CO         = COALESCE(m.FeedEaten_CO, b.FeedEaten_CO),
-                FoodEnrichment       = COALESCE(m.FoodEnrichment, b.FoodEnrichment),
-                FoodEnrichment_CO    = COALESCE(m.FoodEnrichment_CO, b.FoodEnrichment_CO),
-                Stool                = COALESCE(m.Stool, b.Stool),
-                FluidIntake          = COALESCE(m.FluidIntake, b.FluidIntake),
-                Dehydration          = COALESCE(m.Dehydration, b.Dehydration),
-                Dehydration_CO       = COALESCE(m.Dehydration_CO, b.Dehydration_CO),
-                -- Comment is the one nullable column, so it's assigned directly:
-                -- clearing it in TAC must clear it in CAMP, or the import ETL would
-                -- pull the old comment back into TAC.
+                -- Every other column is assigned directly. Which columns may be NULL depends on the
+                -- form (a 4-point row has no weight loss; a 4-point Found Dead row has no scores;
+                -- Cage Cleaning and Water are NULL for N/A), and the export sends the whole TAC row,
+                -- so a NULL here is the TAC value. CAMP's CHECK constraints reject an incomplete row,
+                -- and it lands in FanOutError.
+                WeightLoss           = m.WeightLoss,
+                WeightLoss_CO        = m.WeightLoss_CO,
+                TemperatureChange    = m.TemperatureChange,
+                TemperatureChange_CO = m.TemperatureChange_CO,
+                Responsiveness       = m.Responsiveness,
+                HairCoat             = m.HairCoat,
+                Respiration          = m.Respiration,
+                Petechia             = m.Petechia,
+                Petechia_CO          = m.Petechia_CO,
+                Bleeding             = m.Bleeding,
+                NasalDischarge       = m.NasalDischarge,
+                FeedEaten            = m.FeedEaten,
+                FeedEaten_CO         = m.FeedEaten_CO,
+                FoodEnrichment       = m.FoodEnrichment,
+                FoodEnrichment_CO    = m.FoodEnrichment_CO,
+                Stool                = m.Stool,
+                FluidIntake          = m.FluidIntake,
+                Dehydration          = m.Dehydration,
+                Dehydration_CO       = m.Dehydration_CO,
+                Dehydration_NS       = m.Dehydration_NS,
+                FoundDead            = m.FoundDead,
+                CageCleaning         = m.CageCleaning,
+                Water                = m.Water,
                 Comment              = m.Comment
             FROM dbo.BiocontainmentObservation b
                 INNER JOIN @matched m ON m.targetTid = b.tid AND b.timestamp = m.capturedTimestamp

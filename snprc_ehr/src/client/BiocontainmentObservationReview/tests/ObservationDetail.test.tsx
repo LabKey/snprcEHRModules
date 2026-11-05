@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 
 import ObservationDetail from '../components/ObservationDetail';
 import { correctObservation, fetchPriorObservation, ObservationRow } from '../api/observation';
-import { SCORED_FIELDS } from '../constants/fields';
+import { FOUR_POINT_FIELDS, SCORED_FIELDS } from '../constants/fields';
 
 jest.mock('../api/observation', () => ({
     correctObservation: jest.fn(),
@@ -16,19 +16,46 @@ jest.mock('../api/observation', () => ({
 const mockCorrect = correctObservation as jest.Mock;
 const mockFetchPrior = fetchPriorObservation as jest.Mock;
 
-// A complete observation with every scored field at 0 and every carry-over at No
+// A complete 15-point observation with every scored field at 0 and every carry-over at No
 const makeRow = (overrides: ObservationRow = {}): ObservationRow => {
     const row: ObservationRow = {
         lsid: 'lsid-1',
         Id: '12345',
         Location: 23.03,
         date: '2026/09/28 13:45:00',
+        FormCode: 'TXB904-1-R01',
+        FormType: '15PT',
+        FoundDead: 0,
+        CageCleaning: 1,
+        Water: null,
         Comment: 'Quiet morning',
         'createdBy/DisplayName': 'observer',
     };
     SCORED_FIELDS.forEach(f => {
         row[f.name] = f.name === 'Stool' ? '0' : 0;
         if (f.carryOver) row[f.carryOver] = 0;
+    });
+    return { ...row, ...overrides };
+};
+
+// A complete 4-point observation: every parameter at 0, sedated, not found dead
+const makeFourPointRow = (overrides: ObservationRow = {}): ObservationRow => {
+    const row: ObservationRow = {
+        lsid: 'lsid-4',
+        Id: '23456',
+        Location: 41.01,
+        date: '2026/10/30 08:15:00',
+        FormCode: 'TXB904-1-ABSL4-R00',
+        FormType: '4PT',
+        FoundDead: 0,
+        DehydrationNS: 0,
+        CageCleaning: 2,
+        Water: 1,
+        Comment: null,
+        'createdBy/DisplayName': 'observer',
+    };
+    FOUR_POINT_FIELDS.forEach(f => {
+        row[f.name] = f.name === 'Stool' ? '0' : 0;
     });
     return { ...row, ...overrides };
 };
@@ -303,5 +330,170 @@ describe('ObservationDetail, comment', () => {
         userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
 
         expect(commentBox()).toHaveValue('Quiet morning');
+    });
+});
+
+describe('ObservationDetail, 4-point form', () => {
+    const editValues = () => userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+    const foundDeadSelect = () => parameterRow('Found Dead').getByRole('combobox');
+
+    test('lists only the 4-point parameters, with an NS column and the Responsiveness score', async () => {
+        await renderDetail(makeFourPointRow({ Responsiveness: 3, Bleeding: 2 }));
+
+        FOUR_POINT_FIELDS.forEach(f => expect(screen.getByText(f.label)).toBeInTheDocument());
+        expect(screen.queryByText('Weight Loss')).not.toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: 'Not sedated' })).toBeInTheDocument();
+        expect(screen.queryByRole('columnheader', { name: 'Carry over' })).not.toBeInTheDocument();
+        expect(screen.getByText('Responsiveness Score:')).toHaveTextContent('Responsiveness Score: 3');
+        expect(screen.getByText('4-point (ABSL-4) form (TXB904-1-ABSL4-R00)')).toBeInTheDocument();
+    });
+
+    test('a found-dead record shows N/A for every parameter and FD as the score', async () => {
+        const nulls = Object.fromEntries(FOUR_POINT_FIELDS.map(f => [f.name, null]));
+        await renderDetail(makeFourPointRow({ ...nulls, FoundDead: 1, DehydrationNS: null }));
+
+        expect(parameterRow('Found Dead').getByText('Yes')).toBeInTheDocument();
+        FOUR_POINT_FIELDS.forEach(f => expect(parameterRow(f.label).getByText('N/A')).toBeInTheDocument());
+        expect(screen.getByText('Responsiveness Score:')).toHaveTextContent('Responsiveness Score: FD');
+    });
+
+    test('a not-sedated record shows NS for Dehydration', async () => {
+        await renderDetail(makeFourPointRow({ Dehydration: null, DehydrationNS: 1 }));
+
+        expect(parameterRow('Dehydration').getByText('NS')).toBeInTheDocument();
+        expect(parameterRow('Dehydration').getByText('Yes')).toBeInTheDocument();
+    });
+
+    test('marking found dead clears every parameter, which share the Found Dead reason', async () => {
+        const onSaved = await renderDetail(makeFourPointRow());
+        editValues();
+
+        userEvent.selectOptions(foundDeadSelect(), '1');
+        expect(parameterRow('Responsiveness').getByText('N/A')).toBeInTheDocument();
+        expect(saveButton()).toBeDisabled();
+
+        userEvent.type(parameterRow('Found Dead').getByRole('textbox'), 'Found dead at AM check');
+        expect(saveButton()).toBeEnabled();
+        userEvent.click(saveButton());
+
+        await waitFor(() => expect(onSaved).toHaveBeenCalledTimes(1));
+        const [lsid, corrections] = mockCorrect.mock.calls[0];
+        expect(lsid).toBe('lsid-4');
+        expect(corrections.find(c => c.field === 'FoundDead')).toMatchObject({
+            reason: 'Found dead at AM check',
+            value: '1',
+        });
+        FOUR_POINT_FIELDS.forEach(f =>
+            expect(corrections.find(c => c.field === f.name)).toMatchObject({
+                reason: 'Found dead at AM check',
+                value: null,
+            })
+        );
+        expect(corrections.find(c => c.field === 'Dehydration').notSedated).toBeNull();
+    });
+
+    test('un-marking found dead before saving restores the recorded values', async () => {
+        await renderDetail(makeFourPointRow({ Bleeding: 2 }));
+        editValues();
+
+        userEvent.selectOptions(foundDeadSelect(), '1');
+        userEvent.selectOptions(foundDeadSelect(), '0');
+
+        expect(parameterRow('Bleeding').getByRole('combobox')).toHaveValue('2');
+        expect(saveButton()).toBeDisabled();
+    });
+
+    test('un-marking a saved found-dead record needs every value before it can be saved', async () => {
+        const nulls = Object.fromEntries(FOUR_POINT_FIELDS.map(f => [f.name, null]));
+        const onSaved = await renderDetail(makeFourPointRow({ ...nulls, FoundDead: 1, DehydrationNS: null }));
+        editValues();
+
+        userEvent.selectOptions(foundDeadSelect(), '0');
+        userEvent.type(parameterRow('Found Dead').getByRole('textbox'), 'Wrong animal');
+        expect(parameterRow('Responsiveness').getByRole('combobox')).toHaveValue('');
+        expect(saveButton()).toBeDisabled();
+
+        FOUR_POINT_FIELDS.forEach(f => userEvent.selectOptions(parameterRow(f.label).getAllByRole('combobox')[0], '1'));
+        expect(saveButton()).toBeEnabled();
+        userEvent.click(saveButton());
+
+        await waitFor(() => expect(onSaved).toHaveBeenCalledTimes(1));
+        const corrections = mockCorrect.mock.calls[0][1];
+        expect(corrections.find(c => c.field === 'Dehydration')).toMatchObject({
+            notSedated: 0,
+            reason: 'Wrong animal',
+            value: '1',
+        });
+    });
+
+    test('marking NS clears Dehydration and saves with its reason', async () => {
+        const onSaved = await renderDetail(makeFourPointRow());
+        editValues();
+
+        const dehydration = parameterRow('Dehydration');
+        const [, notSedated] = dehydration.getAllByRole('combobox');
+        userEvent.selectOptions(notSedated, '1');
+        expect(parameterRow('Dehydration').getByText('NS')).toBeInTheDocument();
+
+        userEvent.type(dehydration.getByRole('textbox'), 'Was not sedated');
+        userEvent.click(saveButton());
+
+        await waitFor(() => expect(onSaved).toHaveBeenCalledTimes(1));
+        expect(mockCorrect.mock.calls[0][1]).toEqual([
+            expect.objectContaining({ field: 'Dehydration', notSedated: 1, reason: 'Was not sedated', value: null }),
+        ]);
+    });
+});
+
+describe('ObservationDetail, Found Dead on the 15-point form', () => {
+    test('is just another value: the observation is still fully recorded', async () => {
+        const onSaved = await renderDetail();
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        userEvent.selectOptions(parameterRow('Found Dead').getByRole('combobox'), '1');
+        expect(parameterRow('Bleeding').getByRole('combobox')).toHaveValue('0');
+
+        userEvent.type(parameterRow('Found Dead').getByRole('textbox'), 'Deceased box missed');
+        userEvent.click(saveButton());
+
+        await waitFor(() => expect(onSaved).toHaveBeenCalledTimes(1));
+        expect(mockCorrect.mock.calls[0][1]).toEqual([
+            expect.objectContaining({ field: 'FoundDead', reason: 'Deceased box missed', value: '1' }),
+        ]);
+    });
+});
+
+describe('ObservationDetail, husbandry', () => {
+    test('shows Cage Cleaning and Water as words, N/A when empty, with no prior', async () => {
+        mockFetchPrior.mockResolvedValue(makeRow({ lsid: 'prior', CageCleaning: 2 }));
+        await renderDetail();
+        await screen.findByRole('link', { name: 'Prior' });
+
+        expect(parameterRow('Cage Cleaning').getByText('Cleaned')).toBeInTheDocument();
+        expect(parameterRow('Cage Cleaning').queryByText('Changed')).not.toBeInTheDocument();
+        expect(parameterRow('Water').getByText('N/A')).toBeInTheDocument();
+    });
+
+    test('is not scored', async () => {
+        await renderDetail(makeRow({ CageCleaning: 2, Water: 2 }));
+
+        expect(screen.getByText('Clinical Score:')).toHaveTextContent('Clinical Score: 0');
+    });
+
+    test('a change needs a reason, and N/A is sent as empty', async () => {
+        const onSaved = await renderDetail();
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        const cage = parameterRow('Cage Cleaning');
+        userEvent.selectOptions(cage.getByRole('combobox'), 'N/A');
+        expect(saveButton()).toBeDisabled();
+
+        userEvent.type(cage.getByRole('textbox'), 'Not cleaned today');
+        userEvent.click(saveButton());
+
+        await waitFor(() => expect(onSaved).toHaveBeenCalledTimes(1));
+        expect(mockCorrect.mock.calls[0][1]).toEqual([
+            expect.objectContaining({ field: 'CageCleaning', reason: 'Not cleaned today', value: '' }),
+        ]);
     });
 });

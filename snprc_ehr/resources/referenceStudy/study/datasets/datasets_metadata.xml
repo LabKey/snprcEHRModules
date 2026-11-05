@@ -3220,6 +3220,25 @@
                 <scale>6</scale>
                 <columnTitle>Location</columnTitle>
             </column>
+            <column columnName="FormCode">
+                <datatype>varchar</datatype>
+                <scale>20</scale>
+                <columnTitle>Form Code</columnTitle>
+            </column>
+            <column columnName="FormType">
+                <datatype>varchar</datatype>
+                <scale>4</scale>
+                <columnTitle>Form Type</columnTitle>
+            </column>
+            <column columnName="FoundDead">
+                <datatype>integer</datatype>
+                <columnTitle>Found Dead</columnTitle>
+            </column>
+            <column columnName="FoundDeadComments">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <columnTitle>Found Dead Comments</columnTitle>
+            </column>
             <column columnName="WeightLoss">
                 <datatype>integer</datatype>
                 <columnTitle>Weight Loss</columnTitle>
@@ -3361,6 +3380,28 @@
             <column columnName="DehydrationCO">
                 <columnTitle>Dehydration Carry Over</columnTitle>
                 <datatype>integer</datatype>
+            </column>
+            <column columnName="DehydrationNS">
+                <columnTitle>Dehydration Not Sedated</columnTitle>
+                <datatype>integer</datatype>
+            </column>
+            <column columnName="CageCleaning">
+                <datatype>integer</datatype>
+                <columnTitle>Cage Cleaning</columnTitle>
+            </column>
+            <column columnName="CageCleaningComments">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <columnTitle>Cage Cleaning Comments</columnTitle>
+            </column>
+            <column columnName="Water">
+                <datatype>integer</datatype>
+                <columnTitle>Water</columnTitle>
+            </column>
+            <column columnName="WaterComments">
+                <datatype>varchar</datatype>
+                <scale>128</scale>
+                <columnTitle>Water Comments</columnTitle>
             </column>
             <column columnName="Comment">
                 <datatype>varchar</datatype>

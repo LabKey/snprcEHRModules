@@ -3,6 +3,7 @@
         <column name="Location"/>
         <column name="Id"/>
         <column name="date"/>
+        <column name="FormType"/>
         <column name="createdBy"/>
         <column name="created"/>
     </columns>
