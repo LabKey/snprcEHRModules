@@ -19,21 +19,23 @@ export interface Reload {
 }
 
 interface Props {
+    canApprove: boolean;
     onApprove: (lsid: string) => void;
     onFocus: (lsid: string) => void;
     reload: Reload;
 }
 
 interface ButtonProps {
+    canApprove: boolean;
     onApprove: (lsid: string) => void;
 }
 
 // Approval is one observation at a time; bulk approval is off
-const ApproveButton: FC<ButtonProps & RequiresModelAndActions> = ({ model, onApprove }) => {
+const ApproveButton: FC<ButtonProps & RequiresModelAndActions> = ({ canApprove, model, onApprove }) => {
     const lsid = model.selections?.size === 1 ? Array.from(model.selections)[0] : undefined;
     return (
         <div className="manage-buttons">
-            <Button bsStyle="success" disabled={!lsid} onClick={() => onApprove(lsid)}>
+            <Button bsStyle="success" disabled={!lsid || !canApprove} onClick={() => onApprove(lsid)}>
                 Approve observation
             </Button>
         </div>
@@ -42,6 +44,7 @@ const ApproveButton: FC<ButtonProps & RequiresModelAndActions> = ({ model, onApp
 
 const ReviewGridPanelImpl: FC<InjectedQueryModels & Props> = memo(function ReviewGridPanelImpl({
     actions,
+    canApprove,
     queryModels,
     reload,
     onApprove,
@@ -60,7 +63,7 @@ const ReviewGridPanelImpl: FC<InjectedQueryModels & Props> = memo(function Revie
     // Single selection, as in SndLookupsManagement's TableGridPanel: ticking a second row replaces the first.
     // The detail pane follows the one selected row.
     useEffect(() => {
-        const selected = model.selections ? Array.from(model.selections) : [];
+        const selected = model?.selections ? Array.from(model.selections) : [];
         if (selected.length > 1) {
             actions.replaceSelections(MODEL_ID, [selected[selected.length - 1]]);
             return;
@@ -75,7 +78,7 @@ const ReviewGridPanelImpl: FC<InjectedQueryModels & Props> = memo(function Revie
             allowSelections
             allowSorting
             ButtonsComponent={ApproveButton}
-            buttonsComponentProps={{ onApprove }}
+            buttonsComponentProps={{ canApprove, onApprove }}
             emptyText="No observations are waiting for review."
             highlightLastSelectedRow
             loadOnMount

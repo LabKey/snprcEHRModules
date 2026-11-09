@@ -4,8 +4,10 @@ import { Correction, correctObservation, fetchPriorObservation, historyUrl, Obse
 import { formatDateTime } from '../services/formatDate';
 import { formScore, scoreLabel } from '../services/clinicalScore';
 import { fieldsFor, HUSBANDRY_FIELDS, HusbandryField, NOT_APPLICABLE } from '../constants/fields';
+import { errorText } from '../services/errorText';
 
 interface Props {
+    onEditingChange: (editing: boolean) => void;
     onSaved: () => void;
     row: ObservationRow;
 }
@@ -24,7 +26,7 @@ const husbandryLabel = (h: HusbandryField, value: unknown) =>
 
 const FORM_NAMES = { '15PT': '15-point', '4PT': '4-point (ABSL-4)' };
 
-const ObservationDetail = ({ row, onSaved }: Props) => {
+const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [edits, setEdits] = useState<Record<string, Correction>>({});
     const [errorMessage, setErrorMessage] = useState('');
@@ -71,7 +73,11 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
     const foundDeadReason = edits.FoundDead?.reason?.trim() ?? '';
     const sharesFoundDeadReason = (field: string) => foundDeadChanged && fieldOf(field) !== undefined;
     const reasonOf = (e: Correction) => e.reason?.trim() || (sharesFoundDeadReason(e.field) ? foundDeadReason : '');
-    const missingReason = changed.filter(e => !reasonOf(e));
+    // A reason must be new: the stored one belongs to an earlier change, and the server rejects it
+    const missingReason = changed.filter(e => {
+        const reason = reasonOf(e);
+        return !reason || reason === text(row[`${e.field}Comments`]).trim();
+    });
 
     // Every field is required (5/08, 10/13), except on a 4-point FD record and Dehydration when NS
     const missingValue = foundDead
@@ -87,7 +93,7 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
         let isCurrent = true;
         fetchPriorObservation(row)
             .then(p => isCurrent && setPrior(p))
-            .catch(e => isCurrent && setErrorMessage(e?.exception ?? 'Could not load the prior observation'));
+            .catch(e => isCurrent && setErrorMessage(errorText(e, 'Could not load the prior observation')));
         return () => {
             isCurrent = false;
         };
@@ -104,6 +110,13 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
             reason: '',
         };
     };
+
+    // The page disables Approve while a correction is open; the cleanup re-enables it when the record closes
+    useEffect(() => {
+        onEditingChange(isEditing);
+        return () => onEditingChange(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- onEditingChange is a state setter
+    }, [isEditing]);
 
     const setEdit = (field: string, patch: Partial<Correction>) => {
         setEdits({ ...edits, [field]: { ...unedited(field), ...edits[field], ...patch } });
@@ -150,7 +163,7 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
             setIsEditing(false);
             onSaved();
         } catch (error) {
-            setErrorMessage(error?.exception ?? 'Save failed');
+            setErrorMessage(errorText(error, 'Save failed'));
         }
     };
 
@@ -359,6 +372,7 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
                             onClick={() => {
                                 setEdits({});
                                 setComment(undefined);
+                                setErrorMessage('');
                                 setIsEditing(false);
                             }}
                         >

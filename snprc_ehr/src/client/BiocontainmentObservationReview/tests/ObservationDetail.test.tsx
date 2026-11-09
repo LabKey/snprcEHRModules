@@ -17,7 +17,7 @@ const mockCorrect = correctObservation as jest.Mock;
 const mockFetchPrior = fetchPriorObservation as jest.Mock;
 
 // A complete 15-point observation with every scored field at 0 and every carry-over at No
-const makeRow = (overrides: ObservationRow = {}): ObservationRow => {
+const makeRow = (overrides: Record<string, any> = {}): ObservationRow => {
     const row: ObservationRow = {
         lsid: 'lsid-1',
         Id: '12345',
@@ -39,7 +39,7 @@ const makeRow = (overrides: ObservationRow = {}): ObservationRow => {
 };
 
 // A complete 4-point observation: every parameter at 0, sedated, not found dead
-const makeFourPointRow = (overrides: ObservationRow = {}): ObservationRow => {
+const makeFourPointRow = (overrides: Record<string, any> = {}): ObservationRow => {
     const row: ObservationRow = {
         lsid: 'lsid-4',
         Id: '23456',
@@ -63,8 +63,8 @@ const makeFourPointRow = (overrides: ObservationRow = {}): ObservationRow => {
 // The table row for one parameter, so its value, carry-over and reason controls can be found by label
 const parameterRow = (label: string) => within(screen.getByText(label).closest('tr'));
 
-const renderDetail = async (row: ObservationRow = makeRow(), onSaved = jest.fn()) => {
-    render(<ObservationDetail onSaved={onSaved} row={row} />);
+const renderDetail = async (row: ObservationRow = makeRow(), onSaved = jest.fn(), onEditingChange = jest.fn()) => {
+    render(<ObservationDetail onEditingChange={onEditingChange} onSaved={onSaved} row={row} />);
     // Let the prior-observation fetch settle before asserting
     await waitFor(() => expect(mockFetchPrior).toHaveBeenCalled());
     return onSaved;
@@ -246,6 +246,60 @@ describe('ObservationDetail, corrections', () => {
         expect(parameterRow('Bleeding').getByRole('combobox')).toHaveValue('0');
         expect(screen.getByText('Clinical Score:')).toHaveTextContent('Clinical Score: 0');
         expect(mockCorrect).not.toHaveBeenCalled();
+    });
+
+    test('the reason must differ from the one already stored', async () => {
+        await renderDetail(makeRow({ BleedingComments: 'Entered on the wrong animal' }));
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        const bleeding = parameterRow('Bleeding');
+        userEvent.selectOptions(bleeding.getByRole('combobox'), '2');
+        userEvent.type(bleeding.getByRole('textbox'), 'Entered on the wrong animal');
+        expect(saveButton()).toBeDisabled();
+
+        userEvent.type(bleeding.getByRole('textbox'), ' again');
+        expect(saveButton()).toBeEnabled();
+    });
+
+    test('Cancel clears the error from a rejected save', async () => {
+        mockCorrect.mockRejectedValue({ exception: 'Save rejected' });
+        await renderDetail();
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        const bleeding = parameterRow('Bleeding');
+        userEvent.selectOptions(bleeding.getByRole('combobox'), '1');
+        userEvent.type(bleeding.getByRole('textbox'), 'Typo');
+        userEvent.click(saveButton());
+        await screen.findByText('Save rejected');
+
+        userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+
+        expect(screen.queryByText('Save rejected')).not.toBeInTheDocument();
+    });
+
+    test('shows a JavaScript or network error message when there is no LabKey exception', async () => {
+        mockCorrect.mockRejectedValue(new Error('Failed to fetch'));
+        await renderDetail();
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        const bleeding = parameterRow('Bleeding');
+        userEvent.selectOptions(bleeding.getByRole('combobox'), '1');
+        userEvent.type(bleeding.getByRole('textbox'), 'Typo');
+        userEvent.click(saveButton());
+
+        expect(await screen.findByText('Failed to fetch')).toBeInTheDocument();
+    });
+
+    test('tells the page when editing starts and stops, so it can disable Approve', async () => {
+        const onEditingChange = jest.fn();
+        await renderDetail(makeRow(), jest.fn(), onEditingChange);
+        expect(onEditingChange).toHaveBeenLastCalledWith(false);
+
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+        expect(onEditingChange).toHaveBeenLastCalledWith(true);
+
+        userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+        expect(onEditingChange).toHaveBeenLastCalledWith(false);
     });
 });
 

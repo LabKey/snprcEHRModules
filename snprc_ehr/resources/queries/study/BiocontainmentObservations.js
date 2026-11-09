@@ -55,6 +55,20 @@ function isAllowed(value, allowed){
     return allowed.map(String).indexOf(String(value)) !== -1;
 }
 
+// Milliseconds for a date, a Java date, or LabKey's 'yyyy-MM-dd HH:mm:ss.SSS' string; NaN if it can't be read.
+// Rhino 1.7R3 can't parse that string, and new Date(javaDate) drops the milliseconds, so neither is used.
+function toMillis(value){
+    if (value == null)
+        return NaN;
+    if (typeof value.getTime === 'function')
+        return Number(value.getTime());
+    var m = /^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})[ T](\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?/.exec(String(value));
+    if (!m)
+        return NaN;
+    var ms = m[7] ? Number((m[7] + '00').substring(0, 3)) : 0;
+    return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5]), Number(m[6] || 0), ms).getTime();
+}
+
 function changedFields(row, oldRow){
     return REASON_FIELDS.filter(function(field){
         return !sameValue(row[field], oldRow[field]) || (LINKED_FLAGS[field] || []).some(function(flag){
@@ -96,12 +110,18 @@ function validateForm(scriptErrors, row){
     }
 }
 
+var SIGNATURE_FIELDS = ['reviewedBy', 'reviewedByName', 'reviewedDate', 'reviewMeaning'];
+
+// Copies the signature from another row, or clears it when from is null
+function setSignature(row, from){
+    SIGNATURE_FIELDS.forEach(function(f){
+        row[f] = from ? from[f] : null;
+    });
+}
+
 function clearReview(row){
     row.QCStateLabel = REVIEW_REQUIRED;
-    row.reviewedBy = null;
-    row.reviewedByName = null;
-    row.reviewedDate = null;
-    row.reviewMeaning = null;
+    setSignature(row, null);
 }
 
 function onInsert(helper, scriptErrors, row){
@@ -131,34 +151,57 @@ function onUpdate(helper, scriptErrors, row, oldRow){
         return;
     }
 
+    // Every value must fit its form, whether or not this update changes it (LabKey checks this as well as CAMP)
+    validateForm(scriptErrors, row);
+
     if (changed.length || commentChanged){
         changed.forEach(function(field){
             var reason = row[field + 'Comments'];
-            if (!reason || sameValue(reason, oldRow[field + 'Comments']))
+            if (!reason)
                 EHR.Server.Utils.addError(scriptErrors, field + 'Comments', 'A reason is required for each changed value', 'ERROR');
+            else if (sameValue(reason, oldRow[field + 'Comments']))
+                EHR.Server.Utils.addError(scriptErrors, field + 'Comments', 'Enter a new reason; this one was given for an earlier change', 'ERROR');
         });
-        validateForm(scriptErrors, row);
 
         // The approver approves the record and any modification (9/1 decision 6)
         clearReview(row);
         return;
     }
 
-    if (row.QCStateLabel === COMPLETED && oldRow.QCStateLabel !== COMPLETED){
-        var user = LABKEY.Security.currentUser;
-
-        if (sameValue(user.id, oldRow.createdBy)){
-            EHR.Server.Utils.addError(scriptErrors, 'QCStateLabel', 'This observation must be reviewed by someone other than its author', 'ERROR');
-            return;
-        }
-
-        // Printed name for the signature record (REQ-028), read in Java so approvers don't need permission to see user details
-        var triggerHelper = new org.labkey.snprc_ehr.query.SNPRC_EHRTriggerHelper(user.id, LABKEY.Security.currentContainer.id);
-        var printedName = String(triggerHelper.getPrintedName());
-
-        row.reviewedBy = user.id;
-        row.reviewedByName = printedName;
-        row.reviewedDate = new Date();
-        row.reviewMeaning = 'Reviewed and approved';
+    // Not approved (sent back for review by hand, or any other state): the old signature no longer applies
+    if (row.QCStateLabel !== COMPLETED){
+        setSignature(row, null);
+        return;
     }
+
+    // Already approved and still approved: the signature can't be edited
+    if (oldRow.QCStateLabel === COMPLETED){
+        setSignature(row, oldRow);
+        return;
+    }
+
+    // Approval: the only place the signature is set
+
+    // The reviewer must have seen the version being approved; EHR fills in modified, so it is sent under its own name
+    var viewed = toMillis(row.viewedModified);
+    if (isNaN(viewed) || viewed !== toMillis(oldRow.modified)){
+        EHR.Server.Utils.addError(scriptErrors, 'QCStateLabel', 'This observation changed after you opened it. Reload it and review again.', 'ERROR');
+        return;
+    }
+
+    var user = LABKEY.Security.currentUser;
+
+    if (sameValue(user.id, oldRow.createdBy)){
+        EHR.Server.Utils.addError(scriptErrors, 'QCStateLabel', 'This observation must be reviewed by someone other than its author', 'ERROR');
+        return;
+    }
+
+    // Printed name for the signature record (REQ-028), read in Java so approvers don't need permission to see user details
+    var triggerHelper = new org.labkey.snprc_ehr.query.SNPRC_EHRTriggerHelper(user.id, LABKEY.Security.currentContainer.id);
+    var printedName = String(triggerHelper.getPrintedName());
+
+    row.reviewedBy = user.id;
+    row.reviewedByName = printedName;
+    row.reviewedDate = new Date();
+    row.reviewMeaning = 'Reviewed and approved';
 }
