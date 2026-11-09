@@ -1,5 +1,6 @@
 package org.labkey.test.util.snprc_ehr;
 
+import org.apache.commons.io.FileUtils;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.query.InsertRowsCommand;
 import org.labkey.remoteapi.query.SelectRowsCommand;
@@ -9,6 +10,15 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.APIAssayHelper;
 import org.labkey.test.util.Maps;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -37,6 +48,11 @@ public final class SnprcSetupHelper
 
     public static final String CORE_FACILITIES_FOLDER = "Core Facilities";
     public static final String GENETICS_SUBFOLDER = "Genetics";
+
+    private static final String MODULE_STUDY_PATH = "server/modules/snprcEHRModules/snprc_ehr/resources/referenceStudy";
+    private static final String TEST_DATA_PATH = "snprc/referenceStudyTestData";
+    private static final String METADATA_FILE = "datasets_metadata.xml";
+    private static final String MANIFEST_FILE = "datasets_manifest.xml";
 
     private SnprcSetupHelper() { }
 
@@ -279,5 +295,60 @@ public final class SnprcSetupHelper
     private static String jsEscape(String value)
     {
         return value.replace("\\", "\\\\").replace("'", "\\'");
+    }
+
+    /**
+     * Assembles the module's production reference study plus test-only datasets (removed from production in favor
+     * of query-based datasets) and sample data into a folder archive under testTemp, ready to import with folder.xml.
+     */
+    public static File prepareReferenceStudy()
+    {
+        try
+        {
+            File target = TestFileUtils.ensureTestTempDir("snprcReferenceStudy");
+            FileUtils.cleanDirectory(target);
+            FileUtils.copyDirectory(new File(TestFileUtils.getLabKeyRoot(), MODULE_STUDY_PATH), target);
+
+            File datasetsDir = new File(target, "study/datasets");
+            File testData = TestFileUtils.getSampleData(TEST_DATA_PATH);
+            for (File file : Objects.requireNonNull(testData.listFiles()))
+            {
+                switch (file.getName())
+                {
+                    case METADATA_FILE -> appendElements(file, new File(datasetsDir, METADATA_FILE), "table");
+                    case MANIFEST_FILE -> appendElements(file, new File(datasetsDir, MANIFEST_FILE), "dataset");
+                    // Includes snprc_ehr.dataset, replacing the module's copy so the TSVs are imported
+                    default -> FileUtils.copyFileToDirectory(file, datasetsDir);
+                }
+            }
+            return target;
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Failed to assemble SNPRC reference study", e);
+        }
+    }
+
+    /** Appends every {@code tagName} element from source to the parent of the existing ones in target. */
+    private static void appendElements(File source, File target, String tagName) throws Exception
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        Document sourceDoc = factory.newDocumentBuilder().parse(source);
+        Document targetDoc = factory.newDocumentBuilder().parse(target);
+
+        NodeList existing = targetDoc.getElementsByTagNameNS("*", tagName);
+        if (existing.getLength() == 0)
+            throw new IOException("No <" + tagName + "> elements in " + target);
+        Node parent = existing.item(0).getParentNode();
+
+        NodeList additions = sourceDoc.getElementsByTagNameNS("*", tagName);
+        for (int i = 0; i < additions.getLength(); i++)
+        {
+            Element addition = (Element) additions.item(i);
+            parent.appendChild(targetDoc.importNode(addition, true));
+        }
+
+        TransformerFactory.newInstance().newTransformer().transform(new DOMSource(targetDoc), new StreamResult(target));
     }
 }

@@ -172,7 +172,7 @@ public class SNPRC_schedulerTest extends AbstractEHRTest implements JavascriptEx
     @Override
     protected void importFolderFromPath(int jobCount)
     {
-        File path = TestFileUtils.getSampleData("study/referenceStudy");
+        File path = SnprcSetupHelper.prepareReferenceStudy();
         setPipelineRoot(path.getPath());
 
         beginAt(WebTestHelper.getBaseURL() + "/" + getContainerPath() + "/pipeline-status-begin.view");

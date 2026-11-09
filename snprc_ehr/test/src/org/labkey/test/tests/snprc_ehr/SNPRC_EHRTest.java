@@ -275,7 +275,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     @Override
     protected void importFolderFromPath(int jobCount)
     {
-        File path = TestFileUtils.getSampleData("study/referenceStudy");
+        File path = SnprcSetupHelper.prepareReferenceStudy();
         setPipelineRoot(path.getPath());
 
         beginAt(WebTestHelper.getBaseURL() + "/" + getContainerPath() + "/pipeline-status-begin.view");
@@ -829,7 +829,7 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     }
 
     /**
-     * Report based off of Animal Events dataset: referenceStudy/datasets/dataset1067.tsv
+     * Report based off of Animal Events dataset: snprc/referenceStudyTestData/dataset1067.tsv
      */
     @Test
     public void testProceduresBeforeDispositionReport()
