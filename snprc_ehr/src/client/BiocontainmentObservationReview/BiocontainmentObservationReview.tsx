@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActionURL } from '@labkey/api';
 import { Alert } from '@labkey/components';
 import { Col, Row } from 'react-bootstrap';
-import { approveObservations, fetchObservation, ObservationRow } from './api/observation';
+import { approveObservation, fetchObservation, ObservationRow } from './api/observation';
 import { Reload, ReviewGridPanel } from './components/ReviewGridPanel';
 import ObservationDetail from './components/ObservationDetail';
+import { errorText } from './services/errorText';
 import './styles/biocontainmentObservationReview.scss';
 
 const MESSAGE_TIMEOUT_MS = 30000;
@@ -18,14 +19,13 @@ const RECENTLY_APPROVED_URL = ActionURL.buildURL('query', 'executeQuery', undefi
     'query.sort': '-reviewedDate',
 });
 
-const errorText = (error: any): string => error?.exception ?? error?.message ?? 'Unexpected error';
-
 const BiocontainmentObservationReview = () => {
     const [reload, setReload] = useState<Reload>({ key: 0, clearSelections: false });
     const [focusedLsid, setFocusedLsid] = useState<string>();
     const [focused, setFocused] = useState<ObservationRow>();
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
     const messageTimer = useRef<number>();
 
     // Success messages clear themselves; errors stay until the next action
@@ -56,9 +56,11 @@ const BiocontainmentObservationReview = () => {
     const record = focused && focused.lsid === focusedLsid ? focused : undefined;
 
     const onApprove = async (lsid: string) => {
+        // Approve only the record on screen, at the version the reviewer saw
+        if (record?.lsid !== lsid) return;
         setError('');
         try {
-            await approveObservations([lsid]);
+            await approveObservation(lsid, record.modified);
             // Approved records leave the queue; close the record immediately rather than waiting for the grid to clear
             setFocusedLsid(undefined);
             showMessage('Observation approved.');
@@ -90,11 +92,21 @@ const BiocontainmentObservationReview = () => {
             </Row>
             <Row className="observation-review__panels">
                 <Col className="observation-review__grid" lg={5} xs={12}>
-                    <ReviewGridPanel onApprove={onApprove} onFocus={setFocusedLsid} reload={reload} />
+                    <ReviewGridPanel
+                        canApprove={!!record && !isEditing}
+                        onApprove={onApprove}
+                        onFocus={setFocusedLsid}
+                        reload={reload}
+                    />
                 </Col>
                 <Col className="observation-review__detail" lg={7} xs={12}>
                     {record ? (
-                        <ObservationDetail key={record.lsid} onSaved={onSaved} row={record} />
+                        <ObservationDetail
+                            key={record.lsid}
+                            onEditingChange={setIsEditing}
+                            onSaved={onSaved}
+                            row={record}
+                        />
                     ) : (
                         <h3 className="observation-review__placeholder">
                             ☑ Select an observation to see the full record.

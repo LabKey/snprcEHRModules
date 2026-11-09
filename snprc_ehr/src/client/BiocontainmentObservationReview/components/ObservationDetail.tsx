@@ -4,15 +4,17 @@ import { Correction, correctObservation, fetchPriorObservation, historyUrl, Obse
 import { formatDateTime } from '../services/formatDate';
 import { clinicalScore, displayScore } from '../services/clinicalScore';
 import { carryOverOf, SCORED_FIELDS } from '../constants/fields';
+import { errorText } from '../services/errorText';
 
 interface Props {
+    onEditingChange: (editing: boolean) => void;
     onSaved: () => void;
     row: ObservationRow;
 }
 
 const priorTooltip = <Tooltip id="prior-history-tooltip">View prior observation history</Tooltip>;
 
-const ObservationDetail = ({ row, onSaved }: Props) => {
+const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [edits, setEdits] = useState<Record<string, Correction>>({});
     const [errorMessage, setErrorMessage] = useState('');
@@ -27,7 +29,10 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
         return String(e.value) !== String(row[e.field]) || (co !== undefined && !sameCarryOver(e.carryOver, row[co]));
     };
     const changed = Object.values(edits).filter(isChanged);
-    const missingReason = changed.filter(e => !e.reason?.trim());
+    // A reason must be new: the stored one belongs to an earlier change
+    const missingReason = changed.filter(
+        e => !e.reason?.trim() || e.reason.trim() === (row[`${e.field}Comments`] ?? '')
+    );
     // The comment is free text, so it is its own reason; changing it still sends the record back for approval
     const commentChanged = comment !== undefined && comment.trim() !== (row.Comment ?? '');
     const hasChanges = changed.length > 0 || commentChanged;
@@ -40,12 +45,19 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
         let isCurrent = true;
         fetchPriorObservation(row)
             .then(p => isCurrent && setPrior(p))
-            .catch(e => isCurrent && setErrorMessage(e?.exception ?? 'Could not load the prior observation'));
+            .catch(e => isCurrent && setErrorMessage(errorText(e, 'Could not load the prior observation')));
         return () => {
             isCurrent = false;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps -- the prior only depends on animal, location and date
     }, [row.Id, row.Location, row.date]);
+
+    // The page disables Approve while a correction is open; the cleanup re-enables it when the record closes
+    useEffect(() => {
+        onEditingChange(isEditing);
+        return () => onEditingChange(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- onEditingChange is a state setter
+    }, [isEditing]);
 
     const setEdit = (field: string, patch: Partial<Correction>) => {
         const co = carryOverOf(field);
@@ -71,7 +83,7 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
             setIsEditing(false);
             onSaved();
         } catch (error) {
-            setErrorMessage(error?.exception ?? 'Save failed');
+            setErrorMessage(errorText(error, 'Save failed'));
         }
     };
 
@@ -187,6 +199,7 @@ const ObservationDetail = ({ row, onSaved }: Props) => {
                             onClick={() => {
                                 setEdits({});
                                 setComment(undefined);
+                                setErrorMessage('');
                                 setIsEditing(false);
                             }}
                         >

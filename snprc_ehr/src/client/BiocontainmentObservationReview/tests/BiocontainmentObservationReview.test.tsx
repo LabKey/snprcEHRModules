@@ -4,39 +4,50 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import BiocontainmentObservationReview from '../BiocontainmentObservationReview';
-import { approveObservations, fetchObservation } from '../api/observation';
+import { approveObservation, fetchObservation } from '../api/observation';
 
 jest.mock('../api/observation', () => ({
-    approveObservations: jest.fn(),
+    approveObservation: jest.fn(),
     fetchObservation: jest.fn(),
 }));
 
-// The real grid is a LabKey GridPanel; this stand-in exposes the two callbacks the page gives it
+// The real grid is a LabKey GridPanel; this stand-in exposes the callbacks the page gives it, and whether Approve is allowed
 jest.mock('../components/ReviewGridPanel', () => ({
-    ReviewGridPanel: ({ onApprove, onFocus }) => (
+    ReviewGridPanel: ({ canApprove, onApprove, onFocus }) => (
         <div>
             <button onClick={() => onFocus('lsid-1')}>select lsid-1</button>
             <button onClick={() => onFocus('lsid-2')}>select lsid-2</button>
             <button onClick={() => onFocus(undefined)}>deselect</button>
             <button onClick={() => onApprove('lsid-1')}>approve lsid-1</button>
+            <span>{canApprove ? 'approve enabled' : 'approve disabled'}</span>
         </div>
     ),
 }));
 
 jest.mock('../components/ObservationDetail', () => ({
     __esModule: true,
-    default: ({ row }) => <div>detail for {row.Id}</div>,
+    default: ({ row, onEditingChange }) => (
+        <div>
+            <div>detail for {row.Id}</div>
+            <button onClick={() => onEditingChange(true)}>start editing</button>
+            <button onClick={() => onEditingChange(false)}>stop editing</button>
+        </div>
+    ),
 }));
 
-const mockApprove = approveObservations as jest.Mock;
+const mockApprove = approveObservation as jest.Mock;
 const mockFetch = fetchObservation as jest.Mock;
+
+const MODIFIED = '2026/11/09 10:15:00';
 
 // The placeholder heading, not the instructions paragraph that starts with the same words
 const placeholder = () => screen.queryByRole('heading', { name: /Select an observation to see the full record/ });
 
 beforeEach(() => {
     jest.clearAllMocks();
-    mockFetch.mockImplementation(lsid => Promise.resolve({ Id: lsid === 'lsid-1' ? '11111' : '22222', lsid }));
+    mockFetch.mockImplementation(lsid =>
+        Promise.resolve({ Id: lsid === 'lsid-1' ? '11111' : '22222', lsid, modified: MODIFIED })
+    );
     mockApprove.mockResolvedValue({});
 });
 
@@ -89,7 +100,7 @@ test('approving closes the record and confirms it', async () => {
     userEvent.click(screen.getByText('approve lsid-1'));
 
     expect(await screen.findByText('Observation approved.')).toBeInTheDocument();
-    expect(mockApprove).toHaveBeenCalledWith(['lsid-1']);
+    expect(mockApprove).toHaveBeenCalledWith('lsid-1', MODIFIED);
     expect(screen.queryByText('detail for 11111')).not.toBeInTheDocument();
     expect(placeholder()).toBeInTheDocument();
 });
@@ -106,4 +117,50 @@ test('shows the server error and keeps the record open when approval is rejected
         await screen.findByText('This observation must be reviewed by someone other than its author')
     ).toBeInTheDocument();
     expect(screen.getByText('detail for 11111')).toBeInTheDocument();
+});
+
+test('Approve is disabled until the selected record has loaded', async () => {
+    let resolveFetch: (row: object) => void;
+    mockFetch.mockImplementationOnce(() => new Promise(resolve => (resolveFetch = resolve)));
+    render(<BiocontainmentObservationReview />);
+    expect(screen.getByText('approve disabled')).toBeInTheDocument();
+
+    userEvent.click(screen.getByText('select lsid-1'));
+    expect(screen.getByText('approve disabled')).toBeInTheDocument();
+
+    resolveFetch({ Id: '11111', lsid: 'lsid-1', modified: MODIFIED });
+    expect(await screen.findByText('approve enabled')).toBeInTheDocument();
+});
+
+test('Approve is disabled while a correction is being edited', async () => {
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-1'));
+    await screen.findByText('approve enabled');
+
+    userEvent.click(screen.getByText('start editing'));
+    expect(screen.getByText('approve disabled')).toBeInTheDocument();
+
+    userEvent.click(screen.getByText('stop editing'));
+    expect(screen.getByText('approve enabled')).toBeInTheDocument();
+});
+
+test('ignores an approval for a record that is not on screen', async () => {
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-2'));
+    await screen.findByText('detail for 22222');
+
+    userEvent.click(screen.getByText('approve lsid-1'));
+
+    expect(mockApprove).not.toHaveBeenCalled();
+});
+
+test('shows a JavaScript or network error message when there is no LabKey exception', async () => {
+    mockApprove.mockRejectedValue(new Error('Failed to fetch'));
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-1'));
+    await screen.findByText('detail for 11111');
+
+    userEvent.click(screen.getByText('approve lsid-1'));
+
+    expect(await screen.findByText('Failed to fetch')).toBeInTheDocument();
 });

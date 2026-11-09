@@ -18,7 +18,21 @@ const COLUMNS = [
     'modified',
 ].concat(...SCORED_FIELDS.map(f => [f.name, `${f.name}Comments`].concat(f.carryOver ? [f.carryOver] : [])));
 
-export type ObservationRow = Record<string, any>;
+// The fixed columns are named; scored values, reasons and carry-overs are read by name from SCORED_FIELDS
+export interface ObservationRow {
+    [field: string]: any;
+    Comment?: string;
+    created?: string;
+    createdBy?: number;
+    'createdBy/DisplayName'?: string;
+    date: string;
+    Id: string;
+    Location: number | string;
+    lsid: string;
+    modified?: string;
+    'modifiedBy/DisplayName'?: string;
+    'QCState/Label'?: string;
+}
 
 export const fetchObservation = (lsid: string): Promise<ObservationRow> =>
     new Promise((resolve, reject) => {
@@ -32,12 +46,13 @@ export const fetchObservation = (lsid: string): Promise<ObservationRow> =>
         });
     });
 
-export const approveObservations = (lsids: string[]): Promise<any> =>
+// Sends the version the reviewer saw; the trigger rejects the approval if the record has changed since
+export const approveObservation = (lsid: string, viewedModified: string): Promise<any> =>
     new Promise((resolve, reject) => {
         Query.updateRows({
             schemaName: SCHEMA,
             queryName: QUERY,
-            rows: lsids.map(lsid => ({ lsid, QCStateLabel: COMPLETED })),
+            rows: [{ lsid, QCStateLabel: COMPLETED, viewedModified }],
             success: resolve,
             failure: reject,
         });
@@ -52,7 +67,7 @@ export interface Correction {
 
 // comment is only sent when it changed; an empty comment clears it
 export const correctObservation = (lsid: string, corrections: Correction[], comment?: string): Promise<any> => {
-    const row: ObservationRow = { lsid };
+    const row: Record<string, any> = { lsid };
     if (comment !== undefined) row.Comment = comment === '' ? null : comment;
     corrections.forEach(c => {
         row[c.field] = c.value;
@@ -72,10 +87,15 @@ export const correctObservation = (lsid: string, corrections: Correction[], comm
 };
 
 // Same animal, same location. Any QC state: the tech saw the prior whether or not it had been approved.
-const historyFilters = (row: ObservationRow) => [Filter.create('Id', row.Id), Filter.create('Location', row.Location)];
+const historyFilters = (row: Pick<ObservationRow, 'Id' | 'Location'>) => [
+    Filter.create('Id', row.Id),
+    Filter.create('Location', row.Location),
+];
 
 // Most recent observation before this one
-export const fetchPriorObservation = (row: ObservationRow): Promise<ObservationRow | undefined> =>
+export const fetchPriorObservation = (
+    row: Pick<ObservationRow, 'date' | 'Id' | 'Location'>
+): Promise<ObservationRow | undefined> =>
     new Promise((resolve, reject) => {
         Query.selectRows({
             schemaName: SCHEMA,
@@ -91,7 +111,7 @@ export const fetchPriorObservation = (row: ObservationRow): Promise<ObservationR
     });
 
 // Full history for the animal at this location, newest first
-export const historyUrl = (row: ObservationRow): string =>
+export const historyUrl = (row: Pick<ObservationRow, 'Id' | 'Location'>): string =>
     ActionURL.buildURL('query', 'executeQuery', undefined, {
         schemaName: SCHEMA,
         'query.queryName': QUERY,

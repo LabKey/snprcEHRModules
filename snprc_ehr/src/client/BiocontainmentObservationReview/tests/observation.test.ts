@@ -1,6 +1,6 @@
 import { Filter, Query } from '@labkey/api';
 import {
-    approveObservations,
+    approveObservation,
     correctObservation,
     fetchObservation,
     fetchPriorObservation,
@@ -32,23 +32,25 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-describe('approveObservations', () => {
-    test('sends only the lsid and the Completed QC state; the trigger stamps the reviewer', async () => {
+describe('approveObservation', () => {
+    test('sends the lsid, the Completed QC state and the version reviewed; the trigger stamps the reviewer', async () => {
         succeedWith(updateRows, { rows: [] });
 
-        await approveObservations(['lsid-1']);
+        await approveObservation('lsid-1', '2026/11/09 10:15:00');
 
         const config = updateRows.mock.calls[0][0];
         expect(config.schemaName).toBe('study');
         expect(config.queryName).toBe('BiocontainmentObservations');
-        expect(config.rows).toEqual([{ lsid: 'lsid-1', QCStateLabel: 'Completed' }]);
+        expect(config.rows).toEqual([
+            { lsid: 'lsid-1', QCStateLabel: 'Completed', viewedModified: '2026/11/09 10:15:00' },
+        ]);
     });
 
     test('rejects with the server error, e.g. the author trying to approve', async () => {
         const error = { exception: 'This observation must be reviewed by someone other than its author' };
         failWith(updateRows, error);
 
-        await expect(approveObservations(['lsid-1'])).rejects.toBe(error);
+        await expect(approveObservation('lsid-1', '2026/11/09 10:15:00')).rejects.toBe(error);
     });
 });
 

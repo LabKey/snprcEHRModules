@@ -14,4 +14,8 @@ describe('formatDateTime', () => {
         expect(formatDateTime('')).toBe('');
         expect(formatDateTime(undefined)).toBe('');
     });
+
+    test('returns the value unchanged when it is not a date', () => {
+        expect(formatDateTime('not a date')).toBe('not a date');
+    });
 });
