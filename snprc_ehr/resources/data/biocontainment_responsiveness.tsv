@@ -1,0 +1,6 @@
+value	sort_order	description
+0	1	Alert, responsive, normal activity, free of disease signs or exhibits only resolved/resolving disease signs
+1	2	Slightly diminished general activity, subdued but responds normally to external stimuli
+2	3	Withdrawn, may have head down, fetal posture, hunched, reduced response to external stimuli
+8	4	Prostrate but able to rise if stimulated, moderate to dramatically reduced response to external stimuli
+15	5	Persistently prostrate, severely or completely unresponsive, may have signs of respiratory distress
