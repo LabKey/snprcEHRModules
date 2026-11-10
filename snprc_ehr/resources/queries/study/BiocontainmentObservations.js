@@ -18,6 +18,16 @@ function sameValue(a, b){
     return (a == null ? null : String(a)) === (b == null ? null : String(b));
 }
 
+// Trimmed text, with empty and blank both meaning "no value"
+function trimmed(value){
+    var text = value == null ? '' : String(value).trim();
+    return text === '' ? null : text;
+}
+
+function sameNumber(a, b){
+    return (a == null || a === '' || b == null || b === '') ? sameValue(a, b) : Number(a) === Number(b);
+}
+
 function sameCarryOver(a, b){
     return !!Number(a) === !!Number(b);
 }
@@ -41,6 +51,22 @@ function changedFields(row, oldRow){
         var co = CARRY_OVER[field];
         return !sameValue(row[field], oldRow[field]) || (co && !sameCarryOver(row[co], oldRow[co]));
     });
+}
+
+function sameDate(a, b){
+    var x = toMillis(a), y = toMillis(b);
+    return isNaN(x) || isNaN(y) ? sameValue(a, b) : x === y;
+}
+
+// Everything else the approver signed for: the animal, date, location, comment and every reason
+function recordChanged(row, oldRow){
+    return trimmed(row.Id) !== trimmed(oldRow.Id)
+        || !sameDate(row.date, oldRow.date)
+        || !sameNumber(row.Location, oldRow.Location)
+        || trimmed(row.Comment) !== trimmed(oldRow.Comment)
+        || SCORED_FIELDS.some(function(field){
+            return trimmed(row[field + 'Comments']) !== trimmed(oldRow[field + 'Comments']);
+        });
 }
 
 var SIGNATURE_FIELDS = ['reviewedBy', 'reviewedByName', 'reviewedDate', 'reviewMeaning'];
@@ -72,12 +98,13 @@ function onInsert(helper, scriptErrors, row){
 
 function onUpdate(helper, scriptErrors, row, oldRow){
     var changed = changedFields(row, oldRow);
-    // The comment is free text and needs no separate reason, but changing it is still a modification to approve
-    var commentChanged = !sameValue(row.Comment, oldRow.Comment);
+    // These need no reason of their own (the comment is free text, and a reason explains itself),
+    // but changing any of them is still a modification to approve
+    var otherChange = recordChanged(row, oldRow);
 
     if (helper.isETL()){
         // A re-merge with identical values (e.g. after the write-back export) must not undo an approval
-        if (changed.length || commentChanged)
+        if (changed.length || otherChange)
             clearReview(row);
         else
             row.QCStateLabel = oldRow.QCStateLabel;
@@ -86,13 +113,16 @@ function onUpdate(helper, scriptErrors, row, oldRow){
 
     requireValues(scriptErrors, row);
 
-    if (changed.length || commentChanged){
+    if (changed.length || otherChange){
+        // Trimmed, so a reason of only spaces is no reason, the same rule the page applies
         changed.forEach(function(field){
-            var reason = row[field + 'Comments'];
+            var reason = trimmed(row[field + 'Comments']);
             if (!reason)
                 EHR.Server.Utils.addError(scriptErrors, field + 'Comments', 'A reason is required for each changed value', 'ERROR');
-            else if (sameValue(reason, oldRow[field + 'Comments']))
+            else if (reason === trimmed(oldRow[field + 'Comments']))
                 EHR.Server.Utils.addError(scriptErrors, field + 'Comments', 'Enter a new reason; this one was given for an earlier change', 'ERROR');
+            else
+                row[field + 'Comments'] = reason;
         });
 
         // The approver approves the record and any modification (9/1 decision 6)
@@ -117,7 +147,7 @@ function onUpdate(helper, scriptErrors, row, oldRow){
     // The reviewer must have seen the version being approved; EHR fills in modified, so it is sent under its own name
     var viewed = toMillis(row.viewedModified);
     if (isNaN(viewed) || viewed !== toMillis(oldRow.modified)){
-        EHR.Server.Utils.addError(scriptErrors, 'QCStateLabel', 'This observation changed after you opened it. Reload it and review again.', 'ERROR');
+        EHR.Server.Utils.addError(scriptErrors, 'QCStateLabel', 'This observation changed after you opened it. Check the current version and approve again.', 'ERROR');
         return;
     }
 

@@ -66,8 +66,10 @@ const BiocontainmentObservationReview = () => {
             showMessage('Observation approved.');
             reloadGrid(true);
         } catch (e) {
-            // Author-as-approver and missing-role rejections arrive here from the server
+            // Author-as-approver, missing-role and changed-since-opened rejections arrive here from the server.
+            // A record that changed is out of date on screen, so fetch the current version; reloading after the others is harmless.
             setError(errorText(e));
+            reloadGrid(false);
         }
     };
 

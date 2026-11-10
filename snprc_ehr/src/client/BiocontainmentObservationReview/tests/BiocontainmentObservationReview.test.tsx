@@ -119,6 +119,30 @@ test('shows the server error and keeps the record open when approval is rejected
     expect(screen.getByText('detail for 11111')).toBeInTheDocument();
 });
 
+test('shows the current version after an approval is rejected because the record changed', async () => {
+    const CHANGED = '2026/11/09 10:20:00';
+    mockFetch
+        .mockResolvedValueOnce({ Id: '11111', lsid: 'lsid-1', modified: MODIFIED })
+        .mockResolvedValueOnce({ Id: '11112', lsid: 'lsid-1', modified: CHANGED });
+    mockApprove
+        .mockRejectedValueOnce({ exception: 'This observation changed after you opened it. Check the current version and approve again.' })
+        .mockResolvedValueOnce({});
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-1'));
+    await screen.findByText('detail for 11111');
+
+    userEvent.click(screen.getByText('approve lsid-1'));
+
+    expect(await screen.findByText('detail for 11112')).toBeInTheDocument();
+    expect(screen.getByText(/This observation changed after you opened it/)).toBeInTheDocument();
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+
+    // Approving again sends the version now on screen
+    userEvent.click(screen.getByText('approve lsid-1'));
+    expect(await screen.findByText('Observation approved.')).toBeInTheDocument();
+    expect(mockApprove).toHaveBeenLastCalledWith('lsid-1', CHANGED);
+});
+
 test('Approve is disabled until the selected record has loaded', async () => {
     let resolveFetch: (row: object) => void;
     mockFetch.mockImplementationOnce(() => new Promise(resolve => (resolveFetch = resolve)));
