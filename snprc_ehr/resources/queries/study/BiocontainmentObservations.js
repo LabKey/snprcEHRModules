@@ -53,9 +53,10 @@ function changedFields(row, oldRow){
     });
 }
 
+// Compared to the second: EHR drops the milliseconds from row.date before this trigger runs, but oldRow.date keeps them
 function sameDate(a, b){
     var x = toMillis(a), y = toMillis(b);
-    return isNaN(x) || isNaN(y) ? sameValue(a, b) : x === y;
+    return isNaN(x) || isNaN(y) ? sameValue(a, b) : Math.floor(x / 1000) === Math.floor(y / 1000);
 }
 
 // Everything else the approver signed for: the animal, date, location, comment and every reason
@@ -87,7 +88,7 @@ function clearReview(row){
 function requireValues(scriptErrors, row){
     SCORED_FIELDS.forEach(function(field){
         if (row[field] == null || row[field] === '')
-            EHR.Server.Utils.addError(scriptErrors, field, 'A value is required', 'ERROR');
+            EHR.Server.Utils.addError(scriptErrors, field, 'A value is required for ' + field, 'ERROR');
     });
 }
 
@@ -114,6 +115,12 @@ function onUpdate(helper, scriptErrors, row, oldRow){
     requireValues(scriptErrors, row);
 
     if (changed.length || otherChange){
+        // An approval must never quietly become "not approved": the reviewer is told, whether the change is real or a bug
+        if (row.QCStateLabel === COMPLETED && oldRow.QCStateLabel !== COMPLETED){
+            EHR.Server.Utils.addError(scriptErrors, 'QCStateLabel', 'This observation has changes that must be saved before it can be approved.', 'ERROR');
+            return;
+        }
+
         // Trimmed, so a reason of only spaces is no reason, the same rule the page applies
         changed.forEach(function(field){
             var reason = trimmed(row[field + 'Comments']);

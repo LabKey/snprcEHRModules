@@ -29,6 +29,7 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
         return String(e.value) !== String(row[e.field]) || (co !== undefined && !sameCarryOver(e.carryOver, row[co]));
     };
     const changed = Object.values(edits).filter(isChanged);
+    const isMissing = (field: string) => row[field] == null || row[field] === '';
     // A reason must be new: the stored one belongs to an earlier change
     const missingReason = changed.filter(
         e => !e.reason?.trim() || e.reason.trim() === (row[`${e.field}Comments`] ?? '')
@@ -125,12 +126,20 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
                                             onChange={e => setEdit(f.name, { value: e.target.value })}
                                             value={String(edits[f.name]?.value ?? row[f.name] ?? '')}
                                         >
+                                            {/* A missing value shows as blank, not as the first choice, and can't be chosen */}
+                                            {isMissing(f.name) && (
+                                                <option disabled value="">
+                                                    Select a value
+                                                </option>
+                                            )}
                                             {f.values.map(v => (
                                                 <option key={v} value={String(v)}>
                                                     {v}
                                                 </option>
                                             ))}
                                         </select>
+                                    ) : isMissing(f.name) ? (
+                                        <span className="text-danger">Missing</span>
                                     ) : (
                                         row[f.name]
                                     )}

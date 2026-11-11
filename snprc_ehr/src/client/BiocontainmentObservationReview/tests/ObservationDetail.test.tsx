@@ -276,6 +276,43 @@ describe('ObservationDetail, corrections', () => {
     });
 });
 
+describe('ObservationDetail, missing values', () => {
+    test('marks a missing value instead of leaving it blank', async () => {
+        await renderDetail(makeRow({ Bleeding: null }));
+
+        expect(parameterRow('Bleeding').getByText('Missing')).toBeInTheDocument();
+    });
+
+    test('a missing value shows as unselected, not as the first choice, and can be filled in with a reason', async () => {
+        const onSaved = await renderDetail(makeRow({ Bleeding: null }));
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        const bleeding = parameterRow('Bleeding');
+        const select = bleeding.getByRole('combobox') as HTMLSelectElement;
+        expect(select.value).toBe('');
+        expect(bleeding.getByRole('option', { name: 'Select a value' })).toBeDisabled();
+        expect(saveButton()).toBeDisabled();
+
+        userEvent.selectOptions(select, '1');
+        userEvent.type(bleeding.getByRole('textbox'), 'Missing from the tablet');
+        userEvent.click(saveButton());
+
+        await waitFor(() => expect(onSaved).toHaveBeenCalled());
+        expect(mockCorrect).toHaveBeenCalledWith(
+            'lsid-1',
+            [{ carryOver: undefined, field: 'Bleeding', reason: 'Missing from the tablet', value: '1' }],
+            undefined
+        );
+    });
+
+    test('a complete record has no blank choice', async () => {
+        await renderDetail();
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        expect(parameterRow('Bleeding').queryByRole('option', { name: 'Select a value' })).not.toBeInTheDocument();
+    });
+});
+
 describe('ObservationDetail, comment', () => {
     const commentBox = () => screen.getByLabelText('Comment');
 
