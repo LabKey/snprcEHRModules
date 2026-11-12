@@ -1,4 +1,4 @@
-import { carryOverOf, COMPLETED, REVIEW_REQUIRED, SCORED_FIELDS } from '../constants/fields';
+import { carryOverOf, COMPLETED, missingFields, REVIEW_REQUIRED, SCORED_FIELDS } from '../constants/fields';
 
 describe('SCORED_FIELDS', () => {
     test('has the 13 parameters on TXB 904-1, in form order', () => {
@@ -60,4 +60,12 @@ describe('carryOverOf', () => {
 test('QC state labels match the study QC states', () => {
     expect(REVIEW_REQUIRED).toBe('Review Required');
     expect(COMPLETED).toBe('Completed');
+});
+
+describe('missingFields', () => {
+    test('lists the parameters with no value; 0 is a value', () => {
+        const row = Object.fromEntries(SCORED_FIELDS.map(f => [f.name, 0]));
+        expect(missingFields(row)).toEqual([]);
+        expect(missingFields({ ...row, Bleeding: null, Stool: '' }).map(f => f.name)).toEqual(['Bleeding', 'Stool']);
+    });
 });

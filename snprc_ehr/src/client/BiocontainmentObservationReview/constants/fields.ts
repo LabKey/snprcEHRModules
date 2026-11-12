@@ -24,5 +24,11 @@ export const SCORED_FIELDS: ScoredField[] = [
 
 export const carryOverOf = (field: string): string | undefined => SCORED_FIELDS.find(f => f.name === field)?.carryOver;
 
+export const isMissingValue = (value: unknown): boolean => value == null || value === '';
+
+// Scored parameters with no value; the trigger rejects any save or approval until each one is filled in
+export const missingFields = (row: Record<string, unknown>): ScoredField[] =>
+    SCORED_FIELDS.filter(f => isMissingValue(row[f.name]));
+
 export const REVIEW_REQUIRED = 'Review Required';
 export const COMPLETED = 'Completed';

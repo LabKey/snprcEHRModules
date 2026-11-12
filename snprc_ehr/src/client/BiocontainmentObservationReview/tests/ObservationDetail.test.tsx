@@ -305,6 +305,23 @@ describe('ObservationDetail, missing values', () => {
         );
     });
 
+    test('Save stays disabled while another value is still missing', async () => {
+        await renderDetail(makeRow({ Bleeding: null }));
+        userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));
+
+        const stool = parameterRow('Stool');
+        userEvent.selectOptions(stool.getByRole('combobox'), '1');
+        userEvent.type(stool.getByRole('textbox'), 'Entered on the wrong animal');
+        expect(saveButton()).toBeDisabled();
+        expect(screen.getByText(/Fill in every missing value before saving: Bleeding/)).toBeInTheDocument();
+
+        const bleeding = parameterRow('Bleeding');
+        userEvent.selectOptions(bleeding.getByRole('combobox'), '0');
+        userEvent.type(bleeding.getByRole('textbox'), 'Missing from the tablet');
+        expect(saveButton()).toBeEnabled();
+        expect(screen.queryByText(/Fill in every missing value/)).not.toBeInTheDocument();
+    });
+
     test('a complete record has no blank choice', async () => {
         await renderDetail();
         userEvent.click(screen.getByRole('button', { name: 'Edit Values' }));

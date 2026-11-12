@@ -3,7 +3,7 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Correction, correctObservation, fetchPriorObservation, historyUrl, ObservationRow } from '../api/observation';
 import { formatDateTime } from '../services/formatDate';
 import { clinicalScore, displayScore } from '../services/clinicalScore';
-import { carryOverOf, SCORED_FIELDS } from '../constants/fields';
+import { carryOverOf, isMissingValue, missingFields, SCORED_FIELDS } from '../constants/fields';
 import { errorText } from '../services/errorText';
 
 interface Props {
@@ -29,7 +29,7 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
         return String(e.value) !== String(row[e.field]) || (co !== undefined && !sameCarryOver(e.carryOver, row[co]));
     };
     const changed = Object.values(edits).filter(isChanged);
-    const isMissing = (field: string) => row[field] == null || row[field] === '';
+    const isMissing = (field: string) => isMissingValue(row[field]);
     // A reason must be new: the stored one belongs to an earlier change
     const missingReason = changed.filter(
         e => !e.reason?.trim() || e.reason.trim() === (row[`${e.field}Comments`] ?? '')
@@ -40,6 +40,8 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
 
     // The score follows unsaved edits, as the tablet's does while values are picked
     const edited = Object.values(edits).reduce<ObservationRow>((r, e) => ({ ...r, [e.field]: e.value }), row);
+    // The server rejects a save while any value is still missing, even one the reviewer didn't touch
+    const stillMissing = missingFields(edited);
 
     // A correction reloads the row but never moves it, so the prior only changes with the animal, location or date
     useEffect(() => {
@@ -198,10 +200,19 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
                 ) : (
                     <p>Comment: {row.Comment}</p>
                 )}
+                {isEditing && stillMissing.length > 0 && (
+                    <p className="text-danger">
+                        Fill in every missing value before saving: {stillMissing.map(f => f.label).join(', ')}.
+                    </p>
+                )}
                 {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 {isEditing ? (
                     <>
-                        <Button bsStyle="success" disabled={!hasChanges || missingReason.length > 0} onClick={onSave}>
+                        <Button
+                            bsStyle="success"
+                            disabled={!hasChanges || missingReason.length > 0 || stillMissing.length > 0}
+                            onClick={onSave}
+                        >
                             Save correction
                         </Button>
                         <Button

@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 import BiocontainmentObservationReview from '../BiocontainmentObservationReview';
 import { approveObservation, fetchObservation } from '../api/observation';
+import { SCORED_FIELDS } from '../constants/fields';
 
 jest.mock('../api/observation', () => ({
     approveObservation: jest.fn(),
@@ -40,13 +41,20 @@ const mockFetch = fetchObservation as jest.Mock;
 
 const MODIFIED = '2026/11/09 10:15:00';
 
+// A record with every scored value filled in; Approve is only offered for complete records
+const observation = (fields: Record<string, unknown>) => ({
+    ...Object.fromEntries(SCORED_FIELDS.map(f => [f.name, f.values[0]])),
+    modified: MODIFIED,
+    ...fields,
+});
+
 // The placeholder heading, not the instructions paragraph that starts with the same words
 const placeholder = () => screen.queryByRole('heading', { name: /Select an observation to see the full record/ });
 
 beforeEach(() => {
     jest.clearAllMocks();
     mockFetch.mockImplementation(lsid =>
-        Promise.resolve({ Id: lsid === 'lsid-1' ? '11111' : '22222', lsid, modified: MODIFIED })
+        Promise.resolve(observation({ Id: lsid === 'lsid-1' ? '11111' : '22222', lsid }))
     );
     mockApprove.mockResolvedValue({});
 });
@@ -87,7 +95,7 @@ test('never shows a slower fetch for a record that is no longer selected', async
     userEvent.click(screen.getByText('select lsid-2'));
     await screen.findByText('detail for 22222');
 
-    resolveFirst({ Id: '11111', lsid: 'lsid-1' });
+    resolveFirst(observation({ Id: '11111', lsid: 'lsid-1' }));
     await waitFor(() => expect(screen.queryByText('detail for 11111')).not.toBeInTheDocument());
     expect(screen.getByText('detail for 22222')).toBeInTheDocument();
 });
@@ -122,10 +130,12 @@ test('shows the server error and keeps the record open when approval is rejected
 test('shows the current version after an approval is rejected because the record changed', async () => {
     const CHANGED = '2026/11/09 10:20:00';
     mockFetch
-        .mockResolvedValueOnce({ Id: '11111', lsid: 'lsid-1', modified: MODIFIED })
-        .mockResolvedValueOnce({ Id: '11112', lsid: 'lsid-1', modified: CHANGED });
+        .mockResolvedValueOnce(observation({ Id: '11111', lsid: 'lsid-1' }))
+        .mockResolvedValueOnce(observation({ Id: '11112', lsid: 'lsid-1', modified: CHANGED }));
     mockApprove
-        .mockRejectedValueOnce({ exception: 'This observation changed after you opened it. Check the current version and approve again.' })
+        .mockRejectedValueOnce({
+            exception: 'This observation changed after you opened it. Check the current version and approve again.',
+        })
         .mockResolvedValueOnce({});
     render(<BiocontainmentObservationReview />);
     userEvent.click(screen.getByText('select lsid-1'));
@@ -152,7 +162,7 @@ test('Approve is disabled until the selected record has loaded', async () => {
     userEvent.click(screen.getByText('select lsid-1'));
     expect(screen.getByText('approve disabled')).toBeInTheDocument();
 
-    resolveFetch({ Id: '11111', lsid: 'lsid-1', modified: MODIFIED });
+    resolveFetch(observation({ Id: '11111', lsid: 'lsid-1' }));
     expect(await screen.findByText('approve enabled')).toBeInTheDocument();
 });
 
@@ -187,4 +197,39 @@ test('shows a JavaScript or network error message when there is no LabKey except
     userEvent.click(screen.getByText('approve lsid-1'));
 
     expect(await screen.findByText('Failed to fetch')).toBeInTheDocument();
+});
+
+test('Approve is disabled while a scored value is missing', async () => {
+    mockFetch.mockResolvedValueOnce(observation({ Id: '11111', lsid: 'lsid-1', Bleeding: null }));
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-1'));
+    await screen.findByText('detail for 11111');
+
+    expect(screen.getByText('approve disabled')).toBeInTheDocument();
+    userEvent.click(screen.getByText('approve lsid-1'));
+    expect(mockApprove).not.toHaveBeenCalled();
+});
+
+test('Approve is disabled when the record has no version to send', async () => {
+    mockFetch.mockResolvedValueOnce(observation({ Id: '11111', lsid: 'lsid-1', modified: undefined }));
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-1'));
+    await screen.findByText('detail for 11111');
+
+    expect(screen.getByText('approve disabled')).toBeInTheDocument();
+});
+
+test('an error from one record is cleared when another record is selected', async () => {
+    const authorError = 'This observation must be reviewed by someone other than its author';
+    mockApprove.mockRejectedValue({ exception: authorError });
+    render(<BiocontainmentObservationReview />);
+    userEvent.click(screen.getByText('select lsid-1'));
+    await screen.findByText('detail for 11111');
+    userEvent.click(screen.getByText('approve lsid-1'));
+    await screen.findByText(authorError);
+
+    userEvent.click(screen.getByText('select lsid-2'));
+    await screen.findByText('detail for 22222');
+
+    expect(screen.queryByText(authorError)).not.toBeInTheDocument();
 });
