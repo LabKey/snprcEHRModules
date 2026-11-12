@@ -4,6 +4,7 @@ import {
     fieldsFor,
     FOUR_POINT_FIELDS,
     HUSBANDRY_FIELDS,
+    missingFields,
     notSedatedOf,
     REVIEW_REQUIRED,
     SCORED_FIELDS,
@@ -143,4 +144,22 @@ describe('carryOverOf', () => {
 test('QC state labels match the study QC states', () => {
     expect(REVIEW_REQUIRED).toBe('Review Required');
     expect(COMPLETED).toBe('Completed');
+});
+
+describe('missingFields', () => {
+    test('lists the parameters with no value; 0 is a value', () => {
+        const row = Object.fromEntries(SCORED_FIELDS.map(f => [f.name, 0]));
+        expect(missingFields(row)).toEqual([]);
+        expect(missingFields({ ...row, Bleeding: null, Stool: '' }).map(f => f.name)).toEqual(['Bleeding', 'Stool']);
+    });
+
+    test('follows the 4-point form: FD needs nothing else, NS needs no Dehydration', () => {
+        const fourPoint = { FormType: '4PT', ...Object.fromEntries(FOUR_POINT_FIELDS.map(f => [f.name, 0])) };
+        expect(missingFields(fourPoint)).toEqual([]);
+        // WeightLoss isn't on the 4-point form, so it is never missing there
+        expect(missingFields({ ...fourPoint, WeightLoss: null })).toEqual([]);
+        expect(missingFields({ ...fourPoint, Bleeding: null }).map(f => f.name)).toEqual(['Bleeding']);
+        expect(missingFields({ ...fourPoint, Dehydration: null, DehydrationNS: 1 })).toEqual([]);
+        expect(missingFields({ FormType: '4PT', FoundDead: 1 })).toEqual([]);
+    });
 });

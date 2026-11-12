@@ -58,6 +58,14 @@ export const fetchObservation = (lsid: string): Promise<ObservationRow> =>
 // Sends the version the reviewer saw; the trigger rejects the approval if the record has changed since
 export const approveObservation = (lsid: string, viewedModified: string): Promise<any> =>
     new Promise((resolve, reject) => {
+        // Without it the trigger can only report "changed after you opened it", which would be wrong
+        if (!viewedModified) {
+            reject({
+                exception:
+                    'This observation could not be approved because its version is unknown. Reload the page and try again.',
+            });
+            return;
+        }
         Query.updateRows({
             schemaName: SCHEMA,
             queryName: QUERY,

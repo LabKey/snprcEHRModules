@@ -6,6 +6,7 @@ import { approveObservation, fetchObservation, ObservationRow } from './api/obse
 import { Reload, ReviewGridPanel } from './components/ReviewGridPanel';
 import ObservationDetail from './components/ObservationDetail';
 import { errorText } from './services/errorText';
+import { missingFields } from './constants/fields';
 import './styles/biocontainmentObservationReview.scss';
 
 const MESSAGE_TIMEOUT_MS = 30000;
@@ -54,10 +55,13 @@ const BiocontainmentObservationReview = () => {
     }, [focusedLsid, reload]);
 
     const record = focused && focused.lsid === focusedLsid ? focused : undefined;
+    // The server rejects these approvals, so don't offer them: a missing value must be corrected first,
+    // and without the version on screen the server can't confirm the reviewer saw the current record
+    const canApprove = !!record && !isEditing && !!record.modified && missingFields(record).length === 0;
 
     const onApprove = async (lsid: string) => {
         // Approve only the record on screen, at the version the reviewer saw
-        if (record?.lsid !== lsid) return;
+        if (!canApprove || record.lsid !== lsid) return;
         setError('');
         try {
             await approveObservation(lsid, record.modified);
@@ -66,9 +70,18 @@ const BiocontainmentObservationReview = () => {
             showMessage('Observation approved.');
             reloadGrid(true);
         } catch (e) {
-            // Author-as-approver and missing-role rejections arrive here from the server
+            // Author-as-approver, missing-role and changed-since-opened rejections arrive here from the server.
+            // A record that changed is out of date on screen, so fetch the current version; reloading after the others is harmless.
             setError(errorText(e));
+            reloadGrid(false);
         }
+    };
+
+    // An error belongs to the record it came from, so selecting another record clears it;
+    // reloading the same record keeps it (e.g. "changed after you opened it")
+    const onFocus = (lsid: string | undefined) => {
+        if (lsid !== focusedLsid) setError('');
+        setFocusedLsid(lsid);
     };
 
     const onSaved = () => {
@@ -92,12 +105,7 @@ const BiocontainmentObservationReview = () => {
             </Row>
             <Row className="observation-review__panels">
                 <Col className="observation-review__grid" lg={5} xs={12}>
-                    <ReviewGridPanel
-                        canApprove={!!record && !isEditing}
-                        onApprove={onApprove}
-                        onFocus={setFocusedLsid}
-                        reload={reload}
-                    />
+                    <ReviewGridPanel canApprove={canApprove} onApprove={onApprove} onFocus={onFocus} reload={reload} />
                 </Col>
                 <Col className="observation-review__detail" lg={7} xs={12}>
                     {record ? (

@@ -52,6 +52,13 @@ describe('approveObservation', () => {
 
         await expect(approveObservation('lsid-1', '2026/11/09 10:15:00')).rejects.toBe(error);
     });
+
+    test('refuses without the version reviewed, rather than letting the server report a misleading change', async () => {
+        await expect(approveObservation('lsid-1', undefined)).rejects.toEqual({
+            exception: expect.stringContaining('version is unknown'),
+        });
+        expect(updateRows).not.toHaveBeenCalled();
+    });
 });
 
 describe('correctObservation', () => {

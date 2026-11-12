@@ -75,5 +75,16 @@ export const carryOverOf = (field: string): string | undefined => SCORED_FIELDS.
 export const notSedatedOf = (field: string): string | undefined =>
     FOUR_POINT_FIELDS.find(f => f.name === field)?.notSedated;
 
+export const isMissingValue = (value: unknown): boolean => value == null || value === '';
+
+// Scored parameters on the record's form with no value; the trigger rejects any save or approval until each is filled in.
+// On the 4-point form, FD leaves the rest of the form empty and NS leaves Dehydration empty (10/13).
+export const missingFields = (row: Record<string, unknown>): ScoredField[] => {
+    if (row.FormType === '4PT' && Number(row.FoundDead) === 1) return [];
+    return fieldsFor(row.FormType as string).filter(
+        f => isMissingValue(row[f.name]) && !(f.notSedated && Number(row[f.notSedated]) === 1)
+    );
+};
+
 export const REVIEW_REQUIRED = 'Review Required';
 export const COMPLETED = 'Completed';

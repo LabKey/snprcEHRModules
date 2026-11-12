@@ -3,7 +3,14 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Correction, correctObservation, fetchPriorObservation, historyUrl, ObservationRow } from '../api/observation';
 import { formatDateTime } from '../services/formatDate';
 import { formScore, scoreLabel } from '../services/clinicalScore';
-import { fieldsFor, HUSBANDRY_FIELDS, HusbandryField, NOT_APPLICABLE } from '../constants/fields';
+import {
+    fieldsFor,
+    HUSBANDRY_FIELDS,
+    HusbandryField,
+    isMissingValue,
+    missingFields,
+    NOT_APPLICABLE,
+} from '../constants/fields';
 import { errorText } from '../services/errorText';
 
 interface Props {
@@ -79,10 +86,11 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
         return !reason || reason === text(row[`${e.field}Comments`]).trim();
     });
 
-    // Every field is required (5/08, 10/13), except on a 4-point FD record and Dehydration when NS
-    const missingValue = foundDead
-        ? []
-        : fields.filter(f => text(edited[f.name]) === '' && !isNotSedated(f.name)).map(f => f.name);
+    // Every field is required (5/08, 10/13), except on a 4-point FD record and Dehydration when NS. The server rejects
+    // a save while any value is missing, even one the reviewer didn't touch.
+    const stillMissing = missingFields(edited);
+    const missingValue = stillMissing.map(f => f.name);
+    const isMissing = (field: string) => isMissingValue(row[field]);
 
     // The comment is free text, so it is its own reason; changing it still sends the record back for approval
     const commentChanged = comment !== undefined && comment.trim() !== (row.Comment ?? '');
@@ -257,13 +265,20 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
                                             onChange={e => setEdit(f.name, { value: e.target.value })}
                                             value={text(edited[f.name])}
                                         >
-                                            {text(edited[f.name]) === '' && <option value="">Select</option>}
+                                            {/* A missing value shows as blank, not as the first choice, and can't be chosen */}
+                                            {text(edited[f.name]) === '' && (
+                                                <option disabled value="">
+                                                    Select a value
+                                                </option>
+                                            )}
                                             {f.values.map(v => (
                                                 <option key={v} value={String(v)}>
                                                     {v}
                                                 </option>
                                             ))}
                                         </select>
+                                    ) : isMissing(f.name) ? (
+                                        <span className="text-danger">Missing</span>
                                     ) : (
                                         row[f.name]
                                     )}
@@ -357,6 +372,11 @@ const ObservationDetail = ({ row, onSaved, onEditingChange }: Props) => {
                     </div>
                 ) : (
                     <p>Comment: {row.Comment}</p>
+                )}
+                {isEditing && stillMissing.length > 0 && (
+                    <p className="text-danger">
+                        Fill in every missing value before saving: {stillMissing.map(f => f.label).join(', ')}.
+                    </p>
                 )}
                 {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 {isEditing ? (
