@@ -85,6 +85,23 @@ public class SNPRC_EHRTriggerHelper
     }
 
     /**
+     * The name printed on an electronic signature: first and last name, or the display name if either is missing,
+     * or the email if that is empty too. Read from the User object so approvers don't need the
+     * "See User and Group Details" role that core.Users requires.
+     */
+    public String getPrintedName()
+    {
+        String first = _user.getFirstName();
+        String last = _user.getLastName();
+        if (first != null && !first.isBlank() && last != null && !last.isBlank())
+            return first.trim() + " " + last.trim();
+
+        // Every account has an email, so the signature never records an empty name
+        String display = _user.getDisplayName(_user);
+        return display != null && !display.isBlank() ? display : _user.getEmail();
+    }
+
+    /**
      * Should we close datasets on animal departure?
      *
      * @param Id   Animal ID

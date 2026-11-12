@@ -8,6 +8,15 @@
                 <updateUrl/>
                 <deleteUrl/>
                 <columns>
+                    <column columnName="date">
+                        <formatString>MM/dd/yyyy HH:mm</formatString>
+                    </column>
+                    <column columnName="created">
+                        <formatString>MM/dd/yyyy HH:mm</formatString>
+                    </column>
+                    <column columnName="reviewedDate">
+                        <formatString>MM/dd/yyyy HH:mm</formatString>
+                    </column>
                     <column columnName="diCreated">
                         <isHidden>true</isHidden>
                     </column>
