@@ -28,7 +28,7 @@ import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
-import org.labkey.api.dataiterator.ListofMapsDataIterator;
+import org.labkey.api.dataiterator.MapDataIterator;
 import org.labkey.api.exp.OntologyManager;
 import org.labkey.api.exp.OntologyObject;
 import org.labkey.api.query.BatchValidationException;
@@ -197,7 +197,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             int rowCount = 0;
             if(!data.isEmpty() && null != data.getFirst())
             {
-                DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.getFirst().keySet(), data);
+                DataIteratorBuilder rowsWithObjectURI = MapDataIterator.of(data.getFirst().keySet(), data);
                 rowCount = _importRowsUsingDIB(user, container, rowsWithObjectURI, null, dataIteratorContext, extraScriptContext);
             }
 
@@ -255,7 +255,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             SNDManager.logIds(log, "EventDataIds inserted into snd.EventData by this batch:", eventDataIds);
             SNDManager.logRowversionRange(log, "Source span of the inserted rows.", data, SNDManager.PROC_ROWVERSION_COLUMN);
 
-            DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.getFirst().keySet(), data);
+            DataIteratorBuilder rowsWithObjectURI = MapDataIterator.of(data.getFirst().keySet(), data);
 
             _sndManager.updateNarrativeCache(container, user, cacheData, log);
 
