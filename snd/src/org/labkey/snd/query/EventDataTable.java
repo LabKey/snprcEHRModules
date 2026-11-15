@@ -36,6 +36,7 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.security.permissions.Permission;
@@ -139,6 +140,8 @@ public class EventDataTable extends AbstractSNDTableInfo
             }
             catch (IOException e)
             {
+                log.error(e.getMessage(), e);
+                errors.addRowError(new ValidationException(e.getMessage()));
                 return 0;
             }
 
@@ -153,7 +156,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             if (distinctEventIds.size() >= max_merge_rows)
             {
                 log.info("More than {} rows. using importRows method.", max_merge_rows);
-                return importRows(user, container, rows, errors, configParameters, extraScriptContext);
+                return importRows(user, container, MapDataIterator.of(data), errors, configParameters, extraScriptContext);
             }
 
             log.info("Merging rows.");
@@ -222,8 +225,12 @@ public class EventDataTable extends AbstractSNDTableInfo
             catch (IOException e)
             {
                 log.error(e.getMessage(), e);
+                errors.addRowError(new ValidationException(e.getMessage()));
                 return 0;
             }
+
+            if (data.isEmpty())
+                return 0;
 
             log.info("Begin inserting into exp.Object.");
             int count = 0;
