@@ -28,7 +28,7 @@ import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
-import org.labkey.api.dataiterator.ListofMapsDataIterator;
+import org.labkey.api.dataiterator.MapDataIterator;
 import org.labkey.api.exp.OntologyManager;
 import org.labkey.api.exp.OntologyObject;
 import org.labkey.api.query.BatchValidationException;
@@ -36,6 +36,7 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.SimpleUserSchema;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.security.permissions.Permission;
@@ -139,6 +140,8 @@ public class EventDataTable extends AbstractSNDTableInfo
             }
             catch (IOException e)
             {
+                log.error(e.getMessage(), e);
+                errors.addRowError(new ValidationException(e.getMessage()));
                 return 0;
             }
 
@@ -153,7 +156,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             if (distinctEventIds.size() >= max_merge_rows)
             {
                 log.info("More than {} rows. using importRows method.", max_merge_rows);
-                return importRows(user, container, rows, errors, configParameters, extraScriptContext);
+                return importRows(user, container, MapDataIterator.of(data), errors, configParameters, extraScriptContext);
             }
 
             log.info("Merging rows.");
@@ -197,7 +200,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             int rowCount = 0;
             if(!data.isEmpty() && null != data.getFirst())
             {
-                DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.getFirst().keySet(), data);
+                DataIteratorBuilder rowsWithObjectURI = MapDataIterator.of(data.getFirst().keySet(), data);
                 rowCount = _importRowsUsingDIB(user, container, rowsWithObjectURI, null, dataIteratorContext, extraScriptContext);
             }
 
@@ -222,8 +225,12 @@ public class EventDataTable extends AbstractSNDTableInfo
             catch (IOException e)
             {
                 log.error(e.getMessage(), e);
+                errors.addRowError(new ValidationException(e.getMessage()));
                 return 0;
             }
+
+            if (data.isEmpty())
+                return 0;
 
             log.info("Begin inserting into exp.Object.");
             int count = 0;
@@ -255,7 +262,7 @@ public class EventDataTable extends AbstractSNDTableInfo
             SNDManager.logIds(log, "EventDataIds inserted into snd.EventData by this batch:", eventDataIds);
             SNDManager.logRowversionRange(log, "Source span of the inserted rows.", data, SNDManager.PROC_ROWVERSION_COLUMN);
 
-            DataIteratorBuilder rowsWithObjectURI = new ListofMapsDataIterator.Builder(data.getFirst().keySet(), data);
+            DataIteratorBuilder rowsWithObjectURI = MapDataIterator.of(data.getFirst().keySet(), data);
 
             _sndManager.updateNarrativeCache(container, user, cacheData, log);
 
