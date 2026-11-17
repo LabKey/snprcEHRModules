@@ -71,9 +71,9 @@ public class QueryConstants
             "WHEN d.birth is null or c.${" + DATE_COLUMN_VARIABLE + "} is null\n" +
             "  THEN null\n" +
             "WHEN (d.lastDayAtCenter IS NOT NULL AND d.lastDayAtCenter < c.${" + DATE_COLUMN_VARIABLE + "}) THEN\n" +
-            " ROUND(CONVERT(timestampdiff('SQL_TSI_DAY', d.birth, d.lastDayAtCenter), DOUBLE) / 365.25, 2)\n" +
+            " ROUND(CONVERT(age_in_days(d.birth, d.lastDayAtCenter), DOUBLE) / 365.25, 2)\n" +
             "ELSE\n" +
-            "  ROUND(CONVERT(timestampdiff('SQL_TSI_DAY', d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} as DATE)), DOUBLE) / 365.25, 2)\n" +
+            "  ROUND(CONVERT(age_in_days(d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} as DATE)), DOUBLE) / 365.25, 2)\n" +
             "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_YEARS_COLUMN, true) + ",\n" +
             "\n" +
             "CAST(\n" +
@@ -92,9 +92,9 @@ public class QueryConstants
             "WHEN d.birth is null or c.${" + DATE_COLUMN_VARIABLE + "} is null\n" +
             "  THEN null\n" +
             "WHEN (d.lastDayAtCenter IS NOT NULL AND d.lastDayAtCenter < c.${" + DATE_COLUMN_VARIABLE + "}) THEN\n" +
-            "  CONVERT(TIMESTAMPDIFF('SQL_TSI_DAY',d.birth, d.lastDayAtCenter), INTEGER)\n" +
+            "  CONVERT(age_in_days(d.birth, d.lastDayAtCenter), INTEGER)\n" +
             "ELSE\n" +
-            "  CONVERT(TIMESTAMPDIFF('SQL_TSI_DAY',d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} AS DATE)), INTEGER)\n" +
+            "  CONVERT(age_in_days(d.birth, CAST(c.${" + DATE_COLUMN_VARIABLE + "} AS DATE)), INTEGER)\n" +
             "END AS float) as " + CaseUtils.toCamelCase(AGE_AT_TIME_DAYS_COLUMN, true) + ",\n" +
             "\n" +
             //

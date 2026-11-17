@@ -16,18 +16,22 @@ select
   CASE WHEN d.calculated_status = 'Alive' THEN
     -- baboons
     CASE WHEN d.species.arc_species_code = 'PC' THEN
-         CASE  WHEN d.id.age.ageInDays < 270 THEN 'OKAY'   -- baboon is less that 9 months old (too young to wean)
+         -- Spelling matters. Consumers filter on TbStatus <> 'Okay' (study.overdueTb), and
+         -- Postgres compares text case-sensitively, so the 'OKAY' that used to be here put 30
+         -- infant baboons on the overdue-TB report. SQL Server's case-insensitive collation
+         -- made it equal to 'Okay', which hid the typo. Keep this identical to the other branches.
+         CASE  WHEN d.id.age.ageInDays < 270 THEN 'Okay'   -- baboon is less that 9 months old (too young to wean)
           ELSE
-            CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (T2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue' -- greater than 9 months
+            CASE WHEN age_in_days((COALESCE (T2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue' -- greater than 9 months
                 ELSE
-                  CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (T2.lastDate, d.birth)), now ()) > 180 THEN 'Due' -- between 6 and 9 months
+                  CASE WHEN age_in_days((COALESCE (T2.lastDate, d.birth)), now ()) > 180 THEN 'Due' -- between 6 and 9 months
                     ELSE 'Okay' -- less than 6 months
                   END
             END
           END
       -- all species except baboons
-      ELSE CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (T2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue'
-           ELSE CASE WHEN TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (T2.lastDate, d.birth)), now ()) > 210 THEN 'Due'
+      ELSE CASE WHEN age_in_days((COALESCE (T2.lastDate, d.birth)), now ()) > 270 THEN 'Overdue'
+           ELSE CASE WHEN age_in_days((COALESCE (T2.lastDate, d.birth)), now ()) > 210 THEN 'Due'
                ELSE 'Okay'
                  END
            END
@@ -37,11 +41,11 @@ select
     NULL -- animal is not alive
   END     AS TbStatus,
 
-  CASE WHEN d.calculated_status = 'Alive' THEN TIMESTAMPDIFF('SQL_TSI_DAY',(COALESCE (T2.lastDate, d.birth)), now())
+  CASE WHEN d.calculated_status = 'Alive' THEN age_in_days((COALESCE (T2.lastDate, d.birth)), now())
   ELSE NULL
   END AS DaysSinceLastTB,
 
-  CASE WHEN d.calculated_status = 'Alive' THEN  (180 - TIMESTAMPDIFF('SQL_TSI_DAY', (COALESCE (T2.lastDate, d.birth)), now ()) )
+  CASE WHEN d.calculated_status = 'Alive' THEN  (180 - age_in_days((COALESCE (T2.lastDate, d.birth)), now ()) )
   ELSE NULL
   END  AS DaysUntilDue,
 

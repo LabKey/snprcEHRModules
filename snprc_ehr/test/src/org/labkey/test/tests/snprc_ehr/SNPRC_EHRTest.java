@@ -31,7 +31,6 @@ import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.remoteapi.query.TruncateTableCommand;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
-import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
@@ -42,7 +41,6 @@ import org.labkey.test.components.ehr.panel.AnimalSearchPanel;
 import org.labkey.test.components.ext4.widgets.SearchPanel;
 import org.labkey.test.pages.ehr.AnimalHistoryPage;
 import org.labkey.test.pages.ehr.ColonyOverviewPage;
-import org.labkey.test.pages.ehr.EHRAdminPage;
 import org.labkey.test.pages.ehr.ParticipantViewPage;
 import org.labkey.test.pages.snprc_ehr.SNPRCAnimalHistoryPage;
 import org.labkey.test.tests.ehr.AbstractGenericEHRTest;
@@ -56,6 +54,7 @@ import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.RReportHelper;
 import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
+import org.labkey.test.util.snprc_ehr.SnprcSetupHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -79,40 +78,21 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 public class SNPRC_EHRTest extends AbstractGenericEHRTest
 {
     private static final String ASSAY_GENE_EXPRESSION = "Gene Expression";
-    private static final File ASSAY_GENE_EXPRESSION_XAR = TestFileUtils.getSampleData("snprc/assays/Gene Expression.xar");
     private static final File ASSAY_GENE_EXPRESSION_TSV = TestFileUtils.getSampleData("snprc/assays/gene_expression.tsv");
     private static final String ASSAY_MICROSATELLITES = "Microsatellites";
-    private static final File ASSAY_MICROSATELLITES_XAR = TestFileUtils.getSampleData("snprc/assays/Microsatellites.xar");
     private static final File ASSAY_MICROSATELLITES_TSV = TestFileUtils.getSampleData("snprc/assays/microsatellites.tsv");
     private static final String ASSAY_PHENOTYPES = "Phenotypes";
-    private static final File ASSAY_PHENOTYPES_XAR = TestFileUtils.getSampleData("snprc/assays/Phenotypes.xar");
     private static final File ASSAY_PHENOTYPES_TSV = TestFileUtils.getSampleData("snprc/assays/phenotypes.tsv");
     private static final String ASSAY_SNPS = "SNPs";
-    private static final File ASSAY_SNPS_XAR = TestFileUtils.getSampleData("snprc/assays/SNPs.xar");
     private static final File ASSAY_SNPS_TSV = TestFileUtils.getSampleData("snprc/assays/snps.tsv");
     private static final File LOOKUP_LIST_ARCHIVE = TestFileUtils.getSampleData("snprc/SNPRC_Test.lists.zip");
-    private static final File ANIMAL_GROUPS_TSV = TestFileUtils.getSampleData("snprc/animal_groups.tsv");
-    private static final File ANIMAL_GROUP_CATEGORIES_TSV = TestFileUtils.getSampleData("snprc/animal_group_categories.tsv");
     private static final File SPECIES_TSV = TestFileUtils.getSampleData("snprc/species.tsv");
     private static final String PROJECT_NAME = "SNPRC";
     private static final String FILEREPOSITORY = "FileRepository";
-    private static final String COREFACILITIES = "Core Facilities";
-    private static final String GENETICSFOLDER = "Genetics";
     private static final String FOLDER_NAME = "SNPRC";
     private static final String ANIMAL_HISTORY_URL = "/" + PROJECT_NAME + "/ehr-animalHistory.view";
     private static final String SNPRC_ROOM_ID = "S824778";
     private static final String SNPRC_ROOM_ID2 = "S043365";
-    private static final List<String> SND_CATEGORIES = Arrays.asList(
-            "Alopecia",
-            "BCS",
-            "Cumulative Blood",
-            "Vitals Temperature",
-            "TB",
-            "Vitals",
-            "Weight");
-    private static final int SND_PKG_ID_START = 901;
-    private static final int SND_SUPER_PKG_ID_START = 1900;
-
     private static int _pipelineJobCount = 0;
 
     @Override
@@ -137,15 +117,14 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         return PROJECT_NAME;
     }
 
-    public String getGeneticsPath() { return PROJECT_NAME + "/" + COREFACILITIES + "/" + GENETICSFOLDER; }
+    public String getGeneticsPath() { return SnprcSetupHelper.geneticsContainerPath(PROJECT_NAME); }
 
     @Override
     protected void createProjectAndFolders(String type)
     {
         _containerHelper.createProject(getProjectName(), type);
         _containerHelper.createSubfolder(getProjectName(), getProjectName(), FILEREPOSITORY, "File Sharing", null);
-        _containerHelper.createSubfolder(getProjectName(), getProjectName(), COREFACILITIES, "Collaboration", null);
-        _containerHelper.createSubfolder(getProjectName(), COREFACILITIES, GENETICSFOLDER, "Laboratory Folder", new String[]{"SNPRC_Genetics"});
+        SnprcSetupHelper.createGeneticsSubfolder(this, getProjectName());
     }
 
     @Override
@@ -218,48 +197,32 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     {
         goToProjectHome();
         _containerHelper.enableModules(Arrays.asList("SND"));
-        initSND();
-        createSNDCategories();
-        createSNDPackages();
+        SnprcSetupHelper.initSND(this, getProjectName());
+        SnprcSetupHelper.createSNDCategories(this, getProjectName());
+        SnprcSetupHelper.createSNDPackages(this, getProjectName());
 
-        addExtensibleCols();
+        SnprcSetupHelper.addEhrExtensibleColumns(this, getProjectName());
 
-        clickFolder(GENETICSFOLDER);
+        SnprcSetupHelper.uploadGeneticsAssayDesigns(this, getProjectName());
+
         _assayHelper = new APIAssayHelper(this);
-        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_GENE_EXPRESSION_XAR, 1);
-        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_MICROSATELLITES_XAR, 2);
-        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_PHENOTYPES_XAR, 3);
-        _assayHelper.uploadXarFileAsAssayDesign(ASSAY_SNPS_XAR, 4);
-
         _assayHelper.importAssay(ASSAY_GENE_EXPRESSION, ASSAY_GENE_EXPRESSION_TSV, getGeneticsPath());
         _assayHelper.importAssay(ASSAY_MICROSATELLITES, ASSAY_MICROSATELLITES_TSV, getGeneticsPath());
         _assayHelper.importAssay(ASSAY_PHENOTYPES, ASSAY_PHENOTYPES_TSV, getGeneticsPath());
         _assayHelper.importAssay(ASSAY_SNPS, ASSAY_SNPS_TSV, getGeneticsPath());
     }
 
-    private void addExtensibleCols()
-    {
-        log("Setup the EHR table definitions");
-        EHRAdminPage.beginAt(this, getContainerPath());
-        clickAndWait(Locator.linkWithText("Add EHR extensible columns"));
-
-        log("Load EHR table definitions");
-        click(Locator.linkWithText("Generate EHR Extensible Columns"));
-        waitForElement(Locator.tagWithClass("span", "x4-window-header-text").withText("Success"));
-        assertExt4MsgBox("successfully created columns.", "OK");
-    }
-
     private void completeSnprcPostStudyImportSetup()
     {
         goToProjectHome();
-        clickFolder(GENETICSFOLDER);
+        clickFolder(SnprcSetupHelper.GENETICS_SUBFOLDER);
         _listHelper.importListArchive(LOOKUP_LIST_ARCHIVE);
 
         clickProject(PROJECT_NAME);
         PortalHelper portalHelper = new PortalHelper(this);
         portalHelper.addWebPart("EHR Datasets");
 
-        clickFolder(GENETICSFOLDER);
+        clickFolder(SnprcSetupHelper.GENETICS_SUBFOLDER);
         portalHelper.addWebPart("Assay List");
     }
 
@@ -347,169 +310,6 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
         return links;
     }
 
-    protected void initSND()
-    {
-        goToProjectHome();
-        waitAndClickAndWait(Locators.bodyPanel().append(Locator.tagContainingText("a", "EHR Admin Page")));
-        clickAndWait(Locator.linkWithText("SND SETTINGS"));
-        waitAndClick(Locator.linkWithSpan("Generate SNPRC custom columns"));
-        waitForText("Success");
-        goToProjectHome();
-    }
-
-    protected void createSNDCategories() throws CommandException, IOException
-    {
-        SelectRowsCommand selectCommand = new SelectRowsCommand("snd", "PkgCategories");
-        selectCommand.setColumns(List.of("Description"));
-        SelectRowsResponse response = selectCommand.execute(createDefaultConnection(), getProjectName());
-
-        List<String> existingCategories = new ArrayList<>();
-        for (Map<String, Object> row : response.getRows())
-        {
-            Object description = row.get("Description");
-            if (description != null)
-                existingCategories.add(String.valueOf(description));
-        }
-
-        InsertRowsCommand insertCommand = new InsertRowsCommand("snd", "PkgCategories");
-        boolean hasNewCategories = false;
-        for (String category : SND_CATEGORIES)
-        {
-            if (existingCategories.contains(category))
-                continue;
-
-            insertCommand.addRow(new HashMap<>(Maps.of(
-                    "Description", category,
-                    "Active", true
-            )));
-            hasNewCategories = true;
-        }
-
-        if (hasNewCategories)
-            insertCommand.execute(createDefaultConnection(), getProjectName());
-    }
-
-    protected void createSNDPackages() throws Exception
-    {
-        goToProjectHome();
-
-        Map<String, Integer> categoryIds = getSndCategoryIds();
-        saveSndPackage(SND_PKG_ID_START, SND_SUPER_PKG_ID_START, "Alopecia", categoryIds.get("Alopecia"),
-                "Alopecia score: {alopeciaScore}",
-                Arrays.asList(
-                        sndAttribute("alopeciaScore", "Alopecia Score", "string", false),
-                        sndAttribute("scorer", "Scorer", "string", false)));
-        saveSndPackage(SND_PKG_ID_START + 1, SND_SUPER_PKG_ID_START + 10, "BCS", categoryIds.get("BCS"),
-                "BCS: {bcs}",
-                List.of(sndAttribute("bcs", "BCS", "int", false)));
-        saveSndPackage(SND_PKG_ID_START + 2, SND_SUPER_PKG_ID_START + 20, "Cumulative Blood", categoryIds.get("Cumulative Blood"),
-                "Blood volume: {BLOOD_Volume}",
-                Arrays.asList(
-                        sndAttribute("reason", "Reason", "string", false),
-                        sndAttribute("BLOOD_Volume", "Blood Volume", "double", false)));
-        saveSndPackage(SND_PKG_ID_START + 3, SND_SUPER_PKG_ID_START + 30, "Vitals Temperature", categoryIds.get("Vitals Temperature"),
-                "Temperature: {temp}",
-                List.of(sndAttribute("temp", "Temperature", "double", false)));
-        saveSndPackage(SND_PKG_ID_START + 4, SND_SUPER_PKG_ID_START + 40, "TB", categoryIds.get("TB"),
-                "TB result: {tb_result}",
-                Arrays.asList(
-                        sndAttribute("tb_site", "TB Site", "string", false),
-                        sndAttribute("tb_result", "TB Result", "string", false)));
-        saveSndPackage(SND_PKG_ID_START + 5, SND_SUPER_PKG_ID_START + 50, "Vitals", categoryIds.get("Vitals"),
-                "Vitals: {HR}/{RR}/{temp}",
-                Arrays.asList(
-                        sndAttribute("HR", "Heart Rate", "double", false),
-                        sndAttribute("RR", "Respiratory Rate", "double", false),
-                        sndAttribute("temp", "Temperature", "double", false)));
-        saveSndPackage(SND_PKG_ID_START + 6, SND_SUPER_PKG_ID_START + 60, "Weight", categoryIds.get("Weight"),
-                "Weight: {weight} kg",
-                List.of(sndAttribute("weight", "Weight", "double", false)));
-    }
-
-    private Map<String, Integer> getSndCategoryIds() throws IOException, CommandException
-    {
-        SelectRowsCommand command = new SelectRowsCommand("snd", "PkgCategories");
-        command.setColumns(Arrays.asList("Description", "CategoryId"));
-        SelectRowsResponse response = command.execute(createDefaultConnection(), getProjectName());
-
-        Map<String, Integer> categoryIds = new HashMap<>();
-        for (Map<String, Object> row : response.getRows())
-        {
-            Object description = row.get("Description");
-            Object categoryId = row.get("CategoryId");
-            if (description != null && categoryId != null)
-            {
-                categoryIds.put(String.valueOf(description), ((Number) categoryId).intValue());
-            }
-        }
-
-        for (String category : SND_CATEGORIES)
-        {
-            assertTrue("Missing SND category ID for " + category, categoryIds.containsKey(category));
-        }
-
-        return categoryIds;
-    }
-
-    private Map<String, Object> sndAttribute(String name, String label, String rangeUri, boolean required)
-    {
-        return new HashMap<>(Maps.of(
-                "name", name,
-                "label", label,
-                "rangeURI", rangeUri,
-                "required", required
-        ));
-    }
-
-    private void saveSndPackage(int pkgId, int superPkgIdStart, String description, int categoryId, String narrative, List<Map<String, Object>> attributes)
-    {
-        String result = (String) executeAsyncScript(buildSaveSndPackageScript(pkgId, superPkgIdStart, description, categoryId, narrative, attributes));
-        assertEquals("JavaScript API failure while saving SND package " + description, "Success!", result);
-    }
-
-    private String buildSaveSndPackageScript(int pkgId, int superPkgIdStart, String description, int categoryId, String narrative, List<Map<String, Object>> attributes)
-    {
-        return "LABKEY.Ajax.request({\n" +
-                "    method: 'POST',\n" +
-                "    url: LABKEY.ActionURL.buildURL('snd', 'savePackage.api'),\n" +
-                "    success: function(){ callback('Success!'); },\n" +
-                "    failure: function(e){ callback(e.exception || e.responseText || 'Failed'); },\n" +
-                "    jsonData: {\n" +
-                "        'id': " + pkgId + ",\n" +
-                "        'testIdNumberStart': " + superPkgIdStart + ",\n" +
-                "        'description': '" + jsEscape(description) + "',\n" +
-                "        'active': true,\n" +
-                "        'repeatable': true,\n" +
-                "        'narrative': '" + jsEscape(narrative) + "',\n" +
-                "        'categories': [" + categoryId + "],\n" +
-                "        'subPackages': [],\n" +
-                "        'extraFields': [],\n" +
-                "        'attributes': " + attributesToJson(attributes) + "\n" +
-                "    }\n" +
-                "});";
-    }
-
-    private String attributesToJson(List<Map<String, Object>> attributes)
-    {
-        List<String> values = new ArrayList<>();
-        for (Map<String, Object> attribute : attributes)
-        {
-            values.add("{" +
-                    "'name': '" + jsEscape(String.valueOf(attribute.get("name"))) + "', " +
-                    "'label': '" + jsEscape(String.valueOf(attribute.get("label"))) + "', " +
-                    "'rangeURI': '" + jsEscape(String.valueOf(attribute.get("rangeURI"))) + "', " +
-                    "'required': " + attribute.get("required") +
-                    "}");
-        }
-
-        return "[" + String.join(", ", values) + "]";
-    }
-
-    private String jsEscape(String value)
-    {
-        return value.replace("\\", "\\\\").replace("'", "\\'");
-    }
-
     protected void initGenetics()
     {
         beginAt(WebTestHelper.buildURL("ehr", getProjectName(), "doGeneticCalculations"));
@@ -521,17 +321,11 @@ public class SNPRC_EHRTest extends AbstractGenericEHRTest
     protected void populateHardTableRecords() throws Exception
     {
         super.populateHardTableRecords();
+        SnprcSetupHelper.populateAnimalGroupTables(this, getProjectName());
+
         Connection connection = createDefaultConnection(true);
 
-        InsertRowsCommand command = new InsertRowsCommand("snprc_ehr", "animal_groups");
-        command.setRows(loadTsv(ANIMAL_GROUPS_TSV));
-        command.execute(connection, getProjectName()).getRows();
-
-        command = new InsertRowsCommand("snprc_ehr", "animal_group_categories");
-        command.setRows(loadTsv(ANIMAL_GROUP_CATEGORIES_TSV));
-        command.execute(connection, getProjectName()).getRows();
-
-        command = new InsertRowsCommand("snprc_ehr", "species");
+        InsertRowsCommand command = new InsertRowsCommand("snprc_ehr", "species");
         command.setRows(loadTsv(SPECIES_TSV));
         command.execute(connection, getProjectName()).getRows();
 
