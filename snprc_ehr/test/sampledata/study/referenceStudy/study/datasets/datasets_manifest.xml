@@ -211,5 +211,8 @@
         <dataset name="SPF_Results" id="5061" demographicData="false" category="ClinPath"  type="Standard" showByDefault="true">
             <tags/>
         </dataset>
+        <dataset name="BiocontainmentObservations" id="4001" demographicData="false" category="Clinical" type="Standard" showByDefault="false">
+            <tags/>
+        </dataset>
     </datasets>
 </datasets>
