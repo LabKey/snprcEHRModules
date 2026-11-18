@@ -7,12 +7,16 @@
     .bco-table { border-collapse: collapse; width: 100%; }
     .bco-table th, .bco-table td { border: 1px solid #999; padding: 3px 5px; vertical-align: top; text-align: left; }
     .bco-table th { background: #e8e8e8; }
-    .bco-detail-header th { width: 160px; }
+    /* Same label column width as the observation and notes tables (150px), so the tables' columns line up */
+    .bco-detail-header { table-layout: fixed; }
+    .bco-detail-header th { width: 150px; }
     .bco-section { margin-top: 14px; }
     .bco-error { color: #a94442; font-weight: bold; }
     .bco-compare td, .bco-compare th { text-align: center; }
     .bco-compare { table-layout: fixed; }
     .bco-compare tr > :first-child { text-align: left; width: 150px; }
+    /* Notes keep the line breaks typed into comments */
+    .bco-notes td { white-space: pre-wrap; }
     .bco-notes td:first-child { width: 150px; white-space: nowrap; }
     .bco-sheet + .bco-sheet { margin-top: 30px; padding-top: 20px; border-top: 2px dashed #999; }
 
@@ -49,6 +53,10 @@
     // OBS_PER_SPLIT_PAGE, each a complete sheet with its own header, observations and notes
     var MAX_OBS_ONE_PAGE = 8;
     var OBS_PER_SPLIT_PAGE = 5;
+
+    // A selection larger than this is confirmed before the sheets are built, since each animal gets at least one
+    // page and a "select all" on a large grid could otherwise produce thousands of pages and stall the browser
+    var CONFIRM_ABOVE_OBS = 200;
 
     // Keep in sync with src/client/BiocontainmentObservationReview/constants/fields.ts (order follows TXB 904-1)
     var FIELDS = [
@@ -146,20 +154,34 @@
                     root.innerHTML = '<div class="bco-error">No observations are selected. Select them in the grid and use More Actions &gt; Print Observations.</div>';
                     return;
                 }
-                LABKEY.Query.selectRows({
-                    requiredVersion: 17.1,
-                    method: 'POST',
-                    schemaName: SCHEMA,
-                    queryName: QUERY,
-                    columns: COLUMNS.join(','),
-                    filterArray: [LABKEY.Filter.create('lsid', lsids, LABKEY.Filter.Types.IN)],
-                    sort: 'Id,date',
-                    maxRows: -1,
-                    success: function (result) { renderSheets(result.rows); },
-                    failure: showError
-                });
+                if (lsids.length > CONFIRM_ABOVE_OBS) {
+                    root.innerHTML = '<div class="bco-toolbar bco-noprint">' +
+                        '<span>' + enc(lsids.length.toLocaleString() + ' observations are selected. Each animal prints on at least one page, so this may produce a very large printout and take a while to prepare.') + '</span>' +
+                        '<button type="button" id="bco-continue-btn">Continue</button></div>';
+                    document.getElementById('bco-continue-btn').addEventListener('click', function () {
+                        root.innerHTML = 'Loading...';
+                        loadRows(lsids);
+                    });
+                    return;
+                }
+                loadRows(lsids);
             }),
             failure: LABKEY.Utils.getCallbackWrapper(showError, null, true)
+        });
+    }
+
+    function loadRows(lsids) {
+        LABKEY.Query.selectRows({
+            requiredVersion: 17.1,
+            method: 'POST',
+            schemaName: SCHEMA,
+            queryName: QUERY,
+            columns: COLUMNS.join(','),
+            filterArray: [LABKEY.Filter.create('lsid', lsids, LABKEY.Filter.Types.IN)],
+            sort: 'Id,date',
+            maxRows: -1,
+            success: function (result) { renderSheets(result.rows); },
+            failure: showError
         });
     }
 
@@ -228,6 +250,15 @@
             return a === b ? a : a + ' to ' + b;
         }
 
+        // Reviewers of this page's observations. When only some are reviewed it says how many, so a partly reviewed
+        // page doesn't read as fully reviewed; blank when none are.
+        function reviewedBy() {
+            var reviewed = rows.filter(function (r) { return fmt(r, 'reviewedByName') !== '' || raw(r, 'reviewedDate') !== ''; });
+            if (!reviewed.length) return '';
+            var names = distinct('reviewedByName') || 'Reviewed';
+            return reviewed.length < rows.length ? names + ' (' + reviewed.length + ' of ' + rows.length + ' reviewed)' : names;
+        }
+
         // Header, summarized over this page's observations
         html += '<table class="bco-table bco-detail-header">' +
             hdr('Animal Id', fmt(rows[0], 'Id')) +
@@ -237,7 +268,7 @@
             hdr('Observer', distinct('createdBy/DisplayName')) +
             hdr('Entered', range('created')) +
             // Always shown, blank until the observations are approved, so the reader can see they are unreviewed
-            hdr('Reviewed By', distinct('reviewedByName'), true) +
+            hdr('Reviewed By', reviewedBy(), true) +
             hdr('Reviewed Date', range('reviewedDate'), true) +
             '</table>';
 
