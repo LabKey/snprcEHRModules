@@ -31,6 +31,7 @@ import org.labkey.api.ehr.history.DefaultTBDataSource;
 import org.labkey.api.ehr.history.DefaultVitalsDataSource;
 import org.labkey.api.ldk.ExtendedSimpleModule;
 import org.labkey.api.ldk.notification.NotificationService;
+import org.labkey.api.ldk.table.SimpleButtonConfigFactory;
 import org.labkey.api.module.AdminLinkManager;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
@@ -170,6 +171,12 @@ public class SNPRC_EHRModule extends ExtendedSimpleModule
 
         EHRService.get().registerMoreActionsButton(new SnprcUserEditButton(this, "study", "flags", UpdatePermission.class),
                     "study", "flags");
+
+        // Prints the selected observations (views/asiBioContainmentObservationsPrint.html)
+        SimpleButtonConfigFactory printObservationsBtn = new SimpleButtonConfigFactory(this, "Print Observations",
+                "SNPRC_EHR.BiocontainmentObservationButtons.printHandler(dataRegionName);");
+        printObservationsBtn.setClientDependencies(ClientDependency.supplierFromPath("snprc_ehr/buttons/biocontainmentObservationButtons.js"));
+        EHRService.get().registerMoreActionsButton(printObservationsBtn, "study", "BiocontainmentObservations");
 
         // register client dependencies
         EHRService.get().registerClientDependency(ClientDependency.supplierFromPath("snprc_ehr/panel/BloodSummaryPanel.js"), this);

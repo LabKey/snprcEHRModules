@@ -1,0 +1,6 @@
+<view xmlns="http://labkey.org/data/xml/view" title="ASI BioContainment Observations Print Report" frame="none" template="print">
+    <permissionClasses>
+        <permissionClass name="org.labkey.api.security.permissions.ReadPermission"/>
+    </permissionClasses>
+    <requiresLogin/>
+</view>

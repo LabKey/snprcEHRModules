@@ -1,0 +1,326 @@
+<style type="text/css">
+    .bco-print { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000; padding: 8px; }
+    .bco-print h2 { margin: 0 0 4px 0; font-size: 18px; }
+    .bco-print .bco-subtitle { margin-bottom: 10px; color: #333; }
+    .bco-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; padding: 8px; background: #f5f5f5; border: 1px solid #ddd; }
+    .bco-toolbar button { padding: 4px 12px; }
+    .bco-table { border-collapse: collapse; width: 100%; }
+    .bco-table th, .bco-table td { border: 1px solid #999; padding: 3px 5px; vertical-align: top; text-align: left; }
+    .bco-table th { background: #e8e8e8; }
+    /* Same label column width as the observation and notes tables (150px), so the tables' columns line up */
+    .bco-detail-header { table-layout: fixed; }
+    .bco-detail-header th { width: 150px; }
+    .bco-section { margin-top: 14px; }
+    .bco-error { color: #a94442; font-weight: bold; }
+    .bco-compare td, .bco-compare th { text-align: center; }
+    .bco-compare { table-layout: fixed; }
+    .bco-compare tr > :first-child { text-align: left; width: 150px; }
+    /* Notes keep the line breaks typed into comments */
+    .bco-notes td { white-space: pre-wrap; }
+    .bco-notes td:first-child { width: 150px; white-space: nowrap; }
+    .bco-sheet + .bco-sheet { margin-top: 30px; padding-top: 20px; border-top: 2px dashed #999; }
+
+    /* The whole printout is landscape. A named page on the sheets instead would make the browser start a new paper
+       page wherever the page type changes, leaving a blank first and last page. */
+    @page { size: landscape; margin: 0.4in; }
+
+    @media print {
+        .bco-noprint { display: none !important; }
+        /* Compact enough that a full sheet (header, 5 observations, notes) fits one landscape page */
+        .bco-print { padding: 0; font-size: 10.5px; }
+        .bco-print h2 { font-size: 15px; }
+        .bco-print .bco-subtitle { margin-bottom: 6px; }
+        .bco-table th, .bco-table td { padding: 1px 4px; }
+        .bco-section { margin-top: 8px; }
+        .bco-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .bco-table thead { display: table-header-group; }
+        .bco-table tr { page-break-inside: avoid; }
+        .bco-sheet + .bco-sheet { margin-top: 0; padding-top: 0; border-top: none; }
+        .bco-page-break { page-break-before: always; break-before: page; }
+    }
+</style>
+
+<div id="bco-root" class="bco-print">Loading...</div>
+
+<script type="text/javascript" nonce="<%=scriptNonce%>">
+(function () {
+    // Prints the observations selected in the study.BiocontainmentObservations grid
+    // (More Actions > Print Observations, see snprc_ehr/buttons/biocontainmentObservationButtons.js).
+    var SCHEMA = 'study';
+    var QUERY = 'BiocontainmentObservations';
+
+    // Up to MAX_OBS_ONE_PAGE observations of an animal print on one page; more are split into pages of
+    // OBS_PER_SPLIT_PAGE, each a complete sheet with its own header, observations and notes
+    var MAX_OBS_ONE_PAGE = 8;
+    var OBS_PER_SPLIT_PAGE = 5;
+
+    // A selection larger than this is confirmed before the sheets are built, since each animal gets at least one
+    // page and a "select all" on a large grid could otherwise produce thousands of pages and stall the browser
+    var CONFIRM_ABOVE_OBS = 200;
+
+    // Keep in sync with src/client/BiocontainmentObservationReview/constants/fields.ts (order follows TXB 904-1)
+    var FIELDS = [
+        { name: 'WeightLoss', label: 'Weight Loss', co: 'WeightLossCO' },
+        { name: 'TemperatureChange', label: 'Temperature Change', co: 'TemperatureChangeCO' },
+        { name: 'Responsiveness', label: 'Responsiveness' },
+        { name: 'HairCoat', label: 'Hair Coat' },
+        { name: 'Respiration', label: 'Respiration' },
+        { name: 'Petechia', label: 'Petechia', co: 'PetechiaCO' },
+        { name: 'Bleeding', label: 'Bleeding' },
+        { name: 'NasalDischarge', label: 'Nasal Discharge' },
+        { name: 'FeedEaten', label: 'Feed Eaten', co: 'FeedEatenCO' },
+        { name: 'FoodEnrichment', label: 'Food Enrichment', co: 'FoodEnrichmentCO' },
+        { name: 'Stool', label: 'Stool' },
+        { name: 'FluidIntake', label: 'Fluid Intake' },
+        { name: 'Dehydration', label: 'Dehydration', co: 'DehydrationCO' }
+    ];
+
+    // reviewedByName and reviewedDate are the review signature columns (referenceStudy datasets_metadata.xml).
+    // A dataset created before they were added does not have them; LabKey then leaves them out of the results
+    // without an error, and Reviewed By / Reviewed Date print blank.
+    var COLUMNS = ['lsid', 'Id', 'date', 'Location', 'Comment', 'QCState/Label', 'createdBy/DisplayName', 'created',
+        'reviewedByName', 'reviewedDate'];
+    FIELDS.forEach(function (f) {
+        COLUMNS.push(f.name, f.name + 'Comments');
+        if (f.co) COLUMNS.push(f.co);
+    });
+
+    var enc = LABKEY.Utils.encodeHtml;
+    var root = document.getElementById('bco-root');
+
+    // Value as stored (codes for scored fields)
+    function raw(row, col) {
+        var c = row[col];
+        return c && c.value !== null && c.value !== undefined ? c.value : '';
+    }
+
+    // Value formatted per query metadata (dates as MM/dd/yyyy HH:mm, lookups as display values)
+    function fmt(row, col) {
+        var c = row[col];
+        if (!c) return '';
+        var v = c.formattedValue !== undefined ? c.formattedValue : (c.displayValue !== undefined ? c.displayValue : c.value);
+        return v === null || v === undefined ? '' : String(v);
+    }
+
+    // Milliseconds for a stored date such as '2026-09-03 18:19:45.000', NaN if it can't be read. The space is
+    // replaced with 'T' because not every browser accepts the space-separated form.
+    function toMillis(value) {
+        return value === '' ? NaN : new Date(String(value).replace(' ', 'T')).getTime();
+    }
+
+    // Mirrors clinicalScore() in services/clinicalScore.ts: plain sum; any missing value leaves it incomplete
+    function clinicalScore(row) {
+        var total = 0;
+        for (var i = 0; i < FIELDS.length; i++) {
+            var n = parseInt(String(raw(row, FIELDS[i].name)), 10);
+            if (isNaN(n)) return '-';
+            total += n;
+        }
+        return String(total);
+    }
+
+    function showError(error) {
+        var msg = (error && (error.exception || error.message)) || 'Unexpected error';
+        root.innerHTML = '<div class="bco-error">Unable to load observations: ' + enc(msg) + '</div>';
+    }
+
+    // Label/value row for the information table at the top of a sheet; left out when there is no value unless always is set
+    function hdr(label, value, always) {
+        var empty = value === '' || value === null || value === undefined;
+        return empty && !always ? ''
+            : '<tr><th>' + enc(label) + '</th><td>' + (empty ? '' : enc(value)) + '</td></tr>';
+    }
+
+    // Per-field reasons and the general comment for one observation, as HTML
+    function notes(row) {
+        var out = [];
+        FIELDS.forEach(function (f) {
+            var c = raw(row, f.name + 'Comments');
+            if (c !== '') out.push('<b>' + enc(f.label) + ':</b> ' + enc(c));
+        });
+        var general = raw(row, 'Comment');
+        if (general !== '') out.push(enc(general));
+        return out.join('<br>');
+    }
+
+    function loadSelected(selectionKey) {
+        LABKEY.Ajax.request({
+            url: LABKEY.ActionURL.buildURL('query', 'getSelected.api'),
+            method: 'POST',
+            jsonData: { key: selectionKey },
+            success: LABKEY.Utils.getCallbackWrapper(function (data) {
+                var lsids = (data && data.selected) || [];
+                if (!lsids.length) {
+                    root.innerHTML = '<div class="bco-error">No observations are selected. Select them in the grid and use More Actions &gt; Print Observations.</div>';
+                    return;
+                }
+                if (lsids.length > CONFIRM_ABOVE_OBS) {
+                    root.innerHTML = '<div class="bco-toolbar bco-noprint">' +
+                        '<span>' + enc(lsids.length.toLocaleString() + ' observations are selected. Each animal prints on at least one page, so this may produce a very large printout and take a while to prepare.') + '</span>' +
+                        '<button type="button" id="bco-continue-btn">Continue</button></div>';
+                    document.getElementById('bco-continue-btn').addEventListener('click', function () {
+                        root.innerHTML = 'Loading...';
+                        loadRows(lsids);
+                    });
+                    return;
+                }
+                loadRows(lsids);
+            }),
+            failure: LABKEY.Utils.getCallbackWrapper(showError, null, true)
+        });
+    }
+
+    function loadRows(lsids) {
+        LABKEY.Query.selectRows({
+            requiredVersion: 17.1,
+            method: 'POST',
+            schemaName: SCHEMA,
+            queryName: QUERY,
+            columns: COLUMNS.join(','),
+            filterArray: [LABKEY.Filter.create('lsid', lsids, LABKEY.Filter.Types.IN)],
+            sort: 'Id,date',
+            maxRows: -1,
+            success: function (result) { renderSheets(result.rows); },
+            failure: showError
+        });
+    }
+
+    function renderSheets(rows) {
+        if (!rows.length) {
+            root.innerHTML = '<div class="bco-error">The selected observations could not be found.</div>';
+            return;
+        }
+        // Rows arrive sorted by Id, date: group them by animal
+        var groups = [], byId = {};
+        rows.forEach(function (row) {
+            var id = String(raw(row, 'Id'));
+            if (!byId[id]) {
+                byId[id] = [];
+                groups.push(byId[id]);
+            }
+            byId[id].push(row);
+        });
+
+        var html = '<div class="bco-toolbar bco-noprint"><button type="button" id="bco-print-btn">Print</button>' +
+            '<span>' + enc(rows.length + ' observation(s) for ' + groups.length + ' animal(s)') + '</span></div>';
+        var pageCount = 0;
+        groups.forEach(function (animalRows) {
+            var perPage = animalRows.length > MAX_OBS_ONE_PAGE ? OBS_PER_SPLIT_PAGE : animalRows.length;
+            var pages = Math.ceil(animalRows.length / perPage);
+            for (var p = 0; p < pages; p++) {
+                html += '<div class="bco-sheet' + (pageCount++ > 0 ? ' bco-page-break' : '') + '">' +
+                    animalSheet(animalRows.slice(p * perPage, (p + 1) * perPage), animalRows, perPage, p + 1, pages) + '</div>';
+            }
+        });
+        root.innerHTML = html;
+        document.getElementById('bco-print-btn').addEventListener('click', function () { window.print(); });
+    }
+
+    // One page for an animal: header, observations side by side (one column each, one row per field) and notes.
+    // rows are this page's observations; allRows are all of the animal's, so every page leaves out the same empty rows.
+    function animalSheet(rows, allRows, perPage, page, pages) {
+        var single = allRows.length === 1;
+        var html = '<h2>Biocontainment Observation' + (single ? '' : 's') + ': ' + enc(fmt(rows[0], 'Id')) + '</h2>';
+        html += '<div class="bco-subtitle">' +
+            (pages > 1 ? enc('Page ' + page + ' of ' + pages + ' | ') : '') +
+            enc(allRows.length + (single ? ' observation' : ' observations')) +
+            ' | Printed ' + enc(new Date().toLocaleString()) + ' by ' + enc(LABKEY.user.displayName) + '</div>';
+
+        // Each distinct value across this page's observations, in order seen
+        function distinct(col) {
+            var out = [];
+            rows.forEach(function (r) {
+                var v = fmt(r, col);
+                if (v !== '' && out.indexOf(v) === -1) out.push(v);
+            });
+            return out.join(', ');
+        }
+
+        // Earliest to latest value of a date column, shown as one date when they are all the same
+        function range(col) {
+            var min = null, max = null;
+            rows.forEach(function (r) {
+                var t = toMillis(raw(r, col));
+                if (isNaN(t)) return;
+                if (!min || t < min.t) min = { t: t, row: r };
+                if (!max || t > max.t) max = { t: t, row: r };
+            });
+            if (!min) return '';
+            var a = fmt(min.row, col), b = fmt(max.row, col);
+            return a === b ? a : a + ' to ' + b;
+        }
+
+        // Reviewers of this page's observations. When only some are reviewed it says how many, so a partly reviewed
+        // page doesn't read as fully reviewed; blank when none are.
+        function reviewedBy() {
+            var reviewed = rows.filter(function (r) { return fmt(r, 'reviewedByName') !== '' || raw(r, 'reviewedDate') !== ''; });
+            if (!reviewed.length) return '';
+            var names = distinct('reviewedByName') || 'Reviewed';
+            return reviewed.length < rows.length ? names + ' (' + reviewed.length + ' of ' + rows.length + ' reviewed)' : names;
+        }
+
+        // Header, summarized over this page's observations
+        html += '<table class="bco-table bco-detail-header">' +
+            hdr('Animal Id', fmt(rows[0], 'Id')) +
+            hdr('Date', range('date')) +
+            hdr('Location', distinct('Location')) +
+            hdr('Status', distinct('QCState/Label')) +
+            hdr('Observer', distinct('createdBy/DisplayName')) +
+            hdr('Entered', range('created')) +
+            // Always shown, blank until the observations are approved, so the reader can see they are unreviewed
+            hdr('Reviewed By', reviewedBy(), true) +
+            hdr('Reviewed Date', range('reviewedDate'), true) +
+            '</table>';
+
+        // Left out when it is empty for every one of this animal's observations
+        function line(label, cell, bold) {
+            if (allRows.every(function (r) { return cell(r) === ''; })) return '';
+            var tag = bold ? 'th' : 'td';
+            var out = '<tr><th>' + enc(label) + '</th>';
+            rows.forEach(function (r) { out += '<' + tag + '>' + cell(r) + '</' + tag + '>'; });
+            return out + '</tr>';
+        }
+
+        // A page with fewer observations keeps the same column widths as a full one instead of stretching across
+        var width = rows.length < perPage
+            ? ' style="width:calc(150px + (100% - 150px) * ' + rows.length + ' / ' + perPage + ')"' : '';
+        html += '<table class="bco-table bco-section bco-compare"' + width + '><thead><tr><th>Observation</th>';
+        rows.forEach(function (r) { html += '<th>' + enc(fmt(r, 'date')) + '</th>'; });
+        html += '</tr></thead><tbody>';
+        html += line('Location', function (r) { return enc(fmt(r, 'Location')); });
+        html += line('Status', function (r) { return enc(fmt(r, 'QCState/Label')); });
+        html += line('Observer', function (r) { return enc(fmt(r, 'createdBy/DisplayName')); });
+        FIELDS.forEach(function (f) {
+            html += line(f.label, function (r) {
+                var co = f.co ? raw(r, f.co) : '';
+                return enc(raw(r, f.name)) + (co !== '' ? ' (CO ' + enc(co) + ')' : '');
+            });
+        });
+        html += line('Clinical Score', function (r) { return enc(clinicalScore(r)); }, true);
+        html += line('Reviewed By', function (r) {
+            return enc(fmt(r, 'reviewedByName')) +
+                (raw(r, 'reviewedDate') !== '' ? '<br>' + enc(fmt(r, 'reviewedDate')) : '');
+        });
+        html += '</tbody></table>';
+
+        // Notes for this page's observations, one row each; one with no comments says "None"
+        html += '<table class="bco-table bco-section bco-notes"><thead><tr><th>Date</th><th>Notes</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+            var n = notes(r);
+            html += '<tr><td>' + enc(fmt(r, 'date')) + '</td><td>' + (n !== '' ? n : 'None') + '</td></tr>';
+        });
+        html += '</tbody></table>';
+
+        return html;
+    }
+
+    function start() {
+        var selectionKey = LABKEY.ActionURL.getParameter('selectionKey');
+        if (selectionKey) loadSelected(selectionKey);
+        else root.innerHTML = '<div class="bco-error">Select observations in the Biocontainment Observations grid and use More Actions &gt; Print Observations.</div>';
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+})();
+</script>
