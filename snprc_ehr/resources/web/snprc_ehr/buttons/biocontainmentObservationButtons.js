@@ -10,26 +10,17 @@ SNPRC_EHR.BiocontainmentObservationButtons = {
     printHandler: function (dataRegionName) {
         var dataRegion = LABKEY.DataRegions[dataRegionName];
 
-        var showMessage = function (title, msg) {
-            if (window.Ext4 && Ext4.Msg) Ext4.Msg.alert(title, msg);
-            else window.alert(msg);
-        };
+        // Checked without a server call, so the window opens during the click and popup blockers allow it.
+        // selectedCount is the server's count across all grid pages; getSelectionCount() covers the visible page.
+        if (!(dataRegion.selectedCount > 0 || dataRegion.getSelectionCount() > 0)) {
+            if (window.Ext4 && Ext4.Msg) Ext4.Msg.alert('Print Observations', 'Select one or more observations to print.');
+            else window.alert('Select one or more observations to print.');
+            return;
+        }
 
-        dataRegion.getSelected({
-            success: function (data) {
-                if (!data || !data.selected || !data.selected.length) {
-                    showMessage('Print Observations', 'Select one or more observations to print.');
-                    return;
-                }
-
-                // The print page reads the same session selection, so a large selection does not end up in the URL
-                window.open(LABKEY.ActionURL.buildURL('snprc_ehr', 'asiBioContainmentObservationsPrint', null, {
-                    selectionKey: dataRegion.selectionKey
-                }), '_blank');
-            },
-            failure: function (error) {
-                showMessage('Error', (error && error.exception) || 'Unable to read the selected observations.');
-            }
-        });
+        // The print page reads the same session selection, so a large selection does not end up in the URL
+        window.open(LABKEY.ActionURL.buildURL('snprc_ehr', 'asiBioContainmentObservationsPrint', null, {
+            selectionKey: dataRegion.selectionKey
+        }), '_blank');
     }
 };
