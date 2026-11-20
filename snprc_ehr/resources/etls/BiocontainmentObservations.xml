@@ -14,6 +14,11 @@
                     <column source="createdBy" target="createdBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                     <column source="modifiedBy" target="modifiedBy" transformClass="org.labkey.snprc_ehr.columnTransforms.UserTransform"/>
                 </columnTransforms>
+                <!-- The dataset only takes a QC state from a column present in the source; without it every row lands as the
+                     study default (Completed) and the trigger's Review Required is dropped. The trigger decides the final value. -->
+                <constants>
+                    <column name="QCStateLabel" type="VARCHAR" value="Review Required"/>
+                </constants>
             </destination>
         </transform>
         <transform id="step2" type="TaskrefTransformStep">
